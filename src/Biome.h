@@ -239,6 +239,8 @@ struct BiomeDef
     bool                  m_walls = false;      ///< the rails are tall concrete sound walls
     float                 m_gantrySpacing = 0;  ///< overhead sign gantries every n metres (0: none)
     int                   m_station = 0;        ///< the radio station this biome plays in automatic mode
+    float                 m_tunnels = 0.0f;     ///< chance that a stretch runs through a tunnel
+    float                 m_bridges = 0.0f;     ///< chance that a straight crosses a valley on a bridge
 };
 
 /**

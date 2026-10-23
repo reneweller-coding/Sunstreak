@@ -65,6 +65,40 @@ const BiomeDef &ruling( const Segment &seg, float h )
     return biomeDef( static_cast<BiomeE>( h < seg.m_blend ? seg.m_biomeTo : seg.m_biome ) );
 }
 
+constexpr float TunnelLift = 18.0f;    ///< height of the hill over a tunnel
+constexpr float ValleyDepth = 22.0f;   ///< depth of the valley under a bridge
+constexpr int   RampSegments = 7;      ///< segments over which the hill rises and the valley falls
+
+/**
+ * @brief How much of the hill over a tunnel stands at a segment (1 in the tunnel, falling off before and after).
+ * @param[in] track  the road
+ * @param[in] index  the segment
+ * @return 0..1
+ */
+float tunnelCover( const Track &track, long index )
+{
+    float best = 0.0f;
+    for( long d = -RampSegments; d <= RampSegments; ++d )
+        if( track.segment( index + d ).m_flags & SEG_TUNNEL )
+            best = std::max( best, 1.0f - static_cast<float>( std::abs( d ) ) / static_cast<float>( RampSegments + 1 ) );
+    return best;
+}
+
+/**
+ * @brief How deep the valley under a bridge is at a segment (1 under the bridge, rising at its ends).
+ * @param[in] track  the road
+ * @param[in] index  the segment
+ * @return 0..1
+ */
+float valleyDepth( const Track &track, long index )
+{
+    float best = 0.0f;
+    for( long d = -RampSegments; d <= RampSegments; ++d )
+        if( track.segment( index + d ).m_flags & SEG_BRIDGE )
+            best = std::max( best, 1.0f - static_cast<float>( std::abs( d ) ) / static_cast<float>( RampSegments + 1 ) );
+    return smoothstepf( 0.0f, 1.0f, best );
+}
+
 } // namespace
 
 float World::terrainHeight( const Track &track, long index, float lateral, const Terrain &terrain, float edge )
@@ -81,6 +115,14 @@ float World::terrainHeight( const Track &track, long index, float lateral, const
     h += terrain.m_hills * smoothstepf( 30.0f, 220.0f, a ) * hills * 1.6f;
     const float water = left ? terrain.m_waterLeft : terrain.m_waterRight;
     if( water > 0.0f ) h = lerpf( h, terrain.m_seaLevel - 4.5f, water * smoothstepf( 4.0f, 22.0f, a ) );
+    const float cover = tunnelCover( track, index );
+    if( cover > 0.0f ) h += TunnelLift * cover * smoothstepf( 0.0f, 6.0f, a ) * ( 1.0f - smoothstepf( 60.0f, 140.0f, a ) );
+    const float valley = valleyDepth( track, index );
+    if( valley > 0.0f )
+    {
+        const bool under = track.segment( index ).m_flags & SEG_BRIDGE;
+        h -= ValleyDepth * valley * ( under ? 1.0f : smoothstepf( 0.0f, 12.0f, a ) ) * ( 1.0f - smoothstepf( 80.0f, 200.0f, a ) );
+    }
     return h;
 }
 
@@ -184,6 +226,9 @@ void World::buildChunk( Track &track, Chunk &c )
         const Cross    B = cross( j + 1 );
         const Segment &seg = *A.m_seg;
         const Surface &sf = A.m_surface;
+        const bool     tunnel = seg.m_flags & SEG_TUNNEL;
+        const bool     bridge = seg.m_flags & SEG_BRIDGE;
+        ground.setShade( tunnel ? 0.12f : 1.0f );
         const bool     band = ( j / 2 ) % 2 == 0;
         const int      lanes = seg.m_lanes;
 
@@ -247,6 +292,12 @@ void World::buildChunk( Track &track, Chunk &c )
                 const Mat     m = { sf.m_lineGlow * 0.35f, 0.2f };
                 const Mat     mat[4] = { m, m, m, m };
                 ground.quadV( p, col, mat );
+            }
+            if( bridge )
+            {
+                const Color concrete = { 150, 150, 154, 255 };
+                ground.quad( at( A, l1a, 0.0f ), at( B, l1b, 0.0f ), at( B, l1b, -1.6f ), at( A, l1a, -1.6f ), concrete );
+                continue;
             }
             {
                 const float   ha = terrainHeight( track, j, l2a, A.m_terrain, A.m_edge );
@@ -324,6 +375,78 @@ void World::buildChunk( Track &track, Chunk &c )
                          Mat{ sf.m_waterGlow, sf.m_waterGloss } );
         }
 
+        if( tunnel )
+        {
+            const float wa = A.m_hw + RumbleWidth + 0.6f, wb = B.m_hw + RumbleWidth + 0.6f;
+            const Color concrete = { 140, 138, 132, 255 };
+            const Color skirt = { 90, 92, 96, 255 };
+            props.setShade( 0.1f );
+            const Vector3 a[6] = { at( A, -wa, 0.0f ), at( A, -wa, 5.0f ), at( A, -wa * 0.55f, 7.2f ), at( A, wa * 0.55f, 7.2f ),
+                                   at( A, wa, 5.0f ), at( A, wa, 0.0f ) };
+            const Vector3 b[6] = { at( B, -wb, 0.0f ), at( B, -wb, 5.0f ), at( B, -wb * 0.55f, 7.2f ), at( B, wb * 0.55f, 7.2f ),
+                                   at( B, wb, 5.0f ), at( B, wb, 0.0f ) };
+            for( int k = 0; k < 5; ++k ) props.quad( a[k], b[k], b[k + 1], a[k + 1], k == 2 ? scaleColor( concrete, 0.8f ) : concrete );
+            for( float side : { -1.0f, 1.0f } )
+                props.quad( at( A, side * wa * 0.99f, 0.0f ), at( B, side * wb * 0.99f, 0.0f ), at( B, side * wb * 0.99f, 1.0f ),
+                            at( A, side * wa * 0.99f, 1.0f ), skirt );
+            // Lights every 10 m on both slopes: they rush past.
+            if( j % 2 == 0 )
+            {
+                for( float side : { -1.0f, 1.0f } )
+                {
+                    const Vector3 p0 = Vector3Lerp( at( A, side * wa, 5.0f ), at( A, side * wa * 0.55f, 7.2f ), 0.5f );
+                    const Vector3 p1 = Vector3Lerp( at( B, side * wb, 5.0f ), at( B, side * wb * 0.55f, 7.2f ), 0.5f );
+                    const Vector3 q0 = Vector3Lerp( p0, p1, 0.1f ), q1 = Vector3Lerp( p0, p1, 0.4f );
+                    const Vector3 up = { 0.0f, 0.18f, 0.0f };
+                    props.quad( Vector3Subtract( q0, up ), Vector3Subtract( q1, up ), Vector3Add( q1, up ), Vector3Add( q0, up ),
+                                Color{ 255, 196, 120, 255 }, Mat{ 1.0f, 0.0f } );
+                }
+            }
+            props.setShade( 1.0f );
+            // The hill's lid over the tube, and the portals.
+            const float ea = A.m_edge + 6.0f, eb = B.m_edge + 6.0f;
+            const Color lid = sf.m_groundFar;
+            props.quad( at( A, -ea, TunnelLift ), at( B, -eb, TunnelLift ), at( B, eb, TunnelLift ), at( A, ea, TunnelLift ), lid );
+            const bool entry = !( track.segment( j - 1 ).m_flags & SEG_TUNNEL );
+            const bool exit = !( track.segment( j + 1 ).m_flags & SEG_TUNNEL );
+            for( int end = 0; end < 2; ++end )
+            {
+                if( ( end == 0 && !entry ) || ( end == 1 && !exit ) ) continue;
+                const Cross &X = end == 0 ? A : B;
+                const float  wx = X.m_hw + RumbleWidth + 0.6f, ex = X.m_edge + 6.0f;
+                const Color  face = { 172, 170, 162, 255 };
+                props.quad( at( X, -ex, 0.0f ), at( X, -wx, 0.0f ), at( X, -wx, TunnelLift ), at( X, -ex, TunnelLift ), face );
+                props.quad( at( X, wx, 0.0f ), at( X, ex, 0.0f ), at( X, ex, TunnelLift ), at( X, wx, TunnelLift ), face );
+                props.quad( at( X, -wx, 7.2f ), at( X, wx, 7.2f ), at( X, wx, TunnelLift ), at( X, -wx, TunnelLift ), face );
+                props.tri( at( X, -wx, 5.0f ), at( X, -wx * 0.55f, 7.2f ), at( X, -wx, 7.2f ), face );
+                props.tri( at( X, wx, 5.0f ), at( X, wx, 7.2f ), at( X, wx * 0.55f, 7.2f ), face );
+                props.quad( at( X, -wx - 0.6f, 7.2f ), at( X, wx + 0.6f, 7.2f ), at( X, wx + 0.6f, 8.2f ), at( X, -wx - 0.6f, 8.2f ),
+                            Color{ 120, 118, 112, 255 } );
+            }
+        }
+        if( bridge )
+        {
+            const float   da = A.m_hw + RumbleWidth, db = B.m_hw + RumbleWidth;
+            const Color   concrete = { 150, 150, 154, 255 };
+            const float   depth = ValleyDepth * valleyDepth( track, j );
+            props.quad( at( A, -da, -1.6f ), at( B, -db, -1.6f ), at( B, db, -1.6f ), at( A, da, -1.6f ), scaleColor( concrete, 0.7f ) );
+            if( j % 6 == 0 )
+            {
+                const float half = ( depth + 2.4f ) * 0.5f;
+                for( float side : { -1.0f, 1.0f } )
+                {
+                    const Vector3 p = at( A, side * ( da - 1.2f ), -1.6f - half );
+                    props.box( p, Vector3{ 0.75f, half, 0.75f }, concrete );
+                }
+                const Vector3 c0 = at( A, 0.0f, -2.0f );
+                props.box( c0, Vector3{ 0.5f, 0.4f, 0.5f }, concrete );
+                props.quad( at( A, -da, -1.6f ), at( A, da, -1.6f ), at( A, da, -2.4f ), at( A, -da, -2.4f ), concrete );
+            }
+            const float y = -depth + 1.2f;
+            ground.quad( at( A, -160.0f, y ), at( B, -160.0f, y ), at( B, 160.0f, y ), at( A, 160.0f, y ), sf.m_water,
+                         Mat{ sf.m_waterGlow, sf.m_waterGloss } );
+        }
+
         // Guard rails, or tall sound walls.
         const BiomeDef &here = ruling( seg, 0.5f );
         for( float side : { -1.0f, 1.0f } )
@@ -360,13 +483,13 @@ void World::buildChunk( Track &track, Chunk &c )
             const BiomeDef &rule = ruling( seg, hashFloat( seed ^ sideKey, static_cast<uint64_t>( j ) ) );
             const bool      railed = seg.m_flags & ( side < 0 ? SEG_RAIL_L : SEG_RAIL_R );
 
-            if( rule.m_postSpacing > 0.0f && !railed )
+            if( rule.m_postSpacing > 0.0f && !railed && !tunnel && !bridge )
             {
                 const long k = std::max( 2L, static_cast<long>( rule.m_postSpacing / SegmentLength + 0.5f ) );
                 if( ( j + ( side < 0 ? k / 2 : 0 ) ) % k == 0 )
                     props.append( models.m_post, at( A, side * ( A.m_hw + RumbleWidth + 0.7f ), 0.0f ), A.m_heading, 1.0f );
             }
-            if( rule.m_lampSpacing > 0.0f )
+            if( rule.m_lampSpacing > 0.0f && !tunnel && !bridge )
             {
                 const long k = std::max( 2L, static_cast<long>( rule.m_lampSpacing / SegmentLength + 0.5f ) );
                 if( j % k == ( side > 0 ? 0 : k / 2 ) )
@@ -377,13 +500,13 @@ void World::buildChunk( Track &track, Chunk &c )
                 }
             }
             const bool chevron = seg.m_flags & ( side < 0 ? SEG_CHEVRON_L : SEG_CHEVRON_R );
-            if( chevron && j % 2 == 0 )
+            if( chevron && j % 2 == 0 && !tunnel && !bridge )
             {
                 const float l = side * ( A.m_edge + 1.4f );
                 props.append( side < 0 ? models.m_chevronRight : models.m_chevronLeft, at( A, l, 0.0f ), A.m_heading, 1.0f );
                 c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, l, 0.5f } );
             }
-            if( seg.m_flags & SEG_JUMP )
+            if( ( seg.m_flags & SEG_JUMP ) && !tunnel )
                 props.append( models.m_jumpSign, at( A, side * ( A.m_edge + 1.2f ), 0.0f ), A.m_heading, 1.0f );
 
             // Scattered props.
@@ -408,6 +531,7 @@ void World::buildChunk( Track &track, Chunk &c )
                     continue;
                 }
                 if( railed && dist < 2.0f ) continue;
+                if( ( tunnel && dist < 7.0f ) || ( bridge && dist < 4.0f ) ) continue;
                 const float  lateral = side * ( A.m_edge + dist );
                 const double ps = static_cast<double>( j ) * SegmentLength + h2 * SegmentLength;
                 const float  ht = pr.m_onWater ? A.m_terrain.m_seaLevel : terrainHeight( track, j, lateral, A.m_terrain, A.m_edge );
@@ -443,7 +567,7 @@ void World::buildChunk( Track &track, Chunk &c )
         }
 
         // Overhead sign gantries.
-        if( here.m_gantrySpacing > 0.0f )
+        if( here.m_gantrySpacing > 0.0f && !tunnel )
         {
             const long k = std::max( 4L, static_cast<long>( here.m_gantrySpacing / SegmentLength + 0.5f ) );
             if( j % k == k / 3 && !( seg.m_flags & ( SEG_CHECKPOINT | SEG_START ) ) )
@@ -478,9 +602,9 @@ void World::buildChunk( Track &track, Chunk &c )
         }
 
         // Checkpoint gates and the start gantry.
-        if( seg.m_flags & ( SEG_CHECKPOINT | SEG_START ) )
+        if( ( seg.m_flags & ( SEG_CHECKPOINT | SEG_START | SEG_FINISH ) ) && !tunnel )
         {
-            const bool  start = seg.m_flags & SEG_START;
+            const bool  start = seg.m_flags & ( SEG_START | SEG_FINISH );
             MeshBuilder gate;
             const float span = A.m_edge + 1.0f;
             const Color pillar = start ? Color{ 60, 62, 70, 255 } : Color{ 230, 232, 240, 255 };

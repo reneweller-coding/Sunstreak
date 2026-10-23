@@ -18,7 +18,8 @@ constexpr float MaxHeading = 1.35f;   ///< the road never turns further than thi
 
 } // namespace
 
-Track::Track( uint64_t seed, int startBiome ) : m_seed( seed ), m_rng( seed ^ 0x5EED5EEDull )
+Track::Track( uint64_t seed, const TrackParams &params, int startBiome )
+    : m_seed( seed ), m_params( params ), m_rng( seed ^ 0x5EED5EEDull )
 {
     for( int i = 0; i < 3; ++i ) m_hillPhase[i] = hashFloat( seed, 101 + i ) * Tau;
     // The first bag of stages decides the start; a requested biome is swapped to the front.
@@ -36,6 +37,7 @@ Track::Track( uint64_t seed, int startBiome ) : m_seed( seed ), m_rng( seed ^ 0x
 BiomeE Track::stageBiome( int stage ) const
 {
     constexpr int Count = static_cast<int>( BiomeE::COUNT );
+    if( m_params.m_biome >= 0 && m_params.m_biome < Count ) return static_cast<BiomeE>( m_params.m_biome );
     while( static_cast<int>( m_stageBiomes.size() ) <= stage )
     {
         // One shuffled bag of all biomes after another, never the same biome twice in a row.
@@ -84,6 +86,9 @@ void Track::styleAt( double s, float &curvy, float &sharp, float &hilly ) const
     curvy = clampf( lerpf( a.m_curviness, b.m_curviness, m.m_t ) * ( 0.75f + 0.45f * d ), 0.0f, 1.0f );
     sharp = clampf( lerpf( a.m_sharpness, b.m_sharpness, m.m_t ) * ( 0.7f + 0.5f * d ), 0.0f, 1.0f );
     hilly = clampf( lerpf( a.m_hilliness, b.m_hilliness, m.m_t ) * ( 0.8f + 0.3f * d ), 0.0f, 1.0f );
+    if( m_params.m_curvy >= 0 ) curvy = static_cast<float>( m_params.m_curvy ) / 9.0f;
+    if( m_params.m_sharp >= 0 ) sharp = static_cast<float>( m_params.m_sharp ) / 9.0f;
+    if( m_params.m_hilly >= 0 ) hilly = static_cast<float>( m_params.m_hilly ) / 9.0f;
 }
 
 float Track::hillGrade( double s, float hilliness ) const
@@ -97,18 +102,55 @@ float Track::hillGrade( double s, float hilliness ) const
 
 void Track::planFeature()
 {
-    const long  startIndex = endIndex();
+    const size_t from = m_pendingFlags.size();
+    planShape();
+    decorate( from );
+}
+
+void Track::decorate( size_t from )
+{
+    const size_t n = m_pendingFlags.size() - from;
+    const long   first = endIndex() + static_cast<long>( from );
+    const double s = static_cast<double>( first ) * SegmentLength;
+    if( s < m_params.m_startLine + 600.0 || n < 16 || first - m_lastSpecial < 80 ) return;
+    float maxCurve = 0.0f;
+    for( size_t i = from; i < from + n; ++i )
+    {
+        if( m_pendingFlags[i] & ( SEG_JUMP | SEG_ROADWORKS ) ) return;
+        maxCurve = std::max( maxCurve, std::abs( m_pendingCurve[i] ) );
+    }
+    if( m_params.m_length > 0.0 && s + static_cast<double>( n ) * SegmentLength > m_params.m_length - 100.0 ) return;
+    const BiomeMix  mix = biomeMix( s + 100.0 );
+    const BiomeDef &here = biomeDef( mix.m_t < 0.5f ? mix.m_from : mix.m_to );
+    const float     length = static_cast<float>( n ) * SegmentLength;
+    if( length >= 120.0f && maxCurve < 1.0f / 220.0f && m_rng.chance( here.m_tunnels ) )
+    {
+        const size_t last = from + std::min<size_t>( n - 1, 140 );
+        for( size_t i = from + 1; i < last; ++i ) m_pendingFlags[i] |= SEG_TUNNEL;
+        m_lastSpecial = first;
+    }
+    else if( length >= 80.0f && length <= 450.0f && maxCurve < 1.0f / 700.0f && m_rng.chance( here.m_bridges ) )
+    {
+        for( size_t i = from + 1; i + 1 < from + n; ++i ) m_pendingFlags[i] |= SEG_BRIDGE;
+        m_lastSpecial = first;
+    }
+}
+
+void Track::planShape()
+{
+    const long  startIndex = endIndex() + static_cast<long>( m_pendingFlags.size() );
     const double s = static_cast<double>( startIndex ) * SegmentLength;
     float        curvy = 0, sharp = 0, hilly = 0;
     styleAt( s, curvy, sharp, hilly );
     const float     d = difficulty( static_cast<int>( s / StageLength ) );
     const BiomeMix  mix = biomeMix( s + 200.0 );
     const BiomeDef &here = biomeDef( mix.m_t < 0.5f ? mix.m_from : mix.m_to );
-    const bool      wet = here.m_env.m_rain > 0.5f;
+    const float     obstacles = m_params.m_obstacles >= 0 ? static_cast<float>( m_params.m_obstacles ) / 4.5f : 1.0f;
+    const bool      wet = here.m_env.m_rain > 0.5f || obstacles > 1.4f;
 
     auto push = [&]( float curve, float grade, uint16_t flags, uint8_t blocked )
     {
-        if( wet && m_rng.chance( 0.012f ) ) flags |= SEG_PUDDLE;
+        if( wet && m_rng.chance( 0.012f * obstacles ) ) flags |= SEG_PUDDLE;
         m_pendingCurve.push_back( curve );
         m_pendingGrade.push_back( grade );
         m_pendingFlags.push_back( flags );
@@ -125,7 +167,7 @@ void Track::planFeature()
         // Roadworks closing the outer lane.
         int     worksFrom = -1, worksTo = -1;
         uint8_t worksSide = 0;
-        if( allowSpecials && n >= 50 && startIndex - m_lastWorks > 400 && m_rng.chance( 0.22f * ( 0.5f + d ) ) )
+        if( allowSpecials && n >= 50 && startIndex - m_lastWorks > 400 && m_rng.chance( 0.22f * ( 0.5f + d ) * obstacles ) )
         {
             worksFrom = m_rng.rangeInt( 8, 14 );
             worksTo = std::min( n - 4, worksFrom + m_rng.rangeInt( 28, 50 ) );
@@ -178,9 +220,9 @@ void Track::planFeature()
     };
 
     // The run-up to the start and the first few hundred metres are straight.
-    if( s < 400.0 )
+    if( s < m_params.m_startLine + 360.0 )
     {
-        straight( 400.0f - static_cast<float>( s ), false );
+        straight( static_cast<float>( m_params.m_startLine + 360.0 - s ), false );
         return;
     }
 
@@ -261,7 +303,7 @@ void Track::appendSegment()
     styleAt( s, curvy, sharp, hilly );
     const float pull = clampf( static_cast<float>( m_genPos.m_y ) / 2500.0f, -0.03f, 0.03f );
     seg.m_grade = hillGrade( s, hilly ) + extraGrade - pull;
-    if( s < StartLine + 60.0 ) seg.m_grade *= static_cast<float>( s / ( StartLine + 60.0 ) );
+    if( s < m_params.m_startLine + 60.0 ) seg.m_grade *= static_cast<float>( s / ( m_params.m_startLine + 60.0 ) );
 
     const BiomeMix  mix = biomeMix( s );
     const BiomeDef &a = biomeDef( mix.m_from );
@@ -281,7 +323,9 @@ void Track::appendSegment()
     else
         seg.m_flags &= static_cast<uint16_t>( ~SEG_ROADWORKS );
     if( index > 0 && index % static_cast<long>( CheckpointSpacing / SegmentLength ) == 0 ) seg.m_flags |= SEG_CHECKPOINT;
-    if( index == static_cast<long>( StartLine / SegmentLength ) ) seg.m_flags |= SEG_START;
+    if( index == static_cast<long>( m_params.m_startLine / SegmentLength ) ) seg.m_flags |= SEG_START;
+    if( m_params.m_length > 0.0 && index == static_cast<long>( m_params.m_length / SegmentLength ) ) seg.m_flags |= SEG_FINISH;
+    if( seg.m_flags & ( SEG_TUNNEL | SEG_BRIDGE ) ) seg.m_flags |= SEG_RAIL_L | SEG_RAIL_R;
     seg.m_bank = clampf( seg.m_curve * 28.0f, -0.09f, 0.09f );
     seg.m_stage = static_cast<int>( s / StageLength );
     seg.m_pos = m_genPos;

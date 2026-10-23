@@ -19,18 +19,33 @@ in vec3 vertexPosition;
 in vec2 vertexTexCoord;
 in vec3 vertexNormal;
 in vec4 vertexColor;
+in vec2 vertexTexCoord2;
 uniform mat4 matModel;
 uniform mat4 matView;
 uniform mat4 matProjection;
 uniform vec3 camPos;
 uniform float bend;
+uniform float time;
+uniform float wind;
+uniform vec2 swayOffset;
+uniform float objectShade;
 out vec3 vPos;
 out vec3 vNormal;
 out vec4 vColor;
 out vec2 vMat;
+out float vShade;
 void main()
 {
     vec4 wp = matModel * vec4(vertexPosition, 1.0);
+    float sway = vertexTexCoord2.y;
+    if (sway > 0.0)
+    {
+        vec2 wpos = wp.xz + swayOffset;
+        float ph = time * 1.7 + dot(wpos, vec2(0.069813, 0.055851));
+        wp.x += sway * wind * (sin(ph) * 0.25 + sin(ph * 2.3 + 1.0) * 0.08);
+        wp.z += sway * wind * cos(ph * 0.8) * 0.18;
+    }
+    vShade = vertexTexCoord2.x * objectShade;
     vec2 d = wp.xz - camPos.xz;
     wp.y -= bend * dot(d, d);
     vPos = wp.xyz;
@@ -47,6 +62,7 @@ in vec3 vPos;
 in vec3 vNormal;
 in vec4 vColor;
 in vec2 vMat;
+in float vShade;
 uniform vec3 camPos;
 uniform vec3 sunDir;
 uniform vec3 sunColor;
@@ -77,9 +93,10 @@ void main()
     float dist = length(toCam);
     vec3 V = toCam / max(dist, 0.001);
 
+    float shade = vShade;
     float ndl = max(dot(n, sunDir), 0.0);
-    vec3 light = mix(ambBottom, ambTop, n.y * 0.5 + 0.5) + sunColor * ndl + vec3(flash);
-    light += ambTop * 0.55 * max(dot(n, V), 0.0);
+    vec3 light = mix(ambBottom, ambTop, n.y * 0.5 + 0.5) * (0.25 + 0.75 * shade) + (sunColor * ndl + vec3(flash)) * shade;
+    light += ambTop * 0.55 * max(dot(n, V), 0.0) * (0.3 + 0.7 * shade);
 
     vec3 toP = vPos - headPos;
     float hd = length(toP);
@@ -93,8 +110,8 @@ void main()
     float g = clamp(gloss + wetness * 0.55 * roadLike, 0.0, 1.0);
     vec3 H = normalize(sunDir + V);
     float spec = pow(max(dot(n, H), 0.0), mix(12.0, 180.0, g)) * g * 2.0;
-    col += sunColor * spec;
-    float fres = pow(1.0 - max(dot(n, V), 0.0), 4.0) * g;
+    col += sunColor * spec * shade;
+    float fres = pow(1.0 - max(dot(n, V), 0.0), 4.0) * g * (0.2 + 0.8 * shade);
     col = mix(col, skyColor, clamp(fres, 0.0, 0.85));
     col += vec3(1.0, 0.9, 0.75) * hl * g * 0.6;
     col += base * emissive * 3.5;

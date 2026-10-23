@@ -84,7 +84,7 @@ int main()
         bool  ok = true;
         for( int s = 1; s < 64; ++s ) ok = ok && t.stageBiome( s ) != t.stageBiome( s - 1 );
         check( ok, "no biome twice in a row" );
-        Track forced( 99, static_cast<int>( BiomeE::NEON ) );
+        Track forced( 99, TrackParams(), static_cast<int>( BiomeE::NEON ) );
         check( forced.stageBiome( 0 ) == BiomeE::NEON, "a requested first biome" );
     }
     { // The car reaches its speed on a straight and stops again.

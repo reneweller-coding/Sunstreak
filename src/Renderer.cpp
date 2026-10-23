@@ -136,6 +136,17 @@ void quad( Vector3 a, Vector3 b, Vector3 c, Vector3 d, Color col )
     rlVertex3f( d.x, d.y, d.z );
 }
 
+/**
+ * @brief Whether a distance lies in a tunnel.
+ * @param[in] track  the road
+ * @param[in] s      the distance
+ * @return 1 inside, 0 outside
+ */
+float inTunnel( const Track &track, double s )
+{
+    return ( track.segment( static_cast<long>( s / SegmentLength ) ).m_flags & SEG_TUNNEL ) ? 1.0f : 0.0f;
+}
+
 } // namespace
 
 void Renderer::init()
@@ -322,6 +333,10 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
     setF( s, "wetness", std::max( e.m_rain, e.m_snow * 0.4f ) );
     setF( s, "flash", in.m_flash * 0.8f );
     setF( s, "gridGlow", in.m_surface.m_gridGlow );
+    setF( s, "time", std::fmod( in.m_time, 1000.0f ) );
+    setF( s, "wind", 1.0f + in.m_env.m_rain * 1.5f + in.m_env.m_lightning * 0.8f + in.m_env.m_snow * 0.5f );
+    setV2( s, "swayOffset", static_cast<float>( std::fmod( origin.m_x, 450.0 ) ), static_cast<float>( std::fmod( origin.m_z, 450.0 ) ) );
+    setF( s, "objectShade", 1.0f );
     setV3( s, "gridColor", Vector3{ 0.02f, 0.75f, 1.0f } );
     setV2( s, "gridOffset", static_cast<float>( std::fmod( origin.m_x, 12.0 ) ), static_cast<float>( std::fmod( origin.m_z, 12.0 ) ) );
     Pose playerPose{};
@@ -331,7 +346,7 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
         const Vector3 pos = relativeTo( playerPose.m_pos, origin );
         setV3( s, "headPos", Vector3Add( Vector3Add( pos, Vector3Scale( playerPose.m_forward, 2.3f ) ), Vector3Scale( playerPose.m_up, 0.7f ) ) );
         setV3( s, "headDir", Vector3Normalize( Vector3Subtract( playerPose.m_forward, Vector3Scale( playerPose.m_up, 0.07f ) ) ) );
-        setF( s, "headStrength", e.m_headlights );
+        setF( s, "headStrength", std::max( e.m_headlights, inTunnel( track, in.m_player->m_s ) ) );
     }
     else
     {
@@ -362,6 +377,7 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
             if( c.m_s - playerS > ViewDistance ) continue;
             const float wobble = c.m_hitTimer > 0.0f ? std::sin( c.m_hitTimer * 25.0f ) * 0.08f * c.m_hitTimer : 0.0f;
             const Pose  p = roadPose( track, c.m_s, c.m_x, c.m_yaw + wobble );
+            setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, c.m_s ) );
             DrawMesh( models.m_traffic[c.m_model].m_mesh, m_material, poseMatrix( p, origin ) );
             shadows.push_back( { p, c.m_width, c.m_length } );
         }
@@ -381,7 +397,11 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
         }
     }
     if( in.m_player && in.m_drawPlayer )
+    {
+        setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, in.m_player->m_s ) );
         DrawMesh( models.m_playerCars[in.m_car][in.m_paint], m_material, poseMatrix( playerPose, origin ) );
+    }
+    setF( s, "objectShade", 1.0f );
     if( in.m_player )
     {
         // The shadow stays on the road while the car flies, and shrinks.

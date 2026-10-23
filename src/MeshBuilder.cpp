@@ -25,6 +25,7 @@ void MeshBuilder::tri( Vector3 a, Vector3 b, Vector3 c, Color col, Mat mat )
         m_nrm.insert( m_nrm.end(), { n.x, n.y, n.z } );
         m_col.insert( m_col.end(), { col.r, col.g, col.b, col.a } );
         m_uv.insert( m_uv.end(), { mat.m_emissive, mat.m_gloss } );
+        m_uv2.insert( m_uv2.end(), { m_shade, 0.0f } );
     }
 }
 
@@ -42,6 +43,7 @@ void MeshBuilder::tri3( Vector3 a, Vector3 b, Vector3 c, Color ca, Color cb, Col
         m_nrm.insert( m_nrm.end(), { n.x, n.y, n.z } );
         m_col.insert( m_col.end(), { k[i].r, k[i].g, k[i].b, k[i].a } );
         m_uv.insert( m_uv.end(), { mat.m_emissive, mat.m_gloss } );
+        m_uv2.insert( m_uv2.end(), { m_shade, 0.0f } );
     }
 }
 
@@ -60,6 +62,7 @@ void MeshBuilder::quadV( const Vector3 p[4], const Color col[4], const Mat mat[4
             m_nrm.insert( m_nrm.end(), { n.x, n.y, n.z } );
             m_col.insert( m_col.end(), { col[k].r, col[k].g, col[k].b, col[k].a } );
             m_uv.insert( m_uv.end(), { mat[k].m_emissive, mat[k].m_gloss } );
+            m_uv2.insert( m_uv2.end(), { m_shade, 0.0f } );
         }
     }
 }
@@ -186,6 +189,7 @@ void MeshBuilder::append( const MeshBuilder &src, Vector3 pos, float yaw, float 
             m_col.push_back( static_cast<unsigned char>( clampf( src.m_col[i * 4 + c] * bright, 0.0f, 255.0f ) ) );
         m_col.push_back( src.m_col[i * 4 + 3] );
         m_uv.insert( m_uv.end(), { src.m_uv[i * 2], src.m_uv[i * 2 + 1] } );
+        m_uv2.insert( m_uv2.end(), { src.m_uv2[i * 2] * m_shade, src.m_uv2[i * 2 + 1] * scale } );
     }
 }
 
@@ -203,6 +207,7 @@ void MeshBuilder::appendBasis( const MeshBuilder &src, Vector3 left, Vector3 up,
                                      left.z * nx + up.z * ny + forward.z * nz } );
         m_col.insert( m_col.end(), src.m_col.begin() + static_cast<long>( i * 4 ), src.m_col.begin() + static_cast<long>( i * 4 + 4 ) );
         m_uv.insert( m_uv.end(), { src.m_uv[i * 2], src.m_uv[i * 2 + 1] } );
+        m_uv2.insert( m_uv2.end(), { src.m_uv2[i * 2] * m_shade, src.m_uv2[i * 2 + 1] } );
     }
 }
 
@@ -217,6 +222,8 @@ Mesh MeshBuilder::upload() const
     mesh.normals = static_cast<float *>( MemAlloc( static_cast<unsigned>( m_nrm.size() * sizeof( float ) ) ) );
     mesh.texcoords = static_cast<float *>( MemAlloc( static_cast<unsigned>( m_uv.size() * sizeof( float ) ) ) );
     mesh.colors = static_cast<unsigned char *>( MemAlloc( static_cast<unsigned>( m_col.size() ) ) );
+    mesh.texcoords2 = static_cast<float *>( MemAlloc( static_cast<unsigned>( m_uv2.size() * sizeof( float ) ) ) );
+    std::memcpy( mesh.texcoords2, m_uv2.data(), m_uv2.size() * sizeof( float ) );
     std::memcpy( mesh.vertices, m_pos.data(), m_pos.size() * sizeof( float ) );
     std::memcpy( mesh.normals, m_nrm.data(), m_nrm.size() * sizeof( float ) );
     std::memcpy( mesh.texcoords, m_uv.data(), m_uv.size() * sizeof( float ) );
@@ -231,6 +238,18 @@ void MeshBuilder::clear()
     m_nrm.clear();
     m_col.clear();
     m_uv.clear();
+    m_uv2.clear();
+}
+
+void MeshBuilder::applySway( float amount )
+{
+    float top = 0.1f;
+    for( size_t i = 1; i < m_pos.size(); i += 3 ) top = std::max( top, m_pos[i] );
+    for( size_t v = 0; v < m_uv2.size() / 2; ++v )
+    {
+        const float t = clampf( m_pos[v * 3 + 1] / top, 0.0f, 1.0f );
+        m_uv2[v * 2 + 1] = amount * t * t;
+    }
 }
 
 } // namespace sunstreak

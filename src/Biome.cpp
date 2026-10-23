@@ -8,6 +8,7 @@
 #include "MathUtil.h"
 
 #include <array>
+#include <utility>
 
 namespace sunstreak
 {
@@ -1097,6 +1098,22 @@ std::array<BiomeDef, static_cast<size_t>( BiomeE::COUNT )> makeBiomes()
                       { PropKindE::GRASS_TUFT, 0.2f, 1.0f, 30.0f, 0.7f, 1.2f },
                       { PropKindE::BUTTE, 0.004f, 80.0f, 300.0f, 1.0f, 1.8f } };
     }
+    // Tunnels in the mountains and under cities, bridges over valleys, canals and the clouds.
+    const std::pair<BiomeE, float> tunnels[] = { { BiomeE::FOREST, 0.3f },   { BiomeE::SNOW, 0.25f },     { BiomeE::FJORD, 0.35f },
+                                                 { BiomeE::HIGHLANDS, 0.18f }, { BiomeE::SAKURA, 0.12f }, { BiomeE::JUNGLE, 0.12f },
+                                                 { BiomeE::VOLCANO, 0.22f }, { BiomeE::MESA_SUNSET, 0.1f }, { BiomeE::RICE, 0.1f },
+                                                 { BiomeE::CLIFFS, 0.12f },  { BiomeE::CITY, 0.15f },     { BiomeE::NEON_RAIN, 0.15f },
+                                                 { BiomeE::EXPRESSWAY, 0.12f }, { BiomeE::MARS, 0.1f },   { BiomeE::CRYSTALS, 0.08f },
+                                                 { BiomeE::DESERT, 0.08f },  { BiomeE::AURORA, 0.06f },   { BiomeE::WINTER_VILLAGE, 0.06f } };
+    const std::pair<BiomeE, float> bridges[] = { { BiomeE::FJORD, 0.3f },    { BiomeE::FOREST, 0.14f },   { BiomeE::HIGHLANDS, 0.14f },
+                                                 { BiomeE::MEADOW, 0.1f },   { BiomeE::AUTUMN, 0.12f },   { BiomeE::JUNGLE, 0.14f },
+                                                 { BiomeE::RICE, 0.18f },    { BiomeE::TULIPS, 0.12f },   { BiomeE::CLIFFS, 0.1f },
+                                                 { BiomeE::COAST, 0.1f },    { BiomeE::DESERT, 0.1f },    { BiomeE::MESA_SUNSET, 0.12f },
+                                                 { BiomeE::BAYOU, 0.18f },   { BiomeE::CLOUDS, 0.25f },   { BiomeE::HALLOWEEN, 0.08f },
+                                                 { BiomeE::WINTER_VILLAGE, 0.1f }, { BiomeE::RAINBOW, 0.12f }, { BiomeE::HARBOR, 0.12f },
+                                                 { BiomeE::SAKURA, 0.1f },   { BiomeE::SAVANNA, 0.08f },  { BiomeE::FUNGI, 0.06f } };
+    for( const auto &[biome, chance] : tunnels ) b[static_cast<size_t>( biome )].m_tunnels = chance;
+    for( const auto &[biome, chance] : bridges ) b[static_cast<size_t>( biome )].m_bridges = chance;
     return b;
 }
 

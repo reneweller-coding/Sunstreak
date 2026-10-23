@@ -8,6 +8,8 @@
 #include "MathUtil.h"
 #include "Rng.h"
 
+#include <utility>
+
 namespace sunstreak
 {
 
@@ -1065,6 +1067,20 @@ void Models::buildProps()
         windows( m, Vector3{ 4.0f, -0.4f, -5.0f }, Vector3{ 0, 0, 1 }, Vector3{ 1, 0, 0 }, 10.0f, 4.4f, 710 + v, 0.85f );
         windows( m, Vector3{ -4.0f, -0.4f, 5.0f }, Vector3{ 0, 0, -1 }, Vector3{ -1, 0, 0 }, 10.0f, 4.4f, 720 + v, 0.85f );
     }
+
+    // The wind moves plants: more at the top, palms and bamboo most.
+    const std::pair<PropKindE, float> sway[] = { { PropKindE::PINE, 0.5f },        { PropKindE::SNOW_PINE, 0.4f },
+                                                 { PropKindE::OAK, 0.6f },         { PropKindE::BUSH, 0.3f },
+                                                 { PropKindE::PALM, 1.0f },        { PropKindE::REEDS, 0.6f },
+                                                 { PropKindE::AUTUMN_TREE, 0.6f }, { PropKindE::BIRCH, 0.8f },
+                                                 { PropKindE::CHERRY, 0.5f },      { PropKindE::JUNGLE_TREE, 0.4f },
+                                                 { PropKindE::FERN, 0.4f },        { PropKindE::ACACIA, 0.35f },
+                                                 { PropKindE::GRASS_TUFT, 0.5f },  { PropKindE::CYPRESS, 0.45f },
+                                                 { PropKindE::BAMBOO, 0.9f },      { PropKindE::MOSS_TREE, 0.35f },
+                                                 { PropKindE::LIGHT_TREE, 0.25f }, { PropKindE::DEAD_TREE, 0.2f },
+                                                 { PropKindE::FIREFLIES, 0.8f } };
+    for( const auto &[kind, amount] : sway )
+        for( MeshBuilder &variant : m_props[static_cast<size_t>( kind )] ) variant.applySway( amount );
 
     // Road furniture.
     m_post.box( Vector3{ 0, 0.55f, 0 }, Vector3{ 0.06f, 0.55f, 0.06f }, rgb( 236, 236, 236 ) );

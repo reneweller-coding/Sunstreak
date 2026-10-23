@@ -139,6 +139,12 @@ LaunchOptions parseCommandLine( int argc, char **argv )
         else if( a == "--play" ) o.m_skipMenu = true;
         else if( a == "--mute" ) o.m_mute = true;
         else if( a == "--audio-test" ) o.m_audioTest = next();
+        else if( a == "--find" )
+        {
+            const std::string what = next();
+            o.m_find = what == "tunnel" ? 1 : what == "bridge" ? 2 : 0;
+        }
+        else if( a == "--camera" ) o.m_camera = std::clamp( std::atoi( next().c_str() ), 0, 2 );
         else if( a == "--quit-after" ) o.m_quitAfter = static_cast<float>( std::atof( next().c_str() ) );
         else if( a == "--screenshot" ) o.m_screenshot = next();
         else if( a == "--distance" ) o.m_startDistance = static_cast<float>( std::atof( next().c_str() ) );

@@ -149,6 +149,7 @@ Game::Game( Settings &settings, const LaunchOptions &options ) : m_settings( set
 
 void Game::init()
 {
+    if( m_options.m_camera >= 0 ) m_settings.m_camera = m_options.m_camera;
     m_tuningBase = loadTuning( configDirectory() + "/tuning.ini" );
     tuning() = applyDifficulty( m_tuningBase, m_settings.m_difficulty );
     m_models.build();
@@ -174,7 +175,7 @@ void Game::setupTrack( uint64_t seed, double startS )
 {
     m_seed = seed;
     m_world.clear();
-    m_track = std::make_unique<Track>( seed, m_options.m_startBiome );
+    m_track = std::make_unique<Track>( seed, TrackParams(), m_options.m_startBiome );
     m_track->generateTo( startS + ViewDistance + 600.0 );
     const Segment &seg = m_track->segment( static_cast<long>( startS / SegmentLength ) );
     m_car.reset( carSpec( m_carIndex ), startS, laneCenter( seg.m_lanes / 2, seg.m_lanes, seg.m_halfWidth ), *m_track );
@@ -209,6 +210,25 @@ void Game::startRun( uint64_t seed )
     {
         startS = m_options.m_startDistance;
         m_options.m_startDistance = 0.0f;
+    }
+    if( m_options.m_find != 0 )
+    {
+        // Testing: start shortly before the first tunnel or bridge.
+        Track          probe( seed, TrackParams(), m_options.m_startBiome );
+        const uint16_t want = m_options.m_find == 1 ? SEG_TUNNEL : SEG_BRIDGE;
+        for( double s = 0.0; s < 60000.0; s += 1000.0 )
+        {
+            probe.generateTo( s + 1000.0 );
+            for( long i = static_cast<long>( s / SegmentLength ); i < static_cast<long>( ( s + 1000.0 ) / SegmentLength ); ++i )
+                if( probe.segment( i ).m_flags & want )
+                {
+                    startS = std::max( StartLine - 9.0, static_cast<double>( i ) * SegmentLength - 160.0 );
+                    s = 1e9;
+                    break;
+                }
+            probe.discardBefore( s - 2000.0 );
+        }
+        m_options.m_find = 0;
     }
     setupTrack( seed, startS );
     m_car.m_frozen = true;

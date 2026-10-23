@@ -46,6 +46,22 @@ enum SegmentFlagE : uint16_t
     SEG_RAIL_R = 1 << 7,       ///< guard rail on the right
     SEG_PUDDLE = 1 << 8,       ///< a puddle on the road
     SEG_NO_DASH = 1 << 9,      ///< no lane dashes (the lane count changes here)
+    SEG_FINISH = 1 << 10,      ///< the finish line of a race
+    SEG_TUNNEL = 1 << 11,      ///< inside a tunnel
+    SEG_BRIDGE = 1 << 12,      ///< on a bridge over a valley
+};
+
+/** @brief What the Track Lab (and a race) asks of the generator; -1 leaves a value to the biomes. */
+struct TrackParams
+{
+    int    m_curvy = -1;              ///< 0..9 how often the road bends
+    int    m_sharp = -1;              ///< 0..9 how tight
+    int    m_hilly = -1;              ///< 0..9 how much it climbs
+    int    m_traffic = -1;            ///< 0..9 traffic density
+    int    m_obstacles = -1;          ///< 0..9 roadworks and puddles
+    int    m_biome = -1;              ///< one biome all the way, -1 a new one every stage
+    double m_length = 0.0;            ///< the finish (m), 0 endless
+    double m_startLine = StartLine;   ///< where the start gantry stands
 };
 
 /** @brief One 5 m piece of road. */
@@ -95,9 +111,16 @@ public:
     /**
      * @brief Starts a track.
      * @param[in] seed        the seed (equal seeds, equal tracks)
+     * @param[in] params      overrides (Track Lab, races)
      * @param[in] startBiome  the first stage's biome, -1 to let the seed choose
      */
-    explicit Track( uint64_t seed, int startBiome = -1 );
+    explicit Track( uint64_t seed, const TrackParams &params = TrackParams(), int startBiome = -1 );
+
+    /**
+     * @brief What the track was asked for.
+     * @return its parameters
+     */
+    const TrackParams &params() const { return m_params; }
 
     /**
      * @brief Generates segments until s is covered (plus the next segment for interpolation).
@@ -182,8 +205,17 @@ public:
     static float difficulty( int stage );
 
 private:
-    /** @brief Plans the next feature into the pending queues. */
+    /** @brief Plans the next feature into the pending queues: its shape, then tunnels and bridges. */
     void planFeature();
+
+    /** @brief Plans the next feature's shape (straight, bend, S-bend, crest, roadworks). */
+    void planShape();
+
+    /**
+     * @brief Turns a planned feature into a tunnel or a bridge now and then.
+     * @param[in] from  the first pending segment of the feature
+     */
+    void decorate( size_t from );
 
     /** @brief Appends one segment from the pending queues. */
     void appendSegment();
@@ -206,6 +238,7 @@ private:
     void styleAt( double s, float &curvy, float &sharp, float &hilly ) const;
 
     uint64_t                     m_seed;                ///< the seed
+    TrackParams                  m_params;              ///< overrides
     Rng                          m_rng;                 ///< the feature planner's generator
     mutable std::vector<uint8_t> m_stageBiomes;         ///< biome per stage, extended on demand
     std::deque<Segment>          m_segments;            ///< the segments held
@@ -219,6 +252,7 @@ private:
     float                        m_hillPhase[3]{};      ///< phases of the rolling hills
     long                         m_lastJump = -1000;    ///< segment of the last crest
     long                         m_lastWorks = -1000;   ///< segment of the last roadworks
+    long                         m_lastSpecial = -1000; ///< segment of the last tunnel or bridge
 };
 
 /**

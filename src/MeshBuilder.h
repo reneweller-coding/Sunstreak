@@ -4,6 +4,8 @@
  *
  * Every triangle gets its own three vertices and its face normal: the faceted low-poly look. The texture coordinates
  * carry material values instead of a texture: u = emissive (0..1, glows and pierces the fog), v = gloss (0..1).
+ * The second set carries u = shade (0 in a tunnel's dark, 1 in the open) and v = sway (how far the wind moves the
+ * vertex: tree tops, reeds).
  * The world shader lights both faces, so the winding of a triangle does not matter.
  *
  * @author reneweller
@@ -163,11 +165,25 @@ public:
     /** @brief Forgets all triangles. */
     void clear();
 
+    /**
+     * @brief Sets the shade of the triangles that follow (and of appended ones).
+     * @param[in] shade  1 open sky, 0 deep in a tunnel
+     */
+    void setShade( float shade ) { m_shade = shade; }
+
+    /**
+     * @brief Lets the wind move the vertices, more the higher they are (call on a finished prop).
+     * @param[in] amount  sway at the top
+     */
+    void applySway( float amount );
+
 private:
     std::vector<float>         m_pos;   ///< xyz per vertex
     std::vector<float>         m_nrm;   ///< normal per vertex
     std::vector<unsigned char> m_col;   ///< rgba per vertex
     std::vector<float>         m_uv;    ///< emissive, gloss per vertex
+    std::vector<float>         m_uv2;   ///< shade, sway per vertex
+    float                      m_shade = 1.0f;   ///< shade for new vertices
 };
 
 } // namespace sunstreak
