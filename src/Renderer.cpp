@@ -281,6 +281,13 @@ void Renderer::drawSky( const SceneInput &in, const CameraView &cam )
     setF( s, "flash", in.m_flash );
     const float d = static_cast<float>( ViewDistance );
     setF( s, "horizonDrop", std::atan( ( Bend * d * d + 3.0f ) / d ) );
+    setF( s, "aurora", e.m_aurora );
+    setF( s, "rainbow", e.m_rainbow );
+    setF( s, "eclipse", e.m_eclipse );
+    const float pe = e.m_planetElevation * DEG2RAD, pa = e.m_planetAzimuth * DEG2RAD;
+    setV3( s, "planetDir", Vector3{ -std::sin( pa ) * std::cos( pe ), std::sin( pe ), std::cos( pa ) * std::cos( pe ) } );
+    setF( s, "planetRadius", e.m_planetSize * DEG2RAD );
+    setV3( s, "planetColor", linearRgb( e.m_planetColor ) );
     DrawRectangle( 0, 0, m_targetW, m_targetH, WHITE );
     EndShaderMode();
 }

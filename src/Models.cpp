@@ -309,8 +309,9 @@ const char *paintName( int index )
 
 const MeshBuilder &Models::prop( PropKindE kind, uint64_t variant ) const
 {
-    const auto &v = m_props[static_cast<size_t>( kind )];
-    return v[static_cast<size_t>( variant % v.size() )];
+    static const MeshBuilder none;
+    const auto              &v = m_props[static_cast<size_t>( kind )];
+    return v.empty() ? none : v[static_cast<size_t>( variant % v.size() )];
 }
 
 void Models::buildProps()
@@ -544,6 +545,525 @@ void Models::buildProps()
     {
         MeshBuilder &m = add( PropKindE::SNOWBANK, 0.0f );
         m.blob( Vector3{ 0, 0.15f, 0 }, Vector3{ 1.6f, 0.65f, 2.6f }, rgb( 240, 244, 250 ), 70 + v, 0.35f );
+    }
+
+    // A slanted pointed prism (crystals, ice): a tube with a tip.
+    auto prism = []( MeshBuilder &m, Vector3 base, Vector3 dir, float len, float radius, int sides, float tip, Color col, Mat mat )
+    {
+        dir = Vector3Normalize( dir );
+        const Vector3 top = Vector3Add( base, Vector3Scale( dir, len ) );
+        m.tube( base, top, radius, sides, col, mat, false );
+        const Vector3 ref = std::abs( dir.y ) < 0.9f ? Vector3{ 0, 1, 0 } : Vector3{ 1, 0, 0 };
+        const Vector3 u = Vector3Normalize( Vector3CrossProduct( dir, ref ) );
+        const Vector3 v = Vector3CrossProduct( dir, u );
+        const Vector3 apex = Vector3Add( top, Vector3Scale( dir, tip ) );
+        for( int i = 0; i < sides; ++i )
+        {
+            const float a0 = Tau * static_cast<float>( i ) / static_cast<float>( sides );
+            const float a1 = Tau * static_cast<float>( i + 1 ) / static_cast<float>( sides );
+            auto ring = [&]( float a )
+            { return Vector3Add( top, Vector3Add( Vector3Scale( u, std::cos( a ) * radius ), Vector3Scale( v, std::sin( a ) * radius ) ) ); };
+            m.tri( ring( a0 ), ring( a1 ), apex, scaleColor( col, 1.1f ), mat );
+        }
+    };
+    // A pitched roof over a box of half size hx, hz whose walls end at height y.
+    auto roof = []( MeshBuilder &m, float hx, float hz, float y, float ridge, Color col )
+    {
+        const Vector3 e0 = { -hx - 0.4f, y, -hz - 0.3f }, e1 = { hx + 0.4f, y, -hz - 0.3f }, e2 = { hx + 0.4f, y, hz + 0.3f },
+                      e3 = { -hx - 0.4f, y, hz + 0.3f };
+        const Vector3 r0 = { 0, y + ridge, -hz - 0.3f }, r1 = { 0, y + ridge, hz + 0.3f };
+        m.quad( e0, r0, r1, e3, col );
+        m.quad( e1, e2, r1, r0, col );
+    };
+    auto gables = []( MeshBuilder &m, float hx, float hz, float y, float ridge, Color col )
+    {
+        m.tri( Vector3{ -hx, y, -hz }, Vector3{ hx, y, -hz }, Vector3{ 0, y + ridge - 0.2f, -hz }, col );
+        m.tri( Vector3{ -hx, y, hz }, Vector3{ hx, y, hz }, Vector3{ 0, y + ridge - 0.2f, hz }, col );
+    };
+
+    for( int v = 0; v < 3; ++v )
+    { // Autumn trees: orange, red, yellow.
+        MeshBuilder &m = add( PropKindE::AUTUMN_TREE, 0.7f );
+        const Color  leaf[3] = { rgb( 224, 120, 30 ), rgb( 200, 52, 30 ), rgb( 236, 190, 50 ) };
+        m.tube( Vector3{ 0, 0, 0 }, Vector3{ 0.1f * v, 2.4f, 0 }, 0.28f, 6, rgb( 86, 62, 44 ) );
+        m.blob( Vector3{ 0.1f * v, 3.9f, 0 }, Vector3{ 2.4f, 2.0f, 2.3f }, leaf[v], 111 + v, 0.45f );
+        m.blob( Vector3{ -0.8f, 4.6f, 0.4f }, Vector3{ 1.5f, 1.3f, 1.4f }, scaleColor( leaf[v], 1.1f ), 121 + v, 0.45f );
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Birches.
+        MeshBuilder &m = add( PropKindE::BIRCH, 0.4f );
+        m.tube( Vector3{ 0, 0, 0 }, Vector3{ 0.15f * v, 5.2f, 0 }, 0.17f, 6, rgb( 228, 226, 216 ) );
+        for( int i = 0; i < 4; ++i )
+            m.box( Vector3{ 0.03f * v * i, 0.8f + 1.1f * i, 0.17f }, Vector3{ 0.08f, 0.04f, 0.02f }, rgb( 30, 30, 30 ) );
+        m.blob( Vector3{ 0.15f * v, 5.6f, 0 }, Vector3{ 1.4f, 2.4f, 1.3f }, v ? rgb( 210, 190, 60 ) : rgb( 150, 182, 64 ), 131 + v, 0.4f );
+    }
+    for( int v = 0; v < 3; ++v )
+    { // Cherry trees in blossom.
+        MeshBuilder &m = add( PropKindE::CHERRY, 0.6f );
+        const Color  bark = rgb( 80, 52, 42 );
+        m.tube( Vector3{ 0, 0, 0 }, Vector3{ 0.3f, 2.0f, 0 }, 0.28f, 6, bark );
+        m.tube( Vector3{ 0.3f, 2.0f, 0 }, Vector3{ -1.2f, 3.2f, 0.3f }, 0.14f, 5, bark );
+        m.tube( Vector3{ 0.3f, 2.0f, 0 }, Vector3{ 1.5f, 3.0f, -0.4f }, 0.14f, 5, bark );
+        const Color pink[3] = { rgb( 250, 182, 210 ), rgb( 240, 160, 200 ), rgb( 255, 204, 226 ) };
+        m.blob( Vector3{ -1.2f, 3.6f, 0.3f }, Vector3{ 1.8f, 1.3f, 1.7f }, pink[v], 141 + v, 0.5f );
+        m.blob( Vector3{ 1.4f, 3.5f, -0.3f }, Vector3{ 1.7f, 1.2f, 1.6f }, pink[( v + 1 ) % 3], 151 + v, 0.5f );
+        m.blob( Vector3{ 0.2f, 4.3f, 0 }, Vector3{ 1.6f, 1.2f, 1.6f }, pink[( v + 2 ) % 3], 161 + v, 0.5f );
+    }
+    { // Torii: a red shrine gate.
+        MeshBuilder &m = add( PropKindE::TORII, 0.4f );
+        const Color  red = rgb( 214, 44, 30 );
+        for( float x : { -2.4f, 2.4f } ) m.cylinder( Vector3{ x, 0, 0 }, 0.3f, 0.26f, 5.2f, 8, red );
+        m.box( Vector3{ 0, 5.45f, 0 }, Vector3{ 3.5f, 0.24f, 0.38f }, rgb( 30, 28, 30 ) );
+        m.box( Vector3{ 0, 5.1f, 0 }, Vector3{ 3.2f, 0.16f, 0.3f }, red );
+        m.box( Vector3{ 0, 4.3f, 0 }, Vector3{ 2.9f, 0.16f, 0.2f }, red );
+        m.box( Vector3{ 0, 4.7f, 0 }, Vector3{ 0.16f, 0.3f, 0.18f }, red );
+    }
+    { // Stone lantern with a warm light.
+        MeshBuilder &m = add( PropKindE::LANTERN, 0.3f );
+        const Color  stone = rgb( 150, 150, 144 );
+        m.box( Vector3{ 0, 0.15f, 0 }, Vector3{ 0.4f, 0.15f, 0.4f }, stone );
+        m.cylinder( Vector3{ 0, 0.3f, 0 }, 0.15f, 0.15f, 0.8f, 6, stone );
+        m.box( Vector3{ 0, 1.3f, 0 }, Vector3{ 0.32f, 0.22f, 0.32f }, rgb( 255, 214, 140 ), Mat{ 0.9f, 0.0f } );
+        m.taperedBox( Vector3{ 0, 1.52f, 0 }, Vector2{ 0.55f, 0.55f }, Vector3{ 0, 1.85f, 0 }, Vector2{ 0.1f, 0.1f }, stone );
+    }
+    { // Pagoda: four tiers.
+        MeshBuilder &m = add( PropKindE::PAGODA, 0.0f );
+        float y = 0.0f;
+        for( int i = 0; i < 4; ++i )
+        {
+            const float w = 4.0f - 0.7f * static_cast<float>( i );
+            m.box( Vector3{ 0, y + 1.4f, 0 }, Vector3{ w, 1.4f, w }, rgb( 160, 52, 40 ) );
+            m.taperedBox( Vector3{ 0, y + 2.8f, 0 }, Vector2{ w + 1.6f, w + 1.6f }, Vector3{ 0, y + 3.6f, 0 }, Vector2{ w * 0.6f, w * 0.6f },
+                          rgb( 56, 66, 64 ) );
+            y += 3.6f;
+        }
+        m.cylinder( Vector3{ 0, y, 0 }, 0.25f, 0.05f, 4.0f, 6, rgb( 190, 160, 60 ) );
+    }
+    for( int v = 0; v < 3; ++v )
+    { // Rainforest giants with buttress roots.
+        MeshBuilder &m = add( PropKindE::JUNGLE_TREE, 1.0f );
+        const float  h = 12.0f + 3.0f * v;
+        m.tube( Vector3{ 0, 0, 0 }, Vector3{ 0.2f * v, h, 0 }, 0.45f, 7, rgb( 132, 112, 82 ) );
+        for( int i = 0; i < 3; ++i )
+        {
+            const float a = Tau * static_cast<float>( i ) / 3.0f + 0.4f * v;
+            m.tri( Vector3{ 0, 2.2f, 0 }, Vector3{ std::cos( a ) * 1.6f, 0, std::sin( a ) * 1.6f }, Vector3{ 0, 0, 0 }, rgb( 120, 100, 72 ) );
+        }
+        m.blob( Vector3{ 0.2f * v, h, 0 }, Vector3{ 5.5f, 2.2f, 5.2f }, rgb( 40 + v * 8, 100, 36 ), 171 + v, 0.5f );
+        m.blob( Vector3{ 1.5f, h + 1.2f, 1.0f }, Vector3{ 3.0f, 1.6f, 3.0f }, rgb( 56, 120, 44 ), 181 + v, 0.5f );
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Ferns.
+        MeshBuilder &m = add( PropKindE::FERN, 0.0f );
+        for( int i = 0; i < 8; ++i )
+        {
+            const float   a = Tau * ( static_cast<float>( i ) + 0.5f * v ) / 8.0f;
+            const Vector3 d = { std::cos( a ), 0, std::sin( a ) };
+            const Vector3 s = { -d.z * 0.16f, 0, d.x * 0.16f };
+            const Vector3 mid = Vector3Add( Vector3Scale( d, 0.8f ), Vector3{ 0, 0.9f, 0 } );
+            const Vector3 tip = Vector3Add( Vector3Scale( d, 1.7f ), Vector3{ 0, 0.3f, 0 } );
+            m.quad( Vector3{ 0, 0.1f, 0 }, Vector3Add( mid, s ), tip, Vector3Subtract( mid, s ), i % 2 ? rgb( 56, 128, 46 ) : rgb( 76, 146, 56 ) );
+        }
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Acacias: flat tops.
+        MeshBuilder &m = add( PropKindE::ACACIA, 0.5f );
+        const Color  bark = rgb( 70, 56, 44 );
+        m.tube( Vector3{ 0, 0, 0 }, Vector3{ 0.3f, 3.4f, 0 }, 0.25f, 6, bark );
+        m.tube( Vector3{ 0.3f, 3.0f, 0 }, Vector3{ -1.8f, 4.3f, 0.5f }, 0.13f, 5, bark );
+        m.tube( Vector3{ 0.3f, 3.2f, 0 }, Vector3{ 2.0f, 4.4f, -0.4f }, 0.13f, 5, bark );
+        m.blob( Vector3{ 0.2f, 4.6f, 0 }, Vector3{ 4.6f, 0.75f, 4.0f }, rgb( 100 + 10 * v, 118, 48 ), 191 + v, 0.35f );
+        m.blob( Vector3{ -1.6f, 4.9f, 0.6f }, Vector3{ 2.4f, 0.6f, 2.2f }, rgb( 110, 126, 54 ), 201 + v, 0.35f );
+    }
+    { // Termite mound.
+        MeshBuilder &m = add( PropKindE::TERMITE_MOUND, 0.7f );
+        const Color  clay = rgb( 172, 112, 62 );
+        m.cylinder( Vector3{ 0, 0, 0 }, 0.95f, 0.25f, 2.8f, 7, clay );
+        m.cylinder( Vector3{ 0.6f, 0, 0.3f }, 0.45f, 0.1f, 1.6f, 6, scaleColor( clay, 0.9f ) );
+        m.cylinder( Vector3{ -0.5f, 0, -0.4f }, 0.4f, 0.08f, 1.3f, 6, scaleColor( clay, 1.08f ) );
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Dry grass.
+        MeshBuilder &m = add( PropKindE::GRASS_TUFT, 0.0f );
+        Rng          r( 1100 + v );
+        for( int i = 0; i < 8; ++i )
+        {
+            const float   a = r.range( 0.0f, Tau );
+            const Vector3 base = { std::cos( a ) * r.range( 0.0f, 0.4f ), 0, std::sin( a ) * r.range( 0.0f, 0.4f ) };
+            const Vector3 tip = { base.x + r.range( -0.5f, 0.5f ), r.range( 0.5f, 1.0f ), base.z + r.range( -0.5f, 0.5f ) };
+            m.tri( Vector3Subtract( base, Vector3{ 0.06f, 0, 0.04f } ), Vector3Add( base, Vector3{ 0.06f, 0, 0.04f } ), tip,
+                   i % 2 ? rgb( 206, 184, 104 ) : rgb( 180, 160, 90 ) );
+        }
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Lava rocks: black with glowing cracks.
+        MeshBuilder &m = add( PropKindE::LAVA_ROCK, 0.9f );
+        m.blob( Vector3{ 0, 0.4f, 0 }, Vector3{ 1.2f, 0.9f, 1.0f }, rgb( 40, 36, 38 ), 211 + v, 0.7f );
+        Rng r( 1200 + v );
+        for( int i = 0; i < 5; ++i )
+        {
+            const float a = r.range( 0.0f, Tau );
+            const Vector3 p = { std::cos( a ) * 1.05f, r.range( 0.1f, 0.9f ), std::sin( a ) * 0.9f };
+            m.box( p, Vector3{ 0.08f + 0.18f * std::abs( std::sin( a ) ), r.range( 0.15f, 0.4f ), 0.08f + 0.18f * std::abs( std::cos( a ) ) },
+                   rgb( 255, 110, 20 ), Mat{ 1.0f, 0.0f } );
+        }
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Ice spikes.
+        MeshBuilder &m = add( PropKindE::ICE_SPIKE, 0.5f );
+        Rng          r( 1300 + v );
+        for( int i = 0; i < 4 + v; ++i )
+            prism( m, Vector3{ r.range( -0.8f, 0.8f ), -0.2f, r.range( -0.8f, 0.8f ) },
+                   Vector3{ r.range( -0.35f, 0.35f ), 1.0f, r.range( -0.35f, 0.35f ) }, r.range( 1.5f, 4.0f ), r.range( 0.2f, 0.45f ), 6,
+                   r.range( 0.6f, 1.2f ), rgb( 170, 220, 255 ), Mat{ 0.15f, 0.9f } );
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Cypresses.
+        MeshBuilder &m = add( PropKindE::CYPRESS, 0.4f );
+        m.cylinder( Vector3{ 0, 0, 0 }, 0.2f, 0.18f, 1.2f, 5, rgb( 90, 70, 50 ) );
+        m.blob( Vector3{ 0, 4.4f + v, 0 }, Vector3{ 1.0f, 3.8f + v, 1.0f }, rgb( 40, 80 + 6 * v, 42 ), 221 + v, 0.25f );
+        m.cylinder( Vector3{ 0, 7.4f + 2.0f * v, 0 }, 0.6f, 0.0f, 2.0f, 6, rgb( 46, 88, 46 ) );
+    }
+    { // Dutch windmill with four sails.
+        MeshBuilder &m = add( PropKindE::DUTCH_MILL, 0.0f );
+        m.cylinder( Vector3{ 0, 0, 0 }, 3.2f, 2.0f, 9.0f, 8, rgb( 90, 72, 54 ) );
+        m.cylinder( Vector3{ 0, 9.0f, 0 }, 2.4f, 0.0f, 2.6f, 8, rgb( 50, 50, 54 ) );
+        const Vector3 hub = { 0, 9.6f, -2.4f };
+        for( int i = 0; i < 4; ++i )
+        {
+            const float   a = Tau * static_cast<float>( i ) / 4.0f + 0.5f;
+            const Vector3 d = { std::cos( a ), std::sin( a ), 0 };
+            const Vector3 s = { -d.y * 0.75f, d.x * 0.75f, 0 };
+            const Vector3 p0 = Vector3Add( hub, Vector3Scale( d, 1.2f ) ), p1 = Vector3Add( hub, Vector3Scale( d, 9.0f ) );
+            m.quad( p0, Vector3Add( p0, s ), Vector3Add( p1, s ), p1, rgb( 232, 222, 200 ) );
+            m.tube( hub, p1, 0.08f, 4, rgb( 70, 60, 50 ) );
+        }
+    }
+    { // Ruined tower.
+        MeshBuilder &m = add( PropKindE::RUIN, 0.0f );
+        const Color  stone = rgb( 122, 120, 112 );
+        m.cylinder( Vector3{ 0, 0, 0 }, 3.2f, 2.9f, 10.0f, 8, stone );
+        for( int i = 0; i < 8; i += 2 )
+        {
+            const float a = Tau * static_cast<float>( i ) / 8.0f;
+            m.box( Vector3{ std::cos( a ) * 2.8f, 10.6f + 0.4f * ( i % 3 ), std::sin( a ) * 2.8f }, Vector3{ 0.6f, 0.6f + 0.3f * ( i % 3 ), 0.6f }, stone );
+        }
+        m.quad( Vector3{ -0.4f, 5.0f, -3.05f }, Vector3{ 0.4f, 5.0f, -3.05f }, Vector3{ 0.4f, 6.4f, -3.05f }, Vector3{ -0.4f, 6.4f, -3.05f },
+                rgb( 20, 20, 22 ) );
+        m.blob( Vector3{ 4.0f, 0.3f, 1.0f }, Vector3{ 1.0f, 0.6f, 0.8f }, stone, 231, 0.5f );
+    }
+    { // Dry stone wall, 5 m along the road.
+        MeshBuilder &m = add( PropKindE::STONE_WALL, 0.0f );
+        const Color  stone = rgb( 132, 128, 120 );
+        m.box( Vector3{ 0, 0.42f, 0 }, Vector3{ 0.35f, 0.42f, 2.5f }, stone );
+        for( int i = 0; i < 3; ++i )
+            m.box( Vector3{ 0, 0.9f, -1.7f + 1.7f * i }, Vector3{ 0.3f, 0.08f + 0.04f * i, 0.8f }, scaleColor( stone, 0.9f + 0.08f * i ) );
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Red cabins.
+        MeshBuilder &m = add( PropKindE::CABIN, 4.0f );
+        const Color  wall = v ? rgb( 176, 44, 34 ) : rgb( 150, 40, 30 );
+        m.box( Vector3{ 0, 2.0f, 0 }, Vector3{ 3.0f, 2.0f, 4.0f }, wall );
+        for( float x : { -3.02f, 3.02f } )
+            for( float z : { -4.02f, 4.02f } ) m.box( Vector3{ x, 2.0f, z }, Vector3{ 0.08f, 2.0f, 0.08f }, rgb( 240, 240, 240 ) );
+        roof( m, 3.0f, 4.0f, 4.0f, 2.2f, rgb( 50, 50, 56 ) );
+        gables( m, 3.0f, 4.0f, 4.0f, 2.2f, wall );
+        windows( m, Vector3{ -3.0f, -0.6f, -4.0f }, Vector3{ 1, 0, 0 }, Vector3{ 0, 0, -1 }, 6.0f, 4.0f, 500 + v, 0.6f );
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Bamboo clusters.
+        MeshBuilder &m = add( PropKindE::BAMBOO, 0.0f );
+        Rng          r( 1400 + v );
+        for( int i = 0; i < 9; ++i )
+        {
+            const Vector3 base = { r.range( -1.0f, 1.0f ), 0, r.range( -1.0f, 1.0f ) };
+            const float   h = r.range( 6.0f, 9.5f );
+            const Vector3 top = { base.x + r.range( -0.6f, 0.6f ), h, base.z + r.range( -0.6f, 0.6f ) };
+            m.tube( base, top, 0.08f, 5, i % 2 ? rgb( 120, 172, 70 ) : rgb( 104, 156, 60 ) );
+            for( int k = 0; k < 3; ++k )
+            {
+                const Vector3 p = Vector3Lerp( base, top, 0.75f + 0.08f * k );
+                m.tri( p, Vector3Add( p, Vector3{ r.range( -1.2f, 1.2f ), -0.3f, r.range( -1.2f, 1.2f ) } ),
+                       Vector3Add( p, Vector3{ r.range( -0.4f, 0.4f ), 0.2f, r.range( -0.4f, 0.4f ) } ), rgb( 90, 150, 60 ) );
+            }
+        }
+    }
+    { // Stilt hut with a thatched roof.
+        MeshBuilder &m = add( PropKindE::HUT, 3.0f );
+        const Color  wood = rgb( 140, 100, 62 );
+        for( float x : { -2.0f, 2.0f } )
+            for( float z : { -2.0f, 2.0f } ) m.box( Vector3{ x, 0.8f, z }, Vector3{ 0.12f, 0.8f, 0.12f }, scaleColor( wood, 0.8f ) );
+        m.box( Vector3{ 0, 1.7f, 0 }, Vector3{ 2.4f, 0.1f, 2.4f }, wood );
+        m.box( Vector3{ 0, 2.8f, 0 }, Vector3{ 2.0f, 1.0f, 2.0f }, wood );
+        m.taperedBox( Vector3{ 0, 3.8f, 0 }, Vector2{ 3.0f, 3.0f }, Vector3{ 0, 6.0f, 0 }, Vector2{ 0.2f, 0.2f }, rgb( 196, 166, 96 ) );
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Buttes: slim rock towers.
+        MeshBuilder &m = add( PropKindE::BUTTE, 0.0f );
+        const float  k = 1.0f + 0.3f * v;
+        m.taperedBox( Vector3{ 0, -2, 0 }, Vector2{ 9 * k, 6 }, Vector3{ 0, 10, 0 }, Vector2{ 6 * k, 4.5f }, rgb( 160, 76, 50 ) );
+        m.taperedBox( Vector3{ 0, 10, 0 }, Vector2{ 5.5f * k, 4.2f }, Vector3{ 0.5f, 34, 0 }, Vector2{ 5 * k, 3.8f }, rgb( 186, 92, 58 ) );
+        m.taperedBox( Vector3{ 0.5f, 34, 0 }, Vector2{ 5 * k, 3.8f }, Vector3{ 0.5f, 37, 0 }, Vector2{ 4.6f * k, 3.5f }, rgb( 140, 66, 44 ) );
+    }
+    for( int v = 0; v < 3; ++v )
+    { // Mailboxes.
+        MeshBuilder &m = add( PropKindE::MAILBOX, 0.0f );
+        const Color  c[3] = { rgb( 40, 70, 160 ), rgb( 190, 40, 40 ), rgb( 220, 220, 220 ) };
+        m.box( Vector3{ 0, 0.5f, 0 }, Vector3{ 0.05f, 0.5f, 0.05f }, rgb( 110, 90, 70 ) );
+        m.box( Vector3{ 0, 1.1f, 0 }, Vector3{ 0.16f, 0.13f, 0.27f }, c[v], Mat{ 0.0f, 0.4f } );
+        m.box( Vector3{ 0.18f, 1.25f, 0.1f }, Vector3{ 0.01f, 0.12f, 0.06f }, rgb( 230, 40, 30 ) );
+    }
+    for( int v = 0; v < 3; ++v )
+    { // Container stacks.
+        MeshBuilder &m = add( PropKindE::CONTAINERS, 6.0f );
+        const Color  c[6] = { rgb( 220, 110, 30 ), rgb( 40, 90, 160 ), rgb( 50, 130, 70 ), rgb( 180, 40, 40 ), rgb( 150, 150, 156 ), rgb( 230, 190, 50 ) };
+        Rng          r( 1500 + v );
+        for( int col = 0; col < 2; ++col )
+            for( int lvl = 0; lvl < 2 + v % 2; ++lvl )
+            {
+                if( lvl > 0 && r.chance( 0.25f ) ) continue;
+                const Color k = c[r.rangeInt( 0, 5 )];
+                const Vector3 p = { static_cast<float>( col ) * 2.6f - 1.3f, 1.3f + 2.6f * lvl, 0 };
+                m.box( p, Vector3{ 1.25f, 1.28f, 6.0f }, k );
+                m.box( Vector3{ p.x, p.y, -6.01f }, Vector3{ 1.1f, 1.15f, 0.01f }, scaleColor( k, 0.75f ) );
+            }
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Quay cranes, the boom over the water.
+        MeshBuilder &m = add( PropKindE::CRANE, 0.0f );
+        const Color  c = v ? rgb( 60, 110, 180 ) : rgb( 220, 70, 40 );
+        for( float x : { -5.0f, 5.0f } )
+            for( float z : { -4.0f, 4.0f } ) m.box( Vector3{ x, 12.0f, z }, Vector3{ 0.4f, 12.0f, 0.4f }, c );
+        m.box( Vector3{ 0, 24.0f, 0 }, Vector3{ 5.4f, 0.6f, 4.4f }, c );
+        m.box( Vector3{ 10.0f, 26.0f, 0 }, Vector3{ 18.0f, 1.0f, 1.2f }, c );
+        m.box( Vector3{ -2.0f, 27.5f, 0 }, Vector3{ 2.0f, 1.5f, 1.8f }, rgb( 230, 230, 230 ) );
+        m.box( Vector3{ 27.5f, 26.0f, 0 }, Vector3{ 0.4f, 0.4f, 0.4f }, rgb( 255, 40, 40 ), Mat{ 1.0f, 0.0f } );
+    }
+    { // Factory chimney with a warning light.
+        MeshBuilder &m = add( PropKindE::CHIMNEY, 0.0f );
+        m.cylinder( Vector3{ 0, 0, 0 }, 1.7f, 1.1f, 40.0f, 10, rgb( 150, 62, 50 ) );
+        m.cylinder( Vector3{ 0, 34.0f, 0 }, 1.26f, 1.2f, 2.0f, 10, rgb( 240, 240, 240 ) );
+        m.cylinder( Vector3{ 0, 38.0f, 0 }, 1.16f, 1.12f, 2.0f, 10, rgb( 240, 240, 240 ) );
+        m.box( Vector3{ 0, 40.3f, 0 }, Vector3{ 0.4f, 0.3f, 0.4f }, rgb( 255, 30, 30 ), Mat{ 1.0f, 0.0f } );
+    }
+    for( int v = 0; v < 3; ++v )
+    { // Towers with neon strips and a sign.
+        MeshBuilder &m = add( PropKindE::NEON_TOWER, 8.0f );
+        const float  h = 30.0f + 15.0f * v;
+        const Color  neon[3] = { rgb( 255, 40, 190 ), rgb( 40, 220, 255 ), rgb( 180, 80, 255 ) };
+        block( m, 7.5f, 7.0f, h, rgb( 30, 30, 46 ), 600 + v, 0.25f );
+        for( float x : { -7.55f, 7.55f } ) m.box( Vector3{ x, h * 0.5f, -7.05f }, Vector3{ 0.12f, h * 0.5f, 0.12f }, neon[v], Mat{ 1.0f, 0.0f } );
+        m.box( Vector3{ 0, h * 0.62f, -7.3f }, Vector3{ 4.5f, 1.4f, 0.2f }, scaleColor( neon[( v + 1 ) % 3], 0.5f ), Mat{ 0.8f, 0.0f } );
+        for( int i = 0; i < 3; ++i )
+            m.box( Vector3{ -3.0f + 2.6f * i, h * 0.62f, -7.52f }, Vector3{ 0.9f, 0.9f, 0.04f }, neon[( v + 2 ) % 3], Mat{ 1.0f, 0.0f } );
+        m.box( Vector3{ 0, h + 0.15f, 0 }, Vector3{ 7.6f, 0.15f, 7.1f }, neon[v], Mat{ 0.8f, 0.0f } );
+    }
+    { // Crater rim.
+        MeshBuilder &m = add( PropKindE::CRATER, 0.0f );
+        const Color  dust = rgb( 112, 112, 110 );
+        const int    n = 16;
+        for( int i = 0; i < n; ++i )
+        {
+            const float a0 = Tau * static_cast<float>( i ) / n, a1 = Tau * static_cast<float>( i + 1 ) / n;
+            auto p = [&]( float a, float r, float y ) { return Vector3{ std::cos( a ) * r, y, std::sin( a ) * r }; };
+            m.quad( p( a0, 5.5f, -0.05f ), p( a1, 5.5f, -0.05f ), p( a1, 4.2f, 0.9f ), p( a0, 4.2f, 0.9f ), dust );
+            m.quad( p( a0, 4.2f, 0.9f ), p( a1, 4.2f, 0.9f ), p( a1, 3.0f, -0.4f ), p( a0, 3.0f, -0.4f ), scaleColor( dust, 0.8f ) );
+            m.tri( p( a0, 3.0f, -0.4f ), p( a1, 3.0f, -0.4f ), Vector3{ 0, -0.5f, 0 }, scaleColor( dust, 0.7f ) );
+        }
+    }
+    { // Habitat dome.
+        MeshBuilder &m = add( PropKindE::DOME, 6.0f );
+        const Color  white = rgb( 222, 226, 232 );
+        float        prevR = 6.0f, prevY = 0.0f;
+        for( int i = 1; i <= 5; ++i )
+        {
+            const float a = static_cast<float>( i ) / 5.0f * 1.5708f;
+            const float r = 6.0f * std::cos( a ), y = 6.0f * std::sin( a );
+            m.cylinder( Vector3{ 0, prevY, 0 }, prevR, std::max( r, 0.01f ), y - prevY, 12, white, Mat{ 0.0f, 0.6f } );
+            prevR = r;
+            prevY = y;
+        }
+        m.cylinder( Vector3{ 0, 1.2f, 0 }, 6.05f, 6.0f, 0.4f, 12, rgb( 120, 200, 255 ), Mat{ 0.8f, 0.0f } );
+        m.box( Vector3{ 0, 1.2f, -6.5f }, Vector3{ 1.2f, 1.2f, 1.2f }, white );
+    }
+    { // Dish antenna.
+        MeshBuilder &m = add( PropKindE::ANTENNA, 0.0f );
+        m.tube( Vector3{ 0, 0, 0 }, Vector3{ 0, 4.5f, 0 }, 0.2f, 6, rgb( 160, 160, 166 ) );
+        m.tube( Vector3{ 0, 4.6f, 0 }, Vector3{ 0, 5.3f, -0.7f }, 2.3f, 14, rgb( 230, 230, 236 ), Mat{ 0.0f, 0.5f }, true );
+        m.tube( Vector3{ 0, 5.0f, -0.4f }, Vector3{ 0, 7.0f, -2.4f }, 0.06f, 4, rgb( 120, 120, 126 ) );
+        m.box( Vector3{ 0, 7.05f, -2.45f }, Vector3{ 0.15f, 0.15f, 0.15f }, rgb( 255, 60, 60 ), Mat{ 1.0f, 0.0f } );
+    }
+    for( int v = 0; v < 3; ++v )
+    { // Glowing crystal clusters.
+        MeshBuilder &m = add( PropKindE::CRYSTAL, 0.8f );
+        const Color  c[3] = { rgb( 90, 230, 255 ), rgb( 230, 90, 255 ), rgb( 140, 120, 255 ) };
+        Rng          r( 1600 + v );
+        for( int i = 0; i < 5 + v; ++i )
+            prism( m, Vector3{ r.range( -1.0f, 1.0f ), -0.3f, r.range( -1.0f, 1.0f ) },
+                   Vector3{ r.range( -0.5f, 0.5f ), 1.0f, r.range( -0.5f, 0.5f ) }, r.range( 1.5f, 5.5f ), r.range( 0.3f, 0.8f ), 6,
+                   r.range( 0.6f, 1.4f ), c[( v + i ) % 3], Mat{ 0.55f, 0.8f } );
+    }
+    for( int v = 0; v < 3; ++v )
+    { // Giant mushrooms: spotted red, glowing teal, violet.
+        MeshBuilder &m = add( PropKindE::MUSHROOM, 0.6f );
+        const float  h = 4.0f + 1.0f * v;
+        m.cylinder( Vector3{ 0, 0, 0 }, 0.6f, 0.4f, h, 8, rgb( 230, 222, 200 ) );
+        const Color cap[3] = { rgb( 210, 40, 40 ), rgb( 40, 200, 190 ), rgb( 150, 70, 200 ) };
+        const Mat   capMat = v ? Mat{ 0.35f, 0.2f } : Mat{ 0.0f, 0.3f };
+        m.blob( Vector3{ 0, h + 0.4f, 0 }, Vector3{ 3.0f, 1.1f, 3.0f }, cap[v], 241 + v, 0.15f, capMat );
+        Rng r( 1700 + v );
+        for( int i = 0; i < 9; ++i )
+        {
+            const float a = r.range( 0.0f, Tau ), d = r.range( 0.4f, 2.5f );
+            m.box( Vector3{ std::cos( a ) * d, h + 0.4f + 1.15f * std::sqrt( std::max( 0.0f, 1.0f - d * d / 9.0f ) ), std::sin( a ) * d },
+                   Vector3{ 0.22f, 0.06f, 0.22f }, v ? rgb( 220, 255, 240 ) : rgb( 250, 250, 240 ), v ? Mat{ 1.0f, 0.0f } : Mat{ 0.2f, 0.0f } );
+        }
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Small glowing mushrooms.
+        MeshBuilder &m = add( PropKindE::GLOW_SHROOM, 0.0f );
+        Rng          r( 1800 + v );
+        const Color  c = v ? rgb( 120, 255, 200 ) : rgb( 120, 200, 255 );
+        for( int i = 0; i < 6; ++i )
+        {
+            const Vector3 p = { r.range( -0.6f, 0.6f ), 0, r.range( -0.6f, 0.6f ) };
+            const float   h = r.range( 0.2f, 0.6f );
+            m.cylinder( p, 0.05f, 0.04f, h, 4, rgb( 200, 220, 210 ) );
+            m.blob( Vector3{ p.x, p.y + h, p.z }, Vector3{ 0.22f, 0.1f, 0.22f }, c, 251 + i, 0.2f, Mat{ 1.0f, 0.0f } );
+        }
+    }
+    for( int v = 0; v < 3; ++v )
+    { // Icebergs, partly under water.
+        MeshBuilder &m = add( PropKindE::ICEBERG, 0.0f );
+        m.blob( Vector3{ 0, 1.0f, 0 }, Vector3{ 7.0f, 4.0f + 1.5f * v, 6.0f }, rgb( 226, 238, 252 ), 261 + v, 0.6f, Mat{ 0.05f, 0.5f } );
+        m.blob( Vector3{ 3.0f, 2.5f, 1.5f }, Vector3{ 3.0f, 3.0f + v, 2.6f }, rgb( 200, 226, 248 ), 271 + v, 0.6f, Mat{ 0.05f, 0.5f } );
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Swamp cypresses with hanging moss.
+        MeshBuilder &m = add( PropKindE::MOSS_TREE, 0.6f );
+        const Color  bark = rgb( 76, 70, 62 );
+        m.cylinder( Vector3{ 0, 0, 0 }, 1.0f, 0.35f, 2.2f, 7, bark );
+        m.tube( Vector3{ 0, 2.0f, 0 }, Vector3{ 0.3f * v, 9.0f, 0 }, 0.33f, 6, bark );
+        Rng r( 1900 + v );
+        for( int i = 0; i < 4; ++i )
+        {
+            const float   a = r.range( 0.0f, Tau );
+            const float   y = r.range( 5.0f, 8.5f );
+            const Vector3 end = { std::cos( a ) * r.range( 2.0f, 3.5f ), y + r.range( 0.3f, 1.2f ), std::sin( a ) * r.range( 2.0f, 3.5f ) };
+            m.tube( Vector3{ 0, y, 0 }, end, 0.12f, 4, bark );
+            m.blob( end, Vector3{ 1.6f, 0.7f, 1.6f }, rgb( 62, 82, 50 ), 281 + i + v * 7, 0.4f );
+            for( int k = 0; k < 3; ++k )
+            {
+                const Vector3 top = Vector3Lerp( Vector3{ 0, y, 0 }, end, 0.4f + 0.25f * k );
+                m.quad( Vector3Add( top, Vector3{ -0.2f, 0, 0 } ), Vector3Add( top, Vector3{ 0.2f, 0, 0 } ),
+                        Vector3Add( top, Vector3{ 0.05f, -r.range( 1.8f, 3.0f ), 0 } ), Vector3Add( top, Vector3{ -0.05f, -r.range( 1.8f, 3.0f ), 0 } ),
+                        rgb( 132, 140, 112 ) );
+            }
+        }
+    }
+    { // Fireflies.
+        MeshBuilder &m = add( PropKindE::FIREFLIES, 0.0f );
+        Rng          r( 2000 );
+        for( int i = 0; i < 16; ++i )
+            m.box( Vector3{ r.range( -2.5f, 2.5f ), r.range( 0.4f, 2.6f ), r.range( -2.5f, 2.5f ) }, Vector3{ 0.04f, 0.04f, 0.04f },
+                   rgb( 220, 255, 120 ), Mat{ 1.0f, 0.0f } );
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Barns.
+        MeshBuilder &m = add( PropKindE::BARN, 7.0f );
+        const Color  red = v ? rgb( 160, 40, 34 ) : rgb( 176, 52, 40 );
+        m.box( Vector3{ 0, 3.5f, 0 }, Vector3{ 6.0f, 3.5f, 8.0f }, red );
+        const Vector3 a0 = { -6.4f, 7.0f, -8.3f }, a1 = { -3.6f, 9.8f, -8.3f }, a2 = { 0, 11.0f, -8.3f };
+        const Vector3 b0 = { -6.4f, 7.0f, 8.3f }, b1 = { -3.6f, 9.8f, 8.3f }, b2 = { 0, 11.0f, 8.3f };
+        const Color   roofCol = rgb( 70, 70, 76 );
+        m.quad( a0, a1, b1, b0, roofCol );
+        m.quad( a1, a2, b2, b1, roofCol );
+        m.quad( Vector3{ 6.4f, 7.0f, -8.3f }, Vector3{ 6.4f, 7.0f, 8.3f }, Vector3{ 3.6f, 9.8f, 8.3f }, Vector3{ 3.6f, 9.8f, -8.3f }, roofCol );
+        m.quad( Vector3{ 3.6f, 9.8f, -8.3f }, Vector3{ 3.6f, 9.8f, 8.3f }, b2, a2, roofCol );
+        for( float z : { -8.0f, 8.0f } )
+        {
+            m.quad( Vector3{ -6, 7, z }, Vector3{ 6, 7, z }, Vector3{ 3.4f, 9.6f, z }, Vector3{ -3.4f, 9.6f, z }, red );
+            m.tri( Vector3{ -3.4f, 9.6f, z }, Vector3{ 3.4f, 9.6f, z }, Vector3{ 0, 10.8f, z }, red );
+        }
+        m.box( Vector3{ 0, 2.2f, -8.05f }, Vector3{ 2.2f, 2.2f, 0.05f }, rgb( 236, 236, 230 ) );
+        m.box( Vector3{ 0, 2.2f, -8.1f }, Vector3{ 2.0f, 2.0f, 0.03f }, scaleColor( red, 0.8f ) );
+    }
+    { // Grain silo.
+        MeshBuilder &m = add( PropKindE::SILO, 2.6f );
+        m.cylinder( Vector3{ 0, 0, 0 }, 2.5f, 2.5f, 14.0f, 12, rgb( 194, 198, 204 ), Mat{ 0.0f, 0.55f } );
+        m.cylinder( Vector3{ 0, 14.0f, 0 }, 2.55f, 0.3f, 2.2f, 12, rgb( 170, 174, 180 ), Mat{ 0.0f, 0.55f } );
+        for( int i = 1; i < 5; ++i ) m.cylinder( Vector3{ 0, 2.8f * i, 0 }, 2.53f, 2.53f, 0.12f, 12, rgb( 150, 154, 160 ) );
+    }
+    { // Lighthouse with a lit lantern room.
+        MeshBuilder &m = add( PropKindE::LIGHTHOUSE, 2.0f );
+        for( int i = 0; i < 6; ++i )
+        {
+            const float r0 = 2.2f - 0.13f * i, r1 = 2.2f - 0.13f * ( i + 1 );
+            m.cylinder( Vector3{ 0, 3.0f * i, 0 }, r0, r1, 3.0f, 10, i % 2 ? rgb( 200, 40, 36 ) : rgb( 240, 240, 236 ) );
+        }
+        m.cylinder( Vector3{ 0, 18.0f, 0 }, 2.0f, 2.0f, 0.3f, 10, rgb( 50, 50, 54 ) );
+        m.cylinder( Vector3{ 0, 18.3f, 0 }, 1.0f, 1.0f, 1.8f, 10, rgb( 255, 240, 180 ), Mat{ 1.0f, 0.0f } );
+        m.cylinder( Vector3{ 0, 20.1f, 0 }, 1.3f, 0.0f, 1.4f, 10, rgb( 200, 40, 36 ) );
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Jack-o'-lanterns, the face towards -z.
+        MeshBuilder &m = add( PropKindE::PUMPKIN, 0.0f );
+        m.blob( Vector3{ 0, 0.48f, 0 }, Vector3{ 0.72f, 0.5f, 0.68f }, rgb( 240, 120, 20 ), 291 + v, 0.15f, Mat{ 0.1f, 0.2f } );
+        m.cylinder( Vector3{ 0, 0.95f, 0 }, 0.07f, 0.05f, 0.22f, 5, rgb( 70, 100, 40 ) );
+        const Color glow = rgb( 255, 210, 80 );
+        const float z = -0.69f;
+        m.tri( Vector3{ -0.36f, 0.62f, z }, Vector3{ -0.12f, 0.62f, z }, Vector3{ -0.24f, 0.8f, z }, glow, Mat{ 1.0f, 0.0f } );
+        m.tri( Vector3{ 0.12f, 0.62f, z }, Vector3{ 0.36f, 0.62f, z }, Vector3{ 0.24f, 0.8f, z }, glow, Mat{ 1.0f, 0.0f } );
+        m.quad( Vector3{ -0.36f, 0.32f, z }, Vector3{ 0.36f, 0.32f, z }, Vector3{ 0.3f, 0.46f, z }, Vector3{ -0.3f, 0.46f, z }, glow, Mat{ 1.0f, 0.0f } );
+    }
+    for( int v = 0; v < 3; ++v )
+    { // Gravestones.
+        MeshBuilder &m = add( PropKindE::GRAVESTONE, 0.3f );
+        const Color  stone = rgb( 120 + 10 * v, 120 + 10 * v, 118 + 10 * v );
+        if( v == 2 )
+        {
+            m.box( Vector3{ 0, 0.7f, 0 }, Vector3{ 0.09f, 0.7f, 0.09f }, stone );
+            m.box( Vector3{ 0, 1.0f, 0 }, Vector3{ 0.4f, 0.09f, 0.09f }, stone );
+        }
+        else
+        {
+            m.box( Vector3{ 0, 0.5f, 0 }, Vector3{ 0.38f, 0.5f, 0.1f }, stone );
+            m.tube( Vector3{ 0, 1.0f, -0.1f }, Vector3{ 0, 1.0f, 0.1f }, 0.38f, 8, stone, Mat{}, true );
+        }
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Pines with festive lights.
+        MeshBuilder &m = add( PropKindE::LIGHT_TREE, 0.6f );
+        m.cylinder( Vector3{ 0, 0, 0 }, 0.24f, 0.2f, 1.4f, 6, rgb( 80, 60, 46 ) );
+        const float base[3] = { 1.0f, 2.5f, 3.9f }, rad[3] = { 2.0f, 1.55f, 1.0f }, hgt[3] = { 3.0f, 2.7f, 2.3f };
+        for( int i = 0; i < 3; ++i )
+        {
+            m.cylinder( Vector3{ 0, base[i], 0 }, rad[i], 0.0f, hgt[i], 7, rgb( 34, 80, 56 ), {}, 0.4f * i );
+            m.cylinder( Vector3{ 0, base[i] + hgt[i] * 0.45f, 0 }, rad[i] * 0.6f, 0.0f, hgt[i] * 0.55f + 0.05f, 7, rgb( 236, 242, 250 ), {}, 0.4f * i );
+        }
+        Rng         r( 2100 + v );
+        const Color bulbs[4] = { rgb( 255, 60, 60 ), rgb( 255, 210, 60 ), rgb( 80, 160, 255 ), rgb( 90, 255, 120 ) };
+        for( int i = 0; i < 22; ++i )
+        {
+            const float t = r.range( 0.05f, 0.95f );
+            const float y = 1.0f + t * 5.3f;
+            const float rr = 2.05f * ( 1.0f - t ) + 0.1f;
+            const float a = r.range( 0.0f, Tau );
+            m.box( Vector3{ std::cos( a ) * rr, y, std::sin( a ) * rr }, Vector3{ 0.07f, 0.07f, 0.07f }, bulbs[i % 4], Mat{ 1.0f, 0.0f } );
+        }
+        m.box( Vector3{ 0, 6.35f, 0 }, Vector3{ 0.18f, 0.18f, 0.18f }, rgb( 255, 230, 100 ), Mat{ 1.0f, 0.0f } );
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Houses with snowy roofs and warm windows.
+        MeshBuilder &m = add( PropKindE::SNOW_HOUSE, 5.0f );
+        const Color  wall = v ? rgb( 150, 90, 70 ) : rgb( 210, 196, 170 );
+        m.box( Vector3{ 0, 2.2f, 0 }, Vector3{ 4.0f, 2.2f, 5.0f }, wall );
+        roof( m, 4.0f, 5.0f, 4.4f, 2.6f, rgb( 240, 244, 252 ) );
+        gables( m, 4.0f, 5.0f, 4.4f, 2.6f, wall );
+        m.box( Vector3{ 2.0f, 6.0f, 1.5f }, Vector3{ 0.4f, 1.0f, 0.4f }, rgb( 120, 70, 60 ) );
+        windows( m, Vector3{ -4.0f, -0.4f, -5.0f }, Vector3{ 1, 0, 0 }, Vector3{ 0, 0, -1 }, 8.0f, 4.4f, 700 + v, 0.85f );
+        windows( m, Vector3{ 4.0f, -0.4f, -5.0f }, Vector3{ 0, 0, 1 }, Vector3{ 1, 0, 0 }, 10.0f, 4.4f, 710 + v, 0.85f );
+        windows( m, Vector3{ -4.0f, -0.4f, 5.0f }, Vector3{ 0, 0, -1 }, Vector3{ -1, 0, 0 }, 10.0f, 4.4f, 720 + v, 0.85f );
     }
 
     // Road furniture.

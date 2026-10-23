@@ -17,6 +17,7 @@ code: the low-poly models, the sky, the stroke font, the V8 with its turbo, and 
 | Boost | Space / Shift | B |
 | Gear down / up (manual) | Q / E | LB / RB |
 | Camera (chase, far, bumper) | C | Y |
+| Radio station / next track | M / N | View |
 | Pause | Esc / P | Start |
 | Window / fullscreen | F11 or Alt+Enter | |
 
@@ -24,11 +25,23 @@ The clock starts at 55 s. Every checkpoint (2.5 km) adds time, a little less eac
 traffic close and fast) fill the boost tank and raise the combo; overtakes and speed add to the score. The run ends
 when the clock reaches zero; the results show the track code to drive the same road again.
 
-The eight biomes: Green Valley, Alpine Pass, Red Canyon, Frozen Peaks (snow, less grip), Sunset Coast, Night Metro,
-Storm Marsh (rain, fog, lightning, puddles) and Neon Horizon.
+38 biomes, shuffled per track code, each stage another: Green Valley, Alpine Pass, Red Canyon, Frozen Peaks, Sunset
+Coast, Night Metro, Storm Marsh, Neon Horizon, Amber Woods, Sakura Hills, Jungle Run, Golden Savanna, Volcano Ridge
+(lava), Aurora Tundra (northern lights), Lavender Vale, Tulip Polder, Misty Highlands, Fjord Light, Rice Terraces,
+Salt Flats, Mesa Sunset, Suburbia, Steel Harbor, Neon Rain, Dawn Expressway (sound walls, sign gantries), Lunar
+Highway (the Earth in the sky, low gravity), Red Planet, Crystal Desert, Fungal Glade, Cloud Highway (a ridge above
+the clouds), Iceberg Bay, Bayou Dusk, Wheat Plains, Chalk Cliffs, Pumpkin Hollow, Frosted Village, Rainbow Ridge and
+Total Eclipse.
+
+## Radio
+
+Eight generated stations, every track composed from its own seed and named: Sunset FM (synthwave), Turbo House,
+Amiga Techno (acid bass, tracker arpeggios), Trance Gate, Jungle Pressure (drum and bass), 8-Bit Racer (chiptune),
+Fusion Drive (funk fusion) and Big Beat. In AUTO the station follows the biome. M (gamepad: View) switches the
+station, N skips to the next track; Settings > Radio and the pause menu do the same.
 
 Music files (`.ogg`, `.mp3`, `.flac`, `.wav`, `.xm`, `.mod`) in a `music` folder beside the game or in the settings
-folder replace the generated soundtrack.
+folder appear as the station MY MUSIC.
 
 ## Building
 
@@ -51,14 +64,14 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
 
     --windowed | --fullscreen     this start only
     --seed N                      the endless run's track (otherwise random)
-    --biome 0..7                  the first stage's biome
+    --biome 0..37                 the first stage's biome
     --play                        skip the title
     --autopilot                   the car drives itself
     --distance M                  start M metres down the road
     --size WxH                    window size for this start
     --quit-after S --screenshot F quit after S seconds, saving a screenshot
     --mute                        no sound (test runs)
-    --audio-test F.wav            render a scripted drive's sound offline, with levels in F.wav.txt
+    --audio-test F.wav            render a scripted drive and each station offline, levels in F*.wav.txt
 
 ## Code
 

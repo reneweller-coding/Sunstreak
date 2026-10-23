@@ -10,6 +10,8 @@
  */
 #pragma once
 
+#include "Music.h"
+
 #include <raylib.h>
 
 #include <cstdint>
@@ -94,10 +96,11 @@ public:
     void setVolumes( float music, float sfx );
 
     /**
-     * @brief Starts the soundtrack (a new generated piece, or the next music file).
-     * @param[in] seed  the piece's seed
+     * @brief Starts a track: a generated one on a radio station (crossfading), or the next music file.
+     * @param[in] seed     the track's seed
+     * @param[in] station  0..StationCount-1 a generated station, StationCount the music files
      */
-    void startMusic( uint64_t seed );
+    void startMusic( uint64_t seed, int station );
 
     /** @brief Stops the soundtrack. */
     void stopMusic();
@@ -119,9 +122,10 @@ public:
      *        checked there, never through the speakers.
      * @param[in] path     the WAV file
      * @param[in] seconds  its length
+     * @param[in] station  -1 the scripted drive with music, else that station's music alone
      * @return true if written
      */
-    static bool renderTest( const std::string &path, float seconds );
+    static bool renderTest( const std::string &path, float seconds, int station = -1 );
 
 private:
     bool                     m_ok = false;          ///< the device is open
@@ -131,6 +135,7 @@ private:
     Music                    m_music{};             ///< the playing file
     bool                     m_musicLoaded = false; ///< m_music is valid
     bool                     m_musicOn = false;     ///< the soundtrack should play
+    bool                     m_fileMode = false;    ///< music files instead of the radio
     float                    m_musicVolume = 0.7f;  ///< 0..1
 };
 

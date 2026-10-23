@@ -117,6 +117,7 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
     const TrackFrame f = track.frameAt( m_s );
     const Segment   &seg = track.segment( static_cast<long>( m_s / SegmentLength ) );
     const BiomeDef  &biome = biomeDef( static_cast<BiomeE>( seg.m_blend < 0.5f ? seg.m_biome : seg.m_biomeTo ) );
+    const float      g = Gravity * biome.m_gravity;
 
     // Surface: kerb, verge, puddles.
     const float ax = std::abs( m_x );
@@ -207,7 +208,7 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
     const bool  returning = std::abs( steerTarget ) < std::abs( m_steer );
     m_steer = approach( m_steer, steerTarget, returning ? 14.0f : 9.0f, dt );
     const float steerMax = steerLimit( m_speed, m_spec.m_topSpeed );
-    const float authority = m_airborne ? 0.0f : grip;
+    const float authority = m_airborne ? 0.3f * grip : grip;
     m_vx = approach( m_vx, m_steer * steerMax * authority, 3.0f + 4.0f * std::min( authority, 1.2f ), dt );
     m_drift = m_airborne ? m_drift : f.m_curve * m_speed * m_speed * CentrifugalK;
     const float lateral = m_vx - m_drift;
@@ -244,7 +245,7 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
     if( !m_airborne )
     {
         const float vRoad = static_cast<float>( ( roadY - m_prevRoadY ) / dt );
-        if( vRoad < m_vy - Gravity * dt * 1.15f && m_speed > 25.0f )
+        if( vRoad < m_vy - g * dt * 1.15f && m_speed > 25.0f )
         {
             m_airborne = true;
             m_airTime = 0.0f;
@@ -257,7 +258,7 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
     }
     if( m_airborne )
     {
-        m_vy -= Gravity * dt;
+        m_vy -= g * dt;
         m_y += static_cast<double>( m_vy ) * dt;
         m_airTime += dt;
         if( m_y <= roadY )

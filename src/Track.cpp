@@ -26,8 +26,9 @@ Track::Track( uint64_t seed, int startBiome ) : m_seed( seed ), m_rng( seed ^ 0x
     if( startBiome >= 0 && startBiome < static_cast<int>( BiomeE::COUNT ) )
     {
         const auto want = static_cast<uint8_t>( startBiome );
-        auto       it = std::find( m_stageBiomes.begin(), m_stageBiomes.begin() + 8, want );
-        if( it != m_stageBiomes.begin() + 8 ) std::iter_swap( m_stageBiomes.begin(), it );
+        const auto end = m_stageBiomes.begin() + static_cast<long>( BiomeE::COUNT );
+        auto       it = std::find( m_stageBiomes.begin(), end, want );
+        if( it != end ) std::iter_swap( m_stageBiomes.begin(), it );
     }
     generateTo( 1000.0 );
 }
@@ -39,8 +40,8 @@ BiomeE Track::stageBiome( int stage ) const
     {
         // One shuffled bag of all biomes after another, never the same biome twice in a row.
         const int               bag = static_cast<int>( m_stageBiomes.size() ) / Count;
-        Rng                     r( hash64( m_seed * 31 + static_cast<uint64_t>( bag ) * 977 + 7 ) );
-        std::array<uint8_t, 8> order{};
+        Rng                  r( hash64( m_seed * 31 + static_cast<uint64_t>( bag ) * 977 + 7 ) );
+        std::vector<uint8_t> order( Count );
         for( int i = 0; i < Count; ++i ) order[i] = static_cast<uint8_t>( i );
         for( int i = Count - 1; i > 0; --i ) std::swap( order[i], order[r.rangeInt( 0, i )] );
         if( !m_stageBiomes.empty() && order[0] == m_stageBiomes.back() ) std::swap( order[0], order[1] );
@@ -198,7 +199,7 @@ void Track::planFeature()
     auto limitAngle = [&]( float dir, float angle, float heading )
     {
         // Turning further away from north is allowed only up to MaxHeading.
-        if( dir * heading > 0.0f ) angle = std::min( angle, MaxHeading - std::abs( heading ) );
+        angle = std::min( angle, MaxHeading - dir * heading );
         return angle;
     };
 
@@ -217,7 +218,7 @@ void Track::planFeature()
         if( angle < 0.15f )
         {
             dir = -dir;
-            angle = m_rng.range( 0.3f, 0.8f );
+            angle = limitAngle( dir, m_rng.range( 0.3f, 0.8f ), h );
         }
         curveFeature( dir, radius, angle );
         if( m_rng.chance( 0.5f ) ) straight( m_rng.range( 10.0f, 50.0f ), false );
@@ -233,7 +234,7 @@ void Track::planFeature()
         if( angle < 0.15f )
         {
             dir = -dir;
-            angle = m_rng.range( 0.35f, 1.2f );
+            angle = limitAngle( dir, m_rng.range( 0.35f, 1.2f ), h );
         }
         curveFeature( dir, radius, angle );
     }

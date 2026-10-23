@@ -82,6 +82,7 @@ bool loadSettings( Settings &settings )
             else if( key == "manual_gears" ) settings.m_manualGears = val == "1";
             else if( key == "camera" ) settings.m_camera = std::clamp( std::stoi( val ), 0, 2 );
             else if( key == "speed_blur" ) settings.m_speedBlur = val == "1";
+            else if( key == "radio" ) settings.m_station = std::clamp( std::stoi( val ), -1, 64 );
             else if( key == "best_score" ) settings.m_bestScore = std::stoll( val );
             else if( key == "best_distance" ) settings.m_bestDistance = std::stod( val );
         }
@@ -109,6 +110,7 @@ bool saveSettings( const Settings &settings )
     out << "manual_gears=" << ( settings.m_manualGears ? 1 : 0 ) << "\n";
     out << "camera=" << settings.m_camera << "\n";
     out << "speed_blur=" << ( settings.m_speedBlur ? 1 : 0 ) << "\n";
+    out << "radio=" << settings.m_station << "\n";
     out << "best_score=" << settings.m_bestScore << "\n";
     out << "best_distance=" << settings.m_bestDistance << "\n";
     return static_cast<bool>( out );

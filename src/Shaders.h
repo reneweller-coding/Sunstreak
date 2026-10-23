@@ -161,6 +161,12 @@ uniform float stars;
 uniform float time;
 uniform float flash;
 uniform float horizonDrop;
+uniform float aurora;
+uniform float rainbow;
+uniform float eclipse;
+uniform vec3 planetDir;
+uniform float planetRadius;
+uniform vec3 planetColor;
 out vec4 finalColor;
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -201,6 +207,33 @@ void main()
         col += vec3(step(0.995, h) * stars * tw * smoothstep(0.03, 0.25, up)) * 2.0;
     }
 
+    if (aurora > 0.0 && dir.y > 0.02)
+    {
+        vec2 p = dir.xz / (dir.y + 0.25);
+        float band = fbm(vec2(p.x * 0.9 + time * 0.02, p.y * 0.35 - time * 0.01));
+        float curtain = smoothstep(0.45, 0.7, band) * smoothstep(0.02, 0.15, dir.y) * (1.0 - smoothstep(0.55, 0.95, up));
+        float rays = 0.65 + 0.35 * sin(p.x * 30.0 + band * 12.0 + time * 0.5);
+        vec3 ac = mix(vec3(0.05, 1.0, 0.45), vec3(0.75, 0.2, 1.0), smoothstep(0.25, 0.6, up));
+        col += ac * curtain * rays * aurora * 1.4;
+    }
+
+    if (planetRadius > 0.0)
+    {
+        float pa = acos(clamp(dot(dir, planetDir), -1.0, 1.0));
+        if (pa < planetRadius)
+        {
+            vec3 t1 = normalize(cross(planetDir, vec3(0.0001, 1.0, 0.0)));
+            vec3 t2 = cross(t1, planetDir);
+            vec2 q = vec2(dot(dir - planetDir, t1), dot(dir - planetDir, t2)) / sin(planetRadius);
+            float h = sqrt(max(0.0, 1.0 - dot(q, q)));
+            vec3 n = normalize(t1 * q.x + t2 * q.y - planetDir * h);
+            float lit = max(dot(n, sunDir), 0.0);
+            float cl = smoothstep(0.55, 0.75, fbm(q * 3.0 + 7.0));
+            vec3 pc = mix(planetColor, vec3(1.0), cl * 0.7) * (lit * 1.3 + 0.03);
+            col = mix(col, pc, 1.0 - smoothstep(planetRadius * 0.97, planetRadius, pa));
+        }
+    }
+
     float sd = dot(dir, sunDir);
     float sunEl = asin(clamp(sunDir.y, -1.0, 1.0));
     float ang = acos(clamp(sd, -1.0, 1.0));
@@ -225,8 +258,32 @@ void main()
         disk *= 1.0 - dens * 0.85;
         glow *= 1.0 - dens * 0.6;
     }
+    float corona = 0.0;
+    if (eclipse > 0.0)
+    {
+        vec3 c1 = normalize(cross(sunDir, vec3(0.0001, 1.0, 0.0)));
+        vec3 c2 = cross(c1, sunDir);
+        float phi = atan(dot(dir, c2), dot(dir, c1));
+        float rr = ang / sunRadius;
+        float streamers = 0.65 + 0.35 * sin(phi * 7.0 + 1.3) * sin(phi * 3.0);
+        corona = step(1.0, rr) * exp(-(rr - 1.0) * 2.2) * streamers + exp(-(rr - 1.0) * 14.0) * step(1.0, rr);
+        glow *= 1.0 - 0.9 * eclipse;
+    }
     col += sunColor * glow;
-    col = mix(col, sunCol * 14.0, disk);
+    col = mix(col, mix(sunCol * 14.0, vec3(0.0), eclipse), disk);
+    col += vec3(1.0, 0.97, 0.9) * corona * 2.6 * eclipse;
+
+    if (rainbow > 0.0)
+    {
+        float ra = degrees(acos(clamp(dot(dir, -sunDir), -1.0, 1.0)));
+        float t = (ra - 40.0) / 3.0;
+        if (t > 0.0 && t < 1.0)
+        {
+            float hue = (1.0 - t) * 0.78;
+            vec3 rc = clamp(abs(fract(hue + vec3(0.0, 2.0 / 3.0, 1.0 / 3.0)) * 6.0 - 3.0) - 1.0, 0.0, 1.0);
+            col += rc * sin(t * 3.14159) * rainbow * 0.45 * smoothstep(-0.02, 0.06, dir.y);
+        }
+    }
 
     float base = -horizonDrop;
     float farTop = base + radians(mountHeight * (0.75 + 0.45 * ridge(az, mountSeed)));

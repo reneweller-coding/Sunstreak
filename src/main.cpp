@@ -2,7 +2,7 @@
  * @file main.cpp
  * @brief Entry point: settings, window (windowed by default on Windows, fullscreen on a Steam Deck), game loop.
  *
- * Command line: --windowed, --fullscreen, --seed N, --biome 0..7, --play (skip the title), --autopilot,
+ * Command line: --windowed, --fullscreen, --seed N, --biome 0..37, --play (skip the title), --autopilot,
  * --distance M (start M metres down the road), --size WxH, --quit-after S, --screenshot file.png, --mute,
  * --audio-test file.wav (renders a scripted drive's sound offline and quits)
  *
@@ -50,7 +50,14 @@ int main( int argc, char **argv )
 {
     using namespace sunstreak;
     const LaunchOptions options = parseCommandLine( argc, argv );
-    if( !options.m_audioTest.empty() ) return Audio::renderTest( options.m_audioTest, 22.0f ) ? 0 : 1;
+    if( !options.m_audioTest.empty() )
+    {
+        bool       ok = Audio::renderTest( options.m_audioTest, 22.0f );
+        const auto dot = options.m_audioTest.rfind( '.' );
+        const auto stem = options.m_audioTest.substr( 0, dot );
+        for( int s = 0; s < StationCount; ++s ) ok = Audio::renderTest( stem + "-station" + std::to_string( s ) + ".wav", 50.0f, s ) && ok;
+        return ok ? 0 : 1;
+    }
     Settings            settings;
     const bool          hadFile = loadSettings( settings );
     if( !hadFile && runningOnSteamDeck() ) settings.m_display = DisplayModeE::FULLSCREEN;

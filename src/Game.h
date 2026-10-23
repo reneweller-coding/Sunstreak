@@ -199,6 +199,28 @@ private:
     /** @brief Saves the settings and applies volumes. */
     void settingsChanged();
 
+    /**
+     * @brief The station the radio should play now (the biome's in automatic mode).
+     * @return 0..StationCount-1, StationCount for the music files
+     */
+    int wantedStation() const;
+
+    /**
+     * @brief Starts a track and shows what plays.
+     * @param[in] seed     the track's seed
+     * @param[in] station  the station
+     */
+    void playMusic( uint64_t seed, int station );
+
+    /** @brief Steps the radio to the next station (automatic, the eight, the music files). */
+    void nextStation();
+
+    /**
+     * @brief The radio setting as text.
+     * @return "AUTO", a station's name or "MY MUSIC"
+     */
+    std::string radioName() const;
+
     Settings     &m_settings;      ///< the player's settings
     LaunchOptions m_options;       ///< the command line
 
@@ -274,6 +296,13 @@ private:
     float m_emitAcc = 0.0f;           ///< particle emission accumulator
 
     std::vector<Popup> m_popups;      ///< messages
+
+    // The radio.
+    int         m_playingStation = -1;  ///< the station that plays
+    uint64_t    m_trackSeed = 0;        ///< the track that plays
+    int         m_musicStage = -1;      ///< the stage the radio last looked at
+    std::string m_nowPlaying;           ///< "STATION - TITLE"
+    float       m_nowTimer = 99.0f;     ///< seconds since the track started (the toast fades)
 };
 
 } // namespace sunstreak

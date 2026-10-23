@@ -110,6 +110,23 @@ int main()
         check( car.m_speed < 0.1f, "brakes to a stop" );
     }
     check( trackCode( 0x123456789Aull ).size() == 9 && trackCode( 0x123456789Aull )[4] == '-', "track code format" );
+    { // Every biome is complete; the first bag of stages visits all of them.
+        bool ok = true;
+        for( int b = 0; b < static_cast<int>( BiomeE::COUNT ); ++b )
+        {
+            const BiomeDef &d = biomeDef( static_cast<BiomeE>( b ) );
+            ok = ok && d.m_name && d.m_lanes >= 2 && d.m_lanes <= 4 && d.m_station >= 0 && d.m_station < StationCount &&
+                 d.m_grip > 0.5f && d.m_env.m_fogDensity > 0.0f && !d.m_props.empty();
+        }
+        check( ok, "all biomes defined" );
+        Track t( 31337 );
+        bool  seen[static_cast<int>( BiomeE::COUNT )] = {};
+        for( int s = 0; s < static_cast<int>( BiomeE::COUNT ); ++s ) seen[static_cast<int>( t.stageBiome( s ) )] = true;
+        bool all = true;
+        for( bool v : seen ) all = all && v;
+        check( all, "one bag of stages visits every biome" );
+    }
+    check( trackTitle( 42 ) == trackTitle( 42 ) && trackTitle( 42 ).size() > 6, "track titles" );
 
     std::printf( "%d failure(s)\n", g_failures );
     return g_failures;

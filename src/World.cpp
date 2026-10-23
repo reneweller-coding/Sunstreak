@@ -79,7 +79,8 @@ float World::terrainHeight( const Track &track, long index, float lateral, const
     h += wall * smoothstepf( 8.0f, 70.0f, a ) * ( 0.75f + 0.45f * n1 );
     const float hills = fbm( s * 0.0035, lateral * 0.005, seed + 23 ) * 0.5f + 0.5f;
     h += terrain.m_hills * smoothstepf( 30.0f, 220.0f, a ) * hills * 1.6f;
-    if( left && terrain.m_waterLeft > 0.0f ) h = lerpf( h, -9.0f, terrain.m_waterLeft * smoothstepf( 14.0f, 40.0f, a ) );
+    const float water = left ? terrain.m_waterLeft : terrain.m_waterRight;
+    if( water > 0.0f ) h = lerpf( h, terrain.m_seaLevel - 4.5f, water * smoothstepf( 4.0f, 22.0f, a ) );
     return h;
 }
 
@@ -281,6 +282,22 @@ void World::buildChunk( Track &track, Chunk &c )
                 const float patch = hashFloat( seed + static_cast<uint64_t>( k * 2 + ( side > 0 ) ), static_cast<uint64_t>( j / 3 ) );
                 Color       col = lerpColor( stripe, sf.m_groundFar, smoothstepf( 20.0f, 110.0f, mid ) );
                 col = scaleColor( col, 0.92f + 0.16f * patch );
+                if( sf.m_fields > 0.0f && k >= 1 && k <= 6 )
+                {
+                    // Fields in blocks of 50 m, rows every 10 m.
+                    const uint64_t cell = static_cast<uint64_t>( k + ( side > 0 ) * 11 );
+                    if( hashFloat( seed + 333 + cell, static_cast<uint64_t>( j / 10 ) ) < sf.m_fields )
+                    {
+                        const float pick = hashFloat( seed + 444 + cell, static_cast<uint64_t>( j / 10 ) );
+                        Color       field = pick < 0.4f ? sf.m_fieldA : pick < 0.75f ? sf.m_fieldB : sf.m_fieldC;
+                        if( ( j / 2 ) % 2 ) field = scaleColor( field, 0.86f );
+                        col = lerpColor( col, field, 0.9f );
+                    }
+                }
+                // Steep faces show bare rock.
+                const float run = std::max( 1.0f, std::abs( la1 - la0 ) );
+                const float slope = std::max( std::abs( h[1] - h[0] ), std::abs( h[2] - h[3] ) ) / run;
+                if( slope > 0.7f ) col = lerpColor( col, sf.m_shoulder, smoothstepf( 0.7f, 1.4f, slope ) * 0.85f );
                 const bool pond = A.m_terrain.m_ponds > 0.0f && k >= 1 && k <= 4 &&
                                   hashFloat( seed + 99 + static_cast<uint64_t>( k + ( side > 0 ) * 7 ), static_cast<uint64_t>( j / 2 ) ) <
                                       A.m_terrain.m_ponds * 0.3f;
@@ -288,27 +305,46 @@ void World::buildChunk( Track &track, Chunk &c )
                 {
                     const float   y = std::min( { h[0], h[1], h[2], h[3] } ) - 0.15f;
                     const Vector3 p[4] = { at( A, la0, y ), at( A, la1, y ), at( B, lb1, y ), at( B, lb0, y ) };
-                    ground.quad( p[0], p[1], p[2], p[3], sf.m_water, Mat{ 0.0f, 0.9f } );
+                    ground.quad( p[0], p[1], p[2], p[3], sf.m_water, Mat{ sf.m_waterGlow, sf.m_waterGloss } );
                     continue;
                 }
                 const Vector3 p[4] = { at( A, la0, h[0] ), at( A, la1, h[1] ), at( B, lb1, h[2] ), at( B, lb0, h[3] ) };
-                ground.quad( p[0], p[1], p[2], p[3], col, GroundMat );
+                ground.quad( p[0], p[1], p[2], p[3], col, Mat{ GroundMat.m_emissive, sf.m_groundGloss } );
             }
         }
-        // The sea on the left.
-        if( A.m_terrain.m_waterLeft > 0.05f )
+        // The sea: left, right or both (sinking away while a crossfade removes it).
+        for( float side : { -1.0f, 1.0f } )
         {
-            const float   la0 = -( A.m_edge + 30.0f ), la1 = -( A.m_edge + 1200.0f );
-            const float   lb0 = -( B.m_edge + 30.0f ), lb1 = -( B.m_edge + 1200.0f );
-            const float   y = -4.5f - ( 1.0f - A.m_terrain.m_waterLeft ) * 20.0f;
-            ground.quad( at( A, la0, y ), at( A, la1, y ), at( B, lb1, y ), at( B, lb0, y ), sf.m_water, Mat{ 0.0f, 0.95f } );
+            const float w = side < 0 ? A.m_terrain.m_waterLeft : A.m_terrain.m_waterRight;
+            if( w <= 0.05f ) continue;
+            const float la0 = side * ( A.m_edge + 14.0f ), la1 = side * ( A.m_edge + 1200.0f );
+            const float lb0 = side * ( B.m_edge + 14.0f ), lb1 = side * ( B.m_edge + 1200.0f );
+            const float y = A.m_terrain.m_seaLevel - ( 1.0f - w ) * 20.0f;
+            ground.quad( at( A, la0, y ), at( A, la1, y ), at( B, lb1, y ), at( B, lb0, y ), sf.m_water,
+                         Mat{ sf.m_waterGlow, sf.m_waterGloss } );
         }
 
-        // Guard rails.
+        // Guard rails, or tall sound walls.
+        const BiomeDef &here = ruling( seg, 0.5f );
         for( float side : { -1.0f, 1.0f } )
         {
             if( !( seg.m_flags & ( side < 0 ? SEG_RAIL_L : SEG_RAIL_R ) ) ) continue;
             const float   la = side * ( A.m_hw + RumbleWidth + 0.55f ), lb = side * ( B.m_hw + RumbleWidth + 0.55f );
+            if( here.m_walls )
+            {
+                const Color concrete = { 172, 170, 162, 255 };
+                const float lo = side * 0.3f;
+                props.quad( at( A, la, 0.0f ), at( B, lb, 0.0f ), at( B, lb, 3.0f ), at( A, la, 3.0f ), concrete );
+                props.quad( at( A, la, 3.0f ), at( B, lb, 3.0f ), at( B, lb + lo, 3.0f ), at( A, la + lo, 3.0f ), scaleColor( concrete, 1.1f ) );
+                props.quad( at( A, la + lo, 0.0f ), at( B, lb + lo, 0.0f ), at( B, lb + lo, 3.0f ), at( A, la + lo, 3.0f ),
+                            scaleColor( concrete, 0.8f ) );
+                if( j % 2 == 0 )
+                {
+                    const Vector3 base = at( A, la - side * 0.02f, 0.0f );
+                    props.box( Vector3{ base.x, base.y + 1.5f, base.z }, Vector3{ 0.06f, 1.5f, 0.06f }, scaleColor( concrete, 0.7f ) );
+                }
+                continue;
+            }
             const Color   steel = { 176, 180, 190, 255 };
             props.quad( at( A, la, 0.45f ), at( B, lb, 0.45f ), at( B, lb, 0.82f ), at( A, la, 0.82f ), steel, Mat{ 0.0f, 0.6f } );
             props.quad( at( A, la + side * 0.12f, 0.82f ), at( B, lb + side * 0.12f, 0.82f ), at( B, lb, 0.82f ),
@@ -362,19 +398,38 @@ void World::buildChunk( Track &track, Chunk &c )
                 const float h3 = hashFloat( key + 3, static_cast<uint64_t>( j ) );
                 const float h4 = hashFloat( key + 4, static_cast<uint64_t>( j ) );
                 const float dist = lerpf( pr.m_nearest, pr.m_farthest, h1 );
-                if( A.m_terrain.m_waterLeft > 0.5f && side < 0 && dist > 24.0f ) continue;
+                const float waterSide = side < 0 ? A.m_terrain.m_waterLeft : A.m_terrain.m_waterRight;
+                if( pr.m_onWater )
+                {
+                    if( waterSide < 0.5f || dist < 35.0f ) continue;
+                }
+                else if( waterSide > 0.5f && dist > 12.0f )
+                {
+                    continue;
+                }
                 if( railed && dist < 2.0f ) continue;
                 const float  lateral = side * ( A.m_edge + dist );
                 const double ps = static_cast<double>( j ) * SegmentLength + h2 * SegmentLength;
-                const float  ht = terrainHeight( track, j, lateral, A.m_terrain, A.m_edge );
+                const float  ht = pr.m_onWater ? A.m_terrain.m_seaLevel : terrainHeight( track, j, lateral, A.m_terrain, A.m_edge );
                 // Place along the chord inside the segment.
                 Vector3 pos = at( A, lateral, ht );
                 pos = Vector3Add( pos, Vector3Scale( A.m_forward, h2 * SegmentLength ) );
                 float yaw = A.m_heading + h3 * Tau;
                 switch( pr.m_kind )
                 {
-                case PropKindE::FENCE: yaw = A.m_heading; break;
+                case PropKindE::FENCE:
+                case PropKindE::STONE_WALL:
+                case PropKindE::TORII: yaw = A.m_heading; break;
+                case PropKindE::PUMPKIN:
+                case PropKindE::GRAVESTONE: yaw = A.m_heading + ( h3 - 0.5f ) * 0.8f; break;
                 case PropKindE::BILLBOARD: yaw = A.m_heading - side * 0.35f; break;
+                case PropKindE::MAILBOX: yaw = A.m_heading + side * Tau * 0.25f; break;
+                case PropKindE::CRANE: yaw = side < 0 ? A.m_heading : A.m_heading + Tau * 0.5f; break;
+                case PropKindE::NEON_TOWER:
+                case PropKindE::CABIN:
+                case PropKindE::BARN:
+                case PropKindE::SNOW_HOUSE:
+                case PropKindE::HUT:
                 case PropKindE::HOUSE: yaw = A.m_heading + side * Tau * 0.25f + ( h3 - 0.5f ) * 0.4f; break;
                 case PropKindE::WINDMILL: yaw = A.m_heading + Tau * 0.5f + ( h3 - 0.5f ) * 0.8f; break;
                 default: break;
@@ -384,6 +439,41 @@ void World::buildChunk( Track &track, Chunk &c )
                 props.append( models.prop( pr.m_kind, hash64( key + 6 + static_cast<uint64_t>( j ) ) ), pos, yaw, scale, bright );
                 const float radius = models.propRadius( pr.m_kind );
                 if( radius > 0.0f && dist < 45.0f ) c.m_colliders.push_back( { ps, lateral, radius * scale } );
+            }
+        }
+
+        // Overhead sign gantries.
+        if( here.m_gantrySpacing > 0.0f )
+        {
+            const long k = std::max( 4L, static_cast<long>( here.m_gantrySpacing / SegmentLength + 0.5f ) );
+            if( j % k == k / 3 && !( seg.m_flags & ( SEG_CHECKPOINT | SEG_START ) ) )
+            {
+                MeshBuilder g;
+                const float span = A.m_hw + RumbleWidth + 0.3f;
+                const Color steel = { 150, 154, 162, 255 };
+                const Color white = { 240, 240, 240, 255 };
+                const Mat   paint = { 0.35f, 0.0f };
+                for( float x : { -span, span } ) g.box( Vector3{ x, 3.8f, 0 }, Vector3{ 0.25f, 3.8f, 0.25f }, steel );
+                g.box( Vector3{ 0, 7.4f, 0 }, Vector3{ span + 0.3f, 0.3f, 0.3f }, steel );
+                for( float sx : { -0.5f, 0.5f } )
+                {
+                    const float cx = sx * A.m_hw, hw = A.m_hw * 0.42f;
+                    g.box( Vector3{ cx, 8.7f, -0.1f }, Vector3{ hw, 1.05f, 0.08f }, Color{ 20, 110, 64, 255 }, Mat{ 0.08f, 0.0f } );
+                    g.box( Vector3{ cx, 9.65f, -0.19f }, Vector3{ hw - 0.1f, 0.04f, 0.01f }, white, paint );
+                    g.box( Vector3{ cx, 7.75f, -0.19f }, Vector3{ hw - 0.1f, 0.04f, 0.01f }, white, paint );
+                    for( int line = 0; line < 2; ++line )
+                    {
+                        const uint64_t key = static_cast<uint64_t>( j * 4 + line + ( sx > 0 ? 2 : 0 ) );
+                        const float    len = hw * ( 0.5f + 0.3f * hashFloat( seed + 55, key ) );
+                        g.box( Vector3{ cx - hw + 0.4f + len * 0.5f, 9.15f - 0.55f * static_cast<float>( line ), -0.19f },
+                               Vector3{ len * 0.5f, 0.14f, 0.01f }, white, paint );
+                    }
+                    g.tri( Vector3{ cx + hw - 1.0f, 8.0f, -0.19f }, Vector3{ cx + hw - 0.4f, 8.0f, -0.19f },
+                           Vector3{ cx + hw - 0.7f, 8.5f, -0.19f }, white, paint );
+                }
+                props.appendBasis( g, Vector3Negate( A.m_right ), Vector3{ 0, 1, 0 }, A.m_forward, at( A, 0.0f, 0.0f ) );
+                c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, -span, 0.5f } );
+                c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, span, 0.5f } );
             }
         }
 

@@ -195,7 +195,8 @@ void Game::startDemo()
     setupTrack( seed, 600.0 );
     m_car.m_speed = 42.0f;
     m_car.m_gear = 3;
-    m_audio.startMusic( seed );
+    m_musicStage = static_cast<int>( m_car.m_s / StageLength );
+    playMusic( hash64( seed ), wantedStation() );
 }
 
 void Game::startRun( uint64_t seed )
@@ -226,7 +227,8 @@ void Game::startRun( uint64_t seed )
     m_lastCount = 4;
     m_state = StateE::COUNTDOWN;
     m_stateTime = 0.0f;
-    m_audio.startMusic( seed );
+    m_musicStage = m_stage;
+    playMusic( hash64( seed + 7 ), wantedStation() );
     popup( format( "STAGE %d", m_stage + 1 ), biomeDef( m_track->stageBiome( m_stage ) ).m_name, Accent, 1.0f, 3.0f );
 }
 
@@ -247,6 +249,38 @@ void Game::toggleFullscreen()
     ToggleBorderlessWindowed();
     m_settings.m_display = IsWindowState( FLAG_BORDERLESS_WINDOWED_MODE ) ? DisplayModeE::FULLSCREEN : DisplayModeE::WINDOWED;
     settingsChanged();
+}
+
+int Game::wantedStation() const
+{
+    if( m_settings.m_station >= StationCount ) return m_audio.hasFileMusic() ? StationCount : 0;
+    if( m_settings.m_station >= 0 ) return m_settings.m_station;
+    if( !m_track ) return 0;
+    return biomeDef( m_track->stageBiome( static_cast<int>( m_car.m_s / StageLength ) ) ).m_station;
+}
+
+void Game::playMusic( uint64_t seed, int station )
+{
+    m_audio.startMusic( seed, station );
+    m_playingStation = station;
+    m_trackSeed = seed;
+    m_nowTimer = 0.0f;
+    m_nowPlaying = station >= StationCount ? std::string( "MY MUSIC" ) : std::string( stationName( station ) ) + "  -  " + trackTitle( seed );
+}
+
+std::string Game::radioName() const
+{
+    if( m_settings.m_station < 0 ) return "AUTO";
+    if( m_settings.m_station >= StationCount ) return "MY MUSIC";
+    return stationName( m_settings.m_station );
+}
+
+void Game::nextStation()
+{
+    const int last = m_audio.hasFileMusic() ? StationCount : StationCount - 1;
+    m_settings.m_station = m_settings.m_station >= last ? -1 : m_settings.m_station + 1;
+    settingsChanged();
+    playMusic( hash64( m_trackSeed + 101 ), wantedStation() );
 }
 
 void Game::settingsChanged()
@@ -329,6 +363,9 @@ void Game::frame( float dt )
         if( m_state == StateE::GAMEOVER ) simulate( dt, true );
         break;
     }
+    if( m_input.m_nextStation ) nextStation();
+    if( m_input.m_nextTrack ) playMusic( hash64( m_trackSeed + 31 ), m_playingStation );
+    m_nowTimer += dt;
     if( m_input.m_camera && ( m_state == StateE::RACE || m_state == StateE::COUNTDOWN ) )
     {
         m_settings.m_camera = ( m_settings.m_camera + 1 ) % 3;
@@ -366,6 +403,12 @@ void Game::simulate( float dt, bool autopilotOn )
         remaining -= h;
     }
     handleEvents();
+    const int musicStage = static_cast<int>( m_car.m_s / StageLength );
+    if( musicStage != m_musicStage )
+    {
+        m_musicStage = musicStage;
+        if( m_settings.m_station < 0 && wantedStation() != m_playingStation ) playMusic( hash64( m_seed * 31 + musicStage ), wantedStation() );
+    }
     emitParticles( dt );
     m_particles.update( dt );
     updateCamera( dt );
@@ -870,9 +913,9 @@ void Game::menus( const MenuInput &m )
         break;
     case StateE::SETTINGS:
     {
-        move( 10 );
+        move( 11 );
         bool changed = false;
-        if( change != 0 || ( m.m_accept && m_menuIndex < 9 ) )
+        if( change != 0 || ( m.m_accept && m_menuIndex < 10 ) )
         {
             const int dir = change != 0 ? change : 1;
             changed = true;
@@ -899,6 +942,16 @@ void Game::menus( const MenuInput &m )
             case 6: m_settings.m_speedBlur = !m_settings.m_speedBlur; break;
             case 7: m_settings.m_musicVolume = clampf( m_settings.m_musicVolume + 0.1f * dir, 0.0f, 1.0f ); break;
             case 8: m_settings.m_sfxVolume = clampf( m_settings.m_sfxVolume + 0.1f * dir, 0.0f, 1.0f ); break;
+            case 9:
+            {
+                const int last = m_audio.hasFileMusic() ? StationCount : StationCount - 1;
+                int       s = m_settings.m_station + dir;
+                if( s > last ) s = -1;
+                if( s < -1 ) s = last;
+                m_settings.m_station = s;
+                playMusic( hash64( m_trackSeed + 101 ), wantedStation() );
+                break;
+            }
             default: changed = false; break;
             }
         }
@@ -907,7 +960,7 @@ void Game::menus( const MenuInput &m )
             settingsChanged();
             m_audio.play( SfxE::TICK );
         }
-        if( m.m_back || ( m.m_accept && m_menuIndex == 9 ) )
+        if( m.m_back || ( m.m_accept && m_menuIndex == 10 ) )
         {
             m_audio.play( SfxE::SELECT );
             m_state = m_settingsReturn;
@@ -916,7 +969,7 @@ void Game::menus( const MenuInput &m )
         break;
     }
     case StateE::PAUSED:
-        move( 4 );
+        move( 5 );
         if( m.m_back || m_input.m_pause )
         {
             m_state = m_pauseReturn;
@@ -929,9 +982,10 @@ void Game::menus( const MenuInput &m )
             {
             case 0: m_state = m_pauseReturn; break;
             case 1: startRun( m_seed ); break;
-            case 2:
+            case 2: playMusic( hash64( m_trackSeed + 31 ), m_playingStation ); break;
+            case 3:
                 m_settingsReturn = StateE::PAUSED;
-                m_returnIndex = 2;
+                m_returnIndex = 3;
                 m_state = StateE::SETTINGS;
                 m_menuIndex = 0;
                 break;
@@ -1001,12 +1055,13 @@ void Game::draw()
             return s;
         };
         drawMenu( "SETTINGS",
-                  { "DISPLAY", "3D RESOLUTION", "VSYNC", "GEARS", "SPEEDOMETER", "CAMERA", "SPEED BLUR", "MUSIC", "EFFECTS", "BACK" },
+                  { "DISPLAY", "3D RESOLUTION", "VSYNC", "GEARS", "SPEEDOMETER", "CAMERA", "SPEED BLUR", "MUSIC", "EFFECTS", "RADIO",
+                    "BACK" },
                   { m_settings.m_display == DisplayModeE::FULLSCREEN ? "FULLSCREEN" : "WINDOW",
                     format( "%d%%", static_cast<int>( m_settings.m_renderScale * 100.0f + 0.5f ) ), m_settings.m_vsync ? "ON" : "OFF",
                     m_settings.m_manualGears ? "MANUAL" : "AUTOMATIC", m_settings.m_units == UnitsE::MPH ? "MPH" : "KM/H",
                     cams[m_settings.m_camera], m_settings.m_speedBlur ? "ON" : "OFF", bar( m_settings.m_musicVolume ),
-                    bar( m_settings.m_sfxVolume ), "" },
+                    bar( m_settings.m_sfxVolume ), radioName(), "" },
                   H * 0.18f );
         break;
     }
@@ -1025,9 +1080,21 @@ void Game::draw()
     case StateE::PAUSED:
         drawHud();
         DrawRectangle( 0, 0, static_cast<int>( W ), static_cast<int>( H ), Color{ 0, 0, 0, 120 } );
-        drawMenu( "PAUSE", { "RESUME", "RESTART TRACK", "SETTINGS", "QUIT TO TITLE" }, {}, H * 0.3f );
+        drawMenu( "PAUSE", { "RESUME", "RESTART TRACK", "NEXT SONG", "SETTINGS", "QUIT TO TITLE" }, {}, H * 0.28f );
         break;
     case StateE::GAMEOVER: drawResults(); break;
+    }
+
+    if( m_nowTimer < 4.5f && !m_nowPlaying.empty() )
+    {
+        const float a = std::min( 1.0f, m_nowTimer * 4.0f ) * std::min( 1.0f, ( 4.5f - m_nowTimer ) * 1.5f );
+        const float y = H - ( m_state == StateE::TITLE ? 76.0f : 40.0f ) * u;
+        Color       lab = Accent;
+        lab.a = static_cast<unsigned char>( 255.0f * a );
+        Color txt = Ink;
+        txt.a = lab.a;
+        drawTextFx( "RADIO  " + radioName(), W * 0.5f, y - 22.0f * u, 11.0f * u, lab, AlignE::CENTER, 0.0f );
+        drawTextFx( m_nowPlaying, W * 0.5f, y, 15.0f * u, txt, AlignE::CENTER, 0.2f * a );
     }
 
     if( lastFrame )

@@ -44,6 +44,7 @@ struct Settings
     bool         m_manualGears = false;                ///< shift by hand
     int          m_camera = 0;                         ///< 0 chase, 1 far chase, 2 bumper
     bool         m_speedBlur = true;                   ///< radial blur at speed
+    int          m_station = -1;                       ///< radio: -1 automatic (by biome), else a station
     int64_t      m_bestScore = 0;                      ///< the highest score of an endless run
     double       m_bestDistance = 0.0;                 ///< the longest endless run in metres
 };
