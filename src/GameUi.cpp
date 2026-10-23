@@ -567,6 +567,8 @@ void Game::draw()
     in.m_aberration = m_aberration;
     in.m_windStreaks = smoothstepf( 0.62f, 0.95f, m_car.m_speed / m_car.m_spec.m_topSpeed ) + ( m_car.m_boosting ? 0.5f : 0.0f );
     in.m_drawPlayer = !( m_settings.m_camera == 2 && !m_demo );
+    in.m_shadows = m_settings.m_shadows;
+    in.m_lensRain = m_settings.m_camera == 2 && !m_demo ? in.m_env.m_rain : in.m_env.m_rain * 0.5f;
     for( const Rival &r : m_race.m_rivals )
     {
         const Driver &d = m_race.m_drivers[r.m_driver];

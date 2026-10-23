@@ -60,7 +60,13 @@ int main( int argc, char **argv )
     }
     Settings            settings;
     const bool          hadFile = loadSettings( settings );
-    if( !hadFile && runningOnSteamDeck() ) settings.m_display = DisplayModeE::FULLSCREEN;
+    if( !hadFile && runningOnSteamDeck() )
+    {
+        // The Deck: fullscreen, 60 frames, no shadow pass (the APU's budget goes to the frame rate).
+        settings.m_display = DisplayModeE::FULLSCREEN;
+        settings.m_fpsLimit = 60;
+        settings.m_shadows = false;
+    }
     if( options.m_forceDisplay >= 0 ) settings.m_display = options.m_forceDisplay ? DisplayModeE::FULLSCREEN : DisplayModeE::WINDOWED;
 
     SetTraceLogLevel( LOG_WARNING );

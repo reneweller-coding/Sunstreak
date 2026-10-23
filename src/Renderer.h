@@ -65,6 +65,8 @@ struct SceneInput
     float            m_windStreaks = 0.0f;    ///< 0..1 air streaks at speed
     bool             m_drawPlayer = true;     ///< false in the bumper view
     std::vector<CarDraw> m_cars;              ///< rivals and the ghost
+    bool             m_shadows = true;        ///< real-time sun shadows
+    float            m_lensRain = 0.0f;       ///< 0..1 drops on the lens
 };
 
 /** @brief The renderer. */
@@ -110,6 +112,14 @@ private:
     void unloadTargets();
 
     /**
+     * @brief Renders the shadow map from the sun around the camera.
+     * @param[in] in      the frame
+     * @param[in] cam     the camera
+     * @param[in] origin  the floating origin
+     */
+    void drawShadows( const SceneInput &in, const CameraView &cam, const Vec3d &origin );
+
+    /**
      * @brief Draws the sky into the scene target.
      * @param[in] in   the frame
      * @param[in] cam  the camera
@@ -153,7 +163,15 @@ private:
     Program  m_blur;        ///< bloom blur
     Program  m_composite;   ///< tone mapping and effects
     Program  m_fxaa;        ///< anti-aliasing
+    Program  m_depth;       ///< shadow pass
     Material m_material{};  ///< carries the world shader
+    Material m_depthMaterial{};   ///< carries the depth shader
+
+    RenderTexture2D m_shadowMap{};       ///< depth from the sun
+    Matrix          m_lightVP{};         ///< the sun's view and projection
+    float           m_shadowStrength = 0.0f;   ///< 0 no shadows this frame
+    Vector2         m_sunUv{};           ///< the sun on screen (texture coordinates)
+    float           m_flare = 0.0f;      ///< lens flare strength this frame
 
     RenderTexture2D m_scene{};    ///< HDR scene with depth
     RenderTexture2D m_bloomA{};   ///< 1/4 resolution

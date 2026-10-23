@@ -20,6 +20,9 @@ constexpr int   DropCount = 1600;          ///< rain drops or snowflakes around 
 constexpr int   StreakCount = 90;          ///< air streaks around the camera
 constexpr float NearPlane = 0.3f;          ///< near clip (m)
 constexpr float FarPlane = 2600.0f;        ///< far clip (m)
+constexpr int   ShadowSize = 2048;         ///< shadow map resolution
+constexpr float ShadowExtent = 160.0f;     ///< the shadow map's side (m)
+constexpr int   ShadowSlot = 10;           ///< texture unit of the shadow map
 
 /**
  * @brief A render target, optionally half-float and with depth.
@@ -158,8 +161,23 @@ void Renderer::init()
     m_blur.m_shader = LoadShaderFromMemory( shaders::ScreenVs, shaders::BlurFs );
     m_composite.m_shader = LoadShaderFromMemory( shaders::ScreenVs, shaders::CompositeFs );
     m_fxaa.m_shader = LoadShaderFromMemory( shaders::ScreenVs, shaders::FxaaFs );
+    m_depth.m_shader = LoadShaderFromMemory( shaders::DepthVs, shaders::DepthFs );
     m_material = LoadMaterialDefault();
     m_material.shader = m_world.m_shader;
+    m_depthMaterial = LoadMaterialDefault();
+    m_depthMaterial.shader = m_depth.m_shader;
+    // A depth-only target for the sun's view.
+    m_shadowMap.id = rlLoadFramebuffer();
+    m_shadowMap.texture.width = ShadowSize;
+    m_shadowMap.texture.height = ShadowSize;
+    m_shadowMap.depth.id = rlLoadTextureDepth( ShadowSize, ShadowSize, false );
+    m_shadowMap.depth.width = ShadowSize;
+    m_shadowMap.depth.height = ShadowSize;
+    m_shadowMap.depth.format = 19;
+    m_shadowMap.depth.mipmaps = 1;
+    rlFramebufferAttach( m_shadowMap.id, m_shadowMap.depth.id, RL_ATTACHMENT_DEPTH, RL_ATTACHMENT_TEXTURE2D, 0 );
+    if( !rlFramebufferComplete( m_shadowMap.id ) ) TraceLog( LOG_WARNING, "shadow map framebuffer incomplete" );
+    rlDisableFramebuffer();
     Rng r( 77 );
     m_drops.resize( DropCount );
     for( Vector3 &d : m_drops ) d = Vector3{ r.range( -30, 30 ), r.range( -6, 16 ), r.range( -12, 48 ) };
@@ -179,9 +197,13 @@ void Renderer::unloadTargets()
 void Renderer::unload()
 {
     unloadTargets();
-    for( Program *p : { &m_world, &m_sky, &m_particle, &m_bright, &m_blur, &m_composite, &m_fxaa } ) UnloadShader( p->m_shader );
+    for( Program *p : { &m_world, &m_sky, &m_particle, &m_bright, &m_blur, &m_composite, &m_fxaa, &m_depth } ) UnloadShader( p->m_shader );
     MemFree( m_material.maps );
     m_material.maps = nullptr;
+    MemFree( m_depthMaterial.maps );
+    m_depthMaterial.maps = nullptr;
+    rlUnloadTexture( m_shadowMap.depth.id );
+    rlUnloadFramebuffer( m_shadowMap.id );
 }
 
 void Renderer::ensureTargets( int w, int h, float scale )
@@ -252,12 +274,89 @@ void Renderer::render( const SceneInput &in, const CameraView &cam, float render
     }
 
     const Vec3d origin = cam.m_pos;
+    drawShadows( in, cam, origin );
+
+    // Where the sun stands on screen, for the lens flare.
+    m_flare = 0.0f;
+    const Vector3 sun = sunDirection( in.m_env );
+    if( Vector3DotProduct( sun, Vector3Normalize( cam.m_forward ) ) > 0.2f && in.m_env.m_sunIntensity > 0.5f && in.m_env.m_eclipse < 0.5f )
+    {
+        Camera3D c3{};
+        c3.position = Vector3{ 0, 0, 0 };
+        c3.target = cam.m_forward;
+        c3.up = cam.m_up;
+        c3.fovy = cam.m_fovY;
+        c3.projection = CAMERA_PERSPECTIVE;
+        const Vector2 p = GetWorldToScreenEx( Vector3Scale( sun, 500.0f ), c3, m_targetW, m_targetH );
+        m_sunUv = Vector2{ p.x / static_cast<float>( m_targetW ), 1.0f - p.y / static_cast<float>( m_targetH ) };
+        if( m_sunUv.x > -0.1f && m_sunUv.x < 1.1f && m_sunUv.y > -0.1f && m_sunUv.y < 1.1f )
+            m_flare = std::min( 1.0f, in.m_env.m_sunIntensity ) * ( 1.0f - in.m_env.m_cloudAmount * 0.6f );
+    }
+
     BeginTextureMode( m_scene );
     ClearBackground( BLACK );
     drawSky( in, cam );
     drawWorld( in, cam, origin );
     EndTextureMode();
     post( in );
+}
+
+void Renderer::drawShadows( const SceneInput &in, const CameraView &cam, const Vec3d &origin )
+{
+    const Environment &e = in.m_env;
+    const Vector3      sun = sunDirection( e );
+    m_shadowStrength = in.m_shadows && sun.y > 0.07f && e.m_sunIntensity > 0.4f && e.m_eclipse < 0.5f
+                           ? clampf( ( e.m_sunIntensity - 0.4f ) * 1.5f, 0.0f, 0.85f ) * ( 1.0f - e.m_cloudAmount * 0.5f )
+                           : 0.0f;
+    if( m_shadowStrength <= 0.0f || !in.m_track || !in.m_world ) return;
+
+    // The box follows the camera, snapped to the map's texels so the shadows do not shimmer.
+    const Vector3 flatFwd = Vector3Normalize( Vector3{ cam.m_forward.x, 0.0f, cam.m_forward.z } );
+    Vector3       center = Vector3Scale( flatFwd, ShadowExtent * 0.3f );
+    const Vector3 lightFwd = Vector3Negate( sun );
+    const Vector3 lightRight = Vector3Normalize( Vector3CrossProduct( lightFwd, Vector3{ 0, 1, 0 } ) );
+    const Vector3 lightUp = Vector3CrossProduct( lightRight, lightFwd );
+    const double  texel = ShadowExtent / ShadowSize;
+    const double  wx = origin.m_x + center.x, wy = origin.m_y + center.y, wz = origin.m_z + center.z;
+    const double  cr = wx * lightRight.x + wy * lightRight.y + wz * lightRight.z;
+    const double  cu = wx * lightUp.x + wy * lightUp.y + wz * lightUp.z;
+    const float   dr = static_cast<float>( std::round( cr / texel ) * texel - cr );
+    const float   du = static_cast<float>( std::round( cu / texel ) * texel - cu );
+    center = Vector3Add( center, Vector3Add( Vector3Scale( lightRight, dr ), Vector3Scale( lightUp, du ) ) );
+
+    Camera3D light{};
+    light.position = Vector3Add( center, Vector3Scale( sun, 300.0f ) );
+    light.target = center;
+    light.up = Vector3{ 0, 1, 0 };
+    light.fovy = ShadowExtent;
+    light.projection = CAMERA_ORTHOGRAPHIC;
+    rlSetClipPlanes( 1.0, 700.0 );
+    BeginTextureMode( m_shadowMap );
+    rlClearScreenBuffers();
+    BeginMode3D( light );
+    m_lightVP = MatrixMultiply( rlGetMatrixModelview(), rlGetMatrixProjection() );
+    rlDisableBackfaceCulling();
+    const Track &track = *in.m_track;
+    const double playerS = in.m_player ? in.m_player->m_s : 0.0;
+    for( const Chunk &c : in.m_world->chunks() )
+    {
+        const double c0 = static_cast<double>( c.m_index ) * ChunkLength;
+        if( c0 > playerS + ShadowExtent || c0 + ChunkLength < playerS - 60.0 || !c.m_props.vertexCount ) continue;
+        const Vector3 o = relativeTo( c.m_origin, origin );
+        DrawMesh( c.m_props, m_depthMaterial, MatrixTranslate( o.x, o.y, o.z ) );
+    }
+    if( in.m_traffic )
+        for( const TrafficCar &t : in.m_traffic->m_cars )
+            if( std::abs( t.m_s - playerS ) < ShadowExtent )
+                DrawMesh( in.m_models->m_traffic[t.m_model].m_mesh, m_depthMaterial, poseMatrix( roadPose( track, t.m_s, t.m_x, t.m_yaw ), origin ) );
+    for( const CarDraw &c : in.m_cars )
+        if( c.m_alpha >= 1.0f && std::abs( c.m_s - playerS ) < ShadowExtent )
+            DrawMesh( in.m_models->m_playerCars[c.m_car][c.m_paint], m_depthMaterial, poseMatrix( roadPose( track, c.m_s, c.m_x, c.m_yaw ), origin ) );
+    if( in.m_player )
+        DrawMesh( in.m_models->m_playerCars[in.m_car][in.m_paint], m_depthMaterial, poseMatrix( in.m_player->pose( track ), origin ) );
+    rlEnableBackfaceCulling();
+    EndMode3D();
+    EndTextureMode();
 }
 
 void Renderer::drawSky( const SceneInput &in, const CameraView &cam )
@@ -338,6 +437,16 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
     setV2( s, "swayOffset", static_cast<float>( std::fmod( origin.m_x, 450.0 ) ), static_cast<float>( std::fmod( origin.m_z, 450.0 ) ) );
     setF( s, "objectShade", 1.0f );
     setF( s, "objectAlpha", 1.0f );
+    setF( s, "shadowStrength", m_shadowStrength );
+    setF( s, "shadowTexel", 1.0f / static_cast<float>( ShadowSize ) );
+    SetShaderValueMatrix( s, GetShaderLocation( s, "lightVP" ), m_lightVP );
+    {
+        const int slot = ShadowSlot;
+        rlActiveTextureSlot( ShadowSlot );
+        rlEnableTexture( m_shadowMap.depth.id );
+        rlActiveTextureSlot( 0 );
+        SetShaderValue( s, GetShaderLocation( s, "shadowMap" ), &slot, SHADER_UNIFORM_INT );
+    }
     setV3( s, "gridColor", Vector3{ 0.02f, 0.75f, 1.0f } );
     setV2( s, "gridOffset", static_cast<float>( std::fmod( origin.m_x, 12.0 ) ), static_cast<float>( std::fmod( origin.m_z, 12.0 ) ) );
     Pose playerPose{};
@@ -443,6 +552,9 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
     drawParticles( in, cam, origin );
     rlEnableBackfaceCulling();
     EndMode3D();
+    rlActiveTextureSlot( ShadowSlot );
+    rlDisableTexture();
+    rlActiveTextureSlot( 0 );
 }
 
 void Renderer::drawParticles( const SceneInput &in, const CameraView &cam, const Vec3d &origin )
@@ -607,6 +719,11 @@ void Renderer::post( const SceneInput &in )
     setF( c, "blurAmount", in.m_speedBlur );
     setF( c, "aberration", in.m_aberration );
     setV2( c, "blurCenter", 0.5f, 0.52f );
+    setV2( c, "sunUv", m_sunUv.x, m_sunUv.y );
+    setF( c, "flare", m_flare );
+    setF( c, "aspect", static_cast<float>( m_targetW ) / static_cast<float>( m_targetH ) );
+    setF( c, "lensRain", in.m_lensRain );
+    setF( c, "speed", clampf( m_camVel.x * m_camVel.x + m_camVel.z * m_camVel.z, 0.0f, 6400.0f ) / 6400.0f );
     setF( c, "time", std::fmod( in.m_time, 100.0f ) );
     blit( m_scene.texture, m_targetW, m_targetH );
     EndShaderMode();

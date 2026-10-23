@@ -34,6 +34,7 @@ out vec3 vNormal;
 out vec4 vColor;
 out vec2 vMat;
 out float vShade;
+out vec3 vFlat;
 void main()
 {
     vec4 wp = matModel * vec4(vertexPosition, 1.0);
@@ -46,6 +47,7 @@ void main()
         wp.z += sway * wind * cos(ph * 0.8) * 0.18;
     }
     vShade = vertexTexCoord2.x * objectShade;
+    vFlat = wp.xyz;
     vec2 d = wp.xz - camPos.xz;
     wp.y -= bend * dot(d, d);
     vPos = wp.xyz;
@@ -63,6 +65,11 @@ in vec3 vNormal;
 in vec4 vColor;
 in vec2 vMat;
 in float vShade;
+in vec3 vFlat;
+uniform mat4 lightVP;
+uniform sampler2D shadowMap;
+uniform float shadowStrength;
+uniform float shadowTexel;
 uniform vec3 camPos;
 uniform vec3 sunDir;
 uniform vec3 sunColor;
@@ -82,6 +89,21 @@ uniform vec3 gridColor;
 uniform vec2 gridOffset;
 uniform float objectAlpha;
 out vec4 finalColor;
+float sunShadow(vec3 n)
+{
+    if (shadowStrength <= 0.0) return 1.0;
+    vec4 lp = lightVP * vec4(vFlat, 1.0);
+    vec3 p = lp.xyz / lp.w * 0.5 + 0.5;
+    float edge = max(abs(p.x - 0.5), abs(p.y - 0.5)) * 2.0;
+    if (edge > 1.0 || p.z > 1.0) return 1.0;
+    float bias = 0.0008 + 0.002 * (1.0 - max(dot(n, sunDir), 0.0));
+    float lit = 0.0;
+    for (int x = -1; x <= 1; x++)
+        for (int y = -1; y <= 1; y++)
+            lit += (p.z - bias > texture(shadowMap, p.xy + vec2(x, y) * shadowTexel).r) ? 0.0 : 1.0;
+    lit /= 9.0;
+    return mix(1.0, lit, shadowStrength * (1.0 - smoothstep(0.8, 1.0, edge)));
+}
 void main()
 {
     vec3 n = normalize(vNormal);
@@ -95,7 +117,7 @@ void main()
     vec3 V = toCam / max(dist, 0.001);
 
     float shade = vShade;
-    float ndl = max(dot(n, sunDir), 0.0);
+    float ndl = max(dot(n, sunDir), 0.0) * sunShadow(n);
     vec3 light = mix(ambBottom, ambTop, n.y * 0.5 + 0.5) * (0.25 + 0.75 * shade) + (sunColor * ndl + vec3(flash)) * shade;
     light += ambTop * 0.55 * max(dot(n, V), 0.0) * (0.3 + 0.7 * shade);
 
@@ -111,7 +133,7 @@ void main()
     float g = clamp(gloss + wetness * 0.55 * roadLike, 0.0, 1.0);
     vec3 H = normalize(sunDir + V);
     float spec = pow(max(dot(n, H), 0.0), mix(12.0, 180.0, g)) * g * 2.0;
-    col += sunColor * spec * shade;
+    col += sunColor * spec * shade * sunShadow(n);
     float fres = pow(1.0 - max(dot(n, V), 0.0), 4.0) * g * (0.2 + 0.8 * shade);
     col = mix(col, skyColor, clamp(fres, 0.0, 0.85));
     col += vec3(1.0, 0.9, 0.75) * hl * g * 0.6;
@@ -133,6 +155,25 @@ void main()
     fog *= 1.0 - 0.55 * clamp(emissive, 0.0, 1.0) * (1.0 - smoothstep(viewDist * 0.5, viewDist, dist));
     col = mix(col, fogColor, clamp(fog, 0.0, 1.0));
     finalColor = vec4(col, vColor.a * objectAlpha);
+}
+)";
+
+/** @brief Shadow pass vertex shader: depth from the sun. */
+inline const char *DepthVs = R"(#version 330
+in vec3 vertexPosition;
+uniform mat4 mvp;
+void main()
+{
+    gl_Position = mvp * vec4(vertexPosition, 1.0);
+}
+)";
+
+/** @brief Shadow pass fragment shader: nothing but depth. */
+inline const char *DepthFs = R"(#version 330
+out vec4 finalColor;
+void main()
+{
+    finalColor = vec4(1.0);
 }
 )";
 
@@ -412,7 +453,27 @@ uniform float blurAmount;
 uniform float aberration;
 uniform vec2 blurCenter;
 uniform float time;
+uniform vec2 sunUv;
+uniform float flare;
+uniform float aspect;
+uniform float lensRain;
+uniform float speed;
 out vec4 finalColor;
+float hash12(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+vec2 rainOffset(vec2 uv)
+{
+    vec2 grid = vec2(14.0, 8.0);
+    vec2 cell = floor(uv * grid);
+    vec2 f = fract(uv * grid);
+    float h = hash12(cell);
+    float h2 = hash12(cell + 7.13);
+    float life = fract(time * (0.25 + h * 0.3) + h2);
+    vec2 c = vec2(0.2 + 0.6 * h, 0.25 + 0.5 * h2 + life * 0.2 * speed);
+    vec2 d = (f - c) * vec2(1.0, 0.75);
+    float r = 0.1 + 0.12 * h;
+    float m = smoothstep(r, r * 0.6, length(d)) * smoothstep(1.0, 0.6, life) * step(0.45, hash12(cell + 3.3));
+    return d * m * 0.7 / grid;
+}
 vec3 aces(vec3 x)
 {
     const float a = 2.51; const float b = 0.03; const float c = 2.43; const float d = 0.59; const float e = 0.14;
@@ -421,6 +482,7 @@ vec3 aces(vec3 x)
 void main()
 {
     vec2 uv = fragTexCoord;
+    if (lensRain > 0.0) uv += rainOffset(uv) * lensRain;
     vec2 d = uv - blurCenter;
     float edge = smoothstep(0.12, 0.65, length(d * vec2(1.6, 1.0)));
     vec3 col;
@@ -449,6 +511,24 @@ void main()
         col.b = texture(texture0, uv - off).b;
     }
     col += (texture(bloom1, uv).rgb * 0.55 + texture(bloom2, uv).rgb * 0.8) * bloomStrength;
+    if (flare > 0.0)
+    {
+        // Ghosts along the line through the centre, as bright as the sun is visible.
+        vec3 sc = texture(texture0, sunUv).rgb + texture(texture0, sunUv + vec2(0.004, 0.0)).rgb + texture(texture0, sunUv - vec2(0.004, 0.0)).rgb;
+        float vis = smoothstep(3.0, 18.0, max(sc.r, max(sc.g, sc.b)));
+        vec2 axis = vec2(0.5) - sunUv;
+        const float k[5] = float[](0.45, 0.75, 1.15, 1.5, 1.95);
+        const float r[5] = float[](0.025, 0.06, 0.035, 0.09, 0.05);
+        const vec3 tint[5] = vec3[](vec3(1.0, 0.7, 0.4), vec3(0.4, 0.8, 1.0), vec3(1.0, 0.5, 0.8), vec3(0.5, 1.0, 0.6), vec3(0.8, 0.6, 1.0));
+        for (int i = 0; i < 5; i++)
+        {
+            vec2 p = sunUv + axis * k[i];
+            float dd = length((uv - p) * vec2(aspect, 1.0));
+            col += tint[i] * smoothstep(r[i], r[i] * 0.6, dd) * vis * flare * 0.22;
+        }
+        float dh = length((uv - sunUv) * vec2(aspect, 1.0));
+        col += vec3(1.0, 0.85, 0.65) * smoothstep(0.012, 0.0, abs(dh - 0.22)) * vis * flare * 0.12;
+    }
     col *= exposure;
     col = aces(col);
     float l = dot(col, vec3(0.2126, 0.7152, 0.0722));
