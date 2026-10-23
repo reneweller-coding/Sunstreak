@@ -70,7 +70,7 @@ int main( int argc, char **argv )
     }
     if( options.m_forceDisplay >= 0 ) settings.m_display = options.m_forceDisplay ? DisplayModeE::FULLSCREEN : DisplayModeE::WINDOWED;
 
-    SetTraceLogLevel( LOG_WARNING );
+    SetTraceLogLevel( options.m_quitAfter > 0.0f ? LOG_INFO : LOG_WARNING );   // test runs report their numbers
     unsigned flags = FLAG_WINDOW_RESIZABLE;
     if( settings.m_vsync ) flags |= FLAG_VSYNC_HINT;
     SetConfigFlags( flags );

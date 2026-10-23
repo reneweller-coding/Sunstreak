@@ -47,6 +47,7 @@ public:
 
     bool m_pause = false;        ///< pause pressed
     bool m_camera = false;       ///< camera switch pressed
+    bool m_stats = false;        ///< F3: the performance overlay
     bool m_fullscreen = false;   ///< F11 or Alt+Enter pressed
     bool m_nextStation = false;  ///< M or the View button: the next radio station
     bool m_nextTrack = false;    ///< N: the next track

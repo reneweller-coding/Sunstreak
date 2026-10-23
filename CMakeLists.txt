@@ -25,12 +25,29 @@ FetchContent_Declare( raylib
     DOWNLOAD_EXTRACT_TIMESTAMP TRUE )
 FetchContent_MakeAvailable( raylib )
 
+# SDL2 only for the gamepad's rumble (GLFW cannot vibrate): its game controller subsystem, no video, no sound.
+set( SDL_SHARED OFF CACHE BOOL "" FORCE )
+set( SDL_STATIC ON CACHE BOOL "" FORCE )
+set( SDL_TEST OFF CACHE BOOL "" FORCE )
+set( SDL_TESTS OFF CACHE BOOL "" FORCE )
+set( SDL_TEST_LIBRARY OFF CACHE BOOL "" FORCE )
+set( SDL2_DISABLE_SDL2MAIN ON CACHE BOOL "" FORCE )
+set( SDL2_DISABLE_INSTALL ON CACHE BOOL "" FORCE )
+set( SDL2_DISABLE_UNINSTALL ON CACHE BOOL "" FORCE )
+foreach( off SDL_AUDIO SDL_VIDEO SDL_RENDER SDL_POWER SDL_LOCALE SDL_MISC SDL_FILESYSTEM )
+    set( ${off} OFF CACHE BOOL "" FORCE )
+endforeach()
+FetchContent_Declare( SDL2
+    URL https://github.com/libsdl-org/SDL/releases/download/release-2.30.9/SDL2-2.30.9.tar.gz
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE )
+FetchContent_MakeAvailable( SDL2 )
+
 # Everything but main() is a library, so the tests link the same code the game runs.
 file( GLOB SUNSTREAK_SOURCES CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.h )
 list( FILTER SUNSTREAK_SOURCES EXCLUDE REGEX ".*/main\\.cpp$" )
 add_library( sunstreak_core STATIC ${SUNSTREAK_SOURCES} )
 target_include_directories( sunstreak_core PUBLIC ${CMAKE_SOURCE_DIR}/src )
-target_link_libraries( sunstreak_core PUBLIC raylib )
+target_link_libraries( sunstreak_core PUBLIC raylib SDL2::SDL2-static )
 target_compile_definitions( sunstreak_core PUBLIC SUNSTREAK_VERSION="${PROJECT_VERSION}" )
 if( MSVC )
     target_compile_options( sunstreak_core PUBLIC /W4 /permissive- /utf-8 /wd4244 /wd4267 /wd4305 )

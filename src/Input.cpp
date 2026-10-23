@@ -42,6 +42,7 @@ void Input::update()
     m.m_back = IsKeyPressed( KEY_ESCAPE ) || IsKeyPressed( KEY_BACKSPACE );
     m_pause = IsKeyPressed( KEY_ESCAPE ) || IsKeyPressed( KEY_P );
     m_camera = IsKeyPressed( KEY_C );
+    m_stats = IsKeyPressed( KEY_F3 );
     m_nextStation = IsKeyPressed( KEY_M );
     m_nextTrack = IsKeyPressed( KEY_N );
     const bool alt = IsKeyDown( KEY_LEFT_ALT ) || IsKeyDown( KEY_RIGHT_ALT );

@@ -7,6 +7,9 @@
 
 #include "Noise.h"
 
+#include <algorithm>
+#include <chrono>
+
 namespace sunstreak
 {
 
@@ -147,13 +150,21 @@ void World::update( Track &track, double s, int maxBuilds )
         m_chunks.pop_front();
     }
     long next = m_chunks.empty() ? firstWanted : m_chunks.back().m_index + 1;
+    m_buildMs = 0.0f;
     for( int built = 0; next <= lastWanted && built < maxBuilds; ++built, ++next )
     {
-        Chunk c;
+        const auto t0 = std::chrono::steady_clock::now();
+        Chunk      c;
         c.m_index = next;
         buildChunk( track, c );
         m_chunks.push_back( std::move( c ) );
+        const float ms = std::chrono::duration<float, std::milli>( std::chrono::steady_clock::now() - t0 ).count();
+        m_buildMs += ms;
+        m_buildMaxMs = std::max( m_buildMaxMs, ms );
+        m_buildTotalMs += ms;
+        ++m_buildCount;
     }
+    m_buildPeakMs = std::max( m_buildMs, m_buildPeakMs * 0.995f );
 }
 
 void World::collidersNear( double s, double range, std::vector<const Collider *> &out ) const

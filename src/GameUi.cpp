@@ -639,6 +639,16 @@ void Game::draw()
         drawTextFx( m_nowPlaying, W * 0.5f, y, 15.0f * u, txt, AlignE::CENTER, 0.2f * a );
     }
 
+    if( m_showStats )
+    {
+        size_t triangles = 0;
+        for( const Chunk &c : m_world.chunks() ) triangles += static_cast<size_t>( c.m_ground.triangleCount + c.m_props.triangleCount );
+        const std::string stats = format( "%d FPS   FRAME %.1f MS (PEAK %.1f)   CHUNK BUILD %.1f MS (PEAK %.1f, SLOWEST %.1f)   %d CHUNKS  %.0fK TRIS",
+                                          GetFPS(), m_dt * 1000.0f, m_frameMsPeak, m_world.m_buildMs, m_world.m_buildPeakMs,
+                                          m_world.m_buildMaxMs, static_cast<int>( m_world.chunks().size() ), triangles / 1000.0 );
+        drawTextFx( stats, 12.0f * u, 10.0f * u, 10.0f * u, Green, AlignE::LEFT, 0.0f );
+    }
+
     if( lastFrame )
     {
         if( !m_options.m_screenshot.empty() )

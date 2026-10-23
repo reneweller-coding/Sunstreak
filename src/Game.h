@@ -16,6 +16,7 @@
 #pragma once
 
 #include "Audio.h"
+#include "Haptics.h"
 #include "Car.h"
 #include "Config.h"
 #include "Input.h"
@@ -402,6 +403,9 @@ private:
     Particles              m_particles;    ///< effects
     Audio                  m_audio;        ///< sound
     Input                  m_input;        ///< controls
+    Haptics                m_haptics;      ///< rumble
+    bool                   m_showStats = false;   ///< the F3 overlay
+    float                  m_frameMsPeak = 0.0f;  ///< the slowest frame lately
     bool                   m_audioOk = false;   ///< sound works
 
     StateE m_state = StateE::TITLE;   ///< where the game is

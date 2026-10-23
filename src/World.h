@@ -67,6 +67,12 @@ public:
      */
     const std::deque<Chunk> &chunks() const { return m_chunks; }
 
+    float  m_buildMs = 0.0f;        ///< milliseconds spent building chunks in the last update
+    float  m_buildPeakMs = 0.0f;    ///< the slowest update lately (decays)
+    float  m_buildMaxMs = 0.0f;     ///< the slowest single chunk
+    double m_buildTotalMs = 0.0;    ///< all chunk builds together
+    int    m_buildCount = 0;        ///< chunks built
+
     /**
      * @brief The colliders near a distance.
      * @param[in]  s      the distance

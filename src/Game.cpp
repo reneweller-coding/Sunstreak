@@ -82,6 +82,7 @@ void Game::init()
     const std::vector<std::string> dirs = { std::string( GetApplicationDirectory() ) + "music", configDirectory() + "/music" };
     m_audioOk = !m_options.m_mute && m_audio.init( dirs );
     m_audio.setVolumes( m_settings.m_musicVolume, m_settings.m_sfxVolume );
+    m_haptics.init();
     m_lab.m_seed = randomSeed();
     TrackSetup fromCode;
     if( !m_options.m_code.empty() && decodeTrack( m_options.m_code, fromCode ) )
@@ -115,6 +116,9 @@ void Game::init()
 void Game::shutdown()
 {
     saveRecords();
+    if( m_world.m_buildCount > 0 )
+        TraceLog( LOG_INFO, "SUNSTREAK: %d chunks built, %.2f ms on average, %.2f ms the slowest", m_world.m_buildCount,
+                  m_world.m_buildTotalMs / m_world.m_buildCount, m_world.m_buildMaxMs );
     m_audio.stopMusic();
     m_audio.shutdown();
     m_world.clear();
@@ -358,6 +362,8 @@ void Game::frame( float dt )
     m_stateTime += dt;
     m_input.update();
     if( m_input.m_fullscreen ) toggleFullscreen();
+    if( m_input.m_stats ) m_showStats = !m_showStats;
+    m_frameMsPeak = std::max( dt * 1000.0f, m_frameMsPeak * 0.995f );
     const MenuInput mi = m_input.menu();
 
     switch( m_state )
@@ -453,6 +459,7 @@ void Game::frame( float dt )
     std::erase_if( m_popups, []( const Popup &p ) { return p.m_age > p.m_life; } );
     updateAudio();
     m_audio.update();
+    m_haptics.update( dt, m_settings.m_vibration && !m_demo && m_state == StateE::RACE );
     draw();
 }
 
@@ -801,18 +808,22 @@ void Game::handleEvents()
     if( m_raceEv.m_hit > 0.0f )
     {
         m_audio.play( m_raceEv.m_hit > 0.6f ? SfxE::CRASH : SfxE::BUMP, m_raceEv.m_hit );
+        m_haptics.pulse( 0.5f * m_raceEv.m_hit, 0.35f * m_raceEv.m_hit, 0.25f );
         sparks( poseLocal( pose, 0.0f, 0.5f, 1.0f ), 10, 5.0f );
     }
     if( m_ev.m_hit > 0.0f )
     {
         m_audio.play( m_ev.m_hit > 0.6f ? SfxE::CRASH : SfxE::BUMP, m_ev.m_hit );
+        m_haptics.pulse( 0.7f * m_ev.m_hit, 0.4f * m_ev.m_hit, 0.3f );
         sparks( poseLocal( pose, 0.0f, 0.5f, 2.0f ), 14, 6.0f );
         m_combo = 1;
     }
     for( int i = 0; i < std::min( m_ev.m_cones, 3 ); ++i ) m_audio.play( SfxE::CONE, 0.9f, m_particles.m_rng.range( -0.4f, 0.4f ) );
+    if( m_ev.m_cones > 0 ) m_haptics.pulse( 0.15f, 0.4f, 0.12f );
     if( m_crash > 0.0f )
     {
         m_audio.play( SfxE::CRASH, m_crash );
+        m_haptics.pulse( std::min( 1.0f, 0.6f + m_crash ), 0.6f, 0.6f );
         sparks( poseLocal( pose, 0.0f, 0.6f, 1.5f ), 36, 9.0f );
         m_combo = 1;
     }
@@ -820,10 +831,19 @@ void Game::handleEvents()
     {
         sparks( poseLocal( pose, -m_scrapeSide * m_car.m_spec.m_width * 0.5f, 0.4f, 0.5f ), 2, 4.0f );
         if( !m_wasScraping ) m_audio.play( SfxE::BUMP, 0.5f, m_scrapeSide );
+        m_haptics.steady( 0.12f, 0.45f );
     }
     m_wasScraping = m_scraping;
-    if( m_landed && m_landImpact > 3.0f ) m_audio.play( SfxE::LAND, std::min( 1.0f, m_landImpact / 12.0f ) );
-    if( m_shifted && !m_demo ) m_audio.play( SfxE::SHIFT, 0.5f );
+    if( m_landed && m_landImpact > 3.0f )
+    {
+        m_audio.play( SfxE::LAND, std::min( 1.0f, m_landImpact / 12.0f ) );
+        m_haptics.pulse( std::min( 1.0f, m_landImpact / 12.0f ) * 0.8f, 0.2f, 0.25f );
+    }
+    if( m_shifted && !m_demo )
+    {
+        m_audio.play( SfxE::SHIFT, 0.5f );
+        m_haptics.pulse( 0.18f, 0.0f, 0.08f );
+    }
     if( m_backfire && !m_demo )
     {
         m_audio.play( SfxE::BACKFIRE, 0.8f );
@@ -840,7 +860,11 @@ void Game::handleEvents()
             m_particles.emit( p );
         }
     }
-    if( m_car.m_boosting && !m_wasBoosting && !m_demo ) m_audio.play( SfxE::BOOST, 0.8f );
+    if( m_car.m_boosting && !m_wasBoosting && !m_demo )
+    {
+        m_audio.play( SfxE::BOOST, 0.8f );
+        m_haptics.pulse( 0.3f, 0.15f, 0.45f );
+    }
     m_wasBoosting = m_car.m_boosting;
     if( m_state == StateE::RACE && !m_timeUp && !m_setup.m_race && !m_finishedTrack && m_timeLeft < 10.0f )
     {
@@ -1014,6 +1038,7 @@ void Game::updateAudio()
     s.m_slip = s.m_active ? m_car.m_slip : 0.0f;
     s.m_offroad = s.m_active ? m_car.m_offroad : 0.0f;
     s.m_rumble = s.m_active ? m_car.m_rumble : 0.0f;
+    m_haptics.steady( s.m_rumble * 0.25f + s.m_offroad * std::min( 1.0f, s.m_speed / 30.0f ) * 0.2f, s.m_rumble * 0.35f );
     s.m_boost = s.m_active && m_car.m_boosting;
     s.m_limiter = s.m_active && m_car.m_rpm > 0.985f && m_car.m_throttle > 0.5f && !m_car.m_boosting;
     s.m_shifting = m_car.m_shiftTimer > 0.0f;
