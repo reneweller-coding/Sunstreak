@@ -5,6 +5,8 @@
  */
 #include "Records.h"
 
+#include "Rng.h"
+
 #include <algorithm>
 #include <cctype>
 #include <cstdio>
@@ -48,46 +50,67 @@ bool fromNibble( uint64_t bits, int &v )
     return bits <= 9;
 }
 
-} // namespace
-
-std::string encodeTrack( const TrackSetup &setup )
+/** @brief A code's bits: up to 128, written at the bottom and read back from the bottom. */
+struct Bits
 {
-    const TrackParams &p = setup.m_params;
-    uint64_t           v = ( setup.m_seed & 0x1FFFFFFFull );
-    v = ( v << 4 ) | nibble( p.m_curvy );
-    v = ( v << 4 ) | nibble( p.m_sharp );
-    v = ( v << 4 ) | nibble( p.m_hilly );
-    v = ( v << 4 ) | nibble( p.m_traffic );
-    v = ( v << 4 ) | nibble( p.m_obstacles );
-    v = ( v << 6 ) | ( p.m_biome < 0 ? 63u : static_cast<uint64_t>( p.m_biome ) );
-    const uint64_t len = p.m_length > 0.0 ? static_cast<uint64_t>( std::clamp( std::lround( p.m_length / 2500.0 ), 1L, 15L ) ) : 0u;
-    v = ( v << 4 ) | len;
-    v = ( v << 1 ) | ( setup.m_race ? 1u : 0u );
-    std::string s;
-    for( int i = 11; i >= 0; --i )
-    {
-        s += Alphabet[( v >> ( i * 5 ) ) & 31];
-        if( i == 8 || i == 4 ) s += '-';
-    }
-    return s;
-}
+    uint64_t m_hi = 0;   ///< the upper word
+    uint64_t m_lo = 0;   ///< the lower word
 
-bool decodeTrack( const std::string &code, TrackSetup &setup )
-{
-    uint64_t v = 0;
-    int      n = 0;
-    for( char c : code )
+    /**
+     * @brief Shifts n bits in at the bottom.
+     * @param[in] v  the value
+     * @param[in] n  1..63 bits
+     */
+    void push( uint64_t v, int n )
     {
-        if( c == '-' || c == ' ' ) continue;
-        c = static_cast<char>( std::toupper( static_cast<unsigned char>( c ) ) );
-        if( c == 'O' ) c = '0';
-        if( c == 'I' || c == 'L' ) c = '1';
-        const char *pos = std::strchr( Alphabet, c );
-        if( !pos || c == 0 ) return false;
-        v = ( v << 5 ) | static_cast<uint64_t>( pos - Alphabet );
-        if( ++n > 12 ) return false;
+        m_hi = ( m_hi << n ) | ( m_lo >> ( 64 - n ) );
+        m_lo = ( m_lo << n ) | ( v & ( ( 1ull << n ) - 1 ) );
     }
-    if( n != 12 ) return false;
+
+    /**
+     * @brief Takes n bits off the bottom.
+     * @param[in] n  1..63 bits
+     * @return them
+     */
+    uint64_t pop( int n )
+    {
+        const uint64_t v = m_lo & ( ( 1ull << n ) - 1 );
+        m_lo = ( m_lo >> n ) | ( m_hi << ( 64 - n ) );
+        m_hi >>= n;
+        return v;
+    }
+
+    /**
+     * @brief The five bits of one symbol.
+     * @param[in] i  the symbol, 0 the lowest
+     * @return 0..31
+     */
+    uint64_t symbol( int i ) const
+    {
+        const int s = 5 * i;
+        if( s >= 64 ) return ( m_hi >> ( s - 64 ) ) & 31;
+        return ( ( m_lo >> s ) | ( s ? m_hi << ( 64 - s ) : 0 ) ) & 31;
+    }
+
+    /**
+     * @brief A check value of everything so far.
+     * @return eight bits
+     */
+    uint64_t check() const { return hash64( m_hi * 0x9E3779B97F4A7C15ull ^ m_lo ^ 0xC0DEull ) & 255; }
+};
+
+constexpr int      CodeVersion = 1;     ///< the layout of the fifteen-symbol codes
+constexpr uint64_t CodeWorld = 510;     ///< scenery field: the world tour
+constexpr uint64_t CodeMixed = 511;     ///< scenery field: all biomes mixed
+
+/**
+ * @brief Reads the old twelve-symbol codes (before the world tour): seed, five values, a biome in six bits.
+ * @param[in]  v      the 60 bits
+ * @param[out] setup  the track
+ * @return false if the bits are no valid code
+ */
+bool decodeLegacy( uint64_t v, TrackSetup &setup )
+{
     TrackSetup out;
     out.m_race = v & 1u;
     v >>= 1;
@@ -109,7 +132,73 @@ bool decodeTrack( const std::string &code, TrackSetup &setup )
     out.m_params.m_hilly = values[2];
     out.m_params.m_traffic = values[3];
     out.m_params.m_obstacles = values[4];
-    out.m_params.m_biome = biome == 63 ? -1 : static_cast<int>( biome );
+    out.m_params.m_biome = biome == 63 ? SceneryMixed : static_cast<int>( biome );
+    out.m_params.m_length = static_cast<double>( len ) * 2500.0;
+    if( out.m_race && len == 0 ) return false;
+    setup = out;
+    return true;
+}
+
+} // namespace
+
+std::string encodeTrack( const TrackSetup &setup )
+{
+    const TrackParams &p = setup.m_params;
+    Bits               b;
+    b.push( CodeVersion, 4 );
+    b.push( setup.m_seed & 0x1FFFFFFFull, 29 );
+    for( int v : { p.m_curvy, p.m_sharp, p.m_hilly, p.m_traffic, p.m_obstacles } ) b.push( nibble( v ), 4 );
+    b.push( p.m_biome >= 0 ? static_cast<uint64_t>( p.m_biome ) : p.m_biome == SceneryWorld ? CodeWorld : CodeMixed, 9 );
+    b.push( p.m_length > 0.0 ? static_cast<uint64_t>( std::clamp( std::lround( p.m_length / 2500.0 ), 1L, 15L ) ) : 0u, 4 );
+    b.push( setup.m_race ? 1u : 0u, 1 );
+    b.push( b.check(), 8 );
+    std::string s;
+    for( int i = 14; i >= 0; --i )
+    {
+        s += Alphabet[b.symbol( i )];
+        if( i == 10 || i == 5 ) s += '-';
+    }
+    return s;
+}
+
+bool decodeTrack( const std::string &code, TrackSetup &setup )
+{
+    Bits     b;
+    uint64_t legacy = 0;
+    int      n = 0;
+    for( char c : code )
+    {
+        if( c == '-' || c == ' ' ) continue;
+        c = static_cast<char>( std::toupper( static_cast<unsigned char>( c ) ) );
+        if( c == 'O' ) c = '0';
+        if( c == 'I' || c == 'L' ) c = '1';
+        const char *pos = std::strchr( Alphabet, c );
+        if( !pos || c == 0 ) return false;
+        b.push( static_cast<uint64_t>( pos - Alphabet ), 5 );
+        legacy = ( legacy << 5 ) | static_cast<uint64_t>( pos - Alphabet );
+        if( ++n > 15 ) return false;
+    }
+    if( n == 12 ) return decodeLegacy( legacy, setup );
+    if( n != 15 ) return false;
+    const uint64_t check = b.pop( 8 );
+    if( check != b.check() ) return false;
+    TrackSetup out;
+    out.m_race = b.pop( 1 );
+    const uint64_t len = b.pop( 4 );
+    const uint64_t scenery = b.pop( 9 );
+    int            values[5];
+    for( int i = 4; i >= 0; --i )
+        if( !fromNibble( b.pop( 4 ), values[i] ) ) return false;
+    out.m_seed = b.pop( 29 );
+    if( b.pop( 4 ) != CodeVersion ) return false;
+    if( out.m_seed == 0 ) out.m_seed = 1;
+    if( scenery < CodeWorld && scenery >= static_cast<uint64_t>( BiomeE::COUNT ) ) return false;
+    out.m_params.m_curvy = values[0];
+    out.m_params.m_sharp = values[1];
+    out.m_params.m_hilly = values[2];
+    out.m_params.m_traffic = values[3];
+    out.m_params.m_obstacles = values[4];
+    out.m_params.m_biome = scenery == CodeWorld ? SceneryWorld : scenery == CodeMixed ? SceneryMixed : static_cast<int>( scenery );
     out.m_params.m_length = static_cast<double>( len ) * 2500.0;
     if( out.m_race && len == 0 ) return false;
     setup = out;
@@ -130,7 +219,14 @@ void Records::load( const std::string &path )
             if( key == "total_km" ) m_totalKm = std::stod( val );
             else if( key == "titles" ) m_titles = std::stoi( val );
             else if( key == "best_place" ) m_bestPlace = std::stoi( val );
-            else if( key == "seen" ) m_seenBiomes = std::stoull( val );
+            else if( key == "seen" ) m_seen = std::bitset<256>( std::stoull( val ) );
+            else if( key == "seen2" )
+                for( size_t i = 0; i < val.size() && i < 64; ++i )
+                {
+                    const int d = std::isdigit( static_cast<unsigned char>( val[i] ) ) ? val[i] - '0' : std::toupper( val[i] ) - 'A' + 10;
+                    for( int k = 0; k < 4; ++k )
+                        if( d & ( 8 >> k ) ) m_seen.set( 255 - i * 4 - static_cast<size_t>( k ) );
+                }
             else if( key == "top" && m_top.size() < 10 )
             {
                 std::stringstream ss( val );
@@ -159,7 +255,14 @@ void Records::save( const std::string &path ) const
     out << "total_km=" << m_totalKm << "\n";
     out << "titles=" << m_titles << "\n";
     out << "best_place=" << m_bestPlace << "\n";
-    out << "seen=" << m_seenBiomes << "\n";
+    out << "seen2=";
+    for( int i = 0; i < 64; ++i )
+    {
+        int d = 0;
+        for( int k = 0; k < 4; ++k ) d = d * 2 + ( m_seen.test( static_cast<size_t>( 255 - i * 4 - k ) ) ? 1 : 0 );
+        out << "0123456789ABCDEF"[d];
+    }
+    out << "\n";
     for( const ScoreEntry &e : m_top ) out << "top=" << e.m_initials << "|" << e.m_score << "|" << e.m_distance << "|" << e.m_code << "\n";
 }
 
@@ -206,10 +309,19 @@ std::string Records::paintRequirement( int paint )
 
 int Records::seenCount() const
 {
-    int n = 0;
+    return static_cast<int>( m_seen.count() );
+}
+
+int Records::countriesSeen() const
+{
+    std::vector<std::string> countries;
     for( int i = 0; i < static_cast<int>( BiomeE::COUNT ); ++i )
-        if( m_seenBiomes & ( 1ull << i ) ) ++n;
-    return n;
+    {
+        const char *c = biomeDef( static_cast<BiomeE>( i ) ).m_country;
+        if( c && m_seen.test( static_cast<size_t>( i ) ) && std::find( countries.begin(), countries.end(), c ) == countries.end() )
+            countries.push_back( c );
+    }
+    return static_cast<int>( countries.size() );
 }
 
 void Ghost::startRecording()

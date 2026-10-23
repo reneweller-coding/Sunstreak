@@ -53,6 +53,14 @@ const CarSpec &carSpec( int index );
  */
 const char *paintName( int index );
 
+/** @brief Which way a prop turns. */
+enum class FacingE : uint8_t
+{
+    FREE,    ///< any way
+    ROAD,    ///< its front (+x) towards the road
+    ALONG,   ///< along the road (its -z face towards the driver)
+};
+
 /** @brief A traffic vehicle's mesh and size. */
 struct VehicleModel
 {
@@ -87,6 +95,24 @@ public:
      */
     float propRadius( PropKindE kind ) const { return m_radius[static_cast<size_t>( kind )]; }
 
+    /**
+     * @brief The default colours of a prop with key colours.
+     * @param[in] kind  which prop
+     * @return three colours, or nullptr if the kind has no key colours
+     */
+    const Color *keys( PropKindE kind ) const
+    {
+        const auto &k = m_keys[static_cast<size_t>( kind )];
+        return k[0].a ? k.data() : nullptr;
+    }
+
+    /**
+     * @brief Which way a prop turns.
+     * @param[in] kind  which prop
+     * @return its facing
+     */
+    FacingE facing( PropKindE kind ) const { return m_facing[static_cast<size_t>( kind )]; }
+
     MeshBuilder m_post;           ///< delineator post
     MeshBuilder m_chevronRight;   ///< warning board, arrow to the driver's right
     MeshBuilder m_chevronLeft;    ///< warning board, arrow to the driver's left
@@ -106,8 +132,13 @@ private:
     /** @brief Builds the vehicles. */
     void buildVehicles();
 
+    /** @brief Builds the world tour's props (ModelsWorld.cpp). */
+    void buildWorldProps();
+
     std::array<std::vector<MeshBuilder>, static_cast<size_t>( PropKindE::COUNT )> m_props;    ///< variants per kind
     std::array<float, static_cast<size_t>( PropKindE::COUNT )>                    m_radius{};  ///< collision radii
+    std::array<std::array<Color, 3>, static_cast<size_t>( PropKindE::COUNT )>     m_keys{};    ///< default key colours
+    std::array<FacingE, static_cast<size_t>( PropKindE::COUNT )>                  m_facing{};  ///< which way they turn
 };
 
 } // namespace sunstreak

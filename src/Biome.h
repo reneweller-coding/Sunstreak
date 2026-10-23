@@ -12,6 +12,7 @@
 #include <raylib.h>
 
 #include <cstdint>
+#include <string>
 #include <vector>
 
 namespace sunstreak
@@ -58,6 +59,208 @@ enum class BiomeE : uint8_t
     WINTER_VILLAGE,  ///< snowy village with festive lights
     RAINBOW,         ///< green ridge after the rain
     ECLIPSE,         ///< a total solar eclipse
+    // The world tour (WorldBiomes.cpp), in the order of the route.
+    CONNEMARA,           ///< Ireland: bog, stone walls, white cottages
+    WILD_ATLANTIC,       ///< Ireland: sea cliffs and sheep
+    ISLE_OF_SKYE,        ///< Scotland: bare peaks above the sea
+    SNOWDONIA,           ///< Wales: slate, stone walls, rain
+    LAKE_DISTRICT,       ///< England: fells and lakes
+    COTSWOLDS,           ///< England: honey-stone villages and hedges
+    LONDON,              ///< England: terraces and glass towers
+    BRITTANY,            ///< France: granite, menhirs, the sea
+    NORMANDY,            ///< France: half-timbering, orchards, cows
+    PARIS,               ///< France: boulevards and an iron tower
+    CHAMPAGNE,           ///< France: vineyards on chalk
+    LOIRE_VALLEY,        ///< France: chateaux and poplars
+    FLANDERS,            ///< Belgium: poppy fields, brick farms
+    RHINE_VALLEY,        ///< Germany: steep vineyards, castles, the river
+    BLACK_FOREST,        ///< Germany: dark firs, big-roofed farms
+    AUTOBAHN,            ///< Germany: four lanes through pine forest
+    BAVARIA,             ///< Germany: onion domes and meadows before the Alps
+    SWISS_ALPS,          ///< Switzerland: chalets, cows, peaks
+    LAVAUX,              ///< Switzerland: vineyard terraces above the lake
+    SALZKAMMERGUT,       ///< Austria: lakes under steep mountains
+    CHAMONIX,            ///< France: Mont Blanc and larches
+    DOLOMITES,           ///< Italy: pale spires over meadows
+    LAKE_COMO,           ///< Italy: villas and cypresses by the lake
+    TUSCANY,             ///< Italy: cypress rows and golden hills
+    VIA_APPIA,           ///< Italy: umbrella pines, ruins, an aqueduct
+    AMALFI,              ///< Italy: pastel houses above the sea
+    SICILY,              ///< Italy: Etna, olives, prickly pears
+    COTE_D_AZUR,         ///< France: the Riviera
+    CAMARGUE,            ///< France: white horses, flamingos, salt marsh
+    BASQUE_COAST,        ///< Spain: green hills by the sea
+    RIOJA,               ///< Spain: vines on red earth
+    DOURO_VALLEY,        ///< Portugal: terraced vineyards over the river
+    ALGARVE,             ///< Portugal: ochre cliffs
+    ANDALUSIA,           ///< Spain: white villages, endless olives
+    LA_MANCHA,           ///< Spain: white windmills on the plain
+    COSTA_DEL_SOL,       ///< Spain: palms and white hotels
+    LANZAROTE,           ///< Spain: black lava and white houses
+    CHEFCHAOUEN,         ///< Morocco: the blue town in the Rif
+    MARRAKECH,           ///< Morocco: pink walls and palms
+    HIGH_ATLAS,          ///< Morocco: kasbahs under snowy peaks
+    SAHARA_DUNES,        ///< Morocco: Erg Chebbi
+    SAHEL,               ///< Mali: baobabs and a mud mosque
+    GOLD_COAST,          ///< Ghana: palms, red earth, pirogues
+    CONGO_BASIN,         ///< DR Congo: rainforest on a red road
+    RWANDA_HILLS,        ///< Rwanda: a thousand green hills
+    ETHIOPIAN_HIGHLANDS, ///< Ethiopia: terraces and round huts
+    DANAKIL,             ///< Ethiopia: salt and sulphur
+    LAKE_NAKURU,         ///< Kenya: flamingos
+    SERENGETI,           ///< Tanzania: the herds and the kopjes
+    KILIMANJARO,         ///< Tanzania: the snowy mountain over the farms
+    ZANZIBAR,            ///< Tanzania: white sand and dhows
+    ZAMBEZI,             ///< Zambia: the river and its spray
+    OKAVANGO,            ///< Botswana: channels and elephants
+    KALAHARI,            ///< Botswana: red sand and camelthorn
+    NAMIB,               ///< Namibia: red dunes, dead trees
+    SKELETON_COAST,      ///< Namibia: fog, sand and the sea
+    CAPE_PENINSULA,      ///< South Africa: Table Mountain and the sea
+    CAPE_WINELANDS,      ///< South Africa: Cape Dutch farms and vines
+    DRAKENSBERG,         ///< South Africa: the green escarpment
+    BAOBAB_AVENUE,       ///< Madagascar: the avenue of baobabs
+    SEYCHELLES,          ///< Seychelles: granite boulders on white sand
+    SOCOTRA,             ///< Yemen: dragon's blood trees
+    HAJAR_MOUNTAINS,     ///< Oman: wadis, palms and forts
+    EMPTY_QUARTER,       ///< Saudi Arabia: the biggest dunes
+    DUBAI,               ///< UAE: towers in the desert
+    WADI_RUM,            ///< Jordan: red sand, sandstone walls
+    DEAD_SEA,            ///< Jordan: salt shores in the haze
+    GIZA,                ///< Egypt: the pyramids
+    NILE_VALLEY,         ///< Egypt: palms, fields and feluccas
+    WHITE_DESERT,        ///< Egypt: chalk mushrooms
+    CEDARS,              ///< Lebanon: cedars below the snow
+    CAPPADOCIA,          ///< Turkey: fairy chimneys and balloons
+    LYCIAN_COAST,        ///< Turkey: pines over a turquoise sea
+    ISTANBUL,            ///< Turkey: mosques by the Bosphorus
+    SANTORINI,           ///< Greece: white houses, blue domes
+    PELOPONNESE,         ///< Greece: olives and temples
+    METEORA,             ///< Greece: monasteries on rock pillars
+    KOTOR,               ///< Montenegro: the bay under the mountains
+    DALMATIA,            ///< Croatia: white karst and red roofs
+    ROSE_VALLEY,         ///< Bulgaria: rose fields
+    DANUBE_DELTA,        ///< Romania: reeds and water
+    TRANSYLVANIA,        ///< Romania: haystacks and fortified churches
+    PUSZTA,              ///< Hungary: the plain, wells and horses
+    BOHEMIA,             ///< Czechia: rapeseed, castles, red roofs
+    TATRA,               ///< Poland: wooden houses under the Tatra
+    MASURIA,             ///< Poland: lakes and birches
+    SUNFLOWER_STEPPE,    ///< Ukraine: sunflowers to the horizon
+    CAUCASUS,            ///< Georgia: stone towers under the peaks
+    YAZD,                ///< Iran: mud brick and wind towers
+    SAMARKAND,           ///< Uzbekistan: turquoise domes
+    KAZAKH_STEPPE,       ///< Kazakhstan: grass, yurts, horses
+    TIAN_SHAN,           ///< Kyrgyzstan: yurts by alpine lakes
+    PAMIR_HIGHWAY,       ///< Tajikistan: the roof of the world
+    KARAKORAM,           ///< Pakistan: the highway under giants
+    LADAKH,              ///< India: stupas and prayer flags
+    RAJASTHAN,           ///< India: desert forts and camels
+    AGRA,                ///< India: a white marble tomb
+    MUMBAI,              ///< India: the bay and its towers
+    GOA,                 ///< India: palms, beaches, white churches
+    KERALA,              ///< India: backwaters and houseboats
+    DARJEELING,          ///< India: tea on the hills
+    HIMALAYA,            ///< Nepal: flags, stupas, the highest peaks
+    KATHMANDU_VALLEY,    ///< Nepal: brick temples and terraces
+    BHUTAN,              ///< Bhutan: dzongs in the pines
+    SRI_LANKA,           ///< Sri Lanka: the south coast
+    MALDIVES,            ///< Maldives: water villas on the lagoon
+    BAGAN,               ///< Myanmar: temples and balloons
+    NORTHERN_THAILAND,   ///< Thailand: wats in the misty hills
+    ANDAMAN_COAST,       ///< Thailand: limestone in the sea
+    MEKONG,              ///< Laos: the river and golden stupas
+    ANGKOR,              ///< Cambodia: temple towers in the forest
+    SAPA,                ///< Vietnam: terraces on steep hills
+    HA_LONG_BAY,         ///< Vietnam: karst islands and junks
+    HAI_VAN_PASS,        ///< Vietnam: the coast road over the pass
+    BORNEO,              ///< Malaysia: rainforest giants
+    SINGAPORE,           ///< Singapore: supertrees and towers
+    BALI,                ///< Indonesia: temple gates and terraces
+    BROMO,               ///< Indonesia: the volcano in the sea of sand
+    CHOCOLATE_HILLS,     ///< Philippines: a thousand round hills
+    HONG_KONG,           ///< China: towers between the hills and the harbour
+    GUILIN,              ///< China: karst towers on the Li river
+    ZHANGJIAJIE,         ///< China: sandstone pillars in the clouds
+    BAMBOO_SEA,          ///< China: bamboo and pandas
+    TIBET,               ///< China: the high plateau
+    ANHUI_VILLAGES,      ///< China: white walls, black gables, rapeseed
+    SHANGHAI,            ///< China: the skyline at night
+    GREAT_WALL,          ///< China: the wall on the ridges
+    GOBI,                ///< Mongolia: gravel desert and camels
+    MONGOLIAN_STEPPE,    ///< Mongolia: gers and horses
+    HANOK_VILLAGE,       ///< South Korea: curved roofs
+    JEJU,                ///< South Korea: volcanic walls and tangerines
+    MOUNT_FUJI,          ///< Japan: the mountain over the tea
+    KYOTO,               ///< Japan: temples and bamboo
+    SHIRAKAWA_GO,        ///< Japan: steep thatch in the snow
+    TOKYO,               ///< Japan: the expressway at night
+    FURANO,              ///< Japan: striped flower fields
+    DAINTREE,            ///< Australia: rainforest and cane fields
+    RED_CENTRE,          ///< Australia: Uluru and kangaroos
+    BLUE_MOUNTAINS,      ///< Australia: eucalyptus haze
+    GREAT_OCEAN_ROAD,    ///< Australia: sea stacks
+    MACKENZIE_BASIN,     ///< New Zealand: lupins and turquoise lakes
+    ROTORUA,             ///< New Zealand: steam and green hills
+    FIORDLAND,           ///< New Zealand: rain, ferns, waterfalls
+    BORA_BORA,           ///< French Polynesia: the lagoon
+    NORTH_SHORE,         ///< Hawaii: green ridges and surf
+    EASTER_ISLAND,       ///< Chile: the moai
+    CARRETERA_AUSTRAL,   ///< Chile: rainforest and glaciers
+    PATAGONIA,           ///< Argentina: granite spires over the steppe
+    PAMPAS,              ///< Argentina: grass, cattle, estancias
+    MENDOZA,             ///< Argentina: vines under the Andes
+    ATACAMA,             ///< Chile: lagoons and flamingos in the desert
+    ALTIPLANO,           ///< Bolivia: llamas and volcanoes
+    TITICACA,            ///< Peru: the high lake
+    SACRED_VALLEY,       ///< Peru: Inca terraces
+    VOLCANO_AVENUE,      ///< Ecuador: the avenue of volcanoes
+    COCORA_VALLEY,       ///< Colombia: wax palms
+    GRAN_SABANA,         ///< Venezuela: the tepuis
+    AMAZON_RIVER,        ///< Brazil: the river and stilt houses
+    PANTANAL,            ///< Brazil: wetlands
+    LENCOIS,             ///< Brazil: white dunes, blue lagoons
+    RIO,                 ///< Brazil: Sugarloaf and favelas
+    CLOUD_FOREST,        ///< Costa Rica: mist and a volcano
+    MAYAN_JUNGLE,        ///< Guatemala: pyramids in the forest
+    VINALES,             ///< Cuba: mogotes and tobacco
+    JAMAICA,             ///< Jamaica: beaches and bananas
+    YUCATAN,             ///< Mexico: a step pyramid and the jungle
+    AGAVE_FIELDS,        ///< Mexico: blue agave
+    MEXICAN_HIGHLANDS,   ///< Mexico: colonial towns, volcanoes
+    BAJA,                ///< Mexico: cardon cacti by the sea
+    ROUTE_66,            ///< USA: diners and motels
+    LAS_VEGAS,           ///< USA: the Strip at night
+    DEATH_VALLEY,        ///< USA: salt and heat
+    JOSHUA_TREE,         ///< USA: Joshua trees and boulders
+    BIG_SUR,             ///< USA: the coast highway
+    YOSEMITE,            ///< USA: granite domes
+    REDWOODS,            ///< USA: the giants
+    CASCADES,            ///< USA: firs under a snowy volcano
+    YELLOWSTONE,         ///< USA: geysers and bison
+    GRAND_CANYON,        ///< USA: the rim
+    ARCHES,              ///< USA: stone arches
+    BADLANDS,            ///< USA: striped hills
+    WEST_TEXAS,          ///< USA: pumpjacks and longhorns
+    FLORIDA_KEYS,        ///< USA: the overseas highway
+    MIAMI,               ///< USA: art deco and palms
+    SMOKY_MOUNTAINS,     ///< USA: blue haze and log cabins
+    NEW_YORK,            ///< USA: Manhattan
+    MAINE_COAST,         ///< USA: lighthouses and lobster boats
+    NEWFOUNDLAND,        ///< Canada: coloured houses on rock
+    PRAIRIES,            ///< Canada: canola and grain elevators
+    BANFF,               ///< Canada: turquoise lakes under the Rockies
+    DENALI,              ///< Alaska: tundra and the great mountain
+    KAMCHATKA,           ///< Russia: volcanoes and tundra
+    LAKE_BAIKAL,         ///< Russia: the frozen lake
+    SIBERIA,             ///< Russia: taiga in winter
+    GOLDEN_RING,         ///< Russia: golden domes and wooden houses
+    CURONIAN_SPIT,       ///< Lithuania: dunes and pines
+    FINNISH_LAKELAND,    ///< Finland: lakes, birches, red houses
+    LOFOTEN,             ///< Norway: fishing huts under steep peaks
+    SMALAND,             ///< Sweden: red cottages in the forest
+    JUTLAND,             ///< Denmark: thatch and wind turbines
+    RING_ROAD,           ///< Iceland: moss on lava, waterfalls
     COUNT            ///< the number of biomes
 };
 
@@ -129,6 +332,118 @@ enum class PropKindE : uint8_t
     GRAVESTONE,    ///< gravestone
     LIGHT_TREE,    ///< pine with festive lights
     SNOW_HOUSE,    ///< house with a snowy roof and lit windows
+    // The world tour's props (ModelsWorld.cpp). Keyed colours follow the rule's colours.
+    OLIVE,          ///< gnarled olive tree
+    POPLAR,         ///< slim Lombardy poplar
+    UMBRELLA_PINE,  ///< stone pine
+    SPRUCE,         ///< slender dark spruce
+    BAOBAB,         ///< baobab
+    EUCALYPTUS,     ///< pale trunk, sparse crown
+    JOSHUA_TREE,    ///< Joshua tree
+    AGAVE,          ///< blue agave
+    PRICKLY_PEAR,   ///< opuntia
+    BANANA,         ///< banana plant
+    CEDAR,          ///< Lebanon cedar, flat tiers
+    REDWOOD,        ///< giant redwood
+    WAX_PALM,       ///< very tall slim palm
+    DRAGON_TREE,    ///< dragon's blood tree
+    TREE_FERN,      ///< tree fern
+    LUPIN,          ///< flower spikes (keyed: blossom)
+    FLOWER_BUSH,    ///< flowering bush (keyed: blossom)
+    SHRUB,          ///< low bush (keyed: leaves)
+    BROADLEAF,      ///< round tree (keyed: leaves)
+    VINE_ROW,       ///< a row of vines along the road
+    TEA_ROW,        ///< a row of tea bushes
+    DATE_PALM,      ///< date palm
+    MANGROVE,       ///< mangrove on its roots
+    SUPERTREE,      ///< Singapore's supertree
+    KARST,          ///< limestone tower with green (keyed: rock, green)
+    SEA_STACK,      ///< rock in the sea (keyed: rock)
+    FAIRY_CHIMNEY,  ///< cone with a cap
+    PILLAR,         ///< sandstone pillar with trees on top
+    ARCH,           ///< natural stone arch (keyed: rock)
+    DUNE,           ///< sand dune (keyed: sand)
+    KOPJE,          ///< granite boulder pile
+    CHALK_ROCK,     ///< white chalk mushroom
+    MENHIR,         ///< standing stone
+    MOAI,           ///< moai
+    MONOLITH,       ///< a great lone rock (keyed: rock)
+    TEPUI,          ///< table mountain (keyed: cliff, top)
+    VOLCANO_CONE,   ///< volcano (keyed: rock, snow cap)
+    GRANITE_DOME,   ///< granite dome (keyed: rock)
+    HILLOCK,        ///< round hill (keyed: grass)
+    BADLAND,        ///< eroded striped hill (keyed: two bands)
+    GEYSER,         ///< steam column
+    TERRACES,       ///< terraced hillside (keyed: crop, wall)
+    PEAK,           ///< rock spire with snow (keyed: rock, snow)
+    COTTAGE,        ///< small gabled house (keyed: wall, roof, windows)
+    FLAT_HOUSE,     ///< cube house with a flat roof (keyed: wall, trim, windows)
+    CHALET,         ///< wide-roofed wooden house (keyed: wall, roof, windows)
+    HALF_TIMBER,    ///< half-timbered house (keyed: plaster, roof, windows)
+    ROW_HOUSES,     ///< a terrace of houses (keyed: wall, roof, windows)
+    CHURCH,         ///< church with a spire (keyed: wall, roof)
+    ONION_CHURCH,   ///< church with onion domes (keyed: wall, domes)
+    MOSQUE,         ///< dome and minaret (keyed: wall, dome)
+    STUPA,          ///< stupa (keyed: body, spire)
+    WAT,            ///< Thai temple
+    TEMPLE_TOWER,   ///< Khmer or Hindu temple tower (keyed: stone)
+    STEP_PYRAMID,   ///< Maya pyramid (keyed: stone)
+    STONE_PYRAMID,  ///< Egyptian pyramid
+    KASBAH,         ///< earthen fortress (keyed: earth)
+    ADOBE,          ///< adobe house (keyed: earth)
+    YURT,           ///< yurt (keyed: felt, band)
+    RONDAVEL,       ///< round hut (keyed: wall, thatch)
+    HANOK,          ///< Korean house with a curved roof
+    GASSHO,         ///< steep thatched farmhouse
+    HUIZHOU_HOUSE,  ///< white walls, black stepped gables
+    CASTLE,         ///< castle (keyed: stone, roofs)
+    COLUMNS,        ///< ruined temple columns
+    AQUEDUCT,       ///< arcade of an aqueduct (keyed: stone)
+    ROUND_MILL,     ///< white round windmill
+    WATCHTOWER,     ///< stone tower with a wall (keyed: stone)
+    FORT,           ///< fortress (keyed: wall, band)
+    CAPE_DUTCH,     ///< white gabled farmhouse
+    GRAIN_ELEVATOR, ///< prairie grain elevator (keyed: wall)
+    WATER_TOWER,    ///< water tower on legs (keyed: tank)
+    PUMPJACK,       ///< oil pump
+    WIND_PUMP,      ///< farm wind pump
+    DINER,          ///< roadside diner with its sign
+    MOTEL_SIGN,     ///< tall motel sign
+    GAS_STATION,    ///< filling station (keyed: canopy)
+    CASINO,         ///< casino hotel, lit
+    GLASS_TOWER,    ///< glass high-rise (keyed: glass, -, windows)
+    SUPERTALL,      ///< needle of a supertall tower
+    TV_TOWER,       ///< concrete tower with spheres
+    LATTICE_TOWER,  ///< iron lattice tower (keyed: paint)
+    PANEL_BLOCK,    ///< panel block of flats (keyed: wall, -, windows)
+    FAVELA,         ///< stacked hillside houses
+    WATER_VILLA,    ///< bungalow on stilts in the lagoon
+    TEMPLE_GATE,    ///< Balinese split gate
+    PRAYER_FLAGS,   ///< lines of prayer flags
+    WAYSIDE_CROSS,  ///< wayside cross or shrine
+    PARASOL,        ///< beach umbrella (keyed: cloth)
+    HEDGE,          ///< hedgerow along the road
+    RANCH_FENCE,    ///< white ranch fence along the road
+    POWER_PYLON,    ///< lattice power pylon
+    BALLOON,        ///< hot air balloon in the sky (keyed: envelope)
+    SAILBOAT,       ///< sailing boat (keyed: sail)
+    BOAT,           ///< small boat (keyed: hull)
+    HOUSEBOAT,      ///< houseboat
+    COW,            ///< cow
+    SHEEP,          ///< sheep
+    HORSE,          ///< horse
+    CAMEL,          ///< camel
+    ELEPHANT,       ///< elephant
+    GIRAFFE,        ///< giraffe
+    ZEBRA,          ///< zebra
+    KANGAROO,       ///< kangaroo
+    LLAMA,          ///< llama
+    BISON,          ///< bison
+    MOOSE,          ///< moose
+    REINDEER,       ///< reindeer
+    YAK,            ///< yak
+    PANDA,          ///< panda
+    FLAMINGO,       ///< flamingo
     COUNT          ///< the number of kinds
 };
 
@@ -142,6 +457,24 @@ struct PropRule
     float     m_scaleMin;        ///< smallest scale
     float     m_scaleMax;        ///< largest scale
     bool      m_onWater = false; ///< floats on the sea (icebergs): placed only on a water side, at sea level
+    Color     m_a{};             ///< keyed colour one (alpha 0: the kind's own)
+    Color     m_b{};             ///< keyed colour two
+    Color     m_c{};             ///< keyed colour three (windows: dark by day, warm at night)
+    bool      m_pastel = false;  ///< colour one changes per object (painted rows of houses)
+    int8_t    m_variant = -1;    ///< one of the kind's variants (-1: any)
+};
+
+/** @brief How a bridge is built. */
+enum class BridgeE : uint8_t
+{
+    BEAM,          ///< concrete deck on pillar pairs
+    VIADUCT,       ///< tall slim piers over a deep valley
+    ARCH,          ///< stone arches
+    TRUSS,         ///< steel truss over the deck
+    SUSPENSION,    ///< towers and cables
+    CABLE_STAYED,  ///< one pylon, a fan of stays
+    COVERED,       ///< wooden, roofed
+    CAUSEWAY,      ///< low and long over the sea
 };
 
 /** @brief Light and air: everything the renderer blends between biomes. */
@@ -241,6 +574,9 @@ struct BiomeDef
     int                   m_station = 0;        ///< the radio station this biome plays in automatic mode
     float                 m_tunnels = 0.0f;     ///< chance that a stretch runs through a tunnel
     float                 m_bridges = 0.0f;     ///< chance that a straight crosses a valley on a bridge
+    const char           *m_country = nullptr;  ///< where on the world tour (none: off the map)
+    BridgeE               m_bridge = BridgeE::BEAM;               ///< how its bridges are built
+    Color                 m_bridgeColor = { 150, 150, 154, 255 }; ///< their paint or stone
 };
 
 /**
@@ -249,6 +585,38 @@ struct BiomeDef
  * @return its definition (static storage)
  */
 const BiomeDef &biomeDef( BiomeE biome );
+
+/**
+ * @brief The world tour: every biome with a country, in the order of a trip round the world.
+ * @return the route (static storage)
+ */
+const std::vector<BiomeE> &worldRoute();
+
+/**
+ * @brief A biome's place on the world tour.
+ * @param[in] biome  which one
+ * @return its index in worldRoute(), -1 if it is not on the route
+ */
+int routeIndex( BiomeE biome );
+
+/**
+ * @brief A biome's name with its country ("TUSCANY - ITALY").
+ * @param[in] biome  which one
+ * @return the text for the screen
+ */
+std::string placeName( BiomeE biome );
+
+/**
+ * @brief How many countries the world tour visits.
+ * @return the number of different countries
+ */
+int countryCount();
+
+/**
+ * @brief Fills in the world tour's biomes (WorldBiomes.cpp).
+ * @param[out] table  the biome table, indexed by BiomeE
+ */
+void addWorldBiomes( BiomeDef *table );
 
 /**
  * @brief Blends two environments.

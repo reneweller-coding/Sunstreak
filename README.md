@@ -2,7 +2,8 @@
 
 An arcade racer in the spirit of *Lotus III: The Ultimate Challenge*: a low camera, a road that bends, climbs and
 throws you over crests, traffic to slice through and a clock that only checkpoints refill. The endless mode drives a
-track generated from a seed, one biome per 5 km stage, and it grows curvier, denser and stricter as you go.
+track generated from a seed, one biome per 5 km stage, and it grows curvier, denser and stricter as you go. By
+default it is a world tour: 227 places in 97 countries, one after the other round the globe.
 
 Beside the endless run there is a championship against eleven rivals, a Track Lab that turns any setting into a
 shareable track code, a ghost of your best drive on every code and a top ten.
@@ -38,12 +39,13 @@ VIBRATION; on the Deck through Steam Input).
 - **Endless run**: the clock, the checkpoints and the stages, on a fresh random track each time.
 - **Championship**: five races on generated tracks against eleven rivals, from the back of the grid; points
   10-8-6-5-4-3-2-1 per race, the standings after each. Rivals draft in your slipstream and you in theirs.
-- **Track Lab**: mode (time attack or a race against the eleven), scenery (mixed or one biome), curves, sharpness,
-  hills, traffic and obstacles (0..9 or AUTO), length (2.5..37.5 km, or endless in time attack) and the seed. Every
-  combination is a 14-character code such as `K3ZQ-8M2T-VX41`; CODE types one in, the results show the code of every
-  run.
-- **Records**: the top ten (with your initials), total kilometres, titles, biomes seen. The best drive on each code
-  is kept as a ghost car that races along the next time.
+- **Track Lab**: mode (time attack or a race against the eleven), scenery (the world tour, all mixed, or one place:
+  the eight classics and every place you have driven through), curves, sharpness, hills, traffic and obstacles (0..9
+  or AUTO), length (2.5..37.5 km, or endless in time attack) and the seed. Every combination is a code of fifteen
+  characters such as `K3ZQ8-M2TVX-41P0R` with a check symbol against typos; CODE types one in, the results show the
+  code of every run. The twelve-character codes of earlier versions still work.
+- **Records**: the top ten (with your initials), total kilometres, titles, places and countries seen. The best drive
+  on each code is kept as a ghost car that races along the next time.
 
 Unlocks: the SPARROW (light, revvy four-cylinder) after 30 km, the VORTEX (V12, fastest) after 100 km or a title;
 the paints SUN YELLOW (15 km), DEEP BLUE (50 km) and CHAMPION GOLD (a title).
@@ -52,13 +54,21 @@ Difficulty (Settings: EASY, NORMAL, HARD) scales the grip, the clock, the traffi
 is in `tuning.ini` beside the settings (written with comments on the first start): steer, centrifugal, accel, brake,
 boost, grip, crash_keep, time, traffic, rivals. Change a value and restart; delete the file for the defaults.
 
-38 biomes, shuffled per track code, each stage another: Green Valley, Alpine Pass, Red Canyon, Frozen Peaks, Sunset
-Coast, Night Metro, Storm Marsh, Neon Horizon, Amber Woods, Sakura Hills, Jungle Run, Golden Savanna, Volcano Ridge
-(lava), Aurora Tundra (northern lights), Lavender Vale, Tulip Polder, Misty Highlands, Fjord Light, Rice Terraces,
-Salt Flats, Mesa Sunset, Suburbia, Steel Harbor, Neon Rain, Dawn Expressway (sound walls, sign gantries), Lunar
-Highway (the Earth in the sky, low gravity), Red Planet, Crystal Desert, Fungal Glade, Cloud Highway (a ridge above
-the clouds), Iceberg Bay, Bayou Dusk, Wheat Plains, Chalk Cliffs, Pumpkin Hollow, Frosted Village, Rainbow Ridge and
+239 biomes. The world tour (Settings > SCENERY) runs east from Ireland: the British Isles, France, Germany and the
+Alps, Italy, Iberia, Morocco, West, East and Southern Africa, Arabia, Egypt and the Levant, Turkey, Greece and the
+Balkans, Central and Eastern Europe, Central Asia, India and the Himalaya, Southeast and East Asia, Australia, New
+Zealand and the Pacific, South and Central America, Mexico, the United States and Canada, Russia, the Baltic,
+Scandinavia, Greenland and Iceland, and back to Ireland. Each stage shows its place and country: Tuscany, the
+Serengeti with its herds, Cappadocia under balloons, Ha Long Bay, the Avenue of Baobabs, Route 66, Las Vegas and
+Tokyo at night, the Great Wall, Uluru, the moai, the Florida Keys and two hundred more. ALL MIXED shuffles every
+biome, the twelve that are not on the map included: Night Metro, Storm Marsh, Neon Horizon, Neon Rain, Dawn
+Expressway, Lunar Highway (low gravity), Red Planet, Crystal Desert, Fungal Glade, Cloud Highway, Pumpkin Hollow and
 Total Eclipse.
+
+Bridges are built the way the region builds them: concrete beams, tall viaducts over Alpine gorges, stone arches in
+Europe, steel trusses in North America, suspension bridges over the Bosphorus and in New York, cable-stayed spans in
+Dubai, Shanghai and Lofoten, covered wooden bridges in the Black Forest and Bhutan, and long low causeways over the
+sea in the Florida Keys and the Maldives.
 
 ## Radio
 
@@ -105,10 +115,11 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
 
     --windowed | --fullscreen     this start only
     --seed N                      the endless run's track (otherwise random)
-    --biome 0..37                 the first stage's biome
+    --biome 0..238                the first stage's biome (on the world tour: where it starts)
+    --scenery world|mixed|N       the endless run's scenery for this start (N: one biome all the way)
     --play                        skip the title
     --championship                start a championship
-    --code XXXX-XXXX-XXXX         drive a Track Lab code
+    --code XXXXX-XXXXX-XXXXX      drive a Track Lab code
     --screen lab|records|code     open that screen
     --camera 0..2                 chase, far or bumper camera
     --find tunnel|bridge          start just before the first tunnel or bridge

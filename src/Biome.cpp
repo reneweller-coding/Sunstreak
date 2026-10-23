@@ -1098,6 +1098,8 @@ std::array<BiomeDef, static_cast<size_t>( BiomeE::COUNT )> makeBiomes()
                       { PropKindE::GRASS_TUFT, 0.2f, 1.0f, 30.0f, 0.7f, 1.2f },
                       { PropKindE::BUTTE, 0.004f, 80.0f, 300.0f, 1.0f, 1.8f } };
     }
+    addWorldBiomes( b.data() );
+
     // Tunnels in the mountains and under cities, bridges over valleys, canals and the clouds.
     const std::pair<BiomeE, float> tunnels[] = { { BiomeE::FOREST, 0.3f },   { BiomeE::SNOW, 0.25f },     { BiomeE::FJORD, 0.35f },
                                                  { BiomeE::HIGHLANDS, 0.18f }, { BiomeE::SAKURA, 0.12f }, { BiomeE::JUNGLE, 0.12f },

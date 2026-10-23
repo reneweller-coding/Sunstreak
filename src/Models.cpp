@@ -1081,6 +1081,7 @@ void Models::buildProps()
                                                  { PropKindE::FIREFLIES, 0.8f } };
     for( const auto &[kind, amount] : sway )
         for( MeshBuilder &variant : m_props[static_cast<size_t>( kind )] ) variant.applySway( amount );
+    buildWorldProps();
 
     // Road furniture.
     m_post.box( Vector3{ 0, 0.55f, 0 }, Vector3{ 0.06f, 0.55f, 0.06f }, rgb( 236, 236, 236 ) );

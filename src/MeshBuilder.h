@@ -19,6 +19,39 @@
 namespace sunstreak
 {
 
+/**
+ * @brief Key colour one: append() replaces it by the first of its keys, scaled by k (a shade of the same paint).
+ * @param[in] k  0.01..1
+ * @return the marker
+ */
+inline Color keyA( float k = 1.0f )
+{
+    const auto v = static_cast<unsigned char>( 2.0f + 248.0f * k );
+    return Color{ v, 1, v, 255 };
+}
+
+/**
+ * @brief Key colour two (see keyA()).
+ * @param[in] k  0.01..1
+ * @return the marker
+ */
+inline Color keyB( float k = 1.0f )
+{
+    const auto v = static_cast<unsigned char>( 2.0f + 248.0f * k );
+    return Color{ 1, v, v, 255 };
+}
+
+/**
+ * @brief Key colour three (see keyA()), used for windows.
+ * @param[in] k  0.01..1
+ * @return the marker
+ */
+inline Color keyC( float k = 1.0f )
+{
+    const auto v = static_cast<unsigned char>( 2.0f + 248.0f * k );
+    return Color{ v, v, 1, 255 };
+}
+
 /** @brief Material values of a triangle. */
 struct Mat
 {
@@ -137,8 +170,10 @@ public:
      * @param[in] yaw     rotation about y (rad, the model's +z towards headingForward(yaw))
      * @param[in] scale   uniform scale
      * @param[in] bright  colour multiplier (variation)
+     * @param[in] keys    three colours that replace the key colours (keyA/B/C), or nullptr
      */
-    void append( const MeshBuilder &src, Vector3 pos, float yaw, float scale, float bright = 1.0f );
+    void append( const MeshBuilder &src, Vector3 pos, float yaw, float scale, float bright = 1.0f,
+                 const Color *keys = nullptr );
 
     /**
      * @brief Appends another builder's triangles through a full basis.

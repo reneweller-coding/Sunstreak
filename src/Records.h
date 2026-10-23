@@ -13,6 +13,7 @@
 #include "Car.h"
 #include "Track.h"
 
+#include <bitset>
 #include <cstdint>
 #include <string>
 #include <vector>
@@ -59,7 +60,7 @@ struct Records
     double                  m_totalKm = 0.0;    ///< kilometres driven in all modes
     int                     m_titles = 0;       ///< championships won
     int                     m_bestPlace = 0;    ///< best championship place (0: none)
-    uint64_t                m_seenBiomes = 0;   ///< a bit per biome driven through
+    std::bitset<256>        m_seen;             ///< a bit per biome driven through
 
     /**
      * @brief Reads the records file.
@@ -119,6 +120,12 @@ struct Records
      * @return 0..BiomeE::COUNT
      */
     int seenCount() const;
+
+    /**
+     * @brief How many countries the biomes driven through belong to.
+     * @return the number
+     */
+    int countriesSeen() const;
 };
 
 /** @brief One sample of a recorded drive. */

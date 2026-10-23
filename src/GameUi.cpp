@@ -20,9 +20,9 @@ using namespace ui;
 
 const char *Game::settingLabel( SettingE item ) const
 {
-    static const char *labels[] = { "DISPLAY",    "3D RESOLUTION", "SHADOWS", "VSYNC",   "FRAME LIMIT", "DIFFICULTY",
-                                    "GEARS",      "SPEEDOMETER",   "CAMERA",  "SPEED BLUR", "VIBRATION", "MUSIC",
-                                    "EFFECTS",    "RADIO",         "BACK" };
+    static const char *labels[] = { "DISPLAY",     "3D RESOLUTION", "SHADOWS", "VSYNC",      "FRAME LIMIT", "DIFFICULTY",
+                                    "SCENERY",     "GEARS",         "SPEEDOMETER", "CAMERA", "SPEED BLUR",  "VIBRATION",
+                                    "MUSIC",       "EFFECTS",       "RADIO",   "BACK" };
     return labels[static_cast<int>( item )];
 }
 
@@ -45,6 +45,7 @@ std::string Game::settingValue( SettingE item ) const
     case SettingE::VSYNC: return m_settings.m_vsync ? "ON" : "OFF";
     case SettingE::FRAME_LIMIT: return m_settings.m_fpsLimit ? format( "%d FPS", m_settings.m_fpsLimit ) : std::string( "NONE" );
     case SettingE::DIFFICULTY: return levels[std::clamp( m_settings.m_difficulty, 0, 2 )];
+    case SettingE::SCENERY: return m_settings.m_scenery ? "ALL MIXED" : "WORLD TOUR";
     case SettingE::GEARS: return m_settings.m_manualGears ? "MANUAL" : "AUTOMATIC";
     case SettingE::UNITS: return m_settings.m_units == UnitsE::MPH ? "MPH" : "KM/H";
     case SettingE::CAMERA: return cams[m_settings.m_camera];
@@ -91,6 +92,7 @@ void Game::changeSetting( SettingE item, int dir )
         m_settings.m_difficulty = std::clamp( m_settings.m_difficulty + dir, 0, 2 );
         tuning() = applyDifficulty( m_tuningBase, m_settings.m_difficulty );
         break;
+    case SettingE::SCENERY: m_settings.m_scenery = 1 - m_settings.m_scenery; break;
     case SettingE::GEARS: m_settings.m_manualGears = !m_settings.m_manualGears; break;
     case SettingE::UNITS: m_settings.m_units = m_settings.m_units == UnitsE::KMH ? UnitsE::MPH : UnitsE::KMH; break;
     case SettingE::CAMERA: m_settings.m_camera = ( m_settings.m_camera + 3 + dir ) % 3; break;
@@ -119,7 +121,10 @@ std::string Game::labValue( LabE item ) const
     switch( item )
     {
     case LabE::MODE: return m_lab.m_race ? "RACE  (11 RIVALS)" : "TIME ATTACK";
-    case LabE::SCENERY: return p.m_biome < 0 ? std::string( "MIXED" ) : std::string( biomeDef( static_cast<BiomeE>( p.m_biome ) ).m_name );
+    case LabE::SCENERY:
+        return p.m_biome == SceneryWorld ? std::string( "WORLD TOUR" )
+               : p.m_biome < 0           ? std::string( "MIXED" )
+                                         : std::string( biomeDef( static_cast<BiomeE>( p.m_biome ) ).m_name );
     case LabE::CURVES: return level( p.m_curvy );
     case LabE::SHARPNESS: return level( p.m_sharp );
     case LabE::HILLS: return level( p.m_hilly );
@@ -144,10 +149,12 @@ void Game::changeLab( LabE item, int dir )
         break;
     case LabE::SCENERY:
     {
-        // Mixed, the eight classic biomes, and every biome discovered on the road.
-        std::vector<int> options = { -1 };
+        // The world tour, mixed, the eight classic biomes, and every place discovered on the road (in the route's order).
+        std::vector<int> options = { SceneryWorld, SceneryMixed };
+        for( BiomeE b : worldRoute() )
+            if( static_cast<int>( b ) < 8 || m_records.m_seen.test( static_cast<size_t>( b ) ) ) options.push_back( static_cast<int>( b ) );
         for( int b = 0; b < static_cast<int>( BiomeE::COUNT ); ++b )
-            if( b < 8 || ( m_records.m_seenBiomes & ( 1ull << b ) ) ) options.push_back( b );
+            if( routeIndex( static_cast<BiomeE>( b ) ) < 0 && ( b < 8 || m_records.m_seen.test( static_cast<size_t>( b ) ) ) ) options.push_back( b );
         int idx = 0;
         for( size_t i = 0; i < options.size(); ++i )
             if( options[i] == p.m_biome ) idx = static_cast<int>( i );
@@ -224,6 +231,7 @@ void Game::menus( const MenuInput &m )
             {
                 TrackSetup s;
                 s.m_seed = m_options.m_seed ? ( ( m_options.m_seed & 0x1FFFFFFFull ) | 1ull ) : randomSeed();
+                s.m_params = endlessParams();
                 startTrack( s, ModeE::ENDLESS );
             }
             break;
@@ -452,6 +460,7 @@ void Game::menus( const MenuInput &m )
                 {
                     TrackSetup s;
                     s.m_seed = randomSeed();
+                    s.m_params = endlessParams();
                     startTrack( s, ModeE::ENDLESS );
                 }
                 else
@@ -932,8 +941,9 @@ void Game::drawRecords()
     drawText( format( "CHAMPIONSHIPS WON  %d", m_records.m_titles ), x + 30.0f * u, sy + 26.0f * u, 14.0f * u, Ink );
     drawText( m_records.m_bestPlace ? format( "BEST CHAMPIONSHIP  P%d", m_records.m_bestPlace ) : std::string( "BEST CHAMPIONSHIP  -" ),
               x + 30.0f * u, sy + 52.0f * u, 14.0f * u, Ink );
-    drawText( format( "SCENERIES DISCOVERED  %d / %d", m_records.seenCount(), static_cast<int>( BiomeE::COUNT ) ), x + 30.0f * u, sy + 78.0f * u,
+    drawText( format( "PLACES SEEN  %d / %d", m_records.seenCount(), static_cast<int>( BiomeE::COUNT ) ), x + 30.0f * u, sy + 78.0f * u,
               14.0f * u, Ink );
+    drawText( format( "COUNTRIES  %d / %d", m_records.countriesSeen(), countryCount() ), x + 30.0f * u, sy + 104.0f * u, 14.0f * u, Ink );
     drawText( "UNLOCKS", x + 430.0f * u, sy, 13.0f * u, Dim );
     float uy = sy + 24.0f * u;
     for( int c = 1; c < CarCount; ++c, uy += 22.0f * u )
@@ -1018,7 +1028,7 @@ void Game::drawHud()
              14.0f * u, 13.0f * u, Dim );
         drawTextFx( clockText( m_raceTime ), 28.0f * u, 34.0f * u, 28.0f * u, Ink, AlignE::LEFT, 0.3f );
         txt( format( "%.1f KM TO GO", std::max( 0.0, m_race.m_finishS - m_car.m_s ) / 1000.0 ), 28.0f * u, 74.0f * u, 15.0f * u, Ink );
-        txt( biomeDef( m_track->stageBiome( 0 ) ).m_name, 28.0f * u, 98.0f * u, 12.0f * u, Accent );
+        txt( placeName( m_track->stageBiome( 0 ) ), 28.0f * u, 98.0f * u, 12.0f * u, Accent );
         if( m_mode == ModeE::CHAMPIONSHIP )
             txt( format( "POINTS %d", m_race.m_playerPoints ), W - 28.0f * u, 14.0f * u, 13.0f * u, Ink, AlignE::RIGHT );
     }
@@ -1037,7 +1047,7 @@ void Game::drawHud()
         drawTextFx( format( "%lld", static_cast<long long>( m_score ) ), 28.0f * u, 34.0f * u, 28.0f * u, Ink, AlignE::LEFT, 0.3f );
         txt( format( "%.2f KM", ( m_car.m_s - m_startS ) / 1000.0 ), 28.0f * u, 74.0f * u, 15.0f * u, Ink );
         const BiomeE biome = m_track->stageBiome( static_cast<int>( m_car.m_s / StageLength ) );
-        txt( format( "STAGE %d  %s", static_cast<int>( m_car.m_s / StageLength ) + 1, biomeDef( biome ).m_name ), 28.0f * u, 98.0f * u, 12.0f * u,
+        txt( format( "STAGE %d  %s", static_cast<int>( m_car.m_s / StageLength ) + 1, placeName( biome ).c_str() ), 28.0f * u, 98.0f * u, 12.0f * u,
              Accent );
 
         // Records and combo.

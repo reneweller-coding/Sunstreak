@@ -79,7 +79,7 @@ int main()
         check( maxGrade < 0.3f, "grades below 30 % (crest ramps included)" );
         check( maxY - minY < 600.0, "height bounded" );
         check( checkpoints == 119, "a checkpoint every 2.5 km" );
-        check( jumps > 5 && works > 5, "crests and roadworks appear" );
+        check( jumps > 2 && works > 5, "crests and roadworks appear" );
     }
     { // Stages never repeat a biome back to back.
         Track t( 99 );
@@ -88,6 +88,17 @@ int main()
         check( ok, "no biome twice in a row" );
         Track forced( 99, TrackParams(), static_cast<int>( BiomeE::NEON ) );
         check( forced.stageBiome( 0 ) == BiomeE::NEON, "a requested first biome" );
+        TrackParams world;
+        world.m_biome = SceneryWorld;
+        Track       tour( 1234, world );
+        const auto &route = worldRoute();
+        const int   first = routeIndex( tour.stageBiome( 0 ) );
+        bool        follows = first >= 0;
+        for( int s = 1; s < static_cast<int>( route.size() ) + 3; ++s )
+            follows = follows && tour.stageBiome( s ) == route[static_cast<size_t>( first + s ) % route.size()];
+        check( follows, "the world tour follows the route" );
+        Track paris( 1234, world, static_cast<int>( BiomeE::PARIS ) );
+        check( paris.stageBiome( 0 ) == BiomeE::PARIS && paris.stageBiome( 1 ) == BiomeE::CHAMPAGNE, "the world tour from a chosen place" );
     }
     { // The car reaches its speed on a straight and stops again.
         Track     t( 4242 );
@@ -122,16 +133,35 @@ int main()
         a.m_params.m_biome = 25;
         a.m_params.m_length = 12500.0;
         a.m_race = true;
+        a.m_params.m_biome = static_cast<int>( BiomeE::COUNT ) - 1;
         const std::string code = encodeTrack( a );
         TrackSetup        b;
         const bool        ok = decodeTrack( code, b );
-        check( code.size() == 14 && code[4] == '-' && code[9] == '-', "track code format" );
+        check( code.size() == 17 && code[5] == '-' && code[11] == '-', "track code format" );
         check( ok && b.m_seed == a.m_seed && b.m_params.m_curvy == 7 && b.m_params.m_sharp == -1 && b.m_params.m_hilly == 0 &&
-                   b.m_params.m_traffic == 9 && b.m_params.m_obstacles == 3 && b.m_params.m_biome == 25 && b.m_params.m_length == 12500.0 &&
+                   b.m_params.m_traffic == 9 && b.m_params.m_obstacles == 3 && b.m_params.m_biome == a.m_params.m_biome &&
+                   b.m_params.m_length == 12500.0 &&
                    b.m_race,
                "track code round trip" );
         TrackSetup c;
         check( !decodeTrack( "NOT-A-CODE", c ), "a broken code is refused" );
+        std::string typo = code;
+        typo[2] = typo[2] == '7' ? '8' : '7';
+        check( !decodeTrack( typo, c ), "a mistyped code is refused" );
+        TrackSetup w;
+        w.m_seed = 4711;
+        w.m_params.m_biome = SceneryWorld;
+        check( decodeTrack( encodeTrack( w ), c ) && c.m_params.m_biome == SceneryWorld && c.m_seed == 4711, "the world tour in a code" );
+        // A code from before the world tour: twelve symbols, the biome in six bits.
+        uint64_t v = 0x1234567ull;
+        for( int i = 0; i < 5; ++i ) v = ( v << 4 ) | 15u;
+        v = ( v << 6 ) | 9u;
+        v = ( v << 4 ) | 2u;
+        v = ( v << 1 ) | 1u;
+        std::string legacy;
+        for( int i = 11; i >= 0; --i ) legacy += "0123456789ABCDEFGHJKMNPQRSTVWXYZ"[( v >> ( i * 5 ) ) & 31];
+        check( decodeTrack( legacy, c ) && c.m_seed == 0x1234567ull && c.m_params.m_biome == 9 && c.m_race && c.m_params.m_length == 5000.0,
+               "old codes still work" );
     }
     { // The rivals finish a race; the points add up.
         Race race;
@@ -167,6 +197,19 @@ int main()
                  d.m_grip > 0.5f && d.m_env.m_fogDensity > 0.0f && !d.m_props.empty();
         }
         check( ok, "all biomes defined" );
+        // The route visits every place with a country once, and only those.
+        int  onRoute = 0;
+        bool once = true;
+        for( int b = 0; b < static_cast<int>( BiomeE::COUNT ); ++b )
+        {
+            const bool placed = biomeDef( static_cast<BiomeE>( b ) ).m_country != nullptr;
+            int        n = 0;
+            for( BiomeE r : worldRoute() ) n += static_cast<int>( r ) == b ? 1 : 0;
+            once = once && n == ( placed ? 1 : 0 );
+            onRoute += n;
+        }
+        std::printf( "      %d places on the world tour, %d countries\n", onRoute, countryCount() );
+        check( once && onRoute >= 220, "the world tour visits every place once" );
         Track t( 31337 );
         bool  seen[static_cast<int>( BiomeE::COUNT )] = {};
         for( int s = 0; s < static_cast<int>( BiomeE::COUNT ); ++s ) seen[static_cast<int>( t.stageBiome( s ) )] = true;

@@ -52,6 +52,10 @@ enum SegmentFlagE : uint16_t
 };
 
 /** @brief What the Track Lab (and a race) asks of the generator; -1 leaves a value to the biomes. */
+constexpr int SceneryMixed = -1;   ///< TrackParams::m_biome: every stage another biome, all of them shuffled
+constexpr int SceneryWorld = -2;   ///< TrackParams::m_biome: the world tour, stage after stage along the route
+
+/** @brief The settings of a track the Track Lab can change (-1: as the biomes and the stages say). */
 struct TrackParams
 {
     int    m_curvy = -1;              ///< 0..9 how often the road bends
@@ -59,7 +63,7 @@ struct TrackParams
     int    m_hilly = -1;              ///< 0..9 how much it climbs
     int    m_traffic = -1;            ///< 0..9 traffic density
     int    m_obstacles = -1;          ///< 0..9 roadworks and puddles
-    int    m_biome = -1;              ///< one biome all the way, -1 a new one every stage
+    int    m_biome = -1;              ///< one biome all the way, or SceneryMixed / SceneryWorld
     double m_length = 0.0;            ///< the finish (m), 0 endless
     double m_startLine = StartLine;   ///< where the start gantry stands
 };
@@ -240,7 +244,8 @@ private:
     uint64_t                     m_seed;                ///< the seed
     TrackParams                  m_params;              ///< overrides
     Rng                          m_rng;                 ///< the feature planner's generator
-    mutable std::vector<uint8_t> m_stageBiomes;         ///< biome per stage, extended on demand
+    mutable std::vector<uint8_t> m_stageBiomes;         ///< biome per stage, extended on demand (world tour: a detour first)
+    int                          m_routeStart = 0;      ///< the world tour's first place (index in worldRoute())
     std::deque<Segment>          m_segments;            ///< the segments held
     long                         m_first = 0;           ///< absolute index of m_segments.front()
     std::deque<float>            m_pendingCurve;        ///< planned curvature per future segment

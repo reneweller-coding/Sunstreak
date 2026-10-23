@@ -87,6 +87,7 @@ bool loadSettings( Settings &settings )
             else if( key == "shadows" ) settings.m_shadows = val == "1";
             else if( key == "fps_limit" ) settings.m_fpsLimit = std::clamp( std::stoi( val ), 0, 240 );
             else if( key == "vibration" ) settings.m_vibration = val == "1";
+            else if( key == "scenery" ) settings.m_scenery = std::clamp( std::stoi( val ), 0, 1 );
             else if( key == "best_score" ) settings.m_bestScore = std::stoll( val );
             else if( key == "best_distance" ) settings.m_bestDistance = std::stod( val );
         }
@@ -119,6 +120,7 @@ bool saveSettings( const Settings &settings )
     out << "shadows=" << ( settings.m_shadows ? 1 : 0 ) << "\n";
     out << "fps_limit=" << settings.m_fpsLimit << "\n";
     out << "vibration=" << ( settings.m_vibration ? 1 : 0 ) << "\n";
+    out << "scenery=" << settings.m_scenery << "\n";
     out << "best_score=" << settings.m_bestScore << "\n";
     out << "best_distance=" << settings.m_bestDistance << "\n";
     return static_cast<bool>( out );
@@ -135,6 +137,11 @@ LaunchOptions parseCommandLine( int argc, char **argv )
         else if( a == "--windowed" ) o.m_forceDisplay = 0;
         else if( a == "--seed" ) o.m_seed = std::strtoull( next().c_str(), nullptr, 0 );
         else if( a == "--biome" ) o.m_startBiome = std::atoi( next().c_str() );
+        else if( a == "--scenery" )
+        {
+            const std::string what = next();
+            o.m_scenery = what == "world" ? -2 : what == "mixed" ? -1 : std::max( 0, std::atoi( what.c_str() ) );
+        }
         else if( a == "--autopilot" ) o.m_autopilot = true;
         else if( a == "--play" ) o.m_skipMenu = true;
         else if( a == "--mute" ) o.m_mute = true;

@@ -84,6 +84,7 @@ void Game::init()
     m_audio.setVolumes( m_settings.m_musicVolume, m_settings.m_sfxVolume );
     m_haptics.init();
     m_lab.m_seed = randomSeed();
+    m_lab.m_params.m_biome = SceneryWorld;
     TrackSetup fromCode;
     if( !m_options.m_code.empty() && decodeTrack( m_options.m_code, fromCode ) )
     {
@@ -97,6 +98,7 @@ void Game::init()
     {
         TrackSetup endless;
         endless.m_seed = m_options.m_seed ? ( ( m_options.m_seed & 0x1FFFFFFFull ) | 1ull ) : randomSeed();
+        endless.m_params = endlessParams();
         startTrack( endless, ModeE::ENDLESS );
     }
     else
@@ -150,6 +152,14 @@ void Game::setupTrack( uint64_t seed, double startS, const TrackParams &params )
     m_startS = startS;
 }
 
+TrackParams Game::endlessParams() const
+{
+    TrackParams p;
+    p.m_biome = m_settings.m_scenery ? SceneryMixed : SceneryWorld;
+    if( m_options.m_scenery >= SceneryWorld && m_options.m_scenery < static_cast<int>( BiomeE::COUNT ) ) p.m_biome = m_options.m_scenery;
+    return p;
+}
+
 void Game::startDemo()
 {
     m_demo = true;
@@ -160,7 +170,8 @@ void Game::startDemo()
     m_menuIndex = 0;
     const uint64_t seed = randomSeed();
     m_setup.m_seed = seed;
-    setupTrack( seed, 600.0, TrackParams() );
+    m_setup.m_params = endlessParams();
+    setupTrack( seed, 600.0, m_setup.m_params );
     m_car.m_speed = 42.0f;
     m_car.m_gear = 3;
     m_musicStage = static_cast<int>( m_car.m_s / StageLength );
@@ -214,9 +225,9 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
     }
     beginCountdown();
     if( setup.m_race )
-        popup( "RACE", biomeDef( m_track->stageBiome( 0 ) ).m_name, Accent, 1.0f, 3.0f );
+        popup( "RACE", placeName( m_track->stageBiome( 0 ) ), Accent, 1.0f, 3.0f );
     else
-        popup( format( "STAGE %d", m_stage + 1 ), biomeDef( m_track->stageBiome( m_stage ) ).m_name, Accent, 1.0f, 3.0f );
+        popup( format( "STAGE %d", m_stage + 1 ), placeName( m_track->stageBiome( m_stage ) ), Accent, 1.0f, 3.0f );
 }
 
 void Game::startChampionship()
@@ -239,7 +250,7 @@ void Game::startRound( int round )
     setupTrack( setup.m_seed, setup.m_params.m_startLine - 9.0, setup.m_params );
     m_race.grid( *m_track, m_car, tuning().m_rivals );
     beginCountdown();
-    popup( format( "RACE %d OF %d", round + 1, RoundCount ), biomeDef( m_track->stageBiome( 0 ) ).m_name, Accent, 1.0f, 3.0f );
+    popup( format( "RACE %d OF %d", round + 1, RoundCount ), placeName( m_track->stageBiome( 0 ) ), Accent, 1.0f, 3.0f );
 }
 
 void Game::restart()
@@ -348,7 +359,7 @@ void Game::progress( double ds )
     for( int i = 0; i < PaintCount; ++i ) paints[i] = m_records.paintUnlocked( i );
     m_records.m_totalKm += ds / 1000.0;
     const BiomeMix mix = m_track->biomeMix( m_car.m_s );
-    m_records.m_seenBiomes |= 1ull << static_cast<int>( mix.m_t < 0.5f ? mix.m_from : mix.m_to );
+    m_records.m_seen.set( static_cast<size_t>( mix.m_t < 0.5f ? mix.m_from : mix.m_to ) );
     for( int i = 0; i < CarCount; ++i )
         if( !cars[i] && m_records.carUnlocked( i ) ) popup( "NEW CAR", carSpec( i ).m_name, Gold, 0.9f, 3.0f );
     for( int i = 0; i < PaintCount; ++i )
@@ -673,7 +684,7 @@ void Game::timeAttackRules( float h )
     if( stage != m_stage )
     {
         m_stage = stage;
-        popup( format( "STAGE %d", stage + 1 ), biomeDef( track.stageBiome( stage ) ).m_name, Accent, 1.2f, 3.2f );
+        popup( format( "STAGE %d", stage + 1 ), placeName( track.stageBiome( stage ) ), Accent, 1.2f, 3.2f );
         m_audio.playOnBeat( SfxE::STAGE );
     }
     const double ds = m_car.m_s - m_lastS;

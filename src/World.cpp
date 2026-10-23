@@ -9,6 +9,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <iterator>
 
 namespace sunstreak
 {
@@ -42,6 +43,11 @@ enum class StripE
 
 constexpr Color WarmLight = { 255, 214, 160, 255 };   ///< street lamp light
 constexpr Mat   GroundMat = { -1.0f, 0.0f };           ///< marks land for the shader's neon grid
+
+/** @brief Paints for rows of houses whose rule asks for a different colour each (PropRule::m_pastel). */
+constexpr Color Pastels[] = { { 236, 170, 180, 255 }, { 170, 206, 230, 255 }, { 240, 220, 140, 255 }, { 180, 220, 170, 255 },
+                              { 240, 180, 130, 255 }, { 200, 180, 230, 255 }, { 240, 240, 232, 255 }, { 230, 130, 110, 255 },
+                              { 140, 200, 200, 255 }, { 250, 200, 90, 255 } };
 
 /**
  * @brief A point on a cross-section.
@@ -88,18 +94,82 @@ float tunnelCover( const Track &track, long index )
 }
 
 /**
+ * @brief The biome a bridge segment belongs to (the one ruling its middle, so a whole bridge has one style).
+ * @param[in] seg  the segment
+ * @return the definition
+ */
+const BiomeDef &bridgeBiome( const Segment &seg )
+{
+    return biomeDef( static_cast<BiomeE>( seg.m_blend < 0.5f ? seg.m_biome : seg.m_biomeTo ) );
+}
+
+/**
+ * @brief How deep the valley under a bridge of a style is.
+ * @param[in] style  how the bridge is built
+ * @return metres below the road
+ */
+float styleDepth( BridgeE style )
+{
+    switch( style )
+    {
+    case BridgeE::VIADUCT: return 55.0f;
+    case BridgeE::ARCH: return 24.0f;
+    case BridgeE::TRUSS: return 20.0f;
+    case BridgeE::SUSPENSION: return 34.0f;
+    case BridgeE::CABLE_STAYED: return 30.0f;
+    case BridgeE::COVERED: return 9.0f;
+    case BridgeE::CAUSEWAY: return 3.2f;
+    default: return ValleyDepth;
+    }
+}
+
+/**
  * @brief How deep the valley under a bridge is at a segment (1 under the bridge, rising at its ends).
- * @param[in] track  the road
- * @param[in] index  the segment
+ * @param[in]  track   the road
+ * @param[in]  index   the segment
+ * @param[out] metres  the full depth for the nearest bridge's style (if not null)
  * @return 0..1
  */
-float valleyDepth( const Track &track, long index )
+float valleyDepth( const Track &track, long index, float *metres = nullptr )
 {
     float best = 0.0f;
     for( long d = -RampSegments; d <= RampSegments; ++d )
-        if( track.segment( index + d ).m_flags & SEG_BRIDGE )
-            best = std::max( best, 1.0f - static_cast<float>( std::abs( d ) ) / static_cast<float>( RampSegments + 1 ) );
+    {
+        const Segment &s = track.segment( index + d );
+        if( !( s.m_flags & SEG_BRIDGE ) ) continue;
+        const float v = 1.0f - static_cast<float>( std::abs( d ) ) / static_cast<float>( RampSegments + 1 );
+        if( v > best )
+        {
+            best = v;
+            if( metres ) *metres = styleDepth( bridgeBiome( s ).m_bridge );
+        }
+    }
     return smoothstepf( 0.0f, 1.0f, best );
+}
+
+/**
+ * @brief A box turned to the road: centre, the road's right and forward, half sizes across, up and along.
+ * @param[out] m        where the triangles go
+ * @param[in]  c        centre
+ * @param[in]  right    the road's right
+ * @param[in]  forward  the road's forward
+ * @param[in]  hx       half size across
+ * @param[in]  hy       half height
+ * @param[in]  hz       half size along
+ * @param[in]  col      colour
+ */
+void obox( MeshBuilder &m, Vector3 c, Vector3 right, Vector3 forward, float hx, float hy, float hz, Color col )
+{
+    auto p = [&]( float x, float y, float z )
+    { return Vector3{ c.x + right.x * x + forward.x * z, c.y + y, c.z + right.z * x + forward.z * z }; };
+    const Vector3 v[8] = { p( -hx, -hy, -hz ), p( hx, -hy, -hz ), p( hx, hy, -hz ), p( -hx, hy, -hz ),
+                           p( -hx, -hy, hz ),  p( hx, -hy, hz ),  p( hx, hy, hz ),  p( -hx, hy, hz ) };
+    m.quad( v[0], v[1], v[2], v[3], col );
+    m.quad( v[5], v[4], v[7], v[6], col );
+    m.quad( v[4], v[0], v[3], v[7], scaleColor( col, 0.9f ) );
+    m.quad( v[1], v[5], v[6], v[2], scaleColor( col, 0.9f ) );
+    m.quad( v[3], v[2], v[6], v[7], scaleColor( col, 1.05f ) );
+    m.quad( v[4], v[5], v[1], v[0], scaleColor( col, 0.7f ) );
 }
 
 } // namespace
@@ -120,11 +190,12 @@ float World::terrainHeight( const Track &track, long index, float lateral, const
     if( water > 0.0f ) h = lerpf( h, terrain.m_seaLevel - 4.5f, water * smoothstepf( 4.0f, 22.0f, a ) );
     const float cover = tunnelCover( track, index );
     if( cover > 0.0f ) h += TunnelLift * cover * smoothstepf( 0.0f, 6.0f, a ) * ( 1.0f - smoothstepf( 60.0f, 140.0f, a ) );
-    const float valley = valleyDepth( track, index );
+    float       metres = ValleyDepth;
+    const float valley = valleyDepth( track, index, &metres );
     if( valley > 0.0f )
     {
         const bool under = track.segment( index ).m_flags & SEG_BRIDGE;
-        h -= ValleyDepth * valley * ( under ? 1.0f : smoothstepf( 0.0f, 12.0f, a ) ) * ( 1.0f - smoothstepf( 80.0f, 200.0f, a ) );
+        h -= metres * valley * ( under ? 1.0f : smoothstepf( 0.0f, 12.0f, a ) ) * ( 1.0f - smoothstepf( 80.0f, 200.0f, a ) );
     }
     return h;
 }
@@ -306,8 +377,8 @@ void World::buildChunk( Track &track, Chunk &c )
             }
             if( bridge )
             {
-                const Color concrete = { 150, 150, 154, 255 };
-                ground.quad( at( A, l1a, 0.0f ), at( B, l1b, 0.0f ), at( B, l1b, -1.6f ), at( A, l1a, -1.6f ), concrete );
+                const Color fascia = scaleColor( bridgeBiome( seg ).m_bridgeColor, 0.9f );
+                ground.quad( at( A, l1a, 0.0f ), at( B, l1b, 0.0f ), at( B, l1b, -1.6f ), at( A, l1a, -1.6f ), fascia );
                 continue;
             }
             {
@@ -437,21 +508,148 @@ void World::buildChunk( Track &track, Chunk &c )
         }
         if( bridge )
         {
-            const float   da = A.m_hw + RumbleWidth, db = B.m_hw + RumbleWidth;
-            const Color   concrete = { 150, 150, 154, 255 };
-            const float   depth = ValleyDepth * valleyDepth( track, j );
-            props.quad( at( A, -da, -1.6f ), at( B, -db, -1.6f ), at( B, db, -1.6f ), at( A, da, -1.6f ), scaleColor( concrete, 0.7f ) );
-            if( j % 6 == 0 )
+            const BiomeDef &bd = bridgeBiome( seg );
+            const Color     paint = bd.m_bridgeColor;
+            const float     da = A.m_hw + RumbleWidth, db = B.m_hw + RumbleWidth;
+            float           metres = ValleyDepth;
+            const float     depth = valleyDepth( track, j, &metres ) * metres;
+            const Mat       metal = { 0.0f, 0.45f };
+            props.quad( at( A, -da, -1.6f ), at( B, -db, -1.6f ), at( B, db, -1.6f ), at( A, da, -1.6f ), scaleColor( paint, 0.7f ) );
+            // Where the bridge begins and ends (the towers and pylons stand by those).
+            long b0 = j, b1 = j;
+            track.generateTo( static_cast<double>( j + 420 ) * SegmentLength );
+            while( b0 > std::max( track.firstIndex(), j - 400 ) && ( track.segment( b0 - 1 ).m_flags & SEG_BRIDGE ) ) --b0;
+            while( b1 < std::min( track.endIndex() - 2, j + 400 ) && ( track.segment( b1 + 1 ).m_flags & SEG_BRIDGE ) ) ++b1;
+            auto piers = [&]( float half, float inset, Color col )
             {
-                const float half = ( depth + 2.4f ) * 0.5f;
+                const float h = ( depth + 2.4f ) * 0.5f;
+                for( float side : { -1.0f, 1.0f } ) obox( props, at( A, side * ( da - inset ), -1.6f - h ), A.m_right, A.m_forward, half, h, half, col );
+            };
+            switch( bd.m_bridge )
+            {
+            case BridgeE::VIADUCT:
+                if( j % 10 == 0 )
+                { // One tall slim pier with a hammerhead.
+                    const float h = ( depth + 1.0f ) * 0.5f;
+                    obox( props, at( A, 0.0f, -2.4f - h ), A.m_right, A.m_forward, 2.2f, h, 1.6f, paint );
+                    obox( props, at( A, 0.0f, -2.0f ), A.m_right, A.m_forward, da, 0.4f, 1.8f, scaleColor( paint, 0.9f ) );
+                }
+                break;
+            case BridgeE::ARCH:
+            { // Stone arches of 20 m on piers, solid spandrels.
+                const int   k = static_cast<int>( ( ( j % 4 ) + 4 ) % 4 );
+                const float rise = 7.0f;
+                auto        arch = [&]( float t ) { return -2.4f - rise * ( 1.0f - std::sin( 3.14159f * t ) ); };
+                const float y0 = arch( k / 4.0f ), y1 = arch( ( k + 1 ) / 4.0f );
+                for( float side : { -1.0f, 1.0f } )
+                    props.quad( at( A, side * da, -1.6f ), at( B, side * db, -1.6f ), at( B, side * db, y1 ), at( A, side * da, y0 ), paint );
+                props.quad( at( A, -da, y0 ), at( A, da, y0 ), at( B, db, y1 ), at( B, -db, y1 ), scaleColor( paint, 0.55f ) );
+                if( k == 0 )
+                {
+                    const float top = -2.4f - rise, h = ( top + depth + 2.0f ) * 0.5f;
+                    obox( props, at( A, 0.0f, top - h ), A.m_right, A.m_forward, da + 0.3f, h, 1.6f, scaleColor( paint, 0.92f ) );
+                }
+                break;
+            }
+            case BridgeE::TRUSS:
+            { // A through truss on both sides, braced overhead.
+                if( j % 8 == 0 ) piers( 0.9f, 1.0f, scaleColor( paint, 0.8f ) );
                 for( float side : { -1.0f, 1.0f } )
                 {
-                    const Vector3 p = at( A, side * ( da - 1.2f ), -1.6f - half );
-                    props.box( p, Vector3{ 0.75f, half, 0.75f }, concrete );
+                    const float xa = side * ( da + 0.9f ), xb = side * ( db + 0.9f );
+                    props.tube( at( A, xa, 6.5f ), at( B, xb, 6.5f ), 0.25f, 4, paint, metal );
+                    props.tube( at( A, xa, 0.2f ), at( B, xb, 0.2f ), 0.22f, 4, paint, metal );
+                    props.tube( at( A, xa, 0.2f ), at( A, xa, 6.5f ), 0.16f, 4, paint, metal );
+                    if( j % 2 == 0 ) props.tube( at( A, xa, 0.2f ), at( B, xb, 6.5f ), 0.12f, 4, paint, metal );
+                    else props.tube( at( A, xa, 6.5f ), at( B, xb, 0.2f ), 0.12f, 4, paint, metal );
                 }
-                const Vector3 c0 = at( A, 0.0f, -2.0f );
-                props.box( c0, Vector3{ 0.5f, 0.4f, 0.5f }, concrete );
-                props.quad( at( A, -da, -1.6f ), at( A, da, -1.6f ), at( A, da, -2.4f ), at( A, -da, -2.4f ), concrete );
+                if( j % 2 == 0 )
+                {
+                    props.tube( at( A, -da - 0.9f, 6.5f ), at( A, da + 0.9f, 6.5f ), 0.14f, 4, paint, metal );
+                    props.tube( at( A, -da - 0.9f, 6.5f ), at( B, db + 0.9f, 6.5f ), 0.08f, 4, paint, metal );
+                }
+                break;
+            }
+            case BridgeE::SUSPENSION:
+            { // Two towers, the main cables in a curve between them, hangers.
+                const long  n = b1 - b0 + 1;
+                const long  t1 = b0 + std::max( 2L, n / 5 ), t2 = b1 - std::max( 2L, n / 5 );
+                const float top = 42.0f;
+                auto        cable = [&]( long i )
+                {
+                    if( i <= t1 ) return lerpf( 1.2f, top, static_cast<float>( i - b0 ) / static_cast<float>( std::max( 1L, t1 - b0 ) ) );
+                    if( i >= t2 ) return lerpf( top, 1.2f, static_cast<float>( i - t2 ) / static_cast<float>( std::max( 1L, b1 + 1 - t2 ) ) );
+                    const float mid = 0.5f * static_cast<float>( t1 + t2 ), half = 0.5f * static_cast<float>( t2 - t1 );
+                    const float u = ( static_cast<float>( i ) - mid ) / half;
+                    return 2.5f + ( top - 2.5f ) * u * u;
+                };
+                for( float side : { -1.0f, 1.0f } )
+                {
+                    const float xa = side * ( da + 1.3f ), xb = side * ( db + 1.3f );
+                    props.tube( at( A, xa, cable( j ) ), at( B, xb, cable( j + 1 ) ), 0.3f, 5, paint, metal );
+                    if( cable( j ) > 2.6f ) props.tube( at( A, xa, 0.3f ), at( A, xa, cable( j ) ), 0.05f, 3, paint, metal );
+                    props.quad( at( A, side * da, -1.6f ), at( B, side * db, -1.6f ), at( B, side * db, -3.4f ), at( A, side * da, -3.4f ),
+                                scaleColor( paint, 0.75f ) );
+                }
+                if( j == t1 || j == t2 )
+                {
+                    const float bottom = -depth - 2.0f, h = ( top + 3.0f - bottom ) * 0.5f;
+                    for( float side : { -1.0f, 1.0f } ) obox( props, at( A, side * ( da + 1.3f ), bottom + h ), A.m_right, A.m_forward, 1.1f, h, 1.5f, paint );
+                    for( float y : { top * 0.55f, top + 1.5f } ) obox( props, at( A, 0.0f, y ), A.m_right, A.m_forward, da + 1.3f, 0.9f, 1.0f, paint );
+                    obox( props, at( A, 0.0f, -3.0f ), A.m_right, A.m_forward, da + 1.3f, 0.9f, 1.2f, scaleColor( paint, 0.85f ) );
+                }
+                break;
+            }
+            case BridgeE::CABLE_STAYED:
+            { // An A-shaped pylon every 180 m, a fan of stays to the deck edges.
+                const long  n = b1 - b0 + 1, period = 36;
+                const long  pylon = n < period ? ( b0 + b1 ) / 2 : std::min( b1 - 4, b0 + ( ( j - b0 ) / period ) * period + period / 2 );
+                const float top = 38.0f;
+                const Cross P = cross( pylon );
+                if( j == pylon )
+                {
+                    const float bottom = -depth - 2.0f;
+                    for( float side : { -1.0f, 1.0f } )
+                        props.tube( at( A, side * ( da + 2.0f ), bottom ), at( A, side * 0.7f, top ), 1.0f, 6, paint );
+                    props.tube( at( A, -da - 1.4f, -2.0f ), at( A, da + 1.4f, -2.0f ), 0.8f, 6, paint );
+                    props.tube( at( A, -1.0f, top - 1.0f ), at( A, 1.0f, top - 1.0f ), 0.9f, 6, paint );
+                }
+                const long d = std::abs( j - pylon );
+                if( d >= 2 && j % 2 == 0 )
+                    for( float side : { -1.0f, 1.0f } )
+                        props.tube( at( P, side * 0.9f, top - 3.0f - 0.25f * static_cast<float>( std::min( d, 30L ) ) ), at( A, side * ( da + 0.6f ), 0.4f ),
+                                    0.07f, 3, scaleColor( paint, 1.05f ), metal );
+                break;
+            }
+            case BridgeE::COVERED:
+            { // Plank walls and a shingled roof; stone abutments at the ends.
+                const Color roof = { 70, 58, 52, 255 };
+                for( float side : { -1.0f, 1.0f } )
+                {
+                    const float xa = side * ( da + 0.7f ), xb = side * ( db + 0.7f );
+                    props.quad( at( A, xa, 0.0f ), at( B, xb, 0.0f ), at( B, xb, 4.4f ), at( A, xa, 4.4f ), paint );
+                    props.quad( at( A, xa, 4.4f ), at( B, xb, 4.4f ), at( B, 0.0f, 6.6f ), at( A, 0.0f, 6.6f ), roof );
+                }
+                for( long end : { b0, b1 } )
+                    if( j == end )
+                    {
+                        const Cross &E = end == b0 ? A : B;
+                        props.tri( at( E, -da - 0.7f, 4.4f ), at( E, da + 0.7f, 4.4f ), at( E, 0.0f, 6.6f ), scaleColor( paint, 0.85f ) );
+                        const float h = ( depth + 2.0f ) * 0.5f;
+                        obox( props, at( E, 0.0f, -1.6f - h ), E.m_right, E.m_forward, da + 1.0f, h, 1.4f, Color{ 140, 134, 124, 255 } );
+                    }
+                break;
+            }
+            case BridgeE::CAUSEWAY:
+                if( j % 3 == 0 ) piers( 0.45f, 1.2f, scaleColor( paint, 0.85f ) );
+                break;
+            default:
+                if( j % 6 == 0 )
+                {
+                    piers( 0.75f, 1.2f, paint );
+                    obox( props, at( A, 0.0f, -2.0f ), A.m_right, A.m_forward, da, 0.4f, 0.6f, paint );
+                }
+                break;
             }
             const float y = -depth + 1.2f;
             ground.quad( at( A, -160.0f, y ), at( B, -160.0f, y ), at( B, 160.0f, y ), at( A, 160.0f, y ), sf.m_water,
@@ -464,6 +662,17 @@ void World::buildChunk( Track &track, Chunk &c )
         {
             if( !( seg.m_flags & ( side < 0 ? SEG_RAIL_L : SEG_RAIL_R ) ) ) continue;
             const float   la = side * ( A.m_hw + RumbleWidth + 0.55f ), lb = side * ( B.m_hw + RumbleWidth + 0.55f );
+            const BridgeE kind = bridge ? bridgeBiome( seg ).m_bridge : BridgeE::BEAM;
+            if( bridge && kind == BridgeE::COVERED ) continue;
+            if( bridge && kind == BridgeE::ARCH )
+            {
+                const Color stone = bridgeBiome( seg ).m_bridgeColor;
+                const float lo = side * 0.5f;
+                props.quad( at( A, la, 0.0f ), at( B, lb, 0.0f ), at( B, lb, 1.0f ), at( A, la, 1.0f ), scaleColor( stone, 0.9f ) );
+                props.quad( at( A, la, 1.0f ), at( B, lb, 1.0f ), at( B, lb + lo, 1.0f ), at( A, la + lo, 1.0f ), scaleColor( stone, 1.05f ) );
+                props.quad( at( A, la + lo, -1.6f ), at( B, lb + lo, -1.6f ), at( B, lb + lo, 1.0f ), at( A, la + lo, 1.0f ), stone );
+                continue;
+            }
             if( here.m_walls )
             {
                 const Color concrete = { 172, 170, 162, 255 };
@@ -567,11 +776,26 @@ void World::buildChunk( Track &track, Chunk &c )
                 case PropKindE::HUT:
                 case PropKindE::HOUSE: yaw = A.m_heading + side * Tau * 0.25f + ( h3 - 0.5f ) * 0.4f; break;
                 case PropKindE::WINDMILL: yaw = A.m_heading + Tau * 0.5f + ( h3 - 0.5f ) * 0.8f; break;
-                default: break;
+                default:
+                    // Fronts (+x) to the road: the road lies to the left of things on the right.
+                    if( models.facing( pr.m_kind ) == FacingE::ROAD ) yaw = A.m_heading + ( side < 0 ? Tau * 0.5f : 0.0f ) + ( h3 - 0.5f ) * 0.3f;
+                    else if( models.facing( pr.m_kind ) == FacingE::ALONG ) yaw = A.m_heading;
+                    break;
                 }
                 const float scale = lerpf( pr.m_scaleMin, pr.m_scaleMax, h4 );
                 const float bright = 0.88f + 0.24f * hashFloat( key + 5, static_cast<uint64_t>( j ) );
-                props.append( models.prop( pr.m_kind, hash64( key + 6 + static_cast<uint64_t>( j ) ) ), pos, yaw, scale, bright );
+                const Color *defaults = models.keys( pr.m_kind );
+                Color        keys[3] = {};
+                if( defaults )
+                {
+                    keys[0] = pr.m_a.a ? pr.m_a : defaults[0];
+                    keys[1] = pr.m_b.a ? pr.m_b : defaults[1];
+                    keys[2] = pr.m_c.a ? pr.m_c : defaults[2];
+                    if( pr.m_pastel ) keys[0] = Pastels[hash64( key + 7 + static_cast<uint64_t>( j ) ) % std::size( Pastels )];
+                }
+                const uint64_t variant = pr.m_variant >= 0 ? static_cast<uint64_t>( pr.m_variant ) : hash64( key + 6 + static_cast<uint64_t>( j ) );
+                props.append( models.prop( pr.m_kind, variant ), pos, yaw, scale, bright,
+                              defaults ? keys : nullptr );
                 const float radius = models.propRadius( pr.m_kind );
                 if( radius > 0.0f && dist < 45.0f ) c.m_colliders.push_back( { ps, lateral, radius * scale } );
             }

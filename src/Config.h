@@ -48,7 +48,8 @@ struct Settings
     int          m_difficulty = 1;                     ///< 0 easy, 1 normal, 2 hard
     bool         m_shadows = true;                     ///< real-time sun shadows
     int          m_fpsLimit = 0;                       ///< frame rate cap (0: none beyond vsync)
-    bool         m_vibration = true;                   ///< gamepad rumble
+    bool         m_vibration = true;
+    int          m_scenery = 0;        ///< endless runs: 0 the world tour, 1 every biome mixed                   ///< gamepad rumble
     int64_t      m_bestScore = 0;                      ///< the highest score of an endless run
     double       m_bestDistance = 0.0;                 ///< the longest endless run in metres
 };
@@ -59,6 +60,7 @@ struct LaunchOptions
     int         m_forceDisplay = -1;   ///< -1 as the settings say, 0 windowed, 1 fullscreen
     uint64_t    m_seed = 0;            ///< 0: a new random track
     int         m_startBiome = -1;     ///< -1 as the seed says, else the first stage's biome
+    int         m_scenery = -3;        ///< endless runs: a biome, -1 all mixed, -2 the world tour (-3: as the settings say)
     bool        m_autopilot = false;   ///< drive by itself (demo and screenshots)
     bool        m_skipMenu = false;    ///< start a run at once
     float       m_quitAfter = 0.0f;    ///< seconds of play after which the game quits (0: never)

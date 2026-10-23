@@ -45,6 +45,7 @@ enum class SettingE
     VSYNC,        ///< vertical sync
     FRAME_LIMIT,  ///< frame rate cap
     DIFFICULTY,   ///< easy, normal, hard
+    SCENERY,      ///< endless runs: the world tour or all mixed
     GEARS,        ///< automatic or manual
     UNITS,        ///< km/h or mph
     CAMERA,       ///< chase, far, bumper
@@ -155,6 +156,12 @@ public:
 
 private:
     // ---- Flow (Game.cpp) ----------------------------------------------------------------------------------
+
+    /**
+     * @brief The track settings of an endless run (the world tour or all mixed).
+     * @return them
+     */
+    TrackParams endlessParams() const;
 
     /** @brief Starts the attract-mode drive behind the title. */
     void startDemo();

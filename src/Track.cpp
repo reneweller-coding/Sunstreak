@@ -22,9 +22,20 @@ Track::Track( uint64_t seed, const TrackParams &params, int startBiome )
     : m_seed( seed ), m_params( params ), m_rng( seed ^ 0x5EED5EEDull )
 {
     for( int i = 0; i < 3; ++i ) m_hillPhase[i] = hashFloat( seed, 101 + i ) * Tau;
-    // The first bag of stages decides the start; a requested biome is swapped to the front.
-    stageBiome( 0 );
-    if( startBiome >= 0 && startBiome < static_cast<int>( BiomeE::COUNT ) )
+    if( m_params.m_biome == SceneryWorld )
+    {
+        // The world tour starts somewhere on the route, or at the requested place; one off the map goes first.
+        const bool wanted = startBiome >= 0 && startBiome < static_cast<int>( BiomeE::COUNT );
+        const int  at = wanted ? routeIndex( static_cast<BiomeE>( startBiome ) ) : -1;
+        m_routeStart = at >= 0 ? at : static_cast<int>( hash64( seed * 131 + 17 ) % worldRoute().size() );
+        if( wanted && at < 0 ) m_stageBiomes.push_back( static_cast<uint8_t>( startBiome ) );
+    }
+    else
+    {
+        // The first bag of stages decides the start; a requested biome is swapped to the front.
+        stageBiome( 0 );
+    }
+    if( m_params.m_biome != SceneryWorld && startBiome >= 0 && startBiome < static_cast<int>( BiomeE::COUNT ) )
     {
         const auto want = static_cast<uint8_t>( startBiome );
         const auto end = m_stageBiomes.begin() + static_cast<long>( BiomeE::COUNT );
@@ -38,6 +49,13 @@ BiomeE Track::stageBiome( int stage ) const
 {
     constexpr int Count = static_cast<int>( BiomeE::COUNT );
     if( m_params.m_biome >= 0 && m_params.m_biome < Count ) return static_cast<BiomeE>( m_params.m_biome );
+    if( m_params.m_biome == SceneryWorld )
+    {
+        const auto &route = worldRoute();
+        const int   detour = static_cast<int>( m_stageBiomes.size() );
+        if( stage < detour ) return static_cast<BiomeE>( m_stageBiomes[static_cast<size_t>( stage )] );
+        return route[static_cast<size_t>( m_routeStart + stage - detour ) % route.size()];
+    }
     while( static_cast<int>( m_stageBiomes.size() ) <= stage )
     {
         // One shuffled bag of all biomes after another, never the same biome twice in a row.
@@ -129,10 +147,21 @@ void Track::decorate( size_t from )
         for( size_t i = from + 1; i < last; ++i ) m_pendingFlags[i] |= SEG_TUNNEL;
         m_lastSpecial = first;
     }
-    else if( length >= 80.0f && length <= 450.0f && maxCurve < 1.0f / 700.0f && m_rng.chance( here.m_bridges ) )
+    else if( here.m_bridges > 0.0f && length >= 80.0f && maxCurve < 1.0f / 700.0f )
     {
-        for( size_t i = from + 1; i + 1 < from + n; ++i ) m_pendingFlags[i] |= SEG_BRIDGE;
-        m_lastSpecial = first;
+        // Long causeways over the sea, short covered bridges, the big spans not too short; one style per bridge.
+        const BridgeE style = here.m_bridge;
+        const float   longest = style == BridgeE::CAUSEWAY ? 1500.0f : style == BridgeE::COVERED ? 140.0f : 450.0f;
+        const float   shortest = style == BridgeE::SUSPENSION || style == BridgeE::CABLE_STAYED ? 160.0f : 80.0f;
+        const size_t  count = std::min( n, static_cast<size_t>( longest / SegmentLength ) );
+        const double  e = s + static_cast<double>( count ) * SegmentLength;
+        const BiomeMix a = biomeMix( s - 40.0 ), b = biomeMix( e + 40.0 );
+        const BiomeE   ba = a.m_t < 0.5f ? a.m_from : a.m_to, bb = b.m_t < 0.5f ? b.m_from : b.m_to;
+        if( static_cast<float>( count ) * SegmentLength >= shortest && ba == bb && m_rng.chance( here.m_bridges ) )
+        {
+            for( size_t i = from + 1; i + 1 < from + count; ++i ) m_pendingFlags[i] |= SEG_BRIDGE;
+            m_lastSpecial = first;
+        }
     }
 }
 

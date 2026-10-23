@@ -168,11 +168,19 @@ void MeshBuilder::blob( Vector3 center, Vector3 radius, Color col, unsigned seed
     {
         // Small shade variations per face keep the facets readable.
         const float shade = 0.92f + 0.16f * hashFloat( seed + 77, static_cast<uint64_t>( &face - f ) );
-        tri( v[face[0]], v[face[1]], v[face[2]], scaleColor( col, shade ), mat );
+        // A key colour keeps its marker channel at 1 and only changes its level.
+        Color c = scaleColor( col, shade );
+        if( col.r == 1 || col.g == 1 || col.b == 1 )
+        {
+            c.r = col.r == 1 ? 1 : std::max<unsigned char>( 2, c.r );
+            c.g = col.g == 1 ? 1 : std::max<unsigned char>( 2, c.g );
+            c.b = col.b == 1 ? 1 : std::max<unsigned char>( 2, c.b );
+        }
+        tri( v[face[0]], v[face[1]], v[face[2]], c, mat );
     }
 }
 
-void MeshBuilder::append( const MeshBuilder &src, Vector3 pos, float yaw, float scale, float bright )
+void MeshBuilder::append( const MeshBuilder &src, Vector3 pos, float yaw, float scale, float bright, const Color *keys )
 {
     const Vector3 fwd = headingForward( yaw );
     const Vector3 left = Vector3Negate( headingRight( yaw ) );
@@ -185,9 +193,25 @@ void MeshBuilder::append( const MeshBuilder &src, Vector3 pos, float yaw, float 
                                      pos.z + ( left.z * x + fwd.z * z ) * scale } );
         const float nx = src.m_nrm[i * 3], ny = src.m_nrm[i * 3 + 1], nz = src.m_nrm[i * 3 + 2];
         m_nrm.insert( m_nrm.end(), { left.x * nx + fwd.x * nz, ny, left.z * nx + fwd.z * nz } );
-        for( int c = 0; c < 3; ++c )
-            m_col.push_back( static_cast<unsigned char>( clampf( src.m_col[i * 4 + c] * bright, 0.0f, 255.0f ) ) );
-        m_col.push_back( src.m_col[i * 4 + 3] );
+        const unsigned char *s = &src.m_col[i * 4];
+        float                rgb[3] = { static_cast<float>( s[0] ), static_cast<float>( s[1] ), static_cast<float>( s[2] ) };
+        if( keys )
+        {
+            // Key colours: one channel at 1, the other two equal; their level is the shade.
+            int which = -1;
+            if( s[1] == 1 && s[0] == s[2] && s[0] > 1 ) which = 0;
+            else if( s[0] == 1 && s[1] == s[2] && s[1] > 1 ) which = 1;
+            else if( s[2] == 1 && s[0] == s[1] && s[0] > 1 ) which = 2;
+            if( which >= 0 )
+            {
+                const float k = static_cast<float>( which == 1 ? s[1] : s[0] ) / 250.0f;
+                rgb[0] = keys[which].r * k;
+                rgb[1] = keys[which].g * k;
+                rgb[2] = keys[which].b * k;
+            }
+        }
+        for( float v : rgb ) m_col.push_back( static_cast<unsigned char>( clampf( v * bright, 0.0f, 255.0f ) ) );
+        m_col.push_back( s[3] );
         m_uv.insert( m_uv.end(), { src.m_uv[i * 2], src.m_uv[i * 2 + 1] } );
         m_uv2.insert( m_uv2.end(), { src.m_uv2[i * 2] * m_shade, src.m_uv2[i * 2 + 1] * scale } );
     }
