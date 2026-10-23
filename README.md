@@ -72,10 +72,17 @@ sea in the Florida Keys and the Maldives.
 
 ## Radio
 
-Eight generated stations, every track composed from its own seed and named: Sunset FM (synthwave), Turbo House,
-Amiga Techno (acid bass, tracker arpeggios), Trance Gate, Jungle Pressure (drum and bass), 8-Bit Racer (chiptune),
-Fusion Drive (funk fusion) and Big Beat. In AUTO the station follows the biome. M (gamepad: View) switches the
-station, N skips to the next track; Settings > Radio and the pause menu do the same.
+Twenty-six generated stations, every track composed from its own seed and named. Genres: Sunset FM (synthwave),
+Turbo House, Amiga Techno (acid bass, tracker arpeggios), Trance Gate, Jungle Pressure (drum and bass), 8-Bit Racer
+(chiptune), Fusion Drive (funk fusion), Big Beat, Route 66 Radio (twang, harmonica, train beat) and Lo-Fi Cruise.
+Regions: City Pop FM, Koto Wave (koto, ney, taiko), Bollywood Express (sitar, tabla, tanpura), Desert Caravan (oud,
+darbuka, Hijaz), Afro Highway (kalimba, marimba, congas), Samba Avenida, Tango Turbo (bandoneon), Andes Wind (pan
+flute, charango), Caribbean Steel, Mariachi Motor, Celtic Coast (whistle, fiddle, bodhran, pipes), Balkan Brass,
+Gamelan Drive, Outback Drone (didgeridoo, clapsticks), Steppe Rider (fiddle, throat drone, gallop) and Nordic Night.
+A track picks its tempo, key, scale or mode (from major and minor to Hijaz, Bhairav, hirajoshi and pelog), chord
+progression, two melodies, a lead instrument and an arrangement of 32 to 64 bars with fills and risers. In AUTO the
+station follows the place: the countryside plays its region, cities and motorways their genre. M (gamepad: View)
+switches the station, N skips to the next track; Settings > Radio and the pause menu do the same.
 
 The generated stations follow the race: with little time left, or on the last kilometre of a race, a driving layer
 of sixteenth hats and an alarm figure joins in; the pads open with the speed; checkpoint, stage and finish cues

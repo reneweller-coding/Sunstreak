@@ -12,9 +12,11 @@
 #include "Biome.h"
 
 #include "MathUtil.h"
+#include "Music.h"
 
 #include <algorithm>
 #include <array>
+#include <cstring>
 #include <utility>
 
 namespace sunstreak
@@ -653,6 +655,207 @@ private:
     BiomeDef &m_d;            ///< the place
     Color     m_windows{};    ///< window light for the rules that follow (alpha 0: dark)
 };
+
+
+/**
+ * @brief The station a country's countryside plays in AUTO.
+ * @param[in] country  the country
+ * @return the station, -1 for the genre stations (much of Europe, New Zealand)
+ */
+int regionStation( const char *country )
+{
+    static const std::pair<const char *, int> map[] = {
+        { "IRELAND", StationCeltic },
+        { "SCOTLAND", StationCeltic },
+        { "WALES", StationCeltic },
+        { "NORTHERN IRELAND", StationCeltic },
+        { "NORWAY", StationNordic },
+        { "SWEDEN", StationNordic },
+        { "FINLAND", StationNordic },
+        { "DENMARK", StationNordic },
+        { "ICELAND", StationNordic },
+        { "GREENLAND", StationNordic },
+        { "ESTONIA", StationNordic },
+        { "LATVIA", StationNordic },
+        { "LITHUANIA", StationNordic },
+        { "FAROE ISLANDS", StationNordic },
+        { "CROATIA", StationBalkan },
+        { "MONTENEGRO", StationBalkan },
+        { "BULGARIA", StationBalkan },
+        { "ROMANIA", StationBalkan },
+        { "SERBIA", StationBalkan },
+        { "BOSNIA", StationBalkan },
+        { "ALBANIA", StationBalkan },
+        { "NORTH MACEDONIA", StationBalkan },
+        { "KOSOVO", StationBalkan },
+        { "MOLDOVA", StationBalkan },
+        { "HUNGARY", StationBalkan },
+        { "GREECE", StationBalkan },
+        { "SLOVENIA", StationBalkan },
+        { "CYPRUS", StationBalkan },
+        { "MOROCCO", StationDesert },
+        { "ALGERIA", StationDesert },
+        { "TUNISIA", StationDesert },
+        { "LIBYA", StationDesert },
+        { "EGYPT", StationDesert },
+        { "JORDAN", StationDesert },
+        { "LEBANON", StationDesert },
+        { "SYRIA", StationDesert },
+        { "IRAQ", StationDesert },
+        { "SAUDI ARABIA", StationDesert },
+        { "UAE", StationDesert },
+        { "OMAN", StationDesert },
+        { "YEMEN", StationDesert },
+        { "QATAR", StationDesert },
+        { "KUWAIT", StationDesert },
+        { "BAHRAIN", StationDesert },
+        { "IRAN", StationDesert },
+        { "TURKEY", StationDesert },
+        { "ISRAEL", StationDesert },
+        { "PALESTINE", StationDesert },
+        { "SUDAN", StationDesert },
+        { "MAURITANIA", StationDesert },
+        { "WESTERN SAHARA", StationDesert },
+        { "INDIA", StationBollywood },
+        { "NEPAL", StationBollywood },
+        { "BHUTAN", StationBollywood },
+        { "SRI LANKA", StationBollywood },
+        { "PAKISTAN", StationBollywood },
+        { "BANGLADESH", StationBollywood },
+        { "MALDIVES", StationBollywood },
+        { "KAZAKHSTAN", StationSteppe },
+        { "KYRGYZSTAN", StationSteppe },
+        { "UZBEKISTAN", StationSteppe },
+        { "TAJIKISTAN", StationSteppe },
+        { "TURKMENISTAN", StationSteppe },
+        { "MONGOLIA", StationSteppe },
+        { "RUSSIA", StationSteppe },
+        { "AFGHANISTAN", StationSteppe },
+        { "AZERBAIJAN", StationSteppe },
+        { "GEORGIA", StationSteppe },
+        { "ARMENIA", StationSteppe },
+        { "BELARUS", StationSteppe },
+        { "UKRAINE", StationSteppe },
+        { "INDONESIA", StationGamelan },
+        { "MALAYSIA", StationGamelan },
+        { "PHILIPPINES", StationGamelan },
+        { "THAILAND", StationGamelan },
+        { "CAMBODIA", StationGamelan },
+        { "LAOS", StationGamelan },
+        { "MYANMAR", StationGamelan },
+        { "VIETNAM", StationGamelan },
+        { "BRUNEI", StationGamelan },
+        { "EAST TIMOR", StationGamelan },
+        { "SINGAPORE", StationGamelan },
+        { "CHINA", StationKoto },
+        { "TAIWAN", StationKoto },
+        { "JAPAN", StationKoto },
+        { "NORTH KOREA", StationKoto },
+        { "SOUTH KOREA", StationCityPop },
+        { "MALI", StationAfro },
+        { "GHANA", StationAfro },
+        { "DR CONGO", StationAfro },
+        { "RWANDA", StationAfro },
+        { "ETHIOPIA", StationAfro },
+        { "KENYA", StationAfro },
+        { "TANZANIA", StationAfro },
+        { "ZAMBIA", StationAfro },
+        { "BOTSWANA", StationAfro },
+        { "NAMIBIA", StationAfro },
+        { "SOUTH AFRICA", StationAfro },
+        { "MADAGASCAR", StationAfro },
+        { "SEYCHELLES", StationAfro },
+        { "NIGERIA", StationAfro },
+        { "SENEGAL", StationAfro },
+        { "GAMBIA", StationAfro },
+        { "GUINEA", StationAfro },
+        { "GUINEA-BISSAU", StationAfro },
+        { "SIERRA LEONE", StationAfro },
+        { "LIBERIA", StationAfro },
+        { "IVORY COAST", StationAfro },
+        { "BURKINA FASO", StationAfro },
+        { "NIGER", StationAfro },
+        { "CHAD", StationAfro },
+        { "TOGO", StationAfro },
+        { "BENIN", StationAfro },
+        { "CAMEROON", StationAfro },
+        { "CENTRAL AFRICAN REPUBLIC", StationAfro },
+        { "GABON", StationAfro },
+        { "CONGO", StationAfro },
+        { "EQUATORIAL GUINEA", StationAfro },
+        { "ANGOLA", StationAfro },
+        { "UGANDA", StationAfro },
+        { "BURUNDI", StationAfro },
+        { "SOUTH SUDAN", StationAfro },
+        { "ERITREA", StationAfro },
+        { "DJIBOUTI", StationAfro },
+        { "SOMALIA", StationAfro },
+        { "MOZAMBIQUE", StationAfro },
+        { "MALAWI", StationAfro },
+        { "ZIMBABWE", StationAfro },
+        { "LESOTHO", StationAfro },
+        { "ESWATINI", StationAfro },
+        { "MAURITIUS", StationAfro },
+        { "COMOROS", StationAfro },
+        { "CAPE VERDE", StationAfro },
+        { "SAO TOME AND PRINCIPE", StationAfro },
+        { "BRAZIL", StationSamba },
+        { "ARGENTINA", StationTango },
+        { "URUGUAY", StationTango },
+        { "PARAGUAY", StationTango },
+        { "PERU", StationAndes },
+        { "BOLIVIA", StationAndes },
+        { "ECUADOR", StationAndes },
+        { "CHILE", StationAndes },
+        { "COLOMBIA", StationAndes },
+        { "CUBA", StationCaribbean },
+        { "JAMAICA", StationCaribbean },
+        { "BAHAMAS", StationCaribbean },
+        { "HAITI", StationCaribbean },
+        { "DOMINICAN REPUBLIC", StationCaribbean },
+        { "TRINIDAD AND TOBAGO", StationCaribbean },
+        { "BARBADOS", StationCaribbean },
+        { "PUERTO RICO", StationCaribbean },
+        { "VENEZUELA", StationCaribbean },
+        { "GUYANA", StationCaribbean },
+        { "SURINAME", StationCaribbean },
+        { "SAINT LUCIA", StationCaribbean },
+        { "GRENADA", StationCaribbean },
+        { "DOMINICA", StationCaribbean },
+        { "ANTIGUA AND BARBUDA", StationCaribbean },
+        { "SAINT KITTS AND NEVIS", StationCaribbean },
+        { "SAINT VINCENT", StationCaribbean },
+        { "FIJI", StationCaribbean },
+        { "SAMOA", StationCaribbean },
+        { "TONGA", StationCaribbean },
+        { "VANUATU", StationCaribbean },
+        { "PAPUA NEW GUINEA", StationCaribbean },
+        { "SOLOMON ISLANDS", StationCaribbean },
+        { "FRENCH POLYNESIA", StationCaribbean },
+        { "KIRIBATI", StationCaribbean },
+        { "TUVALU", StationCaribbean },
+        { "NAURU", StationCaribbean },
+        { "PALAU", StationCaribbean },
+        { "MARSHALL ISLANDS", StationCaribbean },
+        { "MICRONESIA", StationCaribbean },
+        { "HAWAII", StationCaribbean },
+        { "MEXICO", StationMariachi },
+        { "GUATEMALA", StationMariachi },
+        { "BELIZE", StationMariachi },
+        { "HONDURAS", StationMariachi },
+        { "EL SALVADOR", StationMariachi },
+        { "NICARAGUA", StationMariachi },
+        { "COSTA RICA", StationMariachi },
+        { "PANAMA", StationMariachi },
+        { "AUSTRALIA", StationOutback },
+        { "USA", StationRoute66 },
+        { "CANADA", StationRoute66 },
+        { "ALASKA", StationRoute66 },
+    };
+    for( const auto &[name, station] : map )
+        if( std::strcmp( name, country ) == 0 ) return station;
+    return -1;
+}
 
 } // namespace
 
@@ -1445,6 +1648,20 @@ void addWorldBiomes( BiomeDef *b )
         .drive( 2, 0.2f, 0.92f, 3 ).bends( 0.45f, 0.4f, 0.35f ).bridges( 0.1f, BR::TRUSS, 0x6A6A6E )
         .p( ROCK, 0.15f, 2, 60 ).p( GEYSER, 0.004f, 30, 250 ).p( CHURCH, 0.003f, 30, 150 ).c( 0xF4F4F2, 0xC83A2A ).p( COTTAGE, 0.006f, 15, 90 ).c( 0xF2F0EA, 0x3A6A3A )
         .p( HORSE, 0.03f, 10, 100 ).p( SHEEP, 0.02f, 10, 80 ).p( TEPUI, 0.002f, 250, 450, 0.6f, 0.8f ).c( 0x4A4A50, 0x5E7A48 );
+
+    // AUTO radio: the countryside plays its region's station; cities and motorways keep their genre (Japan's and
+    // Korea's turn to city pop).
+    for( int i = 0; i < static_cast<int>( BiomeE::COUNT ); ++i )
+    {
+        BiomeDef &d = b[i];
+        if( !d.m_country ) continue;
+        const bool japanOrKorea = std::strcmp( d.m_country, "JAPAN" ) == 0 || std::strcmp( d.m_country, "SOUTH KOREA" ) == 0;
+        const int  region = regionStation( d.m_country );
+        if( d.m_lanes >= 3 ) d.m_station = japanOrKorea ? StationCityPop : d.m_station;
+        else if( region >= 0 ) d.m_station = region;
+    }
+    b[static_cast<size_t>( BE::BRITTANY )].m_station = StationCeltic;
+    b[static_cast<size_t>( BE::RIO )].m_station = StationSamba;
 }
 
 std::string placeName( BiomeE biome )
