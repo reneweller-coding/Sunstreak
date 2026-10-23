@@ -1,6 +1,6 @@
 #!/bin/bash
 # Builds Sunstreak for Linux, runs the tests and packs dist/Sunstreak-<version>-linux-x86_64.tar.gz (the game, the
-# README and the MY MUSIC folder bin/msvc/music if there is one, unless SUNSTREAK_NO_MUSIC is set).
+# README and an empty music folder for the player's own music, the station MY MUSIC).
 #
 #   Deploy/build_linux.sh [build directory]      default: ~/sunstreak-build (a Linux file system builds faster)
 #
@@ -38,7 +38,8 @@ mkdir -p "$STAGE"
 cp "$BUILD/Sunstreak" "$STAGE/"
 strip "$STAGE/Sunstreak"
 cp "$SRC/README.md" "$STAGE/"
-if [ -z "$SUNSTREAK_NO_MUSIC" ] && [ -d "$SRC/bin/msvc/music" ]; then cp -r "$SRC/bin/msvc/music" "$STAGE/music"; fi
+mkdir -p "$STAGE/music"
+echo "Put your own music here (.ogg, .mp3, .flac, .wav, .xm, .mod): it plays as the radio station MY MUSIC." > "$STAGE/music/README.txt"
 mkdir -p "$SRC/dist"
 tar -C "$BUILD/stage" -czf "$SRC/dist/$NAME.tar.gz" "$NAME"
 echo "$SRC/dist/$NAME.tar.gz"

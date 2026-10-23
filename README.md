@@ -82,8 +82,7 @@ of sixteenth hats and an alarm figure joins in; the pads open with the speed; ch
 land on the next beat.
 
 Music files (`.ogg`, `.mp3`, `.flac`, `.wav`, `.xm`, `.mod`) in a `music` folder beside the game or in the settings
-folder appear as the station MY MUSIC. `Deploy\render_music.ps1` fills `bin\msvc\music` with pieces from the VRAudio
-generators (Totality, Parhelion, Skybreak), levelled to the stations' loudness.
+folder appear as the station MY MUSIC.
 
 ## Building
 
@@ -106,7 +105,7 @@ game starts windowed on Windows and fullscreen on a Deck; the choice is kept in 
 Gamepads are read through raylib (GLFW); the rumble goes through SDL2, which CMake fetches as well.
 
 Releases: `.\Deploy\build_release.ps1` builds, tests and packs `dist\Sunstreak-<version>-windows-x64.zip` and, through
-WSL (Ubuntu 22.04), `dist/Sunstreak-<version>-linux-x86_64.tar.gz`, each with the MY MUSIC folder if there is one.
+WSL (Ubuntu 22.04), `dist/Sunstreak-<version>-linux-x86_64.tar.gz`, each with an empty `music` folder for your own.
 On GitHub, `.github/workflows/release.yml` builds both archives for a tag `v*` and attaches them to its release.
 
 ## Settings and command line
