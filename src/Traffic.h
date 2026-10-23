@@ -87,6 +87,7 @@ public:
 
     std::vector<TrafficCar> m_cars;        ///< the vehicles
     std::vector<Obstacle>   m_obstacles;   ///< cones and boards
+    float                   m_density = 1.0f;   ///< the track's traffic factor (0: none)
 
 private:
     /**

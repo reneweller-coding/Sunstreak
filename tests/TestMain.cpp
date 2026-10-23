@@ -6,6 +6,8 @@
  */
 #include "Car.h"
 #include "Game.h"
+#include "Race.h"
+#include "Records.h"
 #include "Track.h"
 
 #include <cstdio>
@@ -109,7 +111,53 @@ int main()
         for( int i = 0; i < 120 * 8; ++i ) car.update( in, t, 1.0f / 120.0f, false );
         check( car.m_speed < 0.1f, "brakes to a stop" );
     }
-    check( trackCode( 0x123456789Aull ).size() == 9 && trackCode( 0x123456789Aull )[4] == '-', "track code format" );
+    { // Track codes carry every Track Lab value and come back unchanged.
+        TrackSetup a;
+        a.m_seed = 0x1234567;
+        a.m_params.m_curvy = 7;
+        a.m_params.m_sharp = -1;
+        a.m_params.m_hilly = 0;
+        a.m_params.m_traffic = 9;
+        a.m_params.m_obstacles = 3;
+        a.m_params.m_biome = 25;
+        a.m_params.m_length = 12500.0;
+        a.m_race = true;
+        const std::string code = encodeTrack( a );
+        TrackSetup        b;
+        const bool        ok = decodeTrack( code, b );
+        check( code.size() == 14 && code[4] == '-' && code[9] == '-', "track code format" );
+        check( ok && b.m_seed == a.m_seed && b.m_params.m_curvy == 7 && b.m_params.m_sharp == -1 && b.m_params.m_hilly == 0 &&
+                   b.m_params.m_traffic == 9 && b.m_params.m_obstacles == 3 && b.m_params.m_biome == 25 && b.m_params.m_length == 12500.0 &&
+                   b.m_race,
+               "track code round trip" );
+        TrackSetup c;
+        check( !decodeTrack( "NOT-A-CODE", c ), "a broken code is refused" );
+    }
+    { // The rivals finish a race; the points add up.
+        Race race;
+        race.newChampionship( 77 );
+        Track     t( race.roundSeed( 0 ), race.roundParams( 0 ) );
+        PlayerCar car;
+        car.reset( carSpec( 0 ), 0.0, 0.0f, t );
+        race.grid( t, car, 1.0f );
+        RaceEvents ev;
+        float      time = 0.0f;
+        for( int i = 0; i < 120 * 400 && time < 400.0f; ++i )
+        {
+            t.generateTo( car.m_s + 2000.0 );
+            for( const Rival &r : race.m_rivals ) t.generateTo( r.m_s + 2000.0 );
+            race.update( 1.0f / 120.0f, time, t, car, ev, true );
+            time += 1.0f / 120.0f;
+        }
+        int finished = 0;
+        for( const Rival &r : race.m_rivals ) finished += r.m_finished ? 1 : 0;
+        std::printf( "      %d of %d rivals finished %.0f m in %.0f s\n", finished, RivalCount, race.m_finishS, time );
+        check( finished == RivalCount, "the rivals reach the finish" );
+        const auto result = race.finish( time );
+        int        sum = 0;
+        for( const ResultLine &l : result ) sum += l.m_points;
+        check( result.size() == static_cast<size_t>( RivalCount + 1 ) && sum == 39, "points 10+8+6+5+4+3+2+1" );
+    }
     { // Every biome is complete; the first bag of stages visits all of them.
         bool ok = true;
         for( int b = 0; b < static_cast<int>( BiomeE::COUNT ); ++b )

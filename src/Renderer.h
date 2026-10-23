@@ -33,6 +33,17 @@ struct CameraView
     float   m_fovY = 60.0f;     ///< vertical field of view (degrees)
 };
 
+/** @brief A car drawn from the player's models: a rival or the ghost. */
+struct CarDraw
+{
+    double m_s = 0;        ///< distance along the road
+    float  m_x = 0;        ///< lateral offset
+    float  m_yaw = 0;      ///< yaw against the road
+    int    m_car = 0;      ///< model
+    int    m_paint = 0;    ///< paint
+    float  m_alpha = 1.0f; ///< below 1: a see-through ghost without a shadow
+};
+
 /** @brief Everything one frame shows. */
 struct SceneInput
 {
@@ -53,6 +64,7 @@ struct SceneInput
     float            m_aberration = 0.0f;     ///< 0..1 colour fringes (boost)
     float            m_windStreaks = 0.0f;    ///< 0..1 air streaks at speed
     bool             m_drawPlayer = true;     ///< false in the bumper view
+    std::vector<CarDraw> m_cars;              ///< rivals and the ghost
 };
 
 /** @brief The renderer. */

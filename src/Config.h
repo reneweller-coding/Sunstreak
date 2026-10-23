@@ -70,6 +70,9 @@ struct LaunchOptions
     std::string m_audioTest;           ///< render a test drive's sound to this WAV and quit
     int         m_find = 0;            ///< start before the first 1 tunnel, 2 bridge (testing)
     int         m_camera = -1;         ///< a camera for this run only (-1: the settings')
+    std::string m_code;                ///< start this track code at once
+    bool        m_championship = false;///< start a championship at once
+    std::string m_screen;              ///< open a menu screen at once: lab, records, code (screenshots)
 };
 
 /**

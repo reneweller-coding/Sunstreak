@@ -337,6 +337,7 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
     setF( s, "wind", 1.0f + in.m_env.m_rain * 1.5f + in.m_env.m_lightning * 0.8f + in.m_env.m_snow * 0.5f );
     setV2( s, "swayOffset", static_cast<float>( std::fmod( origin.m_x, 450.0 ) ), static_cast<float>( std::fmod( origin.m_z, 450.0 ) ) );
     setF( s, "objectShade", 1.0f );
+    setF( s, "objectAlpha", 1.0f );
     setV3( s, "gridColor", Vector3{ 0.02f, 0.75f, 1.0f } );
     setV2( s, "gridOffset", static_cast<float>( std::fmod( origin.m_x, 12.0 ) ), static_cast<float>( std::fmod( origin.m_z, 12.0 ) ) );
     Pose playerPose{};
@@ -396,6 +397,14 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
             }
         }
     }
+    for( const CarDraw &c : in.m_cars )
+    {
+        if( c.m_alpha < 1.0f || c.m_s - playerS > ViewDistance ) continue;
+        const Pose p = roadPose( track, c.m_s, c.m_x, c.m_yaw );
+        setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, c.m_s ) );
+        DrawMesh( models.m_playerCars[c.m_car][c.m_paint], m_material, poseMatrix( p, origin ) );
+        shadows.push_back( { p, carSpec( c.m_car ).m_width, carSpec( c.m_car ).m_length } );
+    }
     if( in.m_player && in.m_drawPlayer )
     {
         setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, in.m_player->m_s ) );
@@ -420,6 +429,15 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
                                        Vector3Scale( sh.m_pose.m_forward, sh.m_l * 0.92f ), pos );
         DrawMesh( models.m_shadow, m_material, m );
     }
+    // Ghosts: see-through, after everything solid.
+    for( const CarDraw &c : in.m_cars )
+    {
+        if( c.m_alpha >= 1.0f ) continue;
+        setF( s, "objectAlpha", c.m_alpha );
+        setF( s, "objectShade", 1.0f );
+        DrawMesh( models.m_playerCars[c.m_car][c.m_paint], m_material, poseMatrix( roadPose( track, c.m_s, c.m_x, c.m_yaw ), origin ) );
+    }
+    setF( s, "objectAlpha", 1.0f );
     rlEnableDepthMask();
 
     drawParticles( in, cam, origin );

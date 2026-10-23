@@ -22,7 +22,7 @@ namespace sunstreak
 {
 
 constexpr int CarCount = 3;     ///< cars the player can choose
-constexpr int PaintCount = 4;   ///< paints per car
+constexpr int PaintCount = 5;   ///< paints per car
 
 /** @brief A car the player can drive. */
 struct CarSpec

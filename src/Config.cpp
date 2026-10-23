@@ -145,6 +145,9 @@ LaunchOptions parseCommandLine( int argc, char **argv )
             o.m_find = what == "tunnel" ? 1 : what == "bridge" ? 2 : 0;
         }
         else if( a == "--camera" ) o.m_camera = std::clamp( std::atoi( next().c_str() ), 0, 2 );
+        else if( a == "--code" ) o.m_code = next();
+        else if( a == "--championship" ) o.m_championship = true;
+        else if( a == "--screen" ) o.m_screen = next();
         else if( a == "--quit-after" ) o.m_quitAfter = static_cast<float>( std::atof( next().c_str() ) );
         else if( a == "--screenshot" ) o.m_screenshot = next();
         else if( a == "--distance" ) o.m_startDistance = static_cast<float>( std::atof( next().c_str() ) );

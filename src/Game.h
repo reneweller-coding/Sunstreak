@@ -1,12 +1,15 @@
 /**
  * @file Game.h
- * @brief The game: title with an attract-mode drive, the endless run against the clock, pause, results, settings,
- *        the chase camera, particles, sound cues and the HUD.
+ * @brief The game: title with an attract-mode drive, the endless run against the clock, the championship against
+ *        rivals, the Track Lab, records and ghosts, pause, results, settings, the chase camera, particles, sound cues
+ *        and the HUD.
  *
  * The endless run works like Lotus III's time challenge: the clock counts down, every checkpoint (2.5 km) adds
  * time, and the run ends when the clock reaches zero. Every 5 km a new stage with a new biome begins; the roads get
- * curvier, the traffic denser, the time bonus tighter. A run's track comes from its code, so a good run can be
- * driven again.
+ * curvier, the traffic denser, the time bonus tighter. The championship is five races from the back of a grid of
+ * twelve. The Track Lab builds a track from sliders and gives its code; a code typed in drives that track again.
+ *
+ * Game.cpp holds the flow and the simulation, GameUi.cpp the menus, the screens and the HUD.
  *
  * @author reneweller
  */
@@ -18,6 +21,8 @@
 #include "Input.h"
 #include "Models.h"
 #include "Particles.h"
+#include "Race.h"
+#include "Records.h"
 #include "Renderer.h"
 #include "Track.h"
 #include "Traffic.h"
@@ -51,15 +56,60 @@ enum class SettingE
     COUNT         ///< number of items
 };
 
+/** @brief The items of the title menu, in order. */
+enum class TitleE
+{
+    ENDLESS,       ///< endless run
+    CHAMPIONSHIP,  ///< five races
+    TRACK_LAB,     ///< build or enter a track
+    CAR,           ///< choose a car
+    PAINT,         ///< choose a paint
+    RECORDS,       ///< top ten and progress
+    SETTINGS,      ///< settings
+    QUIT,          ///< leave the game
+    COUNT          ///< number of items
+};
+
+/** @brief The items of the Track Lab, in order. */
+enum class LabE
+{
+    MODE,        ///< time attack or race
+    SCENERY,     ///< mixed or one biome
+    CURVES,      ///< how curvy
+    SHARPNESS,   ///< how tight
+    HILLS,       ///< how hilly
+    TRAFFIC,     ///< traffic density
+    OBSTACLES,   ///< roadworks and puddles
+    LENGTH,      ///< endless or a finish
+    SEED,        ///< the random part
+    CODE,        ///< type a code in
+    START,       ///< drive it
+    BACK,        ///< leave
+    COUNT        ///< number of items
+};
+
 /** @brief Where the game is. */
 enum class StateE
 {
     TITLE,       ///< title menu over a demo drive
     SETTINGS,    ///< settings menu
     COUNTDOWN,   ///< 3, 2, 1, GO
-    RACE,        ///< driving against the clock
+    RACE,        ///< driving
     PAUSED,      ///< pause menu
-    GAMEOVER,    ///< results
+    GAMEOVER,    ///< results of a time attack
+    RESULTS,     ///< results of a race, then the standings
+    LAB,         ///< the Track Lab
+    CODE_ENTRY,  ///< typing a track code
+    INITIALS,    ///< entering a name into the top ten
+    RECORDS,     ///< the records screen
+};
+
+/** @brief What is being played. */
+enum class ModeE
+{
+    ENDLESS,       ///< the endless time attack
+    CHAMPIONSHIP,  ///< five races against rivals
+    CUSTOM,        ///< a Track Lab track (time attack or a single race)
 };
 
 /** @brief A message in the middle of the screen. */
@@ -73,13 +123,6 @@ struct Popup
     float       m_size = 1;   ///< size factor
 };
 
-/**
- * @brief A seed as a track code (eight characters, Crockford's base 32).
- * @param[in] seed  the seed (40 bits used)
- * @return "XXXX-XXXX"
- */
-std::string trackCode( uint64_t seed );
-
 /** @brief The game. */
 class Game
 {
@@ -91,7 +134,7 @@ public:
      */
     Game( Settings &settings, const LaunchOptions &options );
 
-    /** @brief Loads models, shaders and sound (needs the window). */
+    /** @brief Loads models, shaders, sound and records (needs the window). */
     void init();
 
     /** @brief Frees everything. */
@@ -110,24 +153,43 @@ public:
     bool wantsQuit() const { return m_quit; }
 
 private:
+    // ---- Flow (Game.cpp) ----------------------------------------------------------------------------------
+
     /** @brief Starts the attract-mode drive behind the title. */
     void startDemo();
 
     /**
-     * @brief Starts a run.
-     * @param[in] seed  the track's seed
+     * @brief Starts a time attack or a single race on a track.
+     * @param[in] setup  the track (default parameters: the endless run)
+     * @param[in] mode   endless or custom
      */
-    void startRun( uint64_t seed );
+    void startTrack( const TrackSetup &setup, ModeE mode );
+
+    /** @brief Starts a new championship at round one. */
+    void startChampionship();
 
     /**
-     * @brief Sets up a track and puts the car on its start.
-     * @param[in] seed       the seed
-     * @param[in] startS     where the car starts
+     * @brief Starts a round of the championship.
+     * @param[in] round  0..RoundCount-1
      */
-    void setupTrack( uint64_t seed, double startS );
+    void startRound( int round );
+
+    /** @brief Restarts what is being played from its start. */
+    void restart();
 
     /**
-     * @brief Advances the world: track, chunks, car, traffic, rules, camera, particles, sound.
+     * @brief Sets up a track and puts the car on it.
+     * @param[in] seed    the seed
+     * @param[in] startS  where the car starts
+     * @param[in] params  the generator's parameters
+     */
+    void setupTrack( uint64_t seed, double startS, const TrackParams &params );
+
+    /** @brief Resets the run's counters and starts the countdown. */
+    void beginCountdown();
+
+    /**
+     * @brief Advances the world: track, chunks, car, traffic, rivals, rules, camera, particles, sound.
      * @param[in] dt         seconds
      * @param[in] autopilot  the car drives itself
      */
@@ -141,14 +203,24 @@ private:
     void step( float h, const CarInput &in );
 
     /**
+     * @brief The rules of a time attack in one step.
+     * @param[in] h  seconds
+     */
+    void timeAttackRules( float h );
+
+    /** @brief The player crossed the finish line. */
+    void crossFinish();
+
+    /** @brief A time attack ended (time up, or the finish of a fixed-length track). */
+    void endTimeAttack();
+
+    /**
      * @brief The demo driver.
-     * @return controls that follow the road and avoid traffic
+     * @return controls that follow the road and avoid traffic and rivals
      */
     CarInput autopilot() const;
 
-    /**
-     * @brief Turns this frame's collected events into sound, particles, popups and score.
-     */
+    /** @brief Turns this frame's collected events into sound, particles, popups and score. */
     void handleEvents();
 
     /**
@@ -175,6 +247,12 @@ private:
     void updateAudio();
 
     /**
+     * @brief Counts kilometres, discovered biomes and what they unlock.
+     * @param[in] ds  metres driven this frame
+     */
+    void progress( double ds );
+
+    /**
      * @brief Shows a message.
      * @param[in] text   big line
      * @param[in] sub    small line
@@ -187,59 +265,11 @@ private:
     /** @brief Switches between window and fullscreen. */
     void toggleFullscreen();
 
-    /**
-     * @brief Handles the menu of the current state.
-     * @param[in] m  menu input
-     */
-    void menus( const MenuInput &m );
-
-    /** @brief Draws the frame. */
-    void draw();
-
-    /** @brief Draws the HUD of a run. */
-    void drawHud();
-
-    /** @brief Draws the minimap of the road ahead. */
-    void drawMinimap( float x, float y, float w, float h );
-
-    /**
-     * @brief Draws a menu.
-     * @param[in] title  heading
-     * @param[in] items  labels
-     * @param[in] values value texts (empty: none)
-     * @param[in] y      top of the menu
-     */
-    void drawMenu( const char *title, const std::vector<std::string> &items, const std::vector<std::string> &values, float y );
-
-    /** @brief Draws the title screen. */
-    void drawTitle();
-
-    /** @brief Draws the results. */
-    void drawResults();
-
     /** @brief Saves the settings and applies volumes. */
     void settingsChanged();
 
-    /**
-     * @brief A settings item's label.
-     * @param[in] item  the item
-     * @return its label
-     */
-    const char *settingLabel( SettingE item ) const;
-
-    /**
-     * @brief A settings item's value as text.
-     * @param[in] item  the item
-     * @return the value
-     */
-    std::string settingValue( SettingE item ) const;
-
-    /**
-     * @brief Changes a setting.
-     * @param[in] item  the item
-     * @param[in] dir   -1 or +1
-     */
-    void changeSetting( SettingE item, int dir );
+    /** @brief Saves the records. */
+    void saveRecords() const;
 
     /**
      * @brief The station the radio should play now (the biome's in automatic mode).
@@ -263,9 +293,104 @@ private:
      */
     std::string radioName() const;
 
+    // ---- Screens (GameUi.cpp) ------------------------------------------------------------------------------
+
+    /**
+     * @brief Handles the menu of the current state.
+     * @param[in] m  menu input
+     */
+    void menus( const MenuInput &m );
+
+    /**
+     * @brief A settings item's label.
+     * @param[in] item  the item
+     * @return its label
+     */
+    const char *settingLabel( SettingE item ) const;
+
+    /**
+     * @brief A settings item's value as text.
+     * @param[in] item  the item
+     * @return the value
+     */
+    std::string settingValue( SettingE item ) const;
+
+    /**
+     * @brief Changes a setting.
+     * @param[in] item  the item
+     * @param[in] dir   -1 or +1
+     */
+    void changeSetting( SettingE item, int dir );
+
+    /**
+     * @brief A Track Lab item's value as text.
+     * @param[in] item  the item
+     * @return the value
+     */
+    std::string labValue( LabE item ) const;
+
+    /**
+     * @brief Changes a Track Lab value.
+     * @param[in] item  the item
+     * @param[in] dir   -1 or +1
+     */
+    void changeLab( LabE item, int dir );
+
+    /** @brief Draws the frame. */
+    void draw();
+
+    /** @brief Draws the HUD of a run or a race. */
+    void drawHud();
+
+    /**
+     * @brief Draws the minimap of the road ahead.
+     * @param[in] x  left
+     * @param[in] y  top
+     * @param[in] w  width
+     * @param[in] h  height
+     */
+    void drawMinimap( float x, float y, float w, float h );
+
+    /**
+     * @brief Draws a menu.
+     * @param[in] title  heading
+     * @param[in] items  labels
+     * @param[in] values value texts (empty: none)
+     * @param[in] y      top of the menu
+     */
+    void drawMenu( const char *title, const std::vector<std::string> &items, const std::vector<std::string> &values, float y );
+
+    /** @brief Draws the title screen. */
+    void drawTitle();
+
+    /** @brief Draws the results of a time attack. */
+    void drawResults();
+
+    /** @brief Draws a race's result, the standings, or the championship's end. */
+    void drawRaceResults();
+
+    /** @brief Draws the Track Lab. */
+    void drawLab();
+
+    /** @brief Draws the code entry. */
+    void drawCodeEntry();
+
+    /** @brief Draws the initials entry. */
+    void drawInitials();
+
+    /** @brief Draws the records screen. */
+    void drawRecords();
+
+    /** @brief Draws the messages in the middle of the screen. */
+    void drawPopups();
+
+    // ---- State -------------------------------------------------------------------------------------------
+
     Settings     &m_settings;      ///< the player's settings
     Tuning        m_tuningBase;    ///< tuning.ini before the difficulty
     LaunchOptions m_options;       ///< the command line
+    Records       m_records;       ///< top ten, kilometres, unlocks
+    Ghost         m_ghost;         ///< the best drive of the current track
 
     Models                 m_models;       ///< meshes
     Renderer               m_renderer;     ///< drawing
@@ -273,12 +398,14 @@ private:
     std::unique_ptr<Track> m_track;        ///< the road
     PlayerCar              m_car;          ///< the player
     Traffic                m_traffic;      ///< the others
+    Race                   m_race;         ///< rivals and the championship
     Particles              m_particles;    ///< effects
     Audio                  m_audio;        ///< sound
     Input                  m_input;        ///< controls
     bool                   m_audioOk = false;   ///< sound works
 
     StateE m_state = StateE::TITLE;   ///< where the game is
+    ModeE  m_mode = ModeE::ENDLESS;   ///< what is being played
     StateE m_settingsReturn = StateE::TITLE;   ///< where the settings menu returns to
     StateE m_pauseReturn = StateE::RACE;       ///< where the pause menu returns to
     int    m_returnIndex = 0;                  ///< menu item to restore after the settings
@@ -291,8 +418,12 @@ private:
     bool   m_quit = false;            ///< close the game
     bool   m_demo = true;             ///< the run is the title's demo
 
-    // The run.
-    uint64_t m_seed = 1;              ///< the track's seed
+    // The track being driven.
+    TrackSetup  m_setup;              ///< its setup
+    std::string m_code;               ///< its code
+    uint64_t    m_seed = 1;           ///< its seed
+
+    // A time attack.
     float    m_timeLeft = 0.0f;       ///< seconds on the clock
     bool     m_timeUp = false;        ///< the clock reached zero
     float    m_timeUpFor = 0.0f;      ///< seconds since then
@@ -308,8 +439,28 @@ private:
     float    m_comboTimer = 0.0f;     ///< seconds until the combo resets
     float    m_topSpeed = 0.0f;       ///< fastest speed of the run (m/s)
     bool     m_newBest = false;       ///< the run beat the record
+    bool     m_newGhost = false;      ///< the run became the track's ghost
+    int      m_rank = -1;             ///< place in the top ten (-1 none)
+    bool     m_finishedTrack = false; ///< a fixed-length time attack reached its finish
     int      m_lastWarning = 99;      ///< last second a warning beeped
     int      m_lastCount = 4;         ///< last countdown number shown
+
+    // A race.
+    float                   m_raceTime = 0.0f;    ///< seconds since the start
+    bool                    m_finished = false;   ///< the player crossed the line
+    float                   m_finishedFor = 0.0f; ///< seconds since
+    int                     m_place = 0;          ///< the player's final place
+    std::vector<ResultLine> m_results;            ///< the race's result
+    int                     m_resultPage = 0;     ///< 0 result, 1 standings, 2 championship end
+    RaceEvents              m_raceEv;             ///< rival events this frame
+
+    // Track Lab, code entry, initials.
+    TrackSetup  m_lab;                ///< the lab's setup
+    std::string m_codeText;           ///< the code being typed (12 characters)
+    int         m_codeCursor = 0;     ///< the character being edited
+    std::string m_codeError;          ///< why a code was refused
+    std::string m_initials = "AAA";   ///< the name being entered
+    int         m_initialCursor = 0;  ///< the letter being edited
 
     // Collected during the physics steps.
     TrafficEvents m_ev;               ///< traffic events this frame
@@ -336,7 +487,6 @@ private:
     // Weather and effects.
     float m_flash = 0.0f;             ///< lightning brightness
     float m_thunderIn = -1.0f;        ///< seconds until thunder (-1: none)
-    float m_emitAcc = 0.0f;           ///< particle emission accumulator
 
     std::vector<Popup> m_popups;      ///< messages
 

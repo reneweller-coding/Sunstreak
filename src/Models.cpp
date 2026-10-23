@@ -40,9 +40,9 @@ const CarSpec CarSpecs[CarCount] = {
     { "VORTEX", 88.0f, 0.92f, 0.93f, 4.8f, 2.0f, 12, 1100.0f, 9200.0f, 1.15f },
 };
 
-const char *PaintNames[PaintCount] = { "RACING RED", "ICE WHITE", "SUN YELLOW", "DEEP BLUE" };
+const char *PaintNames[PaintCount] = { "RACING RED", "ICE WHITE", "SUN YELLOW", "DEEP BLUE", "CHAMPION GOLD" };
 const Color PaintColors[PaintCount] = { rgb( 196, 18, 24 ), rgb( 232, 234, 240 ), rgb( 240, 186, 16 ),
-                                        rgb( 22, 56, 168 ) };
+                                        rgb( 22, 56, 168 ), rgb( 214, 168, 52 ) };
 
 /** @brief A cross-section of a car body. */
 struct Station

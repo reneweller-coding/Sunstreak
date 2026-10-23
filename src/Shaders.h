@@ -80,6 +80,7 @@ uniform float flash;
 uniform float gridGlow;
 uniform vec3 gridColor;
 uniform vec2 gridOffset;
+uniform float objectAlpha;
 out vec4 finalColor;
 void main()
 {
@@ -131,7 +132,7 @@ void main()
     fog = max(fog, smoothstep(viewDist * 0.7, viewDist, dist));
     fog *= 1.0 - 0.55 * clamp(emissive, 0.0, 1.0) * (1.0 - smoothstep(viewDist * 0.5, viewDist, dist));
     col = mix(col, fogColor, clamp(fog, 0.0, 1.0));
-    finalColor = vec4(col, vColor.a);
+    finalColor = vec4(col, vColor.a * objectAlpha);
 }
 )";
 
