@@ -119,8 +119,9 @@ void Game::shutdown()
 {
     saveRecords();
     if( m_world.m_buildCount > 0 )
-        TraceLog( LOG_INFO, "SUNSTREAK: %d chunks built, %.2f ms on average, %.2f ms the slowest", m_world.m_buildCount,
-                  m_world.m_buildTotalMs / m_world.m_buildCount, m_world.m_buildMaxMs );
+        TraceLog( LOG_INFO, "SUNSTREAK: %d chunks built, %.2f ms on average, %.2f ms the slowest, %d on the main thread, frame part peak %.2f ms",
+                  m_world.m_buildCount, m_world.m_buildTotalMs / m_world.m_buildCount, m_world.m_buildMaxMs, m_world.m_syncBuilds,
+                  m_world.m_buildPeakMs );
     m_audio.stopMusic();
     m_audio.shutdown();
     m_world.clear();

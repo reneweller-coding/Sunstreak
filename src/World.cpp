@@ -200,8 +200,29 @@ float World::terrainHeight( const Track &track, long index, float lateral, const
     return h;
 }
 
+World::~World()
+{
+    {
+        std::lock_guard<std::mutex> lock( m_mutex );
+        m_quit = true;
+    }
+    m_wake.notify_all();
+    if( m_thread.joinable() ) m_thread.join();
+}
+
 void World::clear()
 {
+    {
+        // The worker may be baking on its track: drop the queues, wait until it is idle, then forget the track.
+        std::unique_lock<std::mutex> lock( m_mutex );
+        m_jobs.clear();
+        m_done.clear();
+        ++m_generation;
+        m_idle.wait( lock, [this] { return !m_busy; } );
+        m_workerTrack.reset();
+        m_requested = -1;
+    }
+    m_ready.clear();
     for( Chunk &c : m_chunks )
     {
         UnloadMesh( c.m_ground );
@@ -210,8 +231,50 @@ void World::clear()
     m_chunks.clear();
 }
 
+void World::work()
+{
+    std::unique_lock<std::mutex> lock( m_mutex );
+    for( ;; )
+    {
+        m_wake.wait( lock, [this] { return m_quit || ( !m_jobs.empty() && m_workerTrack ); } );
+        if( m_quit ) return;
+        BakedChunk baked;
+        baked.m_index = m_jobs.front();
+        m_jobs.pop_front();
+        const uint64_t generation = m_generation;
+        Track         &track = *m_workerTrack;
+        m_busy = true;
+        lock.unlock();
+
+        const auto t0 = std::chrono::steady_clock::now();
+        buildChunk( track, baked );
+        baked.m_ms = std::chrono::duration<float, std::milli>( std::chrono::steady_clock::now() - t0 ).count();
+        track.discardBefore( static_cast<double>( baked.m_index ) * ChunkLength - 2500.0 );
+
+        lock.lock();
+        m_busy = false;
+        if( generation == m_generation ) m_done.push_back( std::move( baked ) );
+        m_idle.notify_all();
+    }
+}
+
+void World::upload( BakedChunk &baked )
+{
+    Chunk c;
+    c.m_index = baked.m_index;
+    c.m_origin = baked.m_origin;
+    c.m_ground = baked.m_ground.upload();
+    c.m_props = baked.m_props.upload();
+    c.m_colliders = std::move( baked.m_colliders );
+    m_chunks.push_back( std::move( c ) );
+    m_buildMaxMs = std::max( m_buildMaxMs, baked.m_ms );
+    m_buildTotalMs += baked.m_ms;
+    ++m_buildCount;
+}
+
 void World::update( Track &track, double s, int maxBuilds )
 {
+    const auto t0 = std::chrono::steady_clock::now();
     const long firstWanted = std::max( 0L, static_cast<long>( std::floor( ( s - 40.0 ) / ChunkLength ) ) );
     const long lastWanted = static_cast<long>( std::floor( ( s + ViewDistance ) / ChunkLength ) );
     while( !m_chunks.empty() && m_chunks.front().m_index < firstWanted )
@@ -221,20 +284,65 @@ void World::update( Track &track, double s, int maxBuilds )
         m_chunks.pop_front();
     }
     long next = m_chunks.empty() ? firstWanted : m_chunks.back().m_index + 1;
-    m_buildMs = 0.0f;
-    for( int built = 0; next <= lastWanted && built < maxBuilds; ++built, ++next )
+    // A chunk the car is about to reach is baked here if the worker has not delivered it (never in practice).
+    auto bakeHere = [&]( long index )
     {
-        const auto t0 = std::chrono::steady_clock::now();
-        Chunk      c;
-        c.m_index = next;
-        buildChunk( track, c );
-        m_chunks.push_back( std::move( c ) );
-        const float ms = std::chrono::duration<float, std::milli>( std::chrono::steady_clock::now() - t0 ).count();
-        m_buildMs += ms;
-        m_buildMaxMs = std::max( m_buildMaxMs, ms );
-        m_buildTotalMs += ms;
-        ++m_buildCount;
+        BakedChunk baked;
+        baked.m_index = index;
+        const auto b0 = std::chrono::steady_clock::now();
+        buildChunk( track, baked );
+        baked.m_ms = std::chrono::duration<float, std::milli>( std::chrono::steady_clock::now() - b0 ).count();
+        upload( baked );
+    };
+
+    bool hasWorker;
+    {
+        std::lock_guard<std::mutex> lock( m_mutex );
+        hasWorker = m_workerTrack != nullptr;
     }
+    if( !hasWorker )
+    {
+        // A new track: bake what is wanted now, then give the worker its copy.
+        for( int built = 0; next <= lastWanted && built < maxBuilds; ++built, ++next ) bakeHere( next );
+        std::lock_guard<std::mutex> lock( m_mutex );
+        m_workerTrack = std::make_unique<Track>( track );
+        m_requested = next - 1;
+        if( !m_thread.joinable() ) m_thread = std::thread( [this] { work(); } );
+    }
+    else
+    {
+        std::vector<BakedChunk> arrived;
+        {
+            std::lock_guard<std::mutex> lock( m_mutex );
+            if( m_requested < next - 1 ) m_requested = next - 1;
+            while( m_requested < lastWanted && m_jobs.size() < 6 ) m_jobs.push_back( ++m_requested );
+            while( !m_done.empty() )
+            {
+                arrived.push_back( std::move( m_done.front() ) );
+                m_done.pop_front();
+            }
+        }
+        m_wake.notify_one();
+        for( BakedChunk &b : arrived ) m_ready[b.m_index] = std::move( b );
+        while( !m_ready.empty() && m_ready.begin()->first < next ) m_ready.erase( m_ready.begin() );
+        for( int uploaded = 0; uploaded < std::max( 1, maxBuilds ) && next <= lastWanted; ++next )
+        {
+            auto it = m_ready.find( next );
+            if( it != m_ready.end() )
+            {
+                upload( it->second );
+                m_ready.erase( it );
+                ++uploaded;
+                continue;
+            }
+            // Not there yet: wait for it unless the car is close to the end of the world.
+            if( static_cast<double>( next ) * ChunkLength - s > 250.0 ) break;
+            bakeHere( next );
+            ++m_syncBuilds;
+            ++uploaded;
+        }
+    }
+    m_buildMs = std::chrono::duration<float, std::milli>( std::chrono::steady_clock::now() - t0 ).count();
     m_buildPeakMs = std::max( m_buildMs, m_buildPeakMs * 0.995f );
 }
 
@@ -249,7 +357,7 @@ void World::collidersNear( double s, double range, std::vector<const Collider *>
     }
 }
 
-void World::buildChunk( Track &track, Chunk &c )
+void World::buildChunk( Track &track, BakedChunk &c ) const
 {
     const long i0 = c.m_index * ChunkSegments;
     track.generateTo( static_cast<double>( i0 + ChunkSegments + 2 ) * SegmentLength );
@@ -904,8 +1012,8 @@ void World::buildChunk( Track &track, Chunk &c )
         }
     }
 
-    c.m_ground = ground.upload();
-    c.m_props = props.upload();
+    c.m_ground = std::move( ground );
+    c.m_props = std::move( props );
 }
 
 } // namespace sunstreak
