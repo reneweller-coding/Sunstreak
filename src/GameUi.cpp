@@ -630,13 +630,17 @@ void Game::draw()
     if( m_nowTimer < 4.5f && !m_nowPlaying.empty() )
     {
         const float a = std::min( 1.0f, m_nowTimer * 4.0f ) * std::min( 1.0f, ( 4.5f - m_nowTimer ) * 1.5f );
-        const float y = H - ( m_state == StateE::TITLE ? 64.0f : 40.0f ) * u;
+        // Menus keep the bottom line for their hints: there the radio shows in the top left corner.
+        const bool  menu = m_state == StateE::TITLE || m_state == StateE::LAB || m_state == StateE::CODE_ENTRY || m_state == StateE::RECORDS;
+        const float x = menu ? 24.0f * u : W * 0.5f;
+        const float y = menu ? 52.0f * u : H - 40.0f * u;
+        const AlignE align = menu ? AlignE::LEFT : AlignE::CENTER;
         Color       lab = Accent;
         lab.a = static_cast<unsigned char>( 255.0f * a );
         Color txt = Ink;
         txt.a = lab.a;
-        drawTextFx( "RADIO  " + radioName(), W * 0.5f, y - 22.0f * u, 11.0f * u, lab, AlignE::CENTER, 0.0f );
-        drawTextFx( m_nowPlaying, W * 0.5f, y, 15.0f * u, txt, AlignE::CENTER, 0.2f * a );
+        drawTextFx( "RADIO  " + radioName(), x, y - 22.0f * u, 11.0f * u, lab, align, 0.0f );
+        drawTextFx( m_nowPlaying, x, y, 15.0f * u, txt, align, 0.2f * a );
     }
 
     if( m_showStats )

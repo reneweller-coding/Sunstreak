@@ -28,6 +28,8 @@ FetchContent_Declare( raylib
     URL https://github.com/raysan5/raylib/archive/refs/tags/5.5.tar.gz
     ${SUNSTREAK_EXTRACT_TIMESTAMP} )
 FetchContent_MakeAvailable( raylib )
+# FLAC for MY MUSIC (raylib leaves it out by default; dr_flac is in its tree).
+target_compile_definitions( raylib PRIVATE SUPPORT_FILEFORMAT_FLAC=1 )
 
 # SDL2 only for the gamepad's rumble (GLFW cannot vibrate): its game controller subsystem, no video, no sound.
 set( SDL_SHARED OFF CACHE BOOL "" FORCE )

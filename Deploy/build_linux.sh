@@ -27,9 +27,9 @@ if [ ! -f /usr/include/X11/extensions/Xrandr.h ] || [ ! -f /usr/include/X11/exte
 fi
 
 nice -n 10 cmake -S "$SRC" -B "$BUILD" -DCMAKE_BUILD_TYPE=Release -DSUNSTREAK_BIN_DIR="$SRC/bin/linux" "${EXTRA[@]}" > /dev/null
-nice -n 10 cmake --build "$BUILD" -j "$JOBS" 2>&1 | grep -E "error:|Linking CXX executable" || true
-test -x "$BUILD/Sunstreak"
-"$BUILD/SunstreakTests" | tail -1
+nice -n 10 cmake --build "$BUILD" -j "$JOBS" > "$BUILD/build.log" 2>&1 || { grep -E "error" "$BUILD/build.log" | head -40; exit 1; }
+"$BUILD/SunstreakTests" > "$BUILD/tests.log" || { cat "$BUILD/tests.log"; exit 1; }
+tail -1 "$BUILD/tests.log"
 
 NAME="Sunstreak-$VERSION-linux-x86_64"
 STAGE="$BUILD/stage/$NAME"
