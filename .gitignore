@@ -1,0 +1,8 @@
+build/
+out/
+.vs/
+*.user
+# bin/<preset> what can be started, dist/ what is handed out, work/ local screenshots, renders and logs.
+bin/
+dist/
+work/
