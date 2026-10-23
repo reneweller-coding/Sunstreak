@@ -55,6 +55,25 @@ public:
     void stop() { m_pending = false; m_on = false; }
 
     /**
+     * @brief Sets the game's mood: tension adds a driving layer, drive opens the pads.
+     * @param[in] tension  0..1 (little time left, the last kilometre of a race)
+     * @param[in] drive    0..1 (speed)
+     */
+    void setMood( float tension, float drive )
+    {
+        m_tensionTarget = tension;
+        m_drive = drive;
+    }
+
+    /**
+     * @brief Whether a track is audible.
+     * @return true while playing or fading
+     */
+    bool audible() const { return m_gain > 0.05f; }
+
+    bool m_beatNow = false;   ///< set for the one sample on which a beat began
+
+    /**
      * @brief Renders one stereo sample.
      * @param[out] l  left
      * @param[out] r  right
@@ -147,9 +166,16 @@ private:
     float m_stabT = 9, m_stabPh[6] = {};
     float m_chipChord[3] = {};       ///< chip arpeggio chord (Hz)
     int   m_chipIndex = 0;           ///< which note of it sounds
+    float m_tension = 0.0f;          ///< smoothed tension
+    float m_tensionTarget = 0.0f;    ///< the game's tension
+    float m_drive = 0.0f;            ///< the game's speed
+    float m_tHatT = 9.0f;            ///< tension hat
+    float m_tBlipT = 9.0f, m_tBlipF = 880.0f, m_tBlipPh = 0.0f;   ///< tension alarm blip
 
     dsp::Svf   m_snareF, m_hatF, m_bassF1, m_bassF2, m_leadF1, m_arpF1, m_padF1, m_stabF1, m_kickClick;
     dsp::Noise m_n;
+    dsp::Svf   m_tHatF;   ///< the tension hats' filter
+    dsp::Noise m_tN;      ///< their own noise, so the groove stays as it was
 
     std::vector<float> m_delayL, m_delayR;   ///< ping-pong echo
     size_t             m_di = 0;             ///< echo write index

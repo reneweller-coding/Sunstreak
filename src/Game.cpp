@@ -482,7 +482,7 @@ void Game::crossFinish()
         if( m_results[i].m_driver < 0 ) m_place = static_cast<int>( i ) + 1;
     m_newGhost = m_ghost.saveIfBest( ghostDir(), m_code, -static_cast<double>( m_raceTime ), m_carIndex, m_paintIndex );
     popup( m_place == 1 ? "YOU WIN!" : format( "P%d", m_place ), "FINISH  " + clockText( m_raceTime ), m_place <= 3 ? Gold : Ink, 1.4f, 3.5f );
-    m_audio.play( m_place <= 3 ? SfxE::CHECKPOINT : SfxE::STAGE );
+    m_audio.playOnBeat( m_place <= 3 ? SfxE::VICTORY : SfxE::STAGE );
     saveRecords();
 }
 
@@ -630,7 +630,7 @@ void Game::timeAttackRules( float h )
         m_score += static_cast<double>( m_timeLeft ) * 100.0;
         m_car.m_coasting = true;
         popup( "FINISH", format( "%.1f SEC LEFT  +%d", m_timeLeft, static_cast<int>( m_timeLeft * 100.0f ) ), Gold, 1.4f, 3.5f );
-        m_audio.play( SfxE::CHECKPOINT );
+        m_audio.playOnBeat( SfxE::CHECKPOINT );
         return;
     }
     if( !m_timeUp )
@@ -658,7 +658,7 @@ void Game::timeAttackRules( float h )
             m_timeLeft += bonus;
             m_score += 1000.0;
             popup( "CHECKPOINT", format( "+%.1f SEC", bonus ), Green, 1.1f, 2.4f );
-            m_audio.play( SfxE::CHECKPOINT );
+            m_audio.playOnBeat( SfxE::CHECKPOINT );
         }
         m_nextCheckpoint += CheckpointSpacing;
     }
@@ -667,7 +667,7 @@ void Game::timeAttackRules( float h )
     {
         m_stage = stage;
         popup( format( "STAGE %d", stage + 1 ), biomeDef( track.stageBiome( stage ) ).m_name, Accent, 1.2f, 3.2f );
-        m_audio.play( SfxE::STAGE );
+        m_audio.playOnBeat( SfxE::STAGE );
     }
     const double ds = m_car.m_s - m_lastS;
     m_lastS = m_car.m_s;
@@ -1022,6 +1022,15 @@ void Game::updateAudio()
     s.m_redline = m_car.m_spec.m_redline;
     s.m_bright = m_car.m_spec.m_bright;
     m_audio.setEngine( s );
+
+    // The soundtrack's mood: tension when time runs short or the finish nears, drive with the speed.
+    float tension = 0.0f;
+    if( !m_demo && m_state == StateE::RACE )
+    {
+        if( m_setup.m_race ) tension = m_finished ? 0.0f : smoothstepf( 1200.0f, 300.0f, static_cast<float>( m_race.m_finishS - m_car.m_s ) );
+        else if( !m_timeUp && !m_finishedTrack ) tension = smoothstepf( 12.0f, 4.0f, m_timeLeft );
+    }
+    m_audio.setMood( tension, m_demo ? 0.6f : m_car.m_speed / m_car.m_spec.m_topSpeed );
 }
 
 } // namespace sunstreak

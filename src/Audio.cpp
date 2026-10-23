@@ -60,6 +60,7 @@ struct Synth
     std::atomic<int>   m_musicCmd{ 0 };      ///< 1 start, 2 stop
     std::atomic<uint64_t> m_musicSeed{ 1 };    ///< the track to start
     std::atomic<int>   m_musicStation{ 0 };  ///< its station
+    std::atomic<float> m_tension{ 0.0f }, m_drive{ 0.0f };   ///< the game's mood
 
     std::array<Event, 64>  m_queue;          ///< effects posted by the game
     std::atomic<uint32_t>  m_head{ 0 };      ///< written by the game thread
@@ -76,6 +77,9 @@ struct Synth
     float  e_width[64] = {};
     int    e_wi = 0;
     std::array<Voice, VoiceCount> m_voices;
+    std::array<Event, 8>          m_onBeat{};     ///< cues waiting for the beat
+    int                           m_onBeatCount = 0;   ///< how many
+    float                         m_onBeatWait = 0.0f; ///< seconds the oldest waits
     MusicSynth m_music;
 
     /**
@@ -202,6 +206,18 @@ struct Synth
             y = std::tanh( std::sin( Pi2 * mtof( notes[i] ) * t ) * 2.0f ) * std::exp( -( t - 0.22f * i ) * 4.0f ) * 0.22f;
             break;
         }
+        case SfxE::VICTORY:
+        {
+            // A rising arpeggio into a held major chord, slightly overdriven like brass.
+            dur = 2.6f;
+            static const float notes[4] = { 60, 64, 67, 72 };
+            const int   i = std::min( 3, static_cast<int>( t / 0.11f ) );
+            const float lt = t - 0.11f * static_cast<float>( i );
+            float       s = std::sin( Pi2 * mtof( notes[i] ) * t );
+            if( i == 3 ) s += std::sin( Pi2 * mtof( 76.0f ) * t ) + std::sin( Pi2 * mtof( 79.0f ) * t ) + 0.5f * std::sin( Pi2 * mtof( 48.0f ) * t );
+            y = std::tanh( s * 1.6f ) * std::min( 1.0f, lt * 60.0f ) * std::exp( -lt * ( i == 3 ? 1.4f : 10.0f ) ) * 0.24f;
+            break;
+        }
         default: break;
         }
         v.m_t += 1.0f / SampleRate;
@@ -320,9 +336,20 @@ struct Synth
         while( m_tail.load( std::memory_order_acquire ) != m_head.load( std::memory_order_acquire ) )
         {
             const uint32_t t = m_tail.load( std::memory_order_relaxed );
-            startVoice( m_queue[t % m_queue.size()] );
+            const Event   &e = m_queue[t % m_queue.size()];
+            // Cues flagged by a negative pan wait for the beat (the pan is restored).
+            if( e.m_pan < -1.5f && m_music.audible() && m_onBeatCount < static_cast<int>( m_onBeat.size() ) )
+            {
+                if( m_onBeatCount == 0 ) m_onBeatWait = 0.0f;
+                m_onBeat[static_cast<size_t>( m_onBeatCount++ )] = Event{ e.m_type, e.m_strength, 0.0f };
+            }
+            else
+            {
+                startVoice( Event{ e.m_type, e.m_strength, e.m_pan < -1.5f ? 0.0f : e.m_pan } );
+            }
             m_tail.store( t + 1, std::memory_order_release );
         }
+        m_music.setMood( m_tension.load( std::memory_order_relaxed ), m_drive.load( std::memory_order_relaxed ) );
         const int cmd = m_musicCmd.exchange( 0 );
         if( cmd == 1 ) m_music.request( m_musicSeed.load(), m_musicStation.load() );
         if( cmd == 2 ) m_music.stop();
@@ -345,6 +372,15 @@ struct Synth
             }
             float ml, mr;
             m_music.tick( ml, mr );
+            if( m_onBeatCount > 0 )
+            {
+                m_onBeatWait += 1.0f / SampleRate;
+                if( m_music.m_beatNow || m_onBeatWait > 0.7f )
+                {
+                    for( int k = 0; k < m_onBeatCount; ++k ) startVoice( m_onBeat[static_cast<size_t>( k )] );
+                    m_onBeatCount = 0;
+                }
+            }
             l += ml * mus;
             r += mr * mus;
             out[i * 2] = std::tanh( l * MasterGain );
@@ -365,6 +401,16 @@ void audioCallback( void *buffer, unsigned int frames )
     if( g_synth ) g_synth->render( static_cast<float *>( buffer ), frames );
 }
 
+/**
+ * @brief Clamps to 0..1.
+ * @param[in] v  the value
+ * @return v in [0, 1]
+ */
+float clampf01( float v )
+{
+    return std::min( 1.0f, std::max( 0.0f, v ) );
+}
+
 } // namespace
 
 bool Audio::renderTest( const std::string &path, float seconds, int station )
@@ -372,8 +418,12 @@ bool Audio::renderTest( const std::string &path, float seconds, int station )
     auto           synth = std::make_unique<Synth>();
     const unsigned frames = static_cast<unsigned>( seconds * SampleRate );
     std::vector<float> buf( static_cast<size_t>( frames ) * 2 );
-    synth->m_music.request( 4711 + static_cast<uint64_t>( std::max( 0, station ) ), std::max( 0, station ) );
+    // Stations past the last one test the adaptive soundtrack: tension from 15 to 32 s, cues held for the beat.
+    const bool adaptive = station >= StationCount;
+    const int  style = std::max( 0, station ) % StationCount;
+    synth->m_music.request( 4711 + static_cast<uint64_t>( style ), style );
     const bool drive = station < 0;
+    bool       cued[2] = {};
     // Gear by gear: seconds per gear while the revs climb from 0.45 to 0.97.
     static const float gearTime[6] = { 1.4f, 1.8f, 2.2f, 2.6f, 3.0f, 3.4f };
     struct Cue
@@ -425,6 +475,19 @@ bool Audio::renderTest( const std::string &path, float seconds, int station )
         synth->m_boost = t > 12.0f && t < 14.0f;
         synth->m_slip = t > 17.0f && t < 18.0f ? 0.8f : 0.0f;
         synth->m_rumble = t > 19.0f ? 1.0f : 0.0f;
+        if( adaptive )
+        {
+            synth->m_tension = t > 15.0f && t < 32.0f ? 1.0f : 0.0f;
+            synth->m_drive = 0.5f + 0.5f * std::sin( t * 0.3f );
+            for( int k = 0; k < 2; ++k )
+                if( !cued[k] && t >= ( k == 0 ? 8.0f : 33.0f ) )
+                {
+                    const uint32_t h = synth->m_head.load();
+                    synth->m_queue[h % synth->m_queue.size()] = Event{ k == 0 ? SfxE::CHECKPOINT : SfxE::VICTORY, 1.0f, -2.0f };
+                    synth->m_head.store( h + 1 );
+                    cued[k] = true;
+                }
+        }
         while( drive && cue < std::size( cues ) && cues[cue].m_t <= t )
         {
             synth->startVoice( Event{ cues[cue].m_type, 1.0f, cues[cue].m_pan } );
@@ -530,6 +593,22 @@ void Audio::play( SfxE type, float strength, float pan )
     if( h - g_synth->m_tail.load( std::memory_order_acquire ) >= g_synth->m_queue.size() ) return;
     g_synth->m_queue[h % g_synth->m_queue.size()] = Event{ type, std::clamp( strength, 0.0f, 1.5f ), std::clamp( pan, -1.0f, 1.0f ) };
     g_synth->m_head.store( h + 1, std::memory_order_release );
+}
+
+void Audio::playOnBeat( SfxE type, float strength )
+{
+    if( !g_synth ) return;
+    const uint32_t h = g_synth->m_head.load( std::memory_order_relaxed );
+    if( h - g_synth->m_tail.load( std::memory_order_acquire ) >= g_synth->m_queue.size() ) return;
+    g_synth->m_queue[h % g_synth->m_queue.size()] = Event{ type, std::clamp( strength, 0.0f, 1.5f ), -2.0f };
+    g_synth->m_head.store( h + 1, std::memory_order_release );
+}
+
+void Audio::setMood( float tension, float drive )
+{
+    if( !g_synth ) return;
+    g_synth->m_tension = clampf01( tension );
+    g_synth->m_drive = clampf01( drive );
 }
 
 void Audio::setVolumes( float music, float sfx )

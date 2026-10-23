@@ -381,6 +381,17 @@ void MusicSynth::onStep()
         m_arpT = 0.0f;
     }
     if( st.m_chipArp && arpOn && s16 % 2 == 0 ) m_arpT = 0.0f;
+    // Tension: sixteenth hats and a high alarm on the eighths, the root and its fifth.
+    if( m_tension > 0.05f )
+    {
+        m_tHatT = 0.0f;
+        m_tHatF.set( 7500.0f, 0.9f );
+        if( s16 % 2 == 0 )
+        {
+            m_tBlipT = 0.0f;
+            m_tBlipF = mtof( static_cast<float>( 81 + root + ( s16 % 4 == 0 ? 0 : 7 ) ) );
+        }
+    }
     if( leadOn && s16 % 2 == 0 )
     {
         const int *scale = m_major ? MajorScale : MinorScale;
@@ -574,6 +585,8 @@ float MusicSynth::renderPad()
         y += saw( m_padPh[i * 2], m_padF[i] * 1.004f );
         y += saw( m_padPh[i * 2 + 1], m_padF[i] * 0.996f );
     }
+    if( ( m_step & 3 ) == 0 && m_clock < 1.0 )
+        m_padF1.set( ( st.m_pad == PadE::GATED ? 2400.0f : st.m_pad == PadE::STRINGS ? 850.0f : 1100.0f ) * ( 0.75f + 0.6f * m_drive ), 0.8f );
     y = m_padF1.low( y ) * m_padEnv;
     if( st.m_pad == PadE::GATED )
     {
@@ -634,7 +647,13 @@ void MusicSynth::tick( float &l, float &r )
         m_clock = m_clock >= 1e8 ? 0.0 : m_clock - thisLen;
         ++m_step;
         onStep();
+        m_beatNow = m_step % 4 == 0;
     }
+    else
+    {
+        m_beatNow = false;
+    }
+    m_tension += ( m_tensionTarget - m_tension ) * 0.00002f;
 
     float       reverbSend = 0.0f;
     const float drums = renderDrums( reverbSend );
@@ -672,7 +691,22 @@ void MusicSynth::tick( float &l, float &r )
     float rl = 0.0f, rr = 0.0f;
     reverb( ( reverbSend + pad * 0.6f + lead * 0.5f + arp * 0.3f ) * st.m_reverb, rl, rr );
 
-    const float dry = drums + bass + pad + lead + arp;
+    float tense = 0.0f;
+    if( m_tension > 0.01f )
+    {
+        if( m_tHatT < 0.2f )
+        {
+            tense += m_tHatF.high( m_tN.next() ) * std::exp( -m_tHatT * 60.0f ) * 0.45f;
+            m_tHatT += 1.0f / SampleRate;
+        }
+        if( m_tBlipT < 0.3f )
+        {
+            tense += pulse( m_tBlipPh, m_tBlipF, 0.25f ) * std::exp( -m_tBlipT * 14.0f ) * 0.4f;
+            m_tBlipT += 1.0f / SampleRate;
+        }
+        tense *= m_tension;
+    }
+    const float dry = drums + bass + pad + lead + arp + tense;
     const float g = m_gain * 0.5f;
     l = ( dry + dl * 0.6f + rl ) * g;
     r = ( dry + dr * 0.6f + rr ) * g;

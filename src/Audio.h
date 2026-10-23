@@ -42,6 +42,7 @@ enum class SfxE : uint8_t
     BOOST,        ///< boost kicks in
     STAGE,        ///< a new stage
     GAMEOVER,     ///< time is up
+    VICTORY,      ///< a podium finish
     COUNT         ///< number of effects
 };
 
@@ -91,6 +92,20 @@ public:
      * @param[in] pan       -1 left .. 1 right
      */
     void play( SfxE type, float strength = 1.0f, float pan = 0.0f );
+
+    /**
+     * @brief Plays a musical cue on the soundtrack's next beat (at once if no generated music plays).
+     * @param[in] type      which effect
+     * @param[in] strength  0..1
+     */
+    void playOnBeat( SfxE type, float strength = 1.0f );
+
+    /**
+     * @brief Tells the soundtrack the game's mood.
+     * @param[in] tension  0..1
+     * @param[in] drive    0..1
+     */
+    void setMood( float tension, float drive );
 
     /**
      * @brief Sets the volumes.
