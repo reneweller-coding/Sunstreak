@@ -14,12 +14,58 @@
 #include "Models.h"
 #include "Track.h"
 
+#include <string>
+
 namespace sunstreak
 {
 
 constexpr int   GearCount = 6;          ///< forward gears
 constexpr float Gravity = 9.81f * 1.7f; ///< arcade gravity (shorter, punchier jumps)
-constexpr float CentrifugalK = 0.42f;   ///< outward push per curvature and speed squared
+
+/** @brief The handling's knobs: tuning.ini sets them, the difficulty scales them. */
+struct Tuning
+{
+    float m_steer = 15.0f;        ///< sideways speed at full lock (m/s)
+    float m_centrifugal = 0.42f;  ///< outward push per curvature and speed squared
+    float m_accel = 11.5f;        ///< acceleration in first gear (m/s^2)
+    float m_brake = 24.0f;        ///< braking (m/s^2)
+    float m_boost = 6.5f;         ///< extra acceleration while boosting (m/s^2)
+    float m_grip = 1.0f;          ///< grip factor
+    float m_crashKeep = 0.22f;    ///< share of the speed a crash leaves
+    float m_time = 1.0f;          ///< time bonus factor (endless)
+    float m_traffic = 1.0f;       ///< traffic density factor
+    float m_rivals = 1.0f;        ///< rivals' pace factor (championship)
+};
+
+/** @brief Difficulty levels. */
+enum class DifficultyE
+{
+    EASY,     ///< more time, more grip, gentler crashes, slower rivals
+    NORMAL,   ///< as tuned
+    HARD,     ///< less time, more traffic, faster rivals
+    COUNT     ///< number of levels
+};
+
+/**
+ * @brief The handling in effect (tuning.ini scaled by the difficulty).
+ * @return the tuning, writable
+ */
+Tuning &tuning();
+
+/**
+ * @brief Scales a tuning by a difficulty.
+ * @param[in] base        tuning.ini's values
+ * @param[in] difficulty  0 easy, 1 normal, 2 hard
+ * @return the tuning to use
+ */
+Tuning applyDifficulty( const Tuning &base, int difficulty );
+
+/**
+ * @brief Reads tuning.ini, writing one with the defaults and explanations if there is none.
+ * @param[in] path  the file
+ * @return the values (defaults where missing)
+ */
+Tuning loadTuning( const std::string &path );
 
 /**
  * @brief The fastest sideways speed steering can give at a speed (before grip).
@@ -29,7 +75,7 @@ constexpr float CentrifugalK = 0.42f;   ///< outward push per curvature and spee
  */
 inline float steerLimit( float speed, float topSpeed )
 {
-    return 15.0f * smoothstepf( 0.0f, 12.0f, speed ) * ( 1.0f - 0.18f * speed / topSpeed );
+    return tuning().m_steer * smoothstepf( 0.0f, 12.0f, speed ) * ( 1.0f - 0.18f * speed / topSpeed );
 }
 
 /** @brief A position and an orientation in the world. */
@@ -102,7 +148,7 @@ public:
      * @brief The engine speed in revolutions per minute.
      * @return rpm
      */
-    float rpm() const { return 900.0f + m_rpm * 6900.0f; }
+    float rpm() const { return m_spec.m_idle + m_rpm * ( m_spec.m_redline - m_spec.m_idle ); }
 
     /**
      * @brief Where the car is and how it is turned, pitched and rolled.

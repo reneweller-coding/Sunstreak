@@ -33,9 +33,9 @@ constexpr Mat Glass{ 0.0f, 0.95f };    ///< windows
 constexpr Mat Chrome{ 0.0f, 0.75f };   ///< rims, rails
 
 const CarSpec CarSpecs[CarCount] = {
-    { "ARROW GT", 80.5f, 1.0f, 1.0f, 4.5f, 1.88f },
-    { "SPARROW", 72.0f, 1.16f, 1.12f, 3.9f, 1.72f },
-    { "VORTEX", 88.0f, 0.92f, 0.93f, 4.8f, 2.0f },
+    { "ARROW GT", 80.5f, 1.0f, 1.0f, 4.5f, 1.88f, 8, 900.0f, 7800.0f, 1.0f },
+    { "SPARROW", 72.0f, 1.16f, 1.12f, 3.9f, 1.72f, 4, 1000.0f, 8600.0f, 1.35f },
+    { "VORTEX", 88.0f, 0.92f, 0.93f, 4.8f, 2.0f, 12, 1100.0f, 9200.0f, 1.15f },
 };
 
 const char *PaintNames[PaintCount] = { "RACING RED", "ICE WHITE", "SUN YELLOW", "DEEP BLUE" };

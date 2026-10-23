@@ -45,6 +45,10 @@ struct Settings
     int          m_camera = 0;                         ///< 0 chase, 1 far chase, 2 bumper
     bool         m_speedBlur = true;                   ///< radial blur at speed
     int          m_station = -1;                       ///< radio: -1 automatic (by biome), else a station
+    int          m_difficulty = 1;                     ///< 0 easy, 1 normal, 2 hard
+    bool         m_shadows = true;                     ///< real-time sun shadows
+    int          m_fpsLimit = 0;                       ///< frame rate cap (0: none beyond vsync)
+    bool         m_vibration = true;                   ///< gamepad rumble
     int64_t      m_bestScore = 0;                      ///< the highest score of an endless run
     double       m_bestDistance = 0.0;                 ///< the longest endless run in metres
 };

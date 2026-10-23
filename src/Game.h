@@ -30,6 +30,27 @@
 namespace sunstreak
 {
 
+/** @brief The items of the settings menu, in order. */
+enum class SettingE
+{
+    DISPLAY,      ///< window or fullscreen
+    RESOLUTION,   ///< 3D resolution
+    SHADOWS,      ///< sun shadows
+    VSYNC,        ///< vertical sync
+    FRAME_LIMIT,  ///< frame rate cap
+    DIFFICULTY,   ///< easy, normal, hard
+    GEARS,        ///< automatic or manual
+    UNITS,        ///< km/h or mph
+    CAMERA,       ///< chase, far, bumper
+    BLUR,         ///< speed blur
+    VIBRATION,    ///< rumble
+    MUSIC,        ///< music volume
+    EFFECTS,      ///< effects volume
+    RADIO,        ///< radio station
+    BACK,         ///< leave
+    COUNT         ///< number of items
+};
+
 /** @brief Where the game is. */
 enum class StateE
 {
@@ -200,6 +221,27 @@ private:
     void settingsChanged();
 
     /**
+     * @brief A settings item's label.
+     * @param[in] item  the item
+     * @return its label
+     */
+    const char *settingLabel( SettingE item ) const;
+
+    /**
+     * @brief A settings item's value as text.
+     * @param[in] item  the item
+     * @return the value
+     */
+    std::string settingValue( SettingE item ) const;
+
+    /**
+     * @brief Changes a setting.
+     * @param[in] item  the item
+     * @param[in] dir   -1 or +1
+     */
+    void changeSetting( SettingE item, int dir );
+
+    /**
      * @brief The station the radio should play now (the biome's in automatic mode).
      * @return 0..StationCount-1, StationCount for the music files
      */
@@ -222,6 +264,7 @@ private:
     std::string radioName() const;
 
     Settings     &m_settings;      ///< the player's settings
+    Tuning        m_tuningBase;    ///< tuning.ini before the difficulty
     LaunchOptions m_options;       ///< the command line
 
     Models                 m_models;       ///< meshes

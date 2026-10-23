@@ -5,6 +5,8 @@
  */
 #include "Car.h"
 
+#include <fstream>
+
 namespace sunstreak
 {
 
@@ -13,9 +15,6 @@ namespace
 
 constexpr float GearShare[GearCount] = { 0.25f, 0.41f, 0.56f, 0.71f, 0.86f, 1.0f };      ///< gear top / top speed
 constexpr float GearPull[GearCount] = { 1.0f, 0.86f, 0.73f, 0.61f, 0.51f, 0.43f };      ///< drive per gear
-constexpr float BaseAccel = 11.5f;          ///< m/s^2 in first gear at peak torque
-constexpr float BrakeDecel = 24.0f;         ///< m/s^2 at full brake
-constexpr float BoostAccel = 6.5f;          ///< extra m/s^2 while boosting
 constexpr float BoostTopShare = 1.14f;      ///< boost lets the engine run past the top speed by this much
 constexpr float ShiftTime = 0.16f;          ///< seconds without drive per shift
 
@@ -31,6 +30,88 @@ float torque( float r )
 }
 
 } // namespace
+
+Tuning &tuning()
+{
+    static Tuning t;
+    return t;
+}
+
+Tuning applyDifficulty( const Tuning &base, int difficulty )
+{
+    Tuning t = base;
+    if( difficulty == static_cast<int>( DifficultyE::EASY ) )
+    {
+        t.m_centrifugal *= 0.85f;
+        t.m_grip *= 1.08f;
+        t.m_crashKeep = std::max( t.m_crashKeep, 0.4f );
+        t.m_time *= 1.25f;
+        t.m_traffic *= 0.7f;
+        t.m_rivals *= 0.93f;
+    }
+    else if( difficulty == static_cast<int>( DifficultyE::HARD ) )
+    {
+        t.m_centrifugal *= 1.1f;
+        t.m_grip *= 0.95f;
+        t.m_crashKeep *= 0.7f;
+        t.m_time *= 0.88f;
+        t.m_traffic *= 1.3f;
+        t.m_rivals *= 1.04f;
+    }
+    return t;
+}
+
+Tuning loadTuning( const std::string &path )
+{
+    Tuning t;
+    std::ifstream in( path );
+    if( !in )
+    {
+        std::ofstream out( path );
+        out << "# Sunstreak handling. Change a value, save, restart the game. Delete the file to get the defaults back.\n"
+            << "# The difficulty (Settings) scales some of these further.\n"
+            << "steer=" << t.m_steer << "            # sideways speed at full lock (m/s); higher turns sharper\n"
+            << "centrifugal=" << t.m_centrifugal << "    # how hard bends push outwards; lower is easier\n"
+            << "accel=" << t.m_accel << "           # acceleration (m/s^2 in first gear)\n"
+            << "brake=" << t.m_brake << "             # braking (m/s^2)\n"
+            << "boost=" << t.m_boost << "            # extra acceleration while boosting\n"
+            << "grip=" << t.m_grip << "               # grip factor on every surface\n"
+            << "crash_keep=" << t.m_crashKeep << "      # share of the speed left after a crash\n"
+            << "time=" << t.m_time << "               # time bonus factor in endless runs\n"
+            << "traffic=" << t.m_traffic << "            # traffic density factor\n"
+            << "rivals=" << t.m_rivals << "             # championship rivals' pace\n";
+        return t;
+    }
+    std::string line;
+    while( std::getline( in, line ) )
+    {
+        const auto hash = line.find( '#' );
+        if( hash != std::string::npos ) line = line.substr( 0, hash );
+        const auto eq = line.find( '=' );
+        if( eq == std::string::npos ) continue;
+        const std::string key = line.substr( 0, eq );
+        float             v = 0.0f;
+        try
+        {
+            v = std::stof( line.substr( eq + 1 ) );
+        }
+        catch( ... )
+        {
+            continue;
+        }
+        if( key == "steer" ) t.m_steer = clampf( v, 4.0f, 40.0f );
+        else if( key == "centrifugal" ) t.m_centrifugal = clampf( v, 0.0f, 2.0f );
+        else if( key == "accel" ) t.m_accel = clampf( v, 2.0f, 40.0f );
+        else if( key == "brake" ) t.m_brake = clampf( v, 4.0f, 80.0f );
+        else if( key == "boost" ) t.m_boost = clampf( v, 0.0f, 30.0f );
+        else if( key == "grip" ) t.m_grip = clampf( v, 0.3f, 3.0f );
+        else if( key == "crash_keep" ) t.m_crashKeep = clampf( v, 0.0f, 1.0f );
+        else if( key == "time" ) t.m_time = clampf( v, 0.3f, 5.0f );
+        else if( key == "traffic" ) t.m_traffic = clampf( v, 0.0f, 4.0f );
+        else if( key == "rivals" ) t.m_rivals = clampf( v, 0.5f, 1.5f );
+    }
+    return t;
+}
 
 Pose roadPose( const Track &track, double s, float x, float yaw )
 {
@@ -127,7 +208,7 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
     const long segIndex = static_cast<long>( m_s / SegmentLength );
     if( ( seg.m_flags & SEG_PUDDLE ) && std::abs( m_x - puddleLateral( track, segIndex ) ) < 1.8f ) grip *= 0.3f;
     m_wetGrip = grip;
-    grip *= m_spec.m_grip * ( 1.0f - 0.35f * m_offroad );
+    grip *= m_spec.m_grip * tuning().m_grip * ( 1.0f - 0.35f * m_offroad );
 
     // Engine and gears.
     m_throttle = approach( m_throttle, in.m_throttle, 12.0f, dt );
@@ -179,19 +260,19 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
     {
         const bool limiter = wheelRpm >= topLimit;
         if( m_shiftTimer <= 0.0f && !limiter )
-            accel += BaseAccel * m_spec.m_accel * GearPull[m_gear] * torque( std::min( wheelRpm, 1.0f ) ) * in.m_throttle;
+            accel += tuning().m_accel * m_spec.m_accel * GearPull[m_gear] * torque( std::min( wheelRpm, 1.0f ) ) * in.m_throttle;
         if( in.m_boost && m_boostTank > 0.0f && in.m_throttle > 0.1f )
         {
             m_boosting = true;
-            if( !limiter ) accel += BoostAccel;
+            if( !limiter ) accel += tuning().m_boost;
         }
-        accel -= BrakeDecel * in.m_brake * ( 0.6f + 0.4f * std::min( 1.0f, grip ) );
+        accel -= tuning().m_brake * in.m_brake * ( 0.6f + 0.4f * std::min( 1.0f, grip ) );
     }
     if( m_boosting ) m_boostTank = std::max( 0.0f, m_boostTank - 0.22f * dt );
     else m_boostTank = std::min( 1.0f, m_boostTank + 0.015f * dt );
 
     // Air drag tuned so the top gear tops out at the car's top speed; engine braking when coasting.
-    const float topAccel = BaseAccel * m_spec.m_accel * GearPull[GearCount - 1] * torque( 1.0f );
+    const float topAccel = tuning().m_accel * m_spec.m_accel * GearPull[GearCount - 1] * torque( 1.0f );
     const float dragK = topAccel / ( m_spec.m_topSpeed * m_spec.m_topSpeed * 1.03f );
     accel -= dragK * m_speed * m_speed + 0.25f;
     if( in.m_throttle < 0.05f && !m_airborne ) accel -= 1.2f + 2.0f * m_rpm;
@@ -210,7 +291,7 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
     const float steerMax = steerLimit( m_speed, m_spec.m_topSpeed );
     const float authority = m_airborne ? 0.3f * grip : grip;
     m_vx = approach( m_vx, m_steer * steerMax * authority, 3.0f + 4.0f * std::min( authority, 1.2f ), dt );
-    m_drift = m_airborne ? m_drift : f.m_curve * m_speed * m_speed * CentrifugalK;
+    m_drift = m_airborne ? m_drift : f.m_curve * m_speed * m_speed * tuning().m_centrifugal;
     const float lateral = m_vx - m_drift;
     if( !m_frozen ) m_x += lateral * dt;
 

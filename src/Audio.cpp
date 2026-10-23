@@ -54,6 +54,8 @@ struct Synth
 {
     std::atomic<float> m_rpm{ 0.1f }, m_throttle{ 0 }, m_speed{ 0 }, m_slip{ 0 }, m_offroad{ 0 }, m_rumble{ 0 };
     std::atomic<bool>  m_active{ false }, m_boost{ false }, m_limiter{ false }, m_shifting{ false };
+    std::atomic<int>   m_cylinders{ 8 };
+    std::atomic<float> m_idle{ 900.0f }, m_redline{ 7800.0f }, m_bright{ 1.0f };
     std::atomic<float> m_sfxVol{ 0.9f }, m_musicVol{ 0.7f };
     std::atomic<int>   m_musicCmd{ 0 };      ///< 1 start, 2 stop
     std::atomic<uint64_t> m_musicSeed{ 1 };    ///< the track to start
@@ -233,10 +235,13 @@ struct Synth
         }
         e_prevThr = e_thr;
 
-        const float fire = ( 900.0f + e_rpm * 6900.0f ) / 60.0f * 4.0f;
+        const int   cyl = m_cylinders.load( std::memory_order_relaxed );
+        const float idle = m_idle.load( std::memory_order_relaxed ), red = m_redline.load( std::memory_order_relaxed );
+        const float bright = m_bright.load( std::memory_order_relaxed );
+        const float fire = ( idle + e_rpm * ( red - idle ) ) / 60.0f * static_cast<float>( cyl ) * 0.5f;
         if( ( e_coef++ & 31 ) == 0 )
         {
-            e_body.set( 250.0f + 2600.0f * ( 0.25f + 0.75f * load ) * ( 0.35f + e_rpm ), 0.9f );
+            e_body.set( ( 250.0f + 2600.0f * ( 0.25f + 0.75f * load ) * ( 0.35f + e_rpm ) ) * bright, 0.9f );
             e_intake.set( std::min( fire * 2.0f, 8000.0f ), 4.0f );
             e_wind.set( 250.0f + e_speed * 18.0f, 0.6f );
             e_squealF.set( 1800.0f, 6.0f );
@@ -253,18 +258,19 @@ struct Synth
             ++e_count;
             e_pulseAmp = 0.8f + 0.35f * e_n.unit();
             const int k = e_count & 3;
-            e_uneven = k == 1 ? 1.3f : k == 3 ? 0.85f : 1.0f;
+            e_uneven = cyl != 8 ? 1.0f : k == 1 ? 1.3f : k == 3 ? 0.85f : 1.0f;
             if( e_thr < 0.1f && e_rpm > 0.55f && e_n.unit() < 0.02f * e_rpm ) e_pop = 1.0f;
         }
-        const float decay = 4.0f + 10.0f * ( 1.0f - load * 0.8f );
+        const float decay = ( 4.0f + 10.0f * ( 1.0f - load * 0.8f ) ) * ( cyl >= 12 ? 1.6f : cyl <= 4 ? 0.8f : 1.0f );
         float       pulse = std::exp( -e_phase * decay ) * e_pulseAmp * e_uneven - ( 1.0f - std::exp( -decay ) ) / decay;
         e_sub += fire * 0.5f / SampleRate;
         if( e_sub >= 1.0f ) e_sub -= 1.0f;
-        const float x = pulse * 0.9f + std::sin( Pi2 * e_sub ) * 0.3f * ( 1.2f - e_rpm );
+        const float sub = cyl <= 4 ? 0.45f : cyl >= 12 ? 0.12f : 0.3f;
+        const float x = pulse * 0.9f + std::sin( Pi2 * e_sub ) * sub * ( 1.2f - e_rpm );
         float       lo, bd, ilo, ibd;
         e_body.process( x, lo, bd );
         e_intake.process( x, ilo, ibd );
-        float y = lo + ibd * 0.3f * ( 0.3f + load );
+        float y = lo + ibd * ( cyl <= 4 ? 0.55f : 0.3f ) * ( 0.3f + load );
         y = std::tanh( y * ( 1.2f + 2.5f * load ) ) * ( 0.35f + 0.35f * load + 0.15f * e_rpm );
         if( e_pop > 0.001f )
         {
@@ -511,6 +517,10 @@ void Audio::setEngine( const EngineState &s )
     g_synth->m_boost = s.m_boost;
     g_synth->m_limiter = s.m_limiter;
     g_synth->m_shifting = s.m_shifting;
+    g_synth->m_cylinders = s.m_cylinders;
+    g_synth->m_idle = s.m_idle;
+    g_synth->m_redline = s.m_redline;
+    g_synth->m_bright = s.m_bright;
 }
 
 void Audio::play( SfxE type, float strength, float pan )

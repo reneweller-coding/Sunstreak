@@ -51,7 +51,7 @@ std::string format( const char *f, ... )
  */
 float checkpointBonus( int k )
 {
-    return static_cast<float>( CheckpointSpacing ) / std::min( 64.0f, 48.0f + 2.0f * static_cast<float>( k ) );
+    return static_cast<float>( CheckpointSpacing ) / std::min( 64.0f, 48.0f + 2.0f * static_cast<float>( k ) ) * tuning().m_time;
 }
 
 /**
@@ -149,6 +149,8 @@ Game::Game( Settings &settings, const LaunchOptions &options ) : m_settings( set
 
 void Game::init()
 {
+    m_tuningBase = loadTuning( configDirectory() + "/tuning.ini" );
+    tuning() = applyDifficulty( m_tuningBase, m_settings.m_difficulty );
     m_models.build();
     m_renderer.init();
     m_world.init( &m_models );
@@ -210,7 +212,7 @@ void Game::startRun( uint64_t seed )
     }
     setupTrack( seed, startS );
     m_car.m_frozen = true;
-    m_timeLeft = StartTime;
+    m_timeLeft = StartTime * tuning().m_time;
     m_timeUp = false;
     m_timeUpFor = 0.0f;
     m_score = 0.0;
@@ -249,6 +251,100 @@ void Game::toggleFullscreen()
     ToggleBorderlessWindowed();
     m_settings.m_display = IsWindowState( FLAG_BORDERLESS_WINDOWED_MODE ) ? DisplayModeE::FULLSCREEN : DisplayModeE::WINDOWED;
     settingsChanged();
+}
+
+const char *Game::settingLabel( SettingE item ) const
+{
+    static const char *labels[] = { "DISPLAY",    "3D RESOLUTION", "SHADOWS", "VSYNC",   "FRAME LIMIT", "DIFFICULTY",
+                                    "GEARS",      "SPEEDOMETER",   "CAMERA",  "SPEED BLUR", "VIBRATION", "MUSIC",
+                                    "EFFECTS",    "RADIO",         "BACK" };
+    return labels[static_cast<int>( item )];
+}
+
+std::string Game::settingValue( SettingE item ) const
+{
+    auto bar = []( float v )
+    {
+        std::string s;
+        const int   n = static_cast<int>( std::round( v * 10.0f ) );
+        for( int i = 0; i < 10; ++i ) s += i < n ? '#' : '-';
+        return s;
+    };
+    static const char *cams[] = { "CHASE", "FAR CHASE", "BUMPER" };
+    static const char *levels[] = { "EASY", "NORMAL", "HARD" };
+    switch( item )
+    {
+    case SettingE::DISPLAY: return m_settings.m_display == DisplayModeE::FULLSCREEN ? "FULLSCREEN" : "WINDOW";
+    case SettingE::RESOLUTION: return format( "%d%%", static_cast<int>( m_settings.m_renderScale * 100.0f + 0.5f ) );
+    case SettingE::SHADOWS: return m_settings.m_shadows ? "ON" : "OFF";
+    case SettingE::VSYNC: return m_settings.m_vsync ? "ON" : "OFF";
+    case SettingE::FRAME_LIMIT: return m_settings.m_fpsLimit ? format( "%d FPS", m_settings.m_fpsLimit ) : std::string( "NONE" );
+    case SettingE::DIFFICULTY: return levels[std::clamp( m_settings.m_difficulty, 0, 2 )];
+    case SettingE::GEARS: return m_settings.m_manualGears ? "MANUAL" : "AUTOMATIC";
+    case SettingE::UNITS: return m_settings.m_units == UnitsE::MPH ? "MPH" : "KM/H";
+    case SettingE::CAMERA: return cams[m_settings.m_camera];
+    case SettingE::BLUR: return m_settings.m_speedBlur ? "ON" : "OFF";
+    case SettingE::VIBRATION: return m_settings.m_vibration ? "ON" : "OFF";
+    case SettingE::MUSIC: return bar( m_settings.m_musicVolume );
+    case SettingE::EFFECTS: return bar( m_settings.m_sfxVolume );
+    case SettingE::RADIO: return radioName();
+    default: return "";
+    }
+}
+
+void Game::changeSetting( SettingE item, int dir )
+{
+    switch( item )
+    {
+    case SettingE::DISPLAY: toggleFullscreen(); break;
+    case SettingE::RESOLUTION:
+    {
+        static const float scales[] = { 0.5f, 0.75f, 1.0f, 1.25f, 1.5f, 2.0f };
+        int                idx = 2;
+        for( int i = 0; i < 6; ++i )
+            if( std::abs( scales[i] - m_settings.m_renderScale ) < 0.01f ) idx = i;
+        m_settings.m_renderScale = scales[std::clamp( idx + dir, 0, 5 )];
+        break;
+    }
+    case SettingE::SHADOWS: m_settings.m_shadows = !m_settings.m_shadows; break;
+    case SettingE::VSYNC:
+        m_settings.m_vsync = !m_settings.m_vsync;
+        if( m_settings.m_vsync ) SetWindowState( FLAG_VSYNC_HINT );
+        else ClearWindowState( FLAG_VSYNC_HINT );
+        break;
+    case SettingE::FRAME_LIMIT:
+    {
+        static const int limits[] = { 0, 30, 40, 60, 90, 120 };
+        int              idx = 0;
+        for( int i = 0; i < 6; ++i )
+            if( limits[i] == m_settings.m_fpsLimit ) idx = i;
+        m_settings.m_fpsLimit = limits[( idx + 6 + dir ) % 6];
+        SetTargetFPS( m_settings.m_fpsLimit ? m_settings.m_fpsLimit : ( m_settings.m_vsync ? 0 : 240 ) );
+        break;
+    }
+    case SettingE::DIFFICULTY:
+        m_settings.m_difficulty = std::clamp( m_settings.m_difficulty + dir, 0, 2 );
+        tuning() = applyDifficulty( m_tuningBase, m_settings.m_difficulty );
+        break;
+    case SettingE::GEARS: m_settings.m_manualGears = !m_settings.m_manualGears; break;
+    case SettingE::UNITS: m_settings.m_units = m_settings.m_units == UnitsE::KMH ? UnitsE::MPH : UnitsE::KMH; break;
+    case SettingE::CAMERA: m_settings.m_camera = ( m_settings.m_camera + 3 + dir ) % 3; break;
+    case SettingE::BLUR: m_settings.m_speedBlur = !m_settings.m_speedBlur; break;
+    case SettingE::VIBRATION: m_settings.m_vibration = !m_settings.m_vibration; break;
+    case SettingE::MUSIC: m_settings.m_musicVolume = clampf( m_settings.m_musicVolume + 0.1f * dir, 0.0f, 1.0f ); break;
+    case SettingE::EFFECTS: m_settings.m_sfxVolume = clampf( m_settings.m_sfxVolume + 0.1f * dir, 0.0f, 1.0f ); break;
+    case SettingE::RADIO:
+    {
+        const int last = m_audio.hasFileMusic() ? StationCount : StationCount - 1;
+        int       s = m_settings.m_station + dir;
+        if( s > last ) s = -1;
+        if( s < -1 ) s = last;
+        m_settings.m_station = s;
+        playMusic( hash64( m_trackSeed + 101 ), wantedStation() );
+        break;
+    }
+    default: break;
+    }
 }
 
 int Game::wantedStation() const
@@ -461,7 +557,7 @@ void Game::step( float h, const CarInput &in )
             if( std::abs( ds ) < rl && std::abs( dx ) < rw )
             {
                 const float toRoad = c->m_x > 0.0f ? -1.0f : 1.0f;
-                m_car.crash( 0.22f, c->m_x + toRoad * ( rw + 0.3f ) - m_car.m_x );
+                m_car.crash( tuning().m_crashKeep, c->m_x + toRoad * ( rw + 0.3f ) - m_car.m_x );
                 m_crash = std::max( m_crash, clampf( m_car.m_speed / 12.0f, 0.3f, 1.0f ) );
                 break;
             }
@@ -571,7 +667,7 @@ CarInput Game::autopilot() const
     for( float d = 0.0f; d < look; d += SegmentLength )
         maxK = std::max( maxK, std::abs( track.segment( static_cast<long>( ( m_car.m_s + d ) / SegmentLength ) ).m_curve ) );
     const float limit = steerLimit( std::max( m_car.m_speed, 25.0f ), m_car.m_spec.m_topSpeed ) * grip * 0.8f;
-    const float vMax = std::max( 15.0f, std::sqrt( limit / ( CentrifugalK * maxK + 1e-6f ) ) );
+    const float vMax = std::max( 15.0f, std::sqrt( limit / ( tuning().m_centrifugal * maxK + 1e-6f ) ) );
 
     // Follow a car that blocks the lane until there is room to pass.
     float follow = 1e9f;
@@ -858,6 +954,10 @@ void Game::updateAudio()
     s.m_boost = s.m_active && m_car.m_boosting;
     s.m_limiter = s.m_active && m_car.m_rpm > 0.985f && m_car.m_throttle > 0.5f && !m_car.m_boosting;
     s.m_shifting = m_car.m_shiftTimer > 0.0f;
+    s.m_cylinders = m_car.m_spec.m_cylinders;
+    s.m_idle = m_car.m_spec.m_idle;
+    s.m_redline = m_car.m_spec.m_redline;
+    s.m_bright = m_car.m_spec.m_bright;
     m_audio.setEngine( s );
 }
 
@@ -913,54 +1013,16 @@ void Game::menus( const MenuInput &m )
         break;
     case StateE::SETTINGS:
     {
-        move( 11 );
-        bool changed = false;
-        if( change != 0 || ( m.m_accept && m_menuIndex < 10 ) )
+        const int count = static_cast<int>( SettingE::COUNT );
+        move( count );
+        const auto item = static_cast<SettingE>( m_menuIndex );
+        if( item != SettingE::BACK && ( change != 0 || m.m_accept ) )
         {
-            const int dir = change != 0 ? change : 1;
-            changed = true;
-            switch( m_menuIndex )
-            {
-            case 0: toggleFullscreen(); break;
-            case 1:
-            {
-                static const float scales[] = { 0.5f, 0.75f, 1.0f, 1.25f, 1.5f, 2.0f };
-                int idx = 2;
-                for( int i = 0; i < 6; ++i )
-                    if( std::abs( scales[i] - m_settings.m_renderScale ) < 0.01f ) idx = i;
-                m_settings.m_renderScale = scales[std::clamp( idx + dir, 0, 5 )];
-                break;
-            }
-            case 2:
-                m_settings.m_vsync = !m_settings.m_vsync;
-                if( m_settings.m_vsync ) SetWindowState( FLAG_VSYNC_HINT );
-                else ClearWindowState( FLAG_VSYNC_HINT );
-                break;
-            case 3: m_settings.m_manualGears = !m_settings.m_manualGears; break;
-            case 4: m_settings.m_units = m_settings.m_units == UnitsE::KMH ? UnitsE::MPH : UnitsE::KMH; break;
-            case 5: m_settings.m_camera = ( m_settings.m_camera + 3 + dir ) % 3; break;
-            case 6: m_settings.m_speedBlur = !m_settings.m_speedBlur; break;
-            case 7: m_settings.m_musicVolume = clampf( m_settings.m_musicVolume + 0.1f * dir, 0.0f, 1.0f ); break;
-            case 8: m_settings.m_sfxVolume = clampf( m_settings.m_sfxVolume + 0.1f * dir, 0.0f, 1.0f ); break;
-            case 9:
-            {
-                const int last = m_audio.hasFileMusic() ? StationCount : StationCount - 1;
-                int       s = m_settings.m_station + dir;
-                if( s > last ) s = -1;
-                if( s < -1 ) s = last;
-                m_settings.m_station = s;
-                playMusic( hash64( m_trackSeed + 101 ), wantedStation() );
-                break;
-            }
-            default: changed = false; break;
-            }
-        }
-        if( changed )
-        {
+            changeSetting( item, change != 0 ? change : 1 );
             settingsChanged();
             m_audio.play( SfxE::TICK );
         }
-        if( m.m_back || ( m.m_accept && m_menuIndex == 10 ) )
+        if( m.m_back || ( m.m_accept && item == SettingE::BACK ) )
         {
             m_audio.play( SfxE::SELECT );
             m_state = m_settingsReturn;
@@ -1046,22 +1108,13 @@ void Game::draw()
     {
         if( m_settingsReturn != StateE::TITLE ) drawHud();
         DrawRectangle( 0, 0, static_cast<int>( W ), static_cast<int>( H ), Color{ 0, 0, 0, 110 } );
-        static const char *cams[] = { "CHASE", "FAR CHASE", "BUMPER" };
-        auto bar = []( float v )
+        std::vector<std::string> labels, values;
+        for( int i = 0; i < static_cast<int>( SettingE::COUNT ); ++i )
         {
-            std::string s;
-            const int n = static_cast<int>( std::round( v * 10.0f ) );
-            for( int i = 0; i < 10; ++i ) s += i < n ? '#' : '-';
-            return s;
-        };
-        drawMenu( "SETTINGS",
-                  { "DISPLAY", "3D RESOLUTION", "VSYNC", "GEARS", "SPEEDOMETER", "CAMERA", "SPEED BLUR", "MUSIC", "EFFECTS", "RADIO",
-                    "BACK" },
-                  { m_settings.m_display == DisplayModeE::FULLSCREEN ? "FULLSCREEN" : "WINDOW",
-                    format( "%d%%", static_cast<int>( m_settings.m_renderScale * 100.0f + 0.5f ) ), m_settings.m_vsync ? "ON" : "OFF",
-                    m_settings.m_manualGears ? "MANUAL" : "AUTOMATIC", m_settings.m_units == UnitsE::MPH ? "MPH" : "KM/H",
-                    cams[m_settings.m_camera], m_settings.m_speedBlur ? "ON" : "OFF", bar( m_settings.m_musicVolume ),
-                    bar( m_settings.m_sfxVolume ), radioName(), "" },
+            labels.push_back( settingLabel( static_cast<SettingE>( i ) ) );
+            values.push_back( settingValue( static_cast<SettingE>( i ) ) );
+        }
+        drawMenu( "SETTINGS", labels, values,
                   H * 0.18f );
         break;
     }
@@ -1120,12 +1173,20 @@ void Game::drawMenu( const char *title, const std::vector<std::string> &items, c
     const float rowH = 40.0f * u;
     const float w = ( values.empty() ? 460.0f : 720.0f ) * u;
     const float x = W * 0.5f - w * 0.5f;
-    const float h = 90.0f * u + rowH * static_cast<float>( items.size() );
+    // Long menus scroll: at most as many rows as fit, the selection kept in view.
+    const int   fit = std::max( 4, static_cast<int>( ( H - y - 120.0f * u ) / rowH ) );
+    const int   n = static_cast<int>( items.size() );
+    const int   rows = std::min( n, fit );
+    const int   first = std::clamp( m_menuIndex - rows / 2, 0, n - rows );
+    const float h = 90.0f * u + rowH * static_cast<float>( rows );
     panel( x, y, w, h );
     drawTextFx( title, W * 0.5f, y + 22.0f * u, 30.0f * u, Accent, AlignE::CENTER, 0.8f );
-    for( size_t i = 0; i < items.size(); ++i )
+    if( first > 0 ) drawText( "^", W * 0.5f, y + 56.0f * u, 10.0f * u, Dim, AlignE::CENTER );
+    if( first + rows < n ) drawText( "v", W * 0.5f, y + h - 18.0f * u, 10.0f * u, Dim, AlignE::CENTER );
+    for( int row = 0; row < rows; ++row )
     {
-        const float ry = y + 76.0f * u + rowH * static_cast<float>( i );
+        const size_t i = static_cast<size_t>( first + row );
+        const float  ry = y + 76.0f * u + rowH * static_cast<float>( row );
         const bool  sel = static_cast<int>( i ) == m_menuIndex;
         if( sel )
         {

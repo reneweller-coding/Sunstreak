@@ -33,6 +33,10 @@ struct CarSpec
     float       m_grip;       ///< steering grip factor
     float       m_length;     ///< metres
     float       m_width;      ///< metres
+    int         m_cylinders;  ///< engine cylinders (sound)
+    float       m_idle;       ///< idle rpm
+    float       m_redline;    ///< redline rpm
+    float       m_bright;     ///< engine tone brightness (1 neutral)
 };
 
 /**

@@ -83,6 +83,10 @@ bool loadSettings( Settings &settings )
             else if( key == "camera" ) settings.m_camera = std::clamp( std::stoi( val ), 0, 2 );
             else if( key == "speed_blur" ) settings.m_speedBlur = val == "1";
             else if( key == "radio" ) settings.m_station = std::clamp( std::stoi( val ), -1, 64 );
+            else if( key == "difficulty" ) settings.m_difficulty = std::clamp( std::stoi( val ), 0, 2 );
+            else if( key == "shadows" ) settings.m_shadows = val == "1";
+            else if( key == "fps_limit" ) settings.m_fpsLimit = std::clamp( std::stoi( val ), 0, 240 );
+            else if( key == "vibration" ) settings.m_vibration = val == "1";
             else if( key == "best_score" ) settings.m_bestScore = std::stoll( val );
             else if( key == "best_distance" ) settings.m_bestDistance = std::stod( val );
         }
@@ -111,6 +115,10 @@ bool saveSettings( const Settings &settings )
     out << "camera=" << settings.m_camera << "\n";
     out << "speed_blur=" << ( settings.m_speedBlur ? 1 : 0 ) << "\n";
     out << "radio=" << settings.m_station << "\n";
+    out << "difficulty=" << settings.m_difficulty << "\n";
+    out << "shadows=" << ( settings.m_shadows ? 1 : 0 ) << "\n";
+    out << "fps_limit=" << settings.m_fpsLimit << "\n";
+    out << "vibration=" << ( settings.m_vibration ? 1 : 0 ) << "\n";
     out << "best_score=" << settings.m_bestScore << "\n";
     out << "best_distance=" << settings.m_bestDistance << "\n";
     return static_cast<bool>( out );

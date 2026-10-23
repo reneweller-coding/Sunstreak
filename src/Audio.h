@@ -58,6 +58,10 @@ struct EngineState
     bool  m_boost = false;     ///< boosting
     bool  m_limiter = false;   ///< on the rev limiter
     bool  m_shifting = false;  ///< in a gear change (ignition cut)
+    int   m_cylinders = 8;     ///< engine layout: 4, 8 (cross-plane V8) or 12
+    float m_idle = 900.0f;     ///< idle rpm
+    float m_redline = 7800.0f; ///< redline rpm
+    float m_bright = 1.0f;     ///< tone brightness
 };
 
 /** @brief The sound system. */

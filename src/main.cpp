@@ -86,7 +86,7 @@ int main( int argc, char **argv )
     SetWindowIcon( icon );
     UnloadImage( icon );
     if( settings.m_display == DisplayModeE::FULLSCREEN ) ToggleBorderlessWindowed();
-    if( !settings.m_vsync ) SetTargetFPS( 240 );
+    SetTargetFPS( settings.m_fpsLimit ? settings.m_fpsLimit : ( settings.m_vsync ? 0 : 240 ) );
 
     {
         Game game( settings, options );
