@@ -1,6 +1,6 @@
 # Sunstreak -- an arcade racer in the spirit of Lotus III: The Ultimate Challenge, with an endless mode on
 # generated tracks. C++20 on raylib (fetched at configure time), for Windows and Linux (Steam Deck).
-cmake_minimum_required( VERSION 3.26 )
+cmake_minimum_required( VERSION 3.22 )   # 3.22: Ubuntu 22.04, the Steam Deck's build box
 
 # raylib 5.5 and its GLFW still ask for old CMake versions; CMake 4 refuses those without this floor. The static
 # runtime must reach raylib too, whose cmake_minimum_required leaves CMP0091 unset.
@@ -17,12 +17,16 @@ set( CMAKE_CXX_EXTENSIONS OFF )
 set( SUNSTREAK_BIN_DIR "" CACHE PATH "where the game is copied after each build (bin/<preset>)" )
 
 include( FetchContent )
+set( SUNSTREAK_EXTRACT_TIMESTAMP "" )
+if( CMAKE_VERSION VERSION_GREATER_EQUAL 3.24 )
+    set( SUNSTREAK_EXTRACT_TIMESTAMP DOWNLOAD_EXTRACT_TIMESTAMP TRUE )
+endif()
 set( BUILD_EXAMPLES OFF CACHE BOOL "" FORCE )
 set( BUILD_GAMES OFF CACHE BOOL "" FORCE )
 set( BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE )
 FetchContent_Declare( raylib
     URL https://github.com/raysan5/raylib/archive/refs/tags/5.5.tar.gz
-    DOWNLOAD_EXTRACT_TIMESTAMP TRUE )
+    ${SUNSTREAK_EXTRACT_TIMESTAMP} )
 FetchContent_MakeAvailable( raylib )
 
 # SDL2 only for the gamepad's rumble (GLFW cannot vibrate): its game controller subsystem, no video, no sound.
@@ -39,7 +43,7 @@ foreach( off SDL_AUDIO SDL_VIDEO SDL_RENDER SDL_POWER SDL_LOCALE SDL_MISC SDL_FI
 endforeach()
 FetchContent_Declare( SDL2
     URL https://github.com/libsdl-org/SDL/releases/download/release-2.30.9/SDL2-2.30.9.tar.gz
-    DOWNLOAD_EXTRACT_TIMESTAMP TRUE )
+    ${SUNSTREAK_EXTRACT_TIMESTAMP} )
 FetchContent_MakeAvailable( SDL2 )
 
 # Everything but main() is a library, so the tests link the same code the game runs.
@@ -54,6 +58,10 @@ if( MSVC )
     target_compile_definitions( sunstreak_core PUBLIC _CRT_SECURE_NO_WARNINGS )
 else()
     target_compile_options( sunstreak_core PUBLIC -Wall -Wextra -Wno-missing-field-initializers )
+    # GCC 11's SLP vectorizer miscompiles filter cascades at -O3 (seen in the VRAudio family); GCC 12 is fine.
+    if( CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 12 )
+        target_compile_options( sunstreak_core PUBLIC -fno-tree-slp-vectorize )
+    endif()
 endif()
 
 add_executable( Sunstreak WIN32 src/main.cpp )
@@ -61,6 +69,9 @@ target_link_libraries( Sunstreak PRIVATE sunstreak_core )
 if( MSVC )
     # A window program without a console that still starts in main().
     target_link_options( Sunstreak PRIVATE /ENTRY:mainCRTStartup )
+else()
+    # The C++ runtime inside, so the binary runs on SteamOS and other distributions without matching libstdc++.
+    target_link_options( Sunstreak PRIVATE -static-libstdc++ -static-libgcc )
 endif()
 
 if( SUNSTREAK_BIN_DIR )

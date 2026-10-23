@@ -498,7 +498,7 @@ void Game::simulate( float dt, bool autopilotOn )
     Track &track = *m_track;
     track.generateTo( m_car.m_s + ViewDistance + 600.0 );
     track.discardBefore( m_car.m_s - 400.0 );
-    m_world.update( track, m_car.m_s, 2 );
+    m_world.update( track, m_car.m_s, 1 );   // one 80 m chunk a frame outruns any car; spikes stay one chunk long
 
     m_ev = TrafficEvents{};
     m_raceEv = RaceEvents{};

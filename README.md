@@ -50,13 +50,18 @@ Windows (Visual Studio 2026):
     .\build.ps1            # Release, the game in bin\msvc
     .\build.ps1 -Test -Run
 
-Linux and the Steam Deck (X11 development packages for raylib/GLFW needed):
+Linux (CMake 3.22 or newer, GCC 11 or newer; on Debian/Ubuntu `build-essential cmake libx11-dev libxrandr-dev
+libxinerama-dev libxcursor-dev libxi-dev libgl-dev`):
 
     cmake --preset linux
-    cmake --build --preset linux
+    cmake --build --preset linux -j 8
 
-On the Steam Deck the Windows build also runs through Proton (add it as a non-Steam game). The game starts windowed
-on Windows and fullscreen on a Deck; the choice is kept in the settings.
+The binary links the C++ runtime statically and needs only the C library; OpenGL and X11 are loaded at run time.
+For the Steam Deck build it on any Linux machine (or in a distrobox on the Deck), copy `bin/linux/Sunstreak` over and
+add it as a non-Steam game; it runs in Gaming Mode through XWayland. The Windows build also runs through Proton. The
+game starts windowed on Windows and fullscreen on a Deck; the choice is kept in the settings.
+
+Gamepads are read through raylib (GLFW); the rumble goes through SDL2, which CMake fetches as well.
 
 ## Settings and command line
 
