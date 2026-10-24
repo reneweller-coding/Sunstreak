@@ -118,9 +118,9 @@ verge or the painted kerbs of the towns (black and white in Malaysia and Russia,
 yellow in India and the Gulf); cat's eyes in Britain and Ireland; concrete slabs on American freeways, German and
 Belgian motorways and Philippine highways; and, by each country's road quality (the WEF's index), faded markings,
 patches, potholes that thump the car and stretches of gravel where the asphalt ends: in Chad and Mongolia more of the
-road is gravel than not. In three stages out of five a patrol car of the country's police waits at the roadside,
+road is gravel than not. Now and then (about one stage in ten) a patrol car of the country's police waits at the roadside,
 in its own livery (a black-and-white cruiser in the United States, blue and yellow checks in Britain, a carabinieri
-car in Italy, a white jeep in India and two dozen more): past it too fast and it gives chase with its lights and siren
+car in Italy, green and white in Chile, a white jeep in India and some thirty more): past it too fast and it gives chase with its lights and siren
 (the long wail, or the two tones in Europe). Get 400 m ahead and you have escaped (+2500); let it pull up beside you
 and the fine is five seconds (POLICE in the settings turns them off). Landmarks stand where they belong, once per stage: Big Ben and Tower Bridge,
 the Arc de Triomphe, the Colosseum and St Peter's, the Leaning Tower, the Sagrada Familia, Neuschwanstein, the

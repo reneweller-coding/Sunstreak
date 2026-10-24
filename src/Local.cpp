@@ -187,7 +187,7 @@ double policeBase( const Track &track, int stage )
     const BiomeDef &place = biomeDef( track.stageBiome( stage ) );
     if( stage < 0 || !place.m_country || place.m_underwater || place.m_surface.m_lineGlow > 0.0f ) return -1.0;
     const uint64_t h = hash64( track.seed() * 1013 + static_cast<uint64_t>( stage ) * 7 + 5 );
-    if( h % 5 < 2 ) return -1.0;
+    if( h % 10 != 0 ) return -1.0;   // a surprise: one stage in ten
     return static_cast<double>( stage ) * StageLength + PoliceAt + static_cast<double>( ( h >> 8 ) % 7000 );
 }
 

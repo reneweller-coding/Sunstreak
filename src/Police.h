@@ -88,7 +88,7 @@ private:
 };
 
 /**
- * @brief The patrol car a place's country drives: the POLICE_CAR_* shape at home there, else the plain POLICE_CAR.
+ * @brief The patrol car a place drives: the POLICE_CAR_* shape at home in its region or country, else the plain POLICE_CAR.
  * @param[in] models  the meshes
  * @param[in] place   the place
  * @return its traffic model, or -1 if there is none

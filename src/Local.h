@@ -96,7 +96,7 @@ bool stageToll( const Track &track, int stage, double &s );
  * @brief Where a stage's patrol car would wait, before the spot is checked (that needs the road laid there).
  * @param[in] track  the road
  * @param[in] stage  the stage
- * @return the distance, or -1 if the stage has none (three stages in five do, in a country)
+ * @return the distance, or -1 if the stage has none (one stage in ten has one, in a country)
  */
 double policeBase( const Track &track, int stage );
 

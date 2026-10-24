@@ -455,19 +455,23 @@ int main()
         { // The police: traps in some stages; too fast past one, a chase that ends caught when the car stops, escaped when it runs.
             Models models;   // no meshes: only which patrol car a place has
             models.m_policeModel.assign( dataShapes().size(), -1 );
-            int usaShape = -1;
+            int usaShape = -1, hkShape = -1, policeCars = 0;
             for( size_t i = 0; i < dataShapes().size(); ++i )
             {
                 if( dataShapes()[i].m_name == "POLICE_CAR_USA" ) usaShape = static_cast<int>( i );
+                if( dataShapes()[i].m_name == "POLICE_CAR_HONG_KONG" ) hkShape = static_cast<int>( i );
+                policeCars += dataShapes()[i].m_name.rfind( "POLICE_CAR", 0 ) == 0 ? 1 : 0;
                 if( dataShapes()[i].m_name.rfind( "POLICE_CAR", 0 ) == 0 ) models.m_policeModel[i] = static_cast<int>( i );
             }
             const int  route66 = biomeId( "ROUTE_66" );
+            const int  hongKong = biomeId( "HONG_KONG" );
             const bool usa = route66 >= 0 && policeModel( models, biomeDef( static_cast<BiomeE>( route66 ) ) ) == usaShape;
+            const bool hk = hongKong >= 0 && policeModel( models, biomeDef( static_cast<BiomeE>( hongKong ) ) ) == hkShape;
             TrackParams world;
             world.m_biome = SceneryWorld;
             Track tour( 3, world );
             int   traps = 0;
-            for( int st = 0; st < 20; ++st ) traps += policeBase( tour, st ) >= 0.0 ? 1 : 0;
+            for( int st = 0; st < 100; ++st ) traps += policeBase( tour, st ) >= 0.0 ? 1 : 0;
             auto chase = [&]( float after, bool &chased, bool &caught, bool &escaped )
             {
                 chased = caught = escaped = false;
@@ -476,7 +480,7 @@ int main()
                 Track   t( 11, p );
                 Traffic none;
                 int     st = 0;
-                while( st < 6 && policeBase( t, st ) < 0.0 ) ++st;
+                while( st < 60 && policeBase( t, st ) < 0.0 ) ++st;
                 double s = std::max( 50.0, policeBase( t, st ) - 1200.0 );
                 Police police;
                 for( int k = 0; k < 60 * 240 && !caught && !escaped; ++k )
@@ -494,8 +498,8 @@ int main()
             bool runChased = false, runCaught = false, runEscaped = false, stopChased = false, stopCaught = false, stopEscaped = false;
             chase( 55.0f, runChased, runCaught, runEscaped );
             chase( 2.0f, stopChased, stopCaught, stopEscaped );
-            std::printf( "      %d traps in 20 stages; flat out: chased %d, escaped %d; stopping: caught %d\n", traps, runChased, runEscaped, stopCaught );
-            check( usa && traps >= 6 && traps <= 18 && runChased && runEscaped && !runCaught && stopChased && stopCaught && !stopEscaped,
+            std::printf( "      %d police cars; %d traps in 100 stages; flat out: chased %d, escaped %d; stopping: caught %d\n", policeCars, traps, runChased, runEscaped, stopCaught );
+            check( usa && hk && policeCars >= 40 && traps >= 4 && traps <= 16 && runChased && runEscaped && !runCaught && stopChased && stopCaught && !stopEscaped,
                    "the police of the world tour" );
         }
         { // Journeys: every one from a place of the route to another, London to Paris a short one.
