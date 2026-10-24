@@ -282,6 +282,27 @@ void Records::load( const std::string &path )
             else if( key == "seen2" ) readBits( val, m_seen );
             else if( key == "postcards" ) readBits( val, m_postcards );
             else if( key == "points" ) m_points = std::max<int64_t>( 0, std::stoll( val ) );
+            else if( key == "daily" )
+            {
+                std::stringstream ss( val );
+                std::string       date, best, days;
+                std::getline( ss, date, '|' );
+                std::getline( ss, best, '|' );
+                std::getline( ss, days, '|' );
+                m_dailyDate = std::stoi( date );
+                m_dailyBest = std::stoll( best );
+                m_dailyDays = std::stoi( days );
+            }
+            else if( key == "rally" )
+            {
+                const auto   bar = val.find( '|' );
+                const size_t i = static_cast<size_t>( std::stoi( val.substr( 0, bar ) ) );
+                if( i < 64 )
+                {
+                    if( m_rallyBest.size() <= i ) m_rallyBest.resize( i + 1, 0.0 );
+                    m_rallyBest[i] = std::stod( val.substr( bar + 1 ) );
+                }
+            }
             else if( key == "top" && m_top.size() < 10 )
             {
                 std::stringstream ss( val );
@@ -311,6 +332,9 @@ void Records::save( const std::string &path ) const
     out << "titles=" << m_titles << "\n";
     out << "best_place=" << m_bestPlace << "\n";
     out << "points=" << m_points << "\n";
+    out << "daily=" << m_dailyDate << "|" << m_dailyBest << "|" << m_dailyDays << "\n";
+    for( size_t i = 0; i < m_rallyBest.size(); ++i )
+        if( m_rallyBest[i] > 0.0 ) out << "rally=" << i << "|" << m_rallyBest[i] << "\n";
     out << "seen2=";
     writeBits( out, m_seen );
     out << "postcards=";

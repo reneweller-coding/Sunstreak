@@ -63,6 +63,10 @@ struct Records
     std::bitset<512>        m_seen;             ///< a bit per biome driven through
     std::bitset<512>        m_postcards;        ///< a bit per place with a postcard in the album
     int64_t                 m_points = 0;       ///< career points: scores, race results, discoveries (the garage's currency)
+    int                     m_dailyDate = 0;    ///< the day of the daily challenge driven last (YYYYMMDD)
+    int64_t                 m_dailyBest = 0;    ///< its best score
+    int                     m_dailyDays = 0;    ///< days with a daily challenge driven
+    std::vector<double>     m_rallyBest;        ///< the best time per rally in seconds (0: not finished)
 
     /**
      * @brief Reads the records file.

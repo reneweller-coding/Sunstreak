@@ -45,6 +45,14 @@ VIBRATION; on the Deck through Steam Input).
   or AUTO), length (2.5..37.5 km, or endless in time attack) and the seed. Every combination is a code of fifteen
   characters such as `K3ZQ8-M2TVX-41P0R` with a check symbol against typos; CODE types one in, the results show the
   code of every run. The twelve-character codes of earlier versions still work.
+- **Daily challenge**: today's track, the same all day: a world tour from a seed of the date with a twist (rush
+  hour, roadworks everywhere, all bends); the best score of the day is kept.
+- **Rallies**: ten long-distance routes driven in one go against the clock, place after place: Paris - Dakar, the
+  Panamericana from Alaska to Patagonia, Route 66, the Silk Road, Cape to Cairo, the Alpine passes, the Outback, a
+  Himalayan raid, the Nordkapp and the Mekong Express. The clock counts up; each finished rally keeps its best time.
+- **Replay and photo mode**: after a run, WATCH REPLAY plays the last minute again from roadside cameras, a helicopter
+  and the chase camera. PHOTO MODE (pause menu) stops the game and lets the camera roam round the car; a photo is saved
+  in the settings folder's `photos` and becomes the place's postcard.
 - **Records**: the top ten (with your initials), total kilometres, titles, places and countries seen. The best drive
   on each code is kept as a ghost car that races along the next time.
 
@@ -170,8 +178,11 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --scenery world|mixed|N       the endless run's scenery for this start (N: one biome all the way)
     --play                        skip the title
     --championship                start a championship
+    --rally N                     start rally N (1..10)
+    --daily                       start the daily challenge
+    --action replay|photo T       testing: the replay or the photo mode after T seconds of racing
     --code XXXXX-XXXXX-XXXXX      drive a Track Lab code
-    --screen lab|records|code     open that screen
+    --screen lab|records|code|garage|passport|stamps|postcards|rallies   open that screen
     --camera 0..2                 chase, far or bumper camera
     --find tunnel|bridge|landmark start just before the first tunnel, bridge or landmark
     --weather clear|rain|storm|fog|snow|sand   that weather all the way (testing)

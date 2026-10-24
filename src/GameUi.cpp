@@ -249,6 +249,13 @@ void Game::menus( const MenuInput &m )
         m_audio.play( SfxE::SELECT );
         switch( item )
         {
+        case TitleE::DAILY:
+            if( carReady() ) startDaily();
+            break;
+        case TitleE::RALLIES:
+            m_state = StateE::RALLIES;
+            m_menuIndex = 0;
+            break;
         case TitleE::ENDLESS:
             if( carReady() )
             {
@@ -453,6 +460,23 @@ void Game::menus( const MenuInput &m )
             m_menuIndex = static_cast<int>( TitleE::RECORDS );
         }
         break;
+    case StateE::RALLIES:
+    {
+        const int count = static_cast<int>( rallies().size() ) + 1;
+        move( count );
+        if( m.m_back || ( m.m_accept && m_menuIndex == count - 1 ) )
+        {
+            m_audio.play( SfxE::SELECT );
+            m_state = StateE::TITLE;
+            m_menuIndex = static_cast<int>( TitleE::RALLIES );
+        }
+        else if( m.m_accept && carReady() )
+        {
+            m_audio.play( SfxE::SELECT );
+            startRally( m_menuIndex );
+        }
+        break;
+    }
     case StateE::GARAGE:
     {
         move( static_cast<int>( GarageE::COUNT ) );
@@ -486,7 +510,7 @@ void Game::menus( const MenuInput &m )
         }
         break;
     case StateE::PAUSED:
-        move( 5 );
+        move( 6 );
         if( m.m_back || m_input.m_pause )
         {
             m_state = m_pauseReturn;
@@ -499,10 +523,14 @@ void Game::menus( const MenuInput &m )
             {
             case 0: m_state = m_pauseReturn; break;
             case 1: restart(); break;
-            case 2: playMusic( hash64( m_trackSeed + 31 ), m_playingStation ); break;
-            case 3:
+            case 2:
+                m_state = StateE::PHOTO;
+                m_stateTime = 0.0f;
+                break;
+            case 3: playMusic( hash64( m_trackSeed + 31 ), m_playingStation ); break;
+            case 4:
                 m_settingsReturn = StateE::PAUSED;
-                m_returnIndex = 3;
+                m_returnIndex = 4;
                 m_state = StateE::SETTINGS;
                 m_menuIndex = 0;
                 break;
@@ -511,31 +539,32 @@ void Game::menus( const MenuInput &m )
         }
         break;
     case StateE::GAMEOVER:
-        move( 3 );
+    {
+        const std::vector<std::string> items = gameOverItems();
+        move( static_cast<int>( items.size() ) );
         if( m.m_accept && m_stateTime > 1.0f )
         {
             m_audio.play( SfxE::SELECT );
-            switch( m_menuIndex )
+            const std::string &item = items[static_cast<size_t>( std::clamp( m_menuIndex, 0, static_cast<int>( items.size() ) - 1 ) )];
+            if( item == "RETRY" || item == "RETRY SAME TRACK" ) m_mode == ModeE::RALLY ? startRally( m_rally ) : m_mode == ModeE::DAILY ? startDaily() : restart();
+            else if( item == "NEW TRACK" )
             {
-            case 0: restart(); break;
-            case 1:
-                if( m_mode == ModeE::ENDLESS )
-                {
-                    TrackSetup s;
-                    s.m_seed = randomSeed();
-                    s.m_params = endlessParams();
-                    startTrack( s, ModeE::ENDLESS );
-                }
-                else
-                {
-                    startDemo();
-                    m_state = StateE::LAB;
-                }
-                break;
-            default: startDemo(); break;
+                TrackSetup s;
+                s.m_seed = randomSeed();
+                s.m_params = endlessParams();
+                startTrack( s, ModeE::ENDLESS );
             }
+            else if( item == "TRACK LAB" || item == "RALLIES" )
+            {
+                startDemo();
+                m_state = item == "RALLIES" ? StateE::RALLIES : StateE::LAB;
+                m_menuIndex = item == "RALLIES" ? std::max( 0, m_rally ) : 0;
+            }
+            else if( item == "WATCH REPLAY" ) startReplay( StateE::GAMEOVER );
+            else startDemo();
         }
         break;
+    }
     case StateE::RESULTS:
     {
         if( m_stateTime < 1.0f ) break;
@@ -638,7 +667,7 @@ void Game::draw()
     in.m_speedBlur = m_blur;
     in.m_aberration = m_aberration;
     in.m_windStreaks = smoothstepf( 0.62f, 0.95f, m_car.m_speed / m_car.m_spec.m_topSpeed ) + ( m_car.m_boosting ? 0.5f : 0.0f );
-    in.m_drawPlayer = !( m_settings.m_camera == 2 && !m_demo );
+    in.m_drawPlayer = !( m_settings.m_camera == 2 && !m_demo && m_state != StateE::PHOTO && m_state != StateE::REPLAY );
     in.m_shadows = m_settings.m_shadows;
     in.m_lensRain = m_settings.m_camera == 2 && !m_demo ? in.m_env.m_rain : in.m_env.m_rain * 0.5f;
     for( const Rival &r : m_race.m_rivals )
@@ -654,6 +683,7 @@ void Game::draw()
         if( m_ghost.at( m_raceTime, gs, gx, gyaw ) ) in.m_cars.push_back( { gs, gx, gyaw, m_ghost.m_car, m_ghost.m_paint, 0.35f } );
     }
     m_renderer.render( in, m_cam, m_settings.m_renderScale );
+    if( m_state == StateE::PHOTO && m_photoWanted ) takePhoto();
     if( m_postcardWanted >= 0 && !m_demo && m_state == StateE::RACE && m_car.m_s >= m_postcardAt )
     {
         const long seg = static_cast<long>( m_car.m_s / SegmentLength );
@@ -695,7 +725,7 @@ void Game::draw()
     case StateE::PAUSED:
         drawHud();
         DrawRectangle( 0, 0, static_cast<int>( W ), static_cast<int>( H ), Color{ 0, 0, 0, 120 } );
-        drawMenu( "PAUSE", { "RESUME", "RESTART", "NEXT SONG", "SETTINGS", "QUIT TO TITLE" }, {}, H * 0.28f );
+        drawMenu( "PAUSE", { "RESUME", "RESTART", "PHOTO MODE", "NEXT SONG", "SETTINGS", "QUIT TO TITLE" }, {}, H * 0.24f );
         break;
     case StateE::GAMEOVER: drawResults(); break;
     case StateE::RESULTS: drawRaceResults(); break;
@@ -704,10 +734,28 @@ void Game::draw()
     case StateE::INITIALS: drawInitials(); break;
     case StateE::RECORDS: drawRecords(); break;
     case StateE::GARAGE: drawGarage(); break;
+    case StateE::RALLIES: drawRallies(); break;
+    case StateE::REPLAY:
+    {
+        const float pulse = 0.6f + 0.4f * std::sin( m_time * 3.0f );
+        drawTextFx( "REPLAY", 28.0f * u, 22.0f * u, 26.0f * u, Color{ 255, 60, 60, static_cast<unsigned char>( 255 * pulse ) }, AlignE::LEFT, 0.4f );
+        drawText( placeName( m_track->biomeMix( m_car.m_s ).m_from ), 28.0f * u, 58.0f * u, 12.0f * u, Accent );
+        const bool mph = m_settings.m_units == UnitsE::MPH;
+        drawText( format( "%d %s", static_cast<int>( m_car.m_speed * ( mph ? 2.23694f : 3.6f ) ), mph ? "MPH" : "KM/H" ), W - 28.0f * u, 22.0f * u, 20.0f * u, Ink,
+                  AlignE::RIGHT );
+        drawText( m_input.m_gamepad ? "A  BACK" : "ENTER  BACK", W * 0.5f, H - 30.0f * u, 11.0f * u, Dim, AlignE::CENTER );
+        break;
+    }
+    case StateE::PHOTO:
+        drawText( m_input.m_gamepad ? "STICK  TURN     TRIGGERS  ZOOM     A  TAKE PHOTO     B  BACK"
+                                    : "ARROWS  TURN     + -  ZOOM     ENTER  TAKE PHOTO     ESC  BACK",
+                  W * 0.5f, H - 30.0f * u, 11.0f * u, Color{ 255, 255, 255, 170 }, AlignE::CENTER );
+        drawPopups();
+        break;
     case StateE::PASSPORT: drawPassport(); break;
     }
     const bool menuScreen = m_state == StateE::TITLE || m_state == StateE::LAB || m_state == StateE::CODE_ENTRY || m_state == StateE::RECORDS ||
-                            m_state == StateE::GARAGE || m_state == StateE::PASSPORT;
+                            m_state == StateE::GARAGE || m_state == StateE::PASSPORT || m_state == StateE::RALLIES;
     if( menuScreen ) drawPopups();
 
     if( m_nowTimer < 4.5f && !m_nowPlaying.empty() && m_state != StateE::PASSPORT )
@@ -779,8 +827,14 @@ void Game::drawTitle()
         drawText( format( "BEST  %lld   %.1f KM", static_cast<long long>( m_settings.m_bestScore ), m_settings.m_bestDistance / 1000.0 ),
                   W * 0.5f, 216.0f * u, 12.0f * u, Dim, AlignE::CENTER );
 
-    drawMenu( "", { "ENDLESS RUN", "CHAMPIONSHIP", "TRACK LAB", "GARAGE", "PASSPORT", "RECORDS", "SETTINGS", "QUIT" },
-              { "", "", "", garageValue( GarageE::CAR ), format( "%d / %d COUNTRIES", m_records.countriesSeen(), countryCount() ), "", "", "" }, H * 0.34f );
+    int done = 0;
+    for( double best : m_records.m_rallyBest ) done += best > 0.0 ? 1 : 0;
+    const std::string daily = m_records.m_dailyDate == today() && m_records.m_dailyBest > 0 ? format( "TODAY %lld", static_cast<long long>( m_records.m_dailyBest ) )
+                                                                                              : std::string( "NEW TODAY" );
+    drawMenu( "", { "ENDLESS RUN", "DAILY CHALLENGE", "RALLIES", "CHAMPIONSHIP", "TRACK LAB", "GARAGE", "PASSPORT", "RECORDS", "SETTINGS", "QUIT" },
+              { "", daily, format( "%d / %d DONE", done, static_cast<int>( rallies().size() ) ), "", "", garageValue( GarageE::CAR ),
+                format( "%d / %d COUNTRIES", m_records.countriesSeen(), countryCount() ), "", "", "" },
+              H * 0.3f );
 }
 
 void Game::drawResults()
@@ -795,9 +849,10 @@ void Game::drawResults()
     drawTextFx( m_finishedTrack ? "FINISHED" : "TIME UP", W * 0.5f, y + 22.0f * u, 40.0f * u, m_finishedTrack ? Gold : Red,
                 AlignE::CENTER, 1.0f );
     const bool        mph = m_settings.m_units == UnitsE::MPH;
+    const bool        rally = m_mode == ModeE::RALLY;
     const std::string rows[6][2] = {
-        { "DISTANCE", format( "%.2f KM", ( m_car.m_s - m_startS ) / 1000.0 ) },
-        { "SCORE", format( "%lld", static_cast<long long>( m_score ) ) },
+        { "DISTANCE", format( "%.2f KM", m_finalDistance / 1000.0 ) },
+        { rally ? "TIME" : "SCORE", rally ? clockText( m_raceTime ) : format( "%lld", static_cast<long long>( m_score ) ) },
         { "STAGE", format( "%d", m_stage + 1 ) },
         { "OVERTAKES", format( "%d", m_overtakes ) },
         { "NEAR MISSES", format( "%d", m_nearMisses ) },
@@ -810,11 +865,11 @@ void Game::drawResults()
         drawText( rows[i][1], x + w - 50.0f * u, ry, 16.0f * u, i == 1 && m_newBest ? Accent : Ink, AlignE::RIGHT );
     }
     std::string note = m_newBest ? "NEW BEST" : "";
+    if( m_newRecord ) note = m_mode == ModeE::DAILY ? "BEST OF THE DAY" : "NEW RALLY RECORD";
     if( m_newGhost ) note += note.empty() ? "NEW GHOST SAVED" : "  -  NEW GHOST SAVED";
     if( !note.empty() ) drawTextFx( note, W * 0.5f, y + h - 34.0f * u, 16.0f * u, Accent, AlignE::CENTER, 1.0f );
-    drawText( "TRACK CODE  " + m_code, W * 0.5f, y + h + 14.0f * u, 14.0f * u, Dim, AlignE::CENTER );
-    if( m_mode == ModeE::ENDLESS ) drawMenu( "", { "RETRY SAME TRACK", "NEW TRACK", "TITLE" }, {}, y + h + 46.0f * u );
-    else drawMenu( "", { "RETRY", "TRACK LAB", "TITLE" }, {}, y + h + 46.0f * u );
+    if( m_mode != ModeE::RALLY ) drawText( "TRACK CODE  " + m_code, W * 0.5f, y + h + 14.0f * u, 14.0f * u, Dim, AlignE::CENTER );
+    drawMenu( "", gameOverItems(), {}, y + h + 46.0f * u );
 }
 
 void Game::drawRaceResults()
@@ -995,6 +1050,10 @@ void Game::drawRecords()
     drawText( format( "ROUND THE WORLD  %d / %d", m_records.sectorsSeen(), LongitudeSectors ), x + 30.0f * u, sy + 130.0f * u, 14.0f * u,
               m_records.circumnavigated() ? Gold : Ink );
     drawText( format( "POSTCARDS  %d", static_cast<int>( m_records.m_postcards.count() ) ), x + 30.0f * u, sy + 156.0f * u, 14.0f * u, Ink );
+    int rallied = 0;
+    for( double best : m_records.m_rallyBest ) rallied += best > 0.0 ? 1 : 0;
+    drawText( format( "RALLIES  %d / %d     DAILY CHALLENGES  %d", rallied, static_cast<int>( rallies().size() ), m_records.m_dailyDays ), x + 30.0f * u,
+              sy + 182.0f * u, 14.0f * u, Ink );
     drawText( "UNLOCKS", x + 430.0f * u, sy, 13.0f * u, Dim );
     float uy = sy + 24.0f * u;
     for( int c = 1; c < CarCount; ++c, uy += 22.0f * u )
@@ -1303,6 +1362,43 @@ void Game::drawPassport()
     drawText( hint, W * 0.5f, y + h - 28.0f * u, 11.0f * u, Dim, AlignE::CENTER );
 }
 
+void Game::drawRallies()
+{
+    const float W = static_cast<float>( GetScreenWidth() ), H = static_cast<float>( GetScreenHeight() );
+    const float u = unit();
+    DrawRectangle( 0, 0, static_cast<int>( W ), static_cast<int>( H ), Color{ 0, 0, 0, 110 } );
+    const auto              &list = rallies();
+    std::vector<std::string> names, values;
+    for( size_t i = 0; i < list.size(); ++i )
+    {
+        names.push_back( list[i].m_name );
+        const double best = i < m_records.m_rallyBest.size() ? m_records.m_rallyBest[i] : 0.0;
+        values.push_back( best > 0.0 ? "BEST " + clockText( static_cast<float>( best ) )
+                                     : format( "%d PLACES  %d KM", static_cast<int>( list[i].m_stages.size() ),
+                                               static_cast<int>( list[i].m_stages.size() * static_cast<size_t>( StageLength / 1000.0 ) ) ) );
+    }
+    names.push_back( "BACK" );
+    values.push_back( "" );
+    drawMenu( "RALLIES", names, values, H * 0.02f );
+    if( m_menuIndex < static_cast<int>( list.size() ) )
+    {
+        const Rally &r = list[static_cast<size_t>( m_menuIndex )];
+        std::string  route;
+        for( size_t i = 0; i < r.m_stages.size(); ++i )
+            route += ( i ? "  -  " : "" ) + std::string( biomeDef( r.m_stages[i] ).m_name );
+        drawText( r.m_sub, W * 0.5f, H - 64.0f * u, 13.0f * u, Accent, AlignE::CENTER );
+        // The places, in as many lines as they need.
+        std::vector<std::string> lines( 1 );
+        for( size_t i = 0; i < r.m_stages.size(); ++i )
+        {
+            const std::string part = ( lines.back().empty() ? "" : "  -  " ) + std::string( biomeDef( r.m_stages[i] ).m_name );
+            if( textWidth( lines.back() + part, 11.0f * u ) > W - 80.0f * u ) lines.push_back( biomeDef( r.m_stages[i] ).m_name );
+            else lines.back() += part;
+        }
+        for( size_t i = 0; i < lines.size(); ++i ) drawText( lines[i], W * 0.5f, H - 42.0f * u + 16.0f * u * static_cast<float>( i ), 10.0f * u, Dim, AlignE::CENTER );
+    }
+}
+
 void Game::drawMinimap( float x, float y, float w, float h )
 {
     const Track &track = *m_track;
@@ -1387,8 +1483,11 @@ void Game::drawHud()
         const float pulse = low ? 0.5f + 0.5f * std::sin( m_time * 12.0f ) : 0.0f;
         const Color tc = low ? lerpColor( Ink, Red, 0.5f + 0.5f * pulse ) : Ink;
         txt( "TIME", W * 0.5f, 12.0f * u, 13.0f * u, Dim, AlignE::CENTER );
-        drawTextFx( format( "%d", static_cast<int>( std::ceil( m_timeLeft ) ) ), W * 0.5f, 32.0f * u, ( 54.0f + 6.0f * pulse ) * u, tc,
-                    AlignE::CENTER, 0.6f );
+        if( m_mode == ModeE::RALLY )
+            drawTextFx( clockText( m_raceTime ), W * 0.5f, 32.0f * u, 46.0f * u, Ink, AlignE::CENTER, 0.6f );
+        else
+            drawTextFx( format( "%d", static_cast<int>( std::ceil( m_timeLeft ) ) ), W * 0.5f, 32.0f * u, ( 54.0f + 6.0f * pulse ) * u, tc,
+                        AlignE::CENTER, 0.6f );
 
         // Score, distance, stage.
         // The rows spread with the text size.

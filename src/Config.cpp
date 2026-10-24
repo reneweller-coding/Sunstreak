@@ -178,6 +178,13 @@ LaunchOptions parseCommandLine( int argc, char **argv )
             for( int k = 0; k < 6; ++k )
                 if( what == times[k] ) o.m_timeOfDay = k;
         }
+        else if( a == "--rally" ) o.m_rally = std::atoi( next().c_str() ) - 1;
+        else if( a == "--daily" ) o.m_daily = true;
+        else if( a == "--action" )
+        {
+            o.m_action = next();
+            o.m_actionAt = static_cast<float>( std::atof( next().c_str() ) );
+        }
         else if( a == "--autopilot" ) o.m_autopilot = true;
         else if( a == "--play" ) o.m_skipMenu = true;
         else if( a == "--mute" ) o.m_mute = true;

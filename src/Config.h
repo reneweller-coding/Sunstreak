@@ -84,6 +84,10 @@ struct LaunchOptions
     int         m_find = 0;            ///< start before the first 1 tunnel, 2 bridge, 3 landmark (testing)
     int         m_weather = -1;        ///< a weather front all the way (WeatherE, testing; -1: as it comes)
     int         m_timeOfDay = -1;      ///< the time of day for this start (Settings::m_timeOfDay; -1: the settings')
+    int         m_rally = -1;          ///< start this rally (0-based; -1: none)
+    bool        m_daily = false;       ///< start the daily challenge
+    std::string m_action;              ///< testing: replay or photo after m_actionAt seconds of racing
+    float       m_actionAt = 0.0f;     ///< when
     int         m_camera = -1;         ///< a camera for this run only (-1: the settings')
     std::string m_code;                ///< start this track code at once
     bool        m_championship = false;///< start a championship at once

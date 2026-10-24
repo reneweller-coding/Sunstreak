@@ -29,6 +29,7 @@
 #include "Traffic.h"
 #include "World.h"
 
+#include <deque>
 #include <future>
 #include <map>
 #include <memory>
@@ -70,6 +71,8 @@ enum class SettingE
 enum class TitleE
 {
     ENDLESS,       ///< endless run
+    DAILY,         ///< the daily challenge
+    RALLIES,       ///< long-distance routes
     CHAMPIONSHIP,  ///< five races
     TRACK_LAB,     ///< build or enter a track
     GARAGE,        ///< car, paint, rims, decals
@@ -135,6 +138,9 @@ enum class StateE
     RECORDS,     ///< the records screen
     GARAGE,      ///< dressing the car
     PASSPORT,    ///< map, stamps and postcards
+    RALLIES,     ///< choosing a rally
+    REPLAY,      ///< the last minute again, from the roadside
+    PHOTO,       ///< the game stands still, the camera roams
 };
 
 /** @brief What is being played. */
@@ -143,6 +149,35 @@ enum class ModeE
     ENDLESS,       ///< the endless time attack
     CHAMPIONSHIP,  ///< five races against rivals
     CUSTOM,        ///< a Track Lab track (time attack or a single race)
+    DAILY,         ///< today's track, the same for everyone
+    RALLY,         ///< a long-distance route against the clock
+};
+
+/** @brief A moment of the drive, recorded for the replay. */
+struct ReplayFrame
+{
+    /** @brief Another car at that moment. */
+    struct Other
+    {
+        double m_s;      ///< distance along the road
+        float  m_x;      ///< lateral offset
+        float  m_yaw;    ///< drawn yaw
+        int    m_model;  ///< traffic model, or the rival's driver
+    };
+    float              m_t = 0;          ///< race time
+    double             m_s = 0;          ///< the player's distance
+    float              m_x = 0;          ///< lateral offset
+    double             m_y = 0;          ///< height
+    float              m_yaw = 0;        ///< drawn yaw
+    float              m_spin = 0;       ///< spin after a crash
+    float              m_vy = 0;         ///< vertical speed
+    float              m_speed = 0;      ///< m/s
+    float              m_rpm = 0;        ///< engine
+    float              m_throttle = 0;   ///< pedal
+    bool               m_airborne = false; ///< over a crest
+    bool               m_boost = false;  ///< boosting
+    std::vector<Other> m_traffic;        ///< the traffic around
+    std::vector<Other> m_rivals;         ///< the rivals
 };
 
 /** @brief A weather front passing over the road. */
@@ -361,6 +396,57 @@ private:
     /** @brief Frees the postcard pictures the passport loaded. */
     void unloadPostcards();
 
+    /** @brief Starts today's track: a world tour from a seed of the date, with a twist of the day. */
+    void startDaily();
+
+    /**
+     * @brief Starts a rally.
+     * @param[in] index  which (rallies())
+     */
+    void startRally( int index );
+
+    /**
+     * @brief Plays the recorded last minute from the roadside cameras.
+     * @param[in] back  the screen to return to
+     */
+    void startReplay( StateE back );
+
+    /**
+     * @brief Advances the replay.
+     * @param[in] dt  seconds
+     */
+    void replayStep( float dt );
+
+    /** @brief Ends the replay and returns to the results. */
+    void endReplay();
+
+    /**
+     * @brief The replay's camera: roadside posts, a helicopter, the chase camera.
+     * @return true if it placed the camera
+     */
+    bool replayCamera();
+
+    /**
+     * @brief The photo mode's camera and controls.
+     * @param[in] dt  seconds
+     */
+    void photoStep( float dt );
+
+    /** @brief Saves the picture just rendered as a photo (and the place's postcard). */
+    void takePhoto();
+
+    /**
+     * @brief The choices after a time attack.
+     * @return their labels
+     */
+    std::vector<std::string> gameOverItems() const;
+
+    /**
+     * @brief Today as YYYYMMDD.
+     * @return the date
+     */
+    static int today();
+
     /**
      * @brief The station the radio should play now (the biome's in automatic mode).
      * @return 0..StationCount-1, StationCount for the music files
@@ -473,6 +559,9 @@ private:
 
     /** @brief Draws the garage. */
     void drawGarage();
+
+    /** @brief Draws the rally list. */
+    void drawRallies();
 
     /** @brief Draws the passport. */
     void drawPassport();
@@ -634,6 +723,22 @@ private:
     float m_thunderIn = -1.0f;        ///< seconds until thunder (-1: none)
 
     std::vector<Popup> m_popups;      ///< messages
+
+    // Daily challenge, rallies, replay, photos.
+    int                     m_rally = -1;            ///< the rally driven
+    int                     m_dailyTwist = 0;        ///< today's twist
+    double                  m_finalDistance = 0.0;   ///< the run's distance when it ended
+    bool                    m_newRecord = false;     ///< a daily or rally best
+    std::deque<ReplayFrame> m_replay;                ///< the last minute
+    float                   m_replayNext = 0.0f;     ///< race time of the next recorded frame
+    float                   m_replayT = 0.0f;        ///< replay clock
+    size_t                  m_replayCursor = 0;      ///< the frame before the clock
+    StateE                  m_replayReturn = StateE::GAMEOVER;   ///< where the replay returns to
+    int                     m_replayIndex = 0;       ///< the menu item to restore
+    float                   m_photoYaw = 0.6f;       ///< photo camera: around the car
+    float                   m_photoPitch = 0.25f;    ///< above it
+    float                   m_photoDist = 8.0f;      ///< distance
+    bool                    m_photoWanted = false;   ///< take one after this frame's render
 
     // Garage, passport, postcards, points.
     int64_t                    m_earned = 0;            ///< career points of this run

@@ -906,6 +906,20 @@ const BiomeDef &biomeDef( BiomeE biome );
  */
 const std::vector<BiomeE> &worldRoute();
 
+/** @brief A famous long-distance route: a chain of places driven in one go. */
+struct Rally
+{
+    const char         *m_name;     ///< e.g. "PARIS - DAKAR"
+    const char         *m_sub;      ///< where it goes
+    std::vector<BiomeE> m_stages;   ///< a place per stage
+};
+
+/**
+ * @brief The rallies (Rallies.cpp).
+ * @return them, in the menu's order
+ */
+const std::vector<Rally> &rallies();
+
 /**
  * @brief A biome's place on the world tour.
  * @param[in] biome  which one

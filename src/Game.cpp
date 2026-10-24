@@ -10,6 +10,8 @@
 
 #include <rlgl.h>
 
+#include <algorithm>
+#include <ctime>
 #include <filesystem>
 #include <future>
 
@@ -107,6 +109,14 @@ void Game::init()
     {
         startChampionship();
     }
+    else if( m_options.m_rally >= 0 )
+    {
+        startRally( m_options.m_rally );
+    }
+    else if( m_options.m_daily )
+    {
+        startDaily();
+    }
     else if( m_options.m_skipMenu )
     {
         TrackSetup endless;
@@ -120,6 +130,7 @@ void Game::init()
         if( m_options.m_screen == "lab" ) m_state = StateE::LAB;
         if( m_options.m_screen == "records" ) m_state = StateE::RECORDS;
         if( m_options.m_screen == "garage" ) m_state = StateE::GARAGE;
+        if( m_options.m_screen == "rallies" ) m_state = StateE::RALLIES;
         if( m_options.m_screen == "passport" ) m_state = StateE::PASSPORT;
         if( m_options.m_screen == "stamps" || m_options.m_screen == "postcards" )
         {
@@ -264,6 +275,236 @@ Environment Game::sceneEnvironment( double s ) const
     default: break;
     }
     return e;
+}
+
+int Game::today()
+{
+    const std::time_t now = std::time( nullptr );
+    const std::tm    *t = std::localtime( &now );
+    return t ? ( t->tm_year + 1900 ) * 10000 + ( t->tm_mon + 1 ) * 100 + t->tm_mday : 20260101;
+}
+
+void Game::startDaily()
+{
+    const int  date = today();
+    TrackSetup s;
+    s.m_seed = ( hash64( 0xDA11ull + static_cast<uint64_t>( date ) ) & 0x1FFFFFFFull ) | 1ull;
+    s.m_params.m_biome = SceneryWorld;
+    m_dailyTwist = static_cast<int>( hash64( static_cast<uint64_t>( date ) * 7 ) % 4 );
+    if( m_dailyTwist == 1 ) s.m_params.m_traffic = 8;
+    if( m_dailyTwist == 2 ) s.m_params.m_obstacles = 7;
+    if( m_dailyTwist == 3 )
+    {
+        s.m_params.m_curvy = 8;
+        s.m_params.m_sharp = 7;
+    }
+    if( m_records.m_dailyDate != date )
+    {
+        m_records.m_dailyDate = date;
+        m_records.m_dailyBest = 0;
+        ++m_records.m_dailyDays;
+    }
+    startTrack( s, ModeE::DAILY );
+    static const char *twists[4] = { "THE WORLD TOUR", "RUSH HOUR", "ROADWORKS EVERYWHERE", "ALL BENDS" };
+    popup( "DAILY CHALLENGE", twists[m_dailyTwist], Gold, 1.0f, 3.5f );
+}
+
+void Game::startRally( int index )
+{
+    const auto &list = rallies();
+    if( index < 0 || index >= static_cast<int>( list.size() ) ) return;
+    m_rally = index;
+    TrackSetup s;
+    s.m_seed = ( hash64( 0xBA11ull + static_cast<uint64_t>( index ) * 977 ) & 0x1FFFFFFFull ) | 1ull;
+    s.m_params.m_biome = SceneryWorld;
+    for( BiomeE b : list[static_cast<size_t>( index )].m_stages ) s.m_params.m_stages.push_back( static_cast<uint16_t>( b ) );
+    s.m_params.m_length = static_cast<double>( s.m_params.m_stages.size() ) * StageLength;
+    startTrack( s, ModeE::RALLY );
+    m_code = "RALLY-" + std::to_string( index + 1 );
+    m_ghost.load( ghostDir(), m_code );
+    popup( list[static_cast<size_t>( index )].m_name, list[static_cast<size_t>( index )].m_sub, Gold, 1.0f, 3.5f );
+}
+
+std::vector<std::string> Game::gameOverItems() const
+{
+    switch( m_mode )
+    {
+    case ModeE::ENDLESS: return { "RETRY SAME TRACK", "NEW TRACK", "WATCH REPLAY", "TITLE" };
+    case ModeE::DAILY: return { "RETRY", "WATCH REPLAY", "TITLE" };
+    case ModeE::RALLY: return { "RETRY", "RALLIES", "WATCH REPLAY", "TITLE" };
+    default: return { "RETRY", "TRACK LAB", "WATCH REPLAY", "TITLE" };
+    }
+}
+
+void Game::startReplay( StateE back )
+{
+    if( m_replay.size() < 20 )
+    {
+        popup( "NO REPLAY", "", Red, 0.8f, 1.5f );
+        return;
+    }
+    m_replayReturn = back;
+    m_replayIndex = m_menuIndex;
+    const ReplayFrame &first = m_replay.front();
+    const int          rivals = static_cast<int>( first.m_rivals.size() );
+    setupTrack( m_seed, first.m_s, m_setup.m_params );
+    m_race.m_rivals.resize( static_cast<size_t>( rivals ) );
+    for( int i = 0; i < rivals; ++i ) m_race.m_rivals[static_cast<size_t>( i )].m_driver = first.m_rivals[static_cast<size_t>( i )].m_model;
+    m_replayT = first.m_t;
+    m_replayCursor = 0;
+    m_state = StateE::REPLAY;
+    m_stateTime = 0.0f;
+}
+
+void Game::endReplay()
+{
+    m_state = m_replayReturn;
+    m_menuIndex = m_replayIndex;
+    m_stateTime = 2.0f;
+}
+
+void Game::replayStep( float dt )
+{
+    m_replayT += dt;
+    while( m_replayCursor + 1 < m_replay.size() && m_replay[m_replayCursor + 1].m_t <= m_replayT ) ++m_replayCursor;
+    if( m_replayCursor + 1 >= m_replay.size() )
+    {
+        endReplay();
+        return;
+    }
+    const ReplayFrame &a = m_replay[m_replayCursor], &b = m_replay[m_replayCursor + 1];
+    const float        k = clampf( ( m_replayT - a.m_t ) / std::max( 1e-3f, b.m_t - a.m_t ), 0.0f, 1.0f );
+    m_car.m_s = a.m_s + ( b.m_s - a.m_s ) * k;
+    m_car.m_x = lerpf( a.m_x, b.m_x, k );
+    m_car.m_y = a.m_y + ( b.m_y - a.m_y ) * k;
+    m_car.m_yawVisual = lerpf( a.m_yaw, b.m_yaw, k );
+    m_car.m_spin = lerpf( a.m_spin, b.m_spin, k );
+    m_car.m_vy = lerpf( a.m_vy, b.m_vy, k );
+    m_car.m_speed = lerpf( a.m_speed, b.m_speed, k );
+    m_car.m_rpm = lerpf( a.m_rpm, b.m_rpm, k );
+    m_car.m_throttle = lerpf( a.m_throttle, b.m_throttle, k );
+    m_car.m_airborne = a.m_airborne;
+    m_car.m_boosting = a.m_boost;
+    m_traffic.m_cars.clear();
+    for( const ReplayFrame::Other &o : a.m_traffic )
+    {
+        TrafficCar c;
+        c.m_s = o.m_s;
+        c.m_x = o.m_x;
+        c.m_yaw = o.m_yaw;
+        c.m_model = o.m_model;
+        c.m_length = m_models.m_traffic[static_cast<size_t>( o.m_model )].m_length;
+        c.m_width = m_models.m_traffic[static_cast<size_t>( o.m_model )].m_width;
+        m_traffic.m_cars.push_back( c );
+    }
+    for( size_t i = 0; i < a.m_rivals.size() && i < m_race.m_rivals.size() && i < b.m_rivals.size(); ++i )
+    {
+        Rival &r = m_race.m_rivals[i];
+        r.m_s = a.m_rivals[i].m_s + ( b.m_rivals[i].m_s - a.m_rivals[i].m_s ) * k;
+        r.m_x = lerpf( a.m_rivals[i].m_x, b.m_rivals[i].m_x, k );
+        r.m_yaw = a.m_rivals[i].m_yaw;
+    }
+    Track &track = *m_track;
+    track.generateTo( m_car.m_s + ViewDistance + 600.0 );
+    track.discardBefore( m_car.m_s - 400.0 );
+    m_world.update( track, m_car.m_s, 1 );
+    emitParticles( dt );
+    m_particles.update( dt );
+    updateCamera( dt );
+    updateAudio();
+}
+
+bool Game::replayCamera()
+{
+    const Track &track = *m_track;
+    // A post every 150 m beside the road; one in five is a helicopter, one in five the chase camera.
+    const long     post = static_cast<long>( ( m_car.m_s + 40.0 ) / 150.0 );
+    const uint64_t h = hash64( m_seed * 31 + static_cast<uint64_t>( post ) );
+    const int      kind = static_cast<int>( h % 5 );
+    if( kind == 4 ) return false;
+    const Pose    p = m_car.pose( track );
+    const Vec3d   target = poseLocal( p, 0.0f, 0.6f, 0.0f );
+    if( kind == 3 )
+    {
+        m_cam.m_pos = poseLocal( p, 0.0f, 16.0f, -24.0f );
+        m_cam.m_fovY = 46.0f;
+    }
+    else
+    {
+        const double     camS = static_cast<double>( post ) * 150.0 + 110.0;
+        const Segment   &seg = track.segment( static_cast<long>( camS / SegmentLength ) );
+        const float      side = ( h >> 8 ) & 1 ? 1.0f : -1.0f;
+        // On a pole at the edge of the shoulder, clear of the houses that crowd a city street.
+        Vec3d            pos = track.pointAt( camS, side * ( seg.m_halfWidth + RumbleWidth + 1.3f ), 0.0f );
+        pos.m_y = std::max( pos.m_y, track.pointAt( camS, 0.0f, 0.0f ).m_y ) + 2.2 + static_cast<double>( ( h >> 12 ) % 3 );
+        m_cam.m_pos = pos;
+        const Vector3 d = relativeTo( target, pos );
+        const float   dist = std::max( 5.0f, Vector3Length( d ) );
+        m_cam.m_fovY = clampf( 2.0f * std::atan( 7.0f / dist ) * 57.2958f, 14.0f, 64.0f );
+    }
+    m_cam.m_forward = Vector3Normalize( relativeTo( target, m_cam.m_pos ) );
+    m_cam.m_up = Vector3{ 0, 1, 0 };
+    m_blur = 0.0f;
+    m_camInit = true;
+    return true;
+}
+
+void Game::photoStep( float dt )
+{
+    const bool  pad = IsGamepadAvailable( 0 );
+    const float turn = ( IsKeyDown( KEY_RIGHT ) ? 1.0f : 0.0f ) - ( IsKeyDown( KEY_LEFT ) ? 1.0f : 0.0f ) + ( pad ? GetGamepadAxisMovement( 0, GAMEPAD_AXIS_LEFT_X ) : 0.0f );
+    const float tilt = ( IsKeyDown( KEY_UP ) ? 1.0f : 0.0f ) - ( IsKeyDown( KEY_DOWN ) ? 1.0f : 0.0f ) - ( pad ? GetGamepadAxisMovement( 0, GAMEPAD_AXIS_LEFT_Y ) : 0.0f );
+    float       zoom = ( IsKeyDown( KEY_MINUS ) || IsKeyDown( KEY_KP_SUBTRACT ) || IsKeyDown( KEY_PAGE_DOWN ) ? 1.0f : 0.0f ) -
+                 ( IsKeyDown( KEY_EQUAL ) || IsKeyDown( KEY_KP_ADD ) || IsKeyDown( KEY_PAGE_UP ) ? 1.0f : 0.0f );
+    if( pad ) zoom += ( GetGamepadAxisMovement( 0, GAMEPAD_AXIS_LEFT_TRIGGER ) - GetGamepadAxisMovement( 0, GAMEPAD_AXIS_RIGHT_TRIGGER ) ) * 0.5f;
+    m_photoYaw += turn * 1.4f * dt;
+    m_photoPitch = clampf( m_photoPitch + tilt * 0.8f * dt, -0.08f, 1.35f );
+    m_photoDist = clampf( m_photoDist * ( 1.0f + zoom * 1.2f * dt ), 3.2f, 45.0f );
+    const Pose p = m_car.pose( *m_track );
+    const float c = std::cos( m_photoPitch );
+    m_cam.m_pos = poseLocal( p, std::sin( m_photoYaw ) * c * m_photoDist, 0.6f + std::sin( m_photoPitch ) * m_photoDist, -std::cos( m_photoYaw ) * c * m_photoDist );
+    m_cam.m_forward = Vector3Normalize( relativeTo( poseLocal( p, 0.0f, 0.65f, 0.0f ), m_cam.m_pos ) );
+    m_cam.m_up = Vector3{ 0, 1, 0 };
+    m_cam.m_fovY = 50.0f;
+    m_blur = 0.0f;
+}
+
+void Game::takePhoto()
+{
+    m_photoWanted = false;
+    rlDrawRenderBatchActive();
+    const int   w = GetRenderWidth(), h = GetRenderHeight();
+    Image       full = { rlReadScreenPixels( w, h ), w, h, 1, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 };
+    const auto  biome = static_cast<int>( m_track->biomeMix( m_car.m_s ).m_from );
+    std::string place = biomeDef( static_cast<BiomeE>( biome ) ).m_name;
+    std::replace( place.begin(), place.end(), ' ', '_' );
+    const std::string dir = configDirectory();
+    const std::string photo = dir + "/photos/" + place + "-" + std::to_string( static_cast<long long>( std::time( nullptr ) ) ) + ".png";
+    const std::string card = dir + "/postcards/" + std::to_string( biome ) + ".png";
+    m_records.m_postcards.set( static_cast<size_t>( biome ) );
+    const auto old = m_postcardTex.find( biome );
+    if( old != m_postcardTex.end() )
+    {
+        UnloadTexture( old->second );
+        m_postcardTex.erase( old );
+    }
+    if( m_postcardJob.valid() ) m_postcardJob.wait();
+    m_postcardJob = std::async( std::launch::async,
+                                [full, dir, photo, card]() mutable
+                                {
+                                    std::error_code ec;
+                                    std::filesystem::create_directories( dir + "/photos", ec );
+                                    std::filesystem::create_directories( dir + "/postcards", ec );
+                                    ExportImage( full, photo.c_str() );
+                                    const int ch = std::min( full.height, full.width * 9 / 16 ), cw = ch * 16 / 9;
+                                    ImageCrop( &full, Rectangle{ static_cast<float>( full.width - cw ) * 0.5f, static_cast<float>( full.height - ch ) * 0.5f,
+                                                                 static_cast<float>( cw ), static_cast<float>( ch ) } );
+                                    ImageResize( &full, 480, 270 );
+                                    ExportImage( full, card.c_str() );
+                                    UnloadImage( full );
+                                } );
+    popup( "PHOTO SAVED", "AND SENT AS A POSTCARD", Cyan, 0.8f, 2.0f );
+    saveRecords();
 }
 
 void Game::applyLivery()
@@ -496,6 +737,9 @@ void Game::beginCountdown()
     m_earned = 0;
     m_postcardWanted = -1;
     m_frontShown = -1;
+    m_replay.clear();
+    m_replayNext = 0.0f;
+    m_newRecord = false;
     // The tour clock: the morning, give or take, wherever the run starts.
     GeoPoint where;
     m_clockStart = placeLocation( m_track->biomeMix( m_car.m_s ).m_from, where )
@@ -635,14 +879,30 @@ void Game::frame( float dt )
     case StateE::RECORDS:
     case StateE::GARAGE:
     case StateE::PASSPORT:
+    case StateE::RALLIES:
     {
         const StateE before = m_state;
         menus( mi );
         if( m_state == before || m_state == StateE::SETTINGS || m_state == StateE::LAB || m_state == StateE::TITLE ||
-            m_state == StateE::RECORDS || m_state == StateE::CODE_ENTRY || m_state == StateE::GARAGE || m_state == StateE::PASSPORT )
+            m_state == StateE::RECORDS || m_state == StateE::CODE_ENTRY || m_state == StateE::GARAGE || m_state == StateE::PASSPORT ||
+            m_state == StateE::RALLIES )
             if( m_demo ) simulate( dt, true );
         break;
     }
+    case StateE::REPLAY:
+        if( ( mi.m_accept || mi.m_back ) && m_stateTime > 0.5f ) endReplay();
+        else replayStep( dt );
+        break;
+    case StateE::PHOTO:
+        if( mi.m_accept ) m_photoWanted = true;
+        if( mi.m_back || m_input.m_pause )
+        {
+            m_state = StateE::PAUSED;
+            m_menuIndex = 2;
+            break;
+        }
+        photoStep( dt );
+        break;
     case StateE::SETTINGS:
         menus( mi );
         if( m_demo ) simulate( dt, true );
@@ -683,6 +943,14 @@ void Game::frame( float dt )
             break;
         }
         simulate( dt, m_options.m_autopilot || m_finished || m_finishedTrack );
+        if( !m_options.m_action.empty() && m_raceTime >= m_options.m_actionAt )
+        {
+            // Testing: the replay or the photo mode, without a key.
+            if( m_options.m_action == "replay" ) startReplay( StateE::GAMEOVER );
+            if( m_options.m_action == "photo" ) m_state = StateE::PHOTO;
+            m_options.m_action.clear();
+            break;
+        }
         if( m_setup.m_race )
         {
             if( m_finished && m_finishedFor > 2.5f )
@@ -735,7 +1003,24 @@ void Game::endTimeAttack()
     m_settings.m_bestDistance = std::max( m_settings.m_bestDistance, dist );
     m_newGhost = m_ghost.saveIfBest( ghostDir(), m_code, static_cast<double>( score ), m_carIndex, m_paintIndex );
     m_rank = m_mode == ModeE::ENDLESS ? m_records.rankOf( score ) : -1;
+    m_finalDistance = dist;
     earn( score );
+    if( m_mode == ModeE::DAILY && score > m_records.m_dailyBest )
+    {
+        m_records.m_dailyBest = score;
+        m_newRecord = true;
+    }
+    if( m_mode == ModeE::RALLY && m_finishedTrack && m_rally >= 0 )
+    {
+        if( m_records.m_rallyBest.size() <= static_cast<size_t>( m_rally ) ) m_records.m_rallyBest.resize( static_cast<size_t>( m_rally ) + 1, 0.0 );
+        double &best = m_records.m_rallyBest[static_cast<size_t>( m_rally )];
+        if( best <= 0.0 ) earn( 25000 );
+        if( best <= 0.0 || m_raceTime < best )
+        {
+            best = m_raceTime;
+            m_newRecord = true;
+        }
+    }
     saveSettings( m_settings );
     saveRecords();
     m_state = m_rank >= 0 ? StateE::INITIALS : StateE::GAMEOVER;
@@ -812,6 +1097,30 @@ void Game::simulate( float dt, bool autopilotOn )
     emitParticles( dt );
     m_particles.update( dt );
     updateCamera( dt );
+
+    // The replay keeps the last minute, twenty frames a second.
+    if( !m_demo && m_state == StateE::RACE && m_raceTime >= m_replayNext )
+    {
+        m_replayNext = m_raceTime + 0.05f;
+        ReplayFrame f;
+        f.m_t = m_raceTime;
+        f.m_s = m_car.m_s;
+        f.m_x = m_car.m_x;
+        f.m_y = m_car.m_y;
+        f.m_yaw = m_car.m_yawVisual;
+        f.m_spin = m_car.m_spin;
+        f.m_vy = m_car.m_vy;
+        f.m_speed = m_car.m_speed;
+        f.m_rpm = m_car.m_rpm;
+        f.m_throttle = m_car.m_throttle;
+        f.m_airborne = m_car.m_airborne;
+        f.m_boost = m_car.m_boosting;
+        for( const TrafficCar &c : m_traffic.m_cars )
+            if( std::abs( c.m_s - m_car.m_s ) < 400.0 ) f.m_traffic.push_back( { c.m_s, c.m_x, c.m_yaw, c.m_model } );
+        for( const Rival &r : m_race.m_rivals ) f.m_rivals.push_back( { r.m_s, r.m_x, r.m_yaw, r.m_driver } );
+        m_replay.push_back( std::move( f ) );
+        while( m_replay.size() > 1200 ) m_replay.pop_front();
+    }
 
     // The hour the sky shows follows the time zones smoothly; fronts are announced as they come.
     const float hour = wantedHour();
@@ -941,11 +1250,12 @@ void Game::timeAttackRules( float h )
         m_finishedFor = 0.0f;
         m_score += static_cast<double>( m_timeLeft ) * 100.0;
         m_car.m_coasting = true;
-        popup( "FINISH", format( "%.1f SEC LEFT  +%d", m_timeLeft, static_cast<int>( m_timeLeft * 100.0f ) ), Gold, 1.4f, 3.5f );
+        if( m_mode == ModeE::RALLY ) popup( "FINISH", clockText( m_raceTime ), Gold, 1.4f, 3.5f );
+        else popup( "FINISH", format( "%.1f SEC LEFT  +%d", m_timeLeft, static_cast<int>( m_timeLeft * 100.0f ) ), Gold, 1.4f, 3.5f );
         m_audio.playOnBeat( SfxE::CHECKPOINT );
         return;
     }
-    if( !m_timeUp )
+    if( !m_timeUp && m_mode != ModeE::RALLY )
     {
         m_timeLeft -= h;
         if( m_timeLeft <= 0.0f )
@@ -1328,6 +1638,7 @@ void Game::updateCamera( float dt )
         const Vector3 right = Vector3Normalize( Vector3CrossProduct( m_cam.m_forward, up ) );
         m_cam.m_up = Vector3Normalize( Vector3Add( Vector3Scale( up, std::cos( roll ) ), Vector3Scale( right, std::sin( roll ) ) ) );
     }
+    if( m_state == StateE::REPLAY && replayCamera() ) return;
     if( m_state == StateE::GARAGE )
     { // The showroom: round and round the car.
         const Pose  p = m_car.pose( track );

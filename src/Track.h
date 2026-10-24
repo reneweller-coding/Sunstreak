@@ -66,6 +66,7 @@ struct TrackParams
     int    m_biome = -1;              ///< one biome all the way, or SceneryMixed / SceneryWorld
     double m_length = 0.0;            ///< the finish (m), 0 endless
     double m_startLine = StartLine;   ///< where the start gantry stands
+    std::vector<uint16_t> m_stages;   ///< a rally's places, stage by stage (empty: as m_biome says; not in track codes)
 };
 
 /** @brief One 5 m piece of road. */

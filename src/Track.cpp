@@ -48,6 +48,8 @@ Track::Track( uint64_t seed, const TrackParams &params, int startBiome )
 BiomeE Track::stageBiome( int stage ) const
 {
     constexpr int Count = static_cast<int>( BiomeE::COUNT );
+    if( !m_params.m_stages.empty() )
+        return static_cast<BiomeE>( m_params.m_stages[static_cast<size_t>( std::clamp( stage, 0, static_cast<int>( m_params.m_stages.size() ) - 1 ) )] );
     if( m_params.m_biome >= 0 && m_params.m_biome < Count ) return static_cast<BiomeE>( m_params.m_biome );
     if( m_params.m_biome == SceneryWorld )
     {
