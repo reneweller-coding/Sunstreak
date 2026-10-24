@@ -72,7 +72,7 @@ shape VILLAGE_PUB
     blob 5.53 2.9 -3.4 0.01 0.25 0.2 D8B040
 
 shape CRICKET_PAVILION
-    home ENGLAND | 0.002 15 90 | country
+    home ENGLAND, BARBADOS, JAMAICA, TRINIDAD AND TOBAGO, ANTIGUA AND BARBUDA, GRENADA, SAINT LUCIA, GUYANA | 0.002 15 90 | country
     # A village cricket pavilion: white boards, a veranda, a clock on the gable, a white sightscreen across the green.
     box 0 1.5 0 3 1.5 5 F2F2EE
     gable 0 3 0 3 5 1.6 0.3 3E6A3A F2F2EE

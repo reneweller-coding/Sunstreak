@@ -1,0 +1,780 @@
+# More local things of South and Central America and the Caribbean.
+
+shape ARAUCARIA_TREE
+    home BRAZIL:PARANA, BRAZIL:SANTA CATARINA, BRAZIL:RIO GRANDE DO SUL, BRAZIL:SAO PAULO, ARGENTINA:MISIONES | 0.006 8 70 | country
+    # Parana pines: tall bare trunks crowned by a flat candelabra of upturned branches, tufted at the tips.
+    tube 0 0 0 0 17 0 0.4 6 6A5040
+    ring 8 0 0
+    tube 0 14 0 3 17 0 0.12 4 5A4838
+    ring 8 0 0
+    blob 3 17.3 0 1.2 0.5 1.2 2A4A2A
+    ring 6 0 30
+    tube 0 15.5 0 2 18.3 0 0.1 4 5A4838
+    ring 6 0 30
+    blob 2 18.6 0 0.9 0.4 0.9 2A4A2A
+    blob 0 18.4 0 1 0.5 1 2A4A2A
+    at 4 0 7
+    tube 0 0 0 0 11 0 0.3 6 6A5040
+    ring 7 0 10
+    tube 0 9 0 2.2 11 0 0.09 4 5A4838
+    ring 7 0 10
+    blob 2.2 11.2 0 0.9 0.4 0.9 2A4A2A
+    blob 0 11.6 0 0.8 0.4 0.8 2A4A2A
+    at 0 0 0
+
+shape IPE_TREES
+    home BRAZIL, PARAGUAY, ARGENTINA:CORRIENTES, ARGENTINA:MISIONES, ARGENTINA:SALTA, ARGENTINA:TUCUMAN, BOLIVIA | 0.006 6 50 | country
+    # Flowering ipe trees at the end of the dry season: one a ball of golden yellow, one bright pink, bare of leaves.
+    tube 0 0 -3 0 3 -3 0.25 6 5A4A40
+    tube 0 2.6 -3 1.4 4 -2.6 0.1 4 5A4A40
+    tube 0 2.6 -3 -1.2 4.2 -3.5 0.1 4 5A4A40
+    blob 0 4.6 -3 2.4 1.5 2.4 F2D020 0.4
+    tube 0 0 3 0 2.6 3 0.22 6 5A4A40
+    tube 0 2.3 3 1.2 3.6 3.4 0.09 4 5A4A40
+    blob 0 4.1 3 2.1 1.3 2.1 E87AB8 0.4
+
+shape CARNAUBA_PALMS
+    home BRAZIL:CEARA, BRAZIL:PIAUI, BRAZIL:RIO GRANDE DO NORTE, BRAZIL:MARANHAO, BRAZIL:PARAIBA | 0.008 6 60 | country
+    # A grove of carnauba palms: slender grey trunks with a rough collar of old leaf bases, round fans of waxy leaves.
+    tube 0 0 -4 0.3 9 -4 0.2 6 8A8070
+    blob 0.3 8.8 -4 0.35 0.7 0.35 7A6A50
+    fronds 0.3 9.3 -4 12 1.8 0.3 6A8A5A
+    tube 0 0 0 -0.2 7 0 0.2 6 8A8070
+    blob -0.2 6.8 0 0.35 0.7 0.35 7A6A50
+    fronds -0.2 7.3 0 12 1.7 0.3 6A8A5A
+    tube -2 0 3 -2 10 3 0.2 6 8A8070
+    blob -2 9.8 3 0.35 0.7 0.35 7A6A50
+    fronds -2 10.3 3 12 1.8 0.3 6A8A5A
+    tube 1.5 0 4.5 1.6 5 4.5 0.18 6 8A8070
+    fronds 1.6 5.2 4.5 11 1.6 0.3 7A9A60
+
+shape TAIPA_HOUSE
+    home BRAZIL:BAHIA, BRAZIL:PERNAMBUCO, BRAZIL:CEARA, BRAZIL:PIAUI, BRAZIL:PARAIBA, BRAZIL:RIO GRANDE DO NORTE, BRAZIL:ALAGOAS, BRAZIL:SERGIPE, BRAZIL:MARANHAO, BRAZIL:MINAS GERAIS | 0.008 4 40 | country
+    # A wattle-and-daub house of the backlands: earth walls, a clay tile roof, blue painted door and shutter, a stick fence.
+    box 0 1.3 0 2.5 1.3 3.5 C8A078
+    gable 0 2.6 0 2.7 3.8 1.1 0.4 B8603A C8A078
+    box 2.52 1 0.8 0.02 1 0.5 3A6AA8
+    box 2.52 1.5 -1.8 0.02 0.4 0.45 3A6AA8
+    box 2.51 0.6 -0.8 0.01 0.3 0.4 8A6A48
+    repeat 10 0 0 0.7
+    tube 4.5 0 -3.5 4.5 1.0 -3.5 0.04 3 7A6A58
+    tube 4.5 0.7 -3.5 4.5 0.7 2.8 0.03 3 7A6A58
+
+shape SERTAO_CISTERN
+    home BRAZIL:BAHIA, BRAZIL:PERNAMBUCO, BRAZIL:CEARA, BRAZIL:PIAUI, BRAZIL:PARAIBA, BRAZIL:RIO GRANDE DO NORTE, BRAZIL:ALAGOAS, BRAZIL:SERGIPE | 0.008 4 30 | country
+    # A white rainwater cistern by a farmhouse of the dry northeast: a round concrete tank with a low dome, a gutter pipe feeding it.
+    cyl 0 0 0 1.8 1.8 1.4 12 E8E4DC
+    dome 0 1.4 0 1.8 0.4 E8E4DC
+    box 0.8 1.85 0 0.3 0.06 0.3 6A6A6A
+    tube -1.6 1.5 0 -4 2.4 0 0.06 4 8A8A8A
+    box -5.5 1.2 0 1.5 1.2 2.5 E8D8C0
+    gable -5.5 2.4 0 1.7 2.7 0.8 0.3 B8603A E8D8C0
+
+shape MANDACARU
+    home BRAZIL:BAHIA, BRAZIL:PERNAMBUCO, BRAZIL:CEARA, BRAZIL:PIAUI, BRAZIL:PARAIBA, BRAZIL:RIO GRANDE DO NORTE, BRAZIL:ALAGOAS, BRAZIL:SERGIPE, BRAZIL:MINAS GERAIS | 0.008 6 60 | country
+    # A mandacaru cactus of the caatinga: a tall blue-green column with arms bent upward, low prickly scrub around it.
+    cyl 0 0 0 0.35 0.3 6 8 5A8A7A
+    tube 0 2 0 1 2.3 0 0.25 6 5A8A7A
+    cyl 1 2.3 0 0.25 0.22 2.8 8 5A8A7A
+    tube 0 2.6 0 -0.8 3 0.3 0.25 6 5A8A7A
+    cyl -0.8 3 0.3 0.25 0.22 2.4 8 5A8A7A
+    blob 2 0.3 2 0.8 0.3 0.8 7A7A5A 0.5
+    blob -1.5 0.25 -2 0.7 0.25 0.6 7A7A5A 0.5
+
+shape DUNE_BUGGY
+    home BRAZIL:RIO GRANDE DO NORTE, BRAZIL:CEARA, BRAZIL:MARANHAO, BRAZIL:BAHIA, BRAZIL:PARAIBA | 0.004 4 30 | coast pastel
+    # A beach buggy for the dunes: an open fibreglass tub on fat tyres, a roll bar over the seats.
+    tbox 0 0.6 0 0.8 1.6 0 0.9 -0.2 0.75 1.3 A
+    box 0 0.95 1.3 0.7 0.2 0.4 A
+    box 0 0.95 -0.3 0.6 0.15 0.35 2A2A2A
+    mirrorx
+    tube 0.65 0.9 -0.6 0.65 1.8 -0.6 0.05 4 C8C8C8
+    tube -0.65 1.8 -0.6 0.65 1.8 -0.6 0.05 4 C8C8C8
+    mirror
+    mirrorx
+    tube 0.75 0.45 1.1 1.05 0.45 1.1 0.45 10 1E1E1E
+
+shape ACARAJE_STALL
+    home BRAZIL:BAHIA | 0.006 2 15 | town
+    # A street stall of Bahia: a table under a white umbrella, a pot of hot palm oil, the cook in a white dress and headwrap.
+    box 0 0.45 0 0.5 0.45 0.9 F2F2EE
+    cyl 0 0.9 0.4 0.3 0.25 0.25 10 3A3A3A
+    blob 0 0.97 -0.35 0.25 0.07 0.3 C8802A
+    tube 0.6 0 0 0.6 2.2 0 0.03 4 E8E8E8
+    spire 0.6 2.0 0 1.4 0.45 8 F2F2F2
+    tbox -0.9 0 0 0.45 0.45 -0.9 1.0 0 0.2 0.2 F2F2EE
+    box -0.9 1.25 0 0.18 0.25 0.15 F2F2EE
+    blob -0.9 1.65 0 0.1 0.12 0.1 5A3A28
+    blob -0.9 1.8 0 0.13 0.1 0.13 F2F2EE
+
+shape SUGAR_CANE_FIELD
+    home BRAZIL:SAO PAULO, BRAZIL:PERNAMBUCO, BRAZIL:ALAGOAS, BRAZIL:GOIAS, BRAZIL:MINAS GERAIS, CUBA, JAMAICA, DOMINICAN REPUBLIC, GUATEMALA, COLOMBIA, MAURITIUS, FIJI | 0.008 6 60 | country
+    # Sugar cane taller than a man, row on row of green stalks with ragged leaf tops, a cart of cut cane at the edge.
+    repeat 7 0 0 1.2
+    box -3 1.6 -3.6 4 1.6 0.25 6A9A3A
+    repeat 7 0 0 1.2
+    blob -3 3.3 -3.6 4 0.4 0.45 7AAA40 0.5
+    box 3 0.8 2 0.8 0.5 1.6 8A6A48
+    blob 3 1.4 2 0.75 0.35 1.7 9A8A50 0.4
+    hoop 3.85 0.45 2 0.45 0.05 10 3A3A3A
+    hoop 2.15 0.45 2 0.45 0.05 10 3A3A3A
+
+shape GIANT_WATER_LILIES
+    home BRAZIL:AMAZONAS, BRAZIL:PARA, BRAZIL:AMAPA, BRAZIL:MATO GROSSO, BRAZIL:MATO GROSSO DO SUL, GUYANA, BOLIVIA, PARAGUAY | 0.006 6 40 | country
+    # A backwater with giant water lilies: great round green pads with upturned red rims, one pale flower open.
+    box 0 0.02 0 4 0.02 6 3A5A4A water
+    cyl 0 0.03 -3 1.2 1.2 0.06 16 4A8A3A
+    halo 0 0.12 -3 1.2 0.06 16 8A3A3A
+    cyl 1.5 0.03 0 1 1 0.06 16 4A8A3A
+    halo 1.5 0.12 0 1 0.06 16 8A3A3A
+    cyl -1.2 0.03 1.5 1.4 1.4 0.06 16 4A8A3A
+    halo -1.2 0.12 1.5 1.4 0.06 16 8A3A3A
+    cyl 0.8 0.03 4 0.9 0.9 0.06 16 4A8A3A
+    halo 0.8 0.12 4 0.9 0.06 16 8A3A3A
+    blob 2.2 0.2 2.2 0.25 0.15 0.25 F2E8F0
+
+shape TOUCANS
+    home BRAZIL:AMAZONAS, BRAZIL:PARA, BRAZIL:MATO GROSSO, BRAZIL:MATO GROSSO DO SUL, BRAZIL:MINAS GERAIS, PERU:AMAZONAS, COLOMBIA, VENEZUELA, BOLIVIA, PARAGUAY, ARGENTINA:MISIONES, COSTA RICA, PANAMA, BELIZE, GUATEMALA, HONDURAS | 0.004 4 30 | country
+    # Toucans on a bare branch: black birds with yellow throats and huge orange bills.
+    tube -0.5 0 0 -0.5 4 0 0.15 5 6A5040
+    tube -0.5 2.8 -1.8 -0.5 2.8 1.8 0.06 4 6A5040
+    blob -0.5 4.6 0 1.6 1 1.6 3A6A2A 0.4
+    repeat 3 0 0 1.1
+    blob -0.5 3.05 -1.1 0.1 0.18 0.1 1E1E1E
+    repeat 3 0 0 1.1
+    blob -0.42 3.13 -1.1 0.05 0.08 0.07 F2E040
+    repeat 3 0 0 1.1
+    blob -0.5 3.22 -1.1 0.08 0.08 0.08 1E1E1E
+    repeat 3 0 0 1.1
+    tube -0.44 3.22 -1.1 -0.05 3.15 -1.1 0.055 4 F2902A
+
+shape JAGUAR_ON_BANK
+    home BRAZIL:MATO GROSSO, BRAZIL:MATO GROSSO DO SUL, BRAZIL:AMAZONAS, BRAZIL:PARA, BOLIVIA, PARAGUAY, PERU:AMAZONAS, COLOMBIA, VENEZUELA, BELIZE, GUATEMALA | 0.003 8 50 | country
+    # A jaguar resting on a fallen log at the river bank: golden coat with dark rosettes, its paws stretched out.
+    box 3 0.02 0 2 0.02 5 3A5A4A water
+    tube -1 0.3 -2.5 -1 0.3 2.5 0.35 8 6A5040
+    blob -1 0.85 0 0.28 0.25 0.75 D8A040
+    blob -1 0.92 0.85 0.18 0.16 0.2 D8A040
+    tube -0.85 0.72 0.6 -0.85 0.66 1.05 0.06 4 D8A040
+    tube -1.15 0.72 0.6 -1.15 0.66 1.05 0.06 4 D8A040
+    tube -1 0.85 -0.7 -0.8 0.45 -1.3 0.05 4 D8A040
+    blob -0.76 0.95 -0.3 0.06 0.06 0.06 2A2018
+    blob -0.75 0.9 0.2 0.06 0.06 0.06 2A2018
+    blob -0.82 1.03 -0.05 0.06 0.06 0.06 2A2018
+    blob -0.8 0.8 0.45 0.05 0.05 0.05 2A2018
+    blob -0.78 0.82 -0.55 0.05 0.05 0.05 2A2018
+
+shape GIANT_ANTEATER
+    home BRAZIL:MATO GROSSO, BRAZIL:MATO GROSSO DO SUL, BRAZIL:GOIAS, BRAZIL:TOCANTINS, BRAZIL:MINAS GERAIS, BRAZIL:FEDERAL DISTRICT, PARAGUAY, BOLIVIA, ARGENTINA:CHACO, ARGENTINA:FORMOSA | 0.003 6 40 | country
+    # A giant anteater crossing the savanna: a long tube of a snout, a black and white stripe over the shoulder, a great bushy tail.
+    blob 0 0.75 0 0.3 0.35 0.7 6A5A4A
+    blob 0 0.95 0.3 0.31 0.1 0.3 1E1E1E
+    tube 0 0.75 0.6 0 0.5 1.4 0.07 5 6A5A4A
+    blob 0 0.9 -1.0 0.1 0.45 0.55 4A3A30
+    mirror
+    mirrorx
+    tube 0.18 0.5 0.45 0.18 0 0.45 0.07 4 C8C0B0
+
+shape CAIMANS_ON_BANK
+    home BRAZIL:MATO GROSSO, BRAZIL:MATO GROSSO DO SUL, BRAZIL:AMAZONAS, BRAZIL:PARA, BOLIVIA, PARAGUAY, VENEZUELA, COLOMBIA, GUYANA, SURINAME, ARGENTINA:CORRIENTES | 0.006 6 40 | country
+    # Caimans basking on a sandbar: three of them side by side with their jaws a little open, the water at their tails.
+    box 2.5 0.02 0 2 0.02 4 3A5A4A water
+    repeat 3 0.6 0 1.5
+    blob -1 0.18 -2 0.25 0.15 0.6 4A4A38
+    repeat 3 0.6 0 1.5
+    tube -1 0.15 -1.4 -1 0.1 -0.85 0.1 5 4A4A38
+    repeat 3 0.6 0 1.5
+    tube -1 0.15 -2.6 -1 0.08 -3.6 0.12 5 4A4A38
+    repeat 3 0.6 0 1.5
+    blob -0.88 0.3 -1.6 0.04 0.04 0.04 C8B040
+
+shape VAQUEIRO_RIDER
+    home BRAZIL:BAHIA, BRAZIL:PERNAMBUCO, BRAZIL:CEARA, BRAZIL:PIAUI, BRAZIL:PARAIBA, BRAZIL:RIO GRANDE DO NORTE | 0.002 4 30 | country
+    # A cowboy of the backlands on a lean horse, all in brown leather against the thorn scrub, the hat a half moon.
+    blob 0 1.35 0 0.3 0.4 0.9 8A5A3A
+    mirror
+    mirrorx
+    tube 0.17 1.1 0.6 0.17 0 0.6 0.06 4 8A5A3A
+    tube 0 1.6 0.7 0 2.15 1.05 0.13 5 8A5A3A
+    blob 0 2.1 1.3 0.12 0.14 0.3 8A5A3A
+    tube 0 1.5 -0.85 0 0.8 -1.0 0.06 3 3A2A1E
+    mirrorx
+    tube 0.2 1.75 0 0.36 1.05 0.15 0.08 4 8A6A40
+    box 0 2.15 0 0.22 0.4 0.16 8A6A40
+    mirrorx
+    tube 0.24 2.45 0 0.28 2.0 0.25 0.06 4 8A6A40
+    blob 0 2.7 0.02 0.11 0.13 0.11 A8784A
+    blob 0 2.85 0 0.32 0.12 0.12 7A5030
+
+shape RIVER_BALSA
+    home BRAZIL:AMAZONAS, BRAZIL:PARA, BRAZIL:AMAPA, BRAZIL:RONDONIA, BRAZIL:TOCANTINS, PERU:AMAZONAS, BOLIVIA, PARAGUAY, ARGENTINA:CORRIENTES | 0.003 30 110 | water
+    # A river ferry: a flat steel barge carrying two trucks, pushed by a small white tug with a tall wheelhouse.
+    box 0 0.2 0 3 0.5 9 6A6A6A
+    box 3 0.9 0 0.04 0.2 9 F2C21E
+    box -3 0.9 0 0.04 0.2 9 F2C21E
+    box 0 1.6 -3.5 1.1 0.9 2.5 C8C8C0
+    box 0 1.5 3.5 1.1 0.8 2.0 C82A2A
+    box 0 1.8 5.9 1.0 0.5 0.5 C82A2A
+    box 0 0.8 -10.5 1.8 0.9 1.5 F2F2EE
+    box 0 2.3 -10.5 1.2 0.6 1.0 F2F2EE
+    box 0 2.4 -9.49 1.0 0.25 0.01 2A3A4A glass
+
+shape FILETEADO_BUS
+    home ARGENTINA:BUENOS AIRES CITY, ARGENTINA:BUENOS AIRES, ARGENTINA:CORDOBA, ARGENTINA:SANTA FE | 0.004 3 20 | town
+    # A city bus painted the old way: cream above, red below, gold scrolls and coloured pinstripes along its flanks.
+    box 0 1.5 0 1.25 1.1 5.5 E8E0C8
+    box 0 0.8 0 1.26 0.35 5.5 C82A2A
+    box 1.26 1.2 0 0.01 0.06 5.4 F2C21E
+    box 1.26 0.55 0 0.01 0.05 5.4 2A8A4A
+    box 1.26 1.9 -0.3 0.01 0.4 4.8 2A3A4A glass
+    box 0 1.9 5.51 1.1 0.5 0.01 2A3A4A glass
+    box 0 2.5 5.52 0.8 0.12 0.01 1E1E1E
+    hoop 1.27 0.8 -3 0.25 0.04 10 F2C21E
+    hoop 1.27 0.8 3 0.25 0.04 10 F2C21E
+    hoop 1.27 0.8 0 0.18 0.03 10 2A6AC8
+    mirrorx
+    tube 1.0 0.45 3.8 1.27 0.45 3.8 0.45 10 1E1E1E
+    mirrorx
+    tube 1.0 0.45 -3.4 1.27 0.45 -3.4 0.45 10 1E1E1E
+
+shape PAMPAS_GENERAL_STORE
+    home ARGENTINA:BUENOS AIRES, ARGENTINA:LA PAMPA, ARGENTINA:CORDOBA, ARGENTINA:SANTA FE, ARGENTINA:ENTRE RIOS, ARGENTINA:SAN LUIS, URUGUAY | 0.004 6 40 | country
+    # An old country store on the pampas: whitewashed brick with a parapet, a faded sign, iron bars at the window, a hitching rail.
+    box 0 2 0 3.5 2 4.5 E8DCC0
+    box 0 4.25 0 3.6 0.25 4.6 E8DCC0
+    box 3.52 3.4 0 0.02 0.4 3 B8503A
+    box 3.52 1.2 2.5 0.02 1.2 0.6 3A5A3A
+    box 3.52 1.5 -2 0.02 0.6 0.6 2A3A4A
+    repeat 5 0 0 0.25
+    tube 3.56 0.9 -2.5 3.56 2.1 -2.5 0.02 3 2A2A2A
+    tube 5.5 0.9 -3 5.5 0.9 1 0.05 4 7A6A58
+    tube 5.5 0 -3 5.5 0.9 -3 0.06 4 7A6A58
+    tube 5.5 0 1 5.5 0.9 1 0.06 4 7A6A58
+    box 4.2 0.45 -0.5 0.2 0.04 1 8A6A48
+
+shape OMBU_TREE
+    home ARGENTINA:BUENOS AIRES, ARGENTINA:LA PAMPA, ARGENTINA:ENTRE RIOS, ARGENTINA:SANTA FE, ARGENTINA:CORDOBA, URUGUAY | 0.004 8 70 | country
+    # A lone ombu on the pampa: a huge swollen trunk spreading into roots like a stone bench, a dense dark dome of leaves.
+    blob 0 0.3 0 3 0.6 3 7A6A58 0.4
+    tbox 0 0 0 2 2 0 2.2 0 1 1 7A6A58
+    tube 0 2 0 0 4 0 0.9 6 7A6A58
+    tube 0 3.5 0 3 5.5 1 0.4 5 7A6A58
+    tube 0 3.5 0 -3 5.8 -1 0.4 5 7A6A58
+    blob 0 6.5 0 6 3 6 2E5A2A 0.3
+
+shape GAUCHO_RIDER
+    home ARGENTINA:BUENOS AIRES, ARGENTINA:LA PAMPA, ARGENTINA:CORRIENTES, ARGENTINA:ENTRE RIOS, ARGENTINA:SALTA, URUGUAY, BRAZIL:RIO GRANDE DO SUL | 0.002 4 30 | country
+    # A gaucho on a criollo horse: beret, a red and black poncho over his shoulders, wide trousers and boots, the reins in one hand.
+    blob 0 1.35 0 0.32 0.42 0.9 C8C0B0
+    mirror
+    mirrorx
+    tube 0.18 1.1 0.6 0.18 0 0.6 0.07 4 C8C0B0
+    tube 0 1.6 0.7 0 2.2 1.05 0.14 5 C8C0B0
+    blob 0 2.15 1.3 0.13 0.15 0.32 C8C0B0
+    tube 0 1.5 -0.85 0 0.8 -1.0 0.06 3 3A2A1E
+    blob 0.25 1.0 0 0.08 0.25 0.08 4A2A1E
+    blob -0.25 1.0 0 0.08 0.25 0.08 4A2A1E
+    mirrorx
+    tube 0.2 1.75 0 0.34 1.15 0.1 0.09 4 3A3A3A
+    tbox 0 1.8 0 0.4 0.25 0 2.45 0 0.2 0.15 B82A22
+    box 0 2.2 0.18 0.25 0.25 0.05 1E1E1E
+    blob 0 2.7 0.02 0.11 0.13 0.11 C8906A
+    cyl 0 2.78 0 0.15 0.15 0.06 10 1E1E1E
+
+shape YERBA_MATE_ROWS
+    home ARGENTINA:MISIONES, ARGENTINA:CORRIENTES, PARAGUAY, BRAZIL:PARANA, BRAZIL:SANTA CATARINA, BRAZIL:RIO GRANDE DO SUL | 0.008 6 60 | country
+    # A yerba mate plantation: rows of round pruned shrubs on the deep red earth of the north-east.
+    box -4 0.02 0 6 0.02 8 9A3A1E
+    repeat 7 0 0 2.2
+    blob 0 0.9 -6.6 0.9 0.9 0.9 3A6A2A 0.4
+    repeat 7 0 0 2.2
+    blob -3 0.9 -6.6 0.9 0.9 0.9 3A6A2A 0.4
+    repeat 7 0 0 2.2
+    blob -6 0.9 -6.6 0.9 0.9 0.9 3A6A2A 0.4
+
+shape MAGELLANIC_PENGUINS
+    home ARGENTINA:CHUBUT, ARGENTINA:SANTA CRUZ, ARGENTINA:TIERRA DEL FUEGO, CHILE:MAGALLANES, CHILE:LOS LAGOS | 0.006 4 30 | coast
+    # Magellanic penguins at their burrows under the scrub: black backs, white fronts with a black band, stubby wings.
+    repeat 4 0.7 0 1.1
+    blob -1 0.35 -2 0.15 0.3 0.15 1E1E1E
+    repeat 4 0.7 0 1.1
+    blob -0.9 0.33 -2 0.08 0.25 0.12 F2F2F2
+    repeat 4 0.7 0 1.1
+    blob -0.86 0.4 -2 0.05 0.03 0.12 1E1E1E
+    repeat 4 0.7 0 1.1
+    blob -1 0.68 -2 0.1 0.1 0.1 1E1E1E
+    repeat 4 0.7 0 1.1
+    tube -0.92 0.68 -2 -0.82 0.66 -2 0.02 3 3A3A3A
+    blob -2.5 0.4 0 1.2 0.5 1.4 6A6A48 0.5
+    blob -2 0.35 3.5 1 0.45 1.2 6A6A48 0.5
+    blob -1.8 0.1 1.8 0.3 0.15 0.3 3A2E26
+
+shape ANDEAN_CONDOR
+    home PERU:CUSCO, PERU:AREQUIPA, PERU:PUNO, BOLIVIA, CHILE, ARGENTINA:MENDOZA, ARGENTINA:NEUQUEN, ARGENTINA:SALTA, ARGENTINA:JUJUY, ECUADOR:COTOPAXI, COLOMBIA:NARINO | 0.003 8 60 | country
+    # Andean condors: one perched on a crag with its white ruff, another soaring high above the valley on wide wings.
+    blob 0 1.5 0 2 1.5 2 7A7068 0.5
+    blob 0 3.4 0 0.35 0.45 0.3 1E1E1E
+    halo 0 3.85 0 0.16 0.07 8 F2F2F2
+    blob 0 4.05 0.1 0.1 0.12 0.12 C88A7A
+    blob 0.25 3.4 0.1 0.08 0.3 0.25 3A3A3A
+    blob -0.25 3.4 0.1 0.08 0.3 0.25 3A3A3A
+    blob 2 22 5 0.25 0.15 0.6 1E1E1E
+    quad 2.2 22 4.6 5.3 22.3 4.3 5.3 22.3 5.0 2.2 22 5.3 1E1E1E
+    quad 1.8 22 4.6 -1.3 22.3 4.3 -1.3 22.3 5.0 1.8 22 5.3 1E1E1E
+    quad 2.2 22 5.3 5.3 22.3 5.0 5.3 22.3 4.3 2.2 22 4.6 1E1E1E
+    quad 1.8 22 5.3 -1.3 22.3 5.0 -1.3 22.3 4.3 1.8 22 4.6 1E1E1E
+
+shape PALO_BORRACHO
+    home ARGENTINA:SALTA, ARGENTINA:TUCUMAN, ARGENTINA:CHACO, ARGENTINA:FORMOSA, ARGENTINA:SANTIAGO DEL ESTERO, ARGENTINA:CORDOBA, ARGENTINA:BUENOS AIRES CITY, PARAGUAY:BOQUERON, PARAGUAY, BOLIVIA | 0.004 6 50 | country
+    # A silk floss tree: a bottle-bellied green trunk studded with thorns, its crown a cloud of pink flowers.
+    blob 0 2 0 0.9 2 0.9 6A8A5A
+    repeat 6 0 0.5 0
+    spire 0.85 0.8 0 0.06 0.15 3 4A5A3A
+    tube 0 3.5 0 0 5 0 0.35 6 6A8A5A
+    tube 0 4.5 0 1.6 6 0.4 0.15 4 6A8A5A
+    tube 0 4.5 0 -1.4 6.2 -0.5 0.15 4 6A8A5A
+    blob 0 6.3 0 2.6 1.4 2.6 E88AB8 0.4
+
+shape NITRATE_WORKS_RUIN
+    home CHILE:ANTOFAGASTA | 0.004 10 80 | country
+    # An abandoned saltpetre works in the desert: a tall rusty chimney, roofless walls, rusting tanks lying in the sand.
+    cyl 0 0 0 0.9 0.6 22 8 6A3A22
+    box -6 2 0 0.3 2 8 B8A890
+    box -10 2 0 0.3 2 8 B8A890
+    box -8 2 8 2 2 0.3 B8A890
+    box -8 1.2 -8 2 1.2 0.3 B8A890
+    tube 4 1.5 -5 4 1.5 1 1.4 10 8A4A2A
+    tube 6 1 4 6 1 7 1 10 7A3A22
+    box 2 0.2 6 3 0.2 0.3 6A3A22
+
+shape CALETA_BOATS
+    home CHILE, PERU:LIMA, PERU:ICA, ECUADOR, URUGUAY | 0.006 6 40 | coast
+    # A fishermen's cove: wooden boats in bright colours pulled up on the sand, nets heaped beside them.
+    tbox 0 0 -6 2.2 0.4 0 0.8 -6 2.8 0.9 2A6AC8
+    box 0 0.7 -6 2.8 0.06 0.91 F2F2F2
+    tbox 0 0 -2 2.2 0.4 0 0.8 -2 2.8 0.9 E8502A
+    box 0 0.7 -2 2.8 0.06 0.91 2A3A6A
+    tbox 0 0 2 2.2 0.4 0 0.8 2 2.8 0.9 F2C21E
+    box 0 0.7 2 2.8 0.06 0.91 2A8A4A
+    tbox 0 0 6 2.2 0.4 0 0.8 6 2.8 0.9 2A9A6A
+    box 0 0.7 6 2.8 0.06 0.91 C82A2A
+    blob 4 0.3 0 0.8 0.3 1 3A6A5A 0.6
+    blob 4 0.25 4 0.7 0.25 0.8 C85A2A 0.6
+
+shape MOTOTAXI
+    home PERU, BOLIVIA, ECUADOR, COLOMBIA | 0.006 2 15 | town
+    # A motorcycle taxi: a motorbike front married to a covered bench for two, a coloured canopy and flapping side curtains.
+    hoop 0 0.3 1.2 0.3 0.04 10 2A2A2A
+    tube 0 0.3 1.2 0 1.0 0.9 0.04 4 3A3A3A
+    tube -0.35 1.05 0.9 0.35 1.05 0.9 0.03 3 3A3A3A
+    box 0 0.65 0.5 0.18 0.2 0.45 C82A2A
+    mirrorx
+    hoop 0.62 0.3 -0.5 0.3 0.04 10 2A2A2A
+    box 0 0.75 -0.45 0.6 0.15 0.45 C82A2A
+    box 0 1.05 -0.85 0.6 0.25 0.06 3A3A3A
+    mirrorx
+    tube 0.6 0.9 -0.05 0.6 1.85 -0.05 0.02 3 E8E8E8
+    quad -0.7 1.85 -1.0 0.7 1.85 -1.0 0.7 1.9 0.15 -0.7 1.9 0.15 2A6AC8
+    blob 0 1.15 0.35 0.18 0.25 0.15 6A5040
+    blob 0 1.5 0.35 0.1 0.12 0.1 8A6A48
+
+shape QUINOA_FIELD
+    home BOLIVIA, PERU:PUNO, PERU:CUSCO, PERU:AREQUIPA, ECUADOR:COTOPAXI, CHILE:ANTOFAGASTA | 0.008 6 60 | country
+    # A quinoa field on the high plain: rows of plants whose seed heads glow red, orange, yellow and purple.
+    repeat 8 0 0 0.9
+    box -3 0.4 -3.6 3.5 0.4 0.15 5A7A3A
+    repeat 2 0 0 0.9
+    blob -3 0.95 -3.6 3.4 0.2 0.3 C83A2A 0.5
+    repeat 2 0 0 0.9
+    blob -3 0.95 -1.8 3.4 0.2 0.3 E8802A 0.5
+    repeat 2 0 0 0.9
+    blob -3 0.95 0 3.4 0.2 0.3 E8C02A 0.5
+    repeat 2 0 0 0.9
+    blob -3 0.95 1.8 3.4 0.2 0.3 8A2A6A 0.5
+
+shape ALTIPLANO_MARKET_STALL
+    home BOLIVIA, PERU:PUNO, PERU:CUSCO | 0.006 2 15 | town
+    # A market woman's pitch: striped cloths on the ground with heaps of potatoes, a big umbrella, the seller in a bowler hat and wide skirts.
+    box 0 0.02 0 1.2 0.02 1.6 C83A6A
+    repeat 4 0 0 0.8
+    box 0 0.03 -1.2 1.2 0.01 0.1 F2C21E
+    blob 0.3 0.15 -0.8 0.4 0.15 0.4 8A6A48 0.6
+    blob 0.3 0.15 0.6 0.4 0.15 0.4 E8E0D0 0.6
+    tube -0.6 0 0 -0.6 2.2 0 0.03 4 E8E8E8
+    spire -0.6 1.9 0 1.6 0.4 8 2A6AC8
+    tbox -1 0 0 0.55 0.55 -1 0.8 0 0.3 0.3 8A2A6A
+    box -1 1.1 0 0.22 0.3 0.18 2A6A4A
+    blob -1 1.55 0 0.1 0.12 0.1 8A6048
+    cyl -1 1.62 0 0.11 0.1 0.18 8 3A3A3A
+    cyl -1 1.62 0 0.18 0.18 0.02 10 3A3A3A
+
+shape VICUNAS
+    home PERU:PUNO, PERU:AREQUIPA, PERU:CUSCO, BOLIVIA, CHILE:ANTOFAGASTA, ARGENTINA:JUJUY, ARGENTINA:SALTA, ARGENTINA:CATAMARCA | 0.006 8 60 | country
+    # Wild vicunas on the puna: slender and long-necked, golden tan with pale bellies, grazing the tussock grass.
+    repeat 3 1.2 0 1.6
+    blob -1 1.0 -2 0.18 0.22 0.45 C8925A
+    repeat 3 1.2 0 1.6
+    blob -1 0.9 -2 0.17 0.12 0.4 F2EEE2
+    repeat 3 1.2 0 1.6
+    tube -1 1.1 -1.65 -1 1.65 -1.5 0.07 5 C8925A
+    repeat 3 1.2 0 1.6
+    blob -1 1.68 -1.4 0.07 0.08 0.15 C8925A
+    repeat 3 1.2 0 1.6
+    tube -0.92 0.85 -1.7 -0.92 0 -1.7 0.035 4 C8925A
+    repeat 3 1.2 0 1.6
+    tube -1.08 0.85 -1.7 -1.08 0 -1.7 0.035 4 C8925A
+    repeat 3 1.2 0 1.6
+    tube -0.92 0.85 -2.3 -0.92 0 -2.3 0.035 4 C8925A
+    repeat 3 1.2 0 1.6
+    tube -1.08 0.85 -2.3 -1.08 0 -2.3 0.035 4 C8925A
+
+shape CHULLPA_TOWERS
+    home PERU:PUNO, BOLIVIA | 0.003 10 70 | country
+    # Ancient burial towers on a lakeside hill: round stone chullpas that widen toward the top, one of them half fallen.
+    cyl 0 0 0 1.3 1.6 6 12 9A8A78
+    cyl 0 6 0 1.65 1.65 0.25 12 8A7A68
+    cyl -4 0 3 1.0 1.2 4 10 8A7A68
+    cyl -4 4 3 1.25 1.25 0.2 10 7A6A58
+    cyl 3 0 -3 1.1 1.2 2.5 10 8A7A68
+    blob 3 2.5 -3 1.1 0.5 1.1 8A7A68 0.6
+    blob 4 0.3 -1 1 0.3 1 8A7A68 0.6
+
+shape REED_ISLAND
+    home PERU:PUNO, BOLIVIA:LA PAZ | 0.003 30 110 | water
+    # A floating island of reeds on the high lake: golden reed huts, a little lookout and a reed boat moored at its edge.
+    cyl 0 -0.1 0 6 6 0.4 14 C8B060
+    box 0 1.2 -2 1.2 1 1.5 C8B060
+    gable 0 2.2 -2 1.3 1.6 0.8 0.1 B8A050 C8B060
+    box 1.5 1 2.5 1 0.8 1.2 D8C070
+    gable 1.5 1.8 2.5 1.1 1.3 0.7 0.1 B8A050 D8C070
+    cyl -3 0 2 0.6 0.4 3.5 8 C8B060
+    spire -3 3.5 2 0.7 1 8 B8A050
+    tube 6.5 0.4 -1.5 6.5 0.4 2.5 0.45 8 C8B060
+    blob 6.5 0.9 2.8 0.3 0.6 0.3 C8B060
+
+shape MARINE_IGUANAS
+    home ECUADOR:GALAPAGOS | 0.01 4 30 | coast
+    # Marine iguanas piled on black lava by the surf: dark crested lizards warming up, a red crab scuttling past.
+    blob 0 0.3 0 3 0.6 3 2A2826 0.5
+    repeat 5 0.4 0.05 0.8
+    blob -1 0.75 -1.6 0.12 0.1 0.4 6A5A50
+    repeat 5 0.4 0.05 0.8
+    blob -1 0.8 -1.15 0.08 0.08 0.12 7A6A58
+    repeat 5 0.4 0.05 0.8
+    tube -1 0.72 -2 -0.8 0.6 -2.6 0.05 4 6A5A50
+    blob 1.5 0.65 1 0.12 0.05 0.1 E8402A
+    blob 1.8 0.6 -1.5 0.12 0.05 0.1 E8402A
+
+shape BLUE_FOOTED_BOOBIES
+    home ECUADOR:GALAPAGOS, PERU:LIMA, PERU:ICA | 0.006 4 30 | coast
+    # Blue-footed boobies on the rocks: brown and white seabirds lifting their bright blue feet in their courtship dance.
+    blob 0 0.3 0 2.5 0.5 2.5 7A7068 0.5
+    repeat 3 0.4 0 1.2
+    blob -0.5 1.0 -1.2 0.15 0.25 0.15 F2EEE0
+    repeat 3 0.4 0 1.2
+    blob -0.6 1.05 -1.2 0.13 0.2 0.16 8A6A4A
+    repeat 3 0.4 0 1.2
+    blob -0.48 1.35 -1.2 0.08 0.09 0.08 E8E0D0
+    repeat 3 0.4 0 1.2
+    tube -0.44 1.35 -1.2 -0.25 1.3 -1.2 0.03 3 7A8A9A
+    repeat 3 0.4 0 1.2
+    blob -0.42 0.8 -1.1 0.09 0.03 0.07 3AA8E8
+    repeat 3 0.4 0 1.2
+    blob -0.42 0.8 -1.3 0.09 0.03 0.07 3AA8E8
+
+shape BANANA_PLANTATION
+    home ECUADOR, COLOMBIA, COSTA RICA, PANAMA, HONDURAS, GUATEMALA, NICARAGUA, BELIZE, DOMINICAN REPUBLIC, JAMAICA, PHILIPPINES | 0.008 6 60 | country
+    # A banana plantation: rows of big-leafed plants, each fruit bunch wrapped in a blue plastic bag, a cable line to carry them out.
+    repeat 5 0 0 3
+    tube 0 0 -6 0 3 -6 0.15 5 6A8A4A
+    repeat 5 0 0 3
+    fronds 0 3 -6 7 2.4 0.5 4A8A3A
+    repeat 5 0 0 3
+    blob 0.35 2.2 -6 0.15 0.35 0.15 3A6AC8
+    repeat 5 0 0 3
+    tube -3 0 -4.5 -3 3.2 -4.5 0.15 5 6A8A4A
+    repeat 5 0 0 3
+    fronds -3 3.2 -4.5 7 2.4 0.5 4E903E
+    repeat 5 0 0 3
+    blob -2.65 2.3 -4.5 0.15 0.35 0.15 3A6AC8
+    tube -1.5 2.2 -7 -1.5 2.2 8 0.02 3 6A6A6A
+    repeat 6 0 0 3
+    tube -1.5 0 -7 -1.5 2.3 -7 0.05 4 6A6A6A
+
+shape ZOCALO_PAINTED_HOUSE
+    home COLOMBIA:ANTIOQUIA, COLOMBIA:QUINDIO, COLOMBIA:BOLIVAR | 0.008 3 25 | town pastel
+    # A painted colonial house of the coffee towns: bright walls, carved wooden balcony, and a row of colourful relief panels along the base.
+    box 0 3 0 3 3 4 A
+    repeat 4 0 0 2
+    box 3.02 0.6 -3 0.02 0.5 0.8 F2C21E
+    repeat 4 0 0 2
+    box 3.03 0.6 -3 0.01 0.35 0.6 2A8AC8
+    repeat 4 0 0 2
+    blob 3.04 0.6 -3 0.01 0.2 0.3 C82A2A
+    box 3.6 3.8 0 0.6 0.08 3 6A3A22
+    box 4.15 4.3 0 0.04 0.45 3 6A3A22
+    repeat 3 0 0 2.4
+    box 3.02 4.6 -2.4 0.02 0.9 0.5 6A3A22
+    box 3.02 1.6 1.8 0.02 1.4 0.6 6A3A22
+    box 3.02 1.8 -1.5 0.02 0.7 0.5 2A3A4A
+    gable 0 6 0 3.2 4.2 1.2 0.5 B8603A A
+
+shape PAINTED_SCHOOL_BUS
+    home GUATEMALA, HONDURAS, EL SALVADOR, NICARAGUA, PANAMA | 0.006 3 25 | town
+    # A painted bus of the highlands: an old school bus in dazzling stripes, chrome on the nose, bags and bundles lashed on the roof rack.
+    box 0 1.7 0 1.2 1.2 5 2A6AC8
+    box 0 1.3 6 1.15 0.6 1 2A6AC8
+    box 1.21 1.1 0 0.01 0.15 5 F2C21E
+    box 1.21 0.8 0 0.01 0.1 5 C82A2A
+    box 1.21 2.85 0 0.01 0.06 5 2A9A4A
+    box 1.21 2.3 -0.3 0.01 0.4 4.4 2A3A4A glass
+    box 0 2.35 5.01 1.1 0.4 0.01 2A3A4A glass
+    box 0 1.2 7.01 1.0 0.3 0.01 D8D8D8 shiny
+    box 0 3.0 -1 1.0 0.05 3.5 3A3A3A
+    blob 0.4 3.3 -2 0.4 0.3 0.6 C83A2A 0.4
+    blob -0.4 3.3 0 0.45 0.3 0.7 3A6A3A 0.4
+    blob 0.2 3.25 1.5 0.35 0.25 0.5 E8C02A 0.4
+    mirrorx
+    tube 1.0 0.5 5.6 1.25 0.5 5.6 0.5 10 1E1E1E
+    mirrorx
+    tube 1.0 0.5 -3.0 1.25 0.5 -3.0 0.5 10 1E1E1E
+
+shape COFFEE_DRYING_PATIO
+    home GUATEMALA, HONDURAS, EL SALVADOR, NICARAGUA, COSTA RICA, COLOMBIA, BRAZIL:MINAS GERAIS, ETHIOPIA, KENYA, RWANDA | 0.006 4 40 | country
+    # A coffee drying patio: red cherries and brown beans spread in raked ridges on the concrete, a tin-roofed shed beside it.
+    box 0 0.05 0 4 0.05 6 C8C0B0
+    box 0 0.11 -3 3.6 0.01 2.6 8A2A1E
+    box 0 0.11 3 3.6 0.01 2.6 6A4A2A
+    repeat 6 0 0 0.8
+    box 0 0.14 1 3.6 0.03 0.08 5A3A1A
+    box -6 1.5 0 1.5 1.5 4 C8B8A0
+    quad -7.6 3.2 -4.2 -7.6 3.2 4.2 -4.3 2.8 4.2 -4.3 2.8 -4.2 9AA0A8
+    tube 1 0 4.5 1 1.6 4.5 0.03 3 8A6A48
+
+shape HOWLER_MONKEYS
+    home BELIZE, GUATEMALA, HONDURAS, NICARAGUA, COSTA RICA, PANAMA, MEXICO:YUCATAN, MEXICO:QUINTANA ROO, MEXICO:CHIAPAS, BRAZIL:AMAZONAS, BRAZIL:PARA, BOLIVIA, PARAGUAY, ARGENTINA:MISIONES, COLOMBIA, VENEZUELA | 0.004 4 30 | country
+    # Howler monkeys in a big tree by the road: dark shaggy shapes sprawled along the branches, tails curled round them.
+    tube 0 0 0 0 6 0 0.4 6 6A5A48
+    tube 0 5 0 2.5 6.5 1 0.18 5 6A5A48
+    tube 0 5 0 -2 6.8 -1.5 0.18 5 6A5A48
+    tube 0 5.5 0 0.5 7 -2.5 0.18 5 6A5A48
+    tube 0 6 0 0 8 0 0.3 6 6A5A48
+    blob 0 9.5 0 3.5 2 3.5 3A6A2A 0.3
+    blob 2 6.5 0.8 0.25 0.3 0.2 2A1E18
+    blob 2.1 6.85 0.85 0.12 0.12 0.12 2A1E18
+    tube 2 6.3 0.8 2.1 5.6 0.6 0.04 3 2A1E18
+    blob -1.6 6.8 -1.2 0.25 0.3 0.2 2A1E18
+    blob -1.7 7.15 -1.25 0.12 0.12 0.12 2A1E18
+    tube -1.6 6.6 -1.2 -1.5 5.9 -1.4 0.04 3 2A1E18
+    blob 0.4 6.9 -2.2 0.22 0.25 0.2 3A2A1E
+
+shape CEIBA_TREE
+    home GUATEMALA, BELIZE, HONDURAS, MEXICO:YUCATAN, MEXICO:QUINTANA ROO, MEXICO:CHIAPAS, MEXICO:TABASCO, MEXICO:CAMPECHE, EL SALVADOR, NICARAGUA, COSTA RICA, PANAMA | 0.003 10 80 | country
+    # A ceiba: a giant straight grey trunk on flaring buttress roots, its branches spread level high above in a flat crown.
+    cyl 0 0 0 1.2 0.9 18 8 9A9488
+    ring 6 0 0
+    tri 0.9 0 0 3.2 0 0 0.9 4.5 0 9A9488
+    ring 6 0 0
+    tri 0.9 0 0 0.9 4.5 0 3.2 0 0 9A9488
+    ring 6 0 15
+    tube 0 16 0 6 18 0 0.25 5 9A9488
+    blob 0 19 0 9 2 9 3A6A2A 0.3
+
+shape ZIPLINE_PLATFORM
+    home COSTA RICA, BELIZE, HONDURAS, PANAMA, NICARAGUA, GUATEMALA, MEXICO:QUINTANA ROO | 0.002 6 40 | country
+    # A canopy tour: a wooden platform built round a tall tree, a steel cable running off through the forest, a rider sliding along it.
+    tube 0 0 0 0 16 0 0.5 6 6A5040
+    blob 0 18 0 4 3 4 3A6A2A 0.3
+    cyl 0 10 0 1.6 1.6 0.2 8 8A6A48
+    halo 0 11 0 1.6 0.04 8 8A6A48
+    tube 1.3 0 0.6 1.3 10 0.6 0.04 3 8A6A48
+    tube 1.6 0 0.6 1.6 10 0.6 0.04 3 8A6A48
+    tube 0 11.8 0 -2 11.8 25 0.02 3 3A3A3A
+    tube -0.8 11.85 10 -0.8 11 10 0.015 3 3A3A3A
+    blob -0.8 10.6 10 0.2 0.35 0.2 E8502A
+    blob -0.8 11.05 10 0.1 0.1 0.1 F2C21E
+
+shape PUPUSA_STAND
+    home EL SALVADOR, HONDURAS, GUATEMALA | 0.006 2 15 | town
+    # A pupusa stand: a tin roof on poles, a round griddle smoking on the counter, plastic tables and chairs in front.
+    mirror
+    mirrorx
+    tube 1.4 0 2 1.4 2.4 2 0.05 4 8A8A8A
+    quad -1.6 2.6 -2.2 -1.6 2.6 2.2 1.6 2.3 2.2 1.6 2.3 -2.2 9AA0A8
+    box 0.8 0.5 0 0.4 0.5 1.5 C8B8A0
+    cyl 0.8 1.0 -0.6 0.5 0.5 0.05 12 2A2A2A
+    repeat 3 0 0 0.3
+    blob 0.8 1.08 -0.9 0.1 0.03 0.1 F2E8D0
+    box -0.6 0.5 0.5 0.3 0.5 0.3 F2F2F2
+    box 3 0.7 0 0.5 0.03 0.5 F2F2F2
+    box 3 0.35 0 0.06 0.35 0.06 F2F2F2
+    box 3.7 0.4 0 0.2 0.4 0.2 C82A2A
+    box 2.3 0.4 0 0.2 0.4 0.2 C82A2A
+
+shape SUGAR_MILL_RUIN
+    home ANTIGUA AND BARBUDA, SAINT KITTS AND NEVIS, BARBADOS, JAMAICA, SAINT LUCIA, SAINT VINCENT, GRENADA, DOMINICA, TRINIDAD AND TOBAGO, CUBA | 0.004 10 70 | country
+    # The ruin of a sugar windmill: a round tapering stone tower without its sails, an arched door, bushes growing from its top.
+    cyl 0 0 0 3 2.4 8 12 9A8A70
+    box 2.8 1.2 0 0.4 1.2 0.6 2A2018
+    box 2.5 5 0 0.2 0.5 0.3 2A2018
+    blob 0 8.3 0 1.8 0.8 1.8 4A7A3A 0.5
+    blob 4 0.3 3 1 0.3 0.8 9A8A70 0.6
+    blob -3 0.4 -3 1.2 0.4 1 9A8A70 0.6
+
+shape DOMINO_TABLE
+    home CUBA, DOMINICAN REPUBLIC, JAMAICA, BARBADOS, TRINIDAD AND TOBAGO, BAHAMAS | 0.006 2 20 | town
+    # A game of dominoes under a shade tree: a little table, the tiles slapped down in a line, players on stools around it.
+    box 0 0.75 0 0.45 0.03 0.45 6A8AC8
+    mirror
+    mirrorx
+    tube 0.38 0 0.38 0.38 0.75 0.38 0.03 3 3A3A3A
+    repeat 6 0 0 0.12
+    box 0 0.8 -0.3 0.04 0.02 0.05 F2F2F2
+    cyl 0.9 0 0 0.2 0.2 0.45 8 C82A2A
+    cyl -0.9 0 0 0.2 0.2 0.45 8 2A6AC8
+    blob 0.9 0.8 0 0.18 0.3 0.15 F2F2F2
+    blob 0.9 1.25 0 0.1 0.12 0.1 6A4A30
+    blob -0.9 0.8 0 0.18 0.3 0.15 E8C02A
+    blob -0.9 1.25 0 0.1 0.12 0.1 8A6048
+    tube -2 0 1 -2 3 1 0.25 6 6A5A48
+    blob -1.5 4.5 0.5 3 1.5 3 4A7A3A 0.4
+
+shape COCO_TAXI
+    home CUBA | 0.004 2 15 | town
+    # A coconut taxi: a three-wheeled scooter under a round yellow shell like half a coconut, open at the side.
+    blob 0 1.0 -0.2 0.8 0.85 0.95 F2C21E
+    blob 0.55 0.9 -0.2 0.3 0.45 0.55 2A2A2A
+    box 0 0.6 0.9 0.3 0.25 0.35 F2C21E
+    hoop 0 0.28 1.2 0.28 0.04 10 2A2A2A
+    mirrorx
+    hoop 0.75 0.28 -0.6 0.28 0.04 10 2A2A2A
+
+shape PALM_TOBACCO_BARN
+    home CUBA, DOMINICAN REPUBLIC | 0.006 6 50 | country
+    # A tobacco drying barn: a tall steep roof of palm thatch nearly reaching the ground, a royal palm standing beside it.
+    box 0 1.5 0 3 1.5 6 8A6A48
+    gable 0 3 0 3 6 3.5 0.6 9A8A60 8A6A48
+    box 3.02 1.2 0 0.02 1.2 0.8 4A3A2A
+    tube 5 0 4 5 12 4 0.3 8 B8B8B0
+    cyl 5 12 4 0.3 0.28 1.6 8 5A8A3A
+    fronds 5 13.6 4 10 2.5 0.5 4A8A3A
+
+shape ROYAL_PALMS
+    home CUBA, DOMINICAN REPUBLIC, HAITI, JAMAICA, BAHAMAS, BRAZIL:RIO DE JANEIRO | 0.006 6 60 | country
+    # Royal palms: smooth pale grey trunks bulging a little, a glossy green crownshaft and a crown of arching fronds.
+    repeat 3 0 0 5
+    tube 0 0 -5 0 13 -5 0.35 8 B8B8B0
+    repeat 3 0 0 5
+    blob 0 2.5 -5 0.45 1.2 0.45 B8B8B0
+    repeat 3 0 0 5
+    cyl 0 13 -5 0.3 0.3 2 8 5A8A3A
+    repeat 3 0 0 5
+    fronds 0 15 -5 12 3 0.5 4A8A3A
+
+shape JHANDI_FLAGS
+    home TRINIDAD AND TOBAGO, GUYANA, SURINAME | 0.006 3 30 | country
+    # Prayer flags in a Hindu yard: tall bamboo poles each flying a triangular flag of red, yellow, white, pink or orange.
+    repeat 6 0 0 1.2
+    tube 0 0 -3 0 6 -3 0.05 3 C8B070
+    tri 0 6 -3 0 5 -3 0 5.5 -2.2 C82A2A
+    tri 0 6 -1.8 0 5 -1.8 0 5.5 -1.0 F2C21E
+    tri 0 6 -0.6 0 5 -0.6 0 5.5 0.2 F2F2F2
+    tri 0 6 0.6 0 5 0.6 0 5.5 1.4 E87AB8
+    tri 0 6 1.8 0 5 1.8 0 5.5 2.6 F2902A
+    tri 0 6 3 0 5 3 0 5.5 3.8 C82A2A
+    tri 0 6 -3 0 5.5 -2.2 0 5 -3 C82A2A
+    tri 0 6 -1.8 0 5.5 -1.0 0 5 -1.8 F2C21E
+    tri 0 6 -0.6 0 5.5 0.2 0 5 -0.6 F2F2F2
+    tri 0 6 0.6 0 5.5 1.4 0 5 0.6 E87AB8
+    tri 0 6 1.8 0 5.5 2.6 0 5 1.8 F2902A
+    tri 0 6 3 0 5.5 3.8 0 5 3 C82A2A
+
+shape BURITI_PALMS
+    home BRAZIL:GOIAS, BRAZIL:TOCANTINS, BRAZIL:MINAS GERAIS, BRAZIL:BAHIA, BRAZIL:MARANHAO, BRAZIL:MATO GROSSO, BRAZIL:FEDERAL DISTRICT, VENEZUELA, GUYANA | 0.006 8 60 | country
+    # A line of buriti palms along a marshy stream in the savanna: tall straight trunks, big round fan crowns, hanging fruit.
+    box 0 0.02 0 2 0.02 8 3A5A4A water
+    tube -1 0 -6 -1 14 -6 0.3 6 8A7A60
+    fronds -1 14 -6 14 3.5 0.3 4A7A3A
+    blob -1 13.2 -6 0.4 0.6 0.4 8A4A2A
+    tube 1 0 -1 1 12 -1 0.3 6 8A7A60
+    fronds 1 12 -1 14 3.5 0.3 4A7A3A
+    blob 1 11.2 -1 0.4 0.6 0.4 8A4A2A
+    tube -0.5 0 4 -0.5 15 4 0.3 6 8A7A60
+    fronds -0.5 15 4 14 3.5 0.3 4A7A3A
+
+shape LAMB_ON_THE_CROSS
+    home ARGENTINA:SANTA CRUZ, ARGENTINA:CHUBUT, ARGENTINA:TIERRA DEL FUEGO, ARGENTINA:NEUQUEN, ARGENTINA:RIO NEGRO, CHILE:MAGALLANES, CHILE:AYSEN, URUGUAY | 0.004 4 30 | country
+    # A Patagonian roast: lambs spread on iron crosses leaning in around a fire pit, log seats waiting for the guests.
+    halo 0 0.1 0 0.8 0.1 10 6A6A68
+    blob 0 0.1 0 0.6 0.1 0.6 E8501E glow
+    ring 3 0
+    tube 1.5 0 0 1.0 2 0 0.04 4 3A3A3A
+    ring 3 0
+    tube 1.12 1.5 -0.6 1.12 1.5 0.6 0.03 3 3A3A3A
+    ring 3 0
+    blob 1.12 1.25 0 0.3 0.55 0.3 B86A3A
+    tube 3 0.25 -2 3 0.25 2 0.25 8 7A6A50
+    tube -3 0.25 -2 -2.2 0.25 2 0.25 8 7A6A50
+
+shape ARMADILLO
+    home ARGENTINA, PARAGUAY, URUGUAY, BRAZIL:MATO GROSSO DO SUL, BRAZIL:GOIAS, BRAZIL:RIO GRANDE DO SUL, BOLIVIA, USA:TEXAS, USA:OKLAHOMA, USA:LOUISIANA | 0.004 3 25 | country
+    # Armadillos trotting along the verge: little armoured backs, pointed snouts, upright ears and thin tails.
+    repeat 2 0.6 0 1.2
+    blob 0 0.18 0 0.16 0.14 0.3 9A8A78
+    repeat 2 0.6 0 1.2
+    tube 0 0.12 0.28 0 0.08 0.42 0.05 4 9A8A78
+    repeat 2 0.6 0 1.2
+    tube 0 0.16 0.33 0 0.26 0.33 0.02 3 9A8A78
+    repeat 2 0.6 0 1.2
+    tube 0 0.12 -0.28 0 0.03 -0.55 0.03 3 9A8A78
+
+shape MARAS
+    home ARGENTINA:CHUBUT, ARGENTINA:SANTA CRUZ, ARGENTINA:RIO NEGRO, ARGENTINA:NEUQUEN, ARGENTINA:LA PAMPA, ARGENTINA:MENDOZA | 0.004 3 30 | country
+    # Patagonian maras: long-legged rodents like small deer, grey-brown with a white rump, sitting up by their burrow.
+    repeat 2 0.7 0 1.4
+    blob 0 0.35 0 0.15 0.18 0.28 9A8A70
+    repeat 2 0.7 0 1.4
+    blob 0 0.35 -0.25 0.12 0.12 0.06 F2F2F2
+    repeat 2 0.7 0 1.4
+    tube 0.08 0.2 0.15 0.08 0 0.18 0.03 3 9A8A70
+    repeat 2 0.7 0 1.4
+    tube -0.08 0.2 0.15 -0.08 0 0.18 0.03 3 9A8A70
+    repeat 2 0.7 0 1.4
+    tube 0.08 0.25 -0.15 0.08 0 -0.1 0.035 3 9A8A70
+    repeat 2 0.7 0 1.4
+    tube -0.08 0.25 -0.15 -0.08 0 -0.1 0.035 3 9A8A70
+    repeat 2 0.7 0 1.4
+    blob 0 0.55 0.28 0.08 0.08 0.12 9A8A70
+    repeat 2 0.7 0 1.4
+    tube 0.03 0.6 0.25 0.04 0.75 0.22 0.025 3 9A8A70
+    repeat 2 0.7 0 1.4
+    tube -0.03 0.6 0.25 -0.04 0.75 0.22 0.025 3 9A8A70
+
+shape WHALE_FLUKE
+    home ARGENTINA:CHUBUT, ARGENTINA:SANTA CRUZ, CHILE:LOS LAGOS, CHILE:MAGALLANES, BRAZIL:BAHIA, ECUADOR, COSTA RICA | 0.003 40 120 | water
+    # A whale diving: its great tail fluke raised dripping out of the sea, the back of another one surfacing beyond with its blow.
+    tube 0 -0.5 0 0 1.5 -0.5 0.35 6 2A2A30
+    tri 0 1.4 -0.5 0 2.4 -2.4 0 2.0 -0.5 2A2A30
+    tri 0 1.4 -0.5 0 2.4 1.4 0 2.0 -0.5 2A2A30
+    tri 0 1.4 -0.5 0 2.0 -0.5 0 2.4 -2.4 2A2A30
+    tri 0 1.4 -0.5 0 2.0 -0.5 0 2.4 1.4 2A2A30
+    blob 0 0 6 1 0.5 3 2A2A30
+    blob 0 2.5 8 0.3 1.2 0.3 E8F0F4
+
+shape PAMPAS_GRASS
+    home ARGENTINA:BUENOS AIRES, ARGENTINA:ENTRE RIOS, ARGENTINA:CORRIENTES, ARGENTINA:SANTA FE, URUGUAY, BRAZIL:RIO GRANDE DO SUL | 0.008 3 30 | country
+    # Clumps of pampas grass: great fountains of narrow leaves with tall silvery-white plumes swaying above them.
+    repeat 3 0 0 3
+    blob 0 0.6 -3 0.9 0.6 0.9 7A8A5A 0.5
+    repeat 3 0 0 3
+    tube 0 0.8 -3 0.2 2.4 -3 0.02 3 C8C0A0
+    repeat 3 0 0 3
+    blob 0.2 2.6 -3 0.08 0.4 0.08 F2EEE0
+    repeat 3 0 0 3
+    tube 0 0.8 -3 -0.25 2.3 -2.75 0.02 3 C8C0A0
+    repeat 3 0 0 3
+    blob -0.25 2.5 -2.75 0.08 0.4 0.08 F2EEE0
+    repeat 3 0 0 3
+    tube 0 0.8 -3 0.05 2.2 -3.3 0.02 3 C8C0A0
+    repeat 3 0 0 3
+    blob 0.05 2.4 -3.3 0.08 0.4 0.08 F2EEE0

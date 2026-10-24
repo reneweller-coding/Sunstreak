@@ -539,7 +539,7 @@ shape CHIVA_BUS
     tube 1.0 0.45 3.5 1.25 0.45 3.5 0.45 10 1E1E1E
 
 shape COFFEE_FINCA
-    home COLOMBIA:QUINDIO, COLOMBIA:ANTIOQUIA, COSTA RICA, GUATEMALA, HONDURAS, EL SALVADOR, NICARAGUA | 0.006 8 70 | country
+    home COLOMBIA:QUINDIO, COLOMBIA:ANTIOQUIA, COSTA RICA, GUATEMALA, HONDURAS, EL SALVADOR, NICARAGUA, BRAZIL:MINAS GERAIS, BRAZIL:SAO PAULO | 0.006 8 70 | country
     # A coffee farmhouse: whitewashed walls, a long wooden balcony painted in two bright colours, coffee bushes in rows on the slope.
     box 0 2.6 0 3.5 2.6 6 F2F2EE
     box 4.1 2.6 0 0.6 0.06 5.5 C83A2A

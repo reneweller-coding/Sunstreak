@@ -347,7 +347,7 @@ shape STORK_NEST_POLE
     tube 0 10.48 0.52 0 10.4 0.88 0.025 3 D84A2A
 
 shape SOLAR_FARM
-    home GERMANY, NETHERLANDS, BELGIUM, USA:CALIFORNIA, USA:NEVADA, USA:ARIZONA, USA:TEXAS | 0.002 15 90 | country
+    home GERMANY, NETHERLANDS, BELGIUM, USA:CALIFORNIA, USA:NEVADA, USA:ARIZONA, USA:TEXAS, CHILE:ANTOFAGASTA | 0.002 15 90 | country
     # Rows of solar panels on their racks, tilted to the sun.
     repeat 4 -3.2 0 0
     quad 0 0.8 -8 0 0.8 8 -1.6 2.0 8 -1.6 2.0 -8 2A3A5A shiny

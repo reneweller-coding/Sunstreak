@@ -915,7 +915,7 @@ shape WILD_TURKEYS
     tube 1 0.55 1.25 1 0.85 1.35 0.04 4 9AB8C8
 
 shape PELICANS_ON_PILINGS
-    home USA:FLORIDA, USA:LOUISIANA, USA:TEXAS, USA:MISSISSIPPI, USA:ALABAMA, USA:CALIFORNIA, USA:SOUTH CAROLINA, USA:GEORGIA | 0.006 6 40 | coast
+    home USA:FLORIDA, USA:LOUISIANA, USA:TEXAS, USA:MISSISSIPPI, USA:ALABAMA, USA:CALIFORNIA, USA:SOUTH CAROLINA, USA:GEORGIA, PERU:LIMA, ECUADOR | 0.006 6 40 | coast
     # Brown pelicans perched on the old dock pilings, long bills tucked down on their chests.
     repeat 5 0 0 1.6
     cyl 0 0 -3.2 0.18 0.18 2.4 8 6A5A48
@@ -927,7 +927,7 @@ shape PELICANS_ON_PILINGS
     tube 0 3.15 -2.85 0 2.7 -2.6 0.06 4 C8A060
 
 shape SEA_LIONS_DOCK
-    home USA:CALIFORNIA, USA:OREGON, USA:WASHINGTON, USA:ALASKA, CANADA:BRITISH COLUMBIA | 0.004 30 110 | water
+    home USA:CALIFORNIA, USA:OREGON, USA:WASHINGTON, USA:ALASKA, CANADA:BRITISH COLUMBIA, ECUADOR:GALAPAGOS, PERU:LIMA, CHILE | 0.004 30 110 | water
     # Sea lions hauled out on a floating dock, piled up and barking, a gull standing at the edge.
     box 0 0.15 0 2 0.2 4 8A7A68
     blob 0.5 0.6 -2.5 0.35 0.3 0.9 5A4030
