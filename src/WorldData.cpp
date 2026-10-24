@@ -301,6 +301,7 @@ const std::unordered_map<std::string, Step> &steps()
               w.bridges( a.f( 0 ), static_cast<BridgeE>( std::max( 0, style ) ), a.c( 2 ) );
           } },
         { "sand", []( W &w, const Args & ) { w.sand(); } },
+        { "gravel", []( W &w, const Args &a ) { w.gravel( a.f( 0 ) ); } },
         { "climate",
           []( W &w, const Args &a )
           {
@@ -478,7 +479,7 @@ const std::vector<CountryInfo> &countries()
     return cache.get( []
     {
         std::vector<CountryInfo> out;
-        const char *const        lines[] = { "WHITE", "YELLOW", "EDGE" };
+        const char *const        lines[] = { "WHITE", "YELLOW", "EDGE", "MEDIAN" };
         const char *const        warns[] = { "TRIANGLE", "YELLOW", "DIAMOND", "BLACK" };
         const char *const        chevrons[] = { "RED", "BLACK", "YELLOW" };
         const char *const        towns[] = { "WHITE", "YELLOW", "RED", "BLUE", "GREEN" };

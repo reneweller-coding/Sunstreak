@@ -4,7 +4,7 @@
  *
  * The track is a centre line made of 5 m segments, each with a curvature, a grade and a bank. The generator plans
  * features (straights, bends, S-bends, crests, roadworks) the way Lotus III's RECS did from its parameters: how curvy,
- * how sharp, how hilly, how many obstacles. Every 5 km a new stage begins with its own biome; checkpoints come every
+ * how sharp, how hilly, how many obstacles. Every 15 km a new stage begins with its own biome; checkpoints come every
  * 2.5 km. The heading is kept within +-80 degrees of north, so the road never folds back onto itself.
  *
  * Distances along the road (s) are doubles; the lateral offset x is positive to the right.
@@ -30,7 +30,7 @@ constexpr float  SegmentLength = 5.0f;         ///< metres per segment
 constexpr float  LaneWidth = 3.7f;             ///< metres per lane
 constexpr float  RumbleWidth = 0.9f;           ///< the kerb outside the road edge
 constexpr float  ShoulderWidth = 2.2f;         ///< gravel beside the kerb
-constexpr double StageLength = 5000.0;         ///< one biome
+constexpr double StageLength = 15000.0;        ///< one biome
 constexpr double CheckpointSpacing = 2500.0;   ///< metres between checkpoints
 constexpr double BlendLength = 500.0;          ///< the crossfade between two biomes
 constexpr double StartLine = 40.0;             ///< where the start gantry stands
@@ -55,7 +55,7 @@ enum SegmentFlagE : uint16_t
     SEG_MEDIAN = 1 << 14,      ///< a barrier down the middle: two carriageways to two places
 };
 
-constexpr double ForkAt = 2400.0;       ///< where in its stage a fork's carriageways part (the choice; the border is 2.6 km on)
+constexpr double ForkAt = StageLength - 2600.0;   ///< where in its stage a fork's carriageways part (the choice; the border is 2.6 km on)
 constexpr double ForkWiden = 300.0;     ///< the road widens to two carriageways before it
 constexpr double ForkMedian = 1300.0;   ///< then they run side by side, beyond the sight of the choice
 constexpr double ForkPeel = 300.0;      ///< then the other one turns away and the road narrows again
@@ -289,11 +289,11 @@ public:
     uint64_t seed() const { return m_seed; }
 
     /**
-     * @brief The difficulty of a stage.
-     * @param[in] stage  the stage number
-     * @return 0 (first stage) rising to 1
+     * @brief The difficulty of the road at a distance.
+     * @param[in] s  the distance
+     * @return 0 (the start) rising to 1 (35 km on)
      */
-    static float difficulty( int stage );
+    static float difficulty( double s );
 
 private:
     /**

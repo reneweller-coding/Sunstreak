@@ -500,28 +500,45 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
         }
         const bool     band = ( j / 2 ) % 2 == 0;
         const int      lanes = seg.m_lanes;
-        // The country's markings: a yellow line on the centre side (the Americas, Scandinavia, East Asia) or on the
-        // outer edge (southern Africa, Ireland), mirrored where they drive on the left.
+        // The country's markings: yellow between the directions (the Americas, Scandinavia, East Asia; on a road of an
+        // odd number of lanes its centre-side edge), on the centre-side edge (Arabia) or on the outer edge (southern
+        // Africa, Ireland), mirrored where they drive on the left.
         const BiomeDef    &here = ruling( seg, 0.5f );
         const CountryInfo &land = countryInfo( here.m_country );
         // A fork of the world tour: where its barrier begins (u = 0) and where the other carriageway goes.
         const Fork   fork = track.fork( seg.m_stage );
         const double u = static_cast<double>( j ) * SegmentLength - fork.m_at;
         const int    half = lanes / 2;
-        const float  carriage = static_cast<float>( std::max( 1, half ) ) * LaneWidth * 0.5f;   // half a carriageway
+        const float  carriage = static_cast<float>( std::max( 1, half ) ) * here.m_laneWidth * 0.5f;   // half a carriageway
         auto         branchX = [&]( double v ) -> float
         {
             const double w = std::clamp( v - ForkMedian, 0.0, ForkPeel );
             return static_cast<float>( -fork.m_chosen ) * ( carriage + 0.6f + static_cast<float>( 130.0 * ( w / ForkPeel ) * ( w / ForkPeel ) ) );
         };
         const bool peeling = fork.m_exists && fork.m_chosen != 0 && u >= ForkMedian && u < ForkMedian + ForkPeel;
-        Color              lineL = sf.m_line, lineR = sf.m_line;
-        if( here.m_country && sf.m_lineGlow <= 0.0f && !here.m_unpaved )
+        const Color roadCol = band ? sf.m_road : sf.m_roadAlt;
+        const bool  marked = here.m_country && sf.m_lineGlow <= 0.0f && !here.m_unpaved;
+        const bool  between = marked && land.m_lines == 1 && lanes % 2 == 0;   // yellow down the middle
+        Color       lineL = sf.m_line, lineR = sf.m_line, centre = sf.m_line;
+        if( marked )
         {
             const Color yellow = { 242, 188, 34, 255 };
-            if( land.m_lines == 1 ) ( land.m_left ? lineR : lineL ) = yellow;
+            if( land.m_lines == 3 || ( land.m_lines == 1 && !between ) ) ( land.m_left ? lineR : lineL ) = yellow;
             if( land.m_lines == 2 ) ( land.m_left ? lineL : lineR ) = yellow;
+            if( between ) centre = yellow;
+            // Worn roads: the paint fades into the asphalt.
+            const float fade = 0.55f * here.m_wear;
+            lineL = lerpColor( lineL, roadCol, fade );
+            lineR = lerpColor( lineR, roadCol, fade );
+            centre = lerpColor( centre, roadCol, fade );
         }
+        const Color dash = marked ? lerpColor( sf.m_line, roadCol, 0.55f * here.m_wear ) : sf.m_line;
+        // Gravel where a poor country's asphalt ends, at either end of the segment; its colour that of the verge.
+        const float gA = here.m_gravel > 0.0f ? gravelAt( track, static_cast<double>( j ) * SegmentLength ) : 0.0f;
+        const float gB = here.m_gravel > 0.0f ? gravelAt( track, static_cast<double>( j + 1 ) * SegmentLength ) : 0.0f;
+        Color       dirt = sf.m_shoulder;
+        if( dirt.g > dirt.r ) dirt = lerpColor( dirt, Color{ 150, 128, 96, 255 }, 0.65f );
+        if( !band ) dirt = scaleColor( dirt, 0.95f );
 
         // Road surface: strips between the edge lines and lane dividers, each with per-corner lamp light. A column
         // sits at a fraction of the half width plus fixed metres, resolved per cross-section.
@@ -548,27 +565,45 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 cols.push_back( { 0.0f, g + 0.15f, StripE::ROAD } );
                 continue;
             }
+            if( between && k * 2 == lanes && lanes >= 4 )
+            {
+                cols.push_back( { f, -0.22f, StripE::LINE } );
+                cols.push_back( { f, -0.08f, StripE::ROAD } );
+                cols.push_back( { f, 0.08f, StripE::LINE } );
+                cols.push_back( { f, 0.22f, StripE::ROAD } );
+                continue;
+            }
             cols.push_back( { f, -0.08f, StripE::DASH } );
             cols.push_back( { f, 0.08f, StripE::ROAD } );
         }
         cols.push_back( { 1.0f, -0.45f, StripE::LINE } );
         cols.push_back( { 1.0f, -0.25f, StripE::ROAD } );
         cols.push_back( { 1.0f, 0.0f, StripE::ROAD } );
-        const bool  dashOn = band && !( seg.m_flags & SEG_NO_DASH );
-        const Color roadCol = band ? sf.m_road : sf.m_roadAlt;
+        const bool dashOn = band && !( seg.m_flags & SEG_NO_DASH );
+        const float wear = marked ? here.m_wear : 0.0f;
         for( size_t k = 0; k + 1 < cols.size(); ++k )
         {
             const float la0 = cols[k].m_frac * A.m_hw + cols[k].m_off, la1 = cols[k + 1].m_frac * A.m_hw + cols[k + 1].m_off;
             const float lb0 = cols[k].m_frac * B.m_hw + cols[k].m_off, lb1 = cols[k + 1].m_frac * B.m_hw + cols[k + 1].m_off;
+            const bool  middle = std::abs( cols[k].m_frac ) < 0.001f && between;
             Color       base = roadCol;
             float       glow = 0.0f;
             float       gloss = 0.18f;
             const bool  cobbled = here.m_cobbles && cols[k].m_kind != StripE::LINE;
-            if( cols[k].m_kind == StripE::LINE || ( cols[k].m_kind == StripE::DASH && dashOn ) )
+            // A worn road loses dashes, and stretches of its edge lines.
+            const bool dashGone = wear > 0.0f && hashFloat( seed * 23 + k, static_cast<uint64_t>( j / 4 ) ) < 0.45f * wear;
+            const bool lineGone = wear > 0.45f && !middle && hashFloat( seed * 29 + k, static_cast<uint64_t>( j / 3 ) ) < 1.2f * ( wear - 0.45f );
+            if( ( cols[k].m_kind == StripE::LINE && !lineGone ) || ( cols[k].m_kind == StripE::DASH && dashOn && !dashGone ) )
             {
-                base = cols[k].m_kind == StripE::LINE ? ( cols[k].m_frac < 0.0f ? lineL : lineR ) : sf.m_line;
+                base = middle ? centre : cols[k].m_kind == StripE::LINE ? ( cols[k].m_frac < 0.0f ? lineL : lineR ) : dash;
                 glow = sf.m_lineGlow * 0.45f;
                 gloss = 0.3f;
+            }
+            else if( wear > 0.0f && cols[k].m_kind == StripE::ROAD )
+            {
+                // Patches: fresh black tar, or old asphalt bleached grey.
+                const float h = hashFloat( seed * 19 + k, static_cast<uint64_t>( j / 2 ) );
+                if( h < 0.22f * wear ) base = scaleColor( base, h < 0.11f * wear ? 0.78f : 1.12f );
             }
             const Vector3 p[4] = { at( A, la0, 0 ), at( A, la1, 0 ), at( B, lb1, 0 ), at( B, lb0, 0 ) };
             const float   ls[4] = { lampLight( j, la0, 0 ), lampLight( j, la1, 0 ), lampLight( j, lb1, 1 ), lampLight( j, lb0, 1 ) };
@@ -576,21 +611,64 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             Mat           mat[4];
             for( int v = 0; v < 4; ++v )
             {
-                col[v] = lerpColor( base, WarmLight, ls[v] * 0.5f );
-                mat[v] = cobbled ? Mat{ -2.0f, 0.12f } : Mat{ glow + ls[v] * 0.22f, gloss };
+                const float g = v < 2 ? gA : gB;
+                col[v] = lerpColor( lerpColor( base, dirt, g ), WarmLight, ls[v] * 0.5f );
+                mat[v] = cobbled ? Mat{ -2.0f, 0.12f } : Mat{ glow * ( 1.0f - g ) + ls[v] * 0.22f, lerpf( gloss, 0.04f, g ) };
             }
             ground.quadV( p, col, mat );
+        }
+
+        // On the road: the joints of concrete slabs, potholes, and the studs along the lines.
+        auto along = [&]( float t, float l, float h )
+        {
+            const Vector3 a = at( A, l, h ), b = at( B, l, h );
+            return Vector3{ a.x + ( b.x - a.x ) * t, a.y + ( b.y - a.y ) * t, a.z + ( b.z - a.z ) * t };
+        };
+        if( here.m_concrete && gA <= 0.0f && !bridge )
+        {
+            const Color joint = scaleColor( roadCol, 0.72f );
+            ground.quad( along( 0.0f, -A.m_hw, 0.008f ), along( 0.0f, A.m_hw, 0.008f ), along( 0.03f, A.m_hw, 0.008f ), along( 0.03f, -A.m_hw, 0.008f ), joint );
+        }
+        float holeX = 0.0f, holeR = 0.0f;
+        if( potholeAt( track, j, holeX, holeR ) )
+        {
+            const Color  hole = scaleColor( roadCol, 0.42f );
+            const float  rt = holeR / SegmentLength, d = 0.72f;
+            ground.quad( along( 0.5f - rt, holeX, 0.012f ), along( 0.5f, holeX + holeR, 0.012f ), along( 0.5f + rt, holeX, 0.012f ), along( 0.5f, holeX - holeR, 0.012f ),
+                         hole );
+            ground.quad( along( 0.5f - rt * d, holeX - holeR * d, 0.012f ), along( 0.5f - rt * d, holeX + holeR * d, 0.012f ),
+                         along( 0.5f + rt * d, holeX + holeR * d, 0.012f ), along( 0.5f + rt * d, holeX - holeR * d, 0.012f ), hole );
+        }
+        if( here.m_studs && marked && gA <= 0.0f && j % 2 == 0 )
+        {
+            // White between the lanes, red along the outer edge, amber along the centre side (and down a yellow middle).
+            const Color white = { 236, 236, 230, 255 }, red = { 220, 40, 30, 255 }, amber = { 240, 160, 30, 255 };
+            const float outer = land.m_left ? -1.0f : 1.0f;
+            auto        stud = [&]( float l, Color col )
+            {
+                ground.quad( along( 0.0f, l - 0.07f, 0.02f ), along( 0.0f, l + 0.07f, 0.02f ), along( 0.03f, l + 0.07f, 0.02f ), along( 0.03f, l - 0.07f, 0.02f ),
+                             col, Mat{ 0.7f, 0.5f } );
+            };
+            stud( outer * ( A.m_hw - 0.35f ), red );
+            stud( -outer * ( A.m_hw - 0.35f ), amber );
+            for( int k = 1; k < lanes; ++k )
+            {
+                if( fork.m_exists && k * 2 == lanes && u > -120.0 && u < ForkMedian ) continue;
+                stud( ( -1.0f + 2.0f * static_cast<float>( k ) / static_cast<float>( lanes ) ) * A.m_hw, between && k * 2 == lanes ? amber : white );
+            }
         }
 
         // Kerbs and shoulders on both sides.
         for( float side : { -1.0f, 1.0f } )
         {
-            const Color kerb = j % 2 == 0 ? sf.m_rumbleA : sf.m_rumbleB;
+            Color kerb = j % 2 == 0 ? sf.m_rumbleA : sf.m_rumbleB;
+            if( wear > 0.6f && !here.m_kerbs && hashFloat( seed * 41 + ( side > 0.0f ), static_cast<uint64_t>( j ) ) < wear - 0.5f ) kerb = scaleColor( roadCol, 0.9f );
             const float l0a = side * A.m_hw, l1a = side * ( A.m_hw + RumbleWidth ), l2a = side * A.m_edge;
             const float l0b = side * B.m_hw, l1b = side * ( B.m_hw + RumbleWidth ), l2b = side * B.m_edge;
             {
                 const Vector3 p[4] = { at( A, l0a, 0.02f ), at( A, l1a, 0.02f ), at( B, l1b, 0.02f ), at( B, l0b, 0.02f ) };
-                const Color   col[4] = { kerb, kerb, kerb, kerb };
+                const Color   ka = lerpColor( kerb, dirt, gA ), kb = lerpColor( kerb, dirt, gB );
+                const Color   col[4] = { ka, ka, kb, kb };
                 const Mat     m = { sf.m_lineGlow * 0.35f, 0.2f };
                 const Mat     mat[4] = { m, m, m, m };
                 ground.quadV( p, col, mat );

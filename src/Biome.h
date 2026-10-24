@@ -788,7 +788,7 @@ struct CountryInfo
     const char *m_name;       ///< as the places write it
     bool        m_left;       ///< drives on the left
     FleetE      m_fleet;      ///< its vehicles
-    uint8_t     m_lines;      ///< 0 white, 1 a yellow line on the centre side, 2 a yellow outer edge
+    uint8_t     m_lines;      ///< 0 white, 1 yellow between the directions, 2 a yellow outer edge, 3 a yellow centre-side edge
     uint8_t     m_warn;       ///< warning signs: 0 red triangle, 1 red triangle on yellow, 2 yellow diamond, 3 black triangle on yellow
     uint8_t     m_chevrons;   ///< chevron boards: 0 red and white, 1 black and white, 2 yellow and black
     uint8_t     m_townSign;   ///< place signs: 0 white, 1 yellow, 2 white with a red border, 3 blue, 4 green
@@ -925,6 +925,12 @@ struct BiomeDef
     std::vector<SwimRule> m_swim;                                 ///< what swims round the tunnel
     CrossingE             m_crossing = CrossingE::NONE;           ///< a sea crossed aboard a ferry or a car train instead
     bool                  m_cobbles = false;                      ///< the road is cobbled (old towns)
+    bool                  m_kerbs = false;                        ///< it paints its own kerbs (the rest take their country's edges)
+    float                 m_laneWidth = 3.7f;                     ///< metres per lane
+    float                 m_wear = 0.0f;                          ///< 0..1 how worn the road is: faded markings, patches, potholes
+    float                 m_gravel = -1.0f;                       ///< 0..1 of the road in gravel stretches (-1: as its country says)
+    bool                  m_concrete = false;                     ///< concrete slabs, a joint every segment
+    bool                  m_studs = false;                        ///< reflecting studs along the lines
 };
 
 /**

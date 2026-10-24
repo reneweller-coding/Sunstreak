@@ -5,6 +5,8 @@
  */
 #include "Car.h"
 
+#include "Local.h"
+
 #include <fstream>
 
 namespace sunstreak
@@ -207,8 +209,20 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
     m_offroad = m_airborne ? 0.0f : smoothstepf( f.m_halfWidth + RumbleWidth, f.m_halfWidth + RumbleWidth + 1.5f, ax );
     // Gravel and sand hold less, except for a car built for them.
     m_unpaved = biome.m_unpaved;
+    if( !m_unpaved && biome.m_gravel > 0.0f && gravelAt( track, m_s ) > 0.5f ) m_unpaved = 1;
     float grip = biome.m_grip * m_weatherGrip * ( m_unpaved ? m_spec.m_dirt * ( m_unpaved == 2 ? 0.94f : 1.0f ) : 1.0f );
     const long segIndex = static_cast<long>( m_s / SegmentLength );
+    // A pothole under a wheel: a thump, and a little of the speed.
+    float holeX = 0.0f, holeR = 0.0f;
+    if( !m_airborne && segIndex != m_lastPothole && potholeAt( track, segIndex, holeX, holeR ) && std::abs( m_x - holeX ) < holeR + 0.8f )
+    {
+        m_lastPothole = segIndex;
+        m_speed *= 0.97f;
+        m_rumble = 1.0f;
+        m_eventLanded = true;
+        m_landImpact = 2.5f;
+        m_shake = std::max( m_shake, 0.2f );
+    }
     if( ( seg.m_flags & SEG_PUDDLE ) && std::abs( m_x - puddleLateral( track, segIndex ) ) < 1.8f ) grip *= 0.3f;
     m_wetGrip = grip;
     grip *= m_spec.m_grip * tuning().m_grip * ( 1.0f - 0.35f * m_offroad );

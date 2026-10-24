@@ -5,7 +5,7 @@
  *        and the HUD.
  *
  * The endless run works like Lotus III's time challenge: the clock counts down, every checkpoint (2.5 km) adds
- * time, and the run ends when the clock reaches zero. Every 5 km a new stage with a new biome begins; the roads get
+ * time, and the run ends when the clock reaches zero. Every 15 km a new stage with a new biome begins; the roads get
  * curvier, the traffic denser, the time bonus tighter. The championship is five races from the back of a grid of
  * twelve. The Track Lab builds a track from sliders and gives its code; a code typed in drives that track again.
  *

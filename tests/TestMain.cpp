@@ -13,6 +13,7 @@
 
 #include <cstdio>
 #include <cmath>
+#include <cstring>
 #include <filesystem>
 
 namespace
@@ -404,6 +405,51 @@ int main()
             check( roadErrors() == 0 && tolls >= 3 && cameras >= 3 && usa.m_mph && usa.m_board && germany.m_cameras && !germany.m_mph && france.m_plate == PlateE::EU &&
                        roadCustoms( "ITALY" ).m_tolls && !roadCustoms( nullptr ).m_tolls,
                    "road customs by country" );
+        }
+        { // The roads of the countries: gravel and potholes in Chad, none in Switzerland; narrow lanes in Japan, concrete somewhere.
+            auto placeOf = []( const char *country, bool rural )
+            {
+                for( int i = 0; i < biomeCount(); ++i )
+                {
+                    const BiomeDef &d = biomeDef( static_cast<BiomeE>( i ) );
+                    if( d.m_country && std::strcmp( d.m_country, country ) == 0 && !d.m_unpaved && ( !rural || d.m_gravel > 0.0f ) ) return i;
+                }
+                return -1;
+            };
+            int concrete = 0, studs = 0;
+            for( int i = 0; i < biomeCount(); ++i )
+            {
+                concrete += biomeDef( static_cast<BiomeE>( i ) ).m_concrete ? 1 : 0;
+                studs += biomeDef( static_cast<BiomeE>( i ) ).m_studs ? 1 : 0;
+            }
+            auto drive = [&]( int place, float &gravel, int &holes )
+            {
+                gravel = 0.0f;
+                holes = 0;
+                if( place < 0 ) return;
+                TrackParams p;
+                p.m_biome = place;
+                Track t( 7, p );
+                t.generateTo( StageLength );
+                const long n = static_cast<long>( StageLength / SegmentLength ) - 2;
+                float      x = 0.0f, r = 0.0f;
+                for( long j = 0; j < n; ++j )
+                {
+                    gravel += gravelAt( t, static_cast<double>( j ) * SegmentLength ) / static_cast<float>( n );
+                    holes += potholeAt( t, j, x, r ) ? 1 : 0;
+                }
+            };
+            const int chad = placeOf( "CHAD", true ), swiss = placeOf( "SWITZERLAND", false ), japan = placeOf( "JAPAN", false );
+            float     chadGravel = 0.0f, swissGravel = 0.0f;
+            int       chadHoles = 0, swissHoles = 0;
+            drive( chad, chadGravel, chadHoles );
+            drive( swiss, swissGravel, swissHoles );
+            std::printf( "      Chad: %.0f %% gravel, %d potholes; Switzerland: %.0f %%, %d; %d places of concrete, %d with road studs\n",
+                         chadGravel * 100.0f, chadHoles, swissGravel * 100.0f, swissHoles, concrete, studs );
+            check( chad >= 0 && chadGravel > 0.2f && chadHoles > 0 && swiss >= 0 && swissGravel == 0.0f && swissHoles == 0 && japan >= 0 &&
+                       std::abs( biomeDef( static_cast<BiomeE>( japan ) ).m_laneWidth - 3.0f ) < 0.01f && concrete > 10 && studs > 10 &&
+                       countryInfo( "THAILAND" ).m_lines == 1 && countryInfo( "UAE" ).m_lines == 3,
+                   "the roads of the countries" );
         }
         { // Journeys: every one from a place of the route to another, London to Paris a short one.
             int  shortest = 1 << 30, longest = 0;

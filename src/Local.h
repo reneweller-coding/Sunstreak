@@ -34,6 +34,16 @@ struct RoadCustoms
     bool   m_tolls = false;            ///< toll plazas
     bool   m_cameras = false;          ///< speed cameras
     PlateE m_plate = PlateE::PLAIN;    ///< number plates
+    float  m_quality = 4.5f;           ///< 1..7 how good its roads are
+    float  m_width = 3.5f;             ///< metres per lane
+    bool   m_shoulders = false;        ///< a paved shoulder beyond the edge line
+    bool   m_kerbs = false;            ///< its towns paint their kerbs
+    Color  m_kerbA{};                  ///< in this colour
+    Color  m_kerbB{};                  ///< and this one
+    bool   m_studs = false;            ///< reflecting studs along the lines
+    float  m_concrete = 0.0f;          ///< 0..1 of its places paved with concrete slabs
+    int    m_concreteLanes = 0;        ///< only roads of so many lanes or more
+    float  m_gravel = 0.0f;            ///< 0..1 of a country road on gravel or dirt
 };
 
 constexpr double CameraAt = 650.0;   ///< where in its stage a speed camera stands (or the first clear spot after)
@@ -80,5 +90,30 @@ bool stageCamera( const Track &track, int stage, double &s, int &limit, bool &mp
  * @return true if the stage has one
  */
 bool stageToll( const Track &track, int stage, double &s );
+
+/**
+ * @brief Gives the places the roads of their countries: the lane width, how worn, gravel stretches, concrete slabs,
+ *        road studs and the edges (a paved shoulder, the verge or the painted kerbs of the towns).
+ * @param[in,out] table  every biome; those without a country keep their racing kerbs
+ */
+void applyRoadCustoms( std::vector<BiomeDef> &table );
+
+/**
+ * @brief How much of the road at a distance is gravel: the stretches where a poor country's asphalt ends.
+ * @param[in] track  the road
+ * @param[in] s      the distance
+ * @return 0 asphalt .. 1 gravel (a place of gravel all along says so itself)
+ */
+float gravelAt( const Track &track, double s );
+
+/**
+ * @brief A pothole in a worn road.
+ * @param[in]  track  the road
+ * @param[in]  j      the segment
+ * @param[out] x      its lateral offset
+ * @param[out] r      its radius
+ * @return true if the segment has one
+ */
+bool potholeAt( const Track &track, long j, float &x, float &r );
 
 } // namespace sunstreak

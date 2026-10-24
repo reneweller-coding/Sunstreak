@@ -2,7 +2,7 @@
 
 An arcade racer in the spirit of *Lotus III: The Ultimate Challenge*: a low camera, a road that bends, climbs and
 throws you over crests, traffic to slice through and a clock that only checkpoints refill. The endless mode drives a
-track generated from a seed, one biome per 5 km stage, and it grows curvier, denser and stricter as you go. By
+track generated from a seed, one biome per 15 km stage, and it grows curvier, denser and stricter as you go. By
 default it is a world tour: 781 places in all 202 countries and territories it visits, every member of the United
 Nations among them, the big countries state by state and province by province, round the globe, through the seasons
 and their festivals. At the borders the road forks and you choose where to go next; between continents and to the
@@ -111,7 +111,14 @@ province of South Africa, and many of Russia, Japan, Indonesia and some forty mo
 begins, a sign says so. The famous roads have their
 own: the Stelvio, the Transfagarasan, the Atlantic Road, Trollstigen, the Nordschleife, the Yungas Road, the Road of
 Bones, the Dalton Highway beside its pipeline, the Nullarbor with its kangaroo, camel and cow signs, Bonneville, the
-Tail of the Dragon and the Road to Hana. Landmarks stand where they belong, once per stage: Big Ben and Tower Bridge,
+Tail of the Dragon and the Road to Hana. The roads follow their country: yellow down the middle in the Americas,
+Scandinavia, China, Korea and mainland Southeast Asia, a yellow edge on the centre side in Arabia and on the outer edge
+in Ireland and southern Africa; lanes from 3.65 m wide in North America to 3 m in Japan; paved shoulders, the plain
+verge or the painted kerbs of the towns (black and white in Malaysia and Russia, red and white in Thailand, black and
+yellow in India and the Gulf); cat's eyes in Britain and Ireland; concrete slabs on American freeways, German and
+Belgian motorways and Philippine highways; and, by each country's road quality (the WEF's index), faded markings,
+patches, potholes that thump the car and stretches of gravel where the asphalt ends: in Chad and Mongolia more of the
+road is gravel than not. Landmarks stand where they belong, once per stage: Big Ben and Tower Bridge,
 the Arc de Triomphe, the Colosseum and St Peter's, the Leaning Tower, the Sagrada Familia, Neuschwanstein, the
 Brandenburg Gate, the Acropolis, St Basil's, the Christ the Redeemer and Cristo Rei statues, the Statue of Liberty,
 the Opera House, the Petronas Towers, the Space Needle, the Capitol and the Washington Monument, the HOLLYWOOD sign,

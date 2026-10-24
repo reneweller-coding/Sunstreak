@@ -7,6 +7,7 @@
  */
 #include "Biome.h"
 #include "Data.h"
+#include "Local.h"
 
 #include "MathUtil.h"
 #include "Music.h"
@@ -69,6 +70,7 @@ void addWorldBiomes( std::vector<BiomeDef> &b )
     b[static_cast<size_t>( BE::VOLCANO )].m_island = "HAWAII";
 
     addDataPlaces( b );
+    applyRoadCustoms( b );
 
     // AUTO radio: the countryside plays its region's station; cities and motorways keep their genre (Japan's and
     // Korea's turn to city pop).

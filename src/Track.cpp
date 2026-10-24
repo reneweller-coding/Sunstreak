@@ -236,9 +236,9 @@ bool Track::inForkZone( double s, double margin ) const
     return ( u > -ForkWiden - margin && u < 250.0 + margin ) || ( u > ForkMedian - 150.0 - margin && u < ForkMedian + ForkPeel + 150.0 + margin );
 }
 
-float Track::difficulty( int stage )
+float Track::difficulty( double s )
 {
-    return std::min( 1.0f, static_cast<float>( stage ) / 7.0f );
+    return std::min( 1.0f, static_cast<float>( s / 35000.0 ) );
 }
 
 BiomeMix Track::biomeMix( double s ) const
@@ -266,7 +266,7 @@ void Track::styleAt( double s, float &curvy, float &sharp, float &hilly ) const
     const BiomeMix  m = biomeMix( s );
     const BiomeDef &a = biomeDef( m.m_from );
     const BiomeDef &b = biomeDef( m.m_to );
-    const float     d = difficulty( static_cast<int>( s / StageLength ) );
+    const float     d = difficulty( s );
     curvy = clampf( lerpf( a.m_curviness, b.m_curviness, m.m_t ) * ( 0.75f + 0.45f * d ), 0.0f, 1.0f );
     sharp = clampf( lerpf( a.m_sharpness, b.m_sharpness, m.m_t ) * ( 0.7f + 0.5f * d ), 0.0f, 1.0f );
     hilly = clampf( lerpf( a.m_hilliness, b.m_hilliness, m.m_t ) * ( 0.8f + 0.3f * d ), 0.0f, 1.0f );
@@ -339,7 +339,7 @@ void Track::planShape()
     const double s = static_cast<double>( startIndex ) * SegmentLength;
     float        curvy = 0, sharp = 0, hilly = 0;
     styleAt( s, curvy, sharp, hilly );
-    const float     d = difficulty( static_cast<int>( s / StageLength ) );
+    const float     d = difficulty( s );
     const BiomeMix  mix = biomeMix( s + 200.0 );
     const BiomeDef &here = biomeDef( mix.m_t < 0.5f ? mix.m_from : mix.m_to );
     const float     obstacles = m_params.m_obstacles >= 0 ? static_cast<float>( m_params.m_obstacles ) / 4.5f : 1.0f;
@@ -530,7 +530,8 @@ void Track::appendSegment()
     seg.m_biomeTo = static_cast<uint16_t>( mix.m_to );
     seg.m_blend = mix.m_t;
     const float lanesT = smoothstepf( 0.2f, 0.8f, mix.m_t );
-    seg.m_halfWidth = lerpf( static_cast<float>( a.m_lanes ), static_cast<float>( b.m_lanes ), lanesT ) * LaneWidth * 0.5f;
+    const float laneWidth = lerpf( a.m_laneWidth, b.m_laneWidth, lanesT );
+    seg.m_halfWidth = lerpf( static_cast<float>( a.m_lanes ) * a.m_laneWidth, static_cast<float>( b.m_lanes ) * b.m_laneWidth, lanesT ) * 0.5f;
     seg.m_lanes = static_cast<uint8_t>( mix.m_t < 0.5f ? a.m_lanes : b.m_lanes );
     if( a.m_lanes != b.m_lanes && mix.m_t > 0.05f && mix.m_t < 0.95f ) seg.m_flags |= SEG_NO_DASH;
     const BiomeDef &rails = mix.m_t < 0.5f ? a : b;
@@ -553,7 +554,7 @@ void Track::appendSegment()
             const float  wide = smoothstepf( static_cast<float>( -ForkWiden ), -60.0f, static_cast<float>( u ) ) *
                                ( 1.0f - smoothstepf( static_cast<float>( ForkMedian ), static_cast<float>( ForkMedian + ForkPeel * 0.7 ), static_cast<float>( u ) ) );
             const int lanes = std::min( 3, static_cast<int>( seg.m_lanes ) );
-            seg.m_halfWidth = lerpf( seg.m_halfWidth, static_cast<float>( lanes ) * LaneWidth + 0.6f, wide );
+            seg.m_halfWidth = lerpf( seg.m_halfWidth, static_cast<float>( lanes ) * laneWidth + 0.6f, wide );
             seg.m_lanes = static_cast<uint8_t>( wide > 0.5f ? lanes * 2 : seg.m_lanes );
             if( wide > 0.02f && wide < 0.98f ) seg.m_flags |= SEG_NO_DASH;
             seg.m_flags |= SEG_FORK;
@@ -581,7 +582,7 @@ void Track::appendSegment()
                             ( 1.0f - smoothstepf( 150.0f, 300.0f, static_cast<float>( s - xc.m_land ) ) );
             seg.m_curve *= 1.0f - w;
             seg.m_grade *= 1.0f - w;
-            seg.m_halfWidth = lerpf( seg.m_halfWidth, LaneWidth, w );
+            seg.m_halfWidth = lerpf( seg.m_halfWidth, laneWidth, w );
             if( w > 0.5f ) seg.m_lanes = 2;
             if( w > 0.02f && w < 0.98f ) seg.m_flags |= SEG_NO_DASH;
             seg.m_flat = std::max( seg.m_flat, w );

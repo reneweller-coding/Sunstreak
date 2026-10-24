@@ -185,6 +185,7 @@ public:
     float   m_wetGrip = 1.0f;     ///< grip of the surface under the car
     float   m_weatherGrip = 1.0f; ///< what the weather leaves of the grip (rain, snow, sand on the road)
     uint8_t m_unpaved = 0;        ///< the road under the car: 0 asphalt, 1 gravel, 2 sand
+    long    m_lastPothole = -1;   ///< the segment of the last pothole it hit
     bool    m_frozen = false;     ///< held at the start (the engine still revs)
     bool    m_coasting = false;   ///< time is up: no throttle any more
 

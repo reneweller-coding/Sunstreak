@@ -212,15 +212,17 @@ float Game::frontAt( double s, WeatherE &type ) const
         return type == WeatherE::NONE ? 0.0f : 1.0f;
     }
     if( m_settings.m_weather != 0 || !m_track ) return 0.0f;
-    const long stage = static_cast<long>( s / StageLength );
-    float      best = 0.0f;
-    for( long st = std::max( 0L, stage - 1 ); st <= stage + 1; ++st )
+    // A front may come every 5 km, its weather that of the place it is over.
+    constexpr double frontSpacing = 5000.0;
+    const long       slot = static_cast<long>( s / frontSpacing );
+    float            best = 0.0f;
+    for( long st = std::max( 0L, slot - 1 ); st <= slot + 1; ++st )
     {
         const uint64_t h = hash64( m_seed * 977 + static_cast<uint64_t>( st ) * 131 + 17 );
         if( h % 100 >= 34 ) continue;
-        const ClimateE climate = biomeDef( m_track->stageBiome( static_cast<int>( st ) ) ).m_climate;
+        const double   centre = ( static_cast<double>( st ) + 0.25 + 0.5 * static_cast<double>( ( h >> 8 ) % 1000 ) / 1000.0 ) * frontSpacing;
+        const ClimateE climate = biomeDef( m_track->stageBiome( static_cast<int>( centre / StageLength ) ) ).m_climate;
         if( climate == ClimateE::NONE ) continue;
-        const double centre = ( static_cast<double>( st ) + 0.25 + 0.5 * static_cast<double>( ( h >> 8 ) % 1000 ) / 1000.0 ) * StageLength;
         const double half = 700.0 + static_cast<double>( ( h >> 20 ) % 900 );
         const float  k = 1.0f - smoothstepf( static_cast<float>( half * 0.5 ), static_cast<float>( half ), static_cast<float>( std::abs( s - centre ) ) );
         if( k <= best ) continue;

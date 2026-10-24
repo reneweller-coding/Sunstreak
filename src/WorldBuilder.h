@@ -449,6 +449,18 @@ public:
     {
         m_d.m_surface.m_rumbleA = hx( a );
         m_d.m_surface.m_rumbleB = hx( b );
+        m_d.m_kerbs = true;
+        return *this;
+    }
+
+    /**
+     * @brief Sets how much of the road runs on gravel, instead of as its country says.
+     * @param[in] share  0..1
+     * @return this
+     */
+    W &gravel( float share )
+    {
+        m_d.m_gravel = share;
         return *this;
     }
 

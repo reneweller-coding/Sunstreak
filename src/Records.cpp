@@ -319,7 +319,7 @@ void Records::load( const std::string &path )
                 while( std::getline( ss, name, ',' ) )
                     if( !name.empty() ) m_album.push_back( name );
             }
-            else if( key == "journeys" )
+            else if( key == "journeys15" )
             {
                 std::stringstream ss( val );
                 std::string       t;
@@ -347,7 +347,7 @@ void Records::load( const std::string &path )
                 m_dailyBest = std::stoll( best );
                 m_dailyDays = std::stoi( days );
             }
-            else if( key == "rally" )
+            else if( key == "rally15" )
             {
                 const auto   bar = val.find( '|' );
                 const size_t i = static_cast<size_t>( std::stoi( val.substr( 0, bar ) ) );
@@ -388,14 +388,14 @@ void Records::save( const std::string &path ) const
     out << "points=" << m_points << "\n";
     out << "daily=" << m_dailyDate << "|" << m_dailyBest << "|" << m_dailyDays << "\n";
     for( size_t i = 0; i < m_rallyBest.size(); ++i )
-        if( m_rallyBest[i] > 0.0 ) out << "rally=" << i << "|" << m_rallyBest[i] << "\n";
+        if( m_rallyBest[i] > 0.0 ) out << "rally15=" << i << "|" << m_rallyBest[i] << "\n";
     out << "seen3=";
     writeNames( out, m_seen );
     if( !m_tourAt.empty() ) out << "tourat=" << m_tourAt << "\n";
     out << "album=";
     for( size_t i = 0; i < m_album.size(); ++i ) out << ( i ? "," : "" ) << m_album[i];
     out << "\n";
-    out << "journeys=";
+    out << "journeys15=";
     for( size_t i = 0; i < m_journeyBest.size(); ++i ) out << ( i ? "," : "" ) << m_journeyBest[i];
     out << "\n";
     out << "journey=";

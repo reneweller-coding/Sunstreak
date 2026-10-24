@@ -98,7 +98,7 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
     // Spawn ahead, beyond the fog.
     const BiomeMix  mix = track.biomeMix( player.m_s + 900.0 );
     const float     density = lerpf( biomeDef( mix.m_from ).m_traffic, biomeDef( mix.m_to ).m_traffic, mix.m_t ) *
-                          std::min( 1.8f, 0.85f + 0.12f * static_cast<float>( player.m_s / StageLength ) ) * tuning().m_traffic * m_density;
+                          std::min( 1.8f, 0.85f + 0.12f * static_cast<float>( player.m_s / 5000.0 ) ) * tuning().m_traffic * m_density;
     if( m_spawnS < player.m_s + 220.0 ) m_spawnS = player.m_s + 220.0;
     // The country decides the side: slower cars keep right, or left where they drive on the left.
     const int          playerStage = static_cast<int>( player.m_s / StageLength );
