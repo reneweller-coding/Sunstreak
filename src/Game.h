@@ -210,6 +210,7 @@ struct Popup
     float       m_age = 0;    ///< seconds shown
     float       m_life = 2;   ///< seconds to show
     float       m_size = 1;   ///< size factor
+    bool        m_minor = false;   ///< news (stamps, postcards, unlocks): the ticker on the left, not the middle
 };
 
 /** @brief The game. */
@@ -354,8 +355,9 @@ private:
      * @param[in] color  colour
      * @param[in] size   size factor
      * @param[in] life   seconds
+     * @param[in] minor  news for the ticker on the left instead of the middle of the screen
      */
-    void popup( const std::string &text, const std::string &sub, Color color, float size = 1.0f, float life = 2.2f );
+    void popup( const std::string &text, const std::string &sub, Color color, float size = 1.0f, float life = 2.2f, bool minor = false );
 
     /** @brief Switches between window and fullscreen. */
     void toggleFullscreen();

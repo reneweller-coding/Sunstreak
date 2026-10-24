@@ -161,9 +161,10 @@ cottages in Scandinavia, izbas in Russia, azulejo facades in Portugal, bright ca
 Southeast Asia, shotgun houses on the Gulf and in the Caribbean, hutong gates in China, Queenslanders, Andean adobe,
 New England clapboard, crofts in Scotland and Ireland and the tower houses of Yemen.
 
-At most borders the road forks, as it did in OutRun. A gantry announces where each side goes (THE ROAD FORKS
-< BELGIUM  FRANCE > on the screen as well), the road widens into two carriageways and a barrier with a crash cushion
-divides them: the side you are on at its nose decides. The carriageways run side by side out of sight of the choice;
+At most borders the road forks, as it did in OutRun. Almost two kilometres ahead two boards on the screen show where
+each side goes (the place, its region and country, the distance counting down, the side you are on lit), gantries
+announce it on the road, the road widens into two carriageways and a barrier with a crash cushion divides them: the
+side you are on at its nose decides. The carriageways run side by side out of sight of the choice;
 then the other one swings away into the fields, its traffic with it, and your road narrows again before the border.
 The next stage is the place you chose, and the tour goes on from there.
 

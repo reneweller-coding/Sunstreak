@@ -2198,26 +2198,44 @@ void Game::drawHud()
     {
         const int  stage = static_cast<int>( m_car.m_s / StageLength );
         const Fork fork = m_track->fork( stage );
-        if( fork.m_exists && fork.m_chosen == 0 && m_car.m_s > fork.m_at - 1100.0 )
+        if( fork.m_exists && fork.m_chosen == 0 && m_car.m_s > fork.m_at - 1900.0 )
         {
-            std::string nameL, nameR;
-            forkNames( fork.m_left, fork.m_right, m_track->stageBiome( stage ), nameL, nameR );
-            const bool  left = m_car.m_x < 0.0f;
-            const float y = 150.0f * u, size = 18.0f * u;
-            drawText( "THE ROAD FORKS", W * 0.5f, y - 26.0f * u, 12.0f * u, Dim, AlignE::CENTER );
-            drawTextFx( "< " + nameL, W * 0.5f - 24.0f * u, y, size, left ? Accent : Dim, AlignE::RIGHT, left ? 0.6f : 0.0f );
-            drawTextFx( nameR + " >", W * 0.5f + 24.0f * u, y, size, left ? Dim : Accent, AlignE::LEFT, left ? 0.0f : 0.6f );
+            // Two boards, the place each way leads to and its region and country; the side the car is on lit. Which
+            // side counts is where the barrier begins.
+            const bool   left = m_car.m_x < 0.0f;
+            const double ahead = fork.m_at - m_car.m_s;
+            const float  y = 150.0f * u, boardW = 300.0f * u, bh = 62.0f * u, gap = 14.0f * u;
+            const float  fade = clampf( static_cast<float>( ( fork.m_at - 1900.0 - m_car.m_s ) / -150.0 ), 0.0f, 1.0f );
+            const std::string head = ahead > 300.0 ? format( "THE ROAD FORKS IN %.1f KM", ahead / 1000.0 ) : std::string( "KEEP LEFT OR RIGHT NOW" );
+            drawTextFx( head, W * 0.5f, y - 22.0f * u, 13.0f * u, ahead > 300.0 ? Ink : Gold, AlignE::CENTER, 0.3f );
+            for( int k = 0; k < 2; ++k )
+            {
+                const bool      here = ( k == 0 ) == left;
+                const BiomeE    to = k == 0 ? fork.m_left : fork.m_right;
+                const BiomeDef &d = biomeDef( to );
+                const float     boardX = k == 0 ? W * 0.5f - gap * 0.5f - boardW : W * 0.5f + gap * 0.5f;
+                const Color     fill = here ? Color{ 255, 150, 40, static_cast<unsigned char>( 150.0f * fade ) } : Color{ 0, 0, 0, static_cast<unsigned char>( 110.0f * fade ) };
+                DrawRectangleRounded( Rectangle{ boardX, y, boardW, bh }, 0.15f, 6, fill );
+                if( here ) DrawRectangleRoundedLinesEx( Rectangle{ boardX, y, boardW, bh }, 0.15f, 6, 2.0f * u, Color{ 255, 220, 160, static_cast<unsigned char>( 230.0f * fade ) } );
+                const std::string where = d.m_region && d.m_country ? std::string( d.m_region ) + " - " + d.m_country : d.m_country ? std::string( d.m_country ) : std::string();
+                const float tx = k == 0 ? boardX + boardW - 16.0f * u : boardX + 16.0f * u;
+                const AlignE al = k == 0 ? AlignE::RIGHT : AlignE::LEFT;
+                drawTextFx( k == 0 ? "<" : ">", k == 0 ? boardX + 18.0f * u : boardX + boardW - 18.0f * u, y + 14.0f * u, 30.0f * u, here ? Ink : Dim, AlignE::CENTER, here ? 0.6f : 0.0f );
+                drawTextFx( d.m_name ? d.m_name : "", tx, y + 10.0f * u, 19.0f * u, here ? Ink : Dim, al, here ? 0.5f : 0.0f );
+                drawText( where, tx, y + 38.0f * u, 11.0f * u, here ? Ink : Dim, al );
+            }
+            drawText( left ? "YOU ARE ON THE LEFT" : "YOU ARE ON THE RIGHT", W * 0.5f, y + bh + 10.0f * u, 11.0f * u, Gold, AlignE::CENTER );
             if( m_mode == ModeE::RALLY && m_journey >= 0 && m_journey < static_cast<int>( journeys().size() ) )
             {
                 // On a journey: how far the goal is either way, the shorter one in gold.
                 const Journey &j = journeys()[static_cast<size_t>( m_journey )];
                 const int      viaL = routeStages( fork.m_left, j.m_to ), viaR = routeStages( fork.m_right, j.m_to );
                 const bool     shorterL = viaL > 0 && ( viaR <= 0 || viaL <= viaR );
-                drawTextFx( format( "%d %s", viaL, viaL == 1 ? "STAGE" : "STAGES" ), W * 0.5f - 24.0f * u, y + 30.0f * u, 15.0f * u, shorterL ? Gold : Ink,
-                            AlignE::RIGHT, shorterL ? 0.5f : 0.0f );
-                drawTextFx( format( "%d %s", viaR, viaR == 1 ? "STAGE" : "STAGES" ), W * 0.5f + 24.0f * u, y + 30.0f * u, 15.0f * u, shorterL ? Ink : Gold,
-                            AlignE::LEFT, shorterL ? 0.0f : 0.5f );
-                drawTextFx( std::string( "TO " ) + biomeDef( j.m_to ).m_name, W * 0.5f, y + 56.0f * u, 13.0f * u, Gold, AlignE::CENTER, 0.3f );
+                drawTextFx( format( "%d %s", viaL, viaL == 1 ? "STAGE" : "STAGES" ), W * 0.5f - gap * 0.5f - 16.0f * u, y + bh + 30.0f * u, 15.0f * u,
+                            shorterL ? Gold : Ink, AlignE::RIGHT, shorterL ? 0.5f : 0.0f );
+                drawTextFx( format( "%d %s", viaR, viaR == 1 ? "STAGE" : "STAGES" ), W * 0.5f + gap * 0.5f + 16.0f * u, y + bh + 30.0f * u, 15.0f * u,
+                            shorterL ? Ink : Gold, AlignE::LEFT, shorterL ? 0.0f : 0.5f );
+                drawTextFx( std::string( "TO " ) + biomeDef( j.m_to ).m_name, W * 0.5f, y + bh + 54.0f * u, 13.0f * u, Gold, AlignE::CENTER, 0.3f );
             }
         }
     }
@@ -2243,23 +2261,43 @@ void Game::drawPopups()
 {
     const float W = static_cast<float>( GetScreenWidth() ), H = static_cast<float>( GetScreenHeight() );
     const float u = unit();
-    float py = H * 0.3f;
+    // What matters now in the middle, small and above the horizon (in menus where the middle is free, lower); the news
+    // in a ticker on the left, under the stage line.
+    const bool racing = m_state == StateE::RACE || m_state == StateE::COUNTDOWN || m_state == StateE::PAUSED;
+    float      py = racing ? 150.0f * u : H * 0.3f, ty = 132.0f * u;
     for( const Popup &p : m_popups )
     {
         const float in = std::min( 1.0f, p.m_age * 6.0f );
         const float out = std::min( 1.0f, ( p.m_life - p.m_age ) * 3.0f );
         const float k = in * out;
-        const float size = 40.0f * u * p.m_size * ( 1.3f - 0.3f * in );
         Color       c = p.m_color;
-        c.a = static_cast<unsigned char>( 255.0f * k );
+        c.a = static_cast<unsigned char>( 230.0f * k );
+        Color s = Ink;
+        s.a = c.a;
+        if( p.m_minor && racing )
+        {
+            const float size = 15.0f * u * std::min( 1.0f, p.m_size + 0.2f );
+            const float x = 28.0f * u - ( 1.0f - in ) * 30.0f * u;
+            DrawRectangle( static_cast<int>( x - 8.0f * u ), static_cast<int>( ty - 4.0f * u ),
+                           static_cast<int>( std::max( textWidth( p.m_text, size ), textWidth( p.m_sub, size * 0.62f ) ) + 16.0f * u ),
+                           static_cast<int>( size * ( p.m_sub.empty() ? 1.35f : 2.25f ) + 4.0f * u ), Color{ 0, 0, 0, static_cast<unsigned char>( 90.0f * k ) } );
+            drawTextFx( p.m_text, x, ty, size, c, AlignE::LEFT, 0.4f * k );
+            ty += size * 1.3f;
+            if( !p.m_sub.empty() )
+            {
+                drawText( p.m_sub, x, ty, size * 0.62f, s, AlignE::LEFT );
+                ty += size * 0.95f;
+            }
+            ty += 6.0f * u;
+            continue;
+        }
+        const float size = ( racing ? 28.0f : 40.0f ) * u * p.m_size * ( 1.2f - 0.2f * in );
         drawTextFx( p.m_text, W * 0.5f, py, size, c, AlignE::CENTER, 0.9f * k );
-        py += size * 1.35f;
+        py += size * 1.3f;
         if( !p.m_sub.empty() )
         {
-            Color s = Ink;
-            s.a = c.a;
-            drawText( p.m_sub, W * 0.5f, py, size * 0.5f, s, AlignE::CENTER );
-            py += size * 0.9f;
+            drawText( p.m_sub, W * 0.5f, py, size * 0.48f, s, AlignE::CENTER );
+            py += size * 0.85f;
         }
     }
 }

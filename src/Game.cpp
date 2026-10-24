@@ -543,7 +543,7 @@ void Game::takePhoto()
                                     ExportImage( full, card.c_str() );
                                     UnloadImage( full );
                                 } );
-    popup( "PHOTO SAVED", "AND SENT AS A POSTCARD", Cyan, 0.8f, 2.0f );
+    popup( "PHOTO SAVED", "AND SENT AS A POSTCARD", Cyan, 0.8f, 2.0f, true );
     saveRecords();
 }
 
@@ -593,7 +593,7 @@ void Game::takePostcard( BiomeE biome )
         UnloadTexture( old->second );
         m_postcardTex.erase( old );
     }
-    popup( "POSTCARD", placeName( biome ), Cyan, 0.7f, 2.2f );
+    popup( "POSTCARD", placeName( biome ), Cyan, 0.7f, 2.6f, true );
 }
 
 void Game::unloadPostcards()
@@ -631,7 +631,7 @@ void Game::takeAlbumPhoto()
                                 } );
     std::string shown = name;
     std::replace( shown.begin(), shown.end(), '_', ' ' );
-    popup( "PHOTO", shown, Cyan, 0.7f, 2.2f );
+    popup( "PHOTO", shown, Cyan, 0.7f, 2.6f, true );
 }
 
 void Game::startJourney( int index )
@@ -769,7 +769,7 @@ void Game::reloadGameData()
     m_viewerBuilt = -1;
     popup( "DATA RELOADED", format( "%d PLACES   %d SHAPES   %d ERRORS   %s", biomeCount(), static_cast<int>( dataShapes().size() ), errors,
                                     from.empty() ? "BUILT IN" : "FROM FILES" ),
-           errors ? Red : Green, 0.7f, 3.5f );
+           errors ? Red : Green, 0.7f, 3.5f, true );
 }
 
 void Game::setupTrack( uint64_t seed, double startS, const TrackParams &params, const std::vector<int8_t> *choices )
@@ -991,10 +991,16 @@ void Game::beginCountdown()
     playMusic( hash64( m_seed + 7 ), wantedStation() );
 }
 
-void Game::popup( const std::string &text, const std::string &sub, Color color, float size, float life )
+void Game::popup( const std::string &text, const std::string &sub, Color color, float size, float life, bool minor )
 {
-    if( m_popups.size() >= 4 ) m_popups.erase( m_popups.begin() );
+    // The middle shows at most two messages, the ticker four: the oldest of the same kind makes room.
+    const size_t most = minor ? 4 : 2;
+    size_t       same = 0;
+    for( const Popup &q : m_popups ) same += q.m_minor == minor ? 1 : 0;
+    if( same >= most )
+        m_popups.erase( std::find_if( m_popups.begin(), m_popups.end(), [&]( const Popup &q ) { return q.m_minor == minor; } ) );
     Popup p;
+    p.m_minor = minor;
     p.m_text = text;
     p.m_sub = sub;
     p.m_color = color;
@@ -1106,10 +1112,10 @@ void Game::progress( double ds )
         {
             earn( 5000 );
             const char *country = biomeDef( here ).m_country;
-            popup( "NEW STAMP", country ? country : "", Gold, 0.8f, 2.6f );
+            popup( "NEW STAMP", country ? country : "", Gold, 0.8f, 3.0f, true );
         }
-        if( !round && m_records.circumnavigated() ) popup( "ROUND THE WORLD", "NEW PAINT  GLOBETROTTER", Gold, 1.2f, 4.5f );
-        if( !globe && m_records.decalUnlocked( DecalCount - 1 ) ) popup( "NEW DECAL", "GLOBE", Gold, 0.9f, 3.0f );
+        if( !round && m_records.circumnavigated() ) popup( "ROUND THE WORLD", "NEW PAINT  GLOBETROTTER", Gold, 1.2f, 4.5f, true );
+        if( !globe && m_records.decalUnlocked( DecalCount - 1 ) ) popup( "NEW DECAL", "GLOBE", Gold, 0.9f, 3.0f, true );
     }
     if( !m_records.m_postcards.test( bit ) && m_postcardWanted != static_cast<int>( here ) && mix.m_from == mix.m_to )
     {
@@ -1130,9 +1136,9 @@ void Game::progress( double ds )
         m_postcardAt = std::max( at, m_car.m_s + 60.0 );
     }
     for( int i = 0; i < CarCount; ++i )
-        if( !cars[i] && m_records.carUnlocked( i ) ) popup( "NEW CAR", carSpec( i ).m_name, Gold, 0.9f, 3.0f );
+        if( !cars[i] && m_records.carUnlocked( i ) ) popup( "NEW CAR", carSpec( i ).m_name, Gold, 0.9f, 3.0f, true );
     for( int i = 0; i < PaintCount; ++i )
-        if( !paints[i] && m_records.paintUnlocked( i ) ) popup( "NEW PAINT", paintName( i ), Gold, 0.8f, 3.0f );
+        if( !paints[i] && m_records.paintUnlocked( i ) ) popup( "NEW PAINT", paintName( i ), Gold, 0.8f, 3.0f, true );
 }
 
 void Game::frame( float dt )
@@ -1431,7 +1437,7 @@ void Game::simulate( float dt, bool autopilotOn )
     {
         m_frontShown = frontStage;
         static const char *names[] = { "", "RAIN AHEAD", "THUNDERSTORM", "FOG BANK", "SNOW SHOWERS", "SANDSTORM" };
-        popup( names[static_cast<int>( front )], "", Cyan, 0.7f, 2.2f );
+        popup( names[static_cast<int>( front )], "", Cyan, 0.7f, 2.6f, true );
     }
     WeatherE    here = WeatherE::NONE;
     const float wet = frontAt( m_car.m_s, here );
@@ -1592,6 +1598,7 @@ void Game::timeAttackRules( float h )
     {
         m_timeUpFor += h;
     }
+    std::string bonusText;
     while( m_car.m_s >= m_nextCheckpoint )
     {
         ++m_checkpoints;
@@ -1600,7 +1607,7 @@ void Game::timeAttackRules( float h )
             const float bonus = checkpointBonus( m_checkpoints );
             m_timeLeft += bonus;
             m_score += 1000.0;
-            popup( "CHECKPOINT", format( "+%.1f SEC", bonus ), Green, 1.1f, 2.4f );
+            bonusText = format( "+%.1f SEC", bonus );
             m_audio.playOnBeat( SfxE::CHECKPOINT );
         }
         m_nextCheckpoint += CheckpointSpacing;
@@ -1609,7 +1616,9 @@ void Game::timeAttackRules( float h )
     if( stage != m_stage )
     {
         m_stage = stage;
-        popup( format( "STAGE %d", stage + 1 ), placeName( track.stageBiome( stage ) ), Accent, 1.2f, 3.2f );
+        popup( format( "STAGE %d", stage + 1 ) + ( bonusText.empty() ? std::string() : "   " + bonusText ), placeName( track.stageBiome( stage ) ), Accent, 1.0f,
+               3.0f );
+        bonusText.clear();
         // A new region or country: the radio's jingle, and where it plays from.
         const BiomeDef &now = biomeDef( track.stageBiome( stage ) );
         const BiomeDef &was = biomeDef( track.stageBiome( std::max( 0, stage - 1 ) ) );
@@ -1622,9 +1631,10 @@ void Game::timeAttackRules( float h )
             m_nowPlaying = std::string( "LIVE FROM " ) + ( now.m_region ? now.m_region : now.m_name ? now.m_name : "" ) + ",  " + now.m_country;
         }
         const int fest = festivalAt( track.stageBiome( stage ), seasonClock().dateAt( m_car.m_s ) );
-        if( fest >= 0 ) popup( festivals()[static_cast<size_t>( fest )].m_name, festivals()[static_cast<size_t>( fest )].m_what, Gold, 0.9f, 3.4f );
+        if( fest >= 0 ) popup( festivals()[static_cast<size_t>( fest )].m_name, festivals()[static_cast<size_t>( fest )].m_what, Gold, 0.9f, 3.4f, true );
         m_audio.playOnBeat( SfxE::STAGE );
     }
+    if( !bonusText.empty() ) popup( "CHECKPOINT", bonusText, Green, 1.0f, 2.2f );
     {
         // A speed camera: too fast past it, it flashes and costs time. A toll plaza: just passed.
         const double before = m_lastS;
@@ -1644,7 +1654,7 @@ void Game::timeAttackRules( float h )
         }
         if( !m_demo && stageToll( track, stage, ts ) && before < ts && m_car.m_s >= ts )
         {
-            popup( "TOLL", "", Accent, 0.8f, 1.6f );
+            popup( "TOLL", "", Accent, 0.8f, 1.6f, true );
             m_audio.play( SfxE::TICK );
         }
     }
@@ -1666,12 +1676,12 @@ void Game::timeAttackRules( float h )
             m_track->choose( stage, side );
             std::string nameL, nameR;
             forkNames( fork.m_left, fork.m_right, track.stageBiome( stage ), nameL, nameR );
-            popup( "NEXT", side < 0 ? nameL : nameR, Accent, 1.0f, 2.6f );
+            popup( "NEXT", placeName( side < 0 ? fork.m_left : fork.m_right ), Accent, 0.9f, 2.6f );
             if( m_mode == ModeE::RALLY && m_journey >= 0 && m_journey < static_cast<int>( journeys().size() ) )
             {
                 const Journey &j = journeys()[static_cast<size_t>( m_journey )];
                 const int      left = routeStages( side < 0 ? fork.m_left : fork.m_right, j.m_to );
-                if( left > 0 ) popup( format( "%d %s TO %s", left, left == 1 ? "STAGE" : "STAGES", biomeDef( j.m_to ).m_name ), "", Gold, 0.7f, 2.6f );
+                if( left > 0 ) popup( format( "%d %s TO %s", left, left == 1 ? "STAGE" : "STAGES", biomeDef( j.m_to ).m_name ), "", Gold, 0.7f, 3.0f, true );
             }
         }
     }
@@ -1807,7 +1817,7 @@ void Game::handleEvents()
         m_combo = std::min( m_combo + 1, 8 );
         m_comboTimer = 4.0f;
         m_score += 500.0 * m_combo;
-        popup( "NEAR MISS", format( "+%d  X%d", 500 * m_combo, m_combo ), Cyan, 0.7f, 1.3f );
+        popup( "NEAR MISS", format( "+%d  X%d", 500 * m_combo, m_combo ), Cyan, 0.7f, 1.3f, true );
         m_audio.play( SfxE::NEAR_MISS, 0.8f );
     }
     if( m_ev.m_whoosh > 0.0f ) m_audio.play( SfxE::WHOOSH, m_ev.m_whoosh, m_ev.m_whooshPan );

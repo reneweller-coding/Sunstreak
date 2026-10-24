@@ -307,10 +307,16 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
             if( c.m_hitTimer > 0.0f ) c.m_hitTimer -= dt;
             continue;
         }
+        // The road gained or lost lanes (a fork widening or narrowing it): the lane is where the car is, not its number.
+        if( c.m_lanes != lanes )
+        {
+            if( c.m_lanes != 0 ) c.m_lane = laneOf( c.m_x, lanes, seg.m_halfWidth );
+            c.m_lanes = static_cast<uint8_t>( lanes );
+        }
         if( c.m_lane >= lanes ) c.m_lane = lanes - 1;
         float want = c.m_cruise;
-        // The barrier of a fork: no changing to the other carriageway.
-        const bool median = seg.m_flags & SEG_MEDIAN;
+        // A fork's two carriageways (from where the road widens for them): no changing to the other one.
+        const bool median = ( seg.m_flags & SEG_MEDIAN ) || ( ( seg.m_flags & SEG_FORK ) && lanes >= 4 && lanes % 2 == 0 );
         auto       sameSide = [&]( int l ) { return !median || ( l * 2 < lanes ) == ( c.m_lane * 2 < lanes ); };
         // Closed lane ahead: move over.
         if( laneClosedAhead( track, c.m_s, c.m_lane, 120.0 ) )

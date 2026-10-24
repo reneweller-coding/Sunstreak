@@ -41,6 +41,7 @@ struct TrafficCar
     bool   m_gone = false;     ///< took the other carriageway of a fork and has left the road
     bool   m_swim = false;     ///< swims round an undersea tunnel (never touches the road)
     uint8_t m_plate = 0;       ///< its number plates (PlateE)
+    uint8_t m_lanes = 0;       ///< the road's lanes when it last looked (0: not yet)
     float  m_lift = 0.0f;      ///< height above the road
     float  m_orbit = 0.0f;     ///< radius of its circle over the road (0: swims straight)
     float  m_orbitA = 0.0f;    ///< where on the circle (radians)
