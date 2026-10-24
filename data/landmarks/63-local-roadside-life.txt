@@ -1,0 +1,227 @@
+# Life by the roadside in many parts of the world: road furniture, trades and working vehicles.
+
+shape TRUCK_WEIGH_STATION
+    home USA, CANADA | 0.003 4 30 | country
+    # A truck weigh station: a low scale house beside a long concrete pad, a sign board flashing OPEN, a semi rolling onto the scale.
+    box 0 1.3 0 2 1.3 3 E8E4DC
+    box 2.02 1.6 0 0.02 0.5 2.5 2A3A4A glass
+    box 4 0.1 0 1.5 0.1 12 B8B8B0
+    box 8 3.5 -10 0.1 0.8 2 1E1E1E
+    box 8.11 3.5 -10 0.01 0.4 1.5 E8C02A glow
+    tube 8 0 -11.5 8 2.7 -11.5 0.08 4 9A9A9A
+    tube 8 0 -8.5 8 2.7 -8.5 0.08 4 9A9A9A
+    box 4 1.8 -2 1.25 1.2 1.2 C82A2A
+    box 4 2.2 -8 1.3 1.4 5 C8CCD0
+
+shape LEVEL_CROSSING_EU
+    home GERMANY, FRANCE, NETHERLANDS, BELGIUM, POLAND, CZECHIA, AUSTRIA, SWITZERLAND, ITALY, DENMARK, SWEDEN, HUNGARY, SLOVAKIA | 0.004 0 6 | country
+    # A level crossing: red and white half barriers raised beside the road, flashing red lights on their posts and the cross-shaped warning sign.
+    box 0 0.6 0 0.25 0.6 0.25 C8C8C0
+    tube 0 1.1 0 -0.3 7 0 0.06 4 F2F2F2
+    repeat 4 -0.06 1.4 0
+    tube -0.02 1.4 0 -0.06 2.1 0 0.065 4 C82A2A
+    tube 0 0 1 0 2.5 1 0.06 4 9A9A9A
+    tube 0.05 2.2 0.6 0.05 2.8 1.4 0.05 3 C82A2A
+    tube 0.05 2.8 0.6 0.05 2.2 1.4 0.05 3 C82A2A
+    box 0.08 2.0 1 0.02 0.12 0.3 1E1E1E
+    blob 0.1 2.0 0.82 0.08 0.08 0.04 E82A2A glow
+    blob 0.1 2.0 1.18 0.08 0.08 0.04 E82A2A glow
+    box -3 0.1 -8 0.8 0.1 6 6A6058
+    mirrorx
+    box -2.4 0.25 -8 0.04 0.04 6 8A8A8A
+
+shape ROCKFALL_NETS
+    home SWITZERLAND, AUSTRIA, ITALY:TRENTINO, ITALY:AOSTA VALLEY, NORWAY, JAPAN:CHUBU, TAIWAN, CHILE, FRANCE:AUVERGNE-RHONE-ALPES, SLOVENIA, SPAIN:CANARY ISLANDS | 0.006 1 8 | country
+    # Steel rockfall nets on the cliff above the road: grey mesh draped over the rock face, anchored with cables and tall catch-fence posts.
+    tbox -3 0 0 3 10 -5 12 0 1 10 8A8478
+    quad -0.1 0 -9 -0.1 0 9 -3.5 11 8 -3.5 11 -8 7A7A78
+    repeat 6 0 0 3
+    tube 0.3 0 -7.5 0.3 3 -7.5 0.08 4 9A9A9A
+    tube 0.3 2.8 -7.5 0.3 2.8 7.5 0.03 3 8A8A8A
+    tube 0.3 1.8 -7.5 0.3 1.8 7.5 0.03 3 8A8A8A
+
+shape VILLAGE_SCHOOL_AFRICA
+    home KENYA, TANZANIA, UGANDA, MALAWI, ZAMBIA, RWANDA, ETHIOPIA, NIGERIA, GHANA, MALI, SENEGAL, MOZAMBIQUE, ZIMBABWE, MADAGASCAR, CAMEROON, BURKINA FASO | 0.004 4 40 | country
+    # A village school: a long single-storey block with a tin roof and a row of blue doors, the alphabet painted on the wall, a flag and a football goal.
+    box 0 1.4 0 2.5 1.4 8 E8D8B8
+    box 2.51 0.4 0 0.01 0.4 8 A85A3A
+    repeat 4 0 0 4
+    box 2.52 1.1 -6 0.02 1.0 0.5 2A5AA8
+    repeat 4 0 0 4
+    box 2.52 1.5 -4.5 0.02 0.5 0.6 3A3A3A
+    gable 0 2.8 0 2.7 8.2 0.8 0.3 9AA0A8 E8D8B8
+    tube 5 0 -6 5 6 -6 0.05 3 9A9A9A
+    box 5 5.6 -5.4 0.02 0.35 0.6 2A8A4A
+    tube 8 0 3 8 2 3 0.06 3 E8E8E8
+    tube 8 0 6 8 2 6 0.06 3 E8E8E8
+    tube 8 2 3 8 2 6 0.06 3 E8E8E8
+
+shape CATTLE_MARKET
+    home KENYA, ETHIOPIA, SUDAN, NIGER, MALI, CHAD, TANZANIA, BURKINA FASO, SOMALIA, NIGERIA | 0.004 4 50 | country
+    # A weekly livestock market under the acacias: zebu cattle and goats tied in groups, herders with sticks, a lorry waiting to load.
+    repeat 5 1.4 0 1.2
+    blob -3 1.0 -3 0.3 0.4 0.75 E8E4DC
+    repeat 5 1.4 0 1.2
+    blob -3 1.45 -2.6 0.2 0.2 0.25 E8E4DC
+    repeat 5 1.4 0 1.2
+    tube -2.85 0.7 -2.6 -2.85 0 -2.6 0.06 4 E8E4DC
+    repeat 5 1.4 0 1.2
+    tube -3.15 0.7 -3.4 -3.15 0 -3.4 0.06 4 E8E4DC
+    repeat 4 0.6 0 1.4
+    blob -3 0.5 2 0.15 0.2 0.3 6A4A30
+    repeat 3 2 0 1.5
+    tube -1.5 0.8 0 -1.5 0 0 0.05 3 F2F2F2
+    repeat 3 2 0 1.5
+    box -1.5 1.15 0 0.15 0.32 0.13 E8D8A0
+    repeat 3 2 0 1.5
+    blob -1.5 1.6 0 0.1 0.11 0.1 3A2A1E
+    box 4 1.4 4 1.2 0.9 2.5 3A6A9A
+    tube -6 0 0 -6 3 0 0.25 5 7A6A58
+    blob -6 4 0 3 0.8 3 6A8A3A 0.4
+
+shape SOLAR_PANEL_HUT
+    home KENYA, TANZANIA, UGANDA, MALAWI, ZAMBIA, RWANDA, ETHIOPIA, NIGERIA, MALI, SENEGAL, MOZAMBIQUE, BURKINA FASO, NIGER, MADAGASCAR, BANGLADESH, MONGOLIA | 0.006 4 40 | country
+    # A round mud hut with a thatched roof and a single shiny solar panel propped up beside it, a cable running in through the wall.
+    cyl 0 0 0 2 2 2 12 B8946A
+    spire 0 2 0 2.6 2.2 12 B8A060
+    box 2.01 0.9 0 0.02 0.9 0.4 3A2A1A
+    tube 3 0 1.5 3 1.2 1.5 0.04 3 9A9A9A
+    quad 2.6 1.0 1.0 2.6 1.0 2.0 3.4 1.5 2.0 3.4 1.5 1.0 2A3A6A shiny
+
+shape BICYCLE_REPAIR_STAND
+    home KENYA, TANZANIA, UGANDA, MALAWI, ZAMBIA, RWANDA, BURKINA FASO, MALI, INDIA, BANGLADESH, VIETNAM, CAMBODIA, MYANMAR | 0.006 1 12 | town
+    # A bicycle repairman under a tree: wheels and inner tubes hanging from a nail, tools on a box, a bike upside down on its saddle.
+    tube -1.5 0 0 -1.5 3 0 0.3 5 6A5A48
+    blob -1.5 4.2 0 2.5 1.4 2.5 4A7A3A 0.4
+    repeat 3 0 0 0.5
+    hoop -1.2 2.2 -0.5 0.35 0.03 10 2A2A2A
+    box 0 0.25 1 0.3 0.25 0.3 3A6A9A
+    hoop 0.8 0.85 -0.5 0.35 0.03 10 2A2A2A
+    hoop 0.8 0.85 0.6 0.35 0.03 10 2A2A2A
+    tube 0.8 0.5 -0.5 0.8 0.5 0.6 0.03 3 3A3A3A
+    blob 0.3 0.6 0.2 0.18 0.3 0.15 F2F2F2
+    blob 0.3 1.0 0.2 0.1 0.11 0.1 3A2A1E
+
+shape STREET_TAILOR
+    home NIGERIA, GHANA, KENYA, TANZANIA, UGANDA, SENEGAL, MALI, INDIA, BANGLADESH, PAKISTAN, NEPAL, CAMEROON, ETHIOPIA | 0.006 1 12 | town
+    # A tailor on the shop veranda: an old black treadle sewing machine on its iron stand, bright fabrics hanging on a rail behind.
+    box -1 1.5 0 0.2 1.5 2 D8C8A8
+    quad -1 2.6 -2 -1 2.6 2 0.8 2.3 2 0.8 2.3 -2 9AA0A8
+    box 0 0.75 0 0.4 0.03 0.25 8A6A48
+    box 0 0.4 0 0.35 0.35 0.2 2A2A2A
+    box 0 0.95 0 0.25 0.12 0.06 1E1E1E
+    blob -0.5 0.8 0 0.15 0.3 0.13 C83A6A
+    blob -0.5 1.2 0 0.09 0.1 0.09 3A2A1E
+    tube -0.7 1.9 -1.6 -0.7 1.9 1.6 0.02 3 8A8A8A
+    box -0.7 1.4 -1.2 0.01 0.5 0.3 E8C02A
+    box -0.7 1.4 -0.4 0.01 0.5 0.3 2A8AC8
+    box -0.7 1.4 0.4 0.01 0.5 0.3 C82A2A
+    box -0.7 1.4 1.2 0.01 0.5 0.3 3A8A4A
+
+shape TREE_BARBER
+    home INDIA, PAKISTAN, BANGLADESH, NEPAL, MYANMAR | 0.006 1 12 | town
+    # A street barber under a big tree: a mirror nailed to the trunk, a wooden chair, a customer lathered up and the barber with his razor.
+    tube 0 0 -1 0 3.5 -1 0.4 6 8A7A68
+    blob 0 5 -1 3 1.8 3 3A6A2A 0.4
+    box 0.41 1.4 -1 0.02 0.25 0.2 C8D8E0 glass
+    box 0.9 0.45 -0.6 0.25 0.04 0.25 8A6A48
+    box 0.9 0.75 -0.85 0.25 0.3 0.04 8A6A48
+    blob 0.9 0.8 -0.55 0.18 0.25 0.15 F2F2F2
+    blob 0.9 1.18 -0.55 0.1 0.11 0.1 C8986A
+    blob 1.3 0.9 0 0.15 0.35 0.12 3A6A9A
+    blob 1.3 1.38 0 0.09 0.1 0.09 6A4A30
+
+shape ROCK_ART_OVERHANG
+    home AUSTRALIA:NORTHERN TERRITORY, AUSTRALIA:WESTERN AUSTRALIA, SOUTH AFRICA, NAMIBIA, BOTSWANA, ALGERIA:ILLIZI, LIBYA, USA:UTAH, USA:ARIZONA, LESOTHO | 0.003 6 50 | country
+    # An ancient rock art shelter: a sandstone overhang whose smooth back wall is covered in faded red and white paintings of animals and people.
+    blob -1 2 0 2 2.5 6 B8704A 0.4
+    box 1.05 1.6 0 0.05 1.4 4 C8805A
+    blob 1.12 1.8 -2 0.01 0.3 0.6 9A2A1E
+    blob 1.12 2.1 -0.5 0.01 0.25 0.5 F2EEE2
+    blob 1.12 1.4 1 0.01 0.4 0.3 9A2A1E
+    blob 1.12 2.3 2.2 0.01 0.2 0.6 8A3A1E
+    box 1 4.2 0 1.2 0.5 6 A8603A
+
+shape CAR_TRANSPORTER
+    home fleet:EUROPE, fleet:NORTH_AMERICA, fleet:OCEANIA, fleet:BRITISH, fleet:EAST_ASIA, fleet:EASTERN | 0.004 2 30
+    # A car transporter parked at the services: a lorry with a two-deck trailer loaded with shiny new cars in different colours.
+    box 0 1.6 5.5 1.2 1.1 1.2 F2F2F2
+    box 0 2.0 6.71 1.05 0.4 0.01 2A3A4A glass
+    box 0 0.9 -2 1.25 0.12 8 6A6A6A
+    box 0 2.9 -2 1.25 0.08 8 6A6A6A
+    mirrorx
+    tube 1.2 0.9 -9.8 1.2 2.9 -9.8 0.08 3 6A6A6A
+    repeat 4 0 0 3.6
+    box 0 1.35 -8 0.8 0.35 1.6 C82A2A
+    repeat 4 0 0 3.6
+    box 0 3.35 -8 0.8 0.35 1.6 2A6AC8
+    mirrorx
+    tube 0.9 0.5 5 1.25 0.5 5 0.5 10 1E1E1E
+    mirrorx
+    tube 0.9 0.45 -8 1.25 0.45 -8 0.45 10 1E1E1E
+
+shape CEMENT_MIXER
+    home fleet:EUROPE, fleet:NORTH_AMERICA, fleet:LATIN, fleet:EAST_ASIA, fleet:ARABIA, fleet:SOUTH_ASIA, fleet:SOUTHEAST_ASIA, fleet:AFRICA, fleet:OCEANIA, fleet:EASTERN | 0.003 2 30 | town
+    # A cement mixer truck at the building site: the big striped drum slowly turning on the back, the chute folded down at the rear.
+    box 0 1.5 3 1.2 1.0 1 F2F2F2
+    box 0 1.9 4.01 1.05 0.4 0.01 2A3A4A glass
+    box 0 0.9 -1 1.1 0.15 3.5 4A4A4A
+    tube 0 2.0 1.5 0 2.6 -3.5 1.3 12 E8702A
+    tube 0 2.3 -3.5 0 3 -4.5 0.5 8 E8702A
+    tube 0 1.4 -4.5 0 0.8 -5.5 0.25 6 6A6A6A
+    mirrorx
+    tube 0.9 0.5 2.8 1.22 0.5 2.8 0.5 10 1E1E1E
+    mirrorx
+    tube 0.9 0.5 -2.5 1.22 0.5 -2.5 0.5 10 1E1E1E
+
+shape TOW_TRUCK
+    home USA, CANADA, AUSTRALIA, GERMANY, ENGLAND, FRANCE, NETHERLANDS, MEXICO | 0.003 2 25
+    # A tow truck with its catch: a pickup with a boom and flashing amber light bar, towing a crumpled car with its front wheels lifted.
+    box 0 1.0 2 1.0 0.45 1.4 E8E8E8
+    box 0 1.7 1.2 0.95 0.4 0.7 E8E8E8
+    box 0 1.75 1.91 0.85 0.3 0.01 2A3A4A glass
+    box 0 2.15 1.2 0.6 0.06 0.15 F2A21E glow
+    box 0 1.0 -0.6 0.95 0.25 1.0 E8E8E8
+    tube 0 1.2 -0.5 0 2.4 -1.6 0.1 4 E8C02A
+    tube 0 2.4 -1.6 0 1.0 -2.4 0.02 3 3A3A3A
+    tbox 0 0.4 -4 0.8 2 0 1.0 -4 0.75 1.9 3A6A9A
+    box 0 1.3 -4 0.75 0.3 1 3A6A9A
+    mirrorx
+    tube 0.8 0.4 2.5 1.02 0.4 2.5 0.4 10 1E1E1E
+    mirrorx
+    tube 0.8 0.4 -0.8 1.02 0.4 -0.8 0.4 10 1E1E1E
+    mirrorx
+    tube 0.7 0.32 -5.4 0.82 0.32 -5.4 0.32 10 1E1E1E
+
+shape BOAT_ON_TRAILER
+    home USA, CANADA, AUSTRALIA, NEW ZEALAND, SWEDEN, NORWAY, FINLAND, DENMARK | 0.004 2 25 | country
+    # A fishing boat on its trailer behind a pickup in the driveway: a white aluminium boat with an outboard motor, covered with a tarp.
+    box 0 0.85 3 0.95 0.4 1.5 2A4A6A
+    box 0 1.5 2.5 0.9 0.35 0.9 2A4A6A
+    box 0 0.75 1.2 0.95 0.35 0.4 2A4A6A
+    tube 0 0.5 0.9 0 0.5 -0.2 0.04 3 3A3A3A
+    tbox 0 0.6 -2.5 0.4 2.2 0 1.3 -2.5 0.9 2.5 E8E8E8
+    box 0 1.32 -2.6 0.85 0.04 2 2A5AA8
+    box 0 1.0 -5.2 0.15 0.4 0.15 2A2A2A
+    mirrorx
+    tube 0.7 0.35 -2.5 0.85 0.35 -2.5 0.35 10 1E1E1E
+    mirrorx
+    tube 0.75 0.42 3.6 0.97 0.42 3.6 0.42 10 1E1E1E
+    mirrorx
+    tube 0.75 0.42 1.4 0.97 0.42 1.4 0.42 10 1E1E1E
+
+shape FARM_QUAD_BIKE
+    home NEW ZEALAND, AUSTRALIA, IRELAND, WALES, SCOTLAND, ENGLAND:NORTH WEST, ENGLAND:SOUTH WEST | 0.004 3 40 | country
+    # A farmer on a quad bike in the paddock: red four-wheeler with racks front and back, a sheepdog riding on the rear rack.
+    box 0 0.65 0 0.5 0.2 0.8 C82A2A
+    box 0 0.95 -0.1 0.3 0.12 0.4 1E1E1E
+    mirror
+    mirrorx
+    tube 0.45 0.3 0.6 0.65 0.3 0.6 0.3 8 1E1E1E
+    box 0 0.95 0.8 0.5 0.03 0.25 3A3A3A
+    box 0 0.95 -0.85 0.5 0.03 0.3 3A3A3A
+    tube -0.35 1.1 0.55 0.35 1.1 0.55 0.025 3 3A3A3A
+    blob 0 1.25 0 0.18 0.3 0.15 3A5A3A
+    blob 0 1.68 0 0.1 0.11 0.1 E0B090
+    blob 0 1.1 -0.85 0.1 0.12 0.25 1E1E1E
+    blob 0 1.2 -0.65 0.06 0.07 0.08 F2F2F2

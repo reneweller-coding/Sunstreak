@@ -1,0 +1,141 @@
+# Crafts, food stalls and village trades of particular countries.
+
+shape NAZAR_TREE
+    home TURKEY, CYPRUS | 0.004 2 20 | country
+    # A wishing tree hung with blue evil-eye beads: a gnarled old olive whose branches are heavy with hundreds of blue and white glass charms.
+    tube 0 0 0 0.2 2 0 0.3 6 7A7060
+    tube 0.2 2 0 1.8 3 0.5 0.12 4 7A7060
+    tube 0.2 2 0 -1.5 3.2 -0.5 0.12 4 7A7060
+    blob 0 3.6 0 2.4 1.2 2.2 8A9A70 0.4
+    repeat 8 0.35 0 0.1
+    blob -1.4 2.7 -0.4 0.07 0.07 0.04 2A5AC8
+    repeat 8 0.35 0 0.1
+    blob -1.2 2.95 0.3 0.07 0.07 0.04 2A5AC8
+    repeat 6 0.3 0 -0.1
+    blob 0.3 2.6 0.6 0.07 0.07 0.04 3A7AE8
+
+shape FUL_CART
+    home EGYPT, SUDAN | 0.006 1 12 | town
+    # A ful cart at dawn: a hand cart with a great round-bellied copper pot of simmering beans, bread and pickles laid out, customers standing to eat.
+    box 0 0.8 0 0.5 0.08 1 2A8A6A
+    mirrorx
+    hoop 0.55 0.4 -0.4 0.4 0.04 10 3A3A3A
+    blob 0 1.2 0.3 0.3 0.4 0.3 B8803A shiny
+    cyl 0 1.55 0.3 0.1 0.12 0.2 8 B8803A shiny
+    box 0 0.9 -0.5 0.35 0.05 0.3 C8A060
+    blob 1.1 0.9 0 0.15 0.3 0.12 E8E0D0
+    blob 1.1 1.3 0 0.09 0.1 0.09 6A4A30
+
+shape SUYA_GRILL
+    home NIGERIA, GHANA, CAMEROON, NIGER, BENIN | 0.006 1 12 | town
+    # A suya spot at night: skewers of spiced meat round a wire grill over glowing coals, a bare bulb and a table of onions and pepper.
+    box 0 0.6 0 0.4 0.3 0.8 3A3A3A
+    box 0 0.92 0 0.35 0.01 0.75 E8501E glow
+    repeat 6 0 0 0.25
+    tube -0.3 0.98 -0.6 0.3 0.98 -0.6 0.01 3 C8A070
+    repeat 6 0 0 0.25
+    blob 0 1.0 -0.6 0.2 0.03 0.03 8A3A1E
+    blob 0 1.6 0 0.3 0.5 0.6 C8C8C8 glass
+    tube -0.8 0 -1 -0.8 2.2 -1 0.03 3 8A6A48
+    blob -0.8 2.1 -0.7 0.06 0.06 0.06 F2E89A lit
+    box 1 0.7 0 0.3 0.03 0.4 8A6A48
+
+shape STRIP_LOOM
+    home GHANA, TOGO, MALI, BURKINA FASO, NIGERIA, SENEGAL, IVORY COAST | 0.004 2 20 | country
+    # A weaver at his strip loom under a tree: a wooden frame with the long warp threads pegged out far in front, a narrow band of bright cloth.
+    tube -2 0 0 -2 3 0 0.3 5 6A5A48
+    blob -2 4.2 0 2.6 1.4 2.6 4A7A3A 0.4
+    box 0 0.7 0 0.4 0.05 0.4 8A6A48
+    mirror
+    mirrorx
+    tube 0.35 0 0.35 0.35 1.6 0.35 0.04 3 8A6A48
+    tube -0.35 1.6 0 0.35 1.6 0 0.03 3 8A6A48
+    tube 0 0.75 0.3 0 0.5 6 0.01 3 F2E8C8
+    box 0 0.73 0.8 0.08 0.01 0.5 E8C02A
+    box 0 0.731 1.1 0.08 0.01 0.1 2A8A4A
+    blob 0 0.75 -0.4 0.15 0.3 0.13 2A6AC8
+    blob 0 1.15 -0.4 0.09 0.1 0.09 3A2A1E
+    box 0 0.3 6 0.08 0.3 0.08 9A9690
+
+shape BAMBOO_FESTIVAL_SWING
+    home NEPAL | 0.004 3 30 | country
+    # A festival swing: four tall bamboo poles lashed together at the top, the swing hanging on long ropes, children taking turns.
+    tube -1.5 0 -1.5 0 7 0 0.1 4 C8B070
+    tube 1.5 0 -1.5 0 7 0 0.1 4 C8B070
+    tube -1.5 0 1.5 0 7 0 0.1 4 C8B070
+    tube 1.5 0 1.5 0 7 0 0.1 4 C8B070
+    tube 0 7 0 0 7.4 0 0.12 4 C8B070
+    tube 0.2 6.9 0 0.2 1.2 1.5 0.015 3 C8B890
+    tube -0.2 6.9 0 -0.2 1.2 1.5 0.015 3 C8B890
+    box 0 1.15 1.5 0.3 0.03 0.12 8A6A48
+    blob 0 1.45 1.5 0.12 0.25 0.1 E83A6A
+    blob 0 1.75 1.5 0.08 0.09 0.08 3A2A1E
+
+shape BATIK_DRYING
+    home INDONESIA:CENTRAL JAVA, INDONESIA:YOGYAKARTA, INDONESIA:EAST JAVA, MALAYSIA | 0.006 2 20 | town
+    # Batik cloths drying in a workshop yard: long lengths of patterned cloth in brown, indigo and gold hanging from bamboo poles.
+    repeat 4 0 0 1.5
+    tube -2 0 -3 -2 2.6 -3 0.05 3 C8B070
+    repeat 4 0 0 1.5
+    tube 2 0 -3 2 2.6 -3 0.05 3 C8B070
+    repeat 4 0 0 1.5
+    tube -2 2.5 -3 2 2.5 -3 0.04 3 C8B070
+    repeat 2 0 0 3
+    box 0 1.6 -3 1.8 0.85 0.01 8A5A2A
+    repeat 2 0 0 3
+    box 0 1.6 -1.5 1.8 0.85 0.01 2A3A6A
+    repeat 2 0 0 3
+    blob 0.5 1.6 -2.99 0.6 0.4 0.01 D8A040
+    repeat 2 0 0 3
+    blob -0.6 1.5 -1.49 0.5 0.35 0.01 E8E0C0
+
+shape VILLAGE_MAIZE_MILL
+    home KENYA, TANZANIA, MALAWI, ZAMBIA, ZIMBABWE, UGANDA, MOZAMBIQUE | 0.004 2 25 | country
+    # The village posho mill: a little tin-roofed shed with a diesel mill thumping inside, flour dust everywhere, women waiting with their buckets.
+    box 0 1.3 0 1.8 1.3 2 C8C0B0
+    quad -1.9 2.8 -2.2 -1.9 2.8 2.2 2.2 2.5 2.2 2.2 2.5 -2.2 9AA0A8
+    box 1.81 1.0 0.5 0.01 1.0 0.6 2A2018
+    tube 1 2.5 -1 1 3.5 -1 0.08 4 3A3A3A
+    repeat 3 0 0 0.9
+    blob 3 0.8 -1.5 0.15 0.35 0.13 E83A6A
+    repeat 3 0 0 0.9
+    blob 3 1.3 -1.5 0.09 0.1 0.09 3A2A1E
+    repeat 3 0 0 0.9
+    cyl 3.4 0 -1.5 0.18 0.15 0.35 8 F2C21E
+
+shape PALM_WINE_TAPPER
+    home NIGERIA, GHANA, CAMEROON, IVORY COAST, BENIN, TOGO, SIERRA LEONE, LIBERIA, GUINEA | 0.004 3 30 | country
+    # A palm wine tapper high up an oil palm: a man in a climbing loop of rope at the crown, gourds hanging to collect the sap.
+    tube 0 0 0 0.3 9 0 0.35 6 6A5A40
+    fronds 0.3 9 0 14 3.2 0.6 3E6A2A
+    halo 0.3 6.5 0 0.55 0.04 10 8A6A48
+    blob 0.75 6.8 0 0.15 0.3 0.12 3A2A1E
+    blob 0.7 7.2 0 0.09 0.1 0.09 3A2A1E
+    blob 0.5 8.5 0.4 0.2 0.25 0.2 C8A060
+    blob 0 8.6 -0.4 0.2 0.25 0.2 C8A060
+
+shape CLAY_POT_STALL
+    home INDIA, GHANA, MEXICO:OAXACA, MEXICO:PUEBLA, MOROCCO, MALI, NIGERIA, BANGLADESH, PERU, BOLIVIA, NEPAL | 0.006 1 15 | country
+    # A potter's roadside stall: terracotta pots and water jars of every size stacked in rows on the ground, a few glazed ones in green.
+    repeat 5 0 0 0.8
+    blob 0 0.4 -1.6 0.35 0.4 0.35 B8603A
+    repeat 5 0 0 0.8
+    cyl 0 0.75 -1.6 0.15 0.18 0.15 8 B8603A
+    repeat 4 0 0 0.8
+    blob -0.8 0.3 -1.2 0.28 0.3 0.28 A85A3A
+    repeat 4 0 0 0.8
+    blob -1.5 0.25 -1.6 0.22 0.25 0.22 3A7A4A shiny
+    repeat 3 0 0 0.8
+    blob 0.7 0.15 -0.8 0.3 0.15 0.3 C8703A
+
+shape CHARCOAL_MOUND
+    home MADAGASCAR, HAITI, KENYA, TANZANIA, MALAWI, ZAMBIA, MOZAMBIQUE, UGANDA, NIGERIA, BRAZIL:MINAS GERAIS, INDONESIA, PHILIPPINES, ETHIOPIA | 0.004 4 40 | country
+    # A charcoal burner's mound smouldering in the clearing: a low dome of earth over stacked wood, wisps of smoke from its vents, sacks ready.
+    dome 0 0 0 2.2 1.2 6A5A40
+    repeat 4 0 0 1
+    blob -1.5 1.3 -1.5 0.2 0.5 0.2 D8D8D8 glass
+    blob 0.5 2.2 0.5 0.4 0.8 0.4 C8C8C8 glass
+    repeat 3 0 0 0.7
+    blob 3 0.4 -0.7 0.3 0.4 0.25 E8E0D0
+    repeat 6 0 0.2 0
+    box -3.5 0.1 0 0.6 0.1 0.8 8A6A48
