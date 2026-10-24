@@ -1,0 +1,200 @@
+# Local vehicles, buildings and markets from all over the world.
+
+shape TROLLEYBUS
+    home RUSSIA, UKRAINE, BELARUS, MOLDOVA, KAZAKHSTAN, KYRGYZSTAN, ARMENIA, GEORGIA, ROMANIA, BULGARIA, CZECHIA, SLOVAKIA, LATVIA, LITHUANIA, ESTONIA, SERBIA, BOSNIA, SWITZERLAND, POLAND | 0.006 1 12 | town
+    # A trolleybus at the stop: a boxy electric bus with its two long poles reaching up to the double overhead wires.
+    box 0 1.5 0 1.25 1.1 5.5 E8D8A0
+    box 0 0.7 0 1.26 0.3 5.5 C82A2A
+    box 1.26 1.8 -0.3 0.01 0.45 5 2A3A4A glass
+    box 0 1.8 5.51 1.1 0.5 0.01 2A3A4A glass
+    box 0 2.65 -2 0.6 0.05 1.5 6A6A6A
+    tube 0.2 2.7 -2.5 0.25 4.8 2 0.025 3 3A3A3A
+    tube -0.2 2.7 -2.5 -0.25 4.8 2 0.025 3 3A3A3A
+    tube 0.25 4.85 -12 0.25 4.85 12 0.01 3 3A3A3A
+    tube -0.25 4.85 -12 -0.25 4.85 12 0.01 3 3A3A3A
+    mirrorx
+    tube 1.0 0.45 3.8 1.27 0.45 3.8 0.45 10 1E1E1E
+    mirrorx
+    tube 1.0 0.45 -3.5 1.27 0.45 -3.5 0.45 10 1E1E1E
+
+shape CYCLO
+    home VIETNAM, CAMBODIA | 0.006 1 12 | town
+    # A cyclo: a three-wheeled pedicab with the passenger seat in front under a folding hood and the driver pedalling from behind.
+    box 0 0.55 0.5 0.45 0.12 0.35 C82A2A
+    box 0 0.85 0.25 0.45 0.25 0.06 C82A2A
+    blob 0 1.15 0.35 0.48 0.35 0.3 2A2A2A
+    mirrorx
+    hoop 0.5 0.3 0.6 0.3 0.03 10 3A3A3A
+    hoop 0 0.33 -0.7 0.33 0.03 10 3A3A3A
+    tube 0 0.5 0.2 0 1.0 -0.6 0.04 3 3A3A3A
+    blob 0 1.25 -0.55 0.15 0.25 0.12 F2F2F2
+    blob 0 1.6 -0.55 0.09 0.1 0.09 C8A080
+    spire 0 1.65 -0.55 0.28 0.18 10 E8D8A0
+
+shape TONGA_CART
+    home INDIA:UTTAR PRADESH, INDIA:RAJASTHAN, INDIA:PUNJAB, PAKISTAN | 0.004 1 15 | town
+    # A horse tonga: a light two-wheeled carriage with a canopy and back-to-back seats, pulled by a thin horse in bright tassels.
+    blob 0 1.2 2 0.25 0.35 0.75 E8E4DC
+    tube 0 1.4 2.6 0 1.9 2.9 0.11 5 E8E4DC
+    blob 0 1.85 3.1 0.1 0.12 0.26 E8E4DC
+    tube 0.13 0.9 2.5 0.13 0 2.5 0.05 4 E8E4DC
+    tube -0.13 0.9 2.5 -0.13 0 2.5 0.05 4 E8E4DC
+    tube 0.13 0.9 1.5 0.13 0 1.5 0.05 4 E8E4DC
+    tube -0.13 0.9 1.5 -0.13 0 1.5 0.05 4 E8E4DC
+    blob 0 1.6 2.2 0.3 0.06 0.2 C82A2A
+    mirrorx
+    tube 0.35 1.0 1.6 0.35 1.0 0 0.03 3 8A6A48
+    box 0 0.95 -0.3 0.6 0.06 0.7 8A6A48
+    mirrorx
+    hoop 0.65 0.75 -0.3 0.75 0.04 12 6A4A30
+    quad -0.6 2.0 -1 -0.6 2.0 0.4 0.6 2.0 0.4 0.6 2.0 -1 F2F2EE
+    mirror
+    mirrorx
+    tube 0.55 1.0 0.35 0.55 2.0 0.35 0.02 3 8A8A8A
+
+shape URBAN_GONDOLA
+    home COLOMBIA:ANTIOQUIA, BOLIVIA:LA PAZ, MEXICO:MEXICO CITY, ALGERIA, TURKEY:MARMARA, GEORGIA | 0.003 4 50 | town
+    # A city cable car: little red cabins gliding high over the rooftops on their cable between tall steel pylons.
+    tube 0 0 -15 0 18 -15 0.4 6 9A9A9A
+    box 0 18 -15 1.5 0.3 0.4 9A9A9A
+    tube 0 0 15 0 22 15 0.4 6 9A9A9A
+    box 0 22 15 1.5 0.3 0.4 9A9A9A
+    tube 1.2 18.2 -15 1.2 22.2 15 0.04 3 3A3A3A
+    tube -1.2 18.2 -15 -1.2 22.2 15 0.04 3 3A3A3A
+    box 1.2 17.2 -5 0.7 0.8 0.8 C82A2A
+    box 1.21 17.4 -5 0.01 0.4 0.6 2A3A4A glass
+    tube 1.2 18 -5 1.2 19.5 -5 0.03 3 3A3A3A
+    box -1.2 19.8 6 0.7 0.8 0.8 C82A2A
+    tube -1.2 20.6 6 -1.2 21 6 0.03 3 3A3A3A
+
+shape FUNICULAR_CAR
+    home CHILE:VALPARAISO, PORTUGAL, SWITZERLAND, HUNGARY, ITALY:CAMPANIA, GEORGIA | 0.003 3 30 | town
+    # A funicular climbing the hillside: a little stepped wooden car on its steep track between the houses, the station at the top.
+    tbox -4 0 0 4 1 -8 8 0 0.5 1 7A7A70
+    tube -0.5 0.5 -0.5 -8 8.5 -0.5 0.05 3 8A8A8A
+    tube -0.5 0.5 0.5 -8 8.5 0.5 0.05 3 8A8A8A
+    tbox -4 4.2 0 0.9 0.8 -4.6 6.2 0 0.7 0.8 E8C02A
+    box -3.9 5.2 0.81 0.6 0.4 0.01 2A3A4A glass
+    box -9 9 0 1.5 1.2 2 F2EEE2
+    gable -9 10.2 0 1.7 2.2 0.8 0.2 B8603A F2EEE2
+
+shape CABLE_FERRY
+    home GERMANY, FRANCE:NOUVELLE-AQUITAINE, CANADA:QUEBEC, CANADA:ALBERTA, CANADA:SASKATCHEWAN, POLAND, NETHERLANDS, LAOS, CROATIA | 0.003 8 50 | country
+    # A little river cable ferry: a flat pontoon carrying two cars across, guided by a steel cable stretched from bank to bank.
+    box 2 0.02 0 4 0.02 14 4A5A5A water
+    box 2 0.4 0 2.5 0.3 4 6A6A6A
+    box 2 0.75 0 2.5 0.05 4 9A9A9A
+    box 2 1.5 -2.5 0.4 0.8 0.5 F2F2F2
+    box 2 1.0 1.5 0.8 0.3 1.8 C82A2A
+    tube 3.8 2.2 -14 3.8 2.2 14 0.02 3 3A3A3A
+    tube 3.8 0 -14 3.8 2.4 -14 0.15 4 8A8A8A
+    tube 3.8 0 14 3.8 2.4 14 0.15 4 8A8A8A
+
+shape HARBOUR_LIGHTS
+    home fleet:EUROPE, fleet:BRITISH, fleet:EAST_ASIA, fleet:LATIN, fleet:NORTH_AMERICA, fleet:OCEANIA, fleet:ARABIA, fleet:SOUTHEAST_ASIA, fleet:ISLANDS | 0.004 10 80 | coast
+    # The harbour entrance: two stone breakwaters each ending in a little light tower, red on one side and green on the other.
+    box -2 0.8 -8 1.2 0.8 6 9A9690
+    box -2 0.8 8 1.2 0.8 6 9A9690
+    cyl -2 1.6 -2.5 0.6 0.5 4 10 C82A2A
+    cyl -2 5.6 -2.5 0.5 0.5 0.6 10 F2F2F2 lit
+    cyl -2 1.6 2.5 0.6 0.5 4 10 2A8A4A
+    cyl -2 5.6 2.5 0.5 0.5 0.6 10 F2F2F2 lit
+
+shape RADAR_DOME
+    home GERMANY, USA, JAPAN, FRANCE, ENGLAND, SWITZERLAND, AUSTRALIA, CANADA, SPAIN, ITALY | 0.002 20 120 | country
+    # A weather radar station on the hilltop: a big white golf ball dome on a slender concrete tower, a fenced compound around its foot.
+    cyl 0 0 0 1.6 1.2 14 10 D8D8D0
+    blob 0 16 0 3.2 3.2 3.2 F2F2F2
+    box 3 1.2 3 1.5 1.2 2 C8C8C0
+    repeat 8 0 0 2
+    tube 5 0 -7 5 1.8 -7 0.04 3 8A8A8A
+    tube 5 1.6 -7 5 1.6 7 0.02 3 8A8A8A
+
+shape SIGNAL_BOX
+    home ENGLAND, SCOTLAND, WALES, GERMANY, IRELAND, AUSTRALIA:VICTORIA, AUSTRALIA:NEW SOUTH WALES, INDIA | 0.003 4 30 | country
+    # An old signal box beside the line: a two-storey brick and timber cabin with big windows all round the top, the semaphore signals beyond.
+    box 0 1.5 0 1.8 1.5 3 A8503A
+    box 0 4 0 2 1 3.2 C8B898
+    box 2.01 4.1 0 0.01 0.6 3 2A3A4A glass
+    hip 0 5 0 2.2 3.4 1 0.3 4A4A50
+    tbox 2.6 0 -3 0.4 0.5 2.6 3 -2 0.15 0.5 6A6A6A
+    tube 5 0 6 5 6 6 0.08 4 9A9A9A
+    box 5 5.6 6.4 0.03 0.12 0.5 C82A2A
+    tube 5 0 -8 5 6 -8 0.08 4 9A9A9A
+    box 5 5.6 -7.6 0.03 0.12 0.5 C82A2A
+    box 7 0.1 0 0.8 0.1 14 6A6058
+
+shape SUGAR_BEET_CLAMP
+    home GERMANY, FRANCE, NETHERLANDS, BELGIUM, POLAND, ENGLAND:EAST OF ENGLAND, DENMARK, CZECHIA, AUSTRIA | 0.006 2 30 | country
+    # A sugar beet clamp at the field edge: a long heap of muddy pale beets waiting for the lorries, half covered with a fleece.
+    tbox 0 0 0 2.2 9 0 1.8 0 0.3 8.5 C8B890
+    box 0 1.4 4 0.8 0.35 4.5 E8E8E8
+    blob 2.6 0.2 -6 0.3 0.2 0.3 C8B890 0.6
+    box -5 0.02 0 3 0.02 10 6A5A40
+
+shape CORN_STALK_STOOKS
+    home MEXICO, GUATEMALA, ROMANIA, SERBIA, BOSNIA, MOLDOVA, UKRAINE, HUNGARY, BULGARIA, KOSOVO, NORTH MACEDONIA | 0.008 4 50 | country
+    # Dried maize stalks bundled into teepee-shaped stooks across the harvested field, standing in rows like little huts.
+    repeat 4 0 0 3
+    spire 0 0 -4.5 0.8 2.4 6 C8B070
+    repeat 4 0 0 3
+    spire -3 0 -3 0.8 2.2 6 B8A060
+    repeat 4 0 0 3
+    spire -6 0 -4.5 0.8 2.4 6 C8B070
+    box -3 0.02 0 4 0.02 7 8A7A50
+
+shape NOODLE_CART
+    home VIETNAM, CHINA, THAILAND, LAOS, CAMBODIA, MALAYSIA, TAIWAN | 0.006 1 12 | town
+    # A noodle soup cart on the pavement: a glass-fronted wooden cart with a steaming pot of broth, bowls stacked, low stools around it.
+    box 0 0.8 0 0.5 0.4 0.9 8A6A48
+    box 0 1.35 0 0.48 0.15 0.88 C8E0E8 glass
+    cyl 0 1.2 -0.5 0.3 0.3 0.4 10 B8B8B8 shiny
+    blob 0 1.9 -0.5 0.25 0.35 0.25 E8EEF0 glass
+    repeat 3 0 0.08 0
+    cyl 0 1.2 0.4 0.15 0.12 0.06 8 F2F2F2
+    mirrorx
+    hoop 0.52 0.3 0.6 0.3 0.03 10 3A3A3A
+    repeat 4 0 0 0.8
+    box 1.2 0.2 -1.2 0.15 0.2 0.15 2A6AC8
+
+shape FISH_MARKET_TABLES
+    home MOROCCO, SENEGAL, GHANA, PORTUGAL, VIETNAM, CHILE, PERU:LIMA, TURKEY:BLACK SEA, MAURITANIA, INDIA:KERALA, SRI LANKA, INDONESIA | 0.006 2 25 | coast
+    # The morning fish market on the beach: tables and plastic tubs of silver fish, an octopus, a big tuna, gulls waiting on the boats.
+    repeat 3 0 0 2.2
+    box 0 0.75 -2.2 0.5 0.04 0.9 8A6A48
+    repeat 3 0 0 2.2
+    blob 0 0.82 -2.2 0.4 0.05 0.75 B8C0C8 shiny
+    repeat 4 0 0 1.4
+    cyl 1.2 0 -2.1 0.3 0.25 0.3 8 2A6AC8
+    repeat 4 0 0 1.4
+    blob 1.2 0.32 -2.1 0.25 0.06 0.25 A8B0B8 shiny
+    blob 0 0.95 2.2 0.18 0.18 0.6 3A4A6A
+    blob 2 0.15 2 0.12 0.1 0.18 F2F2F2
+
+shape SKATE_PARK
+    home USA, AUSTRALIA, ENGLAND, GERMANY, FRANCE, SPAIN, NETHERLANDS, CANADA, BRAZIL, DENMARK, SWEDEN, NEW ZEALAND | 0.003 4 40 | town
+    # A concrete skate park: a smooth grey bowl, quarter pipes and a rail, graffiti on the walls, a skater in mid air.
+    box 0 0.05 0 4 0.05 6 B8B8B0
+    tbox -3 0 -3 1 2.5 -3.8 1.6 -3 0.2 2.5 A8A8A0
+    tbox -3 0 3 1 2.5 -3.8 1.6 3 0.2 2.5 A8A8A0
+    box 1 0.3 0 0.6 0.3 2 A8A8A0
+    tube 2.5 0.6 -3 2.5 0.6 3 0.04 3 C8C8C8
+    box -4.1 1.8 0 0.1 0.6 4 E8502A
+    blob 1 1.6 1 0.15 0.3 0.12 2A6AC8
+    blob 1 2.0 1 0.09 0.1 0.09 C8986A
+    box 1 1.2 1 0.1 0.02 0.4 1E1E1E
+
+shape SAILING_DINGHIES
+    home ENGLAND, NEW ZEALAND, AUSTRALIA, NETHERLANDS, DENMARK, SWEDEN, GERMANY:SCHLESWIG-HOLSTEIN, FRANCE:BRITTANY, IRELAND, CROATIA, FINLAND | 0.004 4 40 | coast
+    # Sailing dinghies drawn up on the club slipway: little white boats on trolleys with their masts up and coloured sails furled.
+    repeat 4 0 0 2
+    tbox 0 0.2 -3 0.3 1.6 0 0.6 -3 0.7 2 F2F2F2
+    repeat 4 0 0 2
+    tube 0 0.6 -2.5 0 6 -2.5 0.04 3 C8C8C8
+    repeat 2 0 0 4
+    blob 0 1.5 -3 0.08 0.9 0.12 C82A2A
+    repeat 2 0 0 4
+    blob 0 1.5 -1 0.08 0.9 0.12 2A6AC8
+    repeat 4 0 0 2
+    hoop 0.5 0.15 -3 0.15 0.03 8 3A3A3A
+    box -3 0.1 0 1.5 0.1 6 9A9690
