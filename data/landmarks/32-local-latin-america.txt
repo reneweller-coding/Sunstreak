@@ -124,7 +124,7 @@ shape MAYA_NA_HOUSE
     box 2.02 0.9 0 0.03 0.9 0.45 3A2A1A
 
 shape TOWN_BANDSTAND
-    home MEXICO, GUATEMALA, EL SALVADOR, HONDURAS, NICARAGUA | 0.004 6 40 | town
+    home MEXICO, GUATEMALA, EL SALVADOR, HONDURAS, NICARAGUA, USA:MASSACHUSETTS, USA:NEW HAMPSHIRE, USA:MAINE, USA:CONNECTICUT | 0.004 6 40 | town
     # A kiosko: the wrought-iron bandstand in the middle of the town plaza, under a little dome, laurel trees around.
     cyl 0 0 0 3 3 1 8 E8E2D8
     ring 8 2.7

@@ -186,7 +186,7 @@ shape ONION_TOWER_CHAPEL
     hoop 1.25 7.4 4.2 0.45 0.04 12 2A2A2A
 
 shape HOP_GARDEN
-    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG, CZECHIA, SLOVENIA | 0.004 6 60 | country
+    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG, CZECHIA, SLOVENIA, USA:WASHINGTON, USA:OREGON, USA:IDAHO | 0.004 6 60 | country
     # A hop garden: tall poles strung with wires, the bines climbing to the top.
     repeat 4 0 0 6
     tube 0 0 -9 0 7 -9 0.1 4 8A7A5A

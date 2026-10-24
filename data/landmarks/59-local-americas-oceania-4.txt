@@ -1,0 +1,172 @@
+# Yet more local things of North America and Oceania.
+
+shape CRAWFISH_PONDS
+    home USA:LOUISIANA | 0.008 6 60 | country
+    # Crawfish ponds in the flooded rice fields: shallow water with rows of mesh traps poking up, a little flat boat working along them.
+    box -2 0.02 0 6 0.02 8 4A5A3A water
+    repeat 6 -1.6 0 0
+    cyl 0 0 -7 0.12 0.12 0.5 6 2A8A4A
+    repeat 6 -1.6 0 0
+    cyl 0 0 -5 0.12 0.12 0.5 6 2A8A4A
+    repeat 6 -1.6 0 0
+    cyl -0.8 0 -3 0.12 0.12 0.5 6 2A8A4A
+    repeat 6 -1.6 0 0
+    cyl 0 0 -1 0.12 0.12 0.5 6 2A8A4A
+    repeat 6 -1.6 0 0
+    cyl -0.8 0 1 0.12 0.12 0.5 6 2A8A4A
+    repeat 6 -1.6 0 0
+    cyl 0 0 3 0.12 0.12 0.5 6 2A8A4A
+    box -4 0.2 5 0.7 0.15 1.8 9A9A9A
+    box 2.2 0.35 0 0.2 0.35 8 6A5A40
+
+shape ASPEN_GROVE
+    home USA:COLORADO, USA:UTAH, USA:WYOMING, USA:MONTANA, USA:IDAHO, USA:NEW MEXICO, CANADA:ALBERTA, CANADA:BRITISH COLUMBIA | 0.008 6 60 | country
+    # A grove of quaking aspens in autumn: slender white trunks with black marks, their small crowns turned bright gold.
+    repeat 5 1.3 0 1.6
+    tube -3 0 -4 -3 6 -4 0.14 5 E8E8E0
+    repeat 5 1.3 0 1.6
+    blob -3 7 -4 1 1.6 1 E8C02A 0.4
+    repeat 4 1.5 0 1.8
+    tube -4 0 -1 -4 5 -1 0.12 5 E8E8E0
+    repeat 4 1.5 0 1.8
+    blob -4 6 -1 0.9 1.4 0.9 F2D040 0.4
+
+shape RING_NECKED_PHEASANTS
+    home USA:SOUTH DAKOTA, USA:NORTH DAKOTA, USA:IOWA, USA:NEBRASKA, ENGLAND, HUNGARY, CHINA:SHAANXI, CHINA:HEBEI, CZECHIA, DENMARK, NEW ZEALAND:CANTERBURY | 0.006 2 30 | country
+    # Pheasants at the field edge: a cock with a copper body, green head, red face patch and long barred tail, two brown hens beside him.
+    blob 0 0.3 0 0.13 0.13 0.25 B8602A
+    blob 0 0.5 0.2 0.06 0.08 0.07 2A6A4A
+    blob 0.03 0.52 0.25 0.02 0.03 0.03 C82A2A
+    tube 0 0.32 -0.2 0 0.4 -0.8 0.03 3 9A6A3A
+    repeat 2 0.6 0 0.8
+    blob 0.8 0.25 0.5 0.11 0.11 0.2 9A7A50
+    repeat 2 0.6 0 0.8
+    tube 0.8 0.28 0.3 0.8 0.33 0.0 0.025 3 9A7A50
+    repeat 6 0 0 1
+    blob -1.5 0.6 -2.5 0.3 0.6 0.4 C8B060 0.5
+
+shape BLUEBERRY_BARRENS
+    home USA:MAINE, CANADA:NOVA SCOTIA, CANADA:NEW BRUNSWICK, CANADA:QUEBEC | 0.006 6 60 | country
+    # Wild blueberry barrens: rolling low shrubland turning deep red in autumn, glacial boulders scattered over it, rakers in the field.
+    box -4 0.15 0 6 0.15 10 A83A2A
+    blob -4 0.3 -4 4 0.15 4 8A2A3A 0.5
+    blob -3 0.3 5 3 0.15 3 B84A2A 0.5
+    blob -2 0.6 0 0.8 0.6 0.9 9A9690 0.4
+    blob -7 0.5 -6 0.6 0.5 0.7 8A8680 0.4
+    blob -5 0.75 3 0.15 0.3 0.15 2A6AC8
+    blob -5 1.1 3 0.09 0.1 0.09 E0B090
+
+shape PECAN_ORCHARD
+    home USA:GEORGIA, USA:TEXAS, USA:NEW MEXICO, USA:OKLAHOMA, USA:ARIZONA, USA:LOUISIANA, MEXICO:CHIHUAHUA, MEXICO:COAHUILA | 0.006 6 60 | country
+    # A pecan orchard: tall wide-spreading trees in long straight rows, the ground beneath them mown bare for the harvest shaker.
+    repeat 3 0 0 7
+    tube 0 0 -7 0 4 -7 0.35 6 8A7A68
+    repeat 3 0 0 7
+    blob 0 7 -7 3.5 3 3.5 4A7A3A 0.3
+    repeat 3 0 0 7
+    tube -7 0 -3.5 -7 4 -3.5 0.35 6 8A7A68
+    repeat 3 0 0 7
+    blob -7 7 -3.5 3.5 3 3.5 4A7A3A 0.3
+    box -3.5 0.02 0 7 0.02 12 9A8A60
+
+shape CATFISH_PONDS
+    home USA:MISSISSIPPI, USA:ARKANSAS, USA:ALABAMA | 0.006 8 70 | country
+    # Catfish farm ponds: big square ponds side by side behind grass levees, paddlewheel aerators churning the brown water.
+    box -4 0.02 -5 4 0.02 4.5 6A6A48 water
+    box -4 0.02 5 4 0.02 4.5 6A6A48 water
+    box -4 0.2 0 4.2 0.2 0.3 6A8A3A
+    box 0.2 0.2 0 0.3 0.2 10 6A8A3A
+    box -2 0.25 -3 0.6 0.15 0.4 E8E8E8
+    tube -2 0.2 -3.6 -2 0.2 -3.4 0.35 8 C8C8C8
+    box -6 0.25 6 0.6 0.15 0.4 E8E8E8
+
+shape WILD_MUSTANGS
+    home USA:NEVADA, USA:WYOMING, USA:UTAH, USA:OREGON, USA:MONTANA, AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:VICTORIA, AUSTRALIA:NORTHERN TERRITORY, AUSTRALIA:QUEENSLAND | 0.004 8 60 | country
+    # A band of wild horses on the sagebrush flats: bay, grey and pinto horses with long manes, a stallion standing guard.
+    repeat 4 1.5 0 1.8
+    blob -2 1.3 -3 0.3 0.4 0.85 7A4A2A
+    repeat 4 1.5 0 1.8
+    tube -2 1.55 -2.3 -2 2.05 -2 0.13 5 7A4A2A
+    repeat 4 1.5 0 1.8
+    blob -2 2.0 -1.75 0.12 0.14 0.3 7A4A2A
+    repeat 4 1.5 0 1.8
+    tube -1.83 1.05 -2.4 -1.83 0 -2.4 0.06 4 7A4A2A
+    repeat 4 1.5 0 1.8
+    tube -2.17 1.05 -2.4 -2.17 0 -2.4 0.06 4 7A4A2A
+    repeat 4 1.5 0 1.8
+    tube -1.83 1.05 -3.6 -1.83 0 -3.6 0.06 4 7A4A2A
+    repeat 4 1.5 0 1.8
+    tube -2.17 1.05 -3.6 -2.17 0 -3.6 0.06 4 7A4A2A
+    repeat 4 1.5 0 1.8
+    tube -2 1.5 -3.85 -2 0.6 -4.1 0.06 3 2A1E18
+    blob -0.5 1.32 -1.2 0.32 0.36 0.6 F2EEE8
+    blob 1 1.32 0.6 0.25 0.3 0.5 3A2A1E
+
+shape FLYING_FOXES
+    home AUSTRALIA:QUEENSLAND, AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:VICTORIA, INDIA, SRI LANKA, MADAGASCAR, INDONESIA, FIJI, TONGA, SAMOA | 0.004 4 40 | country
+    # A colony of fruit bats in a big riverside tree: dozens of dark shapes hanging upside down from the branches, a few flapping about.
+    tube 0 0 0 0 5 0 0.5 6 6A5A48
+    tube 0 4 0 3 6.5 1 0.25 5 6A5A48
+    tube 0 4 0 -3 6.2 -1 0.25 5 6A5A48
+    tube 0 4.5 0 0.5 7 -3 0.2 5 6A5A48
+    blob 0 8 0 4 2 4 3A6A2A 0.4
+    repeat 6 0.5 0.25 0.15
+    blob 0.4 5.6 0.6 0.12 0.25 0.12 2A2018
+    repeat 5 -0.5 0.22 -0.2
+    blob -0.6 5.4 -0.5 0.12 0.25 0.12 2A2018
+    repeat 4 0.1 0.25 -0.6
+    blob 0.2 5.8 -1 0.12 0.25 0.12 2A2018
+    quad 3 9 3 3.6 9.2 2.8 3.6 9.2 3.4 3 9 3.2 2A2018
+
+shape BILUM_STALL
+    home PAPUA NEW GUINEA | 0.006 1 15 | town
+    # A market stall of string bags: bilums in bright stripes and patterns hanging in rows from a pole frame, sellers sitting on the grass.
+    tube 0 0 -2 0 2 -2 0.05 3 8A6A48
+    tube 0 0 2 0 2 2 0.05 3 8A6A48
+    tube 0 2 -2 0 2 2 0.04 3 8A6A48
+    tube 0 1.4 -2 0 1.4 2 0.03 3 8A6A48
+    repeat 6 0 0 0.7
+    blob 0.05 1.7 -1.75 0.04 0.25 0.2 E83A2A
+    repeat 6 0 0 0.7
+    blob 0.05 1.1 -1.75 0.04 0.25 0.2 F2C21E
+    repeat 3 0 0 0.7
+    blob 0.05 1.7 -1.4 0.04 0.25 0.2 2A8A4A
+    blob 1 0.3 0.5 0.25 0.3 0.25 6A3A2A
+    blob 1 0.75 0.5 0.1 0.11 0.1 4A3020
+
+shape WOODEN_BUS_SAMOA
+    home SAMOA, TONGA, FIJI | 0.006 2 20 | town
+    # A painted wooden bus of the islands: a truck chassis with a colourful hand-built wooden body, open windows and music blaring.
+    box 0 1.2 3 1.1 0.7 0.8 E8E8E8
+    box 0 1.6 3.81 1.0 0.3 0.01 2A3A4A glass
+    box 0 1.8 -1 1.2 1.1 3.2 E8C02A
+    box 1.21 2.0 -1 0.01 0.4 3 2A2A2A
+    box 1.21 1.2 -1 0.01 0.15 3.2 C82A2A
+    box 1.21 0.95 -1 0.01 0.08 3.2 2A6AC8
+    box 0 2.95 -1 1.25 0.05 3.3 F2F2F2
+    mirrorx
+    tube 0.95 0.45 2.8 1.22 0.45 2.8 0.45 10 1E1E1E
+    mirrorx
+    tube 0.95 0.45 -3.0 1.22 0.45 -3.0 0.45 10 1E1E1E
+
+shape DINGOES
+    home AUSTRALIA | 0.004 4 40 | country
+    # A pair of dingoes trotting across the red earth: lean ginger dogs with white socks and bushy white-tipped tails.
+    repeat 2 1.2 0 1.6
+    blob -0.6 0.55 -0.8 0.14 0.17 0.42 C8803A
+    repeat 2 1.2 0 1.6
+    blob -0.6 0.68 -0.3 0.09 0.1 0.16 C8803A
+    repeat 2 1.2 0 1.6
+    tube -0.55 0.75 -0.33 -0.55 0.85 -0.33 0.025 3 C8803A
+    repeat 2 1.2 0 1.6
+    tube -0.65 0.75 -0.33 -0.65 0.85 -0.33 0.025 3 C8803A
+    repeat 2 1.2 0 1.6
+    tube -0.52 0.4 -0.5 -0.52 0 -0.5 0.035 3 F2EEE2
+    repeat 2 1.2 0 1.6
+    tube -0.68 0.4 -0.5 -0.68 0 -0.5 0.035 3 F2EEE2
+    repeat 2 1.2 0 1.6
+    tube -0.52 0.4 -1.1 -0.52 0 -1.1 0.035 3 F2EEE2
+    repeat 2 1.2 0 1.6
+    tube -0.68 0.4 -1.1 -0.68 0 -1.1 0.035 3 F2EEE2
+    repeat 2 1.2 0 1.6
+    tube -0.6 0.6 -1.2 -0.6 0.5 -1.6 0.05 4 C8803A
