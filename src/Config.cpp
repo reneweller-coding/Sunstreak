@@ -206,6 +206,7 @@ LaunchOptions parseCommandLine( int argc, char **argv )
         else if( a == "--code" ) o.m_code = next();
         else if( a == "--championship" ) o.m_championship = true;
         else if( a == "--screen" ) o.m_screen = next();
+        else if( a == "--shape" ) o.m_shape = next();
         else if( a == "--quit-after" ) o.m_quitAfter = static_cast<float>( std::atof( next().c_str() ) );
         else if( a == "--screenshot" ) o.m_screenshot = next();
         else if( a == "--distance" ) o.m_startDistance = static_cast<float>( std::atof( next().c_str() ) );

@@ -132,6 +132,11 @@ void Game::init()
         if( m_options.m_screen == "garage" ) m_state = StateE::GARAGE;
         if( m_options.m_screen == "rallies" ) m_state = StateE::RALLIES;
         if( m_options.m_screen == "passport" ) m_state = StateE::PASSPORT;
+        if( m_options.m_screen == "viewer" )
+        {
+            openViewer();
+            m_viewerIndex = std::max( 0, landmarkByName( m_options.m_shape ) );
+        }
         if( m_options.m_screen == "stamps" || m_options.m_screen == "regions" || m_options.m_screen == "postcards" )
         {
             m_state = StateE::PASSPORT;
@@ -571,6 +576,34 @@ void Game::unloadPostcards()
     m_postcardTex.clear();
 }
 
+void Game::reloadGameData()
+{
+    // Places are numbered anew: the records go by name through their file, the chosen places by their IDs.
+    m_records.save( configDirectory() + "/records.txt" );
+    auto key = []( int id ) { return id >= 0 && id < biomeCount() ? biomeKey( static_cast<BiomeE>( id ) ) : std::string(); };
+    auto id = []( const std::string &k, int old ) { return k.empty() ? old : biomeId( k ); };
+    const std::string startKey = key( m_setup.m_startBiome ), optionKey = key( m_options.m_startBiome ), sceneryKey = key( m_setup.m_params.m_biome );
+    const std::vector<int8_t> choices = m_track ? m_track->tourChoices() : std::vector<int8_t>();
+    m_world.clear();
+    const std::string from = reloadData( GetApplicationDirectory() );
+    resetDataErrors();
+    const int errors = dataErrors();
+    m_models.reloadDataShapes();
+    m_records = Records();
+    m_records.load( configDirectory() + "/records.txt" );
+    m_setup.m_startBiome = id( startKey, m_setup.m_startBiome );
+    m_options.m_startBiome = id( optionKey, m_options.m_startBiome );
+    m_setup.m_params.m_biome = id( sceneryKey, m_setup.m_params.m_biome );
+    const StateE state = m_state;
+    if( m_demo ) startDemo();
+    else setupTrack( m_seed, m_car.m_s, m_setup.m_params, &choices );
+    m_state = state;
+    m_viewerBuilt = -1;
+    popup( "DATA RELOADED", format( "%d PLACES   %d SHAPES   %d ERRORS   %s", biomeCount(), static_cast<int>( dataShapes().size() ), errors,
+                                    from.empty() ? "BUILT IN" : "FROM FILES" ),
+           errors ? Red : Green, 0.7f, 3.5f );
+}
+
 void Game::setupTrack( uint64_t seed, double startS, const TrackParams &params, const std::vector<int8_t> *choices )
 {
     m_seed = seed;
@@ -917,6 +950,9 @@ void Game::frame( float dt )
     m_input.update();
     if( m_input.m_fullscreen ) toggleFullscreen();
     if( m_input.m_stats ) m_showStats = !m_showStats;
+    const bool busy = m_state == StateE::REPLAY || m_state == StateE::PHOTO || m_state == StateE::INITIALS || m_state == StateE::CODE_ENTRY;
+    if( m_input.m_reload && !busy ) reloadGameData();
+    if( m_input.m_viewer && !busy ) m_state == StateE::VIEWER ? closeViewer() : openViewer();
     m_frameMsPeak = std::max( dt * 1000.0f, m_frameMsPeak * 0.995f );
     const MenuInput mi = m_input.menu();
 
@@ -956,6 +992,7 @@ void Game::frame( float dt )
         menus( mi );
         if( m_demo ) simulate( dt, true );
         break;
+    case StateE::VIEWER: viewerStep( mi, dt ); break;
     case StateE::COUNTDOWN:
     {
         if( m_input.m_pause )
@@ -997,6 +1034,7 @@ void Game::frame( float dt )
             // Testing: the replay or the photo mode, without a key.
             if( m_options.m_action == "replay" ) startReplay( StateE::GAMEOVER );
             if( m_options.m_action == "photo" ) m_state = StateE::PHOTO;
+            if( m_options.m_action == "reload" ) reloadGameData();
             m_options.m_action.clear();
             break;
         }

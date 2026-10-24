@@ -51,6 +51,8 @@ public:
     bool m_fullscreen = false;   ///< F11 or Alt+Enter pressed
     bool m_nextStation = false;  ///< M or the View button: the next radio station
     bool m_nextTrack = false;    ///< N: the next track
+    bool m_reload = false;       ///< F5: read the data files again
+    bool m_viewer = false;       ///< F6: the landmark viewer
     bool m_gamepad = false;      ///< a gamepad is connected
 
 private:

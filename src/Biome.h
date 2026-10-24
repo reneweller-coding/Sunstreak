@@ -962,6 +962,29 @@ int dataErrors();
 int compiledLandmarks();
 
 /**
+ * @brief How many landmarks there are: the compiled ones, then every shape of the data files (creatures too).
+ * @return the number of LANDMARK variants
+ */
+int landmarkCount();
+
+/**
+ * @brief A landmark's name.
+ * @param[in] variant  its LANDMARK variant
+ * @return the name, or empty
+ */
+std::string landmarkName( int variant );
+
+/**
+ * @brief A landmark by its name.
+ * @param[in] name  as the places call it
+ * @return its LANDMARK variant, or -1
+ */
+int landmarkByName( const std::string &name );
+
+/** @brief Forgets the data errors counted so far (before the data files are read again). */
+void resetDataErrors();
+
+/**
  * @brief The definition of a biome.
  * @param[in] biome  which one
  * @return its definition (static storage)

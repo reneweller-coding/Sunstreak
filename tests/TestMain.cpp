@@ -346,6 +346,15 @@ int main()
         }
         std::printf( "      %d landmarks from the data, %d broken lines\n", static_cast<int>( dataShapes().size() ), shapeErrors );
         check( shapeErrors == 0 && shapesBuilt, "the landmarks of the data build" );
+        { // F5: the files read again give the same places, the same route and the same shapes.
+            const int         places = biomeCount(), shapes = static_cast<int>( dataShapes().size() ), route = static_cast<int>( worldRoute().size() );
+            const std::string from = reloadData( "" );
+            resetDataErrors();
+            std::printf( "      read again from %s\n", from.empty() ? "the built-in copies" : from.c_str() );
+            check( dataErrors() == 0 && biomeCount() == places && static_cast<int>( dataShapes().size() ) == shapes &&
+                       static_cast<int>( worldRoute().size() ) == route && biomeId( "TUSCANY" ) == static_cast<int>( BiomeE::TUSCANY ),
+                   "the data files read again" );
+        }
     }
     check( trackTitle( 42 ) == trackTitle( 42 ) && trackTitle( 42 ).size() > 6, "track titles" );
 

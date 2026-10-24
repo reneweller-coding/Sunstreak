@@ -17,6 +17,9 @@ namespace sunstreak
 namespace
 {
 
+std::string      g_found;               ///< the data folder a reload found (empty: none)
+std::atomic<int> g_generation{ 0 };     ///< bumped by every reload
+
 /**
  * @brief The folder that overrides the built-in data.
  * @return its path, or empty
@@ -24,7 +27,7 @@ namespace
 std::string overrideDir()
 {
     const char *dir = std::getenv( "SUNSTREAK_DATA" );
-    return dir ? std::string( dir ) : std::string();
+    return dir ? std::string( dir ) : g_found;
 }
 
 /**
@@ -115,9 +118,27 @@ std::vector<std::string> splitLine( const std::string &line, char sep )
     return parts;
 }
 
+int dataGeneration()
+{
+    return g_generation.load( std::memory_order_acquire );
+}
+
+std::string reloadData( const std::string &programDir )
+{
+    namespace fs = std::filesystem;
+    g_found.clear();
+    std::error_code ec;
+    for( fs::path base : { fs::current_path( ec ), fs::path( programDir ) } )
+        for( int up = 0; up < 4 && g_found.empty() && !base.empty(); ++up, base = base.parent_path() )
+            if( fs::is_directory( base / "data" / "places", ec ) ) g_found = ( base / "data" ).string();
+    g_generation.fetch_add( 1, std::memory_order_acq_rel );
+    return overrideDir();
+}
+
 const std::vector<DataShape> &dataShapes()
 {
-    static const std::vector<DataShape> shapes = []
+    static DataCache<std::vector<DataShape>> cache;
+    return cache.get( []
     {
         std::vector<DataShape> out;
         for( const char *folder : { "landmarks/", "creatures/" } )
@@ -135,8 +156,7 @@ const std::vector<DataShape> &dataShapes()
                 }
             }
         return out;
-    }();
-    return shapes;
+    } );
 }
 
 } // namespace sunstreak

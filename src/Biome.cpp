@@ -4,6 +4,7 @@
  * @author reneweller
  */
 #include "Biome.h"
+#include "Data.h"
 
 #include "MathUtil.h"
 
@@ -1125,8 +1126,8 @@ std::vector<BiomeDef> makeBiomes()
  */
 const std::vector<BiomeDef> &biomeTable()
 {
-    static const std::vector<BiomeDef> table = makeBiomes();
-    return table;
+    static DataCache<std::vector<BiomeDef>> cache;
+    return cache.get( makeBiomes );
 }
 
 } // namespace

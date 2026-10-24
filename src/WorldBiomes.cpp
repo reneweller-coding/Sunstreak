@@ -6,6 +6,7 @@
  * @author reneweller
  */
 #include "Biome.h"
+#include "Data.h"
 
 #include "MathUtil.h"
 #include "Music.h"
@@ -169,7 +170,8 @@ void forkNames( BiomeE left, BiomeE right, BiomeE from, std::string &a, std::str
 
 int countryCount()
 {
-    static const int n = []
+    static DataCache<int> cache;
+    return cache.get( []
     {
         std::vector<std::string> seen;
         for( int i = 0; i < biomeCount(); ++i )
@@ -178,8 +180,7 @@ int countryCount()
             if( c && std::find( seen.begin(), seen.end(), c ) == seen.end() ) seen.push_back( c );
         }
         return static_cast<int>( seen.size() );
-    }();
-    return n;
+    } );
 }
 
 } // namespace sunstreak

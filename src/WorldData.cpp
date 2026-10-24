@@ -463,7 +463,8 @@ std::vector<Header> readPlaces()
  */
 const std::vector<CountryInfo> &countries()
 {
-    static const std::vector<CountryInfo> list = []
+    static DataCache<std::vector<CountryInfo>> cache;
+    return cache.get( []
     {
         std::vector<CountryInfo> out;
         const char *const        lines[] = { "WHITE", "YELLOW", "EDGE" };
@@ -496,8 +497,7 @@ const std::vector<CountryInfo> &countries()
             out.push_back( c );
         }
         return out;
-    }();
-    return list;
+    } );
 }
 
 /** @brief The route and where its places are. */
@@ -593,7 +593,8 @@ void findForks( RouteData &d )
  */
 const RouteData &routeData()
 {
-    static const RouteData data = []
+    static DataCache<RouteData> cache;
+    return cache.get( []
     {
         RouteData d;
         const int count = biomeCount();
@@ -614,8 +615,7 @@ const RouteData &routeData()
         }
         findForks( d );
         return d;
-    }();
-    return data;
+    } );
 }
 
 } // namespace
@@ -706,6 +706,29 @@ int compiledLandmarks()
     return static_cast<int>( std::size( LandmarkNames ) );
 }
 
+int landmarkCount()
+{
+    return compiledLandmarks() + static_cast<int>( dataShapes().size() );
+}
+
+std::string landmarkName( int variant )
+{
+    if( variant >= 0 && variant < compiledLandmarks() ) return LandmarkNames[variant];
+    const auto  &shapes = dataShapes();
+    const size_t i = static_cast<size_t>( std::max( 0, variant - compiledLandmarks() ) );
+    return variant >= compiledLandmarks() && i < shapes.size() ? shapes[i].m_name : std::string();
+}
+
+int landmarkByName( const std::string &name )
+{
+    return landmarkVariant( name );
+}
+
+void resetDataErrors()
+{
+    g_errors = 0;
+}
+
 int dataErrors()
 {
     biomeCount();
@@ -779,7 +802,8 @@ namespace
  */
 const std::vector<std::pair<int, GeoPoint>> &seaAnchors()
 {
-    static const std::vector<std::pair<int, GeoPoint>> list = []
+    static DataCache<std::vector<std::pair<int, GeoPoint>>> cache;
+    return cache.get( []
     {
         std::vector<std::pair<int, GeoPoint>> out;
         for( const std::string &line : dataLines( dataText( "seas.txt" ) ) )
@@ -794,8 +818,7 @@ const std::vector<std::pair<int, GeoPoint>> &seaAnchors()
             out.push_back( { id, GeoPoint{ std::strtof( p[1].c_str(), nullptr ), std::strtof( p[2].c_str(), nullptr ) } } );
         }
         return out;
-    }();
-    return list;
+    } );
 }
 
 /**

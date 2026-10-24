@@ -207,6 +207,7 @@ public:
     Livery                                             m_liveryOf{};     ///< what m_livery shows
     std::vector<VehicleModel>                          m_traffic;        ///< traffic, paints included
     std::vector<int>                                   m_creatureModel;  ///< per data shape: its traffic model if it swims (-1: none)
+    size_t                                             m_creatureFirst = 0;   ///< the first creature in m_traffic (they come last)
     Mesh                                               m_cone{};         ///< traffic cone
     std::array<Mesh, 2>                                m_arrowBoard{};   ///< roadworks board, arrow left / right
     Mesh                                               m_shadow{};       ///< unit blob shadow
@@ -220,6 +221,21 @@ private:
 
     /** @brief Builds the world tour's props (ModelsWorld.cpp). */
     void buildWorldProps();
+
+    /** @brief Appends the landmarks of the data files to the compiled ones. */
+    void buildDataLandmarks();
+
+public:
+    /** @brief Builds the shapes of the data files and the flags again, after reloadData(). */
+    void reloadDataShapes();
+
+private:
+
+    /** @brief Builds the traffic models of what swims (the creatures of the data files). */
+    void buildCreatures();
+
+    /** @brief Builds a flag per country of the data files. */
+    void buildFlags();
 
     std::array<std::vector<MeshBuilder>, static_cast<size_t>( PropKindE::COUNT )> m_props;    ///< variants per kind
     std::array<float, static_cast<size_t>( PropKindE::COUNT )>                    m_radius{};  ///< collision radii

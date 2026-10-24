@@ -6,7 +6,9 @@
  */
 #pragma once
 
+#include <atomic>
 #include <cstddef>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -69,5 +71,52 @@ struct DataShape
  * @return them
  */
 const std::vector<DataShape> &dataShapes();
+
+/**
+ * @brief How often the data files were read again: what is built from them is built again when it changes.
+ * @return the generation (0 at the start)
+ */
+int dataGeneration();
+
+/**
+ * @brief Reads the data files again on their next use: from the folder SUNSTREAK_DATA names, else from a data folder in
+ *        the working directory, beside the program or a few folders above either (a build's bin folder), else from the
+ *        built-in copies. Nothing may be building from them meanwhile (the world's worker stands still).
+ * @param[in] programDir  the program's folder
+ * @return the folder they come from (empty: the built-in copies)
+ */
+std::string reloadData( const std::string &programDir );
+
+/** @brief Something built from the data files: built on first use, and again after reloadData(). */
+template <typename T>
+class DataCache
+{
+public:
+    /**
+     * @brief The value, built if the data changed since.
+     * @param[in] build  builds it
+     * @return it
+     */
+    template <typename F>
+    const T &get( F build )
+    {
+        const int g = dataGeneration();
+        if( m_generation.load( std::memory_order_acquire ) != g )
+        {
+            std::lock_guard<std::mutex> lock( m_mutex );
+            if( m_generation.load( std::memory_order_relaxed ) != g )
+            {
+                m_value = build();
+                m_generation.store( g, std::memory_order_release );
+            }
+        }
+        return m_value;
+    }
+
+private:
+    T                m_value{};              ///< the value
+    std::atomic<int> m_generation{ -1 };     ///< the data generation it was built from
+    std::mutex       m_mutex;                ///< one builder at a time
+};
 
 } // namespace sunstreak

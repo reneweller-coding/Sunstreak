@@ -19,6 +19,7 @@
 #include "Haptics.h"
 #include "Car.h"
 #include "Config.h"
+#include "Data.h"
 #include "Input.h"
 #include "Models.h"
 #include "Particles.h"
@@ -143,6 +144,7 @@ enum class StateE
     RALLIES,     ///< choosing a rally
     REPLAY,      ///< the last minute again, from the roadside
     PHOTO,       ///< the game stands still, the camera roams
+    VIEWER,      ///< every landmark and creature, one at a time (F6)
 };
 
 /** @brief What is being played. */
@@ -606,6 +608,35 @@ private:
      */
     void drawRegions( float x, float y, float w, float h );
 
+    /** @brief Reads the data files again (F5): places, countries, the route, the shapes; the road is built anew. */
+    void reloadGameData();
+
+    /** @brief Opens the landmark viewer (F6). */
+    void openViewer();
+
+    /** @brief Leaves the landmark viewer for where it was opened. */
+    void closeViewer();
+
+    /**
+     * @brief Moves the landmark viewer on: browsing, turning, zooming.
+     * @param[in] mi  the menu keys
+     * @param[in] dt  seconds
+     */
+    void viewerStep( const MenuInput &mi, float dt );
+
+    /** @brief Builds the viewer's model, coloured as its first place paints it, and the ground under it. */
+    void buildViewerMesh();
+
+    /**
+     * @brief Turns the scene into the viewer's: the model alone on its place's ground, under its place's sky.
+     * @param[in,out] in   the scene
+     * @param[out]    cam  the camera round the model
+     */
+    void viewerScene( SceneInput &in, CameraView &cam );
+
+    /** @brief Draws the viewer's labels. */
+    void drawViewer();
+
     /**
      * @brief A garage item's value as text.
      * @param[in] item  the item
@@ -660,6 +691,18 @@ private:
     bool   m_quit = false;            ///< close the game
     bool   m_demo = true;             ///< the run is the title's demo
     bool   m_tourContinue = true;     ///< the title's endless run continues the world tour where it stopped
+    int         m_viewerIndex = 0;             ///< the landmark viewer's model (a LANDMARK variant)
+    int         m_viewerBuilt = -1;            ///< the model its meshes show (-1: none)
+    Mesh        m_viewerMesh{};                ///< that model
+    Mesh        m_viewerGround{};              ///< the ground under it
+    int         m_viewerPlace = -1;            ///< the place whose sky and ground it shows (-1: none uses it)
+    std::vector<const char *> m_viewerPlaces;  ///< the places that show it
+    Vector3     m_viewerSize{};                ///< its half sizes
+    float       m_viewerCenterY = 0.0f;        ///< the height the camera looks at
+    float       m_viewerYaw = 0.6f;            ///< the camera round it
+    float       m_viewerPitch = 0.22f;         ///< and above it
+    float       m_viewerZoom = 1.0f;           ///< and how near
+    StateE      m_viewerReturn = StateE::TITLE;   ///< where it goes back to
 
     // The track being driven.
     TrackSetup  m_setup;              ///< its setup

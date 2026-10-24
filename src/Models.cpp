@@ -1952,27 +1952,10 @@ void Models::buildVehicles()
         m_traffic.push_back( vm );
     }
 
-    // ---- What swims round the undersea tunnels: the creatures of data/creatures ----------------------------------
-    m_creatureModel.assign( dataShapes().size(), -1 );
-    for( size_t i = 0; i < dataShapes().size(); ++i )
-    {
-        if( !dataShapes()[i].m_creature ) continue;
-        MeshBuilder shape, mb;
-        buildDataShape( shape, dataShapes()[i] );
-        mb.append( shape, Vector3{ 0.0f, 0.0f, 0.0f }, 0.0f, CreatureScale );   // a little larger than life: seen through glass
-        const Vector3 e = mb.extent();
-        VehicleModel  vm;
-        vm.m_mesh = mb.upload();
-        vm.m_length = std::max( 0.5f, e.z * 2.0f );
-        vm.m_width = std::max( 0.5f, e.x * 2.0f );
-        vm.m_animal = PropKindE::LANDMARK;   // not a vehicle, not a land animal: a swimmer
-        m_creatureModel[i] = static_cast<int>( m_traffic.size() );
-        m_traffic.push_back( vm );
-    }
+    buildCreatures();
 
     // ---- Flags and the border post -----------------------------------------------------------------------------
-    m_flags.resize( static_cast<size_t>( countryTableSize() ) );
-    for( int c = 0; c < countryTableSize(); ++c ) buildFlag( m_flags[static_cast<size_t>( c )], countryAt( c ).m_flag );
+    buildFlags();
     {
         MeshBuilder &m = m_borderPost;
         m.box( Vector3{ 0, 1.3f, 0 }, Vector3{ 1.2f, 1.3f, 1.4f }, rgb( 236, 236, 230 ) );
@@ -2029,6 +2012,34 @@ void Models::buildVehicles()
             mb.tri3( i0, o1, i1, inner, outer, inner );
         }
         m_shadow = mb.upload();
+    }
+}
+
+void Models::buildFlags()
+{
+    m_flags.assign( static_cast<size_t>( countryTableSize() ), {} );
+    for( int c = 0; c < countryTableSize(); ++c ) buildFlag( m_flags[static_cast<size_t>( c )], countryAt( c ).m_flag );
+}
+
+void Models::buildCreatures()
+{
+    // ---- What swims round the undersea tunnels: the creatures of data/creatures ----------------------------------
+    m_creatureFirst = m_traffic.size();
+    m_creatureModel.assign( dataShapes().size(), -1 );
+    for( size_t i = 0; i < dataShapes().size(); ++i )
+    {
+        if( !dataShapes()[i].m_creature ) continue;
+        MeshBuilder shape, mb;
+        buildDataShape( shape, dataShapes()[i] );
+        mb.append( shape, Vector3{ 0.0f, 0.0f, 0.0f }, 0.0f, CreatureScale );   // a little larger than life: seen through glass
+        const Vector3 e = mb.extent();
+        VehicleModel  vm;
+        vm.m_mesh = mb.upload();
+        vm.m_length = std::max( 0.5f, e.z * 2.0f );
+        vm.m_width = std::max( 0.5f, e.x * 2.0f );
+        vm.m_animal = PropKindE::LANDMARK;   // not a vehicle, not a land animal: a swimmer
+        m_creatureModel[i] = static_cast<int>( m_traffic.size() );
+        m_traffic.push_back( vm );
     }
 }
 

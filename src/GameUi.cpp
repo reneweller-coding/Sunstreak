@@ -829,7 +829,9 @@ void Game::draw()
         float  gx = 0.0f, gyaw = 0.0f;
         if( m_ghost.at( m_raceTime, gs, gx, gyaw ) ) in.m_cars.push_back( { gs, gx, gyaw, m_ghost.m_car, m_ghost.m_paint, 0.35f } );
     }
-    m_renderer.render( in, m_cam, m_settings.m_renderScale );
+    CameraView view = m_cam;
+    if( m_state == StateE::VIEWER ) viewerScene( in, view );
+    m_renderer.render( in, view, m_settings.m_renderScale );
     if( m_state == StateE::PHOTO && m_photoWanted ) takePhoto();
     if( m_postcardWanted >= 0 && !m_demo && m_state == StateE::RACE && m_car.m_s >= m_postcardAt )
     {
@@ -900,12 +902,16 @@ void Game::draw()
         drawPopups();
         break;
     case StateE::PASSPORT: drawPassport(); break;
+    case StateE::VIEWER:
+        drawViewer();
+        drawPopups();
+        break;
     }
     const bool menuScreen = m_state == StateE::TITLE || m_state == StateE::LAB || m_state == StateE::CODE_ENTRY || m_state == StateE::RECORDS ||
                             m_state == StateE::GARAGE || m_state == StateE::PASSPORT || m_state == StateE::RALLIES;
     if( menuScreen ) drawPopups();
 
-    if( m_nowTimer < 4.5f && !m_nowPlaying.empty() && m_state != StateE::PASSPORT && m_state != StateE::RALLIES )
+    if( m_nowTimer < 4.5f && !m_nowPlaying.empty() && m_state != StateE::PASSPORT && m_state != StateE::RALLIES && m_state != StateE::VIEWER )
     {
         const float a = std::min( 1.0f, m_nowTimer * 4.0f ) * std::min( 1.0f, ( 4.5f - m_nowTimer ) * 1.5f );
         // Menus keep the bottom line for their hints: there the radio shows in the top left corner.
@@ -1497,6 +1503,181 @@ void Game::drawPostcards( float x, float y, float w, float h )
     }
     drawText( format( "%d %s   SHEET %d / %d", static_cast<int>( cards.size() ), cards.size() == 1 ? "POSTCARD" : "POSTCARDS", m_passportSheet + 1, sheets ), x + w, y + h + 8.0f * u, 11.0f * u, Dim,
               AlignE::RIGHT );
+}
+
+void Game::openViewer()
+{
+    if( m_state == StateE::VIEWER ) return;
+    // From a drive it comes back to the pause menu.
+    if( m_state == StateE::RACE || m_state == StateE::COUNTDOWN )
+    {
+        m_pauseReturn = m_state;
+        m_menuIndex = 0;
+        m_viewerReturn = StateE::PAUSED;
+    }
+    else
+    {
+        m_viewerReturn = m_state;
+    }
+    m_state = StateE::VIEWER;
+    m_stateTime = 0.0f;
+    m_viewerBuilt = -1;
+}
+
+void Game::closeViewer()
+{
+    if( m_viewerMesh.vaoId ) UnloadMesh( m_viewerMesh );
+    if( m_viewerGround.vaoId ) UnloadMesh( m_viewerGround );
+    m_viewerMesh = Mesh{};
+    m_viewerGround = Mesh{};
+    m_viewerBuilt = -1;
+    m_state = m_viewerReturn;
+    m_stateTime = 0.0f;
+}
+
+void Game::viewerStep( const MenuInput &mi, float dt )
+{
+    if( mi.m_back && m_stateTime > 0.2f )
+    {
+        closeViewer();
+        return;
+    }
+    const int count = std::max( 1, landmarkCount() );
+    const int step = ( mi.m_right ? 1 : 0 ) - ( mi.m_left ? 1 : 0 ) + ( IsKeyPressed( KEY_PAGE_DOWN ) ? 10 : 0 ) - ( IsKeyPressed( KEY_PAGE_UP ) ? 10 : 0 );
+    if( step != 0 )
+    {
+        m_viewerIndex = ( ( m_viewerIndex + step ) % count + count ) % count;
+        m_viewerZoom = 1.0f;
+        m_audio.play( SfxE::TICK );
+    }
+    if( mi.m_up ) m_viewerZoom = std::max( 0.3f, m_viewerZoom * 0.85f );
+    if( mi.m_down ) m_viewerZoom = std::min( 3.0f, m_viewerZoom / 0.85f );
+    const float wheel = GetMouseWheelMove();
+    if( wheel != 0.0f ) m_viewerZoom = clampf( m_viewerZoom * std::pow( 0.9f, wheel ), 0.3f, 3.0f );
+    // The mouse turns it; left alone it turns slowly by itself.
+    if( IsMouseButtonDown( MOUSE_BUTTON_LEFT ) )
+    {
+        const Vector2 d = GetMouseDelta();
+        m_viewerYaw -= d.x * 0.008f;
+        m_viewerPitch = clampf( m_viewerPitch + d.y * 0.006f, 0.02f, 1.35f );
+    }
+    else
+    {
+        m_viewerYaw += 0.22f * dt;
+    }
+}
+
+void Game::buildViewerMesh()
+{
+    if( m_viewerMesh.vaoId ) UnloadMesh( m_viewerMesh );
+    if( m_viewerGround.vaoId ) UnloadMesh( m_viewerGround );
+    m_viewerBuilt = m_viewerIndex;
+    const int  shape = m_viewerIndex - compiledLandmarks();
+    const bool creature = shape >= 0 && shape < static_cast<int>( dataShapes().size() ) && dataShapes()[static_cast<size_t>( shape )].m_creature;
+    // The places that show it; the first lends its colours, its sky and its ground.
+    const PropRule *paint = nullptr;
+    m_viewerPlace = -1;
+    m_viewerPlaces.clear();
+    for( int b = 0; b < biomeCount(); ++b )
+    {
+        const BiomeDef &d = biomeDef( static_cast<BiomeE>( b ) );
+        bool            shows = false;
+        for( const PropRule &pr : d.m_props )
+            if( pr.m_kind == PropKindE::LANDMARK && pr.m_variant == m_viewerIndex )
+            {
+                shows = true;
+                if( !paint ) paint = &pr;
+            }
+        for( const SwimRule &r : d.m_swim ) shows = shows || ( shape >= 0 && r.m_shape == shape );
+        if( !shows ) continue;
+        if( m_viewerPlace < 0 ) m_viewerPlace = b;
+        if( d.m_name ) m_viewerPlaces.push_back( d.m_name );
+    }
+    const Color *defaults = m_models.keys( PropKindE::LANDMARK );
+    Color        keys[3] = {};
+    if( defaults )
+    {
+        keys[0] = paint && paint->m_a.a ? paint->m_a : defaults[0];
+        keys[1] = paint && paint->m_b.a ? paint->m_b : defaults[1];
+        keys[2] = paint && paint->m_c.a ? paint->m_c : defaults[2];
+    }
+    const MeshBuilder &src = m_models.prop( PropKindE::LANDMARK, static_cast<uint64_t>( m_viewerIndex ) );
+    const Vector3      e = src.extent();
+    const float        lift = creature ? 2.0f + e.y : 0.0f;
+    MeshBuilder        shown;
+    shown.append( src, Vector3{ 0.0f, lift, 0.0f }, 0.0f, 1.0f, 1.0f, defaults ? keys : nullptr );
+    m_viewerMesh = shown.upload();
+    m_viewerSize = e;
+    m_viewerCenterY = creature ? lift : e.y * 0.42f;
+    // The ground: the place's land near, its far land out to the horizon.
+    const BiomeDef &place = biomeDef( static_cast<BiomeE>( std::max( 0, m_viewerPlace ) ) );
+    MeshBuilder     ground;
+    const int       n = 48;
+    auto            at = []( float r, float a ) { return Vector3{ std::cos( a ) * r, -0.05f, std::sin( a ) * r }; };
+    for( int k = 0; k < n; ++k )
+    {
+        const float a0 = Tau * static_cast<float>( k ) / static_cast<float>( n ), a1 = Tau * static_cast<float>( k + 1 ) / static_cast<float>( n );
+        ground.quad( at( 150.0f, a0 ), at( 1.0f, a0 ), at( 1.0f, a1 ), at( 150.0f, a1 ), place.m_surface.m_groundA );
+        ground.quad( at( 3000.0f, a0 ), at( 150.0f, a0 ), at( 150.0f, a1 ), at( 3000.0f, a1 ), place.m_surface.m_groundFar );
+    }
+    m_viewerGround = ground.upload();
+}
+
+void Game::viewerScene( SceneInput &in, CameraView &cam )
+{
+    const int count = std::max( 1, landmarkCount() );
+    m_viewerIndex = ( m_viewerIndex % count + count ) % count;
+    if( m_viewerBuilt != m_viewerIndex ) buildViewerMesh();
+    const BiomeDef &place = biomeDef( static_cast<BiomeE>( std::max( 0, m_viewerPlace ) ) );
+    in.m_world = nullptr;
+    in.m_player = nullptr;
+    in.m_traffic = nullptr;
+    in.m_particles = nullptr;
+    in.m_cars.clear();
+    in.m_env = place.m_env;
+    in.m_env.m_underwater = place.m_underwater ? 1.0f : 0.0f;
+    in.m_surface = place.m_surface;
+    in.m_speedBlur = 0.0f;
+    in.m_aberration = 0.0f;
+    in.m_windStreaks = 0.0f;
+    in.m_lensRain = 0.0f;
+    in.m_showcase = &m_viewerMesh;
+    in.m_showcaseGround = &m_viewerGround;
+    // Round the model, far enough to see all of it.
+    const float   radius = std::max( { m_viewerSize.x, m_viewerSize.y * 0.6f, m_viewerSize.z, 2.0f } );
+    const float   dist = ( radius * 2.3f + 6.0f ) * m_viewerZoom, c = std::cos( m_viewerPitch );
+    const Vector3 target = { 0.0f, m_viewerCenterY, 0.0f };
+    const Vector3 pos = { std::sin( m_viewerYaw ) * c * dist, std::max( 1.0f, m_viewerCenterY + std::sin( m_viewerPitch ) * dist ), std::cos( m_viewerYaw ) * c * dist };
+    cam.m_pos = Vec3d{ pos.x, pos.y, pos.z };
+    cam.m_forward = Vector3Normalize( Vector3Subtract( target, pos ) );
+    cam.m_up = Vector3{ 0.0f, 1.0f, 0.0f };
+    cam.m_fovY = 50.0f;
+}
+
+void Game::drawViewer()
+{
+    const float W = static_cast<float>( GetScreenWidth() ), H = static_cast<float>( GetScreenHeight() ), u = unit();
+    const int   shape = m_viewerIndex - compiledLandmarks();
+    const bool  data = shape >= 0 && shape < static_cast<int>( dataShapes().size() );
+    const bool  creature = data && dataShapes()[static_cast<size_t>( shape )].m_creature;
+    std::string name = landmarkName( m_viewerIndex );
+    std::replace( name.begin(), name.end(), '_', ' ' );
+    DrawRectangle( 0, 0, static_cast<int>( W ), static_cast<int>( 128.0f * u ), Color{ 0, 0, 0, 120 } );
+    DrawRectangle( 0, static_cast<int>( H - 52.0f * u ), static_cast<int>( W ), static_cast<int>( 52.0f * u ), Color{ 0, 0, 0, 120 } );
+    drawTextFx( "LANDMARK VIEWER", 28.0f * u, 22.0f * u, 13.0f * u, Accent, AlignE::LEFT, 0.3f );
+    drawTextFx( name, 28.0f * u, 44.0f * u, 28.0f * u, Ink, AlignE::LEFT, 0.6f );
+    drawText( format( "%s %d / %d   %s   %.0f X %.0f X %.0f M", creature ? "CREATURE" : "LANDMARK", m_viewerIndex + 1, landmarkCount(),
+                      data ? "DATA FILES" : "BUILT IN", m_viewerSize.x * 2.0f, m_viewerSize.y, m_viewerSize.z * 2.0f ),
+              28.0f * u, 86.0f * u, 12.0f * u, Dim );
+    std::string where;
+    for( size_t i = 0; i < m_viewerPlaces.size() && i < 4; ++i ) where += ( i ? ",  " : "" ) + std::string( m_viewerPlaces[i] );
+    if( m_viewerPlaces.size() > 4 ) where += format( "  AND %d MORE", static_cast<int>( m_viewerPlaces.size() ) - 4 );
+    drawText( where.empty() ? std::string( "IN NO PLACE YET" ) : "IN  " + where, 28.0f * u, 106.0f * u, 12.0f * u, Dim );
+    const int errors = dataErrors();
+    if( errors > 0 ) drawText( format( "%d DATA ERRORS", errors ), W - 28.0f * u, 22.0f * u, 13.0f * u, Red, AlignE::RIGHT );
+    drawHint( m_input.m_gamepad ? "[DPAD] MODEL AND ZOOM     [B] BACK"
+                                : "[LEFT] [RIGHT] MODEL     [UP] [DOWN] ZOOM     [MOUSE] TURN     [F5] RELOAD DATA     [ESC] BACK",
+              W * 0.5f, H - 30.0f * u, 11.0f * u, Color{ 255, 255, 255, 190 }, AlignE::CENTER );
 }
 
 void Game::drawRegions( float x, float y, float w, float h )

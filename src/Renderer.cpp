@@ -364,11 +364,11 @@ void Renderer::drawShadows( const SceneInput &in, const CameraView &cam, const V
     m_shadowStrength = in.m_shadows && sun.y > 0.07f && e.m_sunIntensity > 0.4f && e.m_eclipse < 0.5f
                            ? clampf( ( e.m_sunIntensity - 0.4f ) * 1.5f, 0.0f, 0.85f ) * ( 1.0f - e.m_cloudAmount * 0.5f )
                            : 0.0f;
-    if( m_shadowStrength <= 0.0f || !in.m_track || !in.m_world ) return;
+    if( m_shadowStrength <= 0.0f || !in.m_track || ( !in.m_world && !in.m_showcase ) ) return;
 
     // The box follows the camera, snapped to the map's texels so the shadows do not shimmer.
     const Vector3 flatFwd = Vector3Normalize( Vector3{ cam.m_forward.x, 0.0f, cam.m_forward.z } );
-    Vector3       center = Vector3Scale( flatFwd, ShadowExtent * 0.3f );
+    Vector3       center = in.m_showcase ? relativeTo( Vec3d{}, origin ) : Vector3Scale( flatFwd, ShadowExtent * 0.3f );
     const Vector3 lightFwd = Vector3Negate( sun );
     const Vector3 lightRight = Vector3Normalize( Vector3CrossProduct( lightFwd, Vector3{ 0, 1, 0 } ) );
     const Vector3 lightUp = Vector3CrossProduct( lightRight, lightFwd );
@@ -394,12 +394,18 @@ void Renderer::drawShadows( const SceneInput &in, const CameraView &cam, const V
     rlDisableBackfaceCulling();
     const Track &track = *in.m_track;
     const double playerS = in.m_player ? in.m_player->m_s : 0.0;
-    for( const Chunk &c : in.m_world->chunks() )
+    if( in.m_world )
+        for( const Chunk &c : in.m_world->chunks() )
+        {
+            const double c0 = static_cast<double>( c.m_index ) * ChunkLength;
+            if( c0 > playerS + ShadowExtent || c0 + ChunkLength < playerS - 60.0 || !c.m_props.vertexCount ) continue;
+            const Vector3 o = relativeTo( c.m_origin, origin );
+            DrawMesh( c.m_props, m_depthMaterial, MatrixTranslate( o.x, o.y, o.z ) );
+        }
+    if( in.m_showcase && in.m_showcase->vertexCount )
     {
-        const double c0 = static_cast<double>( c.m_index ) * ChunkLength;
-        if( c0 > playerS + ShadowExtent || c0 + ChunkLength < playerS - 60.0 || !c.m_props.vertexCount ) continue;
-        const Vector3 o = relativeTo( c.m_origin, origin );
-        DrawMesh( c.m_props, m_depthMaterial, MatrixTranslate( o.x, o.y, o.z ) );
+        const Vector3 o = relativeTo( Vec3d{}, origin );
+        DrawMesh( *in.m_showcase, m_depthMaterial, MatrixTranslate( o.x, o.y, o.z ) );
     }
     if( in.m_traffic )
         for( const TrafficCar &t : in.m_traffic->m_cars )
@@ -525,12 +531,19 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
     }
 
     // The chunks.
-    for( const Chunk &c : in.m_world->chunks() )
+    if( in.m_world )
+        for( const Chunk &c : in.m_world->chunks() )
+        {
+            const Vector3 o = relativeTo( c.m_origin, origin );
+            const Matrix  t = MatrixTranslate( o.x, o.y, o.z );
+            if( c.m_ground.vertexCount ) DrawMesh( c.m_ground, m_material, t );
+            if( c.m_props.vertexCount ) DrawMesh( c.m_props, m_material, t );
+        }
+    // A lone model on its ground (the landmark viewer).
     {
-        const Vector3 o = relativeTo( c.m_origin, origin );
-        const Matrix  t = MatrixTranslate( o.x, o.y, o.z );
-        if( c.m_ground.vertexCount ) DrawMesh( c.m_ground, m_material, t );
-        if( c.m_props.vertexCount ) DrawMesh( c.m_props, m_material, t );
+        const Vector3 o = relativeTo( Vec3d{}, origin );
+        if( in.m_showcaseGround && in.m_showcaseGround->vertexCount ) DrawMesh( *in.m_showcaseGround, m_material, MatrixTranslate( o.x, o.y, o.z ) );
+        if( in.m_showcase && in.m_showcase->vertexCount ) DrawMesh( *in.m_showcase, m_material, MatrixTranslate( o.x, o.y, o.z ) );
     }
 
     // Vehicles and cones.
@@ -611,12 +624,13 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
     // The glass of undersea tunnels: tinted panes, shiny, seen through.
     setF( s, "objectAlpha", 0.24f );
     setF( s, "objectShade", 1.0f );
-    for( const Chunk &c : in.m_world->chunks() )
-    {
-        if( !c.m_glass.vertexCount ) continue;
-        const Vector3 o = relativeTo( c.m_origin, origin );
-        DrawMesh( c.m_glass, m_material, MatrixTranslate( o.x, o.y, o.z ) );
-    }
+    if( in.m_world )
+        for( const Chunk &c : in.m_world->chunks() )
+        {
+            if( !c.m_glass.vertexCount ) continue;
+            const Vector3 o = relativeTo( c.m_origin, origin );
+            DrawMesh( c.m_glass, m_material, MatrixTranslate( o.x, o.y, o.z ) );
+        }
     setF( s, "objectAlpha", 1.0f );
     rlEnableDepthMask();
 

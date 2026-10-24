@@ -67,6 +67,8 @@ struct SceneInput
     std::vector<CarDraw> m_cars;              ///< rivals and the ghost
     bool             m_shadows = true;        ///< real-time sun shadows
     float            m_lensRain = 0.0f;       ///< 0..1 drops on the lens
+    const Mesh      *m_showcase = nullptr;    ///< a lone model at the world's origin (the landmark viewer)
+    const Mesh      *m_showcaseGround = nullptr;   ///< the ground it stands on
 };
 
 /** @brief The renderer. */

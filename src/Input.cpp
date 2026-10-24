@@ -45,6 +45,8 @@ void Input::update()
     m_stats = IsKeyPressed( KEY_F3 );
     m_nextStation = IsKeyPressed( KEY_M );
     m_nextTrack = IsKeyPressed( KEY_N );
+    m_reload = IsKeyPressed( KEY_F5 );
+    m_viewer = IsKeyPressed( KEY_F6 );
     const bool alt = IsKeyDown( KEY_LEFT_ALT ) || IsKeyDown( KEY_RIGHT_ALT );
     m_fullscreen = IsKeyPressed( KEY_F11 ) || ( alt && IsKeyPressed( KEY_ENTER ) );
     if( alt && IsKeyPressed( KEY_ENTER ) ) m.m_accept = false;

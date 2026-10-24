@@ -463,6 +463,29 @@ namespace
 
 } // namespace
 
+void Models::buildDataLandmarks()
+{
+    const size_t k = static_cast<size_t>( PropKindE::LANDMARK );
+    m_radius[k] = 0.0f;
+    m_facing[k] = FacingE::ROAD;
+    for( const DataShape &shape : dataShapes() )
+    {
+        m_props[k].emplace_back();
+        const int errors = buildDataShape( m_props[k].back(), shape );
+        if( errors ) TraceLog( LOG_WARNING, "SUNSTREAK: landmark %s: %d broken lines", shape.m_name.c_str(), errors );
+    }
+}
+
+void Models::reloadDataShapes()
+{
+    m_props[static_cast<size_t>( PropKindE::LANDMARK )].resize( static_cast<size_t>( compiledLandmarks() ) );
+    buildDataLandmarks();
+    for( size_t i = m_creatureFirst; i < m_traffic.size(); ++i ) UnloadMesh( m_traffic[i].m_mesh );
+    m_traffic.resize( m_creatureFirst );
+    buildCreatures();
+    buildFlags();
+}
+
 void Models::buildWorldProps()
 {
     auto add = [&]( PropKindE kind, float radius, FacingE facing = FacingE::FREE ) -> MeshBuilder &
@@ -2480,12 +2503,7 @@ void Models::buildWorldProps()
     if( static_cast<int>( m_props[static_cast<size_t>( PropKindE::LANDMARK )].size() ) != compiledLandmarks() )
         TraceLog( LOG_WARNING, "SUNSTREAK: %d compiled landmarks, the loader expects %d", static_cast<int>( m_props[static_cast<size_t>( PropKindE::LANDMARK )].size() ),
                   compiledLandmarks() );
-    for( const DataShape &shape : dataShapes() )
-    {
-        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
-        const int    errors = buildDataShape( m, shape );
-        if( errors ) TraceLog( LOG_WARNING, "SUNSTREAK: landmark %s: %d broken lines", shape.m_name.c_str(), errors );
-    }
+    buildDataLandmarks();
 
     // The wind in the new plants.
     const std::pair<PropKindE, float> sway[] = { { PropKindE::OLIVE, 0.3f },       { PropKindE::POPLAR, 0.7f },     { PropKindE::UMBRELLA_PINE, 0.35f },
