@@ -31,6 +31,18 @@ enum class AlignE
 float textWidth( std::string_view text, float size );
 
 /**
+ * @brief Scales every text the UI draws (larger text for reading at a distance).
+ * @param[in] scale  1 normal
+ */
+void setTextScale( float scale );
+
+/**
+ * @brief The UI's text scale.
+ * @return 1 normal
+ */
+float textScale();
+
+/**
  * @brief The strokes of a text, upright, for building it into a sign: cap height 1, the baseline at y 0, x to the right.
  * @param[in]  text   the text (upper case)
  * @param[out] lines  segments, as pairs of points

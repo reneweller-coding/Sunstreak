@@ -39,9 +39,10 @@ constexpr Mat Glass{ 0.0f, 0.95f };    ///< windows
 constexpr Mat Chrome{ 0.0f, 0.75f };   ///< rims, rails
 
 const CarSpec CarSpecs[CarCount] = {
-    { "ARROW GT", 80.5f, 1.0f, 1.0f, 4.5f, 1.88f, 8, 900.0f, 7800.0f, 1.0f },
-    { "SPARROW", 72.0f, 1.16f, 1.12f, 3.9f, 1.72f, 4, 1000.0f, 8600.0f, 1.35f },
-    { "VORTEX", 88.0f, 0.92f, 0.93f, 4.8f, 2.0f, 12, 1100.0f, 9200.0f, 1.15f },
+    { "ARROW GT", 80.5f, 1.0f, 1.0f, 4.5f, 1.88f, 8, 900.0f, 7800.0f, 1.0f, 0.86f },
+    { "SPARROW", 72.0f, 1.16f, 1.12f, 3.9f, 1.72f, 4, 1000.0f, 8600.0f, 1.35f, 0.92f },
+    { "VORTEX", 88.0f, 0.92f, 0.93f, 4.8f, 2.0f, 12, 1100.0f, 9200.0f, 1.15f, 0.82f },
+    { "KESTREL", 76.0f, 1.12f, 1.05f, 4.1f, 1.82f, 4, 950.0f, 8200.0f, 1.25f, 1.2f },
 };
 
 const char *PaintNames[PaintCount] = { "RACING RED",    "ICE WHITE",   "SUN YELLOW",    "DEEP BLUE",   "CHAMPION GOLD",
@@ -87,6 +88,7 @@ struct CarShape
     float                     m_wheelR;      ///< wheel radius
     bool                      m_sideGlass;   ///< windows on the cabin's sides
     float                     m_wing;        ///< rear wing height above the deck (0: none)
+    bool                      m_rally = false; ///< mud flaps, a light pod and a roof scoop
 };
 
 /** @brief What goes on a car besides its paint. */
@@ -290,6 +292,21 @@ void buildCar( MeshBuilder &mb, const CarShape &shape, Color paint, const Dress 
                  Vector3{ side * f.m_hw * 0.78f, f.m_yb + 0.7f * fh, zf }, Vector3{ side * f.m_hw * 0.32f, f.m_yb + 0.7f * fh, zf },
                  rgb( 255, 246, 224 ), Mat{ 0.7f, 0.3f } );
     }
+    if( shape.m_rally )
+    { // Mud flaps behind the wheels, a pod of lamps on the bonnet, a scoop on the roof.
+        for( float side : { -1.0f, 1.0f } )
+            for( float z : { shape.m_wheelFront - shape.m_wheelR - 0.12f, shape.m_wheelRear - shape.m_wheelR - 0.12f } )
+                mb.box( Vector3{ side * ( hw - 0.15f ), 0.22f, z }, Vector3{ 0.16f, 0.2f, 0.015f }, rgb( 24, 24, 26 ) );
+        const Station &bonnet = body[body.size() - 2];
+        mb.box( Vector3{ 0, bonnet.m_yt + 0.08f, bonnet.m_z + 0.15f }, Vector3{ 0.55f, 0.07f, 0.06f }, rgb( 24, 24, 26 ) );
+        for( int k = 0; k < 4; ++k )
+            mb.quad( Vector3{ -0.48f + 0.25f * k, bonnet.m_yt + 0.03f, bonnet.m_z + 0.215f }, Vector3{ -0.32f + 0.25f * k, bonnet.m_yt + 0.03f, bonnet.m_z + 0.215f },
+                     Vector3{ -0.32f + 0.25f * k, bonnet.m_yt + 0.13f, bonnet.m_z + 0.215f }, Vector3{ -0.48f + 0.25f * k, bonnet.m_yt + 0.13f, bonnet.m_z + 0.215f },
+                     rgb( 255, 246, 224 ), Mat{ 0.8f, 0.3f } );
+        const CabinStation &roof = shape.m_cabin[1];
+        mb.taperedBox( Vector3{ 0, roof.m_yT, roof.m_z + 0.2f }, Vector2{ 0.2f, 0.25f }, Vector3{ 0, roof.m_yT + 0.1f, roof.m_z + 0.15f }, Vector2{ 0.16f, 0.18f },
+                       rgb( 24, 24, 26 ) );
+    }
     if( shape.m_wing > 0.0f )
     {
         const float y = t.m_yt + shape.m_wing;
@@ -332,6 +349,18 @@ CarShape playerShape( int index )
         s.m_wheelR = 0.31f;
         s.m_sideGlass = true;
         s.m_wing = 0.0f;
+        break;
+    case 3: // Rally hatchback: high off the ground, a wing, flaps and lamps.
+        s.m_body = { { -2.0f, 0.86f, 0.42f, 0.98f }, { -1.75f, 0.9f, 0.36f, 1.02f }, { 0.4f, 0.9f, 0.34f, 0.96f },
+                     { 1.4f, 0.88f, 0.36f, 0.86f },  { 1.95f, 0.8f, 0.42f, 0.74f },  { 2.08f, 0.7f, 0.46f, 0.66f } };
+        s.m_cabin = { { -1.85f, 0.8f, 1.0f, 0.8f, 1.0f }, { -1.5f, 0.82f, 0.98f, 0.66f, 1.5f },
+                      { 0.2f, 0.82f, 0.94f, 0.66f, 1.52f }, { 0.85f, 0.84f, 0.88f, 0.84f, 0.88f } };
+        s.m_wheelFront = 1.35f;
+        s.m_wheelRear = -1.3f;
+        s.m_wheelR = 0.36f;
+        s.m_sideGlass = true;
+        s.m_wing = 0.22f;
+        s.m_rally = true;
         break;
     default: // Low concept car with a canopy and a big wing.
         s.m_body = { { -2.35f, 0.96f, 0.26f, 0.80f }, { -1.6f, 1.0f, 0.20f, 0.84f }, { -0.4f, 1.0f, 0.18f, 0.74f },

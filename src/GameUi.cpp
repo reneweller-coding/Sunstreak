@@ -20,9 +20,10 @@ using namespace ui;
 
 const char *Game::settingLabel( SettingE item ) const
 {
-    static const char *labels[] = { "DISPLAY", "3D RESOLUTION", "SHADOWS", "VSYNC",      "FRAME LIMIT", "DIFFICULTY",
-                                    "SCENERY", "TIME OF DAY",   "WEATHER", "GEARS",      "SPEEDOMETER", "CAMERA",
-                                    "SPEED BLUR", "VIBRATION",  "MUSIC",   "EFFECTS",    "RADIO",       "BACK" };
+    static const char *labels[] = { "DISPLAY",      "3D RESOLUTION", "SHADOWS",      "VSYNC",     "FRAME LIMIT", "DIFFICULTY",
+                                    "SCENERY",      "TIME OF DAY",   "WEATHER",      "STEER ASSIST", "BRAKE ASSIST", "COLOUR BLIND",
+                                    "TEXT SIZE",    "GEARS",         "SPEEDOMETER",  "CAMERA",    "SPEED BLUR",  "VIBRATION",
+                                    "MUSIC",        "EFFECTS",       "RADIO",        "BACK" };
     return labels[static_cast<int>( item )];
 }
 
@@ -52,6 +53,18 @@ std::string Game::settingValue( SettingE item ) const
         return times[std::clamp( m_settings.m_timeOfDay, 0, 5 )];
     }
     case SettingE::WEATHER: return m_settings.m_weather ? "AS THE PLACE" : "WEATHER FRONTS";
+    case SettingE::STEER_ASSIST:
+    {
+        static const char *levels3[] = { "OFF", "LIGHT", "STRONG" };
+        return levels3[std::clamp( m_settings.m_steerAssist, 0, 2 )];
+    }
+    case SettingE::BRAKE_ASSIST: return m_settings.m_brakeAssist ? "ON" : "OFF";
+    case SettingE::COLOUR_BLIND: return m_settings.m_colourBlind ? "ON" : "OFF";
+    case SettingE::TEXT_SIZE:
+    {
+        static const char *sizes[] = { "100%", "115%", "130%" };
+        return sizes[std::clamp( m_settings.m_textSize, 0, 2 )];
+    }
     case SettingE::GEARS: return m_settings.m_manualGears ? "MANUAL" : "AUTOMATIC";
     case SettingE::UNITS: return m_settings.m_units == UnitsE::MPH ? "MPH" : "KM/H";
     case SettingE::CAMERA: return cams[m_settings.m_camera];
@@ -101,6 +114,16 @@ void Game::changeSetting( SettingE item, int dir )
     case SettingE::SCENERY: m_settings.m_scenery = 1 - m_settings.m_scenery; break;
     case SettingE::TIME_OF_DAY: m_settings.m_timeOfDay = ( m_settings.m_timeOfDay + 6 + dir ) % 6; break;
     case SettingE::WEATHER: m_settings.m_weather = 1 - m_settings.m_weather; break;
+    case SettingE::STEER_ASSIST: m_settings.m_steerAssist = ( m_settings.m_steerAssist + 3 + dir ) % 3; break;
+    case SettingE::BRAKE_ASSIST: m_settings.m_brakeAssist = !m_settings.m_brakeAssist; break;
+    case SettingE::COLOUR_BLIND:
+        m_settings.m_colourBlind = !m_settings.m_colourBlind;
+        setColourBlind( m_settings.m_colourBlind );
+        break;
+    case SettingE::TEXT_SIZE:
+        m_settings.m_textSize = ( m_settings.m_textSize + 3 + dir ) % 3;
+        setTextScale( 1.0f + 0.15f * static_cast<float>( m_settings.m_textSize ) );
+        break;
     case SettingE::GEARS: m_settings.m_manualGears = !m_settings.m_manualGears; break;
     case SettingE::UNITS: m_settings.m_units = m_settings.m_units == UnitsE::KMH ? UnitsE::MPH : UnitsE::KMH; break;
     case SettingE::CAMERA: m_settings.m_camera = ( m_settings.m_camera + 3 + dir ) % 3; break;
@@ -1070,8 +1093,8 @@ void Game::drawGarage()
         DrawRectangle( static_cast<int>( px + 16.0f * u ), static_cast<int>( ry + 20.0f * u ), static_cast<int>( 178.0f * u * clampf( vals[i], 0.08f, 1.0f ) ),
                        static_cast<int>( 8.0f * u ), Accent );
     }
-    const char *engines[3] = { "V8", "INLINE 4", "V12" };
-    drawText( std::string( spec.m_name ) + "  " + engines[std::clamp( m_carIndex, 0, 2 )], px + 16.0f * u, py + 146.0f * u, 12.0f * u, Ink );
+    const char *engines[CarCount] = { "V8", "INLINE 4", "V12", "TURBO 4  RALLY" };
+    drawText( std::string( spec.m_name ) + "  " + engines[std::clamp( m_carIndex, 0, CarCount - 1 )], px + 16.0f * u, py + 146.0f * u, 12.0f * u, Ink );
 }
 
 void Game::drawWorldMap( float x, float y, float w, float h )
@@ -1368,14 +1391,17 @@ void Game::drawHud()
                     AlignE::CENTER, 0.6f );
 
         // Score, distance, stage.
-        txt( "SCORE", 28.0f * u, 14.0f * u, 13.0f * u, Dim );
-        drawTextFx( format( "%lld", static_cast<long long>( m_score ) ), 28.0f * u, 34.0f * u, 28.0f * u, Ink, AlignE::LEFT, 0.3f );
-        txt( format( "%.2f KM", ( m_car.m_s - m_startS ) / 1000.0 ), 28.0f * u, 74.0f * u, 15.0f * u, Ink );
+        // The rows spread with the text size.
+        const float ts = textScale();
+        auto        row = [&]( float y ) { return ( 14.0f + ( y - 14.0f ) * ts ) * u; };
+        txt( "SCORE", 28.0f * u, row( 14.0f ), 13.0f * u, Dim );
+        drawTextFx( format( "%lld", static_cast<long long>( m_score ) ), 28.0f * u, row( 34.0f ), 28.0f * u, Ink, AlignE::LEFT, 0.3f );
+        txt( format( "%.2f KM", ( m_car.m_s - m_startS ) / 1000.0 ), 28.0f * u, row( 74.0f ), 15.0f * u, Ink );
         const BiomeE biome = m_track->stageBiome( static_cast<int>( m_car.m_s / StageLength ) );
         std::string stageLine = format( "STAGE %d  %s", static_cast<int>( m_car.m_s / StageLength ) + 1, placeName( biome ).c_str() );
         if( m_settings.m_timeOfDay == 1 && m_hour >= 0.0f )
             stageLine += format( "  %02d:%02d", static_cast<int>( m_hour ), static_cast<int>( std::fmod( m_hour, 1.0f ) * 60.0f ) );
-        txt( stageLine, 28.0f * u, 98.0f * u, 12.0f * u, Accent );
+        txt( stageLine, 28.0f * u, row( 98.0f ), 12.0f * u, Accent );
 
         // Records and combo.
         txt( format( "BEST %lld", static_cast<long long>( std::max<int64_t>( m_settings.m_bestScore, 0 ) ) ), W - 28.0f * u, 14.0f * u, 13.0f * u,

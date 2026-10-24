@@ -338,6 +338,7 @@ bool Records::carUnlocked( int car ) const
 {
     if( car == 1 ) return m_totalKm >= 30.0;
     if( car == 2 ) return m_totalKm >= 100.0 || m_titles > 0;
+    if( car == 3 ) return countriesSeen() >= 40;
     return true;
 }
 
@@ -363,7 +364,7 @@ bool Records::decalUnlocked( int decal ) const
 
 std::string Records::carRequirement( int car )
 {
-    return car == 1 ? "30 KM" : car == 2 ? "100 KM OR A TITLE" : "";
+    return car == 1 ? "30 KM" : car == 2 ? "100 KM OR A TITLE" : car == 3 ? "40 COUNTRIES" : "";
 }
 
 std::string Records::paintRequirement( int paint )

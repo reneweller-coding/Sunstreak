@@ -435,7 +435,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
         const BiomeDef    &here = ruling( seg, 0.5f );
         const CountryInfo &land = countryInfo( here.m_country );
         Color              lineL = sf.m_line, lineR = sf.m_line;
-        if( here.m_country && sf.m_lineGlow <= 0.0f )
+        if( here.m_country && sf.m_lineGlow <= 0.0f && !here.m_unpaved )
         {
             const Color yellow = { 242, 188, 34, 255 };
             if( land.m_lines == 1 ) ( land.m_left ? lineR : lineL ) = yellow;

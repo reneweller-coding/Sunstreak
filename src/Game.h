@@ -50,6 +50,10 @@ enum class SettingE
     SCENERY,      ///< endless runs: the world tour or all mixed
     TIME_OF_DAY,  ///< as the place, the tour clock, or a fixed hour
     WEATHER,      ///< weather fronts or the place's own weather
+    STEER_ASSIST, ///< help with the steering
+    BRAKE_ASSIST, ///< help with the brakes
+    COLOUR_BLIND, ///< a palette for colour blindness
+    TEXT_SIZE,    ///< larger text
     GEARS,        ///< automatic or manual
     UNITS,        ///< km/h or mph
     CAMERA,       ///< chase, far, bumper

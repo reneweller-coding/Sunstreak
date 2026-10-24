@@ -48,8 +48,19 @@ VIBRATION; on the Deck through Steam Input).
 - **Records**: the top ten (with your initials), total kilometres, titles, places and countries seen. The best drive
   on each code is kept as a ghost car that races along the next time.
 
-Unlocks: the SPARROW (light, revvy four-cylinder) after 30 km, the VORTEX (V12, fastest) after 100 km or a title;
-the paints SUN YELLOW (15 km), DEEP BLUE (50 km) and CHAMPION GOLD (a title).
+Unlocks: the SPARROW (light, revvy four-cylinder) after 30 km, the VORTEX (V12, fastest) after 100 km or a title, the
+KESTREL (a turbocharged rally hatchback that keeps its grip on gravel and sand) after 40 countries. The GARAGE dresses
+the car: fourteen paints, seven rim finishes and seven decals (twin stripes, a side stripe, a roundel, two tones,
+chequers, a globe) in any paint's colour. Career points from every run, every race and every new place and country pay
+for them; SUN YELLOW, DEEP BLUE and CHAMPION GOLD keep their old conditions, GLOBETROTTER needs a drive round the world,
+the globe 50 countries.
+
+Gravel, dirt and sand tracks (the Gibb River Road, the Yungas, the Sani Pass, the Road of Bones, the Sahara) have no
+markings, crunch under the tyres, throw up dust and hold less than asphalt.
+
+Assists and accessibility (Settings): STEER ASSIST (light or strong) steers where your hands are idle, keeps the road
+and goes round the traffic; BRAKE ASSIST brakes for bends and obstacles taken too fast; COLOUR BLIND swaps the HUD's
+red and green for vermilion and sky blue; TEXT SIZE enlarges every text to 115 or 130 %.
 
 Difficulty (Settings: EASY, NORMAL, HARD) scales the grip, the clock, the traffic and the rivals. The handling itself
 is in `tuning.ini` beside the settings (written with comments on the first start): steer, centrifugal, accel, brake,

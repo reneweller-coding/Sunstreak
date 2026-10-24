@@ -22,7 +22,7 @@
 namespace sunstreak
 {
 
-constexpr int CarCount = 3;     ///< cars the player can choose
+constexpr int CarCount = 4;     ///< cars the player can choose
 constexpr int PaintCount = 14;  ///< paints per car
 constexpr int RimCount = 7;     ///< rim finishes
 constexpr int DecalCount = 7;   ///< decals (0: none)
@@ -57,6 +57,7 @@ struct CarSpec
     float       m_idle;       ///< idle rpm
     float       m_redline;    ///< redline rpm
     float       m_bright;     ///< engine tone brightness (1 neutral)
+    float       m_dirt;       ///< grip on gravel and sand against asphalt
 };
 
 /**

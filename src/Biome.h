@@ -890,6 +890,7 @@ struct BiomeDef
     BridgeE               m_bridge = BridgeE::BEAM;               ///< how its bridges are built
     Color                 m_bridgeColor = { 150, 150, 154, 255 }; ///< their paint or stone
     ClimateE              m_climate = ClimateE::NONE;             ///< the weather fronts it gets
+    uint8_t               m_unpaved = 0;                          ///< 0 asphalt, 1 gravel or dirt, 2 sand
 };
 
 /**

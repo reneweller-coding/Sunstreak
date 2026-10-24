@@ -233,6 +233,12 @@ int main()
         check( noon.m_sunIntensity > midnight.m_sunIntensity && midnight.m_stars > 0.3f && noon.m_stars < 0.05f &&
                    midnight.m_headlights > 0.8f && noon.m_rain == paris.m_rain,
                "the hour sets the light" );
+        check( biomeDef( BiomeE::KIMBERLEY ).m_unpaved == 1 && biomeDef( BiomeE::WHITE_SANDS ).m_unpaved == 2 && biomeDef( BiomeE::PARIS ).m_unpaved == 0 &&
+                   carSpec( 3 ).m_dirt > 1.0f && carSpec( 0 ).m_dirt < 1.0f,
+               "gravel and sand, and a car for them" );
+        check( countryInfo( "JAPAN" ).m_left && !countryInfo( "FRANCE" ).m_left && countryInfo( "USA" ).m_lines == 1 && countryIndex( "GERMANY" ) >= 0 &&
+                   countryTableSize() >= 204,
+               "the rules of the road by country" );
         Track t( 31337 );
         bool  seen[static_cast<int>( BiomeE::COUNT )] = {};
         for( int s = 0; s < static_cast<int>( BiomeE::COUNT ); ++s ) seen[static_cast<int>( t.stageBiome( s ) )] = true;

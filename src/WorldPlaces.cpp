@@ -194,7 +194,7 @@ void addWorldPlaces( BiomeDef *b )
         .hills( 20, 10, -10 ).drive( 2, 0.7f, 0.98f, 6 ).bends( 0.55f, 0.5f, 0.5f ).lamps( 40 )
         .p( FLAT_HOUSE, 0.18f, 3, 40 ).c( 0xF6F6F2, 0x1E5AB0 ).p( FLOWER_BUSH, 0.1f, 2, 20, 0.6f, 1.0f ).c( 0xC8307A ).p( MOSQUE, 0.006f, 20, 120 ).c( 0xF6F6F2, 0xF0F0EA )
         .p( DATE_PALM, 0.06f, 3, 40 ).p( OLIVE, 0.06f, 6, 60 ).p( SAILBOAT, 0.01f, 60, 250 ).floating();
-    W( b, BE::TASSILI, "TASSILI N AJJER", "ALGERIA", S::DESERT ).land( 0xD89A5E, 0xCC9056, 0xC8885A ).verge( 0x6A4A3A ).road( 0x8A6A50, 0x8A6A50 )
+    W( b, BE::TASSILI, "TASSILI N AJJER", "ALGERIA", S::DESERT ).land( 0xD89A5E, 0xCC9056, 0xC8885A ).verge( 0x6A4A3A ).road( 0x8A6A50, 0x8A6A50 ).sand()
         .hills( 20, 8, 8 ).drive( 2, 0.05f, 0.86f, 7 ).bends( 0.45f, 0.4f, 0.3f ).posts( 0 )
         .p( PILLAR, 0.05f, 20, 250, 0.8f, 1.4f ).p( ARCH, 0.006f, 40, 200 ).c( 0x5A3A2A ).p( DUNE, 0.02f, 60, 300, 1.0f, 1.8f ).c( 0xE0904E )
         .p( ROCK, 0.1f, 3, 60 ).p( CAMEL, 0.01f, 15, 120 ).p( ACACIA, 0.006f, 10, 100, 0.5f, 0.8f );
@@ -274,7 +274,7 @@ void addWorldPlaces( BiomeDef *b )
         .hills( 36, 14, 10 ).drive( 2, 0.4f, 0.92f, 12 ).bends( 0.6f, 0.5f, 0.65f )
         .p( VOLCANO_CONE, 0.006f, 300, 600, 1.6f, 2.0f ).c( 0x3E4A3A, 0x6A6A60 ).p( TEA_ROW, 0.5f, 6, 30, 1, 1 ).p( JUNGLE_TREE, 0.15f, 30, 150 )
         .p( BANANA, 0.12f, 3, 40 ).p( FLAT_HOUSE, 0.02f, 8, 60 ).c( 0xE8D8B8, 0x8A8A8A );
-    W( b, BE::ENNEDI, "ENNEDI", "CHAD", S::DESERT ).land( 0xD8A068, 0xCC9460, 0xC89462 ).verge( 0x7A4A34 ).road( 0x9A7050, 0x9A7050 )
+    W( b, BE::ENNEDI, "ENNEDI", "CHAD", S::DESERT ).land( 0xD8A068, 0xCC9460, 0xC89462 ).verge( 0x7A4A34 ).road( 0x9A7050, 0x9A7050 ).sand()
         .hills( 10, 4, 4 ).drive( 2, 0.04f, 0.85f, 12 ).bends( 0.35f, 0.35f, 0.2f ).posts( 0 )
         .p( ARCH, 0.006f, 60, 250, 1.2f, 1.6f ).c( 0x8A4A30 ).p( PILLAR, 0.04f, 30, 250, 0.8f, 1.4f ).p( DUNE, 0.02f, 60, 300 ).c( 0xE0A060 )
         .p( CAMEL, 0.02f, 10, 120 ).p( ACACIA, 0.008f, 10, 100, 0.5f, 0.8f );
@@ -333,7 +333,7 @@ void addWorldPlaces( BiomeDef *b )
 
     // ---- Southern Africa and the islands -----------------------------------------------------------------------------
     W( b, BE::BAZARUTO, "BAZARUTO", "MOZAMBIQUE", S::TROPICAL ).sea( 1, 1, -2 ).water( 0x30C0C8 ).land( 0xF0E8D8, 0xE6DECE, 0x7AA058 )
-        .verge( 0xF0E8D8 ).hills( 8, 0, 0 ).drive( 2, 0.1f, 0.94f, 12 ).bends( 0.3f, 0.3f, 0.2f ).road( 0xC8B898, 0xC8B898 ).posts( 0 )
+        .verge( 0xF0E8D8 ).hills( 8, 0, 0 ).drive( 2, 0.1f, 0.94f, 12 ).bends( 0.3f, 0.3f, 0.2f ).road( 0xC8B898, 0xC8B898 ).sand().posts( 0 )
         .p( DUNE, 0.05f, 3, 11, 0.6f, 1.0f ).c( 0xF4ECDC ).p( PALM, 0.2f, 2, 11 ).p( SAILBOAT, 0.03f, 40, 200 ).c( 0xF0ECE0, 0xF0ECE0 ).floating()
         .p( HUT, 0.01f, 3, 11 );
     W( b, BE::LAKE_MALAWI, "LAKE MALAWI", "MALAWI", S::TROPICAL ).sea( 1, 0, -3 ).water( 0x2A8AB0 ).land( 0x8AA050, 0x809448, 0x7A9A58 )
@@ -426,7 +426,7 @@ void addWorldPlaces( BiomeDef *b )
         .p( PUMPJACK, 0.05f, 10, 150 ).p( PIPELINE, 1.0f, 9, 9, 1, 1 ).p( GLASS_TOWER, 0.006f, 80, 250 ).c( 0x5A6A8A ).p( SHRUB, 0.1f, 2, 60 ).c( 0x8A8A5A )
         .p( FLAT_HOUSE, 0.01f, 10, 60 ).c( 0xE0D4BC, 0x8A8A8A );
     W( b, BE::DARVAZA, "DARVAZA", "TURKMENISTAN", S::NIGHT ).lamps( 0 ).land( 0x8A7A60, 0x806E56, 0x5A4E40 ).verge( 0x6A5A48 ).hills( 8, 2, 2 )
-        .drive( 2, 0.04f, 0.86f, 22 ).bends( 0.3f, 0.3f, 0.2f ).road( 0x5A5450, 0x5A5450 ).posts( 0 )
+        .drive( 2, 0.04f, 0.86f, 22 ).bends( 0.3f, 0.3f, 0.2f ).road( 0x5A5450, 0x5A5450 ).sand().posts( 0 )
         .landmark( Lm::FIRE_CRATER, 80, 140 ).p( DUNE, 0.03f, 40, 300, 0.8f, 1.6f ).c( 0x8A7454 ).p( SHRUB, 0.12f, 2, 60 ).c( 0x5A5A40 ).p( CAMEL, 0.006f, 10, 80 );
     W( b, BE::BAND_E_AMIR, "BAND-E AMIR", "AFGHANISTAN", S::ALPINE ).sea( 1, 0, -10 ).water( 0x1A58C8 ).land( 0xC8A878, 0xBC9C70, 0xB89A70 )
         .verge( 0xF0EEE6 ).ranges( 0x8A7A6A, 0xD8D0C8, 9 ).hills( 30, 0, 24 ).drive( 2, 0.08f, 0.88f, 22 ).bends( 0.5f, 0.45f, 0.5f )
@@ -868,7 +868,7 @@ void addWorldPlaces( BiomeDef *b )
         .p( MONOLITH, 0.006f, 150, 400, 0.6f, 1.0f ).c( 0xB85A3A ).p( BUTTE, 0.006f, 100, 300 ).p( SHRUB, 0.3f, 2, 80 ).c( 0x5E7A48 ).p( AGAVE, 0.05f, 3, 40 )
         .p( ADOBE, 0.01f, 10, 60 ).c( 0xC8806A, 0x8A5A44 );
     W( b, BE::WHITE_SANDS, "WHITE SANDS", "USA", S::NOON ).land( 0xF4F2EC, 0xEAE8E0, 0xEEECE6 ).verge( 0xF4F2EC ).shine( 0.15f ).ranges( 0x6A6A80, 0xB8BCCC, 6 )
-        .hills( 6, 2, 2 ).drive( 2, 0.15f, 0.9f, 24 ).bends( 0.3f, 0.3f, 0.3f ).road( 0xB8B0A2, 0xB8B0A2 ).posts( 0 )
+        .hills( 6, 2, 2 ).drive( 2, 0.15f, 0.9f, 24 ).bends( 0.3f, 0.3f, 0.3f ).road( 0xB8B0A2, 0xB8B0A2 ).sand().posts( 0 )
         .p( DUNE, 0.08f, 35, 300, 0.6f, 1.6f ).c( 0xF6F4EE ).p( AGAVE, 0.03f, 3, 60, 0.6f, 0.9f );
     W( b, BE::PIKES_PEAK, "PIKES PEAK", "USA", S::ALPINE ).land( 0x7A8A58, 0x6E7E50, 0x8A7A66 ).verge( 0xA87A5A ).ranges( 0x5A5E70, 0xE8ECF4, 9 )
         .hills( 50, 40, -40 ).drive( 2, 0.3f, 0.97f, 24 ).bends( 1.0f, 0.95f, 1.0f ).posts( 0 )

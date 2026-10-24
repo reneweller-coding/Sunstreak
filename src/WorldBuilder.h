@@ -419,6 +419,22 @@ public:
         m_d.m_surface.m_road = hx( asphalt );
         m_d.m_surface.m_roadAlt = scaleColor( hx( asphalt ), 0.93f );
         m_d.m_surface.m_line = hx( line );
+        if( line == asphalt )
+        { // No markings: a gravel or dirt road, its edges of the same stuff.
+            m_d.m_unpaved = 1;
+            m_d.m_surface.m_rumbleA = scaleColor( hx( asphalt ), 0.88f );
+            m_d.m_surface.m_rumbleB = scaleColor( hx( asphalt ), 1.06f );
+        }
+        return *this;
+    }
+
+    /**
+     * @brief Makes the road a sand track (after road()).
+     * @return this
+     */
+    W &sand()
+    {
+        m_d.m_unpaved = 2;
         return *this;
     }
 

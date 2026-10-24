@@ -6,6 +6,7 @@
 #include "Game.h"
 
 #include "UiCommon.h"
+#include "VectorFont.h"
 
 #include <rlgl.h>
 
@@ -79,6 +80,8 @@ void Game::init()
 {
     if( m_options.m_camera >= 0 ) m_settings.m_camera = m_options.m_camera;
     if( m_options.m_timeOfDay >= 0 ) m_settings.m_timeOfDay = m_options.m_timeOfDay;
+    setColourBlind( m_settings.m_colourBlind );
+    setTextScale( 1.0f + 0.15f * static_cast<float>( m_settings.m_textSize ) );
     m_tuningBase = loadTuning( configDirectory() + "/tuning.ini" );
     tuning() = applyDifficulty( m_tuningBase, m_settings.m_difficulty );
     m_records.load( configDirectory() + "/records.txt" );
@@ -773,6 +776,22 @@ void Game::simulate( float dt, bool autopilotOn )
     m_shifted = false;
     m_backfire = false;
     CarInput in = autopilotOn ? autopilot() : m_input.car();
+    if( !autopilotOn && !m_demo && m_state == StateE::RACE && ( m_settings.m_steerAssist > 0 || m_settings.m_brakeAssist ) )
+    {
+        // The assists borrow the demo driver: steering where the hands are idle, braking for what comes too fast.
+        const CarInput ai = autopilot();
+        if( m_settings.m_steerAssist > 0 )
+        {
+            const float k = m_settings.m_steerAssist == 1 ? 0.35f : 0.7f;
+            const float idle = 1.0f - std::min( 1.0f, std::abs( in.m_steer ) * 2.0f );
+            in.m_steer = clampf( in.m_steer + ai.m_steer * k * idle, -1.0f, 1.0f );
+        }
+        if( m_settings.m_brakeAssist && ai.m_brake > 0.3f && in.m_throttle > 0.0f )
+        {
+            in.m_brake = std::max( in.m_brake, ai.m_brake * 0.85f );
+            in.m_throttle = std::min( in.m_throttle, 1.0f - ai.m_brake );
+        }
+    }
     float    remaining = dt;
     while( remaining > 1e-6f )
     {
@@ -1203,11 +1222,14 @@ void Game::emitParticles( float dt )
             m_particles.emit( p );
         }
     }
-    if( m_car.m_offroad > 0.3f && m_car.m_speed > 5.0f )
+    const float dirt = std::max( m_car.m_offroad, m_car.m_unpaved && !m_car.m_airborne ? 0.75f : 0.0f );
+    if( dirt > 0.3f && m_car.m_speed > 5.0f )
     {
+        // Off the road, or on gravel and sand: a cloud of the ground's colour (the road's own on a dirt track).
         const bool  snowy = env.m_snow > 0.5f;
-        const Color dust = snowy ? Color{ 240, 244, 250, 150 } : lerpColor( surf.m_groundA, Color{ 200, 180, 150, 255 }, 0.5f );
-        for( int i = emitCount( m_car.m_offroad * m_car.m_speed * 1.2f, dt, r ); i > 0; --i )
+        const Color ground = m_car.m_offroad > 0.3f ? surf.m_groundA : surf.m_road;
+        const Color dust = snowy ? Color{ 240, 244, 250, 150 } : lerpColor( ground, Color{ 200, 180, 150, 255 }, 0.4f );
+        for( int i = emitCount( dirt * m_car.m_speed * 1.2f, dt, r ); i > 0; --i )
         {
             Particle p;
             p.m_pos = poseLocal( pose, r.range( -0.9f, 0.9f ), 0.2f, rearZ - 0.3f );
@@ -1344,7 +1366,7 @@ void Game::updateAudio()
     s.m_throttle = m_car.m_throttle;
     s.m_speed = s.m_active ? m_car.m_speed : 0.0f;
     s.m_slip = s.m_active ? m_car.m_slip : 0.0f;
-    s.m_offroad = s.m_active ? m_car.m_offroad : 0.0f;
+    s.m_offroad = s.m_active ? std::max( m_car.m_offroad, m_car.m_unpaved ? 0.5f : 0.0f ) : 0.0f;
     s.m_rumble = s.m_active ? m_car.m_rumble : 0.0f;
     m_haptics.steady( s.m_rumble * 0.25f + s.m_offroad * std::min( 1.0f, s.m_speed / 30.0f ) * 0.2f, s.m_rumble * 0.35f );
     s.m_boost = s.m_active && m_car.m_boosting;

@@ -90,6 +90,10 @@ bool loadSettings( Settings &settings )
             else if( key == "scenery" ) settings.m_scenery = std::clamp( std::stoi( val ), 0, 1 );
             else if( key == "time_of_day" ) settings.m_timeOfDay = std::clamp( std::stoi( val ), 0, 5 );
             else if( key == "weather" ) settings.m_weather = std::clamp( std::stoi( val ), 0, 1 );
+            else if( key == "steer_assist" ) settings.m_steerAssist = std::clamp( std::stoi( val ), 0, 2 );
+            else if( key == "brake_assist" ) settings.m_brakeAssist = val == "1";
+            else if( key == "colour_blind" ) settings.m_colourBlind = val == "1";
+            else if( key == "text_size" ) settings.m_textSize = std::clamp( std::stoi( val ), 0, 2 );
             else if( key == "car" ) settings.m_car = std::max( 0, std::stoi( val ) );
             else if( key == "paint" ) settings.m_paint = std::max( 0, std::stoi( val ) );
             else if( key == "rims" ) settings.m_rims = std::max( 0, std::stoi( val ) );
@@ -130,6 +134,10 @@ bool saveSettings( const Settings &settings )
     out << "scenery=" << settings.m_scenery << "\n";
     out << "time_of_day=" << settings.m_timeOfDay << "\n";
     out << "weather=" << settings.m_weather << "\n";
+    out << "steer_assist=" << settings.m_steerAssist << "\n";
+    out << "brake_assist=" << ( settings.m_brakeAssist ? 1 : 0 ) << "\n";
+    out << "colour_blind=" << ( settings.m_colourBlind ? 1 : 0 ) << "\n";
+    out << "text_size=" << settings.m_textSize << "\n";
     out << "car=" << settings.m_car << "\n";
     out << "paint=" << settings.m_paint << "\n";
     out << "rims=" << settings.m_rims << "\n";

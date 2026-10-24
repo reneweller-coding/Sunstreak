@@ -188,16 +188,45 @@ float textStrokes( std::string_view text, std::vector<std::pair<Vector2, Vector2
     return text.empty() ? 0.0f : ( pen - ( Advance - 4.0f ) ) / 6.0f;
 }
 
-float textWidth( std::string_view text, float size )
+namespace
+{
+
+float g_textScale = 1.0f;   ///< the UI's text scale
+
+/**
+ * @brief The width of a text at a size already scaled.
+ * @param[in] text  the text
+ * @param[in] size  cap height in pixels
+ * @return the width in pixels
+ */
+float rawWidth( std::string_view text, float size )
 {
     if( text.empty() ) return 0.0f;
     const float u = size / 6.0f;
     return ( static_cast<float>( text.size() ) * Advance - ( Advance - 4.0f ) ) * u + 6.0f * Slant * u;
 }
 
+} // namespace
+
+void setTextScale( float scale )
+{
+    g_textScale = std::clamp( scale, 0.5f, 2.0f );
+}
+
+float textScale()
+{
+    return g_textScale;
+}
+
+float textWidth( std::string_view text, float size )
+{
+    return rawWidth( text, size * g_textScale );
+}
+
 void drawText( std::string_view text, float x, float y, float size, Color color, AlignE align, float weight )
 {
-    const float w = textWidth( text, size );
+    size *= g_textScale;
+    const float w = rawWidth( text, size );
     if( align == AlignE::CENTER ) x -= w * 0.5f;
     else if( align == AlignE::RIGHT ) x -= w;
     strokes( text, x, y, size, color, std::max( 1.2f, size * weight ) );
@@ -205,7 +234,8 @@ void drawText( std::string_view text, float x, float y, float size, Color color,
 
 void drawTextFx( std::string_view text, float x, float y, float size, Color color, AlignE align, float glow )
 {
-    const float w = textWidth( text, size );
+    size *= g_textScale;
+    const float w = rawWidth( text, size );
     if( align == AlignE::CENTER ) x -= w * 0.5f;
     else if( align == AlignE::RIGHT ) x -= w;
     const float thick = std::max( 1.2f, size * 0.13f );

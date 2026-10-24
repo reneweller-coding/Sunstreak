@@ -19,13 +19,25 @@
 namespace sunstreak::ui
 {
 
-constexpr Color Accent = { 255, 150, 40, 255 };   ///< sunset orange
-constexpr Color Cyan = { 70, 220, 255, 255 };     ///< boost, near misses
-constexpr Color Green = { 90, 255, 150, 255 };    ///< checkpoints
-constexpr Color Red = { 255, 60, 60, 255 };       ///< warnings
-constexpr Color Ink = { 245, 246, 250, 255 };     ///< text
-constexpr Color Dim = { 190, 196, 210, 255 };     ///< secondary text
-constexpr Color Gold = { 255, 210, 80, 255 };     ///< first place
+inline Color Accent = { 255, 150, 40, 255 };   ///< sunset orange
+inline Color Cyan = { 70, 220, 255, 255 };     ///< boost, near misses
+inline Color Green = { 90, 255, 150, 255 };    ///< checkpoints
+inline Color Red = { 255, 60, 60, 255 };       ///< warnings
+inline Color Ink = { 245, 246, 250, 255 };     ///< text
+inline Color Dim = { 190, 196, 210, 255 };     ///< secondary text
+inline Color Gold = { 255, 210, 80, 255 };     ///< first place
+
+/**
+ * @brief Switches the HUD's colours: red and green, or a palette that holds for red-green colour blindness (warnings in
+ *        vermilion, good news in sky blue, boost in yellow).
+ * @param[in] on  the colour-blind palette
+ */
+inline void setColourBlind( bool on )
+{
+    Green = on ? Color{ 86, 180, 233, 255 } : Color{ 90, 255, 150, 255 };
+    Red = on ? Color{ 230, 97, 0, 255 } : Color{ 255, 60, 60, 255 };
+    Cyan = on ? Color{ 240, 228, 66, 255 } : Color{ 70, 220, 255, 255 };
+}
 
 /**
  * @brief printf into a std::string.
