@@ -66,7 +66,7 @@ shape FANTASY_COFFINS
     spire 1.6 0.8 2 0.2 0.5 6 6A9A3A
 
 shape BEACHED_PIROGUES
-    home SENEGAL, GAMBIA, GUINEA, GUINEA-BISSAU, MAURITANIA, SIERRA LEONE, IVORY COAST, GHANA, TOGO, BENIN, MALAWI | 0.006 6 50 | coast
+    home SENEGAL, GAMBIA, GUINEA, GUINEA-BISSAU, MAURITANIA, SIERRA LEONE, IVORY COAST, GHANA, TOGO, BENIN, MALAWI, UGANDA, KENYA, TANZANIA | 0.006 6 50 | coast
     # Fishing pirogues pulled up on the beach: long and narrow, painted in stripes of every colour, flags at the bow.
     tbox 0 0 0 0.6 6 0 0.8 0 0.9 6.5 2A8AC8
     box 0.91 0.6 0 0.01 0.1 6.3 F2C21E

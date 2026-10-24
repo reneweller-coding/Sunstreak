@@ -1,7 +1,7 @@
 # More local things of Africa south of the Sahara.
 
 shape BODA_BODA_RANK
-    home UGANDA, KENYA, TANZANIA, RWANDA, BURUNDI, NIGERIA, GHANA, TOGO, BENIN, CAMEROON, DR CONGO, MALAWI, ZAMBIA, DOMINICAN REPUBLIC, HAITI, COLOMBIA, PERU | 0.008 1 12 | town
+    home UGANDA, KENYA, TANZANIA, RWANDA, BURUNDI, NIGERIA, GHANA, TOGO, BENIN, CAMEROON, DR CONGO, MALAWI, ZAMBIA, DOMINICAN REPUBLIC, HAITI, COLOMBIA, PERU, INDONESIA, VIETNAM | 0.008 1 12 | town
     # A motorbike taxi rank under a tree: riders waiting astride their bikes, one in a bright reflective vest, a spare helmet on the seat.
     tube -3 0 0 -3 3.5 0 0.3 6 6A5A48
     blob -3 5 0 3 1.8 3 3A6A2A 0.4
@@ -222,7 +222,7 @@ shape SAFARI_TENT_CAMP
     at 0 0 0
 
 shape MINIBUS_TAXI_RANK
-    home SOUTH AFRICA, LESOTHO, ESWATINI, BOTSWANA, NAMIBIA, ZIMBABWE, MOZAMBIQUE, ZAMBIA, MALAWI | 0.006 2 25 | town
+    home SOUTH AFRICA, LESOTHO, ESWATINI, BOTSWANA, NAMIBIA, ZIMBABWE, MOZAMBIQUE, ZAMBIA, MALAWI, EGYPT | 0.006 2 25 | town
     # A minibus taxi rank: white minibuses parked nose to tail, a queue marshal waving, a vendor with a cool box under an umbrella.
     repeat 4 0 0 5.6
     box 0 1.2 -8.4 0.95 0.8 2.5 F2F2F2

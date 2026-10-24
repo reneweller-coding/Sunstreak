@@ -114,7 +114,7 @@ shape VIET_FLAG_POLE
     blob 0.03 6.4 0.8 0.01 0.25 0.25 F2D21E
 
 shape PLASTIC_STOOL_STALL
-    home VIETNAM, CAMBODIA, LAOS | 0.006 3 15 | town
+    home VIETNAM, CAMBODIA, LAOS, MYANMAR | 0.006 3 15 | town
     # A noodle stall on the pavement: low plastic stools in red and blue, a tiny table, a pot over a charcoal stove.
     repeat 3 0 0 1.2
     box 0.8 0.3 -1.2 0.3 0.02 0.3 B8B0A0

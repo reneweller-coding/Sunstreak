@@ -1,0 +1,168 @@
+# Still more local things of Southeast Asia, the Middle East and Africa.
+
+shape OVERLOADED_SCOOTER
+    home VIETNAM, CAMBODIA, LAOS, INDONESIA, MYANMAR | 0.006 0 10 | town
+    # A scooter carrying an impossible load: towers of baskets, a stack of plastic chairs and a rack of balloons, all strapped behind the rider.
+    tube -0.03 0.25 0.6 0.03 0.25 0.6 0.25 8 1E1E1E
+    tube -0.03 0.25 -0.6 0.03 0.25 -0.6 0.25 8 1E1E1E
+    box 0 0.45 0 0.15 0.15 0.5 C82A2A
+    tube 0 0.3 0.6 0 1.0 0.5 0.03 3 3A3A3A
+    blob 0 1.0 0.1 0.15 0.25 0.12 3A5A8A
+    blob 0 1.35 0.1 0.12 0.12 0.12 E8D040
+    box 0 1.2 -0.6 0.6 0.6 0.35 C8A060
+    box 0 2.0 -0.6 0.5 0.2 0.3 2A6AC8
+    repeat 5 0 0.15 0
+    box 0 2.25 -0.6 0.4 0.02 0.35 E8502A
+    repeat 6 0.12 0 0
+    blob -0.3 3.2 -0.6 0.12 0.15 0.12 E85A9A
+
+shape PADDY_TOMBS
+    home VIETNAM | 0.006 6 60 | country
+    # Family tombs standing in the middle of the rice paddies: little painted shrines and stone graves on raised plots among the green.
+    box 0 0.02 0 5 0.02 7 5A7A6A water
+    repeat 8 0 0 1.4
+    box 0 0.2 -5 4.6 0.18 0.12 6AAA3A
+    box 0 0.4 0 1.6 0.4 1.6 B8B0A0
+    box 0 1.2 0.6 0.5 0.4 0.4 E8E0C8
+    gable 0 1.6 0.6 0.55 0.45 0.3 0.1 C8902A E8E0C8
+    box 0.5 1.0 -0.6 0.4 0.2 0.5 9A9690
+    box -0.6 1.0 -0.4 0.3 0.2 0.4 E8C02A
+
+shape WAU_KITE_DISPLAY
+    home MALAYSIA, INDONESIA, THAILAND | 0.004 2 20 | town
+    # Moon kites on display outside a craft shop: big decorated kites with crescent tails, painted in red, gold and green patterns.
+    box -1 1.5 0 0.8 1.5 2.5 E8E0C8
+    repeat 3 0 0 1.6
+    tube 0 0 -1.6 0 2.4 -1.6 0.03 3 8A6A48
+    repeat 3 0 0 1.6
+    quad 0.02 2.6 -2.3 0.02 2.6 -0.9 0.02 1.4 -1.6 0.02 3.2 -1.6 C82A2A
+    repeat 3 0 0 1.6
+    quad 0.03 1.5 -2.1 0.03 1.5 -1.1 0.03 1.1 -1.4 0.03 1.1 -1.8 F2C21E
+    repeat 3 0 0 1.6
+    blob 0.04 2.5 -1.6 0.01 0.2 0.2 2A8A4A
+
+shape SALT_PANS
+    home THAILAND, VIETNAM, PHILIPPINES, PORTUGAL, FRANCE:BRITTANY, INDIA:GUJARAT, INDIA:TAMIL NADU, SENEGAL, CAPE VERDE, CYPRUS, BRAZIL:RIO GRANDE DO NORTE | 0.006 8 70 | coast
+    # Salt pans by the sea: shallow square ponds in a grid, white heaps of raked salt between them, a little wind pump at the corner.
+    repeat 4 0 0 3.2
+    box -2 0.03 -4.8 1.4 0.02 1.4 B8C8C8 water
+    repeat 4 0 0 3.2
+    box -5.2 0.03 -4.8 1.4 0.02 1.4 C8D0D0 water
+    repeat 3 0 0 3.2
+    spire -3.6 0 -3.2 0.6 0.7 8 F2F2F2
+    tube 1 0 6 1 4 6 0.06 4 9A9A9A
+    at 1.15 4 6
+    vring 6 0
+    tube 0 0 0 0 1.2 0 0.03 3 E8E8E8
+    at 0 0 0
+
+shape OASIS_POOL
+    home ALGERIA, TUNISIA, LIBYA, EGYPT:NEW VALLEY, SAUDI ARABIA, OMAN, MOROCCO:DRAA-TAFILALET, UAE, MAURITANIA, CHAD | 0.006 8 70 | arid
+    # An oasis pool: a pond of green water under date palms in the sand, reeds at its edge and a few camels drinking.
+    cyl 0 0.02 0 4 4 0.02 14 3A7A6A water
+    repeat 8 0 0 1
+    blob 3.5 0.5 -3.5 0.2 0.5 0.2 6A8A3A 0.5
+    tube -5 0 -3 -4.8 9 -3 0.3 6 8A6A48
+    fronds -4.8 9 -3 14 3 0.6 5A7A4A
+    tube -4 0 4 -4.3 8 4 0.3 6 8A6A48
+    fronds -4.3 8 4 14 3 0.6 5A7A4A
+    tube 5 0 3 5.2 7 3 0.3 6 8A6A48
+    fronds 5.2 7 3 14 3 0.6 5A7A4A
+    blob 4.2 1.6 -1 0.3 0.42 0.85 C8A070
+    tube 4.2 1.8 -0.3 4 0.8 0.3 0.1 4 C8A070
+
+shape ROUND_WATCHTOWER
+    home OMAN, UAE, YEMEN, SAUDI ARABIA:ASIR, QATAR | 0.004 10 80 | arid
+    # An old round watchtower on a rocky knoll: a tapering mud-brick drum with a crenellated top and a single small door high up.
+    blob 0 0.6 0 4 1.5 4 9A8468 0.4
+    cyl 0 1.5 0 2 1.6 8 12 C8A070
+    ring 10 1.6
+    box 0 9.8 0 0.25 0.3 0.25 C8A070
+    box 1.95 4 0 0.1 0.6 0.4 5A3A22
+
+shape IMPALA_HERD
+    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, ZIMBABWE, SOUTH AFRICA, NAMIBIA, MOZAMBIQUE, UGANDA, MALAWI | 0.006 6 60 | country
+    # A herd of impala in the bush: slim red-brown antelopes with pale bellies, one ram with lyre-shaped horns, the rest grazing.
+    repeat 6 0.8 0 1.1
+    blob -2 0.85 -3 0.15 0.2 0.42 A8683A
+    repeat 6 0.8 0 1.1
+    blob -2 0.76 -3 0.14 0.1 0.38 F2EEE2
+    repeat 6 0.8 0 1.1
+    tube -2 0.95 -2.65 -2 1.25 -2.5 0.05 4 A8683A
+    repeat 6 0.8 0 1.1
+    blob -2 1.27 -2.4 0.06 0.07 0.13 A8683A
+    repeat 6 0.8 0 1.1
+    tube -1.92 0.6 -2.75 -1.92 0 -2.75 0.025 3 A8683A
+    repeat 6 0.8 0 1.1
+    tube -2.08 0.6 -2.75 -2.08 0 -2.75 0.025 3 A8683A
+    repeat 6 0.8 0 1.1
+    tube -1.92 0.6 -3.25 -1.92 0 -3.25 0.025 3 A8683A
+    repeat 6 0.8 0 1.1
+    tube -2.08 0.6 -3.25 -2.08 0 -3.25 0.025 3 A8683A
+    tube 1.95 1.32 2.65 1.85 1.75 2.55 0.02 3 3A3A3A
+    tube 2.05 1.32 2.65 2.15 1.75 2.55 0.02 3 3A3A3A
+
+shape ROADSIDE_FURNITURE
+    home KENYA, UGANDA, TANZANIA, NIGERIA, GHANA, ZAMBIA, MALAWI, RWANDA, CAMEROON | 0.006 1 15 | town
+    # A carpenter's roadside showroom: new beds, sofas and wardrobes of varnished wood set out on the verge in the open air.
+    box 0 0.35 -2.5 0.9 0.15 1.1 A8683A
+    box -0.85 0.8 -2.5 0.05 0.6 1.1 A8683A
+    box 0 0.4 0.5 0.45 0.2 1.0 8A5A3A
+    box -0.4 0.7 0.5 0.08 0.35 1.0 8A5A3A
+    box 0 0.4 0.5 0.4 0.08 0.9 C82A2A
+    box -0.5 1.1 3 0.3 1.1 0.7 7A4A2A
+    box -0.19 1.1 3 0.01 1.0 0.02 3A2A1A
+    box 1.2 1.2 -0.5 0.02 0.3 0.8 F2F2F2
+
+shape BOTTLED_FUEL_STALL
+    home NIGERIA, BENIN, TOGO, GHANA, CAMEROON, CAMBODIA, LAOS, INDONESIA, MYANMAR, HAITI, MALI, BURKINA FASO, GUINEA, VIETNAM | 0.006 0 8 | country
+    # Fuel for sale by the road: glass bottles and jugs of yellow petrol lined up on a little wooden table, a funnel and a stool beside.
+    box 0 0.6 0 0.3 0.03 0.8 8A6A48
+    mirror
+    mirrorx
+    tube 0.25 0 0.7 0.25 0.6 0.7 0.03 3 8A6A48
+    repeat 8 0 0 0.2
+    cyl 0 0.63 -0.7 0.05 0.04 0.25 6 E8C02A glass
+    repeat 3 0 0 0.5
+    cyl -0.6 0 -0.5 0.15 0.15 0.35 8 E8C02A glass
+    spire 0.15 0.63 0.75 0.08 0.15 6 3A3A3A
+    cyl 0.8 0 0.4 0.15 0.15 0.4 8 2A6AC8
+
+shape CONTAINER_SHOP
+    home SOUTH AFRICA, KENYA, NIGERIA, GHANA, UGANDA, TANZANIA, ZAMBIA, NAMIBIA, BOTSWANA, ZIMBABWE, MOZAMBIQUE, JAMAICA, HAITI | 0.006 1 20 | town
+    # A shipping container turned shop: a painted steel box with its side cut open, a counter, shelves of goods and a hand-painted sign.
+    box 0 1.3 0 1.2 1.3 3 2A6AC8
+    box 1.21 1.3 0 0.01 0.8 2 2A2018
+    repeat 3 0 0.5 0
+    box 1.0 0.6 0 0.2 0.02 1.9 8A6A48
+    box 1.5 0.9 0 0.3 0.04 2.2 8A6A48
+    quad 1.2 2.6 -2.5 1.2 2.6 2.5 2.4 2.3 2.5 2.4 2.3 -2.5 9AA0A8
+    box 1.22 2.4 0 0.01 0.15 2.6 F2C21E
+
+shape MARABOUT_TOMB
+    home MOROCCO, ALGERIA, TUNISIA, LIBYA, MAURITANIA | 0.004 6 60 | country
+    # A saint's tomb on a lonely rise: a small whitewashed cube crowned with a white dome, a green door, an old tree beside it.
+    box 0 1.5 0 1.8 1.5 1.8 F2F2EE
+    dome 0 3 0 1.6 1.4 F2F2EE
+    spire 0 4.4 0 0.08 0.5 6 E8E8E0
+    box 1.81 1.0 0 0.02 1.0 0.5 2A8A4A
+    merlons 1.8 3 -1.8 1.8 3 1.8 0.15 F2F2EE
+    tube -3 0 2 -3 3 2 0.3 6 7A6A58
+    blob -3 4 2 1.8 1.2 1.8 6A7A4A 0.4
+
+shape BASOTHO_HORSEMAN
+    home LESOTHO, SOUTH AFRICA:FREE STATE | 0.004 3 30 | country
+    # A horseman of the highlands on his sturdy pony: wrapped in a patterned wool blanket and wearing a conical woven hat.
+    blob 0 1.2 0 0.28 0.36 0.78 6A4A2A
+    mirror
+    mirrorx
+    tube 0.16 0.95 0.5 0.16 0 0.5 0.06 4 6A4A2A
+    tube 0 1.4 0.6 0 1.9 0.9 0.12 5 6A4A2A
+    blob 0 1.85 1.1 0.11 0.13 0.27 6A4A2A
+    tube 0 1.3 -0.75 0 0.7 -0.85 0.05 3 2A1E18
+    mirrorx
+    tube 0.2 1.6 0 0.34 0.95 0.15 0.07 4 3A3A3A
+    tbox 0 1.55 0 0.4 0.3 0 2.35 0 0.22 0.18 2A6AA8
+    box 0.41 1.95 0 0.01 0.25 0.2 E8C02A
+    blob 0 2.55 0.02 0.1 0.12 0.1 6A4A30
+    spire 0 2.62 0 0.3 0.4 10 C8A060
