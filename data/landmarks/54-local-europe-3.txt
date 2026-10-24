@@ -1,0 +1,234 @@
+# Still more local things of Europe.
+
+shape PLAYGROUND
+    home fleet:EUROPE, fleet:BRITISH, fleet:EASTERN, fleet:NORTH_AMERICA, fleet:OCEANIA | 0.004 2 25 | town
+    # A village playground: a red slide on a little tower, a swing set, a sandpit and a spring rider, behind a low fence.
+    box 0 0.8 0 0.6 0.05 0.6 8A6A48
+    mirror
+    mirrorx
+    tube 0.55 0 0.55 0.55 2 0.55 0.05 3 8A6A48
+    tbox 0 0 1.8 0.3 0.3 0 0.8 0.6 0.3 0.05 C82A2A
+    hip 0 2 0 0.7 0.7 0.5 0.1 2A6AC8
+    tube 2.5 0 -2 2.5 2.2 -1.5 0.05 3 E8C02A
+    tube 2.5 0 1 2.5 2.2 0.5 0.05 3 E8C02A
+    tube 2.5 2.2 -1.5 2.5 2.2 0.5 0.05 3 E8C02A
+    repeat 2 0 0 1
+    tube 2.5 2.2 -1 2.5 0.5 -1 0.01 3 8A8A8A
+    repeat 2 0 0 1
+    box 2.5 0.48 -1 0.12 0.03 0.25 2A2A2A
+    box -2.5 0.1 -1 1 0.1 1 E8D8A8
+    cyl -2.5 0 2 0.05 0.05 0.4 6 6A6A6A
+    blob -2.5 0.6 2 0.15 0.2 0.35 3AA84A
+
+shape VILLAGE_FOOTBALL_PITCH
+    home fleet:EUROPE, fleet:BRITISH, fleet:EASTERN, fleet:LATIN, fleet:AFRICA | 0.003 8 60 | country
+    # The village football pitch: a mown field with white lines, two goals with nets and a little clubhouse with a covered stand.
+    box -10 0.02 0 9 0.02 14 4A8A3A
+    box -10 0.03 0 9 0.005 0.08 F2F2F2
+    mirror
+    tube -10 0 13.5 -10 2.4 13.5 0.06 4 F2F2F2
+    mirror
+    tube -13.6 0 13.5 -13.6 2.4 13.5 0.06 4 F2F2F2
+    mirror
+    tube -13.6 2.4 13.5 -10 2.4 13.5 0.06 4 F2F2F2
+    mirror
+    quad -13.6 2.4 13.5 -10 2.4 13.5 -10 0 14.6 -13.6 0 14.6 E8E8E8
+    box 2 1.5 0 1.8 1.5 3 E8E0C8
+    gable 2 3 0 2 3.2 1 0.2 A8503A E8E0C8
+    tbox 2 0 7 1 3 2 1 7 0.3 3 9A9A9A
+    quad 0.5 2.4 4 0.5 2.4 10 3.2 2.2 10 3.2 2.2 4 6A6A6A
+
+shape LAKE_BATHING_JETTY
+    home GERMANY, AUSTRIA, SWITZERLAND, POLAND, FINLAND, SWEDEN, DENMARK, CZECHIA, HUNGARY, SLOVENIA, ITALY:LOMBARDY | 0.004 4 40 | country
+    # A bathing place on the lake: a wooden jetty with a ladder into the water, a raft out in the middle, the lifeguard's chair on the grass.
+    box 4 0.02 0 4 0.02 8 3A6A7A water
+    box 2 0.5 0 2 0.06 0.8 8A7A60
+    repeat 4 1 0 0
+    tube 0.5 0 0.7 0.5 0.5 0.7 0.06 3 6A5A48
+    repeat 4 1 0 0
+    tube 0.5 0 -0.7 0.5 0.5 -0.7 0.06 3 6A5A48
+    tube 4 0 0.5 4 1 0.5 0.02 3 C8C8C8
+    box 6.5 0.15 4 1 0.12 1 E8E8E8
+    box -1.5 1.2 3 0.4 0.05 0.4 F2F2F2
+    tube -1.2 0 3.3 -1.3 1.2 3.3 0.04 3 F2F2F2
+    tube -1.8 0 3.3 -1.7 1.2 3.3 0.04 3 F2F2F2
+    tube -1.2 0 2.7 -1.3 1.2 2.7 0.04 3 F2F2F2
+    tube -1.8 0 2.7 -1.7 1.2 2.7 0.04 3 F2F2F2
+    blob -3 0.1 -2 1.2 0.08 2 7AAA4A
+
+shape SLURRY_TANKER
+    home GERMANY, NETHERLANDS, DENMARK, AUSTRIA, IRELAND, BELGIUM, FRANCE:NORMANDY, FRANCE:BRITTANY, SWITZERLAND, POLAND | 0.004 4 50 | country
+    # A tractor pulling a slurry tanker across the meadow: a big green tank on wheels with the spreading boom folded at its back.
+    box 0 1.2 3 0.5 0.45 0.9 3A8A3A
+    box 0 2.1 2.2 0.6 0.6 0.6 3A8A3A
+    box 0 2.25 2.81 0.5 0.4 0.01 2A3A4A glass
+    mirrorx
+    tube 0.5 0.5 3.6 0.75 0.5 3.6 0.5 10 1E1E1E
+    mirrorx
+    tube 0.6 0.9 1.9 1.0 0.9 1.9 0.9 12 1E1E1E
+    tube 0 1.5 -0.5 0 1.5 -5 1.1 12 3A7A3A
+    mirrorx
+    tube 0.9 0.7 -3 1.3 0.7 -3 0.7 12 1E1E1E
+    box 0 1 -5.4 1.6 0.1 0.15 6A6A6A
+
+shape COVERED_MARKET_HALL
+    home FRANCE, BELGIUM, LUXEMBOURG | 0.004 4 40 | town
+    # An old covered market hall: a huge timber roof of old tiles on stout oak posts, open on all sides, market stalls set out beneath it.
+    repeat 5 0 0 3
+    mirrorx
+    tube 3 0 -6 3 2.6 -6 0.2 6 6A4A30
+    hip 0 2.6 0 3.6 7.4 3 0.5 9A5A3A
+    repeat 3 0 0 4
+    box 0 0.7 -4 1.2 0.05 1 8A6A48
+    repeat 3 0 0 4
+    blob 0 0.85 -4 1 0.12 0.8 C85A2A 0.6
+
+shape STRADDLE_TRACTOR
+    home FRANCE:NOUVELLE-AQUITAINE, FRANCE:GRAND EST, FRANCE:BOURGOGNE-FRANCHE-COMTE, FRANCE:OCCITANIE, FRANCE:CENTRE-VAL DE LOIRE, SWITZERLAND | 0.004 4 40 | country
+    # A vineyard straddle tractor: a tall narrow machine standing on long legs over a row of vines, its cab perched high above.
+    repeat 5 1.5 0 0
+    box -3 0.6 0 0.25 0.6 6 4A7A3A
+    box 0 2.4 0 0.5 0.5 1 2A6AC8
+    box 0 3.1 0 0.45 0.25 0.6 2A3A4A glass
+    mirrorx
+    tube 0.6 2.0 0.8 0.6 0.5 0.8 0.08 4 2A6AC8
+    mirrorx
+    tube 0.6 2.0 -0.8 0.6 0.5 -0.8 0.08 4 2A6AC8
+    mirror
+    mirrorx
+    tube 0.55 0.4 0.8 0.75 0.4 0.8 0.4 10 1E1E1E
+
+shape VILLAGE_SIGN_EAST_ANGLIA
+    home ENGLAND:EAST OF ENGLAND, ENGLAND:EAST MIDLANDS | 0.004 1 10 | country
+    # A painted village sign on the green: a carved and coloured picture of the village's story on a tall oak post with a brick base.
+    box 0 0.3 0 0.4 0.3 0.4 A8503A
+    box 0 1.8 0 0.12 1.5 0.12 6A4A30
+    box 0 3.6 0 0.05 0.55 0.7 6A9AC8
+    blob 0.06 3.5 -0.2 0.01 0.3 0.3 3A6A3A
+    box 0.06 3.6 0.3 0.01 0.25 0.12 C83A2A
+    box 0 4.2 0 0.06 0.08 0.75 6A4A30
+
+shape WELSH_CHAPEL
+    home WALES | 0.006 4 40 | town
+    # A Welsh chapel: a big plain stone front facing the street, a round-arched window above twin doors, its name carved on a plaque.
+    box 0 4 0 4 4 5 8A8478
+    tri 4.01 8 -5 4.01 8 5 4.01 10 0 8A8478
+    box 4.02 1.4 -1.4 0.02 1.3 0.6 3A3A3A
+    box 4.02 1.4 1.4 0.02 1.3 0.6 3A3A3A
+    box 4.02 5 0 0.02 1.3 1 2A3A4A glass
+    hoop 4.03 6.3 0 0.95 0.06 12 E8E0D0
+    box 4.03 7.6 0 0.02 0.3 1.2 E8E0D0
+    gable 0 8 0 4.2 5.2 2 0.2 4A4A50 8A8478
+
+shape MOSSY_LAVA_FIELD
+    home ICELAND | 0.008 6 80 | country
+    # A moss-covered lava field: a rough sea of black lava blocks under a thick soft carpet of grey-green moss.
+    repeat 6 -2 0 0.5
+    blob 0 0.6 -6 1.2 0.7 1.4 8A9A70 0.7
+    repeat 6 -2 0 0.5
+    blob -1 0.5 -3 1.0 0.6 1.2 7A8A60 0.7
+    repeat 6 -2 0 0.5
+    blob 0 0.55 0 1.3 0.6 1.3 8A9A70 0.7
+    repeat 6 -2 0 0.5
+    blob -1 0.5 3 1.1 0.55 1.1 7A8A60 0.7
+    repeat 4 -3 0 1
+    blob -0.5 0.6 5.5 0.6 0.7 0.5 2A2826 0.6
+
+shape CONCRETE_SPOMENIK
+    home SERBIA, BOSNIA, CROATIA, MONTENEGRO, NORTH MACEDONIA, SLOVENIA, KOSOVO | 0.002 10 80 | country
+    # A great concrete memorial on a hill: abstract wing-like forms of grey concrete rising from a stepped plinth in a quiet meadow.
+    box 0 0.3 0 5 0.3 5 9A9690
+    box 0 0.8 0 3.5 0.2 3.5 A8A49C
+    tbox 0 1 -1.5 1.2 0.4 -1.5 12 -3 0.2 0.3 B8B4AC
+    tbox 0 1 1.5 1.2 0.4 0 10 3.5 0.2 0.3 B8B4AC
+    tbox 0 1 0 0.8 0.3 1.5 8 0 0.15 0.2 A8A49C
+
+shape SPEED_CAMERA
+    home fleet:EUROPE, fleet:BRITISH, fleet:EASTERN, AUSTRALIA, NEW ZEALAND | 0.004 0 3
+    # A speed camera on its pole at the roadside: a grey box with a dark lens, a warning sign a little before it.
+    tube 0 0 0 0 3 0 0.08 4 9A9A9A
+    box 0 3.3 0 0.3 0.35 0.3 C8C8C0
+    box 0 3.3 0.31 0.15 0.15 0.01 1E1E1E
+    box 0 2.8 0 0.32 0.05 0.32 E8C02A
+    tube 0 0 -20 0 2.2 -20 0.04 3 9A9A9A
+    box 0.05 2.4 -20 0.02 0.35 0.3 F2F2F2
+
+shape EV_CHARGERS
+    home NORWAY, NETHERLANDS, GERMANY, DENMARK, SWEDEN, ENGLAND, USA:CALIFORNIA, CHINA:SHANGHAI, CHINA:GUANGDONG, ICELAND, SWITZERLAND, FINLAND | 0.004 2 25 | town
+    # A fast-charging station: tall white chargers with lit screens under a slim canopy, electric cars plugged in at each bay.
+    repeat 4 0 0 3
+    box 0 1 -4.5 0.25 1 0.35 F2F2F2
+    repeat 4 0 0 3
+    box 0.26 1.4 -4.5 0.01 0.25 0.2 2AC8A8 glow
+    box 0 3.5 0 1.5 0.1 6.5 E8E8E8
+    box 1.52 3.5 0 0.01 0.06 6.5 2AA84A
+    repeat 2 0 0 6
+    tube -1 0 -4.5 -1 3.5 -4.5 0.08 4 C8C8C8
+    repeat 2 0 0 6
+    box 2.2 0.6 -3 0.85 0.3 2 2A4A6A
+    repeat 2 0 0 6
+    box 2.2 1.05 -3.2 0.8 0.2 1.1 2A3A4A glass
+
+shape PARCEL_LOCKERS
+    home POLAND, GERMANY, CZECHIA, SLOVAKIA, LATVIA, LITHUANIA, ESTONIA, FINLAND | 0.006 1 10 | town
+    # A parcel locker by the supermarket: a wall of numbered steel lockers in yellow and grey, a small screen in the middle.
+    box 0 1 0 0.35 1 2.5 F2C21E
+    repeat 6 0 0 0.8
+    box 0.36 1.4 -2 0.01 0.35 0.35 C8C8C0
+    repeat 6 0 0 0.8
+    box 0.36 0.6 -2 0.01 0.35 0.35 C8C8C0
+    box 0.37 1.4 0.4 0.01 0.18 0.25 2A3A4A glow
+    box 0 2.1 0 0.4 0.08 2.6 F2C21E
+
+shape HIKING_SIGNPOST
+    home SWITZERLAND, AUSTRIA, GERMANY:BAVARIA, ITALY:TRENTINO, ITALY:AOSTA VALLEY, LIECHTENSTEIN, SLOVENIA | 0.006 0 6 | country
+    # A yellow hiking signpost at the trailhead: arrow-shaped signs pointing every way with walking times to the huts and summits.
+    tube 0 0 0 0 2.4 0 0.05 4 9A9A9A
+    box 0.4 2.2 0 0.4 0.08 0.03 F2C21E
+    tri 0.8 2.28 0 0.8 2.12 0 0.95 2.2 0 F2C21E
+    box -0.3 1.95 0.15 0.3 0.08 0.03 F2C21E
+    box 0 1.7 0.4 0.03 0.08 0.4 F2C21E
+    box 0.4 1.45 0 0.4 0.08 0.03 F2C21E
+    box 0.4 1.45 0.031 0.3 0.04 0.001 1E1E1E
+
+shape SHEPHERD_HUT_WAGON
+    home ENGLAND, WALES, GERMANY, POLAND, FRANCE, SCOTLAND | 0.004 4 40 | country
+    # An old shepherd's hut on iron wheels: a little curved corrugated roof over a wooden wagon body, steps up to its door, a stovepipe.
+    box 0 1.3 0 1 0.7 2 4A6A5A
+    tube 0 1.8 -2.05 0 1.8 2.05 1.05 12 9AA0A8
+    box 1.01 1.2 0.5 0.01 0.55 0.35 3A2A1A
+    box 1.01 1.4 -1 0.01 0.25 0.3 2A3A4A glass
+    tube 0.4 2.6 -1.2 0.4 3.3 -1.2 0.06 4 3A3A3A
+    mirror
+    mirrorx
+    hoop 1.02 0.4 1.4 0.4 0.04 10 3A3A3A
+    tbox 1.6 0 0.5 0.3 0.3 1.1 0.6 0.5 0.1 0.3 8A6A48
+
+shape STRIPED_BEACH_HOUSES
+    home PORTUGAL | 0.006 3 30 | coast
+    # Striped beach houses: little wooden houses painted in bold vertical stripes of red, blue, green or yellow on white.
+    box 0 1.8 -4 2 1.8 1.6 F2F2F2
+    box 0 1.8 0 2 1.8 1.6 F2F2F2
+    box 0 1.8 4 2 1.8 1.6 F2F2F2
+    repeat 4 0 0 0.8
+    box 2.01 1.8 -5.2 0.01 1.8 0.2 C82A2A
+    repeat 4 0 0 0.8
+    box 2.01 1.8 -1.2 0.01 1.8 0.2 2A5AA8
+    repeat 4 0 0 0.8
+    box 2.01 1.8 2.8 0.01 1.8 0.2 3A8A4A
+    gable 0 3.6 -4 2.1 1.7 1 0.1 F2F2F2 F2F2F2
+    gable 0 3.6 0 2.1 1.7 1 0.1 F2F2F2 F2F2F2
+    gable 0 3.6 4 2.1 1.7 1 0.1 F2F2F2 F2F2F2
+
+shape DANISH_SUMMER_HOUSE
+    home DENMARK, SWEDEN | 0.006 4 40 | coast
+    # A summer house in the dunes: a low black-tarred wooden cottage with white window frames, a wooden deck and marram grass all around.
+    box 0 1.3 0 2.5 1.3 4 2A2A2A
+    gable 0 2.6 0 2.7 4.2 1.4 0.3 3A3A3A 2A2A2A
+    repeat 3 0 0 2.6
+    box 2.52 1.4 -2.6 0.02 0.55 0.55 F2F2F2
+    repeat 3 0 0 2.6
+    box 2.53 1.4 -2.6 0.02 0.45 0.45 2A3A4A glass
+    box 3.6 0.2 0 1 0.2 3 B8A888
+    repeat 6 0 0 1.8
+    blob 5.5 0.4 -4.5 0.6 0.4 0.6 B8B070 0.6

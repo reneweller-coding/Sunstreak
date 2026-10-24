@@ -216,7 +216,7 @@ shape VERMILION_BRIDGE
     box 0 0.25 4.4 1.1 0.25 0.5 9A9690
 
 shape LAVENDER_ROWS
-    home JAPAN:HOKKAIDO, FRANCE:PROVENCE, FRANCE:OCCITANIE, SPAIN:CASTILE-LA MANCHA, ENGLAND:EAST OF ENGLAND, BULGARIA | 0.008 6 60 | country
+    home JAPAN:HOKKAIDO, FRANCE:PROVENCE, FRANCE:OCCITANIE, SPAIN:CASTILE-LA MANCHA, ENGLAND:EAST OF ENGLAND, BULGARIA, CROATIA | 0.008 6 60 | country
     # A lavender field in high summer: long rows of purple domes on pale earth running away from the road.
     box -3 0.02 0 5 0.02 8 C8B898
     repeat 8 0 0 2
