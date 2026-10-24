@@ -220,7 +220,7 @@ shape CAVE_HOTEL
     blob 2.2 2.8 -2 0.05 0.3 0.3 E8A040 lit
 
 shape OTTOMAN_FOUNTAIN
-    home TURKEY, BULGARIA, BOSNIA, NORTH MACEDONIA, KOSOVO | 0.004 3 20 | town
+    home TURKEY, BULGARIA, BOSNIA, NORTH MACEDONIA, KOSOVO, SYRIA, LEBANON | 0.004 3 20 | town
     # A cesme: a marble wall fountain, its arch carved with an inscription, a brass tap over a stone trough.
     box 0 1.4 0 0.4 1.4 1.4 E8E2D8
     blob 0.41 2.2 0 0.02 0.7 0.8 D8D0C0
@@ -232,7 +232,7 @@ shape OTTOMAN_FOUNTAIN
     box 0 2.9 0 0.5 0.1 1.5 D8D0C0
 
 shape CARPET_DISPLAY
-    home TURKEY, IRAN, MOROCCO, AFGHANISTAN, AZERBAIJAN, TURKMENISTAN, UZBEKISTAN | 0.003 4 25
+    home TURKEY, IRAN, MOROCCO, AFGHANISTAN, AZERBAIJAN, TURKMENISTAN, UZBEKISTAN, IRAQ, SYRIA | 0.003 4 25
     # Carpets for sale hung over a line at the roadside: deep reds and blues with their borders.
     mirror
     tube 0 0 3.6 0 2.6 3.6 0.05 4 6A5A48

@@ -455,7 +455,7 @@ shape BLUE_DOME_MAUSOLEUM
     tube 0 9.5 0 0 10.3 0 0.04 3 D8B030
 
 shape CHAIKHANA_TAPCHAN
-    home UZBEKISTAN, TAJIKISTAN, KYRGYZSTAN, TURKMENISTAN, AFGHANISTAN | 0.005 4 30
+    home UZBEKISTAN, TAJIKISTAN, KYRGYZSTAN, TURKMENISTAN, AFGHANISTAN, IRAN | 0.005 4 30
     # A tapchan of the tea house: a raised wooden platform spread with carpets and a low table, under the plane trees.
     box 0 0.55 0 1.5 0.06 1.5 8A6A48
     mirror
@@ -471,7 +471,7 @@ shape CHAIKHANA_TAPCHAN
     blob -4 6 2 3.5 2.6 3.5 4A7A3A 0.3
 
 shape TANDOOR_OVEN
-    home UZBEKISTAN, TAJIKISTAN, AFGHANISTAN, TURKMENISTAN, KYRGYZSTAN, KAZAKHSTAN | 0.004 3 20 | country
+    home UZBEKISTAN, TAJIKISTAN, AFGHANISTAN, TURKMENISTAN, KYRGYZSTAN, KAZAKHSTAN, IRAN, IRAQ | 0.004 3 20 | country
     # A tandoor: a dome-shaped clay oven on a mud-brick plinth, round flat breads cooling on a board beside it.
     box 0 0.4 0 0.8 0.4 0.8 B8986A
     blob 0 1.1 0 0.75 0.7 0.75 C8A07A
@@ -503,7 +503,7 @@ shape AKHAL_TEKE_HORSE
     tube 0 1.5 -0.85 0 0.7 -1.0 0.05 3 B89040
 
 shape QALA_FORT
-    home AFGHANISTAN, TAJIKISTAN, UZBEKISTAN, TURKMENISTAN | 0.004 15 100 | country
+    home AFGHANISTAN, TAJIKISTAN, UZBEKISTAN, TURKMENISTAN, IRAN | 0.004 15 100 | country
     # A qala: a fortified farm compound of mud walls with round corner towers, one wooden gate.
     box 7 2.5 0 0.5 2.5 7 B89868
     box -7 2.5 0 0.5 2.5 7 B89868

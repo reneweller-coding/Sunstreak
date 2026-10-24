@@ -215,7 +215,7 @@ shape ORANGE_TREE_ROW
     blob 0.9 2.5 -4.9 0.1 0.1 0.1 F28A1A
 
 shape MURCIAN_NORIA
-    home SPAIN:MURCIA, SPAIN:ANDALUSIA | 0.002 8 50 | country
+    home SPAIN:MURCIA, SPAIN:ANDALUSIA, SYRIA | 0.002 8 50 | country
     # A noria: a great wooden water wheel with clay pots round its rim, between two stone piers.
     hoop 0.4 4 0 4 0.2 24 6A5040
     hoop -0.4 4 0 4 0.2 24 6A5040
