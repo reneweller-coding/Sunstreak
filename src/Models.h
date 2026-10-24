@@ -248,6 +248,7 @@ public:
     std::vector<int>                                   m_policeModel;    ///< per data shape: its model if a patrol car, ambulance or fire engine (-1: none)
     std::array<Mesh, 4>                                m_policeFlash{};  ///< a flash of the light bar: red right, blue left, blue right, red left
     Mesh                                               m_puddle{};       ///< a puddle the rain left on the road, -z ahead
+    std::vector<Mesh>                                  m_hitchhikers;    ///< the HITCHHIKER shapes, +x towards the road
     Mesh                                               m_cone{};         ///< traffic cone
     std::array<Mesh, 2>                                m_arrowBoard{};   ///< roadworks board, arrow left / right
     Mesh                                               m_shadow{};       ///< unit blob shadow

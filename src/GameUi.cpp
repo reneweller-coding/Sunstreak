@@ -902,6 +902,13 @@ void Game::draw()
     in.m_shadows = m_settings.m_shadows;
     in.m_lensRain = m_settings.m_camera >= 2 && !m_demo ? in.m_env.m_rain : in.m_env.m_rain * 0.5f;
     in.m_slush = smoothstepf( 0.05f, 0.4f, in.m_env.m_snow );
+    if( m_passenger.m_state == PassengerStateE::WAITING && !m_models.m_hitchhikers.empty() && m_track )
+    {
+        // The hitchhiker by the road, facing it, thumb out.
+        const Pose p = roadPose( *m_track, m_passenger.m_s, m_passenger.m_x, 0.0f );
+        in.m_pieces.push_back( { &m_models.m_hitchhikers[static_cast<size_t>( m_passenger.m_look ) % m_models.m_hitchhikers.size()], p.m_pos,
+                                 std::atan2( p.m_forward.x, p.m_forward.z ) + ( m_passenger.m_side < 0.0f ? PI : 0.0f ) } );
+    }
     in.m_puddles.clear();
     if( in.m_env.m_rain > 0.35f && m_track )
     {
@@ -2607,6 +2614,19 @@ void Game::drawHud()
              Dim, AlignE::RIGHT );
         txt( format( "OVERTAKES %d", m_overtakes ), W - 28.0f * u, 38.0f * u, 13.0f * u, Ink, AlignE::RIGHT );
         if( m_combo > 1 ) drawTextFx( format( "COMBO X%d", m_combo ), W - 28.0f * u, 62.0f * u, 20.0f * u, Cyan, AlignE::RIGHT, 0.8f );
+        if( m_passenger.m_state == PassengerStateE::ABOARD )
+        {
+            // The passenger: where to, how far, how long.
+            const bool  hurry = m_passenger.m_timeLeft < 15.0f && ( static_cast<int>( m_time * 4.0f ) & 1 );
+            const float km = static_cast<float>( std::max( 0.0, m_passenger.m_destS - m_car.m_s ) / 1000.0 );
+            drawTextFx( format( "PASSENGER TO %s   %.1f KM   %s", placeName( m_passenger.m_to ).c_str(), km, clockText( m_passenger.m_timeLeft ).c_str() ),
+                        W * 0.5f, 150.0f * u, 14.0f * u, hurry ? Red : Accent, AlignE::CENTER, 0.4f );
+        }
+        else if( m_passenger.m_state == PassengerStateE::WAITING && m_passenger.m_s - m_car.m_s < 500.0 && m_passenger.m_s > m_car.m_s - 10.0 )
+        {
+            drawTextFx( format( "HITCHHIKER AHEAD %d M   STOP BESIDE THEM", static_cast<int>( std::max( 0.0, m_passenger.m_s - m_car.m_s ) ) ), W * 0.5f,
+                        150.0f * u, 14.0f * u, Cyan, AlignE::CENTER, 0.4f );
+        }
         if( m_police.m_state == PoliceStateE::CHASE )
         {
             // Close behind, its lights flash red and blue at the edges of the picture.

@@ -136,6 +136,9 @@ The cockpit camera puts you in the driver's seat, on the left or, where they kee
 the border), behind a turning wheel and live dials, with what the country's drivers hang from the mirror or stand on the
 dashboard: fuzzy dice in America, a nodding dog in Germany, a beckoning cat in Japan, marigolds in India, jasmine in
 Thailand, a red knot in China, pompoms in Mexico, a blue eye charm in Turkey, a dashcam in Russia, a koala in Australia.
+Now and then a hitchhiker waits by the road, thumb out: slow down beside them and they get in with a hello in their
+language, then take them to the next place before their patience runs out (+3000 and five seconds, and their thanks:
+DANKE, ARIGATO, SHUKRAN, ASANTE ...); too slow and they get out at the roadside.
 Every few kilometres an ambulance or a fire engine of the country comes along on a run, lights flashing and siren
 going: yellow and green checks in Britain, day-glo red stripes in Germany, the red crescent in the Gulf, a red pumper
 in the United States. The traffic ahead of it pulls over; keep out of its way when it overtakes and you earn +1000.
@@ -310,7 +313,7 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --shape-tour N                with --screen viewer: photograph N models from there on, one picture each, saved
                                   as the --screenshot prefix followed by the model's name
     --camera 0..3                 chase, far, bumper or cockpit camera
-    --find tunnel|bridge|landmark|landmark2|fork|sea|seain|seaout|ferry|jump
+    --find tunnel|bridge|landmark|landmark2|fork|sea|seain|seaout|ferry|jump|hitchhiker
                                  start just before the first tunnel, bridge, landmark (or the second), fork, undersea
                                  portal (or inside, or before its far portal), ferry or crest
     --season spring|summer|autumn|winter   that season (testing)

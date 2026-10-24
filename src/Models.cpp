@@ -2142,6 +2142,17 @@ void Models::buildCreatures()
         m_policeModel[i] = static_cast<int>( m_traffic.size() );
         m_traffic.push_back( vm );
     }
+    // ---- The hitchhikers: the HITCHHIKER shapes ------------------------------------------------------------------------
+    for( Mesh &m : m_hitchhikers )
+        if( m.vaoId ) UnloadMesh( m );
+    m_hitchhikers.clear();
+    for( const DataShape &d : dataShapes() )
+    {
+        if( d.m_name.rfind( "HITCHHIKER", 0 ) != 0 ) continue;
+        MeshBuilder shape;
+        buildDataShape( shape, d );
+        m_hitchhikers.push_back( shape.upload() );
+    }
     {
         // A puddle the rain leaves: a dark, ragged mirror on the road.
         if( m_puddle.vaoId ) UnloadMesh( m_puddle );
@@ -2221,6 +2232,9 @@ void Models::unload()
     m_policeFlash = {};
     if( m_puddle.vaoId ) UnloadMesh( m_puddle );
     m_puddle = Mesh{};
+    for( Mesh &m : m_hitchhikers )
+        if( m.vaoId ) UnloadMesh( m );
+    m_hitchhikers.clear();
 }
 
 } // namespace sunstreak

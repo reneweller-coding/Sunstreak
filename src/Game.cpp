@@ -755,6 +755,8 @@ void Game::finishCrossing()
     m_traffic.reset( m_seed ^ static_cast<uint64_t>( s ), s );
     m_traffic.m_density = density;
     m_police.reset();
+    m_passenger.reset();
+    m_delivered = 0;
     m_particles.clear();
     for( Rival &r : m_race.m_rivals )
         if( r.m_s < xc.m_land ) r.m_s += xc.m_land - xc.m_board;
@@ -980,6 +982,8 @@ void Game::setupTrack( uint64_t seed, double startS, const TrackParams &params, 
     m_traffic.reset( seed, startS );
     m_traffic.m_density = params.m_traffic < 0 ? 1.0f : static_cast<float>( params.m_traffic ) / 4.5f;
     m_police.reset();
+    m_passenger.reset();
+    m_delivered = 0;
     m_race.m_rivals.clear();
     m_particles.clear();
     m_world.update( *m_track, startS, 1000 );
@@ -1045,6 +1049,23 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
                 startS = probe.fork( st ).m_at - 700.0;
                 break;
             }
+        m_options.m_find = 0;
+    }
+    if( m_options.m_find == 11 )
+    {
+        // Testing: start a little before the first hitchhiker.
+        Track probe( setup.m_seed, params, m_options.m_startBiome );
+        double spot = 0.0;
+        float  side = 0.0f;
+        for( int st = 0; st < 40; ++st )
+        {
+            probe.generateTo( static_cast<double>( st + 1 ) * StageLength + 200.0 );
+            if( stageHitchhiker( probe, st, spot, side ) )
+            {
+                startS = spot - 170.0;
+                break;
+            }
+        }
         m_options.m_find = 0;
     }
     if( m_options.m_find >= 6 && m_options.m_find <= 9 )
@@ -1702,6 +1723,33 @@ void Game::step( float h, const CarInput &in )
             m_score += 2500.0;
             popup( "ESCAPED", "+2500", Green, 1.0f, 2.4f );
             m_audio.play( SfxE::NEAR_MISS );
+        }
+    }
+    {
+        // Hitchhikers: stop beside them, take them to the next place in time, and they thank you in their language.
+        PassengerEvents pe;
+        const bool      enabled = !m_demo && !m_setup.m_race && m_state == StateE::RACE && !m_timeUp && !m_finishedTrack;
+        m_passenger.update( h, track, m_car.m_s, m_car.m_x, m_car.m_speed, enabled, pe );
+        const char *from = m_passenger.m_from.empty() ? nullptr : m_passenger.m_from.c_str();
+        if( pe.m_pickedUp )
+        {
+            popup( std::string( helloIn( from ) ) + "!", "TO " + placeName( m_passenger.m_to ), Accent, 1.0f, 3.2f );
+            m_audio.play( SfxE::SELECT );
+        }
+        if( pe.m_delivered )
+        {
+            const bool travel = m_mode == ModeE::TRAVEL;
+            const int  points = 3000 + static_cast<int>( m_passenger.m_timeLeft ) * 20;
+            m_score += points;
+            if( !travel ) m_timeLeft += 5.0f;
+            ++m_delivered;
+            popup( std::string( thanksIn( from ) ) + "!", travel ? format( "+%d", points ) : format( "+%d  +5 SEC", points ), Green, 1.1f, 3.2f );
+            m_audio.playOnBeat( SfxE::CHECKPOINT );
+        }
+        if( pe.m_late )
+        {
+            popup( "TOO LATE", "YOUR PASSENGER GOT OUT", Red, 0.9f, 2.6f );
+            m_audio.play( SfxE::WARNING );
         }
     }
     const bool racing = m_setup.m_race && !m_demo;

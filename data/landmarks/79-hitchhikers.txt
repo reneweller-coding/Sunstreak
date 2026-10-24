@@ -1,0 +1,116 @@
+# Round six: hitchhikers. Now and then one waits by the road, thumb out towards it (+x); stop beside them and they
+# ride with you to the next place. The game picks one of the HITCHHIKER_* shapes; none stands anywhere by itself.
+
+shape HITCHHIKER_BACKPACKER
+    # A backpacker in a red jacket, a big rucksack with a bedroll, a cardboard sign at their feet.
+    box 0 0.45 -0.1 0.08 0.45 0.07 3A4A6A
+    box 0 0.45 0.1 0.08 0.45 0.07 3A4A6A
+    box 0.03 0.04 -0.1 0.11 0.04 0.07 2A2A2A
+    box 0.03 0.04 0.1 0.11 0.04 0.07 2A2A2A
+    box 0 1.17 0 0.12 0.3 0.2 C83A2A
+    blob 0 1.63 0 0.11 0.13 0.11 E8C0A0
+    blob -0.015 1.71 0 0.115 0.07 0.115 5A3A20
+    tube 0 1.35 0.17 0.42 1.36 0.32 0.045 6 C83A2A
+    blob 0.46 1.38 0.33 0.04 0.06 0.04 E8C0A0
+    tube 0 1.38 -0.2 0.03 0.95 -0.25 0.045 6 C83A2A
+    blob 0.03 0.9 -0.25 0.04 0.05 0.04 E8C0A0
+    box -0.22 1.15 0 0.1 0.28 0.17 4A6A3A
+    box -0.2 1.46 0 0.08 0.05 0.12 4A6A3A
+    box 0.1 0.28 -0.42 0.01 0.22 0.3 C8A070
+    tube -0.22 1.48 -0.2 -0.22 1.48 0.2 0.07 8 2A5AA8
+
+shape HITCHHIKER_STUDENT
+    # A student in a blue hoodie and jeans, a small rucksack, headphones round the neck.
+    box 0 0.45 -0.1 0.08 0.45 0.07 4A5A7A
+    box 0 0.45 0.1 0.08 0.45 0.07 4A5A7A
+    box 0.03 0.04 -0.1 0.11 0.04 0.07 2A2A2A
+    box 0.03 0.04 0.1 0.11 0.04 0.07 2A2A2A
+    box 0 1.17 0 0.12 0.3 0.2 2A5AC8
+    blob 0 1.63 0 0.11 0.13 0.11 A87050
+    blob -0.015 1.71 0 0.115 0.07 0.115 1E1A18
+    tube 0 1.35 0.17 0.42 1.36 0.32 0.045 6 2A5AC8
+    blob 0.46 1.38 0.33 0.04 0.06 0.04 A87050
+    tube 0 1.38 -0.2 0.03 0.95 -0.25 0.045 6 2A5AC8
+    blob 0.03 0.9 -0.25 0.04 0.05 0.04 A87050
+    box -0.22 1.15 0 0.1 0.28 0.17 2A2A2A
+    box -0.2 1.46 0 0.08 0.05 0.12 2A2A2A
+    box 0.1 0.28 -0.42 0.01 0.22 0.3 C8A070
+    tube 0.08 1.45 -0.1 0.08 1.45 0.1 0.03 6 1E1E1E
+
+shape HITCHHIKER_STRAW_HAT
+    # A traveller in a white shirt and a wide straw hat, a canvas bag over the shoulder.
+    box 0 0.45 -0.1 0.08 0.45 0.07 8A7A5A
+    box 0 0.45 0.1 0.08 0.45 0.07 8A7A5A
+    box 0.03 0.04 -0.1 0.11 0.04 0.07 2A2A2A
+    box 0.03 0.04 0.1 0.11 0.04 0.07 2A2A2A
+    box 0 1.17 0 0.12 0.3 0.2 F2F0E8
+    blob 0 1.63 0 0.11 0.13 0.11 C8946A
+    blob -0.015 1.71 0 0.115 0.07 0.115 3A2A1A
+    tube 0 1.35 0.17 0.42 1.36 0.32 0.045 6 F2F0E8
+    blob 0.46 1.38 0.33 0.04 0.06 0.04 C8946A
+    tube 0 1.38 -0.2 0.03 0.95 -0.25 0.045 6 F2F0E8
+    blob 0.03 0.9 -0.25 0.04 0.05 0.04 C8946A
+    box -0.22 1.15 0 0.1 0.28 0.17 A89060
+    box -0.2 1.46 0 0.08 0.05 0.12 A89060
+    box 0.1 0.28 -0.42 0.01 0.22 0.3 C8A070
+    cyl 0 1.72 0 0.26 0.24 0.03 12 D8C080
+    cyl 0 1.75 0 0.12 0.11 0.1 10 D8C080
+
+shape HITCHHIKER_RAINCOAT
+    # A hiker in a yellow raincoat and boots, a walking pole tied to the pack.
+    box 0 0.45 -0.1 0.08 0.45 0.07 3A3A3A
+    box 0 0.45 0.1 0.08 0.45 0.07 3A3A3A
+    box 0.03 0.04 -0.1 0.11 0.04 0.07 2A2A2A
+    box 0.03 0.04 0.1 0.11 0.04 0.07 2A2A2A
+    box 0 1.17 0 0.12 0.3 0.2 F2C21E
+    blob 0 1.63 0 0.11 0.13 0.11 F0D0B8
+    blob -0.015 1.71 0 0.115 0.07 0.115 C89050
+    tube 0 1.35 0.17 0.42 1.36 0.32 0.045 6 F2C21E
+    blob 0.46 1.38 0.33 0.04 0.06 0.04 F0D0B8
+    tube 0 1.38 -0.2 0.03 0.95 -0.25 0.045 6 F2C21E
+    blob 0.03 0.9 -0.25 0.04 0.05 0.04 F0D0B8
+    box -0.22 1.15 0 0.1 0.28 0.17 2A6A8A
+    box -0.2 1.46 0 0.08 0.05 0.12 2A6A8A
+    box 0.1 0.28 -0.42 0.01 0.22 0.3 C8A070
+    tube -0.28 0.95 0.12 -0.28 1.75 0.12 0.015 4 8A8A8A
+
+shape HITCHHIKER_PONCHO
+    # A traveller in a striped woollen poncho and a knitted cap with ear flaps.
+    box 0 0.45 -0.1 0.08 0.45 0.07 2A2A3A
+    box 0 0.45 0.1 0.08 0.45 0.07 2A2A3A
+    box 0.03 0.04 -0.1 0.11 0.04 0.07 2A2A2A
+    box 0.03 0.04 0.1 0.11 0.04 0.07 2A2A2A
+    box 0 1.17 0 0.12 0.3 0.2 B83A3A
+    blob 0 1.63 0 0.11 0.13 0.11 9A6A4A
+    blob -0.015 1.71 0 0.115 0.07 0.115 1E1A18
+    tube 0 1.35 0.17 0.42 1.36 0.32 0.045 6 B83A3A
+    blob 0.46 1.38 0.33 0.04 0.06 0.04 9A6A4A
+    tube 0 1.38 -0.2 0.03 0.95 -0.25 0.045 6 B83A3A
+    blob 0.03 0.9 -0.25 0.04 0.05 0.04 9A6A4A
+    box -0.22 1.15 0 0.1 0.28 0.17 6A4A2A
+    box -0.2 1.46 0 0.08 0.05 0.12 6A4A2A
+    box 0.1 0.28 -0.42 0.01 0.22 0.3 C8A070
+    box 0 1.2 0 0.15 0.18 0.24 C86A2A
+    box 0 1.06 0 0.151 0.03 0.241 F2D21E
+    blob -0.01 1.72 0 0.12 0.08 0.12 E8E0D0
+
+shape HITCHHIKER_CYCLIST
+    # A cyclist with a broken bike leaning beside them, helmet on, thumb out for a lift.
+    box 0 0.45 -0.1 0.08 0.45 0.07 1E1E1E
+    box 0 0.45 0.1 0.08 0.45 0.07 1E1E1E
+    box 0.03 0.04 -0.1 0.11 0.04 0.07 2A2A2A
+    box 0.03 0.04 0.1 0.11 0.04 0.07 2A2A2A
+    box 0 1.17 0 0.12 0.3 0.2 2AA86A
+    blob 0 1.63 0 0.11 0.13 0.11 D8A880
+    blob -0.015 1.71 0 0.115 0.07 0.115 6A4A2A
+    tube 0 1.35 0.17 0.42 1.36 0.32 0.045 6 2AA86A
+    blob 0.46 1.38 0.33 0.04 0.06 0.04 D8A880
+    tube 0 1.38 -0.2 0.03 0.95 -0.25 0.045 6 2AA86A
+    blob 0.03 0.9 -0.25 0.04 0.05 0.04 D8A880
+    box -0.22 1.15 0 0.1 0.28 0.17 1E1E1E
+    box -0.2 1.46 0 0.08 0.05 0.12 1E1E1E
+    box 0.1 0.28 -0.42 0.01 0.22 0.3 C8A070
+    blob -0.01 1.72 0 0.125 0.08 0.125 F2F2F2
+    hoop -0.6 0.34 -0.5 0.34 0.03 12 2A2A2A
+    hoop -0.6 0.34 0.55 0.34 0.03 12 2A2A2A
+    tube -0.6 0.6 -0.4 -0.6 0.6 0.45 0.025 4 C82A2A

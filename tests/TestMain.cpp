@@ -7,6 +7,7 @@
 #include "Car.h"
 #include "Data.h"
 #include "Game.h"
+#include "Passenger.h"
 #include "Police.h"
 #include "Race.h"
 #include "Records.h"
@@ -451,6 +452,49 @@ int main()
                        std::abs( biomeDef( static_cast<BiomeE>( japan ) ).m_laneWidth - 3.0f ) < 0.01f && concrete > 10 && studs > 10 &&
                        countryInfo( "THAILAND" ).m_lines == 1 && countryInfo( "UAE" ).m_lines == 3,
                    "the roads of the countries" );
+        }
+        { // Hitchhikers: one stage in three; stopping beside one, they get in; at pace they get there, crawling they get out.
+            TrackParams world;
+            world.m_biome = SceneryWorld;
+            Track tour( 9, world );
+            int   waiting = 0;
+            for( int st = 0; st < 60; ++st )
+            {
+                double s = 0.0;
+                float  side = 0.0f;
+                waiting += stageHitchhiker( tour, st, s, side ) ? 1 : 0;
+            }
+            auto ride = [&]( float pace, bool &picked, bool &delivered, bool &late )
+            {
+                picked = delivered = late = false;
+                int st = 0;
+                double spot = 0.0;
+                float  side = 0.0f;
+                while( st < 60 && !stageHitchhiker( tour, st, spot, side ) ) ++st;
+                Passenger p;
+                double    s = std::max( 50.0, spot - 800.0 );
+                for( int k = 0; k < 60 * 900 && !delivered && !late; ++k )
+                {
+                    tour.generateTo( s + 2000.0 );
+                    // Drive up, stop beside them, then on at the pace.
+                    const bool  near = p.m_state == PassengerStateE::WAITING && std::abs( s - p.m_s ) < 30.0;
+                    const float speed = p.m_state == PassengerStateE::ABOARD ? pace : near ? 5.0f : 40.0f;
+                    PassengerEvents ev;
+                    p.update( 1.0f / 60.0f, tour, s, p.m_state == PassengerStateE::WAITING ? p.m_x - p.m_side * 2.0f : 0.0f, speed, true, ev );
+                    picked = picked || ev.m_pickedUp;
+                    delivered = delivered || ev.m_delivered;
+                    late = late || ev.m_late;
+                    s += static_cast<double>( speed ) / 60.0;
+                }
+            };
+            bool fastPicked = false, fastDelivered = false, fastLate = false, slowPicked = false, slowDelivered = false, slowLate = false;
+            ride( 50.0f, fastPicked, fastDelivered, fastLate );
+            ride( 12.0f, slowPicked, slowDelivered, slowLate );
+            std::printf( "      %d hitchhikers in 60 stages; at 180 km/h delivered %d, at 43 km/h too late %d; %s / %s in Japan\n", waiting, fastDelivered, slowLate,
+                         helloIn( "JAPAN" ), thanksIn( "JAPAN" ) );
+            check( waiting >= 10 && waiting <= 32 && fastPicked && fastDelivered && !fastLate && slowPicked && slowLate && !slowDelivered &&
+                       std::string( helloIn( "JAPAN" ) ) == "KONNICHIWA" && std::string( thanksIn( "PERU" ) ) == "GRACIAS",
+                   "hitchhikers: picked up, delivered or too late" );
         }
         { // Rain: puddles gather, and at speed the tyres float in them; slower, or in the dry, they do not.
             Track road( 21 );
