@@ -153,7 +153,10 @@ Red Planet, Crystal Desert, Fungal Glade, Cloud Highway, Pumpkin Hollow and Tota
 
 Weather fronts pass over the tour (Settings > WEATHER): showers, fog banks and thunderstorms in temperate places,
 downpours in the tropics, snow showers in the cold and the mountains, sandstorms in the deserts. They are announced a
-little ahead, last a kilometre or two, and wet, snowy or sandy roads hold less. TIME OF DAY keeps each place's own light
+little ahead, last a kilometre or two, and wet, snowy or sandy roads hold less. In the rain the road turns into a dark
+mirror (the cars, the trees and the street lamps stand in it), puddles gather, and over 100 km/h the tyres float on
+them: AQUAPLANING, hardly any grip until they find the road again. In the snow grey slush lies in blotches and sprays up
+behind the car. TIME OF DAY keeps each place's own light
 by default; TOUR CLOCK lets the sun follow the time zones (morning wherever the run starts, an hour more every ten
 kilometres, and the longitude of each place on top: east of you it is already evening); DAWN, DAY, DUSK and NIGHT fix
 the hour. Every place sounds like itself: the surf on the shore it lies on, wind over deserts and mountains, insects

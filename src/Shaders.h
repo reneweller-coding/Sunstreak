@@ -83,6 +83,8 @@ uniform vec3 headPos;
 uniform vec3 headDir;
 uniform float headStrength;
 uniform float wetness;
+uniform float slush;
+uniform float writeMirror;
 uniform float flash;
 uniform float gridGlow;
 uniform vec3 gridColor;
@@ -131,6 +133,15 @@ void main()
 
     vec3 col = base * light;
     float roadLike = step(0.1, gloss) * step(gloss, 0.35);
+    float slushy = 0.0;
+    if (slush > 0.0 && roadLike > 0.5)
+    {
+        // Slush: grey-white blotches, repeating every 12 m like the grid's offset.
+        vec2 p = (vPos.xz + gridOffset) * 0.5236;
+        float n = 0.5 + 0.25 * (sin(p.x * 2.0 + 2.0 * sin(p.y)) + sin(p.y * 3.0 + p.x));
+        slushy = smoothstep(0.42, 0.72, n) * slush;
+        col = mix(col, pow(vec3(0.74, 0.73, 0.7), vec3(2.2)) * light, slushy * 0.75);
+    }
     float g = clamp(gloss + wetness * 0.55 * roadLike, 0.0, 1.0);
     vec3 H = normalize(sunDir + V);
     float spec = pow(max(dot(n, H), 0.0), mix(12.0, 180.0, g)) * g * 2.0;
@@ -168,7 +179,14 @@ void main()
     fog = max(fog, smoothstep(viewDist * 0.7, viewDist, dist));
     fog *= 1.0 - 0.55 * clamp(emissive, 0.0, 1.0) * (1.0 - smoothstep(viewDist * 0.5, viewDist, dist));
     col = mix(col, fogColor, clamp(fog, 0.0, 1.0));
-    finalColor = vec4(col, vColor.a * objectAlpha);
+    float alpha = vColor.a * objectAlpha;
+    if (writeMirror > 0.5)
+    {
+        // The ground pass: alpha is 1 less how much the surface mirrors (the wet road, a puddle), for the mirror pass.
+        float mirror = wetness * roadLike * 0.42 * (1.0 - slushy) + step(0.97, gloss) * 0.8;
+        alpha = 1.0 - clamp(mirror * (1.0 - clamp(fog, 0.0, 1.0)), 0.0, 0.9);
+    }
+    finalColor = vec4(col, alpha);
 }
 )";
 
@@ -435,6 +453,63 @@ void main()
     float l = max(c.r, max(c.g, c.b));
     float k = smoothstep(threshold, threshold * 2.5, l);
     finalColor = vec4(min(c * k, vec3(40.0)), 1.0);
+}
+)";
+
+/**
+ * @brief Reflections: where the ground mirrors (alpha below 1), up the picture to the foot of what stands on it, then as
+ *        far again, a little blurred and rippled; mixed in as strongly as the surface mirrors.
+ */
+inline const char *MirrorFs = R"(#version 330
+in vec2 fragTexCoord;
+uniform sampler2D texture0;
+uniform float time;
+uniform float aspect;
+out vec4 finalColor;
+void main()
+{
+    vec2 uv = fragTexCoord;
+    vec4 here = texture(texture0, uv);
+    float mirror = 1.0 - here.a;
+    if (mirror < 0.01)
+    {
+        finalColor = vec4(here.rgb, 1.0);
+        return;
+    }
+    float foot = -1.0;
+    float stepY = 0.009;
+    for (int i = 1; i <= 44; i++)
+    {
+        float y = uv.y + float(i) * stepY;
+        if (y >= 1.0) break;
+        if (texture(texture0, vec2(uv.x, y)).a > 0.99)
+        {
+            foot = y;
+            break;
+        }
+    }
+    vec3 col = here.rgb;
+    if (foot > 0.0)
+    {
+        // Close in on the foot.
+        float lo = foot - stepY, hi = foot;
+        for (int k = 0; k < 4; k++)
+        {
+            float m = 0.5 * (lo + hi);
+            if (texture(texture0, vec2(uv.x, m)).a > 0.99) hi = m; else lo = m;
+        }
+        float ry = hi + (hi - uv.y);
+        if (ry < 0.995)
+        {
+            float wob = sin(uv.y * 500.0 + time * 5.0) * 0.0012 + sin(uv.x * 300.0 * aspect - time * 3.0) * 0.0008;
+            vec2 r = vec2(uv.x + wob, ry);
+            vec3 refl = texture(texture0, r).rgb * 0.5 + texture(texture0, r + vec2(0.0, 0.004)).rgb * 0.25 +
+                        texture(texture0, r - vec2(0.0, 0.004)).rgb * 0.25;
+            float fade = smoothstep(0.995, 0.9, ry) * smoothstep(0.0, 0.03, hi - uv.y);
+            col = mix(here.rgb, refl * 0.8, mirror * fade);
+        }
+    }
+    finalColor = vec4(col, 1.0);
 }
 )";
 

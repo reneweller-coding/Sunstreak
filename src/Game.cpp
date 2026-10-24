@@ -1626,6 +1626,9 @@ void Game::simulate( float dt, bool autopilotOn )
     m_car.m_weatherGrip = 1.0f - lose * wet;
 
     const Environment env = sceneEnvironment( m_car.m_s + 30.0 );
+    m_car.m_rain = env.m_rain;
+    // Slush where it snows: less grip.
+    m_car.m_weatherGrip *= 1.0f - 0.12f * smoothstepf( 0.05f, 0.4f, env.m_snow );
     Rng              &r = m_particles.m_rng;
     if( env.m_lightning > 0.05f && r.uniform() < dt * 0.12f * env.m_lightning )
     {
@@ -2031,6 +2034,13 @@ void Game::handleEvents()
         m_audio.play( SfxE::NEAR_MISS, 0.8f );
     }
     if( m_ev.m_whoosh > 0.0f ) m_audio.play( SfxE::WHOOSH, m_ev.m_whoosh, m_ev.m_whooshPan );
+    if( m_car.m_eventAquaplane && !m_demo && m_state == StateE::RACE )
+    {
+        if( m_time - m_aquaShown > 20.0f ) popup( "AQUAPLANING", "", Cyan, 0.7f, 1.4f, true );
+        m_aquaShown = m_time;
+        m_audio.play( SfxE::WHOOSH, 0.8f );
+        m_haptics.pulse( 0.3f, 0.6f, 0.4f );
+    }
     if( m_ev.m_horn > 0.0f && !m_demo ) m_audio.play( SfxE::HORN, m_ev.m_horn, m_ev.m_hornPan );
     if( m_raceEv.m_whoosh > 0.0f ) m_audio.play( SfxE::WHOOSH, m_raceEv.m_whoosh, m_raceEv.m_whooshPan );
     if( m_raceEv.m_hit > 0.0f )
@@ -2166,17 +2176,20 @@ void Game::emitParticles( float dt )
             m_particles.emit( p );
         }
     }
-    if( env.m_rain > 0.4f && m_car.m_speed > 15.0f && !m_car.m_airborne )
+    const float slushy = smoothstepf( 0.05f, 0.4f, env.m_snow );
+    if( ( env.m_rain > 0.4f || slushy > 0.3f || m_car.m_aquaplane > 0.0f ) && m_car.m_speed > 15.0f && !m_car.m_airborne )
     {
-        for( int i = emitCount( m_car.m_speed * 0.7f * env.m_rain, dt, r ); i > 0; --i )
+        // Spray: water in the rain, a sheet of it when the tyres float, grey slush in the snow.
+        const float amount = std::max( { env.m_rain, slushy, m_car.m_aquaplane * 3.0f } );
+        for( int i = emitCount( m_car.m_speed * 0.7f * amount, dt, r ); i > 0; --i )
         {
             Particle p;
             p.m_pos = poseLocal( pose, ( i % 2 ? 0.8f : -0.8f ), 0.2f, rearZ - 0.2f );
-            p.m_vel = Vector3Add( Vector3Scale( carVel, 0.55f ), Vector3{ r.range( -1.0f, 1.0f ), r.range( 0.5f, 1.5f ), r.range( -1.0f, 1.0f ) } );
+            p.m_vel = Vector3Add( Vector3Scale( carVel, 0.55f ), Vector3{ r.range( -1.0f, 1.0f ), r.range( 0.5f, 1.5f ) + m_car.m_aquaplane * 2.0f, r.range( -1.0f, 1.0f ) } );
             p.m_maxLife = r.range( 0.5f, 0.8f );
             p.m_size = 0.45f;
             p.m_grow = 4.0f;
-            p.m_color = Color{ 196, 202, 212, 70 };
+            p.m_color = slushy > env.m_rain ? Color{ 168, 162, 150, 110 } : Color{ 196, 202, 212, 70 };
             p.m_drag = 2.0f;
             m_particles.emit( p );
         }

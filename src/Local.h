@@ -67,6 +67,16 @@ constexpr double PoliceAt = 2500.0;  ///< a stage's patrol car waits somewhere f
 const RoadCustoms &roadCustoms( const char *country );
 
 /**
+ * @brief Where a puddle gathers on the road when it rains (about one segment in sixty, away from tunnels, bridges,
+ *        forks, jumps, roadworks and the road's own puddles).
+ * @param[in]  track  the road
+ * @param[in]  index  the segment
+ * @param[out] x      the puddle's lateral centre
+ * @return true if one gathers there
+ */
+bool rainPuddleAt( const Track &track, long index, float &x );
+
+/**
  * @brief How much smog a place's air holds.
  * @param[in] place  the place
  * @return 0 (clean, an index of 30 or less) .. 1 (an index of 90 or more)

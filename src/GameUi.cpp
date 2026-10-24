@@ -898,6 +898,20 @@ void Game::draw()
     if( m_lookingBack || m_state == StateE::REPLAY || m_state == StateE::PHOTO ) in.m_behind = 1.0e6f;
     in.m_shadows = m_settings.m_shadows;
     in.m_lensRain = m_settings.m_camera >= 2 && !m_demo ? in.m_env.m_rain : in.m_env.m_rain * 0.5f;
+    in.m_slush = smoothstepf( 0.05f, 0.4f, in.m_env.m_snow );
+    in.m_puddles.clear();
+    if( in.m_env.m_rain > 0.35f && m_track )
+    {
+        // The puddles the rain leaves, where the car meets them too.
+        const long first = static_cast<long>( ( m_car.m_s - 60.0 ) / SegmentLength ), last = static_cast<long>( ( m_car.m_s + 450.0 ) / SegmentLength );
+        float      x = 0.0f;
+        for( long j = std::max( 2L, first ); j <= last; ++j )
+        {
+            if( !rainPuddleAt( *m_track, j, x ) ) continue;
+            const Pose p = roadPose( *m_track, ( static_cast<double>( j ) + 0.5 ) * SegmentLength, x, 0.0f );
+            in.m_puddles.push_back( { nullptr, p.m_pos, std::atan2( p.m_forward.x, p.m_forward.z ) } );
+        }
+    }
     for( const Rival &r : m_race.m_rivals )
     {
         const Driver &d = m_race.m_drivers[r.m_driver];

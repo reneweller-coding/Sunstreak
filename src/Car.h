@@ -184,6 +184,8 @@ public:
     float   m_shake = 0.0f;       ///< camera shake 0..1
     float   m_wetGrip = 1.0f;     ///< grip of the surface under the car
     float   m_weatherGrip = 1.0f; ///< what the weather leaves of the grip (rain, snow, sand on the road)
+    float   m_rain = 0.0f;        ///< 0..1 how hard it rains: puddles gather from 0.35, and the tyres float in them over 100 km/h
+    float   m_aquaplane = 0.0f;   ///< 0..1 the tyres float on water
     uint8_t m_unpaved = 0;        ///< the road under the car: 0 asphalt, 1 gravel, 2 sand
     long    m_lastPothole = -1;   ///< the segment of the last pothole it hit
     bool    m_frozen = false;     ///< held at the start (the engine still revs)
@@ -194,6 +196,7 @@ public:
     bool  m_eventLanded = false;    ///< touched down
     float m_landImpact = 0.0f;      ///< how hard (m/s)
     bool  m_eventBackfire = false;  ///< lifted off at high revs
+    bool  m_eventAquaplane = false; ///< the tyres began to float
 
 private:
     /**

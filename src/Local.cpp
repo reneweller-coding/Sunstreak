@@ -213,6 +213,18 @@ bool stagePolice( const Track &track, int stage, double &s, float &side )
     return false;
 }
 
+bool rainPuddleAt( const Track &track, long index, float &x )
+{
+    const uint64_t h = hash64( static_cast<uint64_t>( index ) * 0x9E3779B97F4A7C15ull + 0x5EEDull );
+    if( h % 1000 >= 16 || index < 2 ) return false;
+    const Segment &seg = track.segment( index );
+    constexpr uint16_t away = SEG_TUNNEL | SEG_BRIDGE | SEG_FORK | SEG_JUMP | SEG_ROADWORKS | SEG_PUDDLE | SEG_CHECKPOINT | SEG_START | SEG_FINISH;
+    if( ( seg.m_flags & away ) || track.crossingAt( static_cast<double>( index ) * SegmentLength ).m_type != CrossingE::NONE ) return false;
+    const float room = std::max( 0.0f, seg.m_halfWidth - 1.6f );
+    x = ( static_cast<float>( ( h >> 16 ) % 1000 ) / 999.0f * 2.0f - 1.0f ) * room;
+    return true;
+}
+
 float smogOf( const BiomeDef &place )
 {
     return place.m_underwater ? 0.0f : clampf( ( place.m_pollution - 30.0f ) / 60.0f, 0.0f, 1.0f );

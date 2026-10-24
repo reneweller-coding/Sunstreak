@@ -85,6 +85,8 @@ struct SceneInput
     float            m_behind = 60.0f;        ///< metres of scenery drawn behind the player (more when looking back)
     std::vector<CarDraw> m_cars;              ///< rivals and the ghost
     std::vector<PoliceDraw> m_police;         ///< the police
+    std::vector<ScenePiece> m_puddles;        ///< the puddles the rain left (m_mesh unused: the models' puddle)
+    float            m_slush = 0.0f;          ///< 0..1 slush on the road (snow)
     bool             m_shadows = true;        ///< real-time sun shadows
     float            m_lensRain = 0.0f;       ///< 0..1 drops on the lens
     bool             m_showcase = false;      ///< lone models instead of the world (the landmark viewer, a crossing)
@@ -187,6 +189,7 @@ private:
     Program  m_composite;   ///< tone mapping and effects
     Program  m_fxaa;        ///< anti-aliasing
     Program  m_depth;       ///< shadow pass
+    Program  m_mirror;      ///< reflections on the wet road and in puddles
     Material m_material{};  ///< carries the world shader
     Material m_depthMaterial{};   ///< carries the depth shader
 
@@ -202,6 +205,7 @@ private:
     RenderTexture2D m_bloomC{};   ///< 1/8 resolution
     RenderTexture2D m_bloomD{};   ///< 1/8 resolution, ping-pong
     RenderTexture2D m_ldr{};      ///< tone-mapped picture
+    RenderTexture2D m_mirrored{}; ///< the HDR scene with its reflections
     int             m_targetW = 0;      ///< scene target width
     int             m_targetH = 0;      ///< scene target height
     int             m_screenW = 0;      ///< window width the targets were made for

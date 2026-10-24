@@ -2142,6 +2142,20 @@ void Models::buildCreatures()
         m_policeModel[i] = static_cast<int>( m_traffic.size() );
         m_traffic.push_back( vm );
     }
+    {
+        // A puddle the rain leaves: a dark, ragged mirror on the road.
+        if( m_puddle.vaoId ) UnloadMesh( m_puddle );
+        MeshBuilder pud;
+        const Color dark = { 26, 30, 40, 255 };
+        for( int q = 0; q < 12; ++q )
+        {
+            const float a0 = Tau * static_cast<float>( q ) / 12.0f, a1 = Tau * static_cast<float>( q + 1 ) / 12.0f;
+            const float r0 = 1.0f + 0.18f * std::sin( a0 * 3.0f ), r1 = 1.0f + 0.18f * std::sin( a1 * 3.0f );
+            pud.tri( Vector3{ 0, 0.035f, 0 }, Vector3{ std::cos( a0 ) * 1.3f * r0, 0.035f, std::sin( a0 ) * 2.4f * r0 },
+                     Vector3{ std::cos( a1 ) * 1.3f * r1, 0.035f, std::sin( a1 ) * 2.4f * r1 }, dark, Mat{ 0.0f, 1.0f } );
+        }
+        m_puddle = pud.upload();
+    }
     for( int k = 0; k < 4; ++k )
     {
         if( m_policeFlash[static_cast<size_t>( k )].vaoId ) UnloadMesh( m_policeFlash[static_cast<size_t>( k )] );
@@ -2205,6 +2219,8 @@ void Models::unload()
     for( auto &m : m_policeFlash )
         if( m.vaoId ) UnloadMesh( m );
     m_policeFlash = {};
+    if( m_puddle.vaoId ) UnloadMesh( m_puddle );
+    m_puddle = Mesh{};
 }
 
 } // namespace sunstreak

@@ -189,6 +189,7 @@ void Renderer::init()
     m_composite.m_shader = LoadShaderFromMemory( shaders::ScreenVs, shaders::CompositeFs );
     m_fxaa.m_shader = LoadShaderFromMemory( shaders::ScreenVs, shaders::FxaaFs );
     m_depth.m_shader = LoadShaderFromMemory( shaders::DepthVs, shaders::DepthFs );
+    m_mirror.m_shader = LoadShaderFromMemory( shaders::ScreenVs, shaders::MirrorFs );
     m_material = LoadMaterialDefault();
     m_material.shader = m_world.m_shader;
     m_depthMaterial = LoadMaterialDefault();
@@ -216,7 +217,7 @@ void Renderer::init()
 
 void Renderer::unloadTargets()
 {
-    for( RenderTexture2D *t : { &m_scene, &m_bloomA, &m_bloomB, &m_bloomC, &m_bloomD, &m_ldr } )
+    for( RenderTexture2D *t : { &m_scene, &m_bloomA, &m_bloomB, &m_bloomC, &m_bloomD, &m_ldr, &m_mirrored } )
     {
         if( t->id ) UnloadRenderTexture( *t );
         *t = RenderTexture2D{};
@@ -226,7 +227,7 @@ void Renderer::unloadTargets()
 void Renderer::unload()
 {
     unloadTargets();
-    for( Program *p : { &m_world, &m_sky, &m_particle, &m_bright, &m_blur, &m_composite, &m_fxaa, &m_depth } ) UnloadShader( p->m_shader );
+    for( Program *p : { &m_world, &m_sky, &m_particle, &m_bright, &m_blur, &m_composite, &m_fxaa, &m_depth, &m_mirror } ) UnloadShader( p->m_shader );
     MemFree( m_material.maps );
     m_material.maps = nullptr;
     MemFree( m_depthMaterial.maps );
@@ -251,6 +252,7 @@ void Renderer::ensureTargets( int w, int h, float scale )
     m_bloomC = loadTarget( std::max( 8, tw / 8 ), std::max( 8, th / 8 ), true, false );
     m_bloomD = loadTarget( std::max( 8, tw / 8 ), std::max( 8, th / 8 ), true, false );
     m_ldr = loadTarget( tw, th, false, false );
+    m_mirrored = loadTarget( tw, th, true, false );
 }
 
 void Renderer::blit( const Texture2D &tex, int w, int h )
@@ -511,6 +513,8 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
     setF( s, "viewDist", static_cast<float>( ViewDistance ) - 40.0f );
     setV3( s, "skyColor", Vector3Lerp( linearRgb( e.m_skyHorizon ), linearRgb( e.m_skyZenith ), 0.3f ) );
     setF( s, "wetness", std::max( e.m_rain, e.m_snow * 0.4f ) );
+    setF( s, "slush", in.m_slush );
+    setF( s, "writeMirror", 0.0f );
     setF( s, "flash", in.m_flash * 0.8f );
     setF( s, "gridGlow", in.m_surface.m_gridGlow );
     setF( s, "time", std::fmod( in.m_time, 1000.0f ) );
@@ -544,15 +548,31 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
         setF( s, "headStrength", 0.0f );
     }
 
-    // The chunks (those kept behind the car for looking back only when looking back).
+    // The chunks (those kept behind the car for looking back only when looking back). The ground first, unblended: its
+    // alpha says how much it mirrors (the wet road, the puddles), for the mirror pass.
+    auto shown = [&]( const Chunk &c ) { return !in.m_player || static_cast<double>( c.m_index + 1 ) * ChunkLength >= in.m_player->m_s - in.m_behind; };
+    rlDrawRenderBatchActive();
+    rlDisableColorBlend();
+    setF( s, "writeMirror", 1.0f );
     if( in.m_world )
         for( const Chunk &c : in.m_world->chunks() )
         {
-            if( in.m_player && static_cast<double>( c.m_index + 1 ) * ChunkLength < in.m_player->m_s - in.m_behind ) continue;
             const Vector3 o = relativeTo( c.m_origin, origin );
-            const Matrix  t = MatrixTranslate( o.x, o.y, o.z );
-            if( c.m_ground.vertexCount ) DrawMesh( c.m_ground, m_material, t );
-            if( c.m_props.vertexCount ) DrawMesh( c.m_props, m_material, t );
+            if( shown( c ) && c.m_ground.vertexCount ) DrawMesh( c.m_ground, m_material, MatrixTranslate( o.x, o.y, o.z ) );
+        }
+    if( in.m_models && in.m_models->m_puddle.vertexCount )
+        for( const ScenePiece &p : in.m_puddles )
+        {
+            const Vector3 o = relativeTo( p.m_pos, origin );
+            DrawMesh( in.m_models->m_puddle, m_material, MatrixMultiply( MatrixRotateY( p.m_yaw ), MatrixTranslate( o.x, o.y, o.z ) ) );
+        }
+    setF( s, "writeMirror", 0.0f );
+    rlEnableColorBlend();
+    if( in.m_world )
+        for( const Chunk &c : in.m_world->chunks() )
+        {
+            const Vector3 o = relativeTo( c.m_origin, origin );
+            if( shown( c ) && c.m_props.vertexCount ) DrawMesh( c.m_props, m_material, MatrixTranslate( o.x, o.y, o.z ) );
         }
     // Lone models (the landmark viewer, a crossing).
     for( const ScenePiece &p : in.m_pieces )
@@ -886,11 +906,21 @@ void Renderer::post( const SceneInput &in )
     const int          bw = m_bloomA.texture.width, bh = m_bloomA.texture.height;
     const int          cw = m_bloomC.texture.width, ch = m_bloomC.texture.height;
 
+    // The reflections: what stands above the wet road and the puddles, mirrored below its foot.
+    BeginTextureMode( m_mirrored );
+    BeginShaderMode( m_mirror.m_shader );
+    setF( m_mirror.m_shader, "time", std::fmod( in.m_time, 100.0f ) );
+    setF( m_mirror.m_shader, "aspect", static_cast<float>( m_targetW ) / static_cast<float>( m_targetH ) );
+    blit( m_scene.texture, m_targetW, m_targetH );
+    EndShaderMode();
+    EndTextureMode();
+    const Texture2D &scene = m_mirrored.texture;
+
     BeginTextureMode( m_bloomA );
     BeginShaderMode( m_bright.m_shader );
     setV2( m_bright.m_shader, "texel", 1.0f / static_cast<float>( m_targetW ) * 2.0f, 1.0f / static_cast<float>( m_targetH ) * 2.0f );
     setF( m_bright.m_shader, "threshold", 1.0f );
-    blit( m_scene.texture, bw, bh );
+    blit( scene, bw, bh );
     EndShaderMode();
     EndTextureMode();
 
@@ -935,7 +965,7 @@ void Renderer::post( const SceneInput &in )
     setF( c, "lensRain", in.m_lensRain );
     setF( c, "speed", clampf( m_camVel.x * m_camVel.x + m_camVel.z * m_camVel.z, 0.0f, 6400.0f ) / 6400.0f );
     setF( c, "time", std::fmod( in.m_time, 100.0f ) );
-    blit( m_scene.texture, m_targetW, m_targetH );
+    blit( scene, m_targetW, m_targetH );
     EndShaderMode();
     EndTextureMode();
 

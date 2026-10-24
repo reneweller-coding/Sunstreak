@@ -452,6 +452,36 @@ int main()
                        countryInfo( "THAILAND" ).m_lines == 1 && countryInfo( "UAE" ).m_lines == 3,
                    "the roads of the countries" );
         }
+        { // Rain: puddles gather, and at speed the tyres float in them; slower, or in the dry, they do not.
+            Track road( 21 );
+            road.generateTo( 6000.0 );
+            int   puddles = 0;
+            float x = 0.0f;
+            for( long j = 2; j < 1000; ++j ) puddles += rainPuddleAt( road, j, x ) ? 1 : 0;
+            auto drive = [&]( float rain, float speed )
+            {
+                PlayerCar car;
+                car.reset( carSpec( 0 ), StartLine, 0.0f, road );
+                car.m_rain = rain;
+                CarInput in;
+                in.m_throttle = 1.0f;
+                bool floated = false;
+                for( long j = 40; j < 1000 && !floated; ++j )
+                {
+                    if( !rainPuddleAt( road, j, x ) ) continue;
+                    car.m_s = ( static_cast<double>( j ) + 0.5 ) * SegmentLength;
+                    car.m_x = x;
+                    car.m_speed = speed;
+                    car.m_aquaplane = 0.0f;
+                    car.update( in, road, 1.0f / 120.0f, false );
+                    floated = car.m_eventAquaplane && car.m_wetGrip < 0.2f;
+                }
+                return floated;
+            };
+            const bool fast = drive( 1.0f, 40.0f ), slow = drive( 1.0f, 20.0f ), dry = drive( 0.0f, 40.0f );
+            std::printf( "      %d puddles in 5 km of rain; at 144 km/h aquaplaning %d, at 72 km/h %d, in the dry %d\n", puddles, fast, slow, dry );
+            check( puddles >= 6 && puddles <= 30 && fast && !slow && !dry, "puddles in the rain and aquaplaning" );
+        }
         { // Dirty air: Delhi's own index, Helsinki's, the countries' and the estimated ones; smog and litter where it is high.
             auto place = [&]( const char *id ) -> const BiomeDef & { return biomeDef( static_cast<BiomeE>( std::max( 0, biomeId( id ) ) ) ); };
             auto litter = [&]( const BiomeDef &d )

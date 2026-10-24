@@ -187,6 +187,7 @@ void PlayerCar::crash( float keep, float push )
 void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, bool manual )
 {
     m_eventShift = false;
+    m_eventAquaplane = false;
     m_eventLanded = false;
     m_eventBackfire = false;
     CarInput in = rawIn;
@@ -223,7 +224,26 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
         m_landImpact = 2.5f;
         m_shake = std::max( m_shake, 0.2f );
     }
-    if( ( seg.m_flags & SEG_PUDDLE ) && std::abs( m_x - puddleLateral( track, segIndex ) ) < 1.8f ) grip *= 0.3f;
+    // Puddles: the road's own, and in the rain the ones that gather. In the rain at speed the tyres float on them.
+    float      rainX = 0.0f;
+    const bool puddle = ( ( seg.m_flags & SEG_PUDDLE ) && std::abs( m_x - puddleLateral( track, segIndex ) ) < 1.8f ) ||
+                        ( m_rain > 0.35f && rainPuddleAt( track, segIndex, rainX ) && std::abs( m_x - rainX ) < 1.6f );
+    if( puddle && !m_airborne )
+    {
+        grip *= 0.3f;
+        if( m_rain > 0.2f && m_speed > 28.0f )
+        {
+            if( m_aquaplane <= 0.0f ) m_eventAquaplane = true;
+            m_aquaplane = 1.0f;
+        }
+    }
+    if( m_aquaplane > 0.0f )
+    {
+        // Afloat: hardly any grip, the car wanders, then the tyres find the road again.
+        grip *= 1.0f - 0.8f * m_aquaplane;
+        m_x += std::sin( static_cast<float>( m_s ) * 0.9f ) * 0.7f * m_aquaplane * dt;
+        m_aquaplane = std::max( 0.0f, m_aquaplane - dt * 1.2f );
+    }
     m_wetGrip = grip;
     grip *= m_spec.m_grip * tuning().m_grip * ( 1.0f - 0.35f * m_offroad );
 

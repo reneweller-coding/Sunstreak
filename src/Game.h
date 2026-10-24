@@ -924,6 +924,7 @@ private:
     // Weather and effects.
     float m_flash = 0.0f;             ///< lightning brightness
     float m_thunderIn = -1.0f;        ///< seconds until thunder (-1: none)
+    float m_aquaShown = -100.0f;      ///< when AQUAPLANING was last shown
 
     std::vector<Popup> m_popups;      ///< messages
 
