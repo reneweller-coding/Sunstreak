@@ -53,6 +53,9 @@ VIBRATION; on the Deck through Steam Input).
 - **Replay and photo mode**: after a run, WATCH REPLAY plays the last minute again from roadside cameras, a helicopter
   and the chase camera. PHOTO MODE (pause menu) stops the game and lets the camera roam round the car; a photo is saved
   in the settings folder's `photos` and becomes the place's postcard.
+- **Passport**: the world tour on a map (every place a dot, the ones you have seen lit, the twelve slices of the globe
+  you have driven through as a bar: all twelve is a drive round the world), a stamp for every country, and an album of
+  postcards: every new place you drive through sends one home, taken in sight of its landmark.
 - **Records**: the top ten (with your initials), total kilometres, titles, places and countries seen. The best drive
   on each code is kept as a ghost car that races along the next time.
 
