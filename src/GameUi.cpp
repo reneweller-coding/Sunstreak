@@ -650,24 +650,55 @@ void Game::menus( const MenuInput &m )
         break;
     }
     case StateE::PASSPORT:
+    {
+        const bool regions = m_passportPage == static_cast<int>( PassportE::REGIONS );
+        if( regions && m_passportCountry >= 0 )
+        {
+            // A country opened: up and down turn its sheets, anything else goes back to the list.
+            if( m.m_down || m.m_up )
+            {
+                m_passportSheet = std::max( 0, m_passportSheet + ( m.m_down ? 1 : -1 ) );
+                m_audio.play( SfxE::TICK );
+            }
+            if( m.m_back || m.m_accept || change != 0 )
+            {
+                m_passportCountry = -1;
+                m_passportSheet = 0;
+                m_audio.play( SfxE::TICK );
+            }
+            break;
+        }
         if( change != 0 )
         {
             m_passportPage = ( m_passportPage + static_cast<int>( PassportE::COUNT ) + change ) % static_cast<int>( PassportE::COUNT );
             m_passportSheet = 0;
             m_audio.play( SfxE::TICK );
         }
-        if( m.m_down || m.m_up )
+        if( regions && ( m.m_down || m.m_up ) )
+        {
+            const int count = static_cast<int>( regionRows().size() );
+            m_passportPick = std::clamp( m_passportPick + ( m.m_down ? 1 : -1 ), 0, std::max( 0, count - 1 ) );
+            m_audio.play( SfxE::TICK );
+        }
+        else if( m.m_down || m.m_up )
         {
             m_passportSheet = std::max( 0, m_passportSheet + ( m.m_down ? 1 : -1 ) );
             m_audio.play( SfxE::TICK );
         }
-        if( m.m_back || m.m_accept )
+        if( regions && m.m_accept && !regionRows().empty() )
+        {
+            m_passportCountry = m_passportPick;
+            m_passportSheet = 0;
+            m_audio.play( SfxE::SELECT );
+        }
+        else if( m.m_back || m.m_accept )
         {
             unloadPostcards();
             m_state = StateE::TITLE;
             m_menuIndex = static_cast<int>( TitleE::PASSPORT );
         }
         break;
+    }
     case StateE::PAUSED:
         move( 6 );
         if( m.m_back || m_input.m_pause )
@@ -1902,53 +1933,109 @@ void Game::drawCrossing()
     drawHint( m_input.m_gamepad ? "[A] SKIP" : "[ENTER] SKIP", W * 0.5f, H - 30.0f * u, 11.0f * u, Color{ 255, 255, 255, 190 }, AlignE::CENTER );
 }
 
-void Game::drawRegions( float x, float y, float w, float h )
+std::vector<RegionRow> Game::regionRows() const
 {
-    const float u = unit();
-    // The countries driven state by state, in the order the tour meets them: their states, and those seen.
-    struct Row
-    {
-        const char               *m_country;
-        std::vector<const char *> m_regions;
-        std::vector<bool>         m_seen;
-    };
-    std::vector<Row> rows;
+    // The countries driven state by state, in the order the tour meets them: their states, their places, those seen.
+    std::vector<RegionRow> rows;
     for( BiomeE b : worldRoute() )
     {
         const BiomeDef &d = biomeDef( b );
         if( !d.m_country || !d.m_region ) continue;
-        auto row = std::find_if( rows.begin(), rows.end(), [&]( const Row &r ) { return std::strcmp( r.m_country, d.m_country ) == 0; } );
+        auto row = std::find_if( rows.begin(), rows.end(), [&]( const RegionRow &r ) { return std::strcmp( r.m_country, d.m_country ) == 0; } );
         if( row == rows.end() )
         {
-            rows.push_back( { d.m_country, {}, {} } );
+            rows.push_back( RegionRow{ d.m_country, {}, {}, {} } );
             row = rows.end() - 1;
         }
-        auto reg = std::find_if( row->m_regions.begin(), row->m_regions.end(), [&]( const char *r ) { return std::strcmp( r, d.m_region ) == 0; } );
+        auto   reg = std::find_if( row->m_regions.begin(), row->m_regions.end(), [&]( const char *r ) { return std::strcmp( r, d.m_region ) == 0; } );
         size_t k = static_cast<size_t>( reg - row->m_regions.begin() );
         if( reg == row->m_regions.end() )
         {
             row->m_regions.push_back( d.m_region );
-            row->m_seen.push_back( false );
+            row->m_places.push_back( 0 );
+            row->m_seen.push_back( 0 );
             k = row->m_regions.size() - 1;
         }
-        if( m_records.m_seen.test( static_cast<size_t>( b ) ) ) row->m_seen[k] = true;
+        ++row->m_places[k];
+        if( m_records.m_seen.test( static_cast<size_t>( b ) ) ) ++row->m_seen[k];
     }
-    rows.erase( std::remove_if( rows.begin(), rows.end(), []( const Row &r ) { return r.m_regions.size() < 2; } ), rows.end() );
-    // Two columns of rows, as many sheets as they need.
+    rows.erase( std::remove_if( rows.begin(), rows.end(), []( const RegionRow &r ) { return r.m_regions.size() < 2; } ), rows.end() );
+    return rows;
+}
+
+void Game::drawCountry( const RegionRow &row, float x, float y, float w, float h )
+{
+    const float u = unit();
+    const int   regions = static_cast<int>( row.m_regions.size() );
+    int         seen = 0, places = 0, placesSeen = 0;
+    for( int i = 0; i < regions; ++i )
+    {
+        seen += row.m_seen[static_cast<size_t>( i )] > 0 ? 1 : 0;
+        places += row.m_places[static_cast<size_t>( i )];
+        placesSeen += row.m_seen[static_cast<size_t>( i )];
+    }
+    drawTextFx( row.m_country, x + 8.0f * u, y + 2.0f * u, 24.0f * u, seen == regions ? Gold : Ink, AlignE::LEFT, 0.4f );
+    drawText( format( "%d OF %d REGIONS   %d OF %d PLACES", seen, regions, placesSeen, places ), x + w - 8.0f * u, y + 10.0f * u, 12.0f * u, Dim,
+              AlignE::RIGHT );
+    // Its regions in three columns: a tick where you have been, the places seen of each.
+    const float top = y + 44.0f * u, rowH = 28.0f * u, colW = w / 3.0f;
+    const int   perColumn = std::max( 1, static_cast<int>( ( h - 44.0f * u ) / rowH ) ), perSheet = perColumn * 3;
+    const int   sheets = std::max( 1, ( regions + perSheet - 1 ) / perSheet );
+    m_passportSheet = std::clamp( m_passportSheet, 0, sheets - 1 );
+    for( int i = 0; i < perSheet; ++i )
+    {
+        const int idx = m_passportSheet * perSheet + i;
+        if( idx >= regions ) break;
+        const bool  been = row.m_seen[static_cast<size_t>( idx )] > 0;
+        const bool  all = row.m_seen[static_cast<size_t>( idx )] == row.m_places[static_cast<size_t>( idx )];
+        const float rx = x + static_cast<float>( i / perColumn ) * colW + 8.0f * u, ry = top + static_cast<float>( i % perColumn ) * rowH;
+        const float box = 14.0f * u;
+        if( been )
+        {
+            DrawRectangleRounded( Rectangle{ rx, ry + 2.0f * u, box, box }, 0.25f, 4, all ? Gold : Accent );
+            DrawLineEx( Vector2{ rx + box * 0.2f, ry + 2.0f * u + box * 0.55f }, Vector2{ rx + box * 0.42f, ry + 2.0f * u + box * 0.78f }, 2.2f * u, Color{ 20, 24, 36, 255 } );
+            DrawLineEx( Vector2{ rx + box * 0.42f, ry + 2.0f * u + box * 0.78f }, Vector2{ rx + box * 0.82f, ry + 2.0f * u + box * 0.22f }, 2.2f * u, Color{ 20, 24, 36, 255 } );
+        }
+        else
+        {
+            DrawRectangleRoundedLinesEx( Rectangle{ rx, ry + 2.0f * u, box, box }, 0.25f, 4, 1.5f * u, Dim );
+        }
+        drawText( row.m_regions[static_cast<size_t>( idx )], rx + box + 8.0f * u, ry + 3.0f * u, 12.0f * u, been ? Ink : Dim );
+        drawText( format( "%d/%d", row.m_seen[static_cast<size_t>( idx )], row.m_places[static_cast<size_t>( idx )] ), rx + colW - 18.0f * u, ry + 4.0f * u,
+                  10.0f * u, all ? Gold : Dim, AlignE::RIGHT );
+    }
+    drawText( format( "SHEET %d / %d", m_passportSheet + 1, sheets ), x + w, y + h + 8.0f * u, 11.0f * u, Dim, AlignE::RIGHT );
+}
+
+void Game::drawRegions( float x, float y, float w, float h )
+{
+    const float                  u = unit();
+    const std::vector<RegionRow> rows = regionRows();
+    if( m_passportCountry >= 0 && m_passportCountry < static_cast<int>( rows.size() ) )
+    {
+        drawCountry( rows[static_cast<size_t>( m_passportCountry )], x, y, w, h );
+        return;
+    }
+    m_passportCountry = -1;
+    // Two columns of rows, as many sheets as they need; the sheet follows the country picked.
     const float rowH = 30.0f * u, colW = w * 0.5f;
     const int   perColumn = std::max( 1, static_cast<int>( h / rowH ) - 1 ), perSheet = perColumn * 2;
     const int   sheets = std::max( 1, ( static_cast<int>( rows.size() ) + perSheet - 1 ) / perSheet );
-    m_passportSheet = std::clamp( m_passportSheet, 0, sheets - 1 );
-    int complete = 0;
-    for( const Row &r : rows ) complete += std::count( r.m_seen.begin(), r.m_seen.end(), true ) == static_cast<long>( r.m_seen.size() ) ? 1 : 0;
+    m_passportPick = std::clamp( m_passportPick, 0, std::max( 0, static_cast<int>( rows.size() ) - 1 ) );
+    m_passportSheet = std::clamp( m_passportPick / perSheet, 0, sheets - 1 );
+    auto regionsSeen = []( const RegionRow &r ) { return static_cast<int>( std::count_if( r.m_seen.begin(), r.m_seen.end(), []( int n ) { return n > 0; } ) ); };
+    int  complete = 0;
+    for( const RegionRow &r : rows ) complete += regionsSeen( r ) == static_cast<int>( r.m_regions.size() ) ? 1 : 0;
     for( int i = 0; i < perSheet; ++i )
     {
         const size_t idx = static_cast<size_t>( m_passportSheet * perSheet + i );
         if( idx >= rows.size() ) break;
-        const Row  &r = rows[idx];
-        const int   seen = static_cast<int>( std::count( r.m_seen.begin(), r.m_seen.end(), true ) ), total = static_cast<int>( r.m_regions.size() );
-        const float rx = x + static_cast<float>( i / perColumn ) * colW + 8.0f * u, ry = y + static_cast<float>( i % perColumn ) * rowH;
-        const bool  all = seen == total;
+        const RegionRow &r = rows[idx];
+        const int        seen = regionsSeen( r ), total = static_cast<int>( r.m_regions.size() );
+        const float      rx = x + static_cast<float>( i / perColumn ) * colW + 8.0f * u, ry = y + static_cast<float>( i % perColumn ) * rowH;
+        const bool       all = seen == total;
+        if( static_cast<int>( idx ) == m_passportPick )
+            DrawRectangleRounded( Rectangle{ rx - 6.0f * u, ry, colW - 12.0f * u, rowH - 4.0f * u }, 0.3f, 6, Color{ 255, 150, 40, 70 } );
         drawText( r.m_country, rx, ry + 6.0f * u, 13.0f * u, all ? Gold : Ink );
         const float bx = rx + colW * 0.42f, bw = colW * 0.36f;
         DrawRectangle( static_cast<int>( bx ), static_cast<int>( ry + 9.0f * u ), static_cast<int>( bw ), static_cast<int>( 8.0f * u ), Color{ 255, 255, 255, 30 } );
@@ -1993,7 +2080,13 @@ void Game::drawPassport()
     case PassportE::ALBUM: drawAlbum( cx, cy, cw, ch ); break;
     default: drawPostcards( cx, cy, cw, ch ); break;
     }
+    const bool  regions = m_passportPage == static_cast<int>( PassportE::REGIONS );
     const char *hint = m_input.m_gamepad ? "[DPAD] PAGE AND SHEET     [B] BACK" : "[ARROWS] PAGE AND SHEET     [ESC] BACK";
+    if( regions && m_passportCountry >= 0 )
+        hint = m_input.m_gamepad ? "[DPAD] SHEET     [A] [B] ALL COUNTRIES" : "[UP] [DOWN] SHEET     [ENTER] [ESC] ALL COUNTRIES";
+    else if( regions )
+        hint = m_input.m_gamepad ? "[DPAD] COUNTRY AND PAGE     [A] ITS REGIONS     [B] BACK"
+                                 : "[UP] [DOWN] COUNTRY     [ENTER] ITS REGIONS     [LEFT] [RIGHT] PAGE     [ESC] BACK";
     drawHint( hint, W * 0.5f, y + h - 28.0f * u, 11.0f * u, Dim, AlignE::CENTER );
 }
 

@@ -64,7 +64,8 @@ VIBRATION; on the Deck through Steam Input).
   in the settings folder's `photos` and becomes the place's postcard.
 - **Passport**: the world tour on a map (every place a dot, the ones you have seen lit, the way you drove as a line, the
   twelve slices of the globe you have driven through as a bar: all twelve is a drive round the world), a stamp for every
-  country, the regions of the big countries with how many of their states you have seen, the postcards (every new place
+  country, the regions of the big countries with how many of their states you have seen (pick one with up and down and
+  ENTER shows its regions, ticked where you have been, with the places seen of each), the postcards (every new place
   you drive through sends one home, taken in sight of its landmark) and an album with a photo of every landmark you
   have passed.
 - **Records**: the top ten (with your initials), total kilometres, titles, places and countries seen. The best drive
@@ -263,8 +264,8 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --daily                       start the daily challenge
     --action replay|photo|reload T   testing: the replay, the photo mode or reading the data again after T seconds
     --code XXXXX-XXXXX-XXXXX      drive a Track Lab code
-    --screen lab|records|code|garage|passport|stamps|regions|postcards|album|rallies|viewer   open that screen
-    --shape NAME                  the landmark the viewer opens on
+    --screen lab|records|code|garage|passport|stamps|regions|country|postcards|album|rallies|viewer   open that screen
+    --shape NAME                  the landmark the viewer opens on (with --screen country: the country)
     --camera 0..2                 chase, far or bumper camera
     --find tunnel|bridge|landmark|landmark2|fork|sea|seain|seaout|ferry
                                  start just before the first tunnel, bridge, landmark (or the second), fork, undersea

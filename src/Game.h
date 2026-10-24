@@ -213,6 +213,15 @@ struct Popup
     bool        m_minor = false;   ///< news (stamps, postcards, unlocks): the ticker on the left, not the middle
 };
 
+/** @brief A country the world tour drives region by region: its regions and how much of each has been seen. */
+struct RegionRow
+{
+    const char               *m_country = nullptr;   ///< the country
+    std::vector<const char *> m_regions;             ///< its regions, in the order the tour meets them
+    std::vector<int>          m_places;              ///< places per region
+    std::vector<int>          m_seen;                ///< places seen per region (a region counts as seen with one)
+};
+
 /** @brief The game. */
 class Game
 {
@@ -616,6 +625,22 @@ private:
     void drawRegions( float x, float y, float w, float h );
 
     /**
+     * @brief The countries the tour drives region by region (at least two regions each), in the order it meets them.
+     * @return them, with what has been seen
+     */
+    std::vector<RegionRow> regionRows() const;
+
+    /**
+     * @brief Draws one country of the passport's regions: every region, ticked where you have been.
+     * @param[in] row  the country
+     * @param[in] x    left
+     * @param[in] y    top
+     * @param[in] w    width
+     * @param[in] h    height
+     */
+    void drawCountry( const RegionRow &row, float x, float y, float w, float h );
+
+    /**
      * @brief Draws the passport's album: a photo of each landmark passed.
      * @param[in] x  left
      * @param[in] y  top
@@ -881,6 +906,8 @@ private:
     int64_t                    m_earned = 0;            ///< career points of this run
     int                        m_passportPage = 0;      ///< the passport's page (PassportE)
     int                        m_passportSheet = 0;     ///< which sheet of stamps or postcards
+    int                        m_passportPick = 0;      ///< the country picked on the regions page
+    int                        m_passportCountry = -1;  ///< the country opened on the regions page (-1: the list)
     int                        m_postcardWanted = -1;   ///< the place whose postcard is due (-1: none)
     double                     m_postcardAt = 0.0;      ///< taken once the car passes this distance
     std::map<int, Texture2D>   m_postcardTex;           ///< pictures loaded for the passport

@@ -137,6 +137,16 @@ void Game::init()
         if( m_options.m_screen == "garage" ) m_state = StateE::GARAGE;
         if( m_options.m_screen == "rallies" ) m_state = StateE::RALLIES;
         if( m_options.m_screen == "passport" ) m_state = StateE::PASSPORT;
+        if( m_options.m_screen == "country" )
+        {
+            // Testing: the regions page with a country opened (--shape names it).
+            m_state = StateE::PASSPORT;
+            m_passportPage = static_cast<int>( PassportE::REGIONS );
+            const auto rows = regionRows();
+            for( size_t i = 0; i < rows.size(); ++i )
+                if( m_options.m_shape == rows[i].m_country ) m_passportPick = static_cast<int>( i );
+            m_passportCountry = m_passportPick;
+        }
         if( m_options.m_screen == "viewer" )
         {
             openViewer();
