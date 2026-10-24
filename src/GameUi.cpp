@@ -138,7 +138,7 @@ const char *Game::settingLabel( SettingE item ) const
     static const char *labels[] = { "PROFILE",      "DISPLAY",      "3D RESOLUTION", "SHADOWS",      "VSYNC",     "FRAME LIMIT", "DIFFICULTY",
                                     "SCENERY",      "TIME OF DAY",   "WEATHER",      "SEASONS",      "STEER ASSIST", "BRAKE ASSIST", "COLOUR BLIND",
                                     "TEXT SIZE",    "GEARS",         "SPEEDOMETER",  "CAMERA",    "SPEED BLUR",  "VIBRATION",
-                                    "MUSIC",        "EFFECTS",       "RADIO",        "BACK" };
+                                    "MUSIC",        "EFFECTS",       "RADIO",        "RESET SETTINGS", "ERASE PROGRESS", "BACK" };
     return labels[static_cast<int>( item )];
 }
 
@@ -198,6 +198,8 @@ std::string Game::settingValue( SettingE item ) const
     case SettingE::MUSIC: return bar( m_settings.m_musicVolume );
     case SettingE::EFFECTS: return bar( m_settings.m_sfxVolume );
     case SettingE::RADIO: return radioName();
+    case SettingE::RESET: return m_armed == static_cast<int>( item ) ? "PRESS AGAIN TO RESET" : "ALL TO DEFAULTS";
+    case SettingE::ERASE: return m_armed == static_cast<int>( item ) ? "PRESS AGAIN TO ERASE" : "RECORDS, PLACES, PHOTOS";
     default: return "";
     }
 }
@@ -396,10 +398,18 @@ void Game::menus( const MenuInput &m )
     {
         move( static_cast<int>( TitleE::COUNT ) );
         const auto item = static_cast<TitleE>( m_menuIndex );
+        const bool canResume = !m_savedPlace.empty() && biomeId( m_savedPlace ) >= 0;
         const bool canContinue = !m_records.m_tourAt.empty() && biomeId( m_records.m_tourAt ) >= 0 && endlessParams().m_biome == SceneryWorld;
-        if( item == TitleE::ENDLESS && change != 0 && canContinue )
+        // The ways to start an endless run that are there; left and right go round them.
+        std::vector<int> ways;
+        if( canResume ) ways.push_back( 0 );
+        if( canContinue ) ways.push_back( 1 );
+        ways.push_back( 2 );
+        if( std::find( ways.begin(), ways.end(), m_endlessStart ) == ways.end() ) m_endlessStart = ways.front();
+        if( item == TitleE::ENDLESS && change != 0 && ways.size() > 1 )
         {
-            m_tourContinue = !m_tourContinue;
+            const auto at = std::find( ways.begin(), ways.end(), m_endlessStart ) - ways.begin();
+            m_endlessStart = ways[static_cast<size_t>( ( at + static_cast<long>( ways.size() ) + change ) % static_cast<long>( ways.size() ) )];
             m_audio.play( SfxE::TICK );
         }
         if( !m.m_accept ) break;
@@ -414,12 +424,12 @@ void Game::menus( const MenuInput &m )
             m_menuIndex = 0;
             break;
         case TitleE::ENDLESS:
-            if( carReady() )
+            if( carReady() && !( m_endlessStart == 0 && resumeRun() ) )
             {
                 TrackSetup s;
                 s.m_seed = m_options.m_seed ? ( ( m_options.m_seed & 0x1FFFFFFFull ) | 1ull ) : randomSeed();
                 s.m_params = endlessParams();
-                if( canContinue && m_tourContinue ) s.m_startBiome = biomeId( m_records.m_tourAt );
+                if( canContinue && m_endlessStart == 1 ) s.m_startBiome = biomeId( m_records.m_tourAt );
                 startTrack( s, ModeE::ENDLESS );
             }
             break;
@@ -455,7 +465,26 @@ void Game::menus( const MenuInput &m )
         const int count = static_cast<int>( SettingE::COUNT );
         move( count );
         const auto item = static_cast<SettingE>( m_menuIndex );
-        if( item != SettingE::BACK && ( change != 0 || m.m_accept ) )
+        // The two resets want a second press (within four seconds, on the same item).
+        if( m_armed >= 0 && ( m_armed != static_cast<int>( item ) || m_time - m_armedAt > 4.0f ) ) m_armed = -1;
+        if( ( item == SettingE::RESET || item == SettingE::ERASE ) && m.m_accept )
+        {
+            if( m_armed == static_cast<int>( item ) )
+            {
+                m_armed = -1;
+                if( item == SettingE::RESET ) resetSettings();
+                else eraseProgress();
+                popup( item == SettingE::RESET ? "SETTINGS RESET" : "PROGRESS ERASED", "", item == SettingE::RESET ? Accent : Red, 0.8f, 2.5f );
+                m_audio.play( SfxE::SELECT );
+            }
+            else
+            {
+                m_armed = static_cast<int>( item );
+                m_armedAt = m_time;
+                m_audio.play( SfxE::WARNING );
+            }
+        }
+        else if( item != SettingE::BACK && item != SettingE::RESET && item != SettingE::ERASE && ( change != 0 || m.m_accept ) )
         {
             changeSetting( item, change != 0 ? change : 1 );
             settingsChanged();
@@ -700,7 +729,9 @@ void Game::menus( const MenuInput &m )
         break;
     }
     case StateE::PAUSED:
-        move( 6 );
+    {
+        const std::vector<std::string> items = pauseItems();
+        move( static_cast<int>( items.size() ) );
         if( m.m_back || m_input.m_pause )
         {
             m_state = m_pauseReturn;
@@ -709,25 +740,27 @@ void Game::menus( const MenuInput &m )
         if( m.m_accept )
         {
             m_audio.play( SfxE::SELECT );
-            switch( m_menuIndex )
+            const std::string &item = items[static_cast<size_t>( std::clamp( m_menuIndex, 0, static_cast<int>( items.size() ) - 1 ) )];
+            if( item == "RESUME" ) m_state = m_pauseReturn;
+            else if( item == "RESTART" ) restart();
+            else if( item == "PHOTO MODE" )
             {
-            case 0: m_state = m_pauseReturn; break;
-            case 1: restart(); break;
-            case 2:
                 m_state = StateE::PHOTO;
                 m_stateTime = 0.0f;
-                break;
-            case 3: playMusic( hash64( m_trackSeed + 31 ), m_playingStation ); break;
-            case 4:
+            }
+            else if( item == "NEXT SONG" ) playMusic( hash64( m_trackSeed + 31 ), m_playingStation );
+            else if( item == "SETTINGS" )
+            {
                 m_settingsReturn = StateE::PAUSED;
                 m_returnIndex = 4;
                 m_state = StateE::SETTINGS;
                 m_menuIndex = 0;
-                break;
-            default: startDemo(); break;
             }
+            else if( item == "SAVE AND QUIT" ) saveRun();
+            else startDemo();
         }
         break;
+    }
     case StateE::GAMEOVER:
     {
         const std::vector<std::string> items = gameOverItems();
@@ -920,7 +953,7 @@ void Game::draw()
     case StateE::PAUSED:
         drawHud();
         DrawRectangle( 0, 0, static_cast<int>( W ), static_cast<int>( H ), Color{ 0, 0, 0, 120 } );
-        drawMenu( "PAUSE", { "RESUME", "RESTART", "PHOTO MODE", "NEXT SONG", "SETTINGS", "QUIT TO TITLE" }, {}, H * 0.24f );
+        drawMenu( "PAUSE", pauseItems(), {}, H * 0.24f );
         break;
     case StateE::GAMEOVER: drawResults(); break;
     case StateE::RESULTS: drawRaceResults(); break;
@@ -1031,14 +1064,17 @@ void Game::drawTitle()
     for( double best : m_records.m_rallyBest ) done += best > 0.0 ? 1 : 0;
     const std::string daily = m_records.m_dailyDate == today() && m_records.m_dailyBest > 0 ? format( "TODAY %lld", static_cast<long long>( m_records.m_dailyBest ) )
                                                                                               : std::string( "NEW TODAY" );
-    // The endless run continues the world tour where it stopped, or starts a new one (left and right).
+    // The endless run resumes the saved run, continues the world tour where it stopped, or starts a new one (left and
+    // right).
     std::string tour;
     const int   tourAt = m_records.m_tourAt.empty() ? -1 : biomeId( m_records.m_tourAt );
-    if( tourAt >= 0 && endlessParams().m_biome == SceneryWorld )
-    {
-        const std::string name = biomeDef( static_cast<BiomeE>( tourAt ) ).m_name;
-        tour = !m_tourContinue ? std::string( "NEW TOUR" ) : name.size() <= 15 ? "FROM " + name : name.substr( 0, 20 );
-    }
+    const int   savedAt = m_savedPlace.empty() ? -1 : biomeId( m_savedPlace );
+    const bool  continues = tourAt >= 0 && endlessParams().m_biome == SceneryWorld;
+    auto        shorten = []( const std::string &lead, const std::string &name )
+    { return lead.size() + name.size() <= 20 ? lead + name : name.substr( 0, 20 ); };
+    if( m_endlessStart == 0 && savedAt >= 0 ) tour = shorten( "RESUME ", biomeDef( static_cast<BiomeE>( savedAt ) ).m_name );
+    else if( m_endlessStart == 1 && continues ) tour = shorten( "FROM ", biomeDef( static_cast<BiomeE>( tourAt ) ).m_name );
+    else if( savedAt >= 0 || continues ) tour = "NEW TOUR";
     drawMenu( "", { "ENDLESS RUN", "DAILY CHALLENGE", "RALLIES", "CHAMPIONSHIP", "TRACK LAB", "GARAGE", "PASSPORT", "RECORDS", "SETTINGS", "QUIT" },
               { tour, daily, format( "%d / %d DONE", done, static_cast<int>( rallies().size() ) ), "", "", garageValue( GarageE::CAR ),
                 format( "%d / %d COUNTRIES", m_records.countriesSeen(), countryCount() ), "", "", "" },
@@ -1372,6 +1408,37 @@ void Game::drawWorldMap( float x, float y, float w, float h )
     { return Vector2{ x + ( g.m_lon + 180.0f ) / 360.0f * w, y + ( latTop - g.m_lat ) / ( latTop - latBottom ) * h }; };
     DrawRectangleRounded( Rectangle{ x, y, w, h }, 0.03f, 8, Color{ 12, 30, 60, 230 } );
 
+    // The countries and provinces, those you have been to lit: painted at twice the size, again when more are seen.
+    const int tw = std::min( 4096, static_cast<int>( w * 2.0f ) ), th = std::min( 4096, static_cast<int>( h * 2.0f ) );
+    const int seenNow = static_cast<int>( m_records.m_seen.count() );
+    if( !m_mapTex.id || m_mapSeen != seenNow || m_mapW != tw || m_mapH != th )
+    {
+        std::vector<GeoPoint> seenAt;
+        for( int i = 0; i < biomeCount(); ++i )
+        {
+            GeoPoint g;
+            if( m_records.m_seen.test( static_cast<size_t>( i ) ) && placeLocation( static_cast<BiomeE>( i ), g ) ) seenAt.push_back( g );
+        }
+        Image img = paintWorldMap( tw, th, latTop, latBottom, seenAt );
+        if( m_mapTex.id ) UnloadTexture( m_mapTex );
+        m_mapTex = LoadTextureFromImage( img );
+        SetTextureFilter( m_mapTex, TEXTURE_FILTER_BILINEAR );
+        UnloadImage( img );
+        m_mapSeen = seenNow;
+        m_mapW = tw;
+        m_mapH = th;
+    }
+    DrawTexturePro( m_mapTex, Rectangle{ 0, 0, static_cast<float>( tw ), static_cast<float>( th ) }, Rectangle{ x, y, w, h }, Vector2{}, 0.0f, WHITE );
+    // What the colours mean.
+    {
+        const float lx = x + 14.0f * u, ly = y + h - 22.0f * u, box = 10.0f * u;
+        DrawRectangle( static_cast<int>( lx ), static_cast<int>( ly ), static_cast<int>( box ), static_cast<int>( box ), Color{ 52, 112, 118, 255 } );
+        drawText( "COUNTRY BEEN TO", lx + box + 6.0f * u, ly - 1.0f * u, 10.0f * u, Dim );
+        const float lx2 = lx + box + 18.0f * u + textWidth( "COUNTRY BEEN TO", 10.0f * u );
+        DrawRectangle( static_cast<int>( lx2 ), static_cast<int>( ly ), static_cast<int>( box ), static_cast<int>( box ), Color{ 86, 176, 150, 255 } );
+        drawText( "PROVINCE BEEN TO", lx2 + box + 6.0f * u, ly - 1.0f * u, 10.0f * u, Dim );
+    }
+
     // The slices of the globe already driven through, then the grid.
     std::bitset<LongitudeSectors> sectors;
     for( int i = 0; i < biomeCount(); ++i )
@@ -1382,7 +1449,7 @@ void Game::drawWorldMap( float x, float y, float w, float h )
     }
     const float sw = w / static_cast<float>( LongitudeSectors );
     for( int k = 0; k < LongitudeSectors; ++k )
-        if( sectors.test( static_cast<size_t>( k ) ) ) DrawRectangle( static_cast<int>( x + sw * k ), static_cast<int>( y ), static_cast<int>( sw ), static_cast<int>( h ), Color{ 90, 255, 150, 14 } );
+        if( sectors.test( static_cast<size_t>( k ) ) ) DrawRectangle( static_cast<int>( x + sw * k ), static_cast<int>( y ), static_cast<int>( sw ), static_cast<int>( h ), Color{ 90, 255, 150, 8 } );
     for( int lon = -150; lon <= 150; lon += 30 )
         DrawLineEx( at( GeoPoint{ latTop, static_cast<float>( lon ) } ), at( GeoPoint{ latBottom, static_cast<float>( lon ) } ), 1.0f, Color{ 255, 255, 255, 22 } );
     for( int lat = -30; lat <= 60; lat += 30 )

@@ -22,6 +22,7 @@
 #include "Data.h"
 #include "Festival.h"
 #include "Local.h"
+#include "WorldMap.h"
 #include "Input.h"
 #include "Models.h"
 #include "Particles.h"
@@ -68,6 +69,8 @@ enum class SettingE
     MUSIC,        ///< music volume
     EFFECTS,      ///< effects volume
     RADIO,        ///< radio station
+    RESET,        ///< every setting to its default
+    ERASE,        ///< forget everything driven
     BACK,         ///< leave
     COUNT         ///< number of items
 };
@@ -664,6 +667,27 @@ private:
      */
     SeasonClock seasonClock() const;
 
+    /** @brief Saves the endless run where it stands and goes to the title (the pause menu's SAVE AND QUIT). */
+    void saveRun();
+
+    /**
+     * @brief Continues the saved endless run where it stopped: the place on the road, the clock, the score.
+     * @return true if there was one
+     */
+    bool resumeRun();
+
+    /**
+     * @brief The pause menu's items.
+     * @return them, in order
+     */
+    std::vector<std::string> pauseItems() const;
+
+    /** @brief Puts every setting back to its default (the car and the best runs stay). */
+    void resetSettings();
+
+    /** @brief Forgets everything driven: the records, the postcards, photos, album and ghosts, the saved run. */
+    void eraseProgress();
+
     /** @brief Reads the data files again (F5): places, countries, the route, the shapes; the road is built anew. */
     void reloadGameData();
 
@@ -784,7 +808,10 @@ private:
     int    m_paintIndex = 0;          ///< chosen paint
     bool   m_quit = false;            ///< close the game
     bool   m_demo = true;             ///< the run is the title's demo
-    bool   m_tourContinue = true;     ///< the title's endless run continues the world tour where it stopped
+    int    m_endlessStart = 0;        ///< the title's endless run: 0 resume the saved run, 1 from where the tour stopped, 2 a new tour
+    std::string m_savedPlace;         ///< where the saved run stands (an ID; empty: none saved)
+    int    m_armed = -1;              ///< the settings item waiting for a second press (SettingE; -1 none)
+    float  m_armedAt = 0.0f;          ///< when it was pressed
     int         m_viewerIndex = 0;             ///< the landmark viewer's model (a LANDMARK variant)
     int         m_viewerBuilt = -1;            ///< the model its meshes show (-1: none)
     Mesh        m_viewerMesh{};                ///< that model
@@ -908,6 +935,9 @@ private:
     int                        m_passportSheet = 0;     ///< which sheet of stamps or postcards
     int                        m_passportPick = 0;      ///< the country picked on the regions page
     int                        m_passportCountry = -1;  ///< the country opened on the regions page (-1: the list)
+    Texture2D                  m_mapTex{};              ///< the passport's map, painted (countries, provinces, borders)
+    int                        m_mapSeen = -1;          ///< how many places had been seen when it was painted
+    int                        m_mapW = 0, m_mapH = 0;  ///< its size
     int                        m_postcardWanted = -1;   ///< the place whose postcard is due (-1: none)
     double                     m_postcardAt = 0.0;      ///< taken once the car passes this distance
     std::map<int, Texture2D>   m_postcardTex;           ///< pictures loaded for the passport

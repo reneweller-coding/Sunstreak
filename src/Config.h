@@ -88,8 +88,9 @@ struct LaunchOptions
     int         m_timeOfDay = -1;      ///< the time of day for this start (Settings::m_timeOfDay; -1: the settings')
     int         m_rally = -1;          ///< start this rally (0-based; -1: none)
     int         m_journey = -1;        ///< start this journey (0-based; -1: none)
+    bool        m_resume = false;      ///< continue the saved endless run
     bool        m_daily = false;       ///< start the daily challenge
-    std::string m_action;              ///< testing: replay, photo or reload (the data files) after m_actionAt seconds of racing
+    std::string m_action;              ///< testing: replay, photo, reload (the data files) or save (and quit) after m_actionAt seconds of racing
     float       m_actionAt = 0.0f;     ///< when
     int         m_camera = -1;         ///< a camera for this run only (-1: the settings')
     std::string m_code;                ///< start this track code at once

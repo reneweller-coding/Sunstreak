@@ -42,7 +42,8 @@ VIBRATION; on the Deck through Steam Input).
 ## Modes
 
 - **Endless run**: the clock, the checkpoints and the stages, on a fresh random track each time. On the world tour it
-  continues where the last endless run stopped (left and right on the title: NEW TOUR).
+  continues where the last endless run stopped (left and right on the title: NEW TOUR). SAVE AND QUIT in the pause menu
+  keeps the run as it stands, the place on the road, the clock and the score; RESUME on the title drives on from there.
 - **Championship**: five races on generated tracks against eleven rivals, from the back of the grid; points
   10-8-6-5-4-3-2-1 per race, the standings after each. Rivals draft in your slipstream and you in theirs.
 - **Track Lab**: mode (time attack or a race against the eleven), scenery (the world tour, all mixed, or one place:
@@ -62,7 +63,8 @@ VIBRATION; on the Deck through Steam Input).
 - **Replay and photo mode**: after a run, WATCH REPLAY plays the last minute again from roadside cameras, a helicopter
   and the chase camera. PHOTO MODE (pause menu) stops the game and lets the camera roam round the car; a photo is saved
   in the settings folder's `photos` and becomes the place's postcard.
-- **Passport**: the world tour on a map (every place a dot, the ones you have seen lit, the way you drove as a line, the
+- **Passport**: the world tour on a map with the countries and their provinces (the ones you have been to lit,
+  outlines from Natural Earth; every place a dot, the ones you have seen lit, the way you drove as a line, the
   twelve slices of the globe you have driven through as a bar: all twelve is a drive round the world), a stamp for every
   country, the regions of the big countries with how many of their states you have seen (pick one with up and down and
   ENTER shows its regions, ticked where you have been, with the places seen of each), the postcards (every new place
@@ -84,6 +86,11 @@ markings, crunch under the tyres, throw up dust and hold less than asphalt.
 Assists and accessibility (Settings): STEER ASSIST (light or strong) steers where your hands are idle, keeps the road
 and goes round the traffic; BRAKE ASSIST brakes for bends and obstacles taken too fast; COLOUR BLIND swaps the HUD's
 red and green for vermilion and sky blue; TEXT SIZE enlarges every text to 115 or 130 %.
+
+Settings > 3D RESOLUTION renders the 3D picture at 50 to 200 % of the window (less is faster, more smooths the edges;
+the text stays sharp). RESET SETTINGS puts every setting back to its default (the car and the best runs stay); ERASE
+PROGRESS forgets everything driven: the records, places, unlocks, postcards, photos, album, ghosts and a saved run.
+Both want a second press.
 
 Difficulty (Settings: EASY, NORMAL, HARD) scales the grip, the clock, the traffic and the rivals. The handling itself
 is in `tuning.ini` beside the settings (written with comments on the first start): steer, centrifugal, accel, brake,
@@ -262,7 +269,9 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --rally N                     start rally N (1..10)
     --journey N                   start journey N (1..)
     --daily                       start the daily challenge
-    --action replay|photo|reload T   testing: the replay, the photo mode or reading the data again after T seconds
+    --action replay|photo|reload|save T   testing: the replay, the photo mode, reading the data again or saving the run
+                                  after T seconds
+    --resume                      continue the saved endless run
     --code XXXXX-XXXXX-XXXXX      drive a Track Lab code
     --screen lab|records|code|garage|passport|stamps|regions|country|postcards|album|rallies|viewer   open that screen
     --shape NAME                  the landmark the viewer opens on (with --screen country: the country)
@@ -321,3 +330,5 @@ viewer, every landmark and creature alone under its first place's sky, to turn a
 - `roads.txt`: each country's road customs: miles per hour, speed limit boards, toll plazas, speed cameras, number
   plates.
 - `journeys.txt`: the journeys, from a place of the route to another.
+- `world/countries.txt`, `world/provinces.txt`: the outlines for the passport's map, from Natural Earth (public domain),
+  made by `tools/make_world_outlines.py` from its `ne_50m_admin_0_countries` and `ne_10m_admin_1_states_provinces`.

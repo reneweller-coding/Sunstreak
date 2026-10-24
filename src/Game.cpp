@@ -14,7 +14,10 @@
 #include <cstring>
 #include <ctime>
 #include <filesystem>
+#include <fstream>
 #include <future>
+#include <map>
+#include <sstream>
 
 namespace sunstreak
 {
@@ -88,6 +91,12 @@ void Game::init()
     m_tuningBase = loadTuning( configDirectory() + "/tuning.ini" );
     tuning() = applyDifficulty( m_tuningBase, m_settings.m_difficulty );
     m_records.load( configDirectory() + "/records.txt" );
+    {
+        std::ifstream run( configDirectory() + "/run.txt" );
+        std::string   line;
+        while( run && std::getline( run, line ) )
+            if( line.rfind( "place=", 0 ) == 0 ) m_savedPlace = line.substr( 6 );
+    }
     m_models.build();
     m_carIndex = std::clamp( m_settings.m_car, 0, CarCount - 1 );
     m_paintIndex = std::clamp( m_settings.m_paint, 0, PaintCount - 1 );
@@ -117,6 +126,9 @@ void Game::init()
     else if( m_options.m_journey >= 0 )
     {
         startJourney( m_options.m_journey );
+    }
+    else if( m_options.m_resume && resumeRun() )
+    {
     }
     else if( m_options.m_daily )
     {
@@ -612,6 +624,9 @@ void Game::unloadPostcards()
     m_postcardTex.clear();
     for( auto &[name, tex] : m_albumTex ) UnloadTexture( tex );
     m_albumTex.clear();
+    if( m_mapTex.id ) UnloadTexture( m_mapTex );
+    m_mapTex = Texture2D{};
+    m_mapSeen = -1;
 }
 
 void Game::takeAlbumPhoto()
@@ -752,6 +767,151 @@ void Game::crossingStep( const MenuInput &mi )
     // The far side is built while the vessel crosses.
     m_world.update( *m_track, m_crossing.m_land - 30.0, 2 );
     if( m_stateTime >= CrossingTime || ( ( mi.m_accept || mi.m_back ) && m_stateTime > 1.0f ) ) finishCrossing();
+}
+
+namespace
+{
+
+/**
+ * @brief Where a saved run is kept.
+ * @return the file
+ */
+std::string runPath()
+{
+    return configDirectory() + "/run.txt";
+}
+
+} // namespace
+
+void Game::saveRun()
+{
+    // Everything to build the same road again and stand where the car stands, with the clock and the score.
+    std::ofstream out( runPath() );
+    out << "seed=" << m_setup.m_seed << "\n";
+    out << "scenery=" << m_setup.m_params.m_biome << "\n";
+    out << "start=" << ( m_setup.m_startBiome >= 0 ? biomeKey( static_cast<BiomeE>( m_setup.m_startBiome ) ) : std::string() ) << "\n";
+    out << "choices=";
+    const std::vector<int8_t> choices = m_track->tourChoices();
+    for( size_t i = 0; i < choices.size(); ++i ) out << ( i ? "," : "" ) << static_cast<int>( choices[i] );
+    out << "\n";
+    out << "s=" << m_car.m_s << "\n";
+    out << "time=" << m_timeLeft << "\n";
+    out << "score=" << m_score << "\n";
+    out << "starts=" << m_startS << "\n";
+    out << "racetime=" << m_raceTime << "\n";
+    out << "clock=" << m_clockStart << "\n";
+    out << "overtakes=" << m_overtakes << "\n";
+    out << "nearmisses=" << m_nearMisses << "\n";
+    out << "topspeed=" << m_topSpeed << "\n";
+    m_savedPlace = biomeKey( m_track->stageBiome( static_cast<int>( m_car.m_s / StageLength ) ) );
+    out << "place=" << m_savedPlace << "\n";
+    out.close();
+    saveRecords();
+    saveSettings( m_settings );
+    startDemo();
+    m_endlessStart = 0;
+    popup( "RUN SAVED", "ENDLESS RUN  RESUME", Gold, 0.8f, 3.0f );
+}
+
+bool Game::resumeRun()
+{
+    std::ifstream in( runPath() );
+    if( !in ) return false;
+    std::map<std::string, std::string> v;
+    std::string                        line;
+    while( std::getline( in, line ) )
+    {
+        const auto eq = line.find( '=' );
+        if( eq != std::string::npos ) v[line.substr( 0, eq )] = line.substr( eq + 1 );
+    }
+    in.close();
+    std::error_code ec;
+    std::filesystem::remove( runPath(), ec );
+    m_savedPlace.clear();
+    if( v["seed"].empty() || v["s"].empty() ) return false;
+    TrackSetup s;
+    s.m_seed = std::strtoull( v["seed"].c_str(), nullptr, 10 );
+    s.m_params = endlessParams();
+    s.m_params.m_biome = std::atoi( v["scenery"].c_str() );
+    s.m_startBiome = v["start"].empty() ? -1 : biomeId( v["start"] );
+    std::vector<int8_t> choices;
+    std::stringstream   ss( v["choices"] );
+    std::string         c;
+    while( std::getline( ss, c, ',' ) )
+        if( !c.empty() ) choices.push_back( static_cast<int8_t>( std::atoi( c.c_str() ) ) );
+    const double at = std::atof( v["s"].c_str() );
+    m_demo = false;
+    m_mode = ModeE::ENDLESS;
+    m_setup = s;
+    m_code = encodeTrack( s );
+    setupTrack( s.m_seed, at, s.m_params, &choices );
+    beginCountdown();
+    m_timeLeft = static_cast<float>( std::atof( v["time"].c_str() ) );
+    m_score = std::atof( v["score"].c_str() );
+    m_startS = std::atof( v["starts"].c_str() );
+    m_raceTime = static_cast<float>( std::atof( v["racetime"].c_str() ) );
+    if( !v["clock"].empty() ) m_clockStart = std::atof( v["clock"].c_str() );
+    m_overtakes = std::atoi( v["overtakes"].c_str() );
+    m_nearMisses = std::atoi( v["nearmisses"].c_str() );
+    m_topSpeed = static_cast<float>( std::atof( v["topspeed"].c_str() ) );
+    popup( "WELCOME BACK", placeName( m_track->stageBiome( m_stage ) ), Accent, 1.0f, 3.0f );
+    return true;
+}
+
+std::vector<std::string> Game::pauseItems() const
+{
+    std::vector<std::string> items = { "RESUME", "RESTART", "PHOTO MODE", "NEXT SONG", "SETTINGS" };
+    if( m_mode == ModeE::ENDLESS && !m_demo && !m_timeUp && !m_finishedTrack ) items.push_back( "SAVE AND QUIT" );
+    items.push_back( "QUIT TO TITLE" );
+    return items;
+}
+
+void Game::resetSettings()
+{
+    // The car and its dress, and the best runs, are not settings to reset.
+    const Settings old = m_settings;
+    m_settings = Settings();
+    m_settings.m_car = old.m_car;
+    m_settings.m_paint = old.m_paint;
+    m_settings.m_rims = old.m_rims;
+    m_settings.m_decal = old.m_decal;
+    m_settings.m_decalColor = old.m_decalColor;
+    m_settings.m_bestScore = old.m_bestScore;
+    m_settings.m_bestDistance = old.m_bestDistance;
+    setColourBlind( m_settings.m_colourBlind );
+    setTextScale( 1.0f + 0.15f * static_cast<float>( m_settings.m_textSize ) );
+    tuning() = applyDifficulty( m_tuningBase, m_settings.m_difficulty );
+    m_audio.setVolumes( m_settings.m_musicVolume, m_settings.m_sfxVolume );
+    if( m_settings.m_vsync ) SetWindowState( FLAG_VSYNC_HINT );
+    else ClearWindowState( FLAG_VSYNC_HINT );
+    SetTargetFPS( m_settings.m_fpsLimit ? m_settings.m_fpsLimit : ( m_settings.m_vsync ? 0 : 240 ) );
+    if( IsWindowState( FLAG_BORDERLESS_WINDOWED_MODE ) != ( m_settings.m_display == DisplayModeE::FULLSCREEN ) ) toggleFullscreen();
+    m_world.clear();
+    m_world.m_seasons = seasonClock();
+    settingsChanged();
+}
+
+void Game::eraseProgress()
+{
+    m_records = Records();
+    saveRecords();
+    std::error_code ec;
+    for( const char *dir : { "/postcards", "/album", "/photos", "/ghosts" } ) std::filesystem::remove_all( configDirectory() + dir, ec );
+    std::filesystem::remove( runPath(), ec );
+    m_savedPlace.clear();
+    unloadPostcards();
+    // The unlocks are gone: back to the first car in its first dress.
+    m_settings.m_car = 0;
+    m_settings.m_paint = 0;
+    m_settings.m_rims = 0;
+    m_settings.m_decal = 0;
+    m_settings.m_bestScore = 0;
+    m_settings.m_bestDistance = 0.0;
+    m_carIndex = 0;
+    m_paintIndex = 0;
+    m_car.m_spec = carSpec( 0 );
+    applyLivery();
+    settingsChanged();
 }
 
 void Game::reloadGameData()
@@ -1245,6 +1405,7 @@ void Game::frame( float dt )
             if( m_options.m_action == "replay" ) startReplay( StateE::GAMEOVER );
             if( m_options.m_action == "photo" ) m_state = StateE::PHOTO;
             if( m_options.m_action == "reload" ) reloadGameData();
+            if( m_options.m_action == "save" ) saveRun();
             m_options.m_action.clear();
             break;
         }
