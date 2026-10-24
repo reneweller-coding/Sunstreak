@@ -4,6 +4,7 @@
  * @author reneweller
  */
 #include "Biome.h"
+#include "Data.h"
 
 namespace sunstreak
 {
@@ -29,6 +30,36 @@ const std::vector<Rally> &rallies()
         { "MEKONG EXPRESS", "BANGKOK TO HA LONG BAY", { BANGKOK, ANGKOR, MEKONG, NORTHERN_THAILAND, SAPA, HA_GIANG, HA_LONG_BAY } },
     };
     return list;
+}
+
+const std::vector<Journey> &journeys()
+{
+    static DataCache<std::vector<Journey>> cache;
+    return cache.get( []
+    {
+        std::vector<Journey> out;
+        for( const std::string &line : dataLines( dataText( "journeys.txt" ) ) )
+        {
+            // journey FROM TO | WHAT
+            if( line.rfind( "journey ", 0 ) != 0 ) continue;
+            const std::vector<std::string> parts = splitLine( line.substr( 8 ), '|' );
+            const std::vector<std::string> ends = splitLine( parts.empty() ? std::string() : parts[0], ' ' );
+            if( ends.size() != 2 ) continue;
+            const int from = biomeId( ends[0] ), to = biomeId( ends[1] );
+            if( from < 0 || to < 0 ) continue;
+            const BiomeDef &a = biomeDef( static_cast<BiomeE>( from ) ), &b = biomeDef( static_cast<BiomeE>( to ) );
+            out.push_back( { std::string( a.m_name ? a.m_name : "" ) + " - " + ( b.m_name ? b.m_name : "" ), parts.size() > 1 ? parts[1] : std::string(),
+                             static_cast<BiomeE>( from ), static_cast<BiomeE>( to ) } );
+        }
+        return out;
+    } );
+}
+
+int routeStages( BiomeE from, BiomeE to )
+{
+    const int a = routeIndex( from ), b = routeIndex( to ), n = static_cast<int>( worldRoute().size() );
+    if( a < 0 || b < 0 || n == 0 ) return -1;
+    return ( b - a + n - 1 ) % n + 1;
 }
 
 } // namespace sunstreak

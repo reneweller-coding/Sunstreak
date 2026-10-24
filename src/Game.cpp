@@ -113,6 +113,10 @@ void Game::init()
     {
         startRally( m_options.m_rally );
     }
+    else if( m_options.m_journey >= 0 )
+    {
+        startJourney( m_options.m_journey );
+    }
     else if( m_options.m_daily )
     {
         startDaily();
@@ -137,11 +141,12 @@ void Game::init()
             openViewer();
             m_viewerIndex = std::max( 0, landmarkByName( m_options.m_shape ) );
         }
-        if( m_options.m_screen == "stamps" || m_options.m_screen == "regions" || m_options.m_screen == "postcards" )
+        if( m_options.m_screen == "stamps" || m_options.m_screen == "regions" || m_options.m_screen == "postcards" || m_options.m_screen == "album" )
         {
             m_state = StateE::PASSPORT;
             m_passportPage = static_cast<int>( m_options.m_screen == "stamps"    ? PassportE::STAMPS
                                                : m_options.m_screen == "regions" ? PassportE::REGIONS
+                                               : m_options.m_screen == "album"   ? PassportE::ALBUM
                                                                                  : PassportE::POSTCARDS );
         }
         if( m_options.m_screen == "code" )
@@ -344,6 +349,7 @@ void Game::startRally( int index )
     const auto &list = rallies();
     if( index < 0 || index >= static_cast<int>( list.size() ) ) return;
     m_rally = index;
+    m_journey = -1;
     TrackSetup s;
     s.m_seed = ( hash64( 0xBA11ull + static_cast<uint64_t>( index ) * 977 ) & 0x1FFFFFFFull ) | 1ull;
     s.m_params.m_biome = SceneryWorld;
@@ -593,6 +599,54 @@ void Game::unloadPostcards()
 {
     for( auto &[biome, tex] : m_postcardTex ) UnloadTexture( tex );
     m_postcardTex.clear();
+    for( auto &[name, tex] : m_albumTex ) UnloadTexture( tex );
+    m_albumTex.clear();
+}
+
+void Game::takeAlbumPhoto()
+{
+    const std::string name = landmarkName( m_albumWanted );
+    m_albumWanted = -1;
+    if( name.empty() ) return;
+    m_records.m_album.push_back( name );
+    // Read what the renderer drew (the HUD comes after); scale and save it on a worker, by the landmark's name.
+    rlDrawRenderBatchActive();
+    const int         w = GetRenderWidth(), h = GetRenderHeight();
+    Image             img = { rlReadScreenPixels( w, h ), w, h, 1, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 };
+    const std::string dir = configDirectory() + "/album";
+    const std::string file = dir + "/" + name + ".png";
+    if( m_postcardJob.valid() ) m_postcardJob.wait();
+    m_postcardJob = std::async( std::launch::async,
+                                [img, dir, file]() mutable
+                                {
+                                    const int ch = std::min( img.height, img.width * 9 / 16 ), cw = ch * 16 / 9;
+                                    ImageCrop( &img, Rectangle{ static_cast<float>( img.width - cw ) * 0.5f, static_cast<float>( img.height - ch ) * 0.5f,
+                                                                static_cast<float>( cw ), static_cast<float>( ch ) } );
+                                    ImageResize( &img, 480, 270 );
+                                    std::error_code ec;
+                                    std::filesystem::create_directories( dir, ec );
+                                    ExportImage( img, file.c_str() );
+                                    UnloadImage( img );
+                                } );
+    std::string shown = name;
+    std::replace( shown.begin(), shown.end(), '_', ' ' );
+    popup( "PHOTO", shown, Cyan, 0.7f, 2.2f );
+}
+
+void Game::startJourney( int index )
+{
+    const auto &list = journeys();
+    if( index < 0 || index >= static_cast<int>( list.size() ) ) return;
+    m_rally = -1;
+    TrackSetup s;
+    s.m_seed = ( hash64( 0x70A9ull + static_cast<uint64_t>( index ) * 1013 ) & 0x1FFFFFFFull ) | 1ull;
+    s.m_params.m_biome = SceneryWorld;
+    s.m_startBiome = static_cast<int>( list[static_cast<size_t>( index )].m_from );
+    startTrack( s, ModeE::RALLY );
+    m_journey = index;
+    m_code = "JOURNEY-" + std::to_string( index + 1 );
+    m_ghost.load( ghostDir(), m_code );
+    popup( list[static_cast<size_t>( index )].m_name, list[static_cast<size_t>( index )].m_sub, Gold, 1.0f, 3.5f );
 }
 
 SeasonClock Game::seasonClock() const
@@ -1003,6 +1057,29 @@ void Game::progress( double ds )
     const BiomeMix mix = m_track->biomeMix( m_car.m_s );
     const BiomeE   here = mix.m_t < 0.5f ? mix.m_from : mix.m_to;
     const size_t   bit = static_cast<size_t>( here );
+    // The album: a photo of each landmark, the first time it comes into view ahead.
+    if( !m_demo && m_albumWanted < 0 )
+    {
+        const int       stage = static_cast<int>( m_car.m_s / StageLength );
+        const BiomeDef &def = biomeDef( m_track->stageBiome( stage ) );
+        const long      stageSegs = static_cast<long>( StageLength / SegmentLength );
+        for( size_t r = 0; r < def.m_props.size() && m_albumWanted < 0; ++r )
+        {
+            const PropRule &pr = def.m_props[r];
+            if( pr.m_kind != PropKindE::LANDMARK || pr.m_perStage <= 0 || pr.m_variant < 0 ) continue;
+            const std::string name = landmarkName( pr.m_variant );
+            if( name.empty() || std::find( m_records.m_album.begin(), m_records.m_album.end(), name ) != m_records.m_album.end() ) continue;
+            for( int k = 0; k < pr.m_perStage; ++k )
+            {
+                bool         right = false;
+                const long   local = landmarkSpot( m_track->seed(), r, k, stage, right );
+                const double ahead = static_cast<double>( static_cast<long>( stage ) * stageSegs + local ) * SegmentLength - m_car.m_s;
+                // In view a little to the side: about as far ahead as twice its distance from the road.
+                const double aside = 0.5 * ( pr.m_nearest + pr.m_farthest );
+                if( ahead > 1.6 * aside + 30.0 && ahead < 2.6 * aside + 90.0 ) m_albumWanted = pr.m_variant;
+            }
+        }
+    }
     // The travel journal: the world tour's places as they are reached, and where the endless tour stands.
     GeoPoint where;
     if( !m_demo && m_setup.m_params.m_biome == SceneryWorld && ( m_mode == ModeE::ENDLESS || m_mode == ModeE::DAILY ) &&
@@ -1212,6 +1289,17 @@ void Game::endTimeAttack()
     {
         m_records.m_dailyBest = score;
         m_newRecord = true;
+    }
+    if( m_mode == ModeE::RALLY && m_finishedTrack && m_journey >= 0 )
+    {
+        if( m_records.m_journeyBest.size() <= static_cast<size_t>( m_journey ) ) m_records.m_journeyBest.resize( static_cast<size_t>( m_journey ) + 1, 0.0 );
+        double &best = m_records.m_journeyBest[static_cast<size_t>( m_journey )];
+        if( best <= 0.0 ) earn( 15000 );
+        if( best <= 0.0 || m_raceTime < best )
+        {
+            best = m_raceTime;
+            m_newRecord = true;
+        }
     }
     if( m_mode == ModeE::RALLY && m_finishedTrack && m_rally >= 0 )
     {
@@ -1469,7 +1557,14 @@ void Game::timeAttackRules( float h )
         return;
     }
     const double length = m_setup.m_params.m_length;
-    if( length > 0.0 && m_car.m_s >= length )
+    // A journey ends where its goal's stage begins, whichever way the forks led there.
+    bool arrived = false;
+    if( m_mode == ModeE::RALLY && m_journey >= 0 && m_journey < static_cast<int>( journeys().size() ) )
+    {
+        const int st = static_cast<int>( m_car.m_s / StageLength );
+        arrived = track.stageBiome( st ) == journeys()[static_cast<size_t>( m_journey )].m_to && m_car.m_s - static_cast<double>( st ) * StageLength > 200.0;
+    }
+    if( ( length > 0.0 && m_car.m_s >= length ) || arrived )
     {
         m_finishedTrack = true;
         m_finishedFor = 0.0f;
@@ -1571,6 +1666,12 @@ void Game::timeAttackRules( float h )
             std::string nameL, nameR;
             forkNames( fork.m_left, fork.m_right, track.stageBiome( stage ), nameL, nameR );
             popup( "NEXT", side < 0 ? nameL : nameR, Accent, 1.0f, 2.6f );
+            if( m_mode == ModeE::RALLY && m_journey >= 0 && m_journey < static_cast<int>( journeys().size() ) )
+            {
+                const Journey &j = journeys()[static_cast<size_t>( m_journey )];
+                const int      left = routeStages( side < 0 ? fork.m_left : fork.m_right, j.m_to );
+                if( left > 0 ) popup( format( "%d %s TO %s", left, left == 1 ? "STAGE" : "STAGES", biomeDef( j.m_to ).m_name ), "", Gold, 0.7f, 2.6f );
+            }
         }
     }
     const double ds = m_car.m_s - m_lastS;

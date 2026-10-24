@@ -620,7 +620,7 @@ void Game::menus( const MenuInput &m )
         break;
     case StateE::RALLIES:
     {
-        const int count = static_cast<int>( rallies().size() ) + 1;
+        const int count = static_cast<int>( rallies().size() + journeys().size() ) + 1;
         move( count );
         if( m.m_back || ( m.m_accept && m_menuIndex == count - 1 ) )
         {
@@ -631,7 +631,8 @@ void Game::menus( const MenuInput &m )
         else if( m.m_accept && carReady() )
         {
             m_audio.play( SfxE::SELECT );
-            startRally( m_menuIndex );
+            const int rallyCount = static_cast<int>( rallies().size() );
+            m_menuIndex < rallyCount ? startRally( m_menuIndex ) : startJourney( m_menuIndex - rallyCount );
         }
         break;
     }
@@ -704,7 +705,8 @@ void Game::menus( const MenuInput &m )
         {
             m_audio.play( SfxE::SELECT );
             const std::string &item = items[static_cast<size_t>( std::clamp( m_menuIndex, 0, static_cast<int>( items.size() ) - 1 ) )];
-            if( item == "RETRY" || item == "RETRY SAME TRACK" ) m_mode == ModeE::RALLY ? startRally( m_rally ) : m_mode == ModeE::DAILY ? startDaily() : restart();
+            if( item == "RETRY" || item == "RETRY SAME TRACK" )
+                m_mode == ModeE::RALLY ? ( m_journey >= 0 ? startJourney( m_journey ) : startRally( m_rally ) ) : m_mode == ModeE::DAILY ? startDaily() : restart();
             else if( item == "NEW TRACK" )
             {
                 TrackSetup s;
@@ -716,7 +718,7 @@ void Game::menus( const MenuInput &m )
             {
                 startDemo();
                 m_state = item == "RALLIES" ? StateE::RALLIES : StateE::LAB;
-                m_menuIndex = item == "RALLIES" ? std::max( 0, m_rally ) : 0;
+                m_menuIndex = item == "RALLIES" ? ( m_journey >= 0 ? static_cast<int>( rallies().size() ) + m_journey : std::max( 0, m_rally ) ) : 0;
             }
             else if( item == "WATCH REPLAY" ) startReplay( StateE::GAMEOVER );
             else startDemo();
@@ -845,6 +847,7 @@ void Game::draw()
     if( m_state == StateE::CROSSING ) crossingScene( in, view );
     m_renderer.render( in, view, m_settings.m_renderScale );
     if( m_state == StateE::PHOTO && m_photoWanted ) takePhoto();
+    if( m_albumWanted >= 0 && !m_demo && m_state == StateE::RACE ) takeAlbumPhoto();
     if( m_postcardWanted >= 0 && !m_demo && m_state == StateE::RACE && m_car.m_s >= m_postcardAt )
     {
         const long seg = static_cast<long>( m_car.m_s / SegmentLength );
@@ -1518,6 +1521,56 @@ void Game::drawPostcards( float x, float y, float w, float h )
               AlignE::RIGHT );
 }
 
+void Game::drawAlbum( float x, float y, float w, float h )
+{
+    const float u = unit();
+    // Every landmark a place shows once per stage counts; the photos in the order they were taken.
+    std::vector<std::string> all;
+    for( int b = 0; b < biomeCount(); ++b )
+        for( const PropRule &pr : biomeDef( static_cast<BiomeE>( b ) ).m_props )
+            if( pr.m_kind == PropKindE::LANDMARK && pr.m_perStage > 0 && pr.m_variant >= 0 )
+            {
+                const std::string name = landmarkName( pr.m_variant );
+                if( !name.empty() && std::find( all.begin(), all.end(), name ) == all.end() ) all.push_back( name );
+            }
+    const auto &photos = m_records.m_album;
+    if( photos.empty() )
+    {
+        drawText( "NO PHOTOS YET", x + w * 0.5f, y + h * 0.42f, 20.0f * u, Ink, AlignE::CENTER );
+        drawText( "EVERY LANDMARK YOU PASS GETS ITS PHOTO", x + w * 0.5f, y + h * 0.42f + 34.0f * u, 13.0f * u, Dim, AlignE::CENTER );
+        return;
+    }
+    const int cols = 3, rows = 2, perSheet = cols * rows;
+    const int sheets = ( static_cast<int>( photos.size() ) + perSheet - 1 ) / perSheet;
+    m_passportSheet = std::clamp( m_passportSheet, 0, sheets - 1 );
+    const float cw = w / cols, ch = h / rows;
+    for( int i = 0; i < perSheet; ++i )
+    {
+        const size_t idx = static_cast<size_t>( m_passportSheet * perSheet + i );
+        if( idx >= photos.size() ) break;
+        const std::string &name = photos[idx];
+        if( !m_albumTex.contains( name ) )
+        {
+            const std::string file = configDirectory() + "/album/" + name + ".png";
+            m_albumTex[name] = FileExists( file.c_str() ) ? LoadTexture( file.c_str() ) : Texture2D{};
+            if( m_albumTex[name].id ) SetTextureFilter( m_albumTex[name], TEXTURE_FILTER_BILINEAR );
+        }
+        const Texture2D &tex = m_albumTex[name];
+        const float      cx = x + cw * static_cast<float>( i % cols ) + 10.0f * u, cy = y + ch * static_cast<float>( i / cols ) + 8.0f * u;
+        const float      pw = cw - 20.0f * u, ph = pw * 9.0f / 16.0f;
+        // A photo with a white border, its name written under it.
+        DrawRectangle( static_cast<int>( cx - 6.0f * u ), static_cast<int>( cy ), static_cast<int>( pw + 12.0f * u ), static_cast<int>( ph + 40.0f * u ),
+                       Color{ 248, 248, 244, 255 } );
+        if( tex.id ) DrawTexturePro( tex, Rectangle{ 0, 0, static_cast<float>( tex.width ), static_cast<float>( tex.height ) }, Rectangle{ cx, cy + 6.0f * u, pw, ph }, Vector2{}, 0.0f, WHITE );
+        else DrawRectangle( static_cast<int>( cx ), static_cast<int>( cy + 6.0f * u ), static_cast<int>( pw ), static_cast<int>( ph ), Color{ 70, 80, 100, 255 } );
+        std::string shown = name;
+        std::replace( shown.begin(), shown.end(), '_', ' ' );
+        drawText( shown, cx + pw * 0.5f, cy + ph + 14.0f * u, 12.0f * u, Color{ 30, 34, 48, 255 }, AlignE::CENTER, 0.16f );
+    }
+    drawText( format( "%d OF %d LANDMARKS   SHEET %d / %d", static_cast<int>( photos.size() ), static_cast<int>( all.size() ), m_passportSheet + 1, sheets ),
+              x + w, y + h + 8.0f * u, 11.0f * u, Dim, AlignE::RIGHT );
+}
+
 void Game::openViewer()
 {
     if( m_state == StateE::VIEWER ) return;
@@ -1917,9 +1970,9 @@ void Game::drawPassport()
     const float x = W * 0.5f - w * 0.5f, y = 20.0f * u;
     panel( x, y, w, h );
     drawTextFx( "PASSPORT", x + 28.0f * u, y + 18.0f * u, 28.0f * u, Accent, AlignE::LEFT, 0.8f );
-    const char *tabs[4] = { "MAP", "STAMPS", "REGIONS", "POSTCARDS" };
+    const char *tabs[5] = { "MAP", "STAMPS", "REGIONS", "POSTCARDS", "ALBUM" };
     float       tx = x + w - 28.0f * u;
-    for( int i = 3; i >= 0; --i )
+    for( int i = 4; i >= 0; --i )
     {
         const float tw = textWidth( tabs[i], 15.0f * u );
         tx -= tw;
@@ -1937,6 +1990,7 @@ void Game::drawPassport()
     case PassportE::MAP: drawWorldMap( cx, cy, cw, ch - 20.0f * u ); break;
     case PassportE::STAMPS: drawStamps( cx, cy, cw, ch ); break;
     case PassportE::REGIONS: drawRegions( cx, cy, cw, ch ); break;
+    case PassportE::ALBUM: drawAlbum( cx, cy, cw, ch ); break;
     default: drawPostcards( cx, cy, cw, ch ); break;
     }
     const char *hint = m_input.m_gamepad ? "[DPAD] PAGE AND SHEET     [B] BACK" : "[ARROWS] PAGE AND SHEET     [ESC] BACK";
@@ -1958,9 +2012,27 @@ void Game::drawRallies()
                                      : format( "%d PLACES  %d KM", static_cast<int>( list[i].m_stages.size() ),
                                                static_cast<int>( list[i].m_stages.size() * static_cast<size_t>( StageLength / 1000.0 ) ) ) );
     }
+    // The journeys: from a place to another, the forks choosing the way.
+    const auto &trips = journeys();
+    for( size_t i = 0; i < trips.size(); ++i )
+    {
+        names.push_back( trips[i].m_name );
+        const double best = i < m_records.m_journeyBest.size() ? m_records.m_journeyBest[i] : 0.0;
+        const int    stages = routeStages( trips[i].m_from, trips[i].m_to );
+        values.push_back( best > 0.0 ? "BEST " + clockText( static_cast<float>( best ) ) : format( "JOURNEY  %d STAGES", stages ) );
+    }
     names.push_back( "BACK" );
     values.push_back( "" );
-    drawMenu( "RALLIES", names, values, H * 0.02f );
+    drawMenu( "RALLIES AND JOURNEYS", names, values, H * 0.02f );
+    const int trip = m_menuIndex - static_cast<int>( list.size() );
+    if( trip >= 0 && trip < static_cast<int>( trips.size() ) )
+    {
+        const Journey &j = trips[static_cast<size_t>( trip )];
+        drawText( j.m_sub, W * 0.5f, H - 64.0f * u, 13.0f * u, Accent, AlignE::CENTER );
+        drawText( format( "FROM %s TO %s, %d STAGES ON THE MAIN WAY; THE FORKS MAY BE SHORTER OR LONGER", biomeDef( j.m_from ).m_name,
+                          biomeDef( j.m_to ).m_name, routeStages( j.m_from, j.m_to ) ),
+                  W * 0.5f, H - 42.0f * u, 10.0f * u, Dim, AlignE::CENTER );
+    }
     if( m_menuIndex < static_cast<int>( list.size() ) )
     {
         const Rally &r = list[static_cast<size_t>( m_menuIndex )];
@@ -2135,6 +2207,18 @@ void Game::drawHud()
             drawText( "THE ROAD FORKS", W * 0.5f, y - 26.0f * u, 12.0f * u, Dim, AlignE::CENTER );
             drawTextFx( "< " + nameL, W * 0.5f - 24.0f * u, y, size, left ? Accent : Dim, AlignE::RIGHT, left ? 0.6f : 0.0f );
             drawTextFx( nameR + " >", W * 0.5f + 24.0f * u, y, size, left ? Dim : Accent, AlignE::LEFT, left ? 0.0f : 0.6f );
+            if( m_mode == ModeE::RALLY && m_journey >= 0 && m_journey < static_cast<int>( journeys().size() ) )
+            {
+                // On a journey: how far the goal is either way, the shorter one in gold.
+                const Journey &j = journeys()[static_cast<size_t>( m_journey )];
+                const int      viaL = routeStages( fork.m_left, j.m_to ), viaR = routeStages( fork.m_right, j.m_to );
+                const bool     shorterL = viaL > 0 && ( viaR <= 0 || viaL <= viaR );
+                drawTextFx( format( "%d %s", viaL, viaL == 1 ? "STAGE" : "STAGES" ), W * 0.5f - 24.0f * u, y + 30.0f * u, 15.0f * u, shorterL ? Gold : Ink,
+                            AlignE::RIGHT, shorterL ? 0.5f : 0.0f );
+                drawTextFx( format( "%d %s", viaR, viaR == 1 ? "STAGE" : "STAGES" ), W * 0.5f + 24.0f * u, y + 30.0f * u, 15.0f * u, shorterL ? Ink : Gold,
+                            AlignE::LEFT, shorterL ? 0.0f : 0.5f );
+                drawTextFx( std::string( "TO " ) + biomeDef( j.m_to ).m_name, W * 0.5f, y + 56.0f * u, 13.0f * u, Gold, AlignE::CENTER, 0.3f );
+            }
         }
     }
 

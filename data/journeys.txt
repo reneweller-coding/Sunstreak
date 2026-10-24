@@ -1,0 +1,15 @@
+# Journeys: from one place of the world tour to another against the clock. The tour's forks choose the way: the
+# shorter way is shown before each one, the other may be a detour (or a shortcut). The best time counts.
+#   journey FROM TO | A LINE ABOUT IT
+# (FROM and TO are place IDs on the route, data/route.txt.)
+
+journey LONDON PARIS | UNDER THE CHANNEL TO THE CITY OF LIGHT
+journey AMSTERDAM BERLIN | CANALS, WINDMILLS, THE NORTH GERMAN PLAIN
+journey VENICE ROME | THROUGH TUSCANY TO THE ETERNAL CITY
+journey BARCELONA LISBON | ACROSS IBERIA TO THE ATLANTIC
+journey LISBON MARRAKECH | OVER THE STRAIT INTO THE ATLAS
+journey DELHI MUMBAI | FROM THE CAPITAL TO THE ARABIAN SEA
+journey BANGKOK SINGAPORE | DOWN THE MALAY PENINSULA
+journey OSAKA TOKYO | ALONG THE OLD TOKAIDO
+journey SAN_FRANCISCO LAS_VEGAS | OVER THE SIERRA INTO THE DESERT
+journey LISBON TOKYO | THE LONG WAY ROUND, HALF THE WORLD

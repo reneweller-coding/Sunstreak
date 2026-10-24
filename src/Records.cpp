@@ -311,6 +311,21 @@ void Records::load( const std::string &path )
             else if( key == "postcards" ) readBits( val, m_postcards );
             else if( key == "seen3" ) readNames( val, m_seen );
             else if( key == "tourat" ) m_tourAt = val;
+            else if( key == "album" )
+            {
+                std::stringstream ss( val );
+                std::string       name;
+                m_album.clear();
+                while( std::getline( ss, name, ',' ) )
+                    if( !name.empty() ) m_album.push_back( name );
+            }
+            else if( key == "journeys" )
+            {
+                std::stringstream ss( val );
+                std::string       t;
+                m_journeyBest.clear();
+                while( std::getline( ss, t, ',' ) ) m_journeyBest.push_back( std::atof( t.c_str() ) );
+            }
             else if( key == "journey" )
             {
                 std::stringstream ss( val );
@@ -377,6 +392,12 @@ void Records::save( const std::string &path ) const
     out << "seen3=";
     writeNames( out, m_seen );
     if( !m_tourAt.empty() ) out << "tourat=" << m_tourAt << "\n";
+    out << "album=";
+    for( size_t i = 0; i < m_album.size(); ++i ) out << ( i ? "," : "" ) << m_album[i];
+    out << "\n";
+    out << "journeys=";
+    for( size_t i = 0; i < m_journeyBest.size(); ++i ) out << ( i ? "," : "" ) << m_journeyBest[i];
+    out << "\n";
     out << "journey=";
     for( size_t i = 0; i < m_journey.size(); ++i ) out << ( i ? "," : "" ) << m_journey[i];
     out << "\n";

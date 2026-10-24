@@ -107,6 +107,7 @@ enum class PassportE
     STAMPS,     ///< a stamp per country
     REGIONS,    ///< the states and provinces of the big countries
     POSTCARDS,  ///< a picture per place
+    ALBUM,      ///< a photo per landmark
     COUNT       ///< number of pages
 };
 
@@ -613,6 +614,24 @@ private:
     void drawRegions( float x, float y, float w, float h );
 
     /**
+     * @brief Draws the passport's album: a photo of each landmark passed.
+     * @param[in] x  left
+     * @param[in] y  top
+     * @param[in] w  width
+     * @param[in] h  height
+     */
+    void drawAlbum( float x, float y, float w, float h );
+
+    /** @brief Saves the frame as the album's photo of the landmark coming into view. */
+    void takeAlbumPhoto();
+
+    /**
+     * @brief Starts a journey.
+     * @param[in] index  into journeys()
+     */
+    void startJourney( int index );
+
+    /**
      * @brief How the seasons run, as the settings say.
      * @return the clock
      */
@@ -759,6 +778,9 @@ private:
     Mesh        m_crossCoastB{};               ///< the coast ahead
     Mesh        m_crossGull{};                 ///< a gull
     float       m_fireworkIn = 0.0f;           ///< seconds to the next firework
+    int         m_albumWanted = -1;            ///< the landmark to photograph on the next frame (a LANDMARK variant)
+    std::map<std::string, Texture2D> m_albumTex;   ///< photos loaded for the passport
+    int         m_journey = -1;                ///< the journey driven (with ModeE::RALLY), -1 none
 
     // The track being driven.
     TrackSetup  m_setup;              ///< its setup

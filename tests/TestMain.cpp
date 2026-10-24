@@ -405,6 +405,21 @@ int main()
                        roadCustoms( "ITALY" ).m_tolls && !roadCustoms( nullptr ).m_tolls,
                    "road customs by country" );
         }
+        { // Journeys: every one from a place of the route to another, London to Paris a short one.
+            int  shortest = 1 << 30, longest = 0;
+            bool known = !journeys().empty();
+            for( const Journey &j : journeys() )
+            {
+                const int n = routeStages( j.m_from, j.m_to );
+                known = known && n > 0;
+                shortest = std::min( shortest, n );
+                longest = std::max( longest, n );
+            }
+            std::printf( "      %d journeys, %d to %d stages on the main way\n", static_cast<int>( journeys().size() ), shortest, longest );
+            check( known && journeys().size() >= 8 && journeys()[0].m_from == static_cast<BiomeE>( biomeId( "LONDON" ) ) && shortest >= 3 &&
+                       routeStages( journeys()[0].m_from, journeys()[0].m_to ) < 12,
+                   "journeys from place to place" );
+        }
         { // F5: the files read again give the same places, the same route and the same shapes.
             const int         places = biomeCount(), shapes = static_cast<int>( dataShapes().size() ), route = static_cast<int>( worldRoute().size() );
             const std::string from = reloadData( "" );

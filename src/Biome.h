@@ -1025,6 +1025,29 @@ struct Rally
  */
 const std::vector<Rally> &rallies();
 
+/** @brief A journey: from one place of the world tour to another, the forks choosing the way (data/journeys.txt). */
+struct Journey
+{
+    std::string m_name;   ///< e.g. "LISBON - TOKYO"
+    std::string m_sub;    ///< a line about it
+    BiomeE      m_from;   ///< where it starts
+    BiomeE      m_to;     ///< where it ends
+};
+
+/**
+ * @brief The journeys, read from the data (again after a reload).
+ * @return them, in the file's order
+ */
+const std::vector<Journey> &journeys();
+
+/**
+ * @brief How many stages the world tour takes from a place to another along its main way.
+ * @param[in] from  where
+ * @param[in] to    where to
+ * @return the stages (1: the next one), or -1 if either is off the route
+ */
+int routeStages( BiomeE from, BiomeE to );
+
 /** @brief Where the world tour may go after a place: the next on the route, and now and then a neighbour further on. */
 struct RouteFork
 {

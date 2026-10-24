@@ -71,6 +71,8 @@ struct Records
     std::vector<double>     m_rallyBest;        ///< the best time per rally in seconds (0: not finished)
     std::vector<std::string> m_journey;         ///< the travel journal: the world tour's places in the order driven (IDs)
     std::string             m_tourAt;           ///< where the endless world tour stopped (an ID; empty: never driven)
+    std::vector<std::string> m_album;           ///< the landmarks photographed, in the order they were (names)
+    std::vector<double>     m_journeyBest;      ///< the best time per journey in seconds (0: not finished)
 
     /**
      * @brief Reads the records file.
