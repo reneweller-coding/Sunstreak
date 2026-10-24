@@ -9,6 +9,7 @@
 #include "Rng.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
 #include <map>
 #include <string>
@@ -45,6 +46,11 @@ const CustomsMap &customs()
                 continue;
             }
             static const char *const plates[] = { "WHITE", "EU", "UK", "US", "YELLOW", "JP", "BLACK" };
+            static const char *const styles[] = { "SCOOTERS", "CHAOS", "TRACTORS", "ROADTRAINS" };
+            int style = -1;
+            if( head[0] == "style" && head.size() == 2 )
+                for( int k = 0; k < 4; ++k )
+                    if( head[1] == styles[k] ) style = k;
             int plate = -1;
             if( head[0] == "plates" && head.size() == 2 )
                 for( int k = 0; k < static_cast<int>( PlateE::COUNT ); ++k )
@@ -52,10 +58,10 @@ const CustomsMap &customs()
             const std::string &key = head[0];
             const float        value = head.size() > 1 ? std::strtof( head[1].c_str(), nullptr ) : 0.0f;
             const bool flag = ( key == "mph" || key == "board" || key == "tolls" || key == "cameras" || key == "shoulders" || key == "studs" ) && head.size() == 1;
-            const bool number = ( key == "quality" || key == "width" || key == "gravel" || key == "concrete" ) && value > 0.0f &&
+            const bool number = ( key == "quality" || key == "width" || key == "gravel" || key == "concrete" || key == "traffic" ) && value > 0.0f &&
                                 ( head.size() == 2 || ( key == "concrete" && head.size() == 3 ) );
             const bool kerbs = key == "kerbs" && head.size() == 3 && head[1].size() == 6 && head[2].size() == 6;
-            if( !flag && !number && !kerbs && plate < 0 )
+            if( !flag && !number && !kerbs && plate < 0 && style < 0 )
             {
                 ++g_roadErrors;
                 continue;
@@ -80,6 +86,8 @@ const CustomsMap &customs()
                 if( key == "shoulders" ) c.m_shoulders = true;
                 if( key == "studs" ) c.m_studs = true;
                 if( key == "gravel" ) c.m_gravel = value / 100.0f;
+                if( key == "traffic" ) c.m_traffic = value;
+                if( style >= 0 ) c.m_styles = static_cast<uint8_t>( c.m_styles | ( 1u << style ) );
                 if( key == "concrete" )
                 {
                     c.m_concrete = value / 100.0f;
@@ -218,6 +226,7 @@ void applyRoadCustoms( std::vector<BiomeDef> &table )
         const bool         town = d.m_lampSpacing > 0.0f || d.m_cobbles;
         Surface           &sf = d.m_surface;
         d.m_laneWidth = c.m_width;
+        if( c.m_traffic > 0.0f ) d.m_traffic *= clampf( std::sqrt( c.m_traffic / 130.0f ), 0.75f, 1.5f );
         d.m_wear = d.m_unpaved ? 0.0f : clampf( ( 5.0f - c.m_quality ) / 2.8f, 0.0f, 1.0f );
         if( d.m_gravel < 0.0f ) d.m_gravel = town || d.m_unpaved || d.m_lanes >= 3 ? 0.0f : c.m_gravel;
         d.m_studs = c.m_studs && !d.m_unpaved;

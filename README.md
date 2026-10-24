@@ -119,7 +119,9 @@ verge or the painted kerbs of the towns (black and white in Malaysia and Russia,
 yellow in India and the Gulf); cat's eyes in Britain and Ireland; concrete slabs on American freeways, German and
 Belgian motorways and Philippine highways; and, by each country's road quality (the WEF's index), faded markings,
 patches, potholes that thump the car and stretches of gravel where the asphalt ends: in Chad and Mongolia more of the
-road is gravel than not. Now and then (about one stage in ten) a patrol car of the country's police waits at the roadside,
+road is gravel than not. The traffic drives the country's way, as much of it as Numbeo's traffic index says: swarms
+of scooters riding side by side in Vietnam, Indonesia and India; cars weaving across the lines, changing lanes on a whim
+and honking in India, Egypt or Nigeria; tractors on the country roads of Europe; road trains in the outback. Now and then (about one stage in ten) a patrol car of the country's police waits at the roadside,
 in its own livery (a black-and-white cruiser in the United States, blue and yellow checks in Britain, a carabinieri
 car in Italy, green and white in Chile, a white jeep in India and some thirty more): past it too fast and it gives chase with its lights and siren
 (the long wail, or the two tones in Europe). Get 400 m ahead and you have escaped (+2500); let it pull up beside you
@@ -349,7 +351,8 @@ viewer, every landmark and creature alone under its first place's sky, to turn a
 - `festivals.txt`: the festivals, their dates and places and what they bring (bunting, lanterns, lights, lamps,
   stalls, tents, trees, confetti, fireworks, the aurora).
 - `roads.txt`: each country's road customs: miles per hour, speed limit boards, toll plazas, speed cameras, number
-  plates; and how its roads are built and kept: quality, lane width, shoulders, kerbs, road studs, concrete, gravel.
+  plates; how its roads are built and kept: quality, lane width, shoulders, kerbs, road studs, concrete, gravel; and
+  how its traffic drives: how much of it (Numbeo's traffic index) and its ways (scooters, chaos, tractors, road trains).
 - `journeys.txt`: the journeys, from a place of the route to another.
 - `world/countries.txt`, `world/provinces.txt`: the outlines for the passport's map, from Natural Earth (public domain),
   made by `tools/make_world_outlines.py` from its `ne_50m_admin_0_countries` and `ne_10m_admin_1_states_provinces`.

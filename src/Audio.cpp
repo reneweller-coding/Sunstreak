@@ -428,6 +428,16 @@ struct Synth
             y = std::tanh( std::sin( Pi2 * mtof( notes[i] ) * t ) * 2.0f ) * std::exp( -( t - 0.22f * i ) * 4.0f ) * 0.22f;
             break;
         }
+        case SfxE::HORN:
+        {
+            // Two reedy notes a third apart, pitched a little differently each time.
+            dur = 0.32f;
+            if( v.m_a == 0.0f ) v.m_a = 0.85f + 0.3f * v.m_n.unit();
+            const float f = 400.0f * v.m_a;
+            const float env = std::min( 1.0f, t * 80.0f ) * std::min( 1.0f, ( dur - t ) * 30.0f );
+            y = std::tanh( ( std::sin( Pi2 * f * t ) + std::sin( Pi2 * f * 1.26f * t ) ) * 2.2f ) * env * 0.16f;
+            break;
+        }
         case SfxE::JINGLE:
         {
             // Three sung notes, an "ah" through two formants with a little vibrato, a bell on the last.

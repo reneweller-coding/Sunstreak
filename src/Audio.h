@@ -44,6 +44,7 @@ enum class SfxE : uint8_t
     GAMEOVER,     ///< time is up
     VICTORY,      ///< a podium finish
     JINGLE,       ///< a station's ident (the strength picks its tune)
+    HORN,         ///< a car's horn, a little different each time
     COUNT         ///< number of effects
 };
 

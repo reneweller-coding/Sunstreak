@@ -49,6 +49,11 @@ struct TrafficCar
     float  m_orbitW = 0.0f;    ///< how fast round it (radians per second, the sign its sense)
     double m_orbitS = 0.0;     ///< the circle's centre along the road
     uint8_t m_siren = 0;       ///< an ambulance or a fire engine on a run: 1 its siren wails, 2 the two tones of Europe (0: none)
+    bool   m_swarm = false;    ///< one of a swarm of scooters (they ride side by side and never wait for each other)
+    float  m_xOff = 0.0f;      ///< where in its lane it rides (a swarm's scooters)
+    bool   m_chaos = false;    ///< drives where the lines are a suggestion: weaves, changes lanes on a whim, honks
+    float  m_weave = 0.0f;     ///< the phase of its weaving
+    float  m_honk = 0.0f;      ///< seconds until it may honk again
     float  m_yield = 0.0f;     ///< seconds it keeps pulling over for a siren behind
 };
 
@@ -79,6 +84,8 @@ struct TrafficEvents
     int   m_cones = 0;             ///< cones hit
     int   m_animal = -1;           ///< an animal (PropKindE) about to cross ahead (-1: none)
     int   m_gaveWay = 0;           ///< a siren passed the player, who had kept out of its way
+    float m_horn = 0.0f;           ///< 0..1 a horn, the loudest this step
+    float m_hornPan = 0.0f;        ///< -1 left .. 1 right: where
 };
 
 /** @brief Traffic and roadworks. */
@@ -137,6 +144,7 @@ private:
     long   m_scanned = 0;       ///< segments checked for roadworks
     double m_sirenS = 0.0;      ///< where the next ambulance or fire engine comes along
     double m_sirenAhead = 900.0;   ///< how far ahead it appears when the player is faster
+    float  m_clock = 0.0f;      ///< seconds driven (the weaving)
 };
 
 /** @brief How far an ambulance's or a fire engine's siren carries (metres). */

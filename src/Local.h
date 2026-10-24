@@ -44,7 +44,14 @@ struct RoadCustoms
     float  m_concrete = 0.0f;          ///< 0..1 of its places paved with concrete slabs
     int    m_concreteLanes = 0;        ///< only roads of so many lanes or more
     float  m_gravel = 0.0f;            ///< 0..1 of a country road on gravel or dirt
+    float  m_traffic = 0.0f;           ///< Numbeo's traffic index (0: not known)
+    uint8_t m_styles = 0;              ///< how its traffic drives (Style* bits)
 };
+
+constexpr uint8_t StyleScooters = 1;     ///< swarms of scooters
+constexpr uint8_t StyleChaos = 2;        ///< weaving, lanes changed on a whim, horns
+constexpr uint8_t StyleTractors = 4;     ///< tractors on the country roads
+constexpr uint8_t StyleRoadTrains = 8;   ///< road trains in the outback
 
 constexpr double CameraAt = 650.0;   ///< where in its stage a speed camera stands (or the first clear spot after)
 constexpr double LimitAt = 300.0;    ///< and the speed limit before it

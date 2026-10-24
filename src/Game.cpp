@@ -2029,6 +2029,7 @@ void Game::handleEvents()
         m_audio.play( SfxE::NEAR_MISS, 0.8f );
     }
     if( m_ev.m_whoosh > 0.0f ) m_audio.play( SfxE::WHOOSH, m_ev.m_whoosh, m_ev.m_whooshPan );
+    if( m_ev.m_horn > 0.0f && !m_demo ) m_audio.play( SfxE::HORN, m_ev.m_horn, m_ev.m_hornPan );
     if( m_raceEv.m_whoosh > 0.0f ) m_audio.play( SfxE::WHOOSH, m_raceEv.m_whoosh, m_raceEv.m_whooshPan );
     if( m_raceEv.m_hit > 0.0f )
     {

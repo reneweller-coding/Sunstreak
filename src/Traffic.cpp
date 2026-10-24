@@ -107,6 +107,8 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
     const BiomeDef    &spawnPlace = biomeDef( track.stageBiome( static_cast<int>( ( player.m_s + 900.0 ) / StageLength ) ) );
     const CountryInfo &spawnLand = countryInfo( spawnPlace.m_country );
     const uint32_t     fleetBit = 1u << static_cast<unsigned>( spawnLand.m_fleet );
+    const uint8_t      styles = spawnPlace.m_country ? roadCustoms( spawnPlace.m_country ).m_styles : 0;
+    m_clock += dt;
 
     // Animals of the place cross the road now and then, out in the country.
     if( m_animalS < player.m_s + 500.0 ) m_animalS = player.m_s + 500.0 + m_rng.range( 300.0f, 1200.0f );
@@ -249,25 +251,59 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
         c.m_plate = static_cast<uint8_t>( roadCustoms( spawnPlace.m_country ).m_plate );
         // Everyday cars and lorries, and now and then what the region drives: tuk-tuks, yellow cabs, road trains.
         const bool       city = seg.m_lanes >= 3;
-        std::vector<int> cars, trucks, local;
+        std::vector<int> cars, trucks, local, scooters, tractors;
+        int              roadTrain = -1;
         for( size_t i = 0; i < models.m_traffic.size(); ++i )
         {
             const VehicleModel &vm = models.m_traffic[i];
             if( vm.m_animal != PropKindE::COUNT || vm.m_police ) continue;
+            if( vm.m_fleets != 0 && vm.m_pace < 0.5f && !vm.m_truck && vm.m_where != 1 ) tractors.push_back( static_cast<int>( i ) );
             if( vm.m_fleets == 0 ) ( vm.m_truck ? trucks : cars ).push_back( static_cast<int>( i ) );
             else if( ( vm.m_fleets & fleetBit ) && spawnPlace.m_country && ( vm.m_where == 0 || ( vm.m_where == 1 ) == city ) )
+            {
                 local.push_back( static_cast<int>( i ) );
+                if( vm.m_width < 1.0f ) scooters.push_back( static_cast<int>( i ) );
+                if( vm.m_truck && ( roadTrain < 0 || vm.m_length > models.m_traffic[static_cast<size_t>( roadTrain )].m_length ) ) roadTrain = static_cast<int>( i );
+            }
         }
         auto pick = [&]( const std::vector<int> &from ) { return from[static_cast<size_t>( m_rng.rangeInt( 0, static_cast<int>( from.size() ) - 1 ) )]; };
         const bool truck = m_rng.chance( 0.14f );
         c.m_model = !local.empty() && m_rng.chance( 0.38f ) ? pick( local ) : truck ? pick( trucks ) : pick( cars );
+        // The country's way of driving: tractors on its country roads, road trains in the outback, swarms of scooters.
+        int swarm = 0;
+        if( ( styles & StyleTractors ) && !city && !tractors.empty() && m_rng.chance( 0.12f ) ) c.m_model = pick( tractors );
+        if( ( styles & StyleRoadTrains ) && !city && roadTrain >= 0 && m_rng.chance( 0.2f ) ) c.m_model = roadTrain;
+        if( ( styles & StyleScooters ) && !scooters.empty() && m_rng.chance( 0.3f ) )
+        {
+            c.m_model = pick( scooters );
+            swarm = m_rng.rangeInt( 3, 7 );
+        }
         const VehicleModel &vm = models.m_traffic[static_cast<size_t>( c.m_model )];
         c.m_length = vm.m_length;
         c.m_width = vm.m_width;
         const float laneBonus = static_cast<float>( keepLeft ? lane : seg.m_lanes - 1 - lane ) * 2.0f;
         c.m_cruise = ( vm.m_truck ? m_rng.range( 15.0f, 20.0f ) : m_rng.range( 16.0f, 26.0f ) + laneBonus ) * vm.m_pace;
         c.m_speed = c.m_cruise;
-        m_cars.push_back( c );
+        c.m_chaos = ( styles & StyleChaos ) != 0;
+        c.m_weave = m_rng.range( 0.0f, Tau );
+        const float laneHalf = seg.m_halfWidth / static_cast<float>( seg.m_lanes ) - vm.m_width * 0.5f - 0.1f;
+        for( int k = 0; k < std::max( 1, swarm ); ++k )
+        {
+            TrafficCar b = c;
+            b.m_swarm = swarm > 0;
+            if( b.m_swarm )
+            {
+                // Side by side and one behind the other, all at much the same pace.
+                b.m_s = c.m_s + static_cast<double>( k ) * static_cast<double>( m_rng.range( 2.0f, 4.0f ) );
+                b.m_xOff = m_rng.range( -1.0f, 1.0f ) * std::max( 0.0f, laneHalf );
+                b.m_x += b.m_xOff;
+                b.m_cruise = c.m_cruise * m_rng.range( 0.96f, 1.04f );
+                b.m_speed = b.m_cruise;
+                b.m_weave = m_rng.range( 0.0f, Tau );
+            }
+            m_cars.push_back( b );
+        }
+        if( swarm > 0 ) m_spawnS += 4.0 * swarm;   // the swarm takes its room
     }
     scanRoadworks( track, player.m_s + 900.0 );
 
@@ -373,6 +409,12 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
         // A fork's two carriageways (from where the road widens for them): no changing to the other one.
         const bool median = ( seg.m_flags & SEG_MEDIAN ) || ( ( seg.m_flags & SEG_FORK ) && lanes >= 4 && lanes % 2 == 0 );
         auto       sameSide = [&]( int l ) { return !median || ( l * 2 < lanes ) == ( c.m_lane * 2 < lanes ); };
+        // Where the lines are a suggestion: now and then another lane, for no reason.
+        if( c.m_chaos && !c.m_swarm && c.m_yield <= 0.0f && m_rng.chance( dt * 0.12f ) )
+        {
+            const int l = c.m_lane + ( m_rng.chance( 0.5f ) ? 1 : -1 );
+            if( l >= 0 && l < lanes && sameSide( l ) && laneFree( l, c.m_s, &c ) && !laneClosedAhead( track, c.m_s, l, 100.0 ) ) c.m_lane = l;
+        }
         // Closed lane ahead: move over.
         if( laneClosedAhead( track, c.m_s, c.m_lane, 120.0 ) )
         {
@@ -401,7 +443,7 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
         }
         for( const TrafficCar &o : m_cars )
         {
-            if( &o == &c || o.m_lane != c.m_lane || c.m_siren ) continue;
+            if( &o == &c || o.m_lane != c.m_lane || c.m_siren || ( c.m_swarm && o.m_swarm ) ) continue;
             const double gap = o.m_s - c.m_s;
             if( gap > 0.0 && gap < 20.0 + c.m_speed * 1.2 && o.m_speed < want && !o.m_siren && c.m_yield <= 0.0f )
             {
@@ -414,7 +456,9 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
             }
         }
         c.m_speed = approach( c.m_speed, std::max( 0.0f, want ), want < c.m_speed ? 1.6f : 0.5f, dt );
-        float target = laneCenter( c.m_lane, lanes, seg.m_halfWidth );
+        float target = laneCenter( c.m_lane, lanes, seg.m_halfWidth ) + c.m_xOff;
+        if( c.m_chaos ) target += std::sin( m_clock * 0.3f + c.m_weave ) * ( c.m_swarm ? 0.4f : 0.75f );
+        target = clampf( target, -seg.m_halfWidth + c.m_width * 0.5f, seg.m_halfWidth - c.m_width * 0.5f );
         if( c.m_yield > 0.0f ) target = slowSide * ( seg.m_halfWidth - c.m_width * 0.5f + 0.5f );
         else if( c.m_siren && lanes == 1 ) target = -slowSide * seg.m_halfWidth * 0.4f;
         if( seg.m_flags & SEG_FORK )
@@ -481,6 +525,25 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
             }
             c.m_hitTimer = 1.5f;
             player.m_shake = std::max( player.m_shake, ev.m_hit );
+            if( !c.m_animal && !c.m_siren && c.m_honk <= 0.0f )
+            {
+                // Hit, it honks.
+                c.m_honk = 3.0f;
+                ev.m_horn = 1.0f;
+                ev.m_hornPan = clampf( -dx / 4.0f, -1.0f, 1.0f );
+            }
+        }
+        if( c.m_honk > 0.0f ) c.m_honk -= dt;
+        if( c.m_chaos && !c.m_animal && !c.m_siren && c.m_honk <= 0.0f && std::abs( ds ) < 40.0 && std::abs( dx ) < 5.0f && m_rng.chance( dt * 0.35f ) )
+        {
+            // Where everyone honks: at the player close by, for being there.
+            c.m_honk = m_rng.range( 4.0f, 9.0f );
+            const float strength = 0.35f + 0.5f * ( 1.0f - static_cast<float>( std::abs( ds ) ) / 40.0f );
+            if( strength > ev.m_horn )
+            {
+                ev.m_horn = strength;
+                ev.m_hornPan = clampf( -dx / 4.0f, -1.0f, 1.0f );
+            }
         }
         if( c.m_animal ) continue;
         if( !c.m_passed && ds > halfL )
