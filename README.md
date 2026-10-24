@@ -3,8 +3,10 @@
 An arcade racer in the spirit of *Lotus III: The Ultimate Challenge*: a low camera, a road that bends, climbs and
 throws you over crests, traffic to slice through and a clock that only checkpoints refill. The endless mode drives a
 track generated from a seed, one biome per 5 km stage, and it grows curvier, denser and stricter as you go. By
-default it is a world tour: 459 places in all 204 countries and territories it visits, every member of the United
-Nations among them, one after the other round the globe.
+default it is a world tour: 732 places in all 202 countries and territories it visits, every member of the United
+Nations among them, the big countries state by state and province by province, round the globe. At the borders the
+road forks and you choose where to go next; between continents and to the islands you drive along the sea floor in a
+glass tunnel.
 
 Beside the endless run there is a championship against eleven rivals, a Track Lab that turns any setting into a
 shareable track code, a ghost of your best drive on every code and a top ten.
@@ -77,14 +79,19 @@ Difficulty (Settings: EASY, NORMAL, HARD) scales the grip, the clock, the traffi
 is in `tuning.ini` beside the settings (written with comments on the first start): steer, centrifugal, accel, brake,
 boost, grip, crash_keep, time, traffic, rivals. Change a value and restart; delete the file for the defaults.
 
-471 biomes. The world tour (Settings > SCENERY) runs east from Ireland: the British Isles, France, Germany and the
+786 biomes. The world tour (Settings > SCENERY) runs east from Ireland: the British Isles, France, Germany and the
 Alps, Italy, Iberia, Morocco, West, East and Southern Africa, Arabia, Egypt and the Levant, Turkey, Greece and the
 Balkans, Central and Eastern Europe, Central Asia, India and the Himalaya, Southeast and East Asia, Australia, New
 Zealand and the Pacific, South and Central America, Mexico, the United States and Canada, Russia, the Baltic,
 Scandinavia, Greenland and Iceland, and back to Ireland. Each stage shows its place and country: Tuscany, the
 Serengeti with its herds, Cappadocia under balloons, Ha Long Bay, the Avenue of Baobabs, Route 66, Las Vegas and
-Tokyo at night, the Great Wall, Uluru, the moai, the Florida Keys and four hundred more. Big countries have many
-places (the United States 44, France 15, China 14, Italy 13, India 12, Canada 11), and the famous roads have their
+Tokyo at night, the Great Wall, Uluru, the moai, the Florida Keys and seven hundred more. The big countries are
+driven region by region, each with its own landscape and sights, and the stage line names the place, its state and
+its country (HILL COUNTRY - TEXAS - USA): all fifty states of the United States and the capital, all sixteen German
+Lander, every province and territory of Canada, every state and territory of Australia, every region of France and
+Italy, every community of Spain, every state of Brazil, Mexico and India, every province of Argentina and China, every
+province of South Africa, and many of Russia, Japan, Indonesia and some forty more countries. Where a state or province
+begins, a sign says so. The famous roads have their
 own: the Stelvio, the Transfagarasan, the Atlantic Road, Trollstigen, the Nordschleife, the Yungas Road, the Road of
 Bones, the Dalton Highway beside its pipeline, the Nullarbor with its kangaroo, camel and cow signs, Bonneville, the
 Tail of the Dragon and the Road to Hana. Landmarks stand where they belong, once per stage: Big Ben and Tower Bridge,
@@ -92,8 +99,13 @@ the Arc de Triomphe, the Colosseum and St Peter's, the Leaning Tower, the Sagrad
 Brandenburg Gate, the Acropolis, St Basil's, the Christ the Redeemer and Cristo Rei statues, the Statue of Liberty,
 the Opera House, the Petronas Towers, the Space Needle, the Capitol and the Washington Monument, the HOLLYWOOD sign,
 the Sphinx, the Colossi of Memnon, Borobudur, Harbin's ice castle, the burning crater of Darvaza, Great Zimbabwe,
-Bled's island church and the torii of Miyajima in the sea. ALL MIXED shuffles every biome, the twelve that are not on
-the map included: Night Metro, Storm Marsh, Neon Horizon, Neon Rain, Dawn Expressway, Lunar Highway (low gravity),
+Bled's island church and the torii of Miyajima in the sea, and over a hundred and fifty more built from the data files:
+the Eiffel Tower, Cologne Cathedral, the Elbphilharmonie, the Wartburg and the Frauenkirche, the Gateway Arch, the
+Golden Gate, the Alamo, Mount Rushmore and Devils Tower, the CN Tower and the Chateau Frontenac, the Matterhorn, the
+Pont du Gard and Carcassonne, the Taj Mahal, the Golden Temple and the Statue of Unity, the Terracotta Army and the
+Leshan Buddha, Himeji Castle and the Skytree, the Motherland Calls and Kizhi, the Hagia Sophia, Petra, Abu Simbel,
+Machu Picchu, Shwedagon, Djenne's mud mosque, Preikestolen and many more. ALL MIXED shuffles every biome, the twelve
+that are not on the map included: Night Metro, Storm Marsh, Neon Horizon, Neon Rain, Dawn Expressway, Lunar Highway (low gravity),
 Red Planet, Crystal Desert, Fungal Glade, Cloud Highway, Pumpkin Hollow and Total Eclipse.
 
 Weather fronts pass over the tour (Settings > WEATHER): showers, fog banks and thunderstorms in temperate places,
@@ -120,6 +132,22 @@ Southeast Asia, kei trucks in Japan, road trains in the outback, matatus and lan
 saloons and marshrutkas in the east, tractors on European country roads. Out in the country the animals of the place cross
 the road, announced as they come: cattle and sheep (which like to stop in the middle), kangaroos, moose, camels,
 elephants, zebras, llamas, bison, reindeer and yaks.
+
+At most borders the road forks, as it did in OutRun. A gantry announces where each side goes (THE ROAD FORKS
+< BELGIUM  FRANCE > on the screen as well), the road widens into two carriageways and a barrier with a crash cushion
+divides them: the side you are on at its nose decides. The carriageways run side by side out of sight of the choice;
+then the other one swings away into the fields, its traffic with it, and your road narrows again before the border.
+The next stage is the place you chose, and the tour goes on from there.
+
+Where two places lie on different landmasses (the continents, Britain, Ireland, Iceland, Japan's islands, Sicily,
+Zanzibar, the Caribbean, the Pacific and every other island), a stage on the sea floor lies between them: a glass
+tunnel of steel ribs with a light in every crown, the light of the sea instead of the sun, marine snow drifting
+down. The sea is the one nearest the middle of the crossing, forty-two of them, each with its own floor and its own
+life: the wreck of the Titanic in the North Atlantic, a U-boat in the Channel, the Christ of the Abyss in the Ligurian
+Sea, the Thistlegorm on the Red Sea reef, the ghost fleet of Chuuk, Yonaguni's stone terraces, a galleon in the
+Caribbean, a whale's skeleton on the sand. Shoals, sharks, hammerheads, whale sharks, humpbacks, orcas, dolphins,
+mantas, turtles, jellyfish, seals, walruses, narwhals, penguins and marine iguanas swim along the tunnel and over it,
+and in the Bering Sea king crabs as wide as a car walk the bottom.
 
 Bridges are built the way the region builds them: concrete beams, tall viaducts over Alpine gorges, stone arches in
 Europe, steel trusses in North America, suspension bridges over the Bosphorus and in New York, cable-stayed spans in
@@ -183,8 +211,9 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
 
     --windowed | --fullscreen     this start only
     --seed N                      the endless run's track (otherwise random)
-    --biome 0..470                the first stage's biome (on the world tour: where it starts)
-    --scenery world|mixed|N       the endless run's scenery for this start (N: one biome all the way)
+    --biome N                     the first stage's biome (on the world tour: where it starts)
+    --scenery world|mixed|N|ID    the endless run's scenery for this start (a biome's number or a place's ID such
+                                  as TUSCANY: that one all the way)
     --play                        skip the title
     --championship                start a championship
     --rally N                     start rally N (1..10)
@@ -193,7 +222,8 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --code XXXXX-XXXXX-XXXXX      drive a Track Lab code
     --screen lab|records|code|garage|passport|stamps|postcards|rallies   open that screen
     --camera 0..2                 chase, far or bumper camera
-    --find tunnel|bridge|landmark start just before the first tunnel, bridge or landmark
+    --find tunnel|bridge|landmark|landmark2|fork
+                                 start just before the first tunnel, bridge, landmark (or the second) or fork
     --weather clear|rain|storm|fog|snow|sand   that weather all the way (testing)
     --time place|clock|dawn|day|dusk|night     the time of day for this start
     --autopilot                   the car drives itself
@@ -211,3 +241,25 @@ physics in road coordinates, `Race` the championship and its rivals, `Records` t
 `Renderer` and `Shaders.h` draw (HDR, bloom, speed blur, sun shadows, lens flare, FXAA), `Audio` and `Music`
 synthesise, `Haptics` rumbles, `Game` holds the rules and the camera and `GameUi` the screens. `tests/TestMain.cpp`
 checks the generator, the car, the track codes and the championship (`ctest --preset msvc`).
+
+## Data files
+
+The world lives in `data/` as plain text, built into the program (CMake embeds it); set the environment variable
+`SUNSTREAK_DATA` to a copy of the folder to try changes without building.
+
+- `places/*.txt`: every place. `place ID | NAME | COUNTRY | SKY | REGION`, then one builder step per line: the light
+  (`sun`, `fog`, `clouds`, `sky`, `ranges`, `rain`, `snow`, `look`, `light`), the ground (`land`, `verge`, `water`,
+  `fields`, `shine`, `road`, `kerbs`, `sand`), the land (`hills`, `sea`), the road (`drive`, `bends`, `posts`, `lamps`,
+  `gantries`, `rails`, `tunnels`, `bridges`), the things beside it (`p KIND chance nearest farthest`, painted with `c`,
+  varied with `v`, `pastel`, `floating`, `once`; `landmark NAME nearest farthest [scale]`; `scatter NAME ...` strews a
+  landmark shape), `like ID` to start from another place or a `template`, `drop KIND` to take a rule away, `island NAME`
+  for a place on an island of its own, and for the seas `underwater` and `swim NAME weight liftMin liftMax [min max]`.
+  New places go into new files after the last one, so the numbers of the old ones (and the track codes that use them)
+  stay; the records keep places by their IDs.
+- `countries.txt`: each country's side of the road, vehicles, markings, signs, radio station, flag and landmass.
+- `route.txt`: the order of the world tour and where each place is; the forks are found from it (where the country or
+  the state changes and a neighbour lies a little further on).
+- `seas.txt`: the seas and points in them; a crossing goes under the sea nearest its middle.
+- `landmarks/*.txt` and `creatures/*.txt`: shapes in a small language (`00-language.txt` describes it): boxes, tapered
+  boxes, columns, cones, rods, balls, domes, roofs, windows, arches, rings, repeated, turned and mirrored. The creatures
+  swim round the undersea tunnels.
