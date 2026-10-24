@@ -1,0 +1,279 @@
+# Local things found in many parts of the world, each at home in the regions where it belongs.
+
+shape ROADWORKS_SITE
+    home fleet:EUROPE, fleet:NORTH_AMERICA, fleet:BRITISH, fleet:EAST_ASIA, fleet:OCEANIA, fleet:EASTERN | 0.004 0 8
+    # Roadworks on the verge: striped cones and a barrier with a flashing lamp, a small yellow excavator and a pile of gravel.
+    repeat 8 0 0 1.5
+    spire 0 0 -6 0.2 0.7 8 E8702A
+    repeat 8 0 0 1.5
+    cyl 0 0.35 -6 0.12 0.1 0.12 8 F2F2F2
+    box 0.8 0.6 2 0.04 0.15 1.5 F2F2F2
+    box 0.81 0.6 2 0.01 0.15 0.3 C82A2A
+    blob 0.8 0.95 3.3 0.08 0.08 0.08 F2A21E glow
+    box -2 0.8 4 0.9 0.5 1.4 E8C02A
+    box -2 1.6 3.6 0.6 0.5 0.6 E8C02A
+    box -1.39 1.7 3.6 0.01 0.35 0.45 2A3A4A glass
+    tube -2 1.3 4.8 -2 2.5 6.2 0.12 4 E8C02A
+    tube -2 2.5 6.2 -2 0.8 7.2 0.1 4 E8C02A
+    box -2 0.3 4 1.0 0.3 1.6 2A2A2A
+    blob -4 0.5 -2 1.5 0.6 1.5 9A9488 0.5
+
+shape BROKEN_DOWN_CAR
+    home fleet:EUROPE, fleet:NORTH_AMERICA, fleet:LATIN, fleet:AFRICA, fleet:ARABIA, fleet:EASTERN, fleet:SOUTH_ASIA, fleet:SOUTHEAST_ASIA, fleet:OCEANIA, fleet:BRITISH | 0.003 0 4
+    # A broken-down car on the hard shoulder: bonnet up, hazard lights on, a red warning triangle set out behind it and the driver on the phone.
+    box 0 0.6 0 0.85 0.3 2.1 A
+    box 0 1.05 -0.2 0.8 0.25 1.1 A
+    box 0 1.05 -0.2 0.81 0.2 0.95 2A3A4A glass
+    quad -0.8 0.95 1.0 0.8 0.95 1.0 0.8 1.8 1.4 -0.8 1.8 1.4 A
+    mirrorx
+    blob 0.75 0.75 -2.1 0.08 0.06 0.02 F2A21E glow
+    mirror
+    mirrorx
+    tube 0.7 0.32 1.3 0.87 0.32 1.3 0.32 10 1E1E1E
+    tri 0 0 -6 0 0 -5.4 0 0.55 -5.7 C82A2A
+    blob 1.5 0.9 -1 0.16 0.3 0.13 3A4A6A
+    blob 1.5 1.32 -1 0.1 0.11 0.1 E0B090
+    tube 1.5 0.6 -1 1.5 0 -1 0.06 3 2A2A2A
+
+shape HITCHHIKER
+    home fleet:EUROPE, fleet:NORTH_AMERICA, fleet:OCEANIA, fleet:BRITISH, fleet:LATIN, fleet:EASTERN | 0.002 0 4 | country
+    # A hitchhiker at the roadside: big backpack at their feet, thumb out, holding up a cardboard sign with a town's name.
+    tube 0.06 0.8 0 0.06 0 0 0.06 4 3A4A6A
+    tube -0.06 0.8 0 -0.06 0 0 0.06 4 3A4A6A
+    box 0 1.15 0 0.17 0.3 0.12 C83A2A
+    blob 0 1.58 0 0.1 0.12 0.1 E0B090
+    cyl 0 1.65 0 0.11 0.11 0.08 8 2A6A4A
+    tube 0.15 1.35 0.12 0.45 1.45 0.25 0.04 3 C83A2A
+    box 0.2 1.05 -0.2 0.02 0.18 0.3 C8A878
+    box -0.4 0.4 0.3 0.2 0.4 0.15 E8902A
+    blob -0.4 0.85 0.3 0.15 0.1 0.12 3A3A3A
+
+shape ROAD_CYCLISTS
+    home fleet:EUROPE, fleet:NORTH_AMERICA, fleet:OCEANIA, fleet:BRITISH, COLOMBIA, SOUTH AFRICA, JAPAN | 0.003 0 4 | country
+    # A small group of road cyclists in bright jerseys riding in a line along the verge, helmets on, heads down.
+    repeat 3 0 0 2
+    tube -0.03 0.35 -3.5 0.03 0.35 -3.5 0.35 10 1E1E1E
+    repeat 3 0 0 2
+    tube -0.03 0.35 -2.5 0.03 0.35 -2.5 0.35 10 1E1E1E
+    repeat 3 0 0 2
+    tube 0 0.35 -3.5 0 0.85 -3.0 0.025 3 3A3A3A
+    repeat 3 0 0 2
+    tube 0 0.85 -3.0 0 0.35 -2.5 0.025 3 3A3A3A
+    repeat 3 0 0 2
+    tube 0 1.2 -3.2 0 1.35 -2.65 0.15 5 E8C02A
+    repeat 3 0 0 2
+    blob 0 1.45 -2.55 0.1 0.1 0.12 2A6AC8
+    repeat 3 0 0 2
+    tube 0 1.1 -3.2 0 0.5 -3.0 0.05 3 1E1E1E
+
+shape TRAIL_RIDERS
+    home USA:WYOMING, USA:MONTANA, USA:COLORADO, USA:ARIZONA, USA:UTAH, USA:TEXAS, ARGENTINA, URUGUAY, AUSTRALIA, IRELAND, ICELAND, MONGOLIA, CHILE, CANADA:ALBERTA | 0.003 6 50 | country
+    # Riders on a trail along the fence: three horses walking in single file, the riders in wide hats.
+    repeat 3 0 0 2.6
+    blob 0 1.35 -2.6 0.3 0.4 0.85 7A4A2A
+    repeat 3 0 0 2.6
+    tube 0 1.6 -1.9 0 2.15 -1.6 0.13 5 7A4A2A
+    repeat 3 0 0 2.6
+    blob 0 2.1 -1.35 0.12 0.14 0.3 7A4A2A
+    repeat 3 0 0 2.6
+    tube 0.17 1.1 -2.0 0.17 0 -2.0 0.07 4 7A4A2A
+    repeat 3 0 0 2.6
+    tube -0.17 1.1 -2.0 -0.17 0 -2.0 0.07 4 7A4A2A
+    repeat 3 0 0 2.6
+    tube 0.17 1.1 -3.2 0.17 0 -3.2 0.07 4 7A4A2A
+    repeat 3 0 0 2.6
+    tube -0.17 1.1 -3.2 -0.17 0 -3.2 0.07 4 7A4A2A
+    repeat 3 0 0 2.6
+    box 0 2.1 -2.6 0.2 0.35 0.14 6A8AA8
+    repeat 3 0 0 2.6
+    blob 0 2.6 -2.58 0.1 0.11 0.1 E0B090
+    repeat 3 0 0 2.6
+    cyl 0 2.68 -2.6 0.28 0.28 0.03 10 8A6A48
+
+shape PARAGLIDERS
+    home SWITZERLAND, AUSTRIA, FRANCE:AUVERGNE-RHONE-ALPES, ITALY:TRENTINO, SLOVENIA, TURKEY:MEDITERRANEAN, TURKEY:AEGEAN, COLOMBIA, NEPAL, BRAZIL:RIO DE JANEIRO, SOUTH AFRICA:WESTERN CAPE, NEW ZEALAND:OTAGO, SPAIN:ANDALUSIA, GERMANY:BAVARIA | 0.003 20 120
+    # Paragliders drifting over the valley: bright curved canopies high in the air, the pilots dangling beneath on their lines.
+    quad -2 30 -3 -2 30.5 3 -2.5 29.5 3.5 -2.5 29 -3.5 E8502A
+    tube -2 30 -2 -1 25 0 0.01 3 3A3A3A
+    tube -2 30 2 -1 25 0 0.01 3 3A3A3A
+    blob -1 24.8 0 0.2 0.3 0.2 2A2A2A
+    quad 6 26 8 6 26.4 13 5.5 25.6 13.4 5.5 25.2 7.6 2A8AC8
+    tube 6 26 9 6.5 21.5 10.5 0.01 3 3A3A3A
+    tube 6 26 12 6.5 21.5 10.5 0.01 3 3A3A3A
+    blob 6.5 21.3 10.5 0.2 0.3 0.2 2A2A2A
+
+shape KITE_SURFERS
+    home BRAZIL:CEARA, BRAZIL:RIO GRANDE DO NORTE, SPAIN:ANDALUSIA, SPAIN:CANARY ISLANDS, EGYPT:SOUTH SINAI, MOROCCO, NETHERLANDS, GERMANY:SCHLESWIG-HOLSTEIN, DENMARK, PORTUGAL, MAURITIUS, AUSTRALIA:WESTERN AUSTRALIA, VIETNAM, SOUTH AFRICA:WESTERN CAPE, DOMINICAN REPUBLIC, GREECE | 0.003 30 120 | water
+    # Kite surfers on the windy water: curved kites high in the air, the riders below skimming over the waves on their boards.
+    quad 0 12 -4 0 13 0 0 12.5 4 0 11.5 3 E8C02A
+    tube 0 12 -3 -2 1.2 2 0.008 3 3A3A3A
+    tube 0 12 3 -2 1.2 2 0.008 3 3A3A3A
+    blob -2 0.9 2 0.15 0.35 0.15 1E1E1E
+    box -2 0.05 2 0.25 0.03 0.8 F2F2F2
+    quad 6 10 10 6 11 14 6 10.5 18 6 9.5 17 C82A8A
+    tube 6 10 11 4 1.2 15 0.008 3 3A3A3A
+    tube 6 10 17 4 1.2 15 0.008 3 3A3A3A
+    blob 4 0.9 15 0.15 0.35 0.15 1E1E1E
+    box 4 0.05 15 0.25 0.03 0.8 F2F2F2
+
+shape STRAY_DOGS
+    home INDIA, TURKEY, MEXICO, ROMANIA, THAILAND, MOROCCO, EGYPT, BOSNIA, SERBIA, GREECE, PERU, BOLIVIA, PHILIPPINES, VIETNAM, NEPAL, SRI LANKA, GEORGIA, ARMENIA, CHILE, SOUTH AFRICA | 0.006 1 15
+    # A few street dogs dozing in the dust by the road, one of them sitting up and scratching, all of them tan and black.
+    blob 0 0.18 0 0.2 0.15 0.45 C89A6A
+    blob 0 0.22 0.45 0.12 0.11 0.15 C89A6A
+    blob 1 0.2 1.5 0.22 0.16 0.45 3A3028
+    blob 1 0.24 1.95 0.12 0.11 0.15 3A3028
+    blob -0.8 0.4 -1.5 0.15 0.3 0.2 B8885A
+    blob -0.8 0.72 -1.4 0.1 0.11 0.13 B8885A
+    tube -0.8 0.3 -1.35 -0.8 0 -1.3 0.04 3 B8885A
+    tube -0.8 0.15 -1.7 -0.8 0.05 -2 0.03 3 B8885A
+
+shape GOAT_HERD
+    home fleet:AFRICA, fleet:ARABIA, INDIA, PAKISTAN, NEPAL, AFGHANISTAN, IRAN, TURKEY, GREECE, ALBANIA, MEXICO, PERU, BOLIVIA, MONGOLIA | 0.006 2 40 | country
+    # A herd of goats crossing the road with their herder: black, brown and white goats with floppy ears, a boy with a long stick behind them.
+    repeat 6 0.6 0 1
+    blob -1.5 0.6 -3 0.15 0.2 0.35 2A2420
+    repeat 6 0.6 0 1
+    blob -1.5 0.75 -2.65 0.08 0.1 0.12 2A2420
+    repeat 6 0.6 0 1
+    tube -1.45 0.4 -2.8 -1.45 0 -2.8 0.03 3 2A2420
+    repeat 6 0.6 0 1
+    tube -1.55 0.4 -3.2 -1.55 0 -3.2 0.03 3 2A2420
+    repeat 3 1.2 0 2
+    blob -1.2 0.6 -2.5 0.15 0.2 0.35 C8A878
+    repeat 3 1.2 0 2
+    blob -1.2 0.75 -2.15 0.08 0.1 0.12 C8A878
+    tube 3 0.7 3.5 3 0 3.5 0.05 3 3A3A6A
+    box 3 1.0 3.5 0.12 0.25 0.1 F2F2F2
+    blob 3 1.38 3.5 0.08 0.1 0.08 8A6048
+    tube 3.15 0 3.6 3.2 1.6 3.4 0.02 3 8A6A48
+
+shape FREE_RANGE_CHICKENS
+    home fleet:AFRICA, fleet:LATIN, fleet:SOUTHEAST_ASIA, fleet:SOUTH_ASIA, fleet:ISLANDS, fleet:EASTERN, fleet:ARABIA | 0.008 1 15 | country
+    # Chickens scratching about in front of the houses: brown hens and a proud red rooster with a high tail.
+    repeat 5 0.5 0 0.7
+    blob -1 0.22 -1.5 0.12 0.12 0.18 9A5A2A
+    repeat 5 0.5 0 0.7
+    blob -1 0.36 -1.35 0.06 0.07 0.06 9A5A2A
+    repeat 5 0.5 0 0.7
+    tube -1 0.12 -1.5 -1 0 -1.5 0.015 3 E8C02A
+    blob 1.5 0.3 0.8 0.14 0.15 0.2 B83A1A
+    blob 1.5 0.5 0.98 0.07 0.08 0.07 B83A1A
+    blob 1.5 0.6 0.98 0.02 0.05 0.04 E82A2A
+    tri 1.5 0.3 0.6 1.5 0.65 0.4 1.5 0.3 0.4 2A3A2A
+    tube 1.5 0.16 0.8 1.5 0 0.8 0.015 3 E8C02A
+
+shape DONKEYS
+    home MOROCCO, EGYPT, ETHIOPIA, SUDAN, MALI, NIGER, KENYA, MEXICO, PERU, GREECE, CYPRUS, SPAIN:ANDALUSIA, PORTUGAL, ITALY:SARDINIA, TURKEY, IRAN, AFGHANISTAN, PAKISTAN, INDIA:RAJASTHAN, BOTSWANA, NAMIBIA, IRELAND | 0.006 3 40 | country
+    # Two donkeys under a tree by the wall: grey with pale muzzles and long ears, one carrying a saddle and baskets.
+    blob 0 0.95 0 0.22 0.28 0.55 8A8478
+    tube 0 1.05 0.45 0 1.4 0.65 0.09 4 8A8478
+    blob 0 1.42 0.8 0.08 0.1 0.2 8A8478
+    blob 0 1.38 0.98 0.06 0.06 0.06 D8D0C0
+    mirrorx
+    tube 0.04 1.5 0.72 0.08 1.85 0.65 0.03 3 8A8478
+    mirror
+    mirrorx
+    tube 0.12 0.7 0.38 0.12 0 0.38 0.04 3 8A8478
+    blob 1.5 0.95 2 0.22 0.28 0.55 6A5A48
+    blob 1.5 1.25 2 0.3 0.12 0.35 C8A060
+    box 1.18 1.0 2 0.08 0.2 0.3 B8904A
+    box 1.82 1.0 2 0.08 0.2 0.3 B8904A
+    tube 1.5 1.05 2.45 1.5 1.3 2.7 0.09 4 6A5A48
+    blob 1.5 1.32 2.85 0.08 0.1 0.2 6A5A48
+    tube 1.62 0.7 2.4 1.62 0 2.4 0.04 3 6A5A48
+    tube 1.38 0.7 2.4 1.38 0 2.4 0.04 3 6A5A48
+    tube 1.62 0.7 1.6 1.62 0 1.6 0.04 3 6A5A48
+    tube 1.38 0.7 1.6 1.38 0 1.6 0.04 3 6A5A48
+
+shape BEEHIVE_BOXES
+    home fleet:EUROPE, fleet:NORTH_AMERICA, fleet:OCEANIA, fleet:BRITISH, fleet:EASTERN, TURKEY, ARGENTINA, CHILE, MEXICO, BRAZIL | 0.006 4 40 | country
+    # Beehives at the edge of a flowering field: stacked white and pastel boxes on pallets, bees in the warm air.
+    repeat 6 0 0 1
+    box 0 0.25 -2.5 0.35 0.1 0.35 8A6A48
+    repeat 3 0 0 2
+    box 0 0.7 -2.5 0.3 0.35 0.3 F2F2F2
+    repeat 3 0 0 2
+    box 0 0.7 -1.5 0.3 0.35 0.3 E8D890
+    repeat 3 0 0 2
+    box 0 1.3 -2.5 0.3 0.25 0.3 A8C8E8
+    repeat 6 0 0 1
+    box 0 1.1 -2.5 0.33 0.03 0.33 9A9A9A
+    box -3 0.3 0 2 0.3 4 E8D040
+
+shape SCARECROW
+    home fleet:EUROPE, fleet:NORTH_AMERICA, fleet:EAST_ASIA, fleet:EASTERN, fleet:BRITISH, fleet:LATIN | 0.004 4 40 | country
+    # A scarecrow in the field: an old coat and a straw hat on a wooden cross, arms spread over the young crop.
+    tube 0 0 0 0 2 0 0.05 3 8A6A48
+    tube 0 1.5 -0.8 0 1.5 0.8 0.04 3 8A6A48
+    box 0 1.35 0 0.12 0.3 0.25 6A5A48
+    tube 0 1.55 -0.25 0 1.5 -0.8 0.07 4 6A5A48
+    tube 0 1.55 0.25 0 1.5 0.8 0.07 4 6A5A48
+    blob 0 1.85 0 0.12 0.13 0.12 E8D8A8
+    cyl 0 1.97 0 0.28 0.28 0.02 10 C8A860
+    cyl 0 1.97 0 0.12 0.1 0.15 10 C8A860
+    blob 0 1.5 0.85 0.04 0.1 0.06 E8D8A8
+    repeat 5 0 0 1
+    box -2 0.2 -2 2.5 0.2 0.15 6A9A3A
+
+shape CELL_TOWER_TREE
+    home USA, SOUTH AFRICA, UAE, SAUDI ARABIA, AUSTRALIA, ITALY, SPAIN, MEXICO | 0.002 10 80
+    # A mobile phone mast disguised as a tree: a tall steel trunk bristling with fake branches, the antennas peeking out near the top.
+    cyl 0 0 0 0.5 0.35 22 8 7A6A58
+    ring 8 0 0
+    tube 0 18 0 2.5 17.5 0 0.08 3 3A5A3A
+    ring 8 0 20
+    tube 0 14 0 3.5 13.2 0 0.08 3 3A5A3A
+    ring 8 0 10
+    tube 0 10 0 4 9 0 0.08 3 3A5A3A
+    cyl 0 10 0 3 0.5 13 8 3A5A3A
+    ring 3 0.6
+    box 0 19.5 0 0.15 0.8 0.15 C8C8C8
+    box 2 1 2 1 1 1 B8B0A0
+
+shape MOTORCYCLE_TOURERS
+    home fleet:EUROPE, fleet:NORTH_AMERICA, fleet:OCEANIA, fleet:BRITISH, SOUTH AFRICA, MOROCCO, ARGENTINA, CHILE | 0.003 2 20 | country
+    # Touring motorcyclists stopped at a viewpoint: big bikes with panniers parked side by side, riders stretching their legs in leather.
+    repeat 4 0 0 1.2
+    tube 0.8 0.35 -1.8 0.8 0.35 -1.74 0.35 10 1E1E1E
+    repeat 4 0 0 1.2
+    tube -0.8 0.35 -1.8 -0.8 0.35 -1.74 0.35 10 1E1E1E
+    repeat 4 0 0 1.2
+    box 0 0.65 -1.77 0.65 0.2 0.15 3A3A3A
+    repeat 4 0 0 1.2
+    box 0.35 0.95 -1.77 0.2 0.15 0.18 C82A2A
+    repeat 4 0 0 1.2
+    box -0.5 0.6 -1.77 0.2 0.2 0.28 6A6A6A
+    repeat 4 0 0 1.2
+    tube 0.6 1.15 -2.0 0.6 1.15 -1.55 0.02 3 3A3A3A
+    blob 2 0.9 1 0.18 0.3 0.15 1E1E1E
+    blob 2 1.32 1 0.11 0.12 0.11 1E1E1E
+    blob 2.5 0.9 0.2 0.18 0.3 0.15 6A3A2A
+    blob 2.5 1.32 0.2 0.1 0.11 0.1 E0B090
+
+shape PICNIC_TABLE_LAYBY
+    home fleet:EUROPE, fleet:NORTH_AMERICA, fleet:OCEANIA, fleet:BRITISH, fleet:EASTERN | 0.006 1 15
+    # A lay-by picnic spot: a wooden picnic table with benches under a tree, a rubbish bin on its post beside it.
+    box 0 0.75 0 0.45 0.04 1 8A6A48
+    mirrorx
+    box 0.8 0.42 0 0.15 0.03 1 8A6A48
+    mirror
+    mirrorx
+    tube 0.4 0 0.8 0.15 0.75 0.8 0.04 3 8A6A48
+    tube -2 0 1 -2 3.5 1 0.25 6 6A5A48
+    blob -2 5 1 2.4 1.8 2.4 4A7A3A 0.4
+    tube 1.6 0 -1.5 1.6 0.6 -1.5 0.04 3 3A3A3A
+    cyl 1.6 0.6 -1.5 0.22 0.22 0.45 8 3A6A3A
+
+shape COIN_TELESCOPE
+    home fleet:EUROPE, fleet:NORTH_AMERICA, fleet:BRITISH, fleet:OCEANIA, fleet:EAST_ASIA, SOUTH AFRICA | 0.004 1 10 | country
+    # A coin-operated telescope at a scenic viewpoint: a squat binocular head on a pedestal, a railing and an orientation board.
+    cyl 0 0 0 0.15 0.12 1.1 8 2A5A8A
+    box 0 1.3 0 0.2 0.18 0.28 2A5A8A
+    mirror
+    tube 0.1 1.35 0.12 0.4 1.42 0.12 0.06 6 2A5A8A
+    box -0.3 0.02 0 0.6 0.02 0.6 B8B0A0
+    tube 0.9 1.0 -2.5 0.9 1.0 2.5 0.03 3 6A6A6A
+    repeat 3 0 0 2.5
+    tube 0.9 0 -2.5 0.9 1.0 -2.5 0.04 3 6A6A6A
+    box 0.9 0.9 1.5 0.05 0.3 0.6 3A5A3A
