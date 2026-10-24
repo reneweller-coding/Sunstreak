@@ -97,6 +97,7 @@ struct LaunchOptions
     bool        m_championship = false;///< start a championship at once
     std::string m_screen;              ///< open a menu screen at once: lab, records, code (screenshots)
     std::string m_shape;               ///< the landmark the viewer opens on (--screen viewer)
+    bool        m_stats = false;       ///< testing: start with the F3 performance overlay shown
     int         m_shapeTour = 0;       ///< testing: the viewer saves this many models from there on, one picture each, named after them after the --screenshot prefix
     float       m_season = -1.0f;      ///< testing: the time of year (0: 1 January), -1 today's
 };

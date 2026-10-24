@@ -1,0 +1,358 @@
+# Local things of Australia, New Zealand and the Pacific islands.
+
+shape OUTBACK_MAILBOX
+    home AUSTRALIA:NORTHERN TERRITORY, AUSTRALIA:WESTERN AUSTRALIA, AUSTRALIA:SOUTH AUSTRALIA, AUSTRALIA:QUEENSLAND, AUSTRALIA:NEW SOUTH WALES | 0.008 3 12 | country
+    # A station's mailbox at the end of a hundred-kilometre track: an old fridge on its side and an oil drum on a post.
+    box 0 0.5 0 0.4 0.5 0.35 F2F2EE
+    box 0.41 0.6 0 0.01 0.3 0.25 C8C8C8
+    tube 0 0 1.4 0 1.0 1.4 0.06 4 7A5A3A
+    tube -0.4 1.3 1.4 0.4 1.3 1.4 0.3 10 C83A2A
+    box 0.41 1.3 1.4 0.01 0.1 0.2 F2F2F2
+
+shape BIG_BANANA
+    home AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:QUEENSLAND | 0.002 6 40
+    # A big thing: a concrete banana as long as a bus lying beside a roadside cafe.
+    tube 0 1.2 -5 0 2.2 0 1.2 10 F2D21E
+    tube 0 2.2 0 0 1.4 5 1.1 10 F2D21E
+    tube 0 1.4 5 0 1.6 6 0.3 6 6A5A2A
+    blob 0 1.2 -5.2 0.6 0.6 0.4 6A5A2A
+    box -4 1.5 0 2 1.5 3 F2EEE2
+    gable -4 3 0 2.2 3.2 1 0.3 C83A2A F2EEE2
+
+shape BIG_PINEAPPLE
+    home AUSTRALIA:QUEENSLAND | 0.003 6 40
+    # A big thing: a pineapple three storeys tall, its diamond-patterned skin, a crown of green leaves.
+    blob 0 4 0 3 4 3 E8A830
+    ring 10 2.9
+    blob 0 2.5 0 0.08 0.4 0.4 B8782A
+    ring 10 2.9 18
+    blob 0 4.5 0 0.08 0.4 0.4 B8782A
+    ring 7 0.6
+    tube 0 7.8 0 1.4 10.5 0 0.25 4 4A8A3A
+    box 2.95 1.2 0 0.06 1.2 0.6 3A2A1A
+
+shape BIG_MERINO
+    home AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:SOUTH AUSTRALIA, AUSTRALIA:VICTORIA | 0.002 6 40
+    # A big thing: a giant merino ram of concrete, woolly and wrinkled, its curled horns, a shop under its belly.
+    blob 0 6 0 3 3 5.5 E8E2D0 0.3
+    mirror
+    mirrorx
+    tube 1.6 4 3 1.6 0 3 0.8 8 D8D0C0
+    blob 0 7.5 5.5 1.6 1.8 1.8 E8E2D0 0.3
+    mirrorx
+    hoop 1.4 7.6 5.5 0.9 0.35 10 C8B898
+    box 0 1.6 0 2 1.6 2 F2EEE2
+
+shape OUTBACK_ROADHOUSE
+    home AUSTRALIA:NORTHERN TERRITORY, AUSTRALIA:WESTERN AUSTRALIA, AUSTRALIA:SOUTH AUSTRALIA, AUSTRALIA:QUEENSLAND | 0.006 6 40 | country
+    # An outback roadhouse: a low corrugated iron building with a wide veranda, two fuel bowsers, a road train parked beside it.
+    box 0 1.8 0 4 1.8 8 E8E2D0
+    hip 0 3.6 0 4.2 8.2 0.8 0.3 C8C8C8 shiny
+    quad 4 3.4 -8 4 3.4 8 6.5 3 8 6.5 3 -8 C8C8C8 shiny
+    repeat 5 0 0 4
+    tube 6.4 0 -8 6.4 3 -8 0.08 4 6A6A6A
+    box 4.02 2.6 0 0.02 0.4 4 C83A2A
+    box 8 0.8 -2 0.3 0.8 0.4 C83A2A
+    box 8 0.8 2 0.3 0.8 0.4 C83A2A
+    box 8 0.05 0 1 0.05 3.5 9A9A9A
+
+shape WOOLSHED
+    home AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:VICTORIA, AUSTRALIA:SOUTH AUSTRALIA, AUSTRALIA:WESTERN AUSTRALIA, AUSTRALIA:TASMANIA, NEW ZEALAND | 0.006 12 90 | country
+    # A shearing shed: long walls of rusty corrugated iron on stilts, the sheep yards and ramp along its side.
+    repeat 6 0 0 3
+    mirrorx
+    tube 3.5 0 -7.5 3.5 0.8 -7.5 0.12 4 6A5A48
+    box 0 2.2 0 3.5 1.4 8 A8784A
+    gable 0 3.6 0 3.7 8.2 2 0.3 9A8A78 A8784A
+    repeat 8 0 0 2
+    box 3.52 2.2 -7 0.02 1.4 0.04 7A5A3A
+    box 7 0.6 0 0.06 0.6 7 9A8A70
+    tbox 4.5 0 3 0.6 0.6 4.5 1.4 6 0.6 0.1 8A7A60
+
+shape KOALA_GUM_TREE
+    home AUSTRALIA:QUEENSLAND, AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:VICTORIA, AUSTRALIA:SOUTH AUSTRALIA | 0.004 6 50 | country
+    # A koala asleep in the fork of a gum tree: a grey round ball with fluffy ears, the pale smooth trunk.
+    tube 0 0 0 0 5 0 0.35 8 E0D8C8
+    tube 0 4.5 0 1.5 7 0.5 0.15 5 E0D8C8
+    tube 0 4.5 0 -1.2 7.5 -0.3 0.15 5 E0D8C8
+    blob 0 8 0 2.4 1.4 2.4 7A9A7A 0.3
+    blob 0.35 4.4 0 0.3 0.35 0.3 9A9A98
+    blob 0.45 4.85 0 0.22 0.2 0.22 9A9A98
+    mirror
+    blob 0.45 5.05 0.2 0.04 0.1 0.12 C8C8C8
+    blob 0.65 4.8 0 0.04 0.06 0.05 2A2A2A
+
+shape EMU_PAIR
+    home AUSTRALIA | 0.006 8 70 | country
+    # Two emus striding across the scrub: shaggy grey-brown feathers, long necks, long strong legs.
+    blob 0 1.2 0 0.35 0.4 0.55 6A5A48
+    tube 0 1.4 0.45 0 2.0 0.6 0.06 4 4A4A50
+    blob 0 2.05 0.65 0.07 0.07 0.12 4A4A50
+    tube 0.12 0.9 0 0.12 0 0.25 0.04 3 7A6A58
+    tube -0.12 0.9 0 -0.12 0 -0.2 0.04 3 7A6A58
+    blob 1.8 1.15 -1.5 0.33 0.38 0.5 7A6A58
+    tube 1.8 1.35 -1.1 1.8 1.9 -0.95 0.06 4 4A4A50
+    tube 1.92 0.85 -1.5 1.92 0 -1.3 0.04 3 7A6A58
+    tube 1.68 0.85 -1.5 1.68 0 -1.7 0.04 3 7A6A58
+
+shape WOMBAT
+    home AUSTRALIA:TASMANIA, AUSTRALIA:VICTORIA, AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:SOUTH AUSTRALIA | 0.004 4 40 | country
+    # A wombat trundling along the verge at dusk: a stout brown barrel on short legs, a broad blunt head.
+    blob 0 0.35 0 0.3 0.3 0.5 6A5A48
+    blob 0 0.35 0.5 0.22 0.22 0.22 6A5A48
+    mirror
+    blob 0.15 0.55 0.6 0.05 0.06 0.04 5A4A38
+    mirror
+    mirrorx
+    tube 0.18 0.2 0.3 0.18 0 0.3 0.06 4 5A4A38
+
+shape SURF_LIFESAVING_TOWER
+    home AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:QUEENSLAND, AUSTRALIA:VICTORIA, AUSTRALIA:WESTERN AUSTRALIA, AUSTRALIA:SOUTH AUSTRALIA, NEW ZEALAND | 0.006 6 40 | coast
+    # A surf lifesaving tower on the beach: a little hut on a tall frame, red and yellow flags marking the safe swimming.
+    mirror
+    mirrorx
+    tube 1 0 1 0.7 3 0.7 0.08 4 F2F2F2
+    box 0 3.6 0 0.9 0.6 0.9 F2C21E
+    box 0.91 3.7 0 0.02 0.3 0.6 2A3A4A glass
+    hip 0 4.2 0 1 1 0.4 0.1 C82A2A
+    tube 3 0 -4 3 2.5 -4 0.03 3 9A9A9A
+    box 3 2.2 -3.7 0.01 0.15 0.3 C82A2A
+    box 3 2.05 -3.7 0.01 0.15 0.3 F2C21E
+    tube 3 0 4 3 2.5 4 0.03 3 9A9A9A
+    box 3 2.2 4.3 0.01 0.15 0.3 C82A2A
+    box 3 2.05 4.3 0.01 0.15 0.3 F2C21E
+
+shape COUNTRY_PUB_VERANDAH
+    home AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:VICTORIA, AUSTRALIA:QUEENSLAND, AUSTRALIA:SOUTH AUSTRALIA, AUSTRALIA:TASMANIA, AUSTRALIA:WESTERN AUSTRALIA | 0.004 6 40
+    # A country pub: two storeys of brick on the corner, a deep veranda with iron lace on both floors, a tin roof.
+    box 0 3.5 0 4 3.5 7 B8603A
+    windows 4.02 0.4 -6.5 0 1 13 6.4 0.4 3.2
+    repeat 2 0 3.2 0
+    quad 4 3.2 -7 4 3.2 7 6.4 3 7 6.4 3 -7 C8C8C8 shiny
+    repeat 6 0 0 2.8
+    tube 6.3 0 -7 6.3 6.2 -7 0.08 4 2A5A3A
+    repeat 28 0 0 0.5
+    tri 6.4 6.2 -6.9 6.4 6.2 -6.4 6.4 5.9 -6.65 E8E8E8
+    box 6.3 3.4 0 0.03 0.3 7 2A5A3A
+    hip 0 7 0 4.2 7.2 1.2 0.3 C8C8C8 shiny
+    box 4.03 6.6 0 0.02 0.3 3 E8E2D0
+
+shape RAINWATER_TANK_HOUSE
+    home AUSTRALIA, NEW ZEALAND | 0.006 6 60 | country
+    # A farmhouse with its corrugated rainwater tank on a stand beside it, a gum tree throwing shade over the veranda.
+    box 0 1.5 0 3 1.5 5 E8E2D0
+    hip 0 3 0 3.6 5.6 1.4 0.6 9AA0A8 shiny
+    windows 3.02 0.2 -4.5 0 1 9 2.6 0.4 2.4
+    box -2 0.6 6.5 1.2 0.6 1.2 8A7A60
+    cyl -2 1.2 6.5 1.3 1.3 2.4 14 B8B8B8 shiny
+    tube 6 0 -3 6 4 -3 0.3 6 E0D8C8
+    blob 6 6 -3 2.4 2 2.4 7A9A6A 0.3
+
+shape WHARENUI
+    home NEW ZEALAND | 0.006 8 60
+    # A wharenui: a Maori meeting house with carved barge boards painted red, a figure at the gable peak, a porch beneath.
+    box 0 1.8 0 5 1.8 3.5 C83A2A
+    quad -5.2 4.8 0 5.6 4.8 0 5.6 3.4 3.8 -5.2 3.4 3.8 3A3A30
+    quad -5.2 4.8 0 5.6 4.8 0 5.6 3.4 -3.8 -5.2 3.4 -3.8 3A3A30
+    tri 5 3.6 -3.5 5 3.6 3.5 5 4.75 0 C83A2A
+    tube 5.6 3.4 -3.8 5.6 4.9 0 0.15 4 C83A2A
+    tube 5.6 3.4 3.8 5.6 4.9 0 0.15 4 C83A2A
+    blob 5.7 5.05 0 0.25 0.3 0.2 A82A22
+    mirror
+    tube 5.5 0 3.3 5.5 3.5 3.3 0.15 4 C83A2A
+    box 5.02 1.0 0 0.03 1.0 0.5 2A1A10
+    box 5.03 2.4 -2 0.02 0.4 0.5 2A1A10
+
+shape KIWI_CROSSING_SIGN
+    home NEW ZEALAND | 0.006 3 15 | country
+    # The kiwi crossing sign: a yellow diamond with the black silhouette of the flightless bird.
+    tube 0 0 0 0 1.8 0 0.05 4 9A9A9A
+    quad 0.05 2.4 -0.6 0.05 3.0 0 0.05 2.4 0.6 0.05 1.8 0 F2C21E
+    blob 0.06 2.35 0 0.01 0.18 0.25 1E1E1E
+    tube 0.06 2.4 0.2 0.06 2.25 0.45 0.015 3 1E1E1E
+
+shape CABBAGE_TREES
+    home NEW ZEALAND | 0.008 6 60 | country
+    # Cabbage trees: slim trunks forking into branches, each tipped with a spiky tuft of long thin leaves.
+    tube 0 0 0 0 3 0 0.2 6 8A7A60
+    tube 0 3 0 0.6 4.5 0 0.1 4 8A7A60
+    tube 0 3 0 -0.5 4.2 0.4 0.1 4 8A7A60
+    blob 0.6 4.8 0 0.5 0.45 0.5 6A8A4A 0.5
+    blob -0.5 4.5 0.4 0.5 0.45 0.5 6A8A4A 0.5
+    tube 3 0 2 3 2.4 2 0.18 6 8A7A60
+    blob 3 2.8 2 0.5 0.45 0.5 6A8A4A 0.5
+
+shape NZ_BACH
+    home NEW ZEALAND | 0.006 6 50 | coast pastel
+    # A Kiwi bach: a little holiday hut of painted fibro and tin by the beach, a deck, a dinghy on its trailer.
+    box 0 1.3 0 2.5 1.1 3.5 A
+    box 0 0.15 0 2.7 0.15 3.7 7A7A70
+    windows 2.52 0.6 -3 0 1 6 2 0.4 1.8
+    quad -2.7 2.9 -3.6 -2.7 2.9 3.6 2.7 2.4 3.6 2.7 2.4 -3.6 C83A2A
+    box 3.5 0.3 0 1 0.06 3 8A6A48
+    tbox 3 0 6 0.4 1.3 3 0.5 6 0.6 1.5 F2F2F2
+
+shape POHUTUKAWA
+    home NEW ZEALAND:AUCKLAND, NEW ZEALAND:BAY OF PLENTY, NEW ZEALAND:WAIKATO | 0.006 6 50 | country
+    # A pohutukawa leaning out over the shore, its wide dark crown covered in crimson flowers.
+    tube 0 0 0 1 2 0 0.4 6 6A5A48
+    tube 1 2 0 2.5 3 0.8 0.25 5 6A5A48
+    tube 1 2 0 0 3.2 -1 0.25 5 6A5A48
+    blob 1.5 4 0 3.5 1.5 3 2E4A2A 0.3
+    blob 1.6 4.6 0.6 2.6 0.8 2.2 C82A2A 0.4
+
+shape CORRUGATED_SHEEP
+    home NEW ZEALAND:WAIKATO, NEW ZEALAND:CANTERBURY, NEW ZEALAND:OTAGO | 0.003 4 30
+    # A giant sheep made of corrugated iron outside a country cafe, with a sheepdog of iron beside it.
+    blob 0 2 0 1.2 1.2 2 B8B8B8 shiny
+    blob 0 2.6 2 0.5 0.6 0.6 9A9A9A shiny
+    mirror
+    mirrorx
+    tube 0.6 1 1.2 0.6 0 1.2 0.15 6 9A9A9A
+    blob 2.4 0.9 -1 0.3 0.5 0.7 9A9A9A shiny
+    blob 2.4 1.5 -0.4 0.25 0.25 0.3 9A9A9A shiny
+
+shape GEOTHERMAL_VENT
+    home NEW ZEALAND:BAY OF PLENTY, NEW ZEALAND:WAIKATO | 0.006 8 60 | country
+    # A geothermal field: a pool of boiling mud, white sinter crust round a steaming vent, sulphur yellow at the edges.
+    blob 0 0.05 0 3 0.1 3 E8E2C8 0.5
+    box 0 0.1 0 1.6 0.02 1.6 8A7A68 water
+    blob 1.8 0.1 1.5 0.6 0.08 0.6 E8D040 0.5
+    blob 0 1.6 0 0.8 1.6 0.8 F2F2F2 0.3
+    blob 0.3 3.4 0.2 0.6 1.0 0.6 F2F2F2 0.3
+
+shape FIJIAN_BURE
+    home FIJI, SOLOMON ISLANDS, VANUATU | 0.01 6 60 | country
+    # A Fijian bure: walls of woven reed on a raised stone platform, a tall steep thatch roof with ridge ends wrapped in black.
+    box 0 0.3 0 3 0.3 4 9A9488
+    box 0 1.6 0 2.5 1 3.5 C8B080
+    gable 0 2.6 0 2.8 3.8 3 0.4 9A8A50 C8B080
+    mirror
+    box 0 5.6 3.9 0.3 0.4 0.4 1E1E1E
+    box 2.52 1.3 0 0.03 0.7 0.5 3A2A1A
+
+shape SAMOAN_FALE
+    home SAMOA, TONGA, FIJI, TUVALU | 0.012 6 60
+    # A fale: an open oval house on a raised platform, a domed thatch roof on a ring of posts, no walls at all.
+    cyl 0 0 0 4 4 0.4 14 9A9488
+    ring 12 3.6
+    tube 0 0.4 0 0 2.4 0 0.1 5 8A6A48
+    dome 0 2.4 0 4.2 2.6 9A8A50
+    box 0 0.45 0 3 0.03 3 C8B080
+
+shape LAND_DIVING_TOWER
+    home VANUATU | 0.012 10 70
+    # A land diving tower of Pentecost: a tall scaffold of poles lashed with vines, jumping platforms sticking out near the top.
+    mirror
+    mirrorx
+    tube 1.5 0 1.5 0.6 20 0.6 0.15 5 8A7A50
+    repeat 9 0 2 0
+    box 0 2 0 1.4 0.06 1.4 8A7A50
+    repeat 4 0 2.5 0
+    box 1.8 10 0 1.2 0.05 0.3 8A7A50
+    tube 0 20 0 0 22 0 0.08 4 6A8A3A
+
+shape SLIT_DRUMS
+    home VANUATU, SOLOMON ISLANDS, PAPUA NEW GUINEA | 0.01 4 40
+    # Standing slit drums of Ambrym: tall hollowed logs carved with great round eyes and long faces, set upright in a group.
+    tube 0 0 -1.2 0 3.5 -1.2 0.4 8 6A4A2A
+    blob 0.38 2.8 -1.32 0.03 0.25 0.12 F2F2E8
+    blob 0.38 2.8 -1.08 0.03 0.25 0.12 F2F2E8
+    box 0.4 1.2 -1.2 0.02 0.8 0.06 1E1A14
+    tube 0 0 1 0 2.8 1 0.35 8 5A3A22
+    blob 0.33 2.2 0.9 0.03 0.2 0.1 F2F2E8
+    blob 0.33 2.2 1.1 0.03 0.2 0.1 F2F2E8
+    box 0.35 1.0 1 0.02 0.6 0.06 1E1A14
+
+shape WAR_CANOE
+    home SOLOMON ISLANDS, PAPUA NEW GUINEA | 0.01 8 50
+    # A tomoko war canoe drawn up on the shore: a long black plank hull inlaid with shell, its prow and stern rising high.
+    tbox 0 0 0 0.4 6 0 0.6 0 0.5 6.5 1E1A14
+    tube 0 0.6 6.4 0 3.2 7.2 0.15 4 1E1A14
+    tube 0 0.6 -6.4 0 2.8 -7 0.15 4 1E1A14
+    repeat 10 0 0 1.2
+    blob 0.51 0.4 -5.4 0.02 0.05 0.08 F2F2E8
+
+shape HAUS_TAMBARAN
+    home PAPUA NEW GUINEA | 0.012 8 60
+    # A haus tambaran: a spirit house with a towering front gable leaning out over the road, painted with great faces.
+    box 0 1.5 0 4 1.5 3 8A6A48
+    quad -4.2 7 0 5.5 12 0 4.2 3 3.2 -4.2 3 3.2 9A8A50
+    quad -4.2 7 0 5.5 12 0 4.2 3 -3.2 -4.2 3 -3.2 9A8A50
+    tri 4.2 3 -3.2 4.2 3 3.2 5.5 12 0 C83A2A
+    blob 4.75 6.5 0 0.05 1.4 1.1 F2F2E8
+    blob 4.8 6.6 0 0.05 0.9 0.6 1E1A14
+    blob 5.1 9.2 0 0.05 0.8 0.5 C8B060
+    box 4.02 1.2 0 0.03 1.2 0.5 1E1A14
+
+shape OUTRIGGER_CANOE
+    home FRENCH POLYNESIA, SAMOA, TONGA, FIJI, KIRIBATI, TUVALU, MARSHALL ISLANDS, MICRONESIA, PALAU, NAURU | 0.008 30 110 | water
+    # A va'a: a slim outrigger canoe, its float on two curved booms, a paddle laid across.
+    tbox 0 -0.2 0 0.3 4 0 0.3 0 0.35 4.2 F2F2F2
+    box 0.36 0.2 0 0.01 0.06 4 C83A2A
+    tube 0 0.35 1.5 -1.8 0.3 1.5 0.05 4 8A6A48
+    tube 0 0.35 -1.5 -1.8 0.3 -1.5 0.05 4 8A6A48
+    tube -1.8 0.1 -2.2 -1.8 0.1 2.2 0.12 6 8A6A48
+
+shape POLYNESIAN_TIKI
+    home FRENCH POLYNESIA, SAMOA, TONGA | 0.008 4 30
+    # A stone tiki of the Marquesas: squat and massive, a huge head with great round eyes and a wide mouth, hands on its belly.
+    box 0 0.15 0 0.6 0.15 0.6 7A7A70
+    blob 0 0.8 0 0.45 0.5 0.4 6A6A60
+    blob 0 1.6 0 0.5 0.45 0.45 6A6A60
+    mirror
+    blob 0.4 1.7 0.2 0.08 0.15 0.15 4A4A40
+    box 0.45 1.35 0 0.04 0.06 0.3 4A4A40
+    blob 0.38 0.85 0 0.06 0.12 0.3 5A5A50
+
+shape MANEABA
+    home KIRIBATI, TUVALU, MARSHALL ISLANDS, NAURU | 0.012 8 60
+    # A maneaba: the village meeting house, an enormous roof of pandanus thatch reaching almost to the ground on coral pillars.
+    repeat 5 0 0 3
+    mirrorx
+    tube 4.5 0 -6 4.5 1.2 -6 0.25 6 E8E2D0
+    gable 0 1.2 0 5 7 5 0.6 9A8A50 E8E2D0
+
+shape YAP_STONE_MONEY
+    home MICRONESIA, PALAU | 0.012 4 40
+    # Rai stones of Yap: great discs of limestone with a hole in the middle, standing on edge along a path, each worth a fortune.
+    hoop 0 1.2 -2 1.2 0.35 16 C8C0B0
+    hoop 0 0.9 0.5 0.9 0.3 14 B8B0A0
+    hoop 0 1.6 3 1.6 0.4 18 C8C0B0
+    box -0.4 0.05 0 0.6 0.05 4.5 9A9488
+
+shape PALAU_BAI
+    home PALAU, MICRONESIA | 0.012 8 60
+    # A bai: a men's meeting house of Palau raised on stones, its steep gable painted with story boards in red, white and black.
+    repeat 3 0 0 3
+    mirrorx
+    blob 2 0.4 -3 0.5 0.4 0.5 9A9488
+    box 0 1.8 0 2.2 1 4 8A5A30
+    quad -2.4 2.8 4.2 2.4 2.8 4.2 0 9 4.6 0 9 4.6 4A3A28
+    gable 0 2.8 0 2.4 4.4 6 0.4 9A8A50 8A5A30
+    tri -2.2 2.8 4.25 2.2 2.8 4.25 0 7.5 4.5 C83A2A
+    blob 0 4.2 4.4 1.2 0.6 0.05 F2F2E8
+    blob 0 5.6 4.48 0.6 0.4 0.05 1E1E1E
+
+shape PHOSPHATE_PINNACLES
+    home NAURU | 0.012 10 70 | country
+    # The pinnacles of Nauru: grey coral limestone teeth left standing where the phosphate was dug out around them.
+    spire 0 0 0 1 4 6 B8B0A0
+    spire 2 0 1.5 0.8 3 6 A8A090
+    spire -1.5 0 2 0.9 3.5 6 B8B0A0
+    spire 1 0 -2 1.1 4.5 6 A8A090
+    spire -2 0 -1.5 0.7 2.5 6 B8B0A0
+    blob 0 0.1 0 3 0.2 3 C8C0B0 0.4
+
+shape PACIFIC_ISLAND_CHURCH
+    home SAMOA, TONGA, FIJI, TUVALU, KIRIBATI, SOLOMON ISLANDS, VANUATU, FRENCH POLYNESIA, MARSHALL ISLANDS, MICRONESIA, PALAU | 0.006 10 80
+    # A village church of the islands: whitewashed with a red roof, a square tower over the door, palms all round.
+    box 0 2.5 0 3 2.5 6 F6F6F2
+    gable 0 5 0 3.1 6.1 1.8 0.3 C83A2A F6F6F2
+    box 0 4 6.8 1.2 4 1.2 F6F6F2
+    hip 0 8 6.8 1.4 1.4 1.6 0.2 C83A2A
+    tube 0 9.6 6.8 0 10.4 6.8 0.04 3 D8B030
+    repeat 4 0 0 3
+    box 3.02 2.5 -4.5 0.02 1.2 0.4 3A6AC8
+    tube 6 0 -5 6.3 8 -5.3 0.2 6 8A7050
+    fronds 6.3 8 -5.3 8 3.5 0.6 3E7A2E

@@ -80,7 +80,7 @@ std::string ghostDir()
 
 } // namespace
 
-Game::Game( Settings &settings, const LaunchOptions &options ) : m_settings( settings ), m_options( options ) {}
+Game::Game( Settings &settings, const LaunchOptions &options ) : m_settings( settings ), m_options( options ), m_showStats( options.m_stats ) {}
 
 void Game::init()
 {

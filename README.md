@@ -291,6 +291,7 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --size WxH                    window size for this start
     --quit-after S --screenshot F quit after S seconds, saving a screenshot
     --mute                        no sound (test runs)
+    --stats                       start with the F3 performance overlay
     --audio-test F.wav            render a scripted drive, each station and the adaptive layer offline,
                                   levels in F*.wav.txt
 

@@ -46,7 +46,7 @@ shape COTSWOLD_COTTAGE
     box 0 8.6 4.5 0.4 0.8 0.4 D8B880
 
 shape OAST_HOUSE
-    home ENGLAND | 0.002 10 70 | country
+    home ENGLAND, AUSTRALIA:TASMANIA | 0.002 10 70 | country
     # An oast house: a round brick kiln with a white wooden cowl, a barn of white boards beside it.
     cyl 0 0 0 2.5 2.5 5 12 A8503A
     spire 0 5 0 2.6 3.5 12 7A3A2A
