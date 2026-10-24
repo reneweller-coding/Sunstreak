@@ -1,0 +1,530 @@
+# More regions: Japan's prefectures, Russia's subjects, Turkey's provinces and others.
+
+place CHUREITO | FUJI FIVE LAKES | JAPAN | MORNING | YAMANASHI
+    sea 1 0 -3
+    water 2A5A7A
+    land 6AA048 609440 6A8A58
+    hills 16 4 4
+    drive 2 0.4 0.98 9
+    bends 0.45 0.4 0.4
+    p CHERRY 0.15 3 80
+    p HOUSE 0.02 8 50
+    c F2F0EA 3A3A40
+    p VOLCANO_CONE 0.003 500 800 2.0 2.4
+    c 5A6A88 F4F6FA
+    landmark TALL_PAGODA 80 140 0.8
+    c E04A3A 3A3A40
+
+place NACHI | NACHI FALLS | JAPAN | MIST | WAKAYAMA
+    fog 0.003
+    land 4E8A3A 46803A 5E8A48
+    hills 40 20 20
+    drive 2 0.3 0.95 9
+    bends 0.7 0.6 0.65
+    p CEDAR 0.3 4 150
+    p WATERFALL 0.006 40 150
+    v 1
+    landmark TALL_PAGODA 60 100 0.7
+    c E04A3A 3A3A40
+
+place IZUMO | IZUMO | JAPAN | OVERCAST | SHIMANE
+    sea 1 0 -10
+    water 2A5A6A
+    land 5E9A48 549040 5E8A50
+    hills 20 6 6
+    drive 2 0.3 0.97 9
+    bends 0.5 0.45 0.45
+    p TORII 0.01 6 30
+    p TEMPLE_GATE 0.006 20 80
+    p PINE 0.12 4 80
+    p HOUSE 0.02 8 50
+    c 6A4A3A 3A3A40
+
+place TOTTORI_DUNES | TOTTORI DUNES | JAPAN | NOON | TOTTORI
+    sea 1 0 -4
+    water 2A6A9A
+    land E8D8B0 DCCCA4 C8C090
+    verge E0D0A8
+    drive 2 0.3 0.98 9
+    bends 0.35 0.3 0.3
+    p DUNE 0.06 10 200
+    c E8D4A8
+    p PINE 0.06 4 60
+    p CAMEL 0.003 20 100
+
+place KURASHIKI | KURASHIKI | JAPAN | MORNING | OKAYAMA
+    sea 0 1 -2
+    water 4A6A60
+    land 6A9A48 609040 6A8A58
+    drive 2 0.5 0.97 9
+    bends 0.3 0.3 0.15
+    lamps 40
+    p HOUSE 0.06 4 30
+    c F2F0EA 2A2A30
+    p POPLAR 0.08 3 30
+    p BOAT 0.008 8 30
+    c 6A4A2A 6A4A2A
+    floating
+    landmark JAPANESE_CASTLE 200 300 0.7
+    c 2A2A2E 3A3A40
+
+place SHIMANTO | SHIMANTO RIVER | JAPAN | MORNING | KOCHI
+    island SHIKOKU
+    sea 0 1 -8
+    water 3A8A9A
+    land 4E8A3A 46803A 5E8A48
+    hills 30 10 -10
+    drive 2 0.2 0.95 9
+    bends 0.6 0.5 0.5
+    bridges 0.3 BEAM
+    p CEDAR 0.2 4 150
+    p HOUSE 0.012 8 50
+    c 6A4A3A 3A3A40
+    p BOAT 0.006 20 80
+    floating
+
+place BEPPU | BEPPU | JAPAN | MIST | OITA
+    island KYUSHU
+    fog 0.003 E0E0E0
+    land 5E9A48 549040 5E8A50
+    hills 24 8 8
+    drive 2 0.5 0.97 9
+    bends 0.45 0.4 0.4
+    p GEYSER 0.02 10 150
+    p HOUSE 0.04 6 50
+    c F2F0EA 3A3A40
+    p CHIMNEY 0.006 30 150
+
+place TAKACHIHO | TAKACHIHO GORGE | JAPAN | MIST | MIYAZAKI
+    island KYUSHU
+    fog 0.003
+    land 4E8A3A 46803A 5E8A48
+    hills 40 20 -20
+    drive 2 0.2 0.95 9
+    bends 0.75 0.65 0.7
+    p BASALT_COLUMNS 0.01 20 120
+    p CEDAR 0.25 4 150
+    p WATERFALL 0.004 30 120
+    p TORII 0.004 10 40
+
+place HIRAIZUMI | HIRAIZUMI | JAPAN | GOLDEN | IWATE
+    land 7AAA4E 70A048 7AA05A
+    fields 0.6 8AB04A 6AA040 D8C060
+    hills 14 4 4
+    drive 2 0.3 0.98 9
+    bends 0.4 0.35 0.35
+    p CEDAR 0.15 4 100
+    p HOUSE 0.012 10 60
+    c 6A4A3A 3A3A40
+    landmark GOLDEN_PAVILION 40 70
+
+place OUCHI_JUKU | OUCHI JUKU | JAPAN | WINTER | FUKUSHIMA
+    snow 0.4
+    land E8ECF2 DCE2EA D0D8E4
+    hills 24 8 8
+    drive 2 0.3 0.85 9
+    bends 0.5 0.45 0.45
+    p GASSHO 0.03 8 60
+    p SNOW_PINE 0.2 4 120
+    p SNOWBANK 0.2 0.5 3 0.8 1.4
+    landmark JAPANESE_CASTLE 200 300 0.6
+    c F4F4F2 8A3A2A
+
+place HITACHI_SEASIDE | HITACHI SEASIDE PARK | JAPAN | MORNING | IBARAKI
+    sea 1 0 -6
+    water 2A6A9A
+    land 6AA048 609440 6A8A58
+    fields 0.7 3A7AE0 6A9AE8 E8E8F0
+    hills 10 3 3
+    drive 2 0.4 0.98 9
+    bends 0.35 0.3 0.25
+    p WINDMILL 0.004 60 200
+    landmark FERRIS_WHEEL 90 150
+    c E04A6A
+
+place LAKE_BIWA | LAKE BIWA | JAPAN | MIST | SHIGA
+    fog 0.0026
+    sea 1 0 -2
+    water 4A6A7A
+    land 5E9A48 549040 5E8A50
+    drive 2 0.4 0.98 9
+    bends 0.35 0.3 0.2
+    p PINE 0.1 4 60
+    p HOUSE 0.02 8 50
+    c 6A4A3A 3A3A40
+    landmark SEA_TORII 60 100
+
+place ARKHANGELSK | WHITE SEA | RUSSIA | OVERCAST | ARKHANGELSK
+    sea 1 0 -3
+    water 4A5A6A
+    land 6A8A50 607E48 5A7050
+    drive 2 0.15 0.92 23
+    bends 0.3 0.3 0.2
+    p SPRUCE 0.3 4 150
+    p ONION_CHURCH 0.004 30 120
+    c 7A5A3A C8D0D8
+    p COTTAGE 0.008 10 60
+    c 6A5A40 3A3A30
+
+place MANPUPUNER | MAN-PUPU-NYOR | RUSSIA | ALPINE | KOMI
+    land 8A9A68 7E8E60 8A8A78
+    ranges 7A7A70 E8ECF2 9
+    hills 20 6 6
+    drive 2 0.03 0.85 23
+    bends 0.4 0.35 0.35
+    posts 0
+    road 7A7468 7A7468
+    p PILLAR 0.03 40 250 1.6 2.6
+    c 8A8478
+    p SPRUCE 0.1 4 150
+    p REINDEER 0.008 15 120
+
+place ELBRUS | ELBRUS | RUSSIA | ALPINE | KABARDINO-BALKARIA
+    land 6AA048 609440 6A8A58
+    ranges 7A8090 F4F6FA 16
+    hills 50 30 -20
+    drive 2 0.2 0.95 22
+    bends 0.65 0.55 0.6
+    p PEAK 0.006 400 700 2.0 2.6
+    c 7A7E86 F4F6FA
+    p PINE 0.15 4 150
+    p HORSE 0.01 10 100
+
+place VOLGA_DELTA | VOLGA DELTA | RUSSIA | HAZE | ASTRAKHAN
+    hills 2 0 0 0.7
+    water 5A7A6A
+    land 7A9A50 709048 7A8A58
+    drive 2 0.2 0.95 22
+    bends 0.3 0.3 0.1
+    p REEDS 0.25 3 80
+    p FLAMINGO 0.006 10 80
+    p BOAT 0.008 20 100
+    floating
+    p MOSQUE 0.002 60 200
+    v 0
+
+place BASHKORTOSTAN | BASHKIR URALS | RUSSIA | MORNING | BASHKORTOSTAN
+    land 6AA048 609440 6A8A58
+    hills 26 8 8
+    drive 2 0.2 0.95 22
+    bends 0.5 0.45 0.45
+    p BIRCH 0.2 3 100
+    p PINE 0.12 4 120
+    p HORSE 0.02 10 120
+    p YURT 0.004 20 120
+
+place TOMSK | TOMSK | RUSSIA | WINTER | TOMSK
+    snow 0.4
+    land E0E4EA D4DAE2 C8D0DA
+    drive 3 0.9 0.85 22
+    bends 0.3 0.3 0.15
+    lamps 35
+    p COTTAGE 0.06 4 40
+    c 8A6A4A 3A6A8A
+    pastel
+    p ONION_CHURCH 0.004 40 150
+    c F2F0EA 3A7A5A
+    p SNOWBANK 0.2 0.5 3 0.8 1.4
+
+place KHABAROVSK | AMUR | RUSSIA | MORNING | KHABAROVSK
+    sea 0 1 -8
+    water 5A6A70
+    land 6A9A50 609048 6A8A58
+    drive 3 0.8 0.95 22
+    bends 0.3 0.3 0.15
+    bridges 0.4 TRUSS 4A6A7A
+    p BIRCH 0.12 3 80
+    p PANEL_BLOCK 0.04 20 150
+    p ONION_CHURCH 0.003 40 150
+    c F2F0EA D8B040
+
+place SAKHALIN | SAKHALIN | RUSSIA | MIST | SAKHALIN
+    island SAKHALIN
+    fog 0.003
+    sea 1 0 -10
+    water 3A5A6A
+    land 5E8A44 56803E 507A48
+    hills 24 8 8
+    drive 2 0.2 0.92 22
+    bends 0.5 0.45 0.45
+    p SPRUCE 0.25 4 150
+    p ROCK 0.06 3 80
+    p LIGHTHOUSE 0.003 30 120
+
+place ANKARA | ANKARA | TURKEY | NOON | ANKARA
+    land A8A070 9C9468 A89A70
+    drive 4 1.4 0.98 11
+    bends 0.25 0.25 0.1
+    lamps 35
+    p PANEL_BLOCK 0.06 15 150
+    p GLASS_TOWER 0.02 40 200
+    c 8A9AA8
+    p MOSQUE 0.004 60 200
+    landmark ANITKABIR 60 100
+
+place KONYA | KONYA | TURKEY | GOLDEN | KONYA
+    land B8A878 AC9C70 B0A07A
+    fields 0.6 D8C060 B8A050 8AA04A
+    drive 2 0.4 0.98 11
+    bends 0.2 0.2 0.1
+    p FLAT_HOUSE 0.02 8 60
+    c E8DCC0 A8583A
+    p MOSQUE 0.003 60 200
+    landmark MEVLANA 40 70
+
+place GOBEKLI_TEPE | GOBEKLI TEPE | TURKEY | DESERT | SANLIURFA
+    land C8B088 BCA47E B8A080
+    hills 14 4 4
+    drive 2 0.15 0.98 11
+    bends 0.35 0.3 0.3
+    p OLIVE 0.04 6 80
+    p ROCK 0.06 3 60
+    landmark GOBEKLI_TEPE 30 50
+
+place MARDIN | MARDIN | TURKEY | GOLDEN | MARDIN
+    land C8B088 BCA47E B8A080
+    hills 30 16 -10
+    drive 2 0.3 0.97 11
+    bends 0.55 0.5 0.5
+    p FLAT_HOUSE 0.08 6 100
+    c D8C098 B8A080
+    p MOSQUE 0.006 40 150
+    v 1
+
+place COLCA | COLCA CANYON | PERU | ALPINE | AREQUIPA
+    land A89A70 9C8E68 9A9A80
+    ranges 8A8070 F4F6FA 14
+    hills 50 -40 30
+    drive 2 0.15 0.92 15
+    bends 0.7 0.6 0.6
+    p TERRACES 0.03 30 250
+    p LLAMA 0.02 10 100
+    p CHURCH 0.003 40 150
+    c F2F0EA 8A8A90
+
+place KUELAP | KUELAP | PERU | MIST | AMAZONAS
+    fog 0.003
+    land 4E8A3A 46803A 5E8A48
+    hills 50 30 -20
+    drive 2 0.15 0.9 15
+    bends 0.75 0.65 0.7
+    p JUNGLE_TREE 0.2 6 150
+    p RUIN 0.01 20 150
+    p WATERFALL 0.004 60 200
+    v 1
+    p FORT 0.002 150 300
+    c 8A8478 6A6A60
+
+place GUATAPE | GUATAPE | COLOMBIA | MORNING | ANTIOQUIA
+    sea 1 1 -3
+    water 2A6A8A
+    land 5E9A48 549040 5E8A50
+    hills 20 6 6
+    drive 2 0.4 0.97 15
+    bends 0.5 0.45 0.45
+    p FLAT_HOUSE 0.04 6 50
+    c F2F0EA E05A3A
+    pastel
+    p BROADLEAF 0.12 4 100
+    c 3E7A32
+    landmark PENOL_ROCK 120 200
+
+place TAYRONA | TAYRONA | COLOMBIA | TROPICAL | MAGDALENA
+    sea 1 0 -6
+    water 2A9AB8
+    land 4E8A3A 46803A 5E8A48
+    hills 30 10 10
+    drive 2 0.2 0.92 15
+    bends 0.55 0.45 0.45
+    p PALM 0.25 2 60
+    p JUNGLE_TREE 0.2 6 150
+    p BOULDER 0.03 10 80
+    p HUT 0.006 10 50
+
+place ELQUI | ELQUI VALLEY | CHILE | NIGHT | COQUIMBO
+    land 6A6A50 5E5E48 5A5A50
+    hills 30 14 14
+    drive 2 0.15 0.97 15
+    bends 0.5 0.45 0.45
+    p VINE_ROW 0.2 6 60 1 1
+    p CACTUS 0.03 6 80
+    landmark OBSERVATORY 200 300 1.2
+
+place SANTIAGO_CL | SANTIAGO | CHILE | MORNING | SANTIAGO
+    land 8A9A60 7E8E58 8A8A6A
+    ranges 6A7080 F2F4F8 15
+    drive 4 1.4 0.98 15
+    bends 0.25 0.25 0.1
+    lamps 35
+    p GLASS_TOWER 0.06 30 200
+    c 7A8A9A
+    p SUPERTALL 0.002 200 400
+    p FLAT_HOUSE 0.04 6 40
+    pastel
+
+place HARAR | HARAR | ETHIOPIA | GOLDEN | HARARI
+    land 9AA060 8E9458 A09A6A
+    hills 16 4 4
+    drive 2 0.3 0.95 12
+    bends 0.45 0.4 0.35
+    p FLAT_HOUSE 0.05 6 50
+    c F0D8A0 3A8A6A
+    pastel
+    p MOSQUE 0.004 40 150
+    v 0
+    p FORT 0.003 30 100
+    c C8A880 8A7A60
+
+place MAASAI_MARA | MAASAI MARA | KENYA | GOLDEN | NAROK
+    land B8A868 AC9C60 C0A870
+    hills 8 2 2
+    drive 2 0.1 0.88 12
+    bends 0.3 0.3 0.2
+    road A8703E A8703E
+    p ACACIA 0.06 6 200
+    p ZEBRA 0.02 20 150
+    p GIRAFFE 0.008 20 150
+    p ELEPHANT 0.006 30 150
+    p RONDAVEL 0.004 20 100
+    c B8865A 6A5A40
+    p BALLOON 0.003 80 300
+
+place CHIANG_RAI | CHIANG RAI | THAILAND | MORNING | CHIANG RAI
+    land 5E9A48 549040 5E8A50
+    hills 24 6 6
+    drive 2 0.4 0.95 20
+    bends 0.5 0.45 0.45
+    p TEA_ROW 0.15 6 60 1 1
+    p PALM 0.06 3 60
+    p WAT 0.004 40 150
+    landmark WHITE_TEMPLE 40 70
+
+place HOI_AN | HOI AN | VIETNAM | DUSK | QUANG NAM
+    sea 0 1 -2
+    water 3A5A5A
+    land 5E9A48 549040 5E8A50
+    drive 2 0.5 0.95 20
+    bends 0.3 0.3 0.1
+    lamps 30
+    p ROW_HOUSES 0.12 4 30
+    c F0C040 5A4A3A
+    p LANTERN 0.08 2 8
+    p BOAT 0.01 8 40
+    c 6A4A2A 3A6A3A
+    floating
+
+place LAHORE | LAHORE | PAKISTAN | HAZE | PUNJAB
+    fog 0.0026 D8C8A8
+    land 8A9A68 7E8E60 8A8A70
+    drive 4 1.6 0.95 10
+    bends 0.25 0.25 0.05
+    lamps 35
+    p FLAT_HOUSE 0.08 4 40
+    pastel
+    p MOSQUE 0.004 60 200
+    v 1
+    p FORT 0.003 40 120
+    c B8604A 8A4A3A
+
+place SIWA | SIWA OASIS | EGYPT | DESERT | MATROUH
+    hills 4 1 1 0.3
+    water 3A8A9A
+    land E0B870 D4AC68 C8A870
+    drive 2 0.1 0.98 11
+    bends 0.25 0.25 0.15
+    p DATE_PALM 0.15 3 100
+    p ADOBE 0.02 10 80
+    c C8A070
+    p DUNE 0.02 40 250
+    c E8C078
+
+place PUDUCHERRY | PUDUCHERRY | INDIA | NOON | PUDUCHERRY
+    sea 1 0 -4
+    water 2A8AB0
+    land 6A9A48 609040 6A8A58
+    drive 2 0.6 0.95 10
+    bends 0.3 0.3 0.1
+    lamps 40
+    p ROW_HOUSES 0.12 4 30
+    c F0D060 F2F0EA
+    pastel
+    p PALM 0.12 2 30
+    p CHURCH 0.004 30 120
+    c F2F0EA 8A8A90
+
+place CHANDIGARH | CHANDIGARH | INDIA | MORNING | CHANDIGARH
+    land 7A9A50 709048 7A8A58
+    drive 4 1.2 0.98 10
+    bends 0.15 0.2 0.05
+    lamps 40
+    gantries 700
+    p PANEL_BLOCK 0.06 20 150
+    c C8C0B0
+    p BROADLEAF 0.15 3 40
+    c 4E8A3E
+
+place YOGYAKARTA | PRAMBANAN | INDONESIA | MORNING | YOGYAKARTA
+    land 5E9A48 549040 5E8A50
+    fields 0.4 6AA040 8AB050 4E8A3A
+    drive 2 0.5 0.95 20
+    bends 0.35 0.3 0.25
+    p PALM 0.12 3 60
+    p VOLCANO_CONE 0.003 400 700 1.6 2.0
+    c 5A5A50 7A8A6A
+    landmark PRAMBANAN 80 140
+
+place BALIEM | BALIEM VALLEY | INDONESIA | MIST | HIGHLAND PAPUA
+    island NEW GUINEA
+    fog 0.003
+    land 4E8A3A 46803A 5E8A48
+    hills 40 20 20
+    drive 2 0.1 0.88 20
+    bends 0.65 0.55 0.6
+    road A86A40 A86A40
+    p HUT 0.02 10 80
+    c 6A5A40 4A3A20
+    p JUNGLE_TREE 0.15 6 150
+    p TREE_FERN 0.1 4 80
+
+place BANDA | BANDA ISLANDS | INDONESIA | TROPICAL | MALUKU
+    island BANDA
+    sea 1 1 -3
+    water 2AB8C8
+    land 4E8A3A 46803A 5E8A48
+    drive 2 0.15 0.95 20
+    bends 0.4 0.35 0.3
+    p PALM 0.2 2 50
+    p VOLCANO_CONE 0.004 200 400 1.0 1.2
+    c 4A5A40 6A7A5A
+    p FORT 0.003 30 100
+    c D8C8A8 8A7A60
+
+place MANGYSTAU | BOZZHYRA | KAZAKHSTAN | DESERT | MANGYSTAU
+    land E8E0D0 DCD4C4 D0C8B8
+    verge E0D8C8
+    road C8B898 C8B898
+    hills 30 -20 12
+    drive 2 0.03 0.88 22
+    bends 0.35 0.3 0.3
+    posts 0
+    p PILLAR 0.02 60 300 1.6 2.6
+    c F0ECE0
+    p BUTTE 0.01 100 400
+    c E8E0D0
+
+place SVALBARD_ARCTIC | SVALBARD | NORWAY | ARCTIC | SVALBARD
+    island SVALBARD
+    sea 1 0 -6
+    water 3A5A70
+    land D8DCE4 CCD2DC B8C0CC
+    ranges 8A9AAA F4F6FA 10
+    hills 20 6 6
+    drive 2 0.03 0.82 23
+    bends 0.35 0.3 0.3
+    posts 0
+    p SNOWBANK 0.12 1 40 0.6 1.0
+    p ICEBERG 0.006 40 200
+    floating
+    p REINDEER 0.008 15 120
+    p CABIN 0.006 10 60
+    c 8A3A2A 3A3A40
