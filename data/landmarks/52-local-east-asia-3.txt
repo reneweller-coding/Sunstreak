@@ -1,0 +1,205 @@
+# Still more local things of China, Japan, Korea, Taiwan and Mongolia.
+
+shape INCENSE_BURNER
+    home CHINA, TAIWAN, JAPAN, SOUTH KOREA, VIETNAM | 0.004 3 25 | town
+    # A great bronze incense burner before the temple steps: a round cauldron on three legs under a little tiered roof, smoke curling out.
+    cyl 0 0.5 0 0.9 1.1 1.0 12 5A4A30
+    halo 0 1.5 0 1.1 0.08 12 6A5A38
+    ring 3 0.7
+    tube 0 0 0 0 0.5 0 0.12 5 5A4A30
+    mirror
+    tube 0 1.5 0.95 0 2.4 0.95 0.06 4 5A4A30
+    box 0 2.5 0 0.9 0.08 1.1 5A4A30
+    hip 0 2.6 0 0.8 1.0 0.6 0.25 4A3A28
+    blob 0 3.6 0 0.4 0.8 0.4 D8D8D8 glass
+    box -3 0.3 0 1 0.3 3 B8B0A0
+
+shape TAI_CHI_GROUP
+    home CHINA, TAIWAN | 0.004 2 25 | town
+    # Early morning tai chi in the park: a group of elders in loose white and red clothes, all moving slowly in the same pose.
+    repeat 3 0 0 1.5
+    tube -0.5 0.75 -2.5 -0.6 0 -2.6 0.05 3 F2F2F2
+    repeat 3 0 0 1.5
+    tube -0.5 0.75 -2.5 -0.35 0 -2.2 0.05 3 F2F2F2
+    repeat 3 0 0 1.5
+    box -0.5 1.1 -2.5 0.15 0.3 0.12 F2F2F2
+    repeat 3 0 0 1.5
+    blob -0.5 1.55 -2.5 0.09 0.1 0.09 C8A080
+    repeat 3 0 0 1.5
+    tube -0.5 1.3 -2.38 -0.2 1.4 -2.0 0.035 3 F2F2F2
+    repeat 3 0 0 1.5
+    tube -0.5 1.3 -2.62 -0.7 1.2 -2.9 0.035 3 F2F2F2
+    repeat 2 0 0 1.5
+    tube -1.8 0.75 -1.75 -1.9 0 -1.85 0.05 3 C82A2A
+    repeat 2 0 0 1.5
+    tube -1.8 0.75 -1.75 -1.65 0 -1.45 0.05 3 C82A2A
+    repeat 2 0 0 1.5
+    box -1.8 1.1 -1.75 0.15 0.3 0.12 C82A2A
+    repeat 2 0 0 1.5
+    blob -1.8 1.55 -1.75 0.09 0.1 0.09 C8A080
+
+shape BLUE_CARGO_TRUCK
+    home CHINA | 0.006 2 25
+    # A blue cargo truck: the classic flat-nosed blue cab with a high-sided wooden bed, its load tied down under green tarpaulin.
+    box 0 1.5 2.6 1.2 0.9 0.8 2A5AA8
+    box 0 1.85 3.41 1.1 0.35 0.01 2A3A4A glass
+    box 0 0.9 3.42 1.1 0.15 0.01 C8C8C8
+    box 0 0.8 -1.2 1.2 0.15 3 6A6A6A
+    box 0 1.4 -1.2 1.2 0.5 3 2A5AA8
+    blob 0 2.1 -1.2 1.15 0.5 2.9 3A6A3A 0.3
+    mirrorx
+    tube 0.95 0.5 2.4 1.22 0.5 2.4 0.5 10 1E1E1E
+    mirrorx
+    tube 0.95 0.5 -2.2 1.22 0.5 -2.2 0.5 10 1E1E1E
+
+shape BLACK_AWNING_BOAT
+    home CHINA:ZHEJIANG, CHINA:JIANGSU, CHINA:SHANGHAI | 0.004 6 40 | country
+    # A black-awning boat on the water town canal: a narrow wooden boat under curved black matting, the boatman rowing with his feet.
+    box 2 0.02 0 2 0.02 8 3A4A4A water
+    tbox 2 -0.1 0 0.3 3 2 0.35 0 0.6 3.5 4A3A28
+    tube 2 0.3 -1.5 2 0.3 1.5 0.65 10 1E1E1E
+    blob 2 0.6 -2.8 0.15 0.3 0.12 3A3A6A
+    blob 2 1.0 -2.8 0.09 0.1 0.09 C8A080
+    tube 2.4 0.4 -2.6 3 0 -1 0.03 3 8A6A48
+
+shape TEMPLE_BELL_TOWER
+    home JAPAN, SOUTH KOREA | 0.004 4 30 | town
+    # A temple bell house: a big bronze bell hanging under a heavy tiled roof on four posts, the wooden striker on its ropes beside it.
+    box 0 0.3 0 1.8 0.3 1.8 B8B0A0
+    mirror
+    mirrorx
+    tube 1.4 0.6 1.4 1.3 3.6 1.3 0.12 6 6A4A30
+    hip 0 3.6 0 1.8 1.8 1.4 0.6 3A3A3A
+    cyl 0 1.6 0 0.6 0.5 1.6 12 5A6A50
+    dome 0 3.2 0 0.5 0.25 5A6A50
+    tube 0 3.4 0 0 3.6 0 0.06 3 3A3A3A
+    tube 0.9 2.0 -1.2 0.9 2.0 0.8 0.12 6 8A6A48
+    tube 0.9 2.0 -1.0 0.9 3.6 -1.0 0.01 3 C8B890
+    tube 0.9 2.0 0.6 0.9 3.6 0.6 0.01 3 C8B890
+
+shape STREET_CATS
+    home JAPAN, TURKEY, MOROCCO, GREECE, MALTA, CYPRUS, ITALY, CROATIA, EGYPT, LEBANON, TAIWAN | 0.006 1 15 | town
+    # Street cats on the steps: a tabby washing itself, a ginger one asleep in the sun, a black and white one watching the traffic.
+    box -1 0.15 0 0.8 0.15 2 B8B0A0
+    box -1.4 0.45 0 0.4 0.15 2 B8B0A0
+    blob -0.7 0.42 -1 0.1 0.12 0.18 8A7A68
+    blob -0.7 0.6 -0.88 0.07 0.07 0.07 8A7A68
+    tube -0.68 0.64 -0.84 -0.68 0.71 -0.84 0.02 3 8A7A68
+    tube -0.68 0.64 -0.92 -0.68 0.71 -0.92 0.02 3 8A7A68
+    blob -1.3 0.68 0.2 0.18 0.08 0.14 E8902A
+    blob -1.3 0.7 0.4 0.07 0.06 0.07 E8902A
+    blob 0.3 0.12 1.2 0.08 0.12 0.12 1E1E1E
+    blob 0.32 0.3 1.25 0.065 0.065 0.065 1E1E1E
+    blob 0.36 0.27 1.27 0.04 0.03 0.03 F2F2F2
+    tube 0.3 0.05 1.05 0.3 0.05 0.8 0.02 3 1E1E1E
+
+shape DEKOTORA_TRUCK
+    home JAPAN | 0.002 3 25
+    # A decorated Japanese truck: every surface chromed and painted, rows of coloured marker lights, a towering ornate bumper and panels of art on the box.
+    box 0 1.6 3 1.2 1 0.9 E8E8F0 shiny
+    box 0 2.0 3.91 1.05 0.35 0.01 2A3A4A glass
+    box 0 0.7 4.0 1.3 0.35 0.15 D8D8D8 shiny
+    box 0 2.9 3.4 1.25 0.25 0.6 C8A040 shiny
+    box 0 2.0 -1.5 1.25 1.4 3.6 D8D8E0 shiny
+    box 1.26 2.0 -1.5 0.01 1.1 3.3 2A3A8A
+    blob 1.27 2.0 -1.5 0.01 0.8 1.5 E85A2A
+    repeat 12 0 0 0.6
+    blob 1.27 0.65 -4.8 0.06 0.06 0.06 F2902A glow
+    repeat 12 0 0 0.6
+    blob -1.27 0.65 -4.8 0.06 0.06 0.06 2AC8E8 glow
+    mirrorx
+    tube 1.0 0.5 2.8 1.27 0.5 2.8 0.5 10 1E1E1E
+    mirrorx
+    tube 1.0 0.5 -3.5 1.27 0.5 -3.5 0.5 10 1E1E1E
+
+shape ONE_CAR_TRAIN
+    home JAPAN | 0.003 3 25 | country
+    # A one-car local train: a little two-tone diesel railcar running along the single track between the rice fields.
+    mirrorx
+    box 0.55 0.05 0 0.03 0.05 14 8A8A8A shiny
+    repeat 28 0 0 1
+    box 0 0.02 -13.5 0.9 0.02 0.1 5A4A38
+    box 0 1.9 0 1.4 1.3 9 F2F2EE
+    box 0 1.1 0 1.41 0.35 9 2A8A6A
+    box 1.41 2.3 0 0.01 0.4 8.5 2A3A4A glass
+    box 0 2.3 9.01 1.1 0.45 0.01 2A3A4A glass
+    box 0 3.25 0 1.2 0.08 8.8 9A9A9A
+    mirror
+    box 0 0.55 6 1.0 0.25 1.5 3A3A3A
+
+shape GINSENG_SHADES
+    home SOUTH KOREA, CHINA:JILIN, USA:WISCONSIN | 0.006 4 50 | country
+    # A ginseng farm: long rows of black shade cloths slanted low over the beds on wooden frames, the plants hidden in the shade beneath.
+    repeat 6 -1.8 0 0
+    quad 0.0 1.2 -4.5 0.0 1.2 4.5 -1.2 0.8 4.5 -1.2 0.8 -4.5 1E1E1E
+    repeat 6 -1.8 0 0
+    tube 0 0 -4.5 0 1.2 -4.5 0.03 3 8A6A48
+    repeat 6 -1.8 0 0
+    tube 0 0 4.5 0 1.2 4.5 0.03 3 8A6A48
+    repeat 6 -1.8 0 0
+    box -0.6 0.15 0 0.5 0.15 4.4 7A5A3A
+
+shape MUSIC_GARBAGE_TRUCK
+    home TAIWAN | 0.004 1 15 | town
+    # A rubbish truck playing its tune through the lane: a yellow compactor truck, the neighbours waiting at the kerb with their bags.
+    box 0 1.3 2.4 1.1 0.8 0.8 F2C21E
+    box 0 1.6 3.21 1.0 0.3 0.01 2A3A4A glass
+    box 0 1.5 -1.0 1.15 1.1 2.6 F2C21E
+    box 0 1.5 -3.65 1.1 1.0 0.05 C8A020
+    mirrorx
+    tube 0.9 0.45 2.3 1.12 0.45 2.3 0.45 10 1E1E1E
+    mirrorx
+    tube 0.9 0.45 -2.4 1.12 0.45 -2.4 0.45 10 1E1E1E
+    repeat 3 0 0 1.2
+    blob 2 0.8 -1.2 0.15 0.3 0.12 6A8AA8
+    repeat 3 0 0 1.2
+    blob 2.2 0.2 -1.0 0.15 0.2 0.15 F2F2F2
+
+shape DEER_STONES
+    home MONGOLIA | 0.004 8 60 | country
+    # Ancient deer stones on the steppe: tall grey standing slabs carved with flying stags, leaning a little, with a ring of small stones around them.
+    box 0 1.3 0 0.15 1.3 0.35 9A9690
+    box 0.16 1.6 0 0.01 0.7 0.25 7A7670
+    box -1 1.1 1.5 0.15 1.1 0.3 8A8680
+    box 0.8 0.9 -1.6 0.14 0.9 0.28 9A9690
+    ring 12 3
+    blob 0 0.1 0 0.25 0.15 0.25 8A8680 0.5
+
+shape HK_MINIBUS
+    home CHINA:HONG KONG | 0.008 1 12 | town
+    # A Hong Kong public light bus: a small cream minibus with a green or red roof, its destination card in the windscreen, speeding along.
+    box 0 1.1 0 0.95 0.75 2.8 F2EEDA
+    box 0 1.9 -0.1 0.93 0.08 2.7 2A8A4A
+    box 0.96 1.4 -0.2 0.01 0.3 2.3 2A3A4A glass
+    tbox 0 0.5 2.8 0.95 0.5 0 1.7 2.95 0.9 0.3 F2EEDA
+    box 0 1.55 3.0 0.8 0.25 0.01 2A3A4A glass
+    box 0 1.35 3.02 0.3 0.08 0.01 F2F2F2
+    mirrorx
+    tube 0.8 0.35 2.1 0.97 0.35 2.1 0.35 10 1E1E1E
+    mirrorx
+    tube 0.8 0.35 -2.0 0.97 0.35 -2.0 0.35 10 1E1E1E
+
+shape HK_RED_TAXI
+    home CHINA:HONG KONG | 0.008 1 12 | town
+    # A Hong Kong taxi: a red sedan with a silver roof and the white taxi sign, waiting at the rank.
+    box 0 0.55 0 0.85 0.3 2.1 C82A2A
+    box 0 1.05 -0.2 0.8 0.25 1.1 D8D8D8
+    box 0 1.05 -0.2 0.81 0.2 0.95 2A3A4A glass
+    box 0 1.37 -0.2 0.25 0.08 0.1 F2F2F2
+    mirror
+    mirrorx
+    tube 0.7 0.32 1.3 0.87 0.32 1.3 0.32 10 1E1E1E
+
+shape SQUID_DRYING_LINE
+    home SOUTH KOREA, JAPAN, TAIWAN, CHINA:SHANDONG, CHINA:FUJIAN | 0.006 2 20 | coast
+    # Squid drying in the sea wind: rows of split white squid pegged on lines strung between poles by the harbour.
+    repeat 4 0 0 2.5
+    tube 0 0 -3.75 0 1.9 -3.75 0.04 3 8A8A8A
+    repeat 3 0 0.5 0
+    tube 0 0.9 -3.75 0 0.9 3.75 0.01 3 8A8A8A
+    repeat 14 0 0 0.5
+    blob 0 0.72 -3.25 0.02 0.18 0.1 F2E8E0
+    repeat 14 0 0 0.5
+    blob 0 1.22 -3.25 0.02 0.18 0.1 F2E8E0
+    repeat 14 0 0 0.5
+    blob 0 1.72 -3.25 0.02 0.18 0.1 E8DCD0
