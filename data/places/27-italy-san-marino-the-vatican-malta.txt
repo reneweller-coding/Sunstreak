@@ -196,3 +196,5 @@ place MALTA | VALLETTA | MALTA | NOON
     floating
     p PRICKLY_PEAR 0.04 3 30
     p STONE_WALL 0.25 3 3 1 1
+    scatter CYCLADIC_HOUSE 0.04 7 60
+    c 2A5AA8

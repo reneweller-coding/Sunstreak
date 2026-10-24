@@ -92,3 +92,5 @@ place LISBON | LISBON | PORTUGAL | GOLDEN
     p PALM 0.06 2 20
     p SAILBOAT 0.01 60 250
     floating
+    scatter AZULEJO_HOUSE 0.04 7 50
+    c 3A6AB0 B0502C
