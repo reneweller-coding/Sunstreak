@@ -260,7 +260,7 @@ shape JAPANESE_MAPLE
     blob 0.6 2.5 0.8 1.1 0.5 1.1 D84A1E 0.4
 
 shape OYSTER_RAFTS
-    home JAPAN:CHUGOKU, JAPAN:TOHOKU, JAPAN:KYUSHU | 0.004 30 110 | water
+    home JAPAN:CHUGOKU, JAPAN:TOHOKU, JAPAN:KYUSHU, USA:WASHINGTON | 0.004 30 110 | water
     # Oyster rafts on the bay: frames of bamboo poles on floats, rows of them across the still water.
     repeat 3 0 0 7
     box 0 0.25 -7 3 0.06 3 B8A060
