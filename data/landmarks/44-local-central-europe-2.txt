@@ -1,0 +1,284 @@
+# More local things of Germany, the Alpine countries and the Low Countries.
+
+shape BOTTLE_BANKS
+    home GERMANY, AUSTRIA, SWITZERLAND, NETHERLANDS, BELGIUM, LUXEMBOURG, DENMARK, CZECHIA | 0.006 1 10 | town
+    # Bottle banks at the car park: three big round-topped containers for white, green and brown glass.
+    box 0 0.8 -1.6 0.7 0.8 0.7 E8E8E8
+    dome 0 1.6 -1.6 0.7 0.3 E8E8E8
+    box 0 0.8 0 0.7 0.8 0.7 3A8A4A
+    dome 0 1.6 0 0.7 0.3 3A8A4A
+    box 0 0.8 1.6 0.7 0.8 0.7 8A5A2A
+    dome 0 1.6 1.6 0.7 0.3 8A5A2A
+    repeat 3 0 0 1.6
+    blob 0.6 1.75 -1.6 0.1 0.1 0.1 2A2A2A
+    repeat 3 0 0 1.6
+    box 0.71 1.2 -1.6 0.01 0.15 0.3 1E1E1E
+
+shape BIN_ROW
+    home GERMANY, AUSTRIA, SWITZERLAND, NETHERLANDS, BELGIUM, LUXEMBOURG | 0.008 1 8 | town
+    # Wheelie bins lined up at the kerb for collection day: grey, blue, yellow and brown, lids shut.
+    box 0 0.5 -1.2 0.32 0.5 0.32 4A4A4A
+    box 0 0.5 -0.5 0.32 0.5 0.32 2A5AA8
+    box 0 0.5 0.2 0.32 0.5 0.32 E8C02A
+    box 0 0.5 0.9 0.32 0.5 0.32 7A5A30
+    repeat 4 0 0 0.7
+    box 0.03 1.02 -1.2 0.36 0.03 0.34 3A3A3A
+    repeat 4 0 0 0.7
+    tube -0.3 0.1 -1.45 -0.3 0.1 -0.95 0.1 8 1E1E1E
+
+shape GARDEN_GNOMES
+    home GERMANY, AUSTRIA, SWITZERLAND, NETHERLANDS, POLAND, CZECHIA | 0.006 2 15 | town
+    # A front garden behind a criss-cross fence: a row of garden gnomes with red caps and white beards among the flowers.
+    repeat 8 0 0 1
+    tube 0.5 0 -3.5 0.5 0.9 -3.5 0.04 3 8A6A48
+    repeat 7 0 0 1
+    tube 0.5 0.1 -3.5 0.5 0.8 -2.5 0.02 3 8A6A48
+    repeat 7 0 0 1
+    tube 0.5 0.8 -3.5 0.5 0.1 -2.5 0.02 3 8A6A48
+    repeat 5 0 0 1.2
+    tbox -0.5 0 -2.4 0.1 0.1 -0.5 0.25 -2.4 0.08 0.08 2A6AC8
+    repeat 5 0 0 1.2
+    blob -0.5 0.33 -2.4 0.07 0.07 0.07 F2C8A8
+    repeat 5 0 0 1.2
+    blob -0.44 0.27 -2.4 0.04 0.06 0.05 F2F2F2
+    repeat 5 0 0 1.2
+    spire -0.5 0.38 -2.4 0.08 0.2 6 C82A2A
+    repeat 4 0 0 1.4
+    blob -1.2 0.2 -2 0.3 0.2 0.3 E85A8A 0.5
+
+shape BIOGAS_PLANT
+    home GERMANY, AUSTRIA, DENMARK, NETHERLANDS, CZECHIA, ITALY:LOMBARDY, POLAND | 0.003 15 100 | country
+    # A farm biogas plant: two big round concrete tanks with green domed membrane roofs, pipes and a little control hut.
+    cyl 0 0 -6 6 6 4 20 B8B8B0
+    dome 0 4 -6 6 3 4A7A4A
+    cyl 0 0 7 5 5 4 20 B8B8B0
+    dome 0 4 7 5 2.5 4A7A4A
+    tube 0 1 -0.1 0 1 2 0.2 6 8A8A8A
+    box 7 1.2 0 1.2 1.2 1.6 C8C8C0
+    tube 7 2.4 0.5 7 5 0.5 0.15 6 8A8A8A
+
+shape COMBINE_HARVESTER
+    home GERMANY, FRANCE, POLAND, ENGLAND, CZECHIA, HUNGARY, UKRAINE, ROMANIA, DENMARK, USA:IOWA, USA:NEBRASKA, USA:NORTH DAKOTA, CANADA:SASKATCHEWAN, ARGENTINA:BUENOS AIRES, RUSSIA:SOUTHERN RUSSIA, KAZAKHSTAN, AUSTRALIA:WESTERN AUSTRALIA, AUSTRALIA:SOUTH AUSTRALIA | 0.004 6 60 | country
+    # A combine harvester at work in the wheat: a big green machine with its wide reel cutting a swathe, the grain pipe folded at its side.
+    box 0 0.35 0 6 0.35 8 D8B860
+    box 0 2.2 0 1.5 1.3 2.2 3A8A3A
+    box 0 3.6 1.5 0.9 0.6 0.8 3A8A3A
+    box 0 3.7 2.31 0.8 0.45 0.01 2A3A4A glass
+    box 0 1.0 3.6 3 0.4 0.6 C8C020
+    tube -3 1.3 4.1 3 1.3 4.1 0.4 8 C8C020
+    tube 1.4 3 -0.5 1.4 3.4 -2.6 0.15 6 3A8A3A
+    mirrorx
+    tube 1.3 0.9 1.5 1.7 0.9 1.5 0.9 12 1E1E1E
+    mirrorx
+    tube 1.2 0.55 -1.8 1.5 0.55 -1.8 0.55 10 1E1E1E
+    box 0 0.36 -5 6 0.01 3 C8A850
+
+shape VILLAGE_FIRE_STATION
+    home GERMANY, AUSTRIA, SWITZERLAND, CZECHIA, POLAND, SLOVENIA | 0.004 4 40 | town
+    # A village fire station: two red garage doors, a little meeting room above, a slim tower for drying the hoses with the siren on its roof.
+    box 0 2.5 0 3.5 2.5 5 F2EEE2
+    gable 0 5 0 3.7 5.2 1.8 0.4 A8503A F2EEE2
+    box 3.52 1.5 -2.3 0.02 1.4 1.6 C82A2A
+    box 3.52 1.5 2.3 0.02 1.4 1.6 C82A2A
+    windows 3.52 3 -4 0 1 8 2 0.3 2
+    box -2.5 6 -6 1.2 6 1.2 F2EEE2
+    hip -2.5 12 -6 1.4 1.4 1.2 0.2 A8503A
+    box -2.5 13.4 -6 0.3 0.2 0.3 8A8A8A
+    box -1.28 10 -6 0.02 0.6 0.4 2A3A4A glass
+
+shape STEEP_VINEYARD_RAIL
+    home GERMANY:RHINELAND-PALATINATE, GERMANY:BADEN-WURTTEMBERG, GERMANY:SAXONY, SWITZERLAND, AUSTRIA, PORTUGAL, FRANCE:AUVERGNE-RHONE-ALPES | 0.006 8 60 | country
+    # A steep slate vineyard above the river: rows of vines on single stakes climbing the slope, a little monorail track running straight up.
+    tbox -6 0 0 6 12 -12 14 0 0.5 12 7A6A58
+    repeat 7 -1.5 1.75 0
+    box -1.5 2.35 0 0.25 0.6 11 4A7A3A
+    tube -0.5 1 -2 -12 14.5 -2 0.05 3 8A8A8A
+    box -6 7.4 -2 0.4 0.3 0.3 E8C02A
+    box -10 12 6 1.2 1 1.2 E8E0D0
+    gable -10 13 6 1.3 1.3 0.6 0.1 3A3A3A E8E0D0
+
+shape BAKFIETS
+    home NETHERLANDS, BELGIUM, DENMARK, GERMANY:BERLIN, GERMANY:HAMBURG, GERMANY:BREMEN | 0.006 1 10 | town
+    # A cargo bike parked by the canal: a long bicycle with a wooden box in front, a rain hood over the bench where the children ride.
+    tube -0.03 0.3 1.0 0.03 0.3 1.0 0.25 10 2A2A2A
+    tube -0.03 0.33 -0.9 0.03 0.33 -0.9 0.33 10 2A2A2A
+    box 0 0.65 0.7 0.35 0.3 0.45 8A6A48
+    box 0 0.98 0.85 0.2 0.04 0.2 2A6AC8
+    blob 0 1.1 0.75 0.3 0.25 0.35 2A3A4A glass
+    tube 0 0.6 0.2 0 0.4 -0.9 0.03 3 3A3A3A
+    tube 0 0.4 -0.3 0 1.0 -0.45 0.03 3 3A3A3A
+    box 0 1.02 -0.5 0.06 0.03 0.12 1E1E1E
+    tube 0 0.5 0.2 0 1.15 0.15 0.03 3 3A3A3A
+    tube -0.25 1.15 0.15 0.25 1.15 0.15 0.02 3 3A3A3A
+
+shape GLASSHOUSE_FARM
+    home NETHERLANDS, BELGIUM, DENMARK, GERMANY:NORTH RHINE-WESTPHALIA, GERMANY:LOWER SAXONY | 0.004 10 90 | country
+    # A glasshouse complex: long rows of ridged glass roofs glowing at night with the grow lights, a tall chimney for the heating plant.
+    box 0 2.5 0 8 2.5 18 C8D8E0 glass
+    repeat 8 2 0 0
+    gable -7 5 0 1 18 0.6 0 B8C8D0 C8D8E0
+    box 8.01 1.5 0 0.01 1.5 17 F2E8C0 lit
+    cyl -10 0 -14 0.6 0.4 14 8 B8B0A0
+
+shape DIKE_WITH_SHEEP
+    home NETHERLANDS, GERMANY:SCHLESWIG-HOLSTEIN, GERMANY:LOWER SAXONY, DENMARK, BELGIUM | 0.006 10 50 | country
+    # A grass dike along the coast: a long green bank with a fence along its top and sheep grazing on its slope.
+    tbox 0 0 0 5 20 0 4 0 0.8 20 6A9A4A
+    repeat 9 0 0 5
+    tube 0.6 4 -20 0.6 5 -20 0.05 3 8A6A48
+    tube 0.6 4.8 -20 0.6 4.8 20 0.02 3 8A6A48
+    repeat 5 0 0 5
+    blob 2.4 2.65 -10 0.25 0.25 0.4 F2EEE2
+    repeat 5 0 0 5
+    blob 2.45 2.8 -9.55 0.1 0.12 0.15 3A3A3A
+    repeat 4 0 0 5
+    blob -2.4 2.6 -7 0.25 0.25 0.4 F2EEE2
+
+shape TULIP_FIELD_STRIPES
+    home NETHERLANDS, BELGIUM | 0.008 6 60 | country
+    # Bulb fields in spring: long flat stripes of tulips in red, yellow, pink and purple running away to the horizon.
+    box -6 0.02 0 7 0.02 8 7A6A50
+    box -6 0.2 -6.5 6.8 0.2 1 C82A2A
+    box -6 0.2 -4.2 6.8 0.2 1 F2C21E
+    box -6 0.2 -1.9 6.8 0.2 1 E87AA8
+    box -6 0.2 0.4 6.8 0.2 1 8A3AA8
+    box -6 0.2 2.7 6.8 0.2 1 F2F2F2
+    box -6 0.2 5 6.8 0.2 1 E8702A
+    box -6 0.2 7.2 6.8 0.2 0.7 C82A2A
+
+shape DECORATED_ALPINE_COWS
+    home AUSTRIA, SWITZERLAND, GERMANY:BAVARIA, ITALY:TRENTINO | 0.004 4 30 | country
+    # Cows coming down from the high pastures in autumn: brown cattle with big bells and tall headdresses of flowers and ribbons.
+    repeat 3 0 0 2.6
+    blob 0 1.25 -2.6 0.42 0.48 0.95 8A5A3A
+    repeat 3 0 0 2.6
+    blob 0 1.35 -1.55 0.2 0.25 0.35 8A5A3A
+    repeat 3 0 0 2.6
+    tube 0.25 0.9 -2 0.25 0 -2 0.08 4 8A5A3A
+    repeat 3 0 0 2.6
+    tube -0.25 0.9 -2 -0.25 0 -2 0.08 4 8A5A3A
+    repeat 3 0 0 2.6
+    tube 0.25 0.9 -3.2 0.25 0 -3.2 0.08 4 8A5A3A
+    repeat 3 0 0 2.6
+    tube -0.25 0.9 -3.2 -0.25 0 -3.2 0.08 4 8A5A3A
+    repeat 3 0 0 2.6
+    cyl 0 0.75 -1.75 0.12 0.15 0.25 8 C8A040 shiny
+    repeat 3 0 0 2.6
+    spire 0 1.55 -1.55 0.3 0.7 8 E85A8A
+    repeat 3 0 0 2.6
+    blob 0 1.75 -1.55 0.2 0.15 0.2 F2C21E 0.5
+
+shape ALPHORN_PLAYER
+    home SWITZERLAND, AUSTRIA, GERMANY:BAVARIA | 0.002 4 30 | country
+    # An alphorn player on the meadow: a man in a white shirt and red waistcoat blowing a long wooden horn resting on the grass.
+    tube 0.08 0.8 0 0.08 0 0 0.06 4 3A3A3A
+    tube -0.08 0.8 0 -0.08 0 0 0.06 4 3A3A3A
+    box 0 1.15 0 0.18 0.32 0.13 C82A2A
+    box 0 1.2 0 0.19 0.2 0.14 F2F2F2
+    blob 0 1.6 0 0.1 0.12 0.1 E0B090
+    cyl 0 1.7 0 0.14 0.14 0.03 10 3A3A3A
+    tube 0 1.55 0.12 0 0.6 2.5 0.04 6 8A6A48
+    tube 0 0.6 2.5 0 0.1 3.4 0.07 6 8A6A48
+    cyl 0 0 3.5 0.25 0.12 0.35 10 8A6A48
+
+shape SOLAR_ROOF_BARN
+    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG, GERMANY:LOWER SAXONY, GERMANY:NORTH RHINE-WESTPHALIA, AUSTRIA, SWITZERLAND, NETHERLANDS, CZECHIA | 0.006 8 60 | country
+    # A big farm barn whose whole south roof is covered in solar panels, glinting dark blue among the fields.
+    box 0 3 0 5 3 10 C8B898
+    gable 0 6 0 5.2 10.2 3 0.3 8A4A2A C8B898
+    quad 5.3 6.1 -9.8 5.3 6.1 9.8 0.2 9.1 9.8 0.2 9.1 -9.8 2A3A5A shiny
+    box 5.02 2 3 0.02 2 2.5 6A5A48
+
+shape CHURCHYARD_GRAVES
+    home GERMANY, AUSTRIA, SWITZERLAND, POLAND, CZECHIA, SLOVAKIA, NETHERLANDS, BELGIUM, LUXEMBOURG, SLOVENIA, CROATIA | 0.004 4 40 | country
+    # The village churchyard: rows of tended graves with stone crosses and headstones, little lanterns and flowers, a low wall around it.
+    box 0 0.4 0 0.2 0.4 6 B8B0A0
+    box -6 0.4 0 0.2 0.4 6 B8B0A0
+    repeat 4 0 0 3
+    box -1.5 0.15 -4.5 0.5 0.15 1 6A8A4A
+    repeat 4 0 0 3
+    box -1.5 0.6 -5.4 0.4 0.45 0.08 9A9690
+    repeat 4 0 0 3
+    blob -1.3 0.35 -4.3 0.1 0.12 0.1 C82A2A
+    repeat 4 0 0 3
+    box -4 0.15 -4.5 0.5 0.15 1 6A8A4A
+    repeat 4 0 0 3
+    box -4 0.7 -5.4 0.05 0.55 0.05 7A7A78
+    repeat 4 0 0 3
+    box -4 0.95 -5.4 0.05 0.05 0.25 7A7A78
+    tube -6 0 6 -6 8 6 0.35 6 2A4A2A
+    spire -6 2 6 1.4 9 8 2A4A2A
+
+shape PICK_YOUR_OWN_FLOWERS
+    home GERMANY:SCHLESWIG-HOLSTEIN, GERMANY:MECKLENBURG-VORPOMMERN, GERMANY:LOWER SAXONY, DENMARK, NETHERLANDS | 0.004 3 20 | country
+    # Pick-your-own flowers by the road: a field of gladioli and sunflowers with an honesty box and a hand-painted sign.
+    repeat 6 0 0 0.8
+    box -2 0.6 -2 1.5 0.6 0.2 4A7A2A
+    repeat 3 0 0 1.6
+    blob -2 1.25 -2 1.4 0.15 0.22 E85A8A 0.5
+    repeat 3 0 0 1.6
+    blob -2 1.35 -1.2 1.4 0.2 0.25 F2C21E 0.5
+    box 0.5 0.9 2.5 0.15 0.2 0.15 2A6AC8
+    tube 0.5 0 2.5 0.5 0.7 2.5 0.04 3 8A6A48
+    box 0.8 1.4 3.2 0.05 0.4 0.6 F2F2F2
+    tube 0.8 0 3.2 0.8 1.0 3.2 0.04 3 8A6A48
+
+shape WILD_BOAR_FAMILY
+    home GERMANY, POLAND, CZECHIA, FRANCE, ITALY, SPAIN, AUSTRIA, BELGIUM, HUNGARY, CROATIA, SLOVAKIA, ROMANIA | 0.004 4 40 | country
+    # A wild boar sow with her striped piglets crossing the edge of the wood: dark bristly bodies, long snouts, the little ones in a line.
+    blob 0 0.55 0 0.3 0.35 0.65 3A3028
+    blob 0 0.5 0.7 0.15 0.18 0.22 3A3028
+    blob 0 0.42 0.92 0.08 0.07 0.06 2A2420
+    mirror
+    mirrorx
+    tube 0.15 0.3 0.4 0.15 0 0.4 0.05 4 2A2420
+    repeat 5 0.2 0 -0.5
+    blob 0.6 0.18 -0.6 0.08 0.1 0.16 8A6A48
+    repeat 5 0.2 0 -0.5
+    box 0.6 0.24 -0.6 0.081 0.02 0.14 C8A878
+
+shape ROE_DEER
+    home GERMANY, AUSTRIA, SWITZERLAND, FRANCE, POLAND, CZECHIA, DENMARK, ENGLAND, SCOTLAND, SWEDEN, NORWAY, BELGIUM, NETHERLANDS, HUNGARY, SLOVAKIA, SLOVENIA, ITALY | 0.004 6 60 | country
+    # Roe deer at the edge of a field at dusk: small and delicate, reddish-brown with white rumps, the buck with short forked antlers.
+    blob 0 0.8 0 0.15 0.2 0.38 9A5A38
+    blob 0 0.82 -0.36 0.1 0.12 0.04 F2F2F2
+    tube 0 0.88 0.3 0 1.15 0.42 0.05 4 9A5A38
+    blob 0 1.17 0.5 0.06 0.07 0.12 9A5A38
+    mirrorx
+    tube 0.03 1.24 0.46 0.07 1.45 0.44 0.015 3 C8B8A0
+    mirror
+    mirrorx
+    tube 0.08 0.6 0.25 0.08 0 0.25 0.025 3 9A5A38
+    blob 1.2 0.75 1.5 0.14 0.18 0.35 A8683A
+    tube 1.2 0.8 1.8 1.2 0.6 2.1 0.045 4 A8683A
+    blob 1.2 0.55 2.2 0.06 0.07 0.1 A8683A
+    tube 1.27 0.57 1.75 1.27 0 1.75 0.025 3 A8683A
+    tube 1.13 0.57 1.75 1.13 0 1.75 0.025 3 A8683A
+    tube 1.27 0.57 1.25 1.27 0 1.25 0.025 3 A8683A
+    tube 1.13 0.57 1.25 1.13 0 1.25 0.025 3 A8683A
+
+shape MARMOTS
+    home SWITZERLAND, AUSTRIA, ITALY:AOSTA VALLEY, ITALY:TRENTINO, FRANCE:AUVERGNE-RHONE-ALPES, GERMANY:BAVARIA | 0.006 2 25 | country
+    # Marmots by their burrow among the alpine rocks: plump grey-brown rodents, one sitting up straight on watch.
+    blob -1 0.4 0 1.2 0.6 1 8A8680 0.5
+    dome 0.5 0 0.8 0.5 0.12 8A7A60
+    blob 0.5 0.35 0.8 0.13 0.22 0.12 9A7A58
+    blob 0.5 0.62 0.82 0.09 0.09 0.09 9A7A58
+    blob 0.55 0.6 0.88 0.03 0.03 0.03 3A2A1E
+    blob 1.2 0.15 -0.3 0.14 0.13 0.25 8A6A48
+    blob 1.2 0.2 -0.05 0.08 0.08 0.08 8A6A48
+
+shape ALPINE_IBEX
+    home SWITZERLAND, AUSTRIA, ITALY:AOSTA VALLEY, ITALY:TRENTINO, FRANCE:AUVERGNE-RHONE-ALPES, GERMANY:BAVARIA, SLOVENIA | 0.004 6 50 | country
+    # An ibex on a rocky ledge above the pass: a stocky grey-brown wild goat with huge ridged horns sweeping back over its shoulders.
+    blob 0 1.2 0 2 1.2 2 8A8680 0.5
+    blob 0 2.75 0 0.22 0.28 0.5 7A6A58
+    tube 0 2.85 0.4 0 3.1 0.55 0.1 5 7A6A58
+    blob 0 3.1 0.65 0.09 0.11 0.18 7A6A58
+    mirrorx
+    tube 0.06 3.2 0.6 0.12 3.6 0.3 0.05 4 6A5A48
+    mirrorx
+    tube 0.12 3.6 0.3 0.14 3.55 -0.05 0.04 4 6A5A48
+    mirror
+    mirrorx
+    tube 0.12 2.55 0.35 0.12 2.15 0.35 0.04 3 7A6A58
