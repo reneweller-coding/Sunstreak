@@ -1,7 +1,7 @@
 # Local things of Germany, strewn by the places through their "home" lines (see 00-language.txt).
 
 shape HIGH_SEAT
-    home GERMANY, AUSTRIA, POLAND, CZECHIA, SLOVAKIA, HUNGARY, SLOVENIA | 0.004 14 90 | country
+    home GERMANY, AUSTRIA, POLAND, CZECHIA, SLOVAKIA, HUNGARY, SLOVENIA, USA:PENNSYLVANIA, USA:MICHIGAN, USA:WISCONSIN, USA:MINNESOTA, USA:TEXAS | 0.004 14 90 | country
     # A hunter's high seat at a field's edge: four leaning legs, a ladder, a little cabin up top.
     mirror
     mirrorx

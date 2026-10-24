@@ -1,0 +1,328 @@
+# Everyday things of American towns and suburbs.
+
+shape PUMPKIN_PATCH
+    home USA, CANADA:ONTARIO, CANADA:QUEBEC, CANADA:NOVA SCOTIA | 0.006 3 30 | country
+    # A pumpkin patch in October: orange pumpkins scattered over the field, hay bales to sit on and a hand-painted sign on the farm stand.
+    box -3 0.02 0 4 0.02 6 6A5A3A
+    repeat 6 0.9 0 1.6
+    blob -6 0.25 -4 0.3 0.25 0.3 E8802A
+    repeat 6 0.9 0 1.6
+    blob -5 0.2 -3.2 0.25 0.2 0.25 E8702A
+    repeat 5 0.9 0 1.6
+    blob -6.5 0.22 -2 0.28 0.22 0.28 E8902A
+    repeat 3 0 0 1.2
+    box 2 0.3 -1 0.5 0.3 0.4 D8C070
+    box 3 1.2 3 1 1.2 1.5 A82A22
+    quad 2 2.6 1.4 2 2.6 4.6 4.4 2.3 4.6 4.4 2.3 1.4 9AA0A8
+    box 4.2 1.8 0 0.05 0.5 0.9 F2F2EE
+
+shape CHRISTMAS_TREE_FARM
+    home USA:OREGON, USA:NORTH CAROLINA, USA:MICHIGAN, USA:PENNSYLVANIA, USA:WISCONSIN, USA:WASHINGTON, CANADA:NOVA SCOTIA, CANADA:QUEBEC, DENMARK, GERMANY:NORTH RHINE-WESTPHALIA | 0.006 6 60 | country
+    # A Christmas tree farm: neat rows of young firs in every size, from knee-high to taller than a man, sheared into perfect cones.
+    repeat 6 0 0 1.8
+    spire 0 0 -4.5 0.6 1.8 8 2A5A3A
+    repeat 6 0 0 1.8
+    spire -2 0 -4.5 0.8 2.4 8 2E6040
+    repeat 6 0 0 1.8
+    spire -4 0 -4.5 0.4 1.2 8 2A5A3A
+    repeat 6 0 0 1.8
+    spire -6 0 -4.5 0.9 2.8 8 2E6040
+
+shape GOLF_GREEN
+    home USA, SCOTLAND, IRELAND, ENGLAND, SPAIN:ANDALUSIA, PORTUGAL, JAPAN, SOUTH AFRICA, AUSTRALIA, NEW ZEALAND, SOUTH KOREA, UAE, CANADA, MEXICO | 0.003 8 70 | country
+    # A golf hole beside the road: a smooth green with a red flag in the cup, white sand bunkers and the fairway running away.
+    box -6 0.02 0 8 0.02 12 6AAA4A
+    cyl -4 0.04 3 4 4 0.02 16 7ABA5A
+    tube -4 0.06 3 -4 2.4 3 0.02 3 F2F2F2
+    tri -4 2.4 3 -4 2.0 3 -4 2.2 3.6 C82A2A
+    cyl -1 0.03 6 1.6 1.6 0.03 12 E8E0C8
+    cyl -7 0.03 -1 1.2 1.2 0.03 12 E8E0C8
+    blob -3 0.05 -6 0.03 0.03 0.03 F2F2F2
+    tube 1 0 -8 1 4 -8 0.2 6 6A5A48
+    blob 1 5.5 -8 1.8 1.6 1.8 3A6A2A 0.4
+
+shape BASEBALL_FIELD
+    home USA, JAPAN, DOMINICAN REPUBLIC, CUBA, SOUTH KOREA, TAIWAN, VENEZUELA, MEXICO, NICARAGUA, PANAMA | 0.003 8 60 | town
+    # A little league ball field: the red-brown infield diamond, white bases, a tall chain-link backstop and aluminium bleachers.
+    box -8 0.02 0 10 0.02 10 5A9A3A
+    quad -1 0.03 0 -7 0.03 -6 -13 0.03 0 -7 0.03 6 B8603A
+    box -1 0.05 0 0.2 0.03 0.2 F2F2F2
+    box -7 0.05 -6 0.2 0.03 0.2 F2F2F2
+    box -13 0.05 0 0.2 0.03 0.2 F2F2F2
+    box -7 0.05 6 0.2 0.03 0.2 F2F2F2
+    cyl -7 0.03 0 0.6 0.6 0.1 10 B8603A
+    quad 0.5 0 -3 0.5 4 -3 0.5 4 3 0.5 0 3 9A9A9A
+    tube 0.5 0 -3 0.5 4 -3 0.05 3 7A7A7A
+    tube 0.5 0 3 0.5 4 3 0.05 3 7A7A7A
+    tbox 2 0 7 1.5 3 2 1.5 7 0.3 3 B8B8B8
+
+shape HIGH_SCHOOL_STADIUM
+    home USA:TEXAS, USA:OKLAHOMA, USA:OHIO, USA:GEORGIA, USA:ALABAMA, USA:FLORIDA, USA:PENNSYLVANIA, USA:INDIANA, USA:IOWA, USA:NEBRASKA, USA:CALIFORNIA, USA:LOUISIANA, USA:MISSISSIPPI | 0.003 10 80 | town
+    # A high school football field: the striped green field, yellow goalposts, a big home-side grandstand and banks of floodlights.
+    box -10 0.02 0 9 0.02 25 4A8A3A
+    repeat 11 0 0 5
+    box -10 0.03 -25 9 0.005 0.08 F2F2F2
+    mirror
+    tube -10 0 24 -10 3 24 0.08 4 E8C02A
+    mirror
+    tube -11.5 3 24 -8.5 3 24 0.06 4 E8C02A
+    mirror
+    tube -11.5 3 24 -11.5 6 24 0.05 3 E8C02A
+    mirror
+    tube -8.5 3 24 -8.5 6 24 0.05 3 E8C02A
+    tbox 2 0 0 2 18 2 5 0 0.3 18 B8B8B8
+    box 4.5 6 0 0.5 1 6 2A4A8A
+    mirror
+    tube 4 0 20 4 18 20 0.2 6 9A9A9A
+    mirror
+    box 4 18.5 20 0.3 0.8 2 F2F2E8 glow
+
+shape MOTOR_LODGE
+    home USA, CANADA | 0.004 4 40 | town
+    # A roadside motor lodge: a long single-storey row of rooms with numbered doors, a kidney-shaped pool and an office with a neon sign.
+    box -1 1.5 0 3 1.5 14 E8D8B0
+    quad -4.2 3.1 -14.2 -4.2 3.1 14.2 2.6 2.8 14.2 2.6 2.8 -14.2 6A3A22
+    repeat 10 0 0 2.6
+    box 2.02 1.1 -11.7 0.02 1.1 0.5 2A6A6A
+    repeat 10 0 0 2.6
+    box 2.02 1.6 -12.7 0.02 0.4 0.4 2A3A4A glass
+    box 5 0.03 -3 2 0.03 4 4AB8D8 water
+    halo 5 0.05 -3 2.2 0.1 12 F2F2F2
+    box 1 1.8 16 2 1.8 2 E8D8B0
+    tube 5 0 17 5 7 17 0.15 6 9A9A9A
+    box 5 7 17 0.2 1 2 E82A5A glow
+
+shape MOBILE_HOME_PARK
+    home USA, CANADA | 0.004 4 40 | town pastel
+    # A mobile home park: long single-wide trailers in pastel siding up on blocks, little porches, satellite dishes and pickup trucks.
+    box 0 1.3 -6 1.8 0.8 7 A
+    box 0 1.3 6 1.8 0.8 7 E8E4DC
+    repeat 2 0 0 12
+    box 0 2.15 -6 1.9 0.06 7.1 9A9A9A
+    repeat 2 0 0 12
+    box 1.81 1.4 -8 0.01 0.35 2 2A3A4A glass
+    repeat 2 0 0 12
+    box 2.6 0.4 -5 0.8 0.05 1 C8B898
+    repeat 2 0 0 12
+    box 1.8 0.25 -6 0.02 0.25 7 6A6A6A
+    blob -1 2.6 -3 0.05 0.3 0.3 E8E8E8
+    box 4.5 0.6 3 0.9 0.4 2.2 8A2A1E
+
+shape SELF_STORAGE
+    home USA, CANADA, AUSTRALIA, ENGLAND | 0.004 4 40 | town
+    # A self-storage yard: low rows of metal units with bright orange roll-up doors behind a fence, a sign by the gate.
+    repeat 2 -6 0 0
+    box 0 1.4 0 2.5 1.4 12 C8C4BC
+    repeat 2 -6 0 0
+    quad -2.6 2.9 -12.2 -2.6 2.9 12.2 2.6 2.7 12.2 2.6 2.7 -12.2 9AA0A8
+    repeat 8 0 0 3
+    box 2.52 1.1 -10.5 0.02 1.0 1.2 E8702A
+    repeat 8 0 0 3
+    box -3.48 1.1 -10.5 0.02 1.0 1.2 E8702A
+    box 5 0.9 0 0.02 0.9 12 9A9A9A
+    tube 5 0 13 5 3 13 0.1 4 9A9A9A
+    box 5 3.4 13 0.15 0.6 1.5 E8702A
+
+shape CAR_WASH
+    home USA, CANADA, MEXICO, AUSTRALIA, GERMANY, FRANCE | 0.004 3 30 | town
+    # A self-service car wash: a row of open bays under a flat roof with a coloured fascia, hoses and foam brushes hanging, vacuums outside.
+    box 0 3.2 0 3 0.3 8 F2F2F2
+    box 3.02 3.2 0 0.02 0.25 7.8 2A6AC8
+    repeat 5 0 0 4
+    box 0 1.6 -8 3 1.6 0.15 C8C4BC
+    repeat 4 0 0 4
+    tube -2.5 2.9 -6 -2.5 1 -6 0.03 3 1E1E1E
+    box 0 0.6 -6 0.9 0.35 2 C82A2A
+    repeat 3 0 0 2
+    cyl 4.5 0 -2 0.25 0.25 1.1 8 E8C02A
+
+shape BOOT_FENCE
+    home USA:TEXAS, USA:WYOMING, USA:MONTANA, USA:NEW MEXICO, USA:OKLAHOMA, USA:NEVADA, AUSTRALIA:QUEENSLAND, AUSTRALIA:NEW SOUTH WALES | 0.004 0 8 | country
+    # A ranch fence decorated with old cowboy boots, one turned upside down on every post along the road.
+    repeat 12 0 0 2.4
+    tube 0 0 -13.2 0 1.2 -13.2 0.06 4 8A7A60
+    tube 0 1.0 -13.2 0 1.0 13.2 0.015 3 8A8A8A
+    tube 0 0.6 -13.2 0 0.6 13.2 0.015 3 8A8A8A
+    repeat 12 0 0 2.4
+    box 0 1.4 -13.2 0.08 0.18 0.06 6A3A1E
+    repeat 12 0 0 2.4
+    box 0 1.62 -13.1 0.07 0.06 0.14 6A3A1E
+
+shape BOTTLE_TREE
+    home USA:MISSISSIPPI, USA:ALABAMA, USA:LOUISIANA, USA:GEORGIA, USA:SOUTH CAROLINA, USA:TENNESSEE, USA:ARKANSAS | 0.004 2 20 | country
+    # A bottle tree in the front yard: a bare cedar with blue glass bottles pushed onto the end of every branch, glinting in the sun.
+    tube 0 0 0 0 2.2 0 0.08 4 6A5A48
+    ring 6 0 0
+    tube 0 1.2 0 0.7 1.6 0 0.03 3 6A5A48
+    ring 6 0 30
+    tube 0 1.8 0 0.55 2.2 0 0.03 3 6A5A48
+    ring 6 0.7 0
+    cyl 0 1.6 0 0.06 0.05 0.25 6 2A5AC8 glass
+    ring 6 0.55 30
+    cyl 0 2.2 0 0.06 0.05 0.25 6 3A7AE8 glass
+    box -3 1.2 2 2 1.2 2.5 F2F2EE
+
+shape CHAINSAW_BEARS
+    home USA:OREGON, USA:WASHINGTON, USA:PENNSYLVANIA, USA:WISCONSIN, USA:MAINE, USA:MICHIGAN, USA:MINNESOTA, CANADA:BRITISH COLUMBIA, CANADA:ONTARIO | 0.004 1 15 | country
+    # A roadside chainsaw carver's yard: wooden bears standing, waving and holding signs, an eagle on a stump, all carved from logs.
+    repeat 4 0 0 1.5
+    cyl 0 0 -2.25 0.35 0.3 1.0 8 B8885A
+    repeat 4 0 0 1.5
+    blob 0 1.2 -2.25 0.3 0.25 0.28 A8784A
+    repeat 4 0 0 1.5
+    blob 0.1 1.25 -2.2 0.12 0.1 0.12 C8986A
+    repeat 4 0 0 1.5
+    blob -0.05 1.38 -2.4 0.07 0.07 0.06 A8784A
+    cyl 2 0 2 0.4 0.4 0.6 8 8A6A48
+    blob 2 0.9 2 0.2 0.3 0.2 6A4A2A
+    blob 2 1.25 2.05 0.12 0.12 0.12 F2F2F2
+    box -1 0.9 1 0.05 0.3 0.6 C8A060
+    tube -1 0 1 -1 0.6 1 0.04 3 8A6A48
+
+shape COUNTRY_DANCEHALL
+    home USA:TEXAS, USA:OKLAHOMA | 0.003 6 50 | country
+    # An old country dance hall: a big white wooden barn of a building with a tin roof and propped-open shutters, cars parked on the grass.
+    box 0 2.5 0 6 2.5 9 F2F2EE
+    gable 0 5 0 6.2 9.2 2.4 0.4 9AA0A8 F2F2EE
+    repeat 6 0 0 2.8
+    quad 6 1.6 -7 6 2.6 -7 6.8 3.2 -7 6.8 2.2 -7 F2F2EE
+    repeat 6 0 0 2.8
+    box 6.02 2.1 -7 0.02 0.5 1.1 2A2018
+    box 6.03 4.4 0 0.02 0.4 3.5 C82A2A
+    box 10 0.6 -3 0.8 0.3 2 2A4A8A
+    box 10 0.6 3 0.8 0.3 2 C8C0A8
+
+shape MINI_GOLF
+    home USA, CANADA, ENGLAND, GERMANY, NETHERLANDS, AUSTRALIA, JAPAN | 0.003 3 30 | town
+    # A crazy golf course: winding green lanes with obstacles, a little windmill with turning sails, a fibreglass dinosaur and a volcano.
+    box -4 0.02 0 5 0.02 7 C8C0B0
+    box -2 0.1 -3 0.6 0.08 3 3A9A4A
+    box -5 0.1 2 3 0.08 0.6 3A9A4A
+    box -6 0.1 -2 0.6 0.08 2 3A9A4A
+    cyl -2 0 2 0.8 0.6 2.4 8 C82A2A
+    spire -2 2.4 2 0.8 0.8 8 3A3A3A
+    at -1.15 2.2 2
+    vring 4 0 45
+    tube 0 0 0 0 1.4 0 0.06 3 F2F2F2
+    at 0 0 0
+    blob -6 1.2 4 0.6 0.8 1.6 4A9A4A
+    tube -6 1.8 5.2 -6 3.2 6 0.25 5 4A9A4A
+    blob -6 3.3 6.2 0.3 0.3 0.45 4A9A4A
+    cyl -7 0 -5 1.6 0.4 1.8 10 7A5A40
+    blob -7 1.8 -5 0.35 0.2 0.35 E8501E glow
+
+shape BRICK_SCHOOL
+    home USA | 0.004 6 50 | town
+    # A small-town brick school: two storeys of red brick with tall windows, a white entrance portico, the flag out front and yellow buses waiting.
+    box 0 3.5 0 4 3.5 14 A8503A
+    windows 4.02 0.5 -13 0 1 26 6 0.3 3.2
+    box 4.5 2.5 0 0.6 2.5 2.5 F2F2EE
+    mirror
+    tube 5 0 2 5 4.5 2 0.2 8 F2F2EE
+    tri 5.1 5 -2.6 5.1 5 2.6 5.1 6.4 0 F2F2EE
+    box 0 7.1 0 4.05 0.1 14.05 F2F2EE
+    tube 8 0 -6 8 9 -6 0.06 4 E8E8E8
+    box 8 8.4 -5.4 0.02 0.45 0.6 2A3A8A
+    box 9.5 1.6 6 1.2 1.2 4 F2B21E
+
+shape VOLUNTEER_FIRE_HALL
+    home USA | 0.004 4 40 | country
+    # A volunteer fire department: a big metal building with two tall red roll-up doors, its name across the front, a siren on a pole.
+    box 0 3 0 4 3 8 E8E4DC
+    quad -4.2 6.4 -8.2 -4.2 6.4 8.2 4.2 6 8.2 4.2 6 -8.2 C82A2A
+    box 4.02 2.3 -3.5 0.02 2.2 2 C82A2A
+    box 4.02 2.3 3.5 0.02 2.2 2 C82A2A
+    box 4.03 5.3 0 0.02 0.4 4 1E1E1E
+    tube 6 0 -9 6 9 -9 0.12 4 8A8A8A
+    box 6 9.2 -9 0.4 0.25 0.4 E8C02A
+
+shape BAIT_AND_TACKLE
+    home USA, CANADA | 0.004 4 30 | coast
+    # A bait and tackle shack on the dock: a weathered shed with hand-painted signs for live bait and ice, rods leaning by the door.
+    box 0 0.8 0 2 0.1 4 8A7A60
+    repeat 4 0 0 2.6
+    tube 1.8 -0.5 -3.9 1.8 0.8 -3.9 0.1 4 6A5A48
+    box -0.5 1.9 0 1.4 1.1 2.4 9A8A70
+    gable -0.5 3 0 1.5 2.5 0.8 0.2 9AA0A8 9A8A70
+    box 0.92 2.6 0 0.02 0.35 1.6 F2F2EE
+    box 0.92 2.0 -1.4 0.02 0.2 0.6 2A6AC8
+    repeat 4 0 0 0.2
+    tube 1.2 0.9 1.4 1.1 3 1.3 0.015 3 3A3A3A
+    box 1.4 1.2 0.6 0.4 0.3 0.3 F2F2F2
+    box 4 0.02 0 2 0.02 5 3A5A6A water
+
+shape WATER_SLIDES
+    home USA:FLORIDA, USA:TEXAS, USA:CALIFORNIA, USA:ARIZONA, USA:GEORGIA, USA:NEVADA | 0.002 8 60 | town
+    # A water park: a tall tower of stairs with twisting slides in bright colours coiling down into a turquoise pool.
+    box 0 5 0 1.5 5 1.5 F2C21E
+    box 0 10.2 0 2 0.2 2 F2F2F2
+    tube 1.5 10 0 4 8 2 0.6 8 2A8AC8
+    tube 4 8 2 3 6 5 0.6 8 2A8AC8
+    tube 3 6 5 0 4 4 0.6 8 2A8AC8
+    tube 0 4 4 -1 1 6 0.6 8 2A8AC8
+    tube -1.5 10 0 -4 6 -3 0.6 8 E83A2A
+    tube -4 6 -3 -5 1 -6 0.6 8 E83A2A
+    box -2 0.03 5 4 0.03 4 4AC8D8 water
+    halo -2 0.05 5 4 0.1 4 F2F2F2
+
+shape YARD_SALE
+    home USA, CANADA | 0.004 1 10 | town
+    # A yard sale on the front lawn: folding tables of odds and ends, a lamp, a bike and a rack of clothes, a cardboard sign on a stake.
+    box 0 0.75 -1 0.4 0.03 1 F2F2F2
+    box 0 0.75 1.5 0.4 0.03 1 F2F2F2
+    repeat 4 0 0 0.5
+    box 0 0.88 -1.7 0.15 0.1 0.15 C83A2A
+    repeat 3 0 0 0.6
+    blob 0 0.9 1 0.18 0.12 0.18 2A6AC8
+    tube -1 0 -2.5 -1 1.5 -2.5 0.03 3 9A9A9A
+    tube -1 1.5 -2.5 -1 1.5 -0.5 0.03 3 9A9A9A
+    repeat 5 0 0 0.4
+    box -1 1.1 -2.2 0.05 0.4 0.15 6A8A5A
+    hoop 1.2 0.35 3 0.35 0.03 10 3A3A3A
+    hoop 1.2 0.35 4.1 0.35 0.03 10 3A3A3A
+    box 2.5 0.8 -3 0.02 0.25 0.4 E8D8A8
+    tube 2.5 0 -3 2.5 0.6 -3 0.02 3 8A6A48
+
+shape LEMONADE_STAND
+    home USA | 0.004 1 8 | town
+    # A children's lemonade stand: a little wooden box stand with a painted sign, a big jug of lemonade, two kids waiting for customers.
+    box 0 0.45 0 0.3 0.45 0.7 F2E8A0
+    box 0 1.3 0 0.02 0.25 0.7 F2F2F2
+    mirror
+    tube 0 0.9 0.65 0 1.55 0.65 0.02 3 8A6A48
+    cyl 0 0.9 -0.3 0.12 0.12 0.3 8 F2E040 glass
+    repeat 3 0 0 0.2
+    cyl 0 0.9 0.1 0.04 0.04 0.1 6 F2F2F2
+    blob -0.6 0.6 -0.3 0.12 0.2 0.1 E85A8A
+    blob -0.6 0.9 -0.3 0.08 0.09 0.08 E0B090
+    blob -0.6 0.6 0.4 0.12 0.2 0.1 2A8A4A
+    blob -0.6 0.9 0.4 0.08 0.09 0.08 8A6048
+
+shape SMALL_POST_OFFICE
+    home USA | 0.004 3 30 | town
+    # A small-town post office: a single-storey red-brick building with a white cornice, the flag on its pole and a blue collection box at the kerb.
+    box 0 2.2 0 3.5 2.2 5 A8503A
+    box 0 4.5 0 3.55 0.1 5.05 F2F2EE
+    box 3.52 1.2 0 0.02 1.2 0.8 3A2A1E
+    windows 3.52 0.4 -4.5 0 1 9 3 0.3 3
+    box 3.53 3.6 0 0.02 0.25 2.5 F2F2EE
+    tube 6 0 -3 6 7 -3 0.06 4 E8E8E8
+    box 6 6.4 -2.4 0.02 0.45 0.6 2A3A8A
+    box 6.5 0.5 2 0.25 0.5 0.25 2A4A8A
+    tube 6.5 1.0 1.75 6.5 1.0 2.25 0.25 8 2A4A8A
+
+shape CROSSBUCK_SIGNAL
+    home USA, CANADA | 0.006 0 4 | country
+    # A level crossing of a branch line: the white X-shaped crossbuck sign with twin red flashing lights and a striped gate arm raised.
+    tube 0 0 0 0 4 0 0.08 4 C8C8C8
+    tube 0 3.2 -0.6 0 3.8 0.6 0.06 3 F2F2F2
+    tube 0 3.8 -0.6 0 3.2 0.6 0.06 3 F2F2F2
+    box 0 2.6 0 0.05 0.05 0.5 1E1E1E
+    mirror
+    cyl 0.1 2.45 0.45 0.15 0.15 0.08 10 C82A2A
+    tube -0.5 1.2 0.4 -0.5 7.5 0.6 0.07 4 F2F2F2
+    repeat 4 0 1.5 0.05
+    tube -0.5 1.6 0.41 -0.5 2.3 0.43 0.075 4 C82A2A
+    box 0 0.03 -4 0.8 0.03 3 3A3A3A
+    mirrorx
+    box 0.6 0.07 -4 0.04 0.03 3 9A9A9A
