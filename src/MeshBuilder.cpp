@@ -180,8 +180,12 @@ void MeshBuilder::blob( Vector3 center, Vector3 radius, Color col, unsigned seed
     }
 }
 
-void MeshBuilder::append( const MeshBuilder &src, Vector3 pos, float yaw, float scale, float bright, const Color *keys )
+void MeshBuilder::append( const MeshBuilder &src, Vector3 pos, float yaw, float scale, float bright, const Color *keys,
+                          const SeasonLook *season, float pick )
 {
+    static const Color autumn[4] = { { 214, 120, 40, 255 }, { 190, 62, 40, 255 }, { 226, 182, 60, 255 }, { 150, 100, 52, 255 } };
+    const Color        turned = autumn[static_cast<int>( pick * 4.0f ) & 3];
+    const Color        blossom = pick < 0.1f ? Color{ 246, 240, 236, 255 } : Color{ 246, 186, 208, 255 };
     const Vector3 fwd = headingForward( yaw );
     const Vector3 left = Vector3Negate( headingRight( yaw ) );
     const size_t  n = src.m_pos.size() / 3;
@@ -209,6 +213,24 @@ void MeshBuilder::append( const MeshBuilder &src, Vector3 pos, float yaw, float 
                 rgb[1] = keys[which].g * k;
                 rgb[2] = keys[which].b * k;
             }
+        }
+        if( season )
+        {
+            // Leaves (green, but not the dark green of conifers) turn, fall or blossom; snow lies on whatever faces up.
+            auto       toward = [&]( Color c, float k )
+            {
+                rgb[0] += ( c.r - rgb[0] ) * k;
+                rgb[1] += ( c.g - rgb[1] ) * k;
+                rgb[2] += ( c.b - rgb[2] ) * k;
+            };
+            const bool leafy = rgb[1] > rgb[0] * 1.08f && rgb[1] > rgb[2] * 1.05f && !( rgb[1] < 112.0f && rgb[0] < 72.0f );
+            if( leafy )
+            {
+                if( season->m_autumn > 0.0f ) toward( turned, 0.85f * season->m_autumn );
+                if( season->m_spring > 0.0f ) toward( pick < 0.3f ? blossom : Color{ 120, 200, 90, 255 }, ( pick < 0.3f ? 0.85f : 0.35f ) * season->m_spring );
+                if( season->m_bare > 0.0f ) toward( Color{ 112, 100, 88, 255 }, 0.65f * season->m_bare );
+            }
+            if( season->m_winter > 0.0f ) toward( Color{ 236, 240, 248, 255 }, 0.9f * season->m_winter * smoothstepf( 0.45f, 0.85f, ny ) );
         }
         for( float v : rgb ) m_col.push_back( static_cast<unsigned char>( clampf( v * bright, 0.0f, 255.0f ) ) );
         m_col.push_back( s[3] );

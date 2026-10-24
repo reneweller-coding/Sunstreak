@@ -59,6 +59,15 @@ struct Mat
     float m_gloss = 0.0f;      ///< 0..1 shiny
 };
 
+/** @brief What a season does to the models it reaches (Season.h decides it per place). */
+struct SeasonLook
+{
+    float m_autumn = 0.0f;   ///< 0..1 the leaves turned
+    float m_winter = 0.0f;   ///< 0..1 snow lying
+    float m_bare = 0.0f;     ///< 0..1 the leaves fallen
+    float m_spring = 0.0f;   ///< 0..1 fresh green and blossom
+};
+
 /** @brief A growing list of triangles. */
 class MeshBuilder
 {
@@ -171,9 +180,11 @@ public:
      * @param[in] scale   uniform scale
      * @param[in] bright  colour multiplier (variation)
      * @param[in] keys    three colours that replace the key colours (keyA/B/C), or nullptr
+     * @param[in] season  the season to colour it for (leaves, snow on whatever faces up, blossom), or nullptr
+     * @param[in] pick    0..1 which autumn colour or blossom this one takes
      */
     void append( const MeshBuilder &src, Vector3 pos, float yaw, float scale, float bright = 1.0f,
-                 const Color *keys = nullptr );
+                 const Color *keys = nullptr, const SeasonLook *season = nullptr, float pick = 0.0f );
 
     /**
      * @brief Appends another builder's triangles through a full basis.

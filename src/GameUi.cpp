@@ -136,7 +136,7 @@ void ui::drawHint( std::string_view text, float x, float y, float size, Color co
 const char *Game::settingLabel( SettingE item ) const
 {
     static const char *labels[] = { "PROFILE",      "DISPLAY",      "3D RESOLUTION", "SHADOWS",      "VSYNC",     "FRAME LIMIT", "DIFFICULTY",
-                                    "SCENERY",      "TIME OF DAY",   "WEATHER",      "STEER ASSIST", "BRAKE ASSIST", "COLOUR BLIND",
+                                    "SCENERY",      "TIME OF DAY",   "WEATHER",      "SEASONS",      "STEER ASSIST", "BRAKE ASSIST", "COLOUR BLIND",
                                     "TEXT SIZE",    "GEARS",         "SPEEDOMETER",  "CAMERA",    "SPEED BLUR",  "VIBRATION",
                                     "MUSIC",        "EFFECTS",       "RADIO",        "BACK" };
     return labels[static_cast<int>( item )];
@@ -173,6 +173,11 @@ std::string Game::settingValue( SettingE item ) const
         return times[std::clamp( m_settings.m_timeOfDay, 0, 5 )];
     }
     case SettingE::WEATHER: return m_settings.m_weather ? "AS THE PLACE" : "WEATHER FRONTS";
+    case SettingE::SEASONS:
+    {
+        static const char *seasons[] = { "AS TODAY", "AS YOU TRAVEL", "OFF" };
+        return seasons[std::clamp( m_settings.m_seasons, 0, 2 )];
+    }
     case SettingE::STEER_ASSIST:
     {
         static const char *levels3[] = { "OFF", "LIGHT", "STRONG" };
@@ -254,6 +259,12 @@ void Game::changeSetting( SettingE item, int dir )
     case SettingE::SCENERY: m_settings.m_scenery = 1 - m_settings.m_scenery; break;
     case SettingE::TIME_OF_DAY: m_settings.m_timeOfDay = ( m_settings.m_timeOfDay + 6 + dir ) % 6; break;
     case SettingE::WEATHER: m_settings.m_weather = 1 - m_settings.m_weather; break;
+    case SettingE::SEASONS:
+        // The chunks carry the season in their colours: build them again.
+        m_settings.m_seasons = ( m_settings.m_seasons + 3 + dir ) % 3;
+        m_world.clear();
+        m_world.m_seasons = seasonClock();
+        break;
     case SettingE::STEER_ASSIST: m_settings.m_steerAssist = ( m_settings.m_steerAssist + 3 + dir ) % 3; break;
     case SettingE::BRAKE_ASSIST: m_settings.m_brakeAssist = !m_settings.m_brakeAssist; break;
     case SettingE::COLOUR_BLIND:

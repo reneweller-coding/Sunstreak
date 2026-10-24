@@ -13,6 +13,7 @@
 #pragma once
 
 #include "Models.h"
+#include "Season.h"
 #include "Track.h"
 
 #include <condition_variable>
@@ -140,6 +141,11 @@ private:
      * @param[in,out] c      the chunk (m_index set by the caller)
      */
     void buildChunk( Track &track, BakedChunk &c ) const;
+
+public:
+    SeasonClock m_seasons;   ///< how the seasons run (set while the worker stands still: before building, after clear())
+
+private:
 
     /**
      * @brief Uploads a baked chunk and appends it.

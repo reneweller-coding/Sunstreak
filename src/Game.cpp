@@ -228,6 +228,13 @@ Environment Game::sceneEnvironment( double s ) const
     // On the sea floor the hour does not reach: the sea keeps its own light.
     if( m_hour >= 0.0f ) e = blendEnvironment( environmentAtHour( e, m_hour ), e, under );
     e.m_underwater = smoothstepf( 0.35f, 0.65f, under );
+    // The season: snow falling in winter, leaves in autumn, petals in spring.
+    const float      phase = seasonClock().phaseAt( s );
+    const SeasonLook la = seasonAt( mix.m_from, phase ), lb = seasonAt( mix.m_to, phase );
+    const bool       cold = biomeDef( mix.m_t < 0.5f ? mix.m_from : mix.m_to ).m_climate == ClimateE::COLD;
+    e.m_snow = std::max( e.m_snow, lerpf( la.m_winter, lb.m_winter, mix.m_t ) * ( cold ? 0.55f : 0.3f ) );
+    e.m_leaves = lerpf( la.m_autumn, lb.m_autumn, mix.m_t ) * 0.5f;
+    e.m_petals = lerpf( la.m_spring, lb.m_spring, mix.m_t ) * 0.4f;
     WeatherE    type = WeatherE::NONE;
     const float k = frontAt( s, type );
     if( k <= 0.0f ) return e;
@@ -576,6 +583,14 @@ void Game::unloadPostcards()
     m_postcardTex.clear();
 }
 
+SeasonClock Game::seasonClock() const
+{
+    SeasonClock c;
+    c.m_mode = m_settings.m_seasons;
+    c.m_today = m_options.m_season >= 0.0f ? m_options.m_season : todayPhase();
+    return c;
+}
+
 void Game::startCrossing( const Crossing &xc )
 {
     m_crossing = xc;
@@ -662,6 +677,7 @@ void Game::setupTrack( uint64_t seed, double startS, const TrackParams &params, 
 {
     m_seed = seed;
     m_world.clear();
+    m_world.m_seasons = seasonClock();
     m_track = std::make_unique<Track>( seed, params, m_setup.m_startBiome >= 0 ? m_setup.m_startBiome : m_options.m_startBiome );
     if( choices ) m_track->setTourChoices( *choices );
     m_track->generateTo( startS + ViewDistance + 600.0 );

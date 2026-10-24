@@ -94,6 +94,7 @@ bool loadSettings( Settings &settings )
             else if( key == "scenery" ) settings.m_scenery = std::clamp( std::stoi( val ), 0, 1 );
             else if( key == "time_of_day" ) settings.m_timeOfDay = std::clamp( std::stoi( val ), 0, 5 );
             else if( key == "weather" ) settings.m_weather = std::clamp( std::stoi( val ), 0, 1 );
+            else if( key == "seasons" ) settings.m_seasons = std::clamp( std::stoi( val ), 0, 2 );
             else if( key == "steer_assist" ) settings.m_steerAssist = std::clamp( std::stoi( val ), 0, 2 );
             else if( key == "brake_assist" ) settings.m_brakeAssist = val == "1";
             else if( key == "colour_blind" ) settings.m_colourBlind = val == "1";
@@ -139,6 +140,7 @@ bool saveSettings( const Settings &settings )
     out << "scenery=" << settings.m_scenery << "\n";
     out << "time_of_day=" << settings.m_timeOfDay << "\n";
     out << "weather=" << settings.m_weather << "\n";
+    out << "seasons=" << settings.m_seasons << "\n";
     out << "steer_assist=" << settings.m_steerAssist << "\n";
     out << "brake_assist=" << ( settings.m_brakeAssist ? 1 : 0 ) << "\n";
     out << "colour_blind=" << ( settings.m_colourBlind ? 1 : 0 ) << "\n";
@@ -212,6 +214,11 @@ LaunchOptions parseCommandLine( int argc, char **argv )
         else if( a == "--championship" ) o.m_championship = true;
         else if( a == "--screen" ) o.m_screen = next();
         else if( a == "--shape" ) o.m_shape = next();
+        else if( a == "--season" )
+        {
+            const std::string what = next();
+            o.m_season = what == "winter" ? 0.04f : what == "spring" ? 0.31f : what == "summer" ? 0.55f : what == "autumn" ? 0.8f : -1.0f;
+        }
         else if( a == "--quit-after" ) o.m_quitAfter = static_cast<float>( std::atof( next().c_str() ) );
         else if( a == "--screenshot" ) o.m_screenshot = next();
         else if( a == "--distance" ) o.m_startDistance = static_cast<float>( std::atof( next().c_str() ) );

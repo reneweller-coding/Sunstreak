@@ -52,6 +52,7 @@ struct Settings
     int          m_scenery = 0;                        ///< endless runs: 0 the world tour, 1 every biome mixed
     int          m_timeOfDay = 0;                      ///< 0 as the place, 1 the tour clock (time zones), 2 dawn, 3 day, 4 dusk, 5 night
     int          m_weather = 0;                        ///< 0 weather fronts pass, 1 as the place
+    int          m_seasons = 0;                        ///< 0 as today, 1 as the tour goes on, 2 off
     int          m_steerAssist = 0;                    ///< 0 off, 1 light, 2 strong: helps keep the road and miss the traffic
     bool         m_brakeAssist = false;                ///< brakes for bends and obstacles taken too fast
     bool         m_colourBlind = false;                ///< the HUD's red and green become orange and blue
@@ -94,6 +95,7 @@ struct LaunchOptions
     bool        m_championship = false;///< start a championship at once
     std::string m_screen;              ///< open a menu screen at once: lab, records, code (screenshots)
     std::string m_shape;               ///< the landmark the viewer opens on (--screen viewer)
+    float       m_season = -1.0f;      ///< testing: the time of year (0: 1 January), -1 today's
 };
 
 /**

@@ -758,6 +758,8 @@ struct Environment
     Color m_planetColor;        ///< its colour
     float m_dust;               ///< 0..1 blowing sand (a sandstorm)
     float m_underwater = 0.0f;  ///< 0..1 in a glass tunnel on the sea floor (light shafts, bubbles)
+    float m_leaves = 0.0f;      ///< 0..1 autumn leaves falling
+    float m_petals = 0.0f;      ///< 0..1 blossom petals drifting
 };
 
 /** @brief The vehicles a region adds to the everyday traffic. */

@@ -32,6 +32,7 @@ struct Cross
     Surface        m_surface{};     ///< blended colours
     Terrain        m_terrain{};     ///< blended land
     const Segment *m_seg = nullptr; ///< the segment
+    SeasonLook     m_season{};      ///< what the season does here
 };
 
 /** @brief Kinds of strips across the road. */
@@ -394,9 +395,17 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
         x.m_tanBank = std::tan( seg.m_bank );
         x.m_hw = seg.m_halfWidth;
         x.m_edge = seg.m_halfWidth + RumbleWidth + ShoulderWidth;
-        const BiomeDef &a = biomeDef( static_cast<BiomeE>( seg.m_biome ) );
-        const BiomeDef &b = biomeDef( static_cast<BiomeE>( seg.m_biomeTo ) );
-        x.m_surface = blendSurface( a.m_surface, b.m_surface, seg.m_blend );
+        const BiomeDef  &a = biomeDef( static_cast<BiomeE>( seg.m_biome ) );
+        const BiomeDef  &b = biomeDef( static_cast<BiomeE>( seg.m_biomeTo ) );
+        // The season of either place, before they blend.
+        const float      phase = m_seasons.phaseAt( static_cast<double>( j ) * SegmentLength );
+        const SeasonLook la = seasonAt( static_cast<BiomeE>( seg.m_biome ), phase ), lb = seasonAt( static_cast<BiomeE>( seg.m_biomeTo ), phase );
+        Surface          sa = a.m_surface, sb = b.m_surface;
+        seasonSurface( sa, la );
+        seasonSurface( sb, lb );
+        x.m_surface = blendSurface( sa, sb, seg.m_blend );
+        x.m_season = SeasonLook{ lerpf( la.m_autumn, lb.m_autumn, seg.m_blend ), lerpf( la.m_winter, lb.m_winter, seg.m_blend ),
+                                 lerpf( la.m_bare, lb.m_bare, seg.m_blend ), lerpf( la.m_spring, lb.m_spring, seg.m_blend ) };
         x.m_terrain = blendTerrain( a.m_terrain, b.m_terrain, seg.m_blend );
         return x;
     };
@@ -1216,8 +1225,17 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 uint64_t variant = pr.m_variant >= 0 ? static_cast<uint64_t>( pr.m_variant ) : hash64( key + 6 + static_cast<uint64_t>( j ) );
                 // Warning signs in the country's shape: a yellow diamond, a white or a yellow triangle.
                 if( pr.m_kind == PropKindE::WARNING_SIGN ) variant = variant % 5 + ( signs.m_warn == 2 ? 0 : signs.m_warn == 1 ? 10 : 5 );
-                props.append( models.prop( pr.m_kind, variant ), pos, yaw, scale, bright,
-                              defaults ? keys : nullptr );
+                // Deciduous trees, bushes, hedges and vines turn, lose their leaves and some blossom; the rest only takes the
+                // snow.
+                using K = PropKindE;
+                const K    kind = pr.m_kind;
+                const bool turns = kind == K::OAK || kind == K::BUSH || kind == K::BIRCH || kind == K::POPLAR || kind == K::BROADLEAF ||
+                                   kind == K::SHRUB || kind == K::HEDGE || kind == K::VINE_ROW || kind == K::FERN || kind == K::FLOWER_BUSH;
+                const bool blooms = kind == K::BROADLEAF || kind == K::BUSH || kind == K::SHRUB;
+                SeasonLook look = A.m_season;
+                if( !turns ) look.m_autumn = look.m_bare = look.m_spring = 0.0f;
+                const float h = hashFloat( key + 13, static_cast<uint64_t>( j ) );
+                props.append( models.prop( pr.m_kind, variant ), pos, yaw, scale, bright, defaults ? keys : nullptr, &look, blooms ? h : 0.3f + 0.7f * h );
                 const float radius = models.propRadius( pr.m_kind );
                 if( radius > 0.0f && dist < 45.0f ) c.m_colliders.push_back( { ps, lateral, radius * scale } );
             }

@@ -53,6 +53,7 @@ enum class SettingE
     SCENERY,      ///< endless runs: the world tour or all mixed
     TIME_OF_DAY,  ///< as the place, the tour clock, or a fixed hour
     WEATHER,      ///< weather fronts or the place's own weather
+    SEASONS,      ///< as today, as the tour goes on, or none
     STEER_ASSIST, ///< help with the steering
     BRAKE_ASSIST, ///< help with the brakes
     COLOUR_BLIND, ///< a palette for colour blindness
@@ -608,6 +609,12 @@ private:
      * @param[in] h  height
      */
     void drawRegions( float x, float y, float w, float h );
+
+    /**
+     * @brief How the seasons run, as the settings say.
+     * @return the clock
+     */
+    SeasonClock seasonClock() const;
 
     /** @brief Reads the data files again (F5): places, countries, the route, the shapes; the road is built anew. */
     void reloadGameData();
