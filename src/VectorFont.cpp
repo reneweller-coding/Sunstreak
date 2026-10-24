@@ -7,7 +7,10 @@
 
 #include "MathUtil.h"
 
+#include <rlgl.h>
+
 #include <array>
+#include <cmath>
 #include <string>
 #include <vector>
 
@@ -142,7 +145,17 @@ void strokes( std::string_view text, float x, float y, float size, Color color, 
 {
     const float u = size / 6.0f;
     const auto &table = glyphs();
-    float       pen = x;
+    // The joints: small fans with as few segments as their radius needs (raylib's circles have 36, and they were most
+    // of what the HUD cost), each polyline sent as one batch of triangles in raylib's own winding.
+    const float r = thick * 0.5f;
+    const int   segs = r < 1.5f ? 6 : r < 3.0f ? 8 : r < 6.0f ? 12 : 16;
+    Vector2     ring[17];
+    for( int k = 0; k <= segs; ++k )
+    {
+        const float a = Tau * static_cast<float>( k ) / static_cast<float>( segs );
+        ring[k] = Vector2{ std::cos( a ) * r, std::sin( a ) * r };
+    }
+    float pen = x;
     for( char raw : text )
     {
         char c = raw;
@@ -152,16 +165,43 @@ void strokes( std::string_view text, float x, float y, float size, Color color, 
         {
             for( const auto &line : table[idx] )
             {
-                for( size_t i = 0; i < line.size(); ++i )
+                const size_t n = line.size();
+                rlCheckRenderBatchLimit( static_cast<int>( ( n > 1 ? ( n - 1 ) * 6 : 0 ) + ( round ? n * static_cast<size_t>( segs ) * 3 : 0 ) ) );
+                rlBegin( RL_TRIANGLES );
+                rlColor4ub( color.r, color.g, color.b, color.a );
+                Vector2 prev{};
+                for( size_t i = 0; i < n; ++i )
                 {
                     const Vector2 p = { pen + ( line[i].x + line[i].y * Slant ) * u, y + ( 6.0f - line[i].y ) * u };
-                    if( round ) DrawCircleV( p, thick * 0.5f, color );
-                    if( i + 1 < line.size() )
+                    if( round )
+                        for( int k = 0; k < segs; ++k )
+                        {
+                            rlVertex2f( p.x, p.y );
+                            rlVertex2f( p.x + ring[k + 1].x, p.y + ring[k + 1].y );
+                            rlVertex2f( p.x + ring[k].x, p.y + ring[k].y );
+                        }
+                    if( i > 0 )
                     {
-                        const Vector2 q = { pen + ( line[i + 1].x + line[i + 1].y * Slant ) * u, y + ( 6.0f - line[i + 1].y ) * u };
-                        DrawLineEx( p, q, thick, color );
+                        // The segment from the last point: a quad of two triangles, as DrawLineEx builds it.
+                        const Vector2 d = { p.x - prev.x, p.y - prev.y };
+                        const float   len = std::sqrt( d.x * d.x + d.y * d.y );
+                        if( len > 0.0f )
+                        {
+                            const float   s = thick / ( 2.0f * len );
+                            const Vector2 h = { -s * d.y, s * d.x };
+                            const Vector2 s0 = { prev.x - h.x, prev.y - h.y }, s1 = { prev.x + h.x, prev.y + h.y };
+                            const Vector2 s2 = { p.x - h.x, p.y - h.y }, s3 = { p.x + h.x, p.y + h.y };
+                            rlVertex2f( s2.x, s2.y );
+                            rlVertex2f( s0.x, s0.y );
+                            rlVertex2f( s1.x, s1.y );
+                            rlVertex2f( s3.x, s3.y );
+                            rlVertex2f( s2.x, s2.y );
+                            rlVertex2f( s1.x, s1.y );
+                        }
                     }
+                    prev = p;
                 }
+                rlEnd();
             }
         }
         pen += Advance * u;
