@@ -1,0 +1,589 @@
+# Round five, the rest of the world: Oceania and Greenland, island trades, roadside crafts everywhere and more animals.
+
+shape KAVA_CIRCLE
+    home FIJI, TONGA, SAMOA, VANUATU | 0.004 2 15 | country
+    # A kava circle in an open fale: men sitting cross-legged round a big carved wooden bowl, half coconut shells being passed round.
+    mirror
+    mirrorx
+    tube 2 0 2 2 2 2 0.1 5 8A6A48
+    hip 0 2 0 2.4 2.4 1.4 0.3 B8A060
+    cyl 0 0 0 0.45 0.35 0.3 12 8A5A30
+    cyl 0 0.3 0 0.4 0.4 0.01 12 9A8A6A
+    ring 6 1.3
+    blob 0 0.35 0 0.25 0.35 0.22 E8E0D0
+    ring 6 1.3
+    blob 0 0.82 0 0.1 0.11 0.1 4A3020
+
+shape MAORI_MARAE
+    home NEW ZEALAND | 0.003 9 40 | country
+    # A marae: the carved meeting house with its red-painted bargeboards and a carved figure at the peak, the open green before it.
+    box 0 2 0 4 2 6 8A3A2A
+    gable 0 4 0 4 6 2.5 0.2 6A2A1E 8A3A2A
+    tube 4.3 4 -4 4.3 6.4 0 0.2 4 B8301E
+    tube 4.3 4 4 4.3 6.4 0 0.2 4 B8301E
+    blob 4.4 6.8 0 0.3 0.5 0.25 B8301E
+    box 4.01 1.3 -1.2 0.01 1.3 0.6 2A1A1A
+    box 4.01 2.2 1.5 0.01 0.4 0.5 1E1E1E
+    tube 4.3 0 -4 4.3 4 -4 0.2 4 B8301E
+    tube 4.3 0 4 4.3 4 4 0.2 4 B8301E
+    box 8 0.02 0 3 0.02 7 5A9A3A
+
+shape PUKEKO
+    home NEW ZEALAND | 0.003 0.5 8 | country
+    # Pukeko in a wet paddock: purple-blue swamp hens with red beaks and long red legs, flicking their white tails.
+    repeat 3 0.6 0 0.9
+    blob -1 0.35 -1 0.12 0.14 0.2 2A3A8A
+    repeat 3 0.6 0 0.9
+    blob -1 0.52 -0.85 0.06 0.07 0.07 2A3A8A
+    repeat 3 0.6 0 0.9
+    tube -1 0.52 -0.8 -1 0.48 -0.7 0.025 3 D82A1E
+    repeat 3 0.6 0 0.9
+    tube -1 0.25 -1 -1 0 -1 0.015 3 D82A1E
+
+shape TAKAHE
+    home NEW ZEALAND:SOUTHLAND, NEW ZEALAND:OTAGO | 0.002 1 10 | country
+    # A takahe in the tussock: a big flightless bird, blue and green, with a heavy red beak, grazing slowly.
+    blob 0 0.4 0 0.22 0.22 0.3 2A6A6A
+    blob 0 0.55 0.28 0.1 0.1 0.1 2A4A8A
+    tube 0 0.55 0.35 0 0.48 0.48 0.05 4 D82A1E
+    tube 0.06 0.2 0 0.06 0 0 0.02 3 D82A1E
+    tube -0.06 0.2 0 -0.06 0 0 0.02 3 D82A1E
+
+shape CASSOWARY
+    home AUSTRALIA:QUEENSLAND, PAPUA NEW GUINEA, INDONESIA:WEST PAPUA | 0.002 2 15 | tropical
+    # A cassowary crossing out of the rainforest: a tall black bird with a bony helmet, a bright blue neck and red wattles.
+    blob 0 1.1 0 0.35 0.4 0.5 1E1E1E
+    tube 0 1.3 0.35 0 1.75 0.5 0.06 4 2A7AC8
+    blob 0 1.85 0.55 0.07 0.09 0.1 2A7AC8
+    spire 0 1.9 0.5 0.05 0.18 6 B8A060
+    blob 0 1.45 0.48 0.04 0.08 0.04 D82A1E
+    tube 0.12 0.75 0 0.12 0 0.05 0.05 3 6A6A40
+    tube -0.12 0.75 0 -0.12 0 -0.05 0.05 3 6A6A40
+
+shape PLATYPUS
+    home AUSTRALIA:TASMANIA, AUSTRALIA:VICTORIA, AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:QUEENSLAND | 0.002 2 15 | country
+    # A platypus at the edge of a creek: a flat brown body, a broad duck bill and a paddle tail, ripples round it in the dark water.
+    box 0 0.02 0 1.5 0.02 2.5 3A5A5A water
+    blob 0 0.06 0 0.12 0.06 0.22 5A3A2A
+    blob 0 0.05 0.28 0.07 0.02 0.08 3A3A3A
+    blob 0 0.05 -0.28 0.09 0.02 0.1 5A3A2A
+    halo 0 0.05 0 0.4 0.01 12 7A9AA8
+
+shape ECHIDNA
+    home AUSTRALIA, PAPUA NEW GUINEA | 0.002 0.5 6 | country
+    # An echidna shuffling along the verge: a rounded body of pale spines and a long thin snout poking into the dirt.
+    blob 0 0.1 0 0.16 0.11 0.22 C8B890 0.5
+    blob 0 0.08 0.2 0.06 0.05 0.06 4A3A2A
+    tube 0 0.07 0.24 0 0.02 0.38 0.015 3 3A2A1A
+
+shape QUOKKA
+    home AUSTRALIA:WESTERN AUSTRALIA | 0.003 0.5 6 | country
+    # Quokkas by the path: small round brown wallabies sitting up on their haunches with their famous grins.
+    repeat 3 0.5 0 0.7
+    blob -0.5 0.2 -0.7 0.12 0.18 0.11 8A6A48
+    repeat 3 0.5 0 0.7
+    blob -0.5 0.42 -0.67 0.08 0.08 0.08 8A6A48
+    repeat 3 0.5 0 0.7
+    blob -0.5 0.48 -0.67 0.03 0.04 0.03 6A4A30
+
+shape FRILLED_LIZARD
+    home AUSTRALIA:NORTHERN TERRITORY, AUSTRALIA:QUEENSLAND, AUSTRALIA:WESTERN AUSTRALIA, PAPUA NEW GUINEA | 0.002 0.5 6 | arid
+    # A frilled lizard on its hind legs in the road dust, its great orange neck frill spread wide and its mouth gaping.
+    blob 0 0.25 0 0.06 0.15 0.08 8A6A48
+    blob 0 0.42 0.04 0.15 0.15 0.02 E8701E
+    blob 0 0.42 0.05 0.04 0.04 0.06 8A6A48
+    tube 0 0.12 -0.05 0 0.02 -0.5 0.03 3 8A6A48
+    tube 0.04 0.12 0 0.05 0 0.06 0.015 3 8A6A48
+    tube -0.04 0.12 0 -0.05 0 0.06 0.015 3 8A6A48
+
+shape LAWN_BOWLS
+    home AUSTRALIA, NEW ZEALAND, ENGLAND, SCOTLAND, WALES, SOUTH AFRICA | 0.003 3 25 | country
+    # A bowling green: a perfectly flat square of short grass, players in white rolling dark bowls towards the jack, a clubhouse with a veranda.
+    box -6 0.03 0 5 0.03 6 4AAA4A
+    repeat 4 0 0 3
+    blob -2 0.75 -4.5 0.16 0.42 0.13 F2F2F2
+    repeat 4 0 0 3
+    blob -2 1.22 -4.5 0.1 0.11 0.1 E0B090
+    repeat 4 0 0 3
+    cyl -2 1.28 -4.5 0.13 0.13 0.04 10 F2F2F2
+    repeat 6 0.8 0 0.6
+    blob -9 0.08 -1.5 0.07 0.06 0.07 2A2A3A
+    blob -4 0.04 0.5 0.03 0.03 0.03 F2F2F2
+    box -14 1.5 0 2.5 1.5 4 F2F2EE
+    quad -11.5 2.6 -4 -11.5 2.6 4 -10 2.2 4 -10 2.2 -4 2A6A3A
+
+shape SAUSAGE_SIZZLE
+    home AUSTRALIA | 0.003 0.5 6 | town
+    # A sausage sizzle outside a hardware store: a gas barbecue under a gazebo, sausages in white bread with onions, volunteers in aprons.
+    mirror
+    mirrorx
+    tube 1.4 0 1.4 1.4 2.2 1.4 0.03 3 C8C8C8
+    quad -1.5 2.3 -1.5 -1.5 2.3 1.5 1.5 2.3 1.5 1.5 2.3 -1.5 2A6AC8
+    box 0 0.8 0 0.4 0.1 0.8 3A3A3A
+    repeat 6 0 0 0.22
+    tube -0.25 0.93 -0.55 0.25 0.93 -0.55 0.03 4 B8602A
+    box 0.8 0.75 0 0.3 0.04 0.7 E8E0D0
+    blob -0.8 0.75 0 0.17 0.42 0.14 C82A2A
+    blob -0.8 1.25 0 0.1 0.11 0.1 E0B090
+
+shape PIE_CART
+    home NEW ZEALAND | 0.003 1 8 | town
+    # A pie cart: an old wooden caravan on a corner selling hot pies and chips late into the night, its hatch lit up.
+    box 0 1.3 0 1.1 1.0 2.4 C8E0D8
+    box 1.11 1.4 0 0.01 0.4 1.2 F2E89A lit
+    hip 0 2.3 0 1.2 2.5 0.4 0.1 6A2A2A
+    box 1.4 1.0 0 0.3 0.03 1.3 8A6A48
+    mirror
+    mirrorx
+    tube 0.9 0.3 1.6 1.12 0.3 1.6 0.3 10 1E1E1E
+
+shape RAI_STONES
+    home MICRONESIA, PALAU | 0.006 1 15 | country
+    # Stone money of the islands: huge round discs of limestone with a hole in the middle, leaning against the palms along a path.
+    repeat 4 0 0 3
+    tube -1 1.2 -4.5 -0.8 1.2 -4.5 1.2 16 C8C0B0
+    repeat 4 0 0 3
+    tube -1.05 1.2 -4.5 -0.75 1.2 -4.5 0.25 8 3A4A3A
+    repeat 3 0 0 4
+    tube -3 0 -4 -3 7 -4 0.18 5 8A7A60
+    repeat 3 0 0 4
+    fronds -3 7 -4 8 2.6 0.6 3E6A2A
+
+shape PEARL_FARM
+    home FRENCH POLYNESIA, FIJI | 0.003 35 90 | water
+    # A black pearl farm in a lagoon: a wooden hut on stilts over turquoise water, lines of floats marking the oyster ropes.
+    mirror
+    mirrorx
+    tube 1.6 -1 2 1.6 1.5 2 0.1 4 8A6A48
+    box 0 1.6 0 1.8 0.1 2.2 8A6A48
+    box 0 2.5 0 1.6 0.8 2 E8E0C8
+    hip 0 3.3 0 1.8 2.2 1 0.3 B8A060
+    repeat 12 0 0 1.5
+    blob 6 0.1 -8 0.15 0.12 0.15 E8701E
+    repeat 12 0 0 1.5
+    blob 9 0.1 -8 0.15 0.12 0.15 F2F2F2
+
+shape COPRA_DRYER
+    home KIRIBATI, TUVALU, MARSHALL ISLANDS, VANUATU, SOLOMON ISLANDS, SAMOA, TONGA, FIJI, PAPUA NEW GUINEA, PHILIPPINES | 0.004 2 20 | country
+    # A copra dryer among the palms: split coconuts laid out white side up on a raised rack under a sliding tin roof, a smoky fire beneath.
+    box 0 1 0 1.2 0.06 2.5 8A6A48
+    repeat 8 0 0 0.6
+    blob 0 1.1 -2.1 0.9 0.06 0.25 F2EEE2
+    mirror
+    mirrorx
+    tube 1.1 0 2.4 1.1 2.2 2.4 0.05 3 8A6A48
+    quad -1.4 2.3 -2.7 -1.4 2.3 2.7 1.4 2.1 2.7 1.4 2.1 -2.7 9AA0A8
+    blob 0 0.3 0 0.4 0.2 0.6 6A3A1E
+    blob 0 1.8 0 0.4 0.5 0.6 C8C8C8 glass
+    tube -4 0 3 -4 8 3 0.18 5 8A7A60
+    fronds -4 8 3 9 2.6 0.6 3E6A2A
+
+shape LEAF_HOUSE
+    home SOLOMON ISLANDS, VANUATU, PAPUA NEW GUINEA | 0.005 3 25 | country
+    # A leaf house of the islands: walls of woven palm and a steep roof of sago leaves on a low platform of poles, a canoe pulled up beside it.
+    repeat 3 0 0 1.5
+    tube 1.4 0 -1.5 1.4 0.6 -1.5 0.08 4 6A4A2A
+    repeat 3 0 0 1.5
+    tube -1.4 0 -1.5 -1.4 0.6 -1.5 0.08 4 6A4A2A
+    box 0 1.5 0 1.5 0.9 2.2 B8A070
+    gable 0 2.4 0 1.5 2.2 2 0.6 8A7A40 B8A070
+    box 1.51 1.3 0 0.01 0.6 0.4 2A2018
+    tube 3 0.3 -2 3 0.3 3 0.3 6 6A4A2A
+
+shape CATTLE_YARDS
+    home AUSTRALIA, NEW ZEALAND, ARGENTINA, URUGUAY | 0.003 4 30 | country
+    # Cattle yards at a station: pens of grey timber rails and a loading ramp up to a road train, the dust of the herd hanging in the air.
+    repeat 6 0 0 3
+    tube 0 0 -9 0 1.6 -9 0.08 4 9A9080
+    repeat 5 0 0 3
+    tube 0 1.5 -9 0 1.5 -6 0.05 3 9A9080
+    repeat 5 0 0 3
+    tube 0 0.9 -9 0 0.9 -6 0.05 3 9A9080
+    repeat 4 -3 0 0
+    tube -3 1.5 -9 -3 1.5 6 0.05 3 9A9080
+    repeat 4 1.5 0 2
+    blob -8 0.9 -5 0.3 0.4 0.7 8A4A3A
+    quad 0.5 0 7 2 0 7 2 1.3 10 0.5 1.3 10 9A9080
+    blob -6 1.5 0 4 1.5 6 D8C8A8 glass
+
+shape GREENLAND_HOUSES
+    home GREENLAND, ICELAND | 0.006 4 40 | cold
+    # Brightly painted wooden houses scattered over bare rock by the fjord: red, yellow, blue and green with white trim, a dog team staked out below.
+    box 0 1.5 -6 2 1.5 3 C82A2A
+    gable 0 3 -6 2 3 1.4 0.2 3A3A3A C82A2A
+    box -3 1.5 0 2 1.5 2.5 E8C02A
+    gable -3 3 0 2 2.5 1.4 0.2 3A3A3A E8C02A
+    box 0 1.5 6 2 1.5 2.5 2A6AC8
+    gable 0 3 6 2 2.5 1.4 0.2 3A3A3A 2A6AC8
+    box -6 2 9 2 2 3 3A9A5A
+    gable -6 4 9 2 3 1.4 0.2 3A3A3A 3A9A5A
+    blob -1 0.5 0 6 0.6 12 6A6A64 0.6
+    repeat 6 0.6 0 0.6
+    blob 3 0.25 -3 0.1 0.15 0.22 D8D0C0
+
+shape QAJAQ_RACK
+    home GREENLAND, CANADA:NUNAVUT | 0.004 2 20 | coast
+    # Kayaks on their racks by the shore: long slim skin boats lifted up on wooden frames out of reach of the dogs, paddles beside them.
+    repeat 3 0 0 1.4
+    tube 0 0 -1.4 0 1.6 -1.4 0.05 3 8A6A48
+    repeat 3 0 0 1.4
+    tube -1.2 0 -1.4 -1.2 1.6 -1.4 0.05 3 8A6A48
+    repeat 2 0 0.35 0
+    tube -0.6 1.7 -4 -0.6 1.7 4 0.22 6 D8C8A8
+    tube 0 1.2 2.4 0 1.2 4.6 0.03 3 6A4A2A
+    box 0 1.2 4.7 0.02 0.08 0.15 6A4A2A
+
+shape SHOEBILL
+    home UGANDA, ZAMBIA, SOUTH SUDAN, TANZANIA, RWANDA, DR CONGO | 0.002 3 25 | country
+    # A shoebill standing motionless in a papyrus swamp: a tall slate-grey bird with an enormous clog of a bill.
+    box 0 0.02 0 2 0.02 2 5A6A5A water
+    blob 0 1.0 0 0.22 0.3 0.25 7A8A8A
+    tube 0 1.25 0.1 0 1.45 0.15 0.08 4 7A8A8A
+    blob 0 1.55 0.18 0.12 0.12 0.14 7A8A8A
+    blob 0 1.5 0.38 0.08 0.07 0.16 B8A880
+    tube 0.06 0.75 0 0.06 0 0 0.025 3 4A4A44
+    tube -0.06 0.75 0 -0.06 0 0 0.025 3 4A4A44
+    repeat 6 0 0 0.6
+    tube -1.5 0 -1.5 -1.5 2.5 -1.5 0.03 3 5A8A3A
+
+shape GREY_CROWNED_CRANES
+    home UGANDA, KENYA, RWANDA, TANZANIA, ZAMBIA, SOUTH AFRICA, BOTSWANA, ZIMBABWE | 0.002 2 20 | country
+    # A pair of grey crowned cranes dancing in a wet meadow: grey bodies, white wings, a golden bristly crown on each black head.
+    repeat 2 0 0 1.4
+    blob 0 0.95 -0.7 0.15 0.2 0.3 8A8A88
+    repeat 2 0 0 1.4
+    tube 0 1.1 -0.55 0 1.45 -0.48 0.035 4 1E1E1E
+    repeat 2 0 0 1.4
+    blob 0 1.5 -0.45 0.05 0.06 0.06 1E1E1E
+    repeat 2 0 0 1.4
+    blob 0 1.62 -0.47 0.08 0.06 0.08 E8C040
+    repeat 2 0 0 1.4
+    blob 0.12 1.0 -0.75 0.03 0.12 0.2 F2F2F2
+    repeat 2 0 0 1.4
+    tube 0 0.8 -0.7 0 0 -0.7 0.02 3 3A3A3A
+
+shape SPOONBILLS
+    home USA:FLORIDA, USA:TEXAS, USA:LOUISIANA, BRAZIL:MATO GROSSO DO SUL, BRAZIL:MATO GROSSO, CUBA, MEXICO:YUCATAN, BELIZE, ARGENTINA:CORRIENTES | 0.002 3 25 | country
+    # Roseate spoonbills wading in a lagoon: bright pink birds sweeping their flat spoon-shaped bills from side to side.
+    box 0 0.02 0 3 0.02 4 4A7A7A water
+    repeat 4 0.8 0 1.6
+    blob -1.5 0.65 -2.5 0.15 0.16 0.28 F28AA8
+    repeat 4 0.8 0 1.6
+    tube -1.5 0.7 -2.25 -1.5 0.45 -2.05 0.03 4 F28AA8
+    repeat 4 0.8 0 1.6
+    tube -1.5 0.45 -2.05 -1.5 0.12 -1.95 0.03 3 9A9A80
+    repeat 4 0.8 0 1.6
+    tube -1.5 0.5 -2.5 -1.5 0 -2.5 0.015 3 C83A3A
+
+shape AFRICAN_PENGUINS
+    home SOUTH AFRICA:WESTERN CAPE, NAMIBIA | 0.003 3 25 | coast
+    # African penguins on a beach of granite boulders: little black-and-white birds with a black band across the chest, waddling in a group.
+    blob -3 0.8 0 1.5 0.8 1.8 9A928A 0.5
+    repeat 6 0.5 0 0.7
+    blob -1 0.3 -2 0.12 0.25 0.12 1E1E1E
+    repeat 6 0.5 0 0.7
+    blob -0.92 0.3 -2 0.06 0.2 0.1 F2F2F2
+    repeat 6 0.5 0 0.7
+    blob -1 0.6 -2 0.08 0.09 0.08 1E1E1E
+
+shape ALBATROSS
+    home NEW ZEALAND:OTAGO, CHILE, ARGENTINA:SANTA CRUZ, ARGENTINA:TIERRA DEL FUEGO | 0.002 4 40 | coast
+    # Albatrosses on a windy headland: a great white seabird gliding on enormous stiff wings, another sitting on its nest in the tussock.
+    blob -2 0.35 0 0.4 0.3 0.6 F2F2F2
+    blob -2 0.6 0.45 0.15 0.15 0.18 F2F2F2
+    tube -2 0.6 0.6 -2 0.55 0.8 0.04 3 E8B0A0
+    blob -2 0.15 0 0.8 0.15 0.8 8A8A50 0.5
+    blob 2 6 3 0.25 0.15 0.6 F2F2F2
+    box 2 6 3 2.8 0.03 0.25 3A3A3A
+
+shape AFRICAN_WILD_DOGS
+    home BOTSWANA, ZIMBABWE, ZAMBIA, TANZANIA, SOUTH AFRICA, KENYA, MOZAMBIQUE | 0.001 3 25 | country
+    # A pack of painted wolves resting in the shade: lean dogs blotched in black, tan and white, with big round ears.
+    repeat 6 0.6 0 0.9
+    blob -1.5 0.4 -2 0.12 0.15 0.35 8A6A3A
+    repeat 6 0.6 0 0.9
+    blob -1.45 0.45 -1.9 0.1 0.08 0.15 1E1E1E
+    repeat 6 0.6 0 0.9
+    blob -1.5 0.5 -1.62 0.08 0.09 0.1 3A2A1E
+    repeat 6 0.6 0 0.9
+    blob -1.5 0.65 -1.6 0.07 0.06 0.02 2A2A2A
+    repeat 6 0.6 0 0.9
+    tube -1.5 0.4 -2.3 -1.5 0.3 -2.55 0.03 3 F2F2F2
+
+shape ART_DECO_GAS_STATION
+    home ERITREA, CUBA | 0.002 4 25 | town
+    # An old art deco petrol station: a white concrete kiosk with a long cantilevered wing over the pumps, rounded corners and pastel trim.
+    box -1 1.5 0 1.5 1.5 2 F2F2EE
+    box 2 3.2 0 3 0.15 1.2 F2F2EE
+    tube -1 3.1 0 5 3.1 0 0.15 6 3AA8A8
+    repeat 2 0 0 1.4
+    box 3 0.8 -0.7 0.2 0.8 0.2 C82A2A
+    box -2.5 1.5 0 0.01 1.5 1.8 3AA8A8
+    windows 0.51 1 -1.5 0 1 3 1.2
+
+shape AIRCON_BUS_SHELTER
+    home UAE, QATAR, KUWAIT, BAHRAIN, SAUDI ARABIA | 0.003 0.5 4 | town
+    # An air-conditioned bus shelter: a closed glass box with a sliding door and a cooling unit on the roof, passengers waiting in the cool.
+    box 0 1.3 0 1 1.3 2.5 C8D8E0 glass
+    box 0 2.65 0 1.05 0.06 2.6 C8C8C8
+    box -0.3 2.9 -1 0.6 0.25 0.8 E8E8E8
+    box 1.01 1.1 1.2 0.01 1.1 0.6 A8C8D8 glass
+    blob -0.2 0.7 0 0.17 0.42 0.14 F2F2F2
+    blob -0.2 1.2 0 0.11 0.12 0.11 F2F2F2
+    tube 1.4 0 3 1.4 2.6 3 0.04 3 9A9A9A
+    box 1.4 2.5 3 0.02 0.2 0.25 2A6AC8
+
+shape CYPRESS_WINDBREAK
+    home FRANCE:PROVENCE, FRANCE:OCCITANIE, ITALY:TUSCANY, SPAIN:CATALONIA, JAPAN:CHUBU | 0.003 4 30 | country
+    # A windbreak of tall cypresses lining the edge of an orchard against the mistral, a dense dark wall of trees.
+    repeat 14 0 0 1.4
+    spire -2 0.5 -9 0.7 9 8 2A4A2A
+    repeat 14 0 0 1.4
+    tube -2 0 -9 -2 0.6 -9 0.12 4 5A4A38
+    repeat 4 0 0 4
+    blob -6 1.3 -6 1.2 1 1.2 5A8A3A 0.4
+
+shape TEQUILA_DISTILLERY
+    home MEXICO:JALISCO | 0.004 4 30 | country
+    # A tequila distillery among the blue agave: piles of agave hearts like giant pineapples by the stone ovens, a brick chimney and copper stills.
+    box -2 2 0 3 2 5 C8A878
+    cyl -5.5 0 3 0.5 0.4 8 10 A8503A
+    repeat 6 0.7 0 0.8
+    blob 1.5 0.4 -3 0.4 0.45 0.4 C8C890 0.4
+    repeat 5 0.8 0 0.9
+    blob 1.6 0.95 -2.6 0.4 0.45 0.4 C8C890 0.4
+    repeat 2 0 0 2
+    cyl -2 4 -1 0.6 0.4 1.5 10 B8703A shiny
+
+shape TYRE_REPAIR_SHACK
+    home MEXICO, GUATEMALA, NIGERIA, GHANA, KENYA, UGANDA, CAMEROON, INDIA, PAKISTAN, BOLIVIA, PERU | 0.004 1 8 | country
+    # A roadside tyre repair: a shack painted with a tyre and a word, worn tyres stacked in towers and hung on a post, a compressor and a tub of water.
+    box -1 1.1 0 1 1.1 1.4 C8C0A8
+    quad -2.2 2.4 -1.6 -2.2 2.4 1.6 0.3 2.2 1.6 0.3 2.2 -1.6 9AA0A8
+    repeat 5 0 0.18 0
+    tube 0.6 0.09 -1.5 0.6 0.27 -1.5 0.38 12 1E1E1E
+    repeat 4 0 0.18 0
+    tube 0.6 0.09 -0.6 0.6 0.27 -0.6 0.38 12 2A2A2A
+    tube 0.8 0 1.4 0.8 2.2 1.4 0.05 3 8A6A48
+    hoop 0.85 1.7 1.4 0.4 0.12 12 1E1E1E
+    box 0.01 1.4 0.6 0.02 0.4 0.5 F2E81E
+    cyl 0.5 0 0.5 0.25 0.25 0.4 10 C82A2A
+
+shape SHOESHINE_STAND
+    home MEXICO, BOLIVIA, PERU, ECUADOR, COLOMBIA, TURKEY, GUATEMALA | 0.003 0.5 4 | town
+    # A shoeshine stand on a plaza: a raised wooden chair under a sunshade, the polisher on a low stool with his box of brushes and tins.
+    box 0 0.4 0 0.4 0.4 0.4 6A3A2A
+    box 0 0.95 0 0.3 0.15 0.3 2A2A2A
+    box -0.25 1.3 0 0.05 0.35 0.3 2A2A2A
+    box 0.5 0.2 0 0.15 0.2 0.15 6A4A2A
+    blob 0.9 0.4 0 0.17 0.3 0.14 3A5A8A
+    blob 0.9 0.82 0 0.1 0.11 0.1 C8A080
+    tube 0 0 0.6 0 2.2 0.6 0.03 3 9A9A9A
+    dome 0 2.2 0.6 0.9 0.3 2A8A5A
+
+shape LOTTERY_SELLER
+    home THAILAND, LAOS, VIETNAM, SPAIN, CAMBODIA | 0.003 0.5 4 | town
+    # A lottery ticket seller: a folding frame of glass-covered trays fanned out with rows of tickets, the seller on a stool beside it.
+    tube 0 0 0 0 1.4 0 0.03 3 9A9A9A
+    repeat 3 0 0.35 0
+    box 0.05 0.7 0 0.04 0.15 0.5 E8E0D0
+    repeat 3 0 0.35 0
+    box 0.1 0.7 0 0.005 0.12 0.45 C8D8E0 glass
+    blob -0.5 0.45 0.3 0.18 0.3 0.15 E8A0B8
+    blob -0.5 0.88 0.3 0.1 0.11 0.1 C8A080
+    cyl -0.5 0 0.3 0.13 0.13 0.25 8 2A6AC8
+
+shape LAAVU_SHELTER
+    home FINLAND, SWEDEN, NORWAY | 0.003 2 20 | country
+    # A lean-to shelter in the forest: a three-sided log shelter facing a stone fire ring, a woodpile and a sign for the hiking trail.
+    box -1.2 0.15 0 0.8 0.15 1.6 8A6A48
+    quad -2.0 0 -1.6 -2.0 0 1.6 0.2 2.2 1.6 0.2 2.2 -1.6 6A4A2A
+    tri -2.0 0 -1.6 0.2 2.2 -1.6 0.2 0 -1.6 7A5A38
+    tri -2.0 0 1.6 0.2 2.2 1.6 0.2 0 1.6 7A5A38
+    halo 1.5 0.12 0 0.5 0.12 10 8A8478
+    repeat 4 0 0.2 0
+    tube 1 0.1 2.5 1 0.1 3.5 0.1 6 8A6A48
+    spire -4 0 -3 1.4 6 8 2A4A2A
+
+shape JAPANESE_GREEN_PHONE
+    home JAPAN | 0.003 0.5 3 | town
+    # A public telephone box with a glass door and a grey roof, a green phone inside under its little light.
+    box 0 1.15 0 0.45 1.15 0.45 C8D8E0 glass
+    box 0 2.33 0 0.48 0.04 0.48 8A8A8A
+    box -0.3 1.2 0 0.12 0.22 0.15 3A9A5A
+    box 0 0.05 0 0.46 0.05 0.46 8A8A8A
+
+shape ICE_BLOCK_TRICYCLE
+    home THAILAND, PHILIPPINES, VIETNAM, CAMBODIA, MYANMAR, INDONESIA | 0.003 0.5 5 | town
+    # Ice delivery: a cargo tricycle with long blocks of ice under a wet sacking, a man with tongs sawing off a piece for a shop.
+    box 0 0.6 0.4 0.55 0.05 0.7 6A6A6A
+    repeat 2 0 0 0.6
+    box 0 0.8 0.1 0.45 0.15 0.25 E8F4FA glass
+    box 0 0.97 0.4 0.5 0.02 0.7 B8A880
+    hoop 0.6 0.3 0.6 0.3 0.03 10 3A3A3A
+    hoop -0.6 0.3 0.6 0.3 0.03 10 3A3A3A
+    hoop 0 0.3 -0.7 0.3 0.03 10 3A3A3A
+    tube 0 0.3 -0.7 0 1.0 -0.4 0.03 3 3A3A3A
+    blob 0.9 0.75 0.4 0.17 0.4 0.14 E8E0D0
+    blob 0.9 1.25 0.4 0.1 0.11 0.1 C8A080
+
+shape CHILE_ROASTER_DRUM
+    home USA:NEW MEXICO, USA:COLORADO, USA:ARIZONA, USA:TEXAS | 0.003 0.5 6 | country
+    # Green chile roasting in the fall: a big wire mesh drum turning over gas flames at a roadside stand, the air full of the smell, sacks of chile.
+    box 0 0.5 0 0.5 0.5 1 6A6A6A
+    tube 0 1.4 -1 0 1.4 1 0.6 12 4A4A44
+    box 0 0.9 0 0.4 0.05 0.9 E8701E glow
+    blob 0 1.4 0 0.5 0.45 0.9 4A8A2A 0.5
+    repeat 4 0 0 0.6
+    cyl 1.1 0 -0.9 0.25 0.25 0.6 8 C8B890
+    blob 0 2.4 0 0.5 0.6 0.8 C8C8C8 glass
+
+shape SORBETES_CART
+    home PHILIPPINES | 0.004 0.5 5 | town
+    # A sorbetes cart: a wooden ice cream cart painted in bright stripes and flowers, three metal tubs of ice cream and a bell, pushed by the vendor.
+    box 0 0.7 0 0.4 0.35 0.75 E83A6A
+    box 0.41 0.7 0 0.01 0.3 0.7 E8C02A
+    repeat 3 0 0 0.45
+    cyl 0 1.05 -0.45 0.12 0.12 0.15 10 C8C8C8 shiny
+    hoop 0.42 0.3 -0.4 0.3 0.03 10 3A3A3A
+    hoop -0.42 0.3 -0.4 0.3 0.03 10 3A3A3A
+    tube 0 0.9 0.75 0 1.1 1.3 0.03 3 8A6A48
+    blob 0 0.75 1.5 0.17 0.4 0.14 F2F2F2
+    blob 0 1.25 1.5 0.1 0.11 0.1 C8A080
+
+shape WHIRLING_DERVISHES
+    home TURKEY, SUDAN | 0.002 2 15 | town
+    # Whirling dervishes turning on a square: tall felt hats and white skirts flared out like bells, arms raised, musicians sitting to one side.
+    repeat 4 0 0 1.5
+    cyl 0 0 -2.25 0.55 0.15 0.9 14 F2F2F2
+    repeat 4 0 0 1.5
+    blob 0 1.2 -2.25 0.12 0.3 0.1 F2F2F2
+    repeat 4 0 0 1.5
+    blob 0 1.6 -2.25 0.09 0.1 0.09 E0B090
+    repeat 4 0 0 1.5
+    cyl 0 1.68 -2.25 0.09 0.07 0.3 8 8A6A48
+    repeat 3 0 0 0.8
+    blob -2 0.4 -1 0.22 0.35 0.18 2A2A2A
+
+shape PAPYRUS_BOAT
+    home ETHIOPIA, CHAD, SOUTH SUDAN | 0.004 2 20 | country
+    # Papyrus reed boats pulled up on a lake shore: long bundles of reeds lashed into slim canoes with upturned ends, a fisherman mending his net.
+    box 2 0.02 0 2 0.02 5 5A7A6A water
+    repeat 3 0 0 1.2
+    tube -0.5 0.2 -2 -0.5 0.2 1.5 0.25 6 B8A060
+    repeat 3 0 0 1.2
+    tube -0.5 0.2 1.5 -0.5 0.6 2.2 0.15 5 B8A060
+    blob -2 0.4 0 0.25 0.35 0.2 E8E0D0
+    blob -2 0.85 0 0.1 0.11 0.1 3A2A1E
+    blob -2.5 0.1 0.5 0.8 0.08 0.6 6A6A50 0.5
+
+shape TINGATINGA_STALL
+    home TANZANIA, KENYA | 0.004 1 10 | town
+    # A painters' stall of bright tinga-tinga pictures: square boards of birds, elephants and giraffes in shiny colours propped along a wall.
+    box -0.8 1.2 0 0.1 1.2 4 C8B8A0
+    repeat 6 0 0 1.3
+    box -0.65 1.4 -3.2 0.02 0.5 0.5 E8C02A
+    repeat 6 0 0 1.3
+    box -0.64 1.4 -3.2 0.01 0.35 0.35 2A8AC8
+    repeat 5 0 0 1.3
+    box -0.65 0.5 -2.6 0.02 0.35 0.45 E83A3A
+    blob 0.4 0.75 2.5 0.17 0.4 0.14 3AA83A
+    blob 0.4 1.25 2.5 0.1 0.11 0.1 3A2A1E
+
+shape ZANZIBAR_CARVED_DOOR
+    home TANZANIA, KENYA, OMAN | 0.004 0.5 6 | town
+    # A great carved wooden door in a white coral-stone wall: heavy teak leaves studded with brass spikes, a carved frame and lintel.
+    box -0.5 2 0 0.4 2 3 E8E0D0
+    box -0.08 1.4 0 0.02 1.4 0.9 6A4020
+    box -0.06 2.95 0 0.02 0.15 1.1 5A3418
+    tube -0.06 0 -1.0 -0.06 2.8 -1.0 0.06 4 5A3418
+    tube -0.06 0 1.0 -0.06 2.8 1.0 0.06 4 5A3418
+    repeat 6 0 0.4 0
+    blob -0.04 0.5 -0.4 0.04 0.04 0.04 C8A040 shiny
+    repeat 6 0 0.4 0
+    blob -0.04 0.5 0.4 0.04 0.04 0.04 C8A040 shiny
+
+shape CANDONGUEIRO
+    home ANGOLA | 0.004 1 8 | town
+    # A candongueiro, the blue and white minibus taxi, the conductor hanging out of the sliding door calling the destination.
+    box 0 1.2 0 0.95 0.9 2.4 2A6AC8
+    box 0 1.65 0 0.96 0.35 2.2 F2F2F2
+    box 0 1.65 0 0.97 0.25 2.0 2A3A4A glass
+    mirror
+    mirrorx
+    tube 0.8 0.38 1.6 0.97 0.38 1.6 0.38 10 1E1E1E
+    blob 1.2 1.2 0.5 0.15 0.4 0.13 E8C02A
+    blob 1.25 1.68 0.5 0.1 0.11 0.1 3A2A1E
+
+shape WIRE_ART_SELLERS
+    home SOUTH AFRICA, ZIMBABWE, NAMIBIA, BOTSWANA, ZAMBIA | 0.003 0.5 6 | country
+    # Sellers of wire and bead art at a lay-by: toy cars bent from wire, beaded giraffes and big wire windmills lined up on the gravel.
+    repeat 4 0 0 1.2
+    box 0.2 0.2 -2 0.3 0.2 0.15 9A9A9A
+    repeat 3 0 0 1.5
+    tube -0.5 0 -1.5 -0.5 1.6 -1.5 0.03 3 C8A040
+    repeat 3 0 0 1.5
+    tube -0.5 1.4 -1.4 -0.5 1.8 -1.2 0.03 3 C8A040
+    repeat 3 0 0 1.5
+    blob -0.5 1.0 -1.5 0.12 0.25 0.2 E8C02A
+    blob 1 0.75 2 0.17 0.4 0.14 2A6AC8
+    blob 1 1.25 2 0.1 0.11 0.1 3A2A1E
+
+shape CANDOMBE_DRUMMERS
+    home URUGUAY | 0.002 1 10 | town
+    # Candombe drummers parading down the street: a row of men with tall barrel drums slung from their shoulders, flags waving over them.
+    repeat 5 0 0 1.2
+    blob 0.3 0.8 -2.4 0.17 0.42 0.14 F2F2F2
+    repeat 5 0 0 1.2
+    blob 0.3 1.3 -2.4 0.1 0.11 0.1 4A3020
+    repeat 5 0 0 1.2
+    cyl 0.55 0.5 -2.4 0.16 0.18 0.75 10 C8803A
+    repeat 5 0 0 1.2
+    halo 0.55 1.1 -2.4 0.18 0.03 10 E8C02A
+    tube -0.5 0 3 -0.5 3 3 0.03 3 9A9A9A
+    box -0.5 2.7 3.4 0.01 0.3 0.4 2A6AC8
+
+shape DIABLO_ROJO_BUS
+    home PANAMA | 0.003 1 8 | town
+    # A diablo rojo: an old school bus painted all over with portraits, flames and slogans in wild colours, chrome exhausts and coloured lights.
+    box 0 1.5 0 1.2 1.2 5.5 E8C02A
+    box 1.21 1.0 -2 0.01 0.6 2.5 E83A3A
+    box 1.21 1.1 2.5 0.01 0.5 2 2A6AC8
+    box 1.22 2.0 0 0.01 0.25 5 2A3A4A glass
+    box 0 1.3 6 1.1 0.9 0.6 E8C02A
+    repeat 8 0 0 0.6
+    blob 1.22 2.6 -2.1 0.03 0.05 0.05 E83AE8 glow
+    tube -1.2 0.5 -5.5 -1.2 3 -5.5 0.08 6 C8C8C8 shiny
+    mirror
+    mirrorx
+    tube 1.0 0.5 4.0 1.22 0.5 4.0 0.5 10 1E1E1E
+
+shape YAKI_IMO_TRUCK
+    home JAPAN | 0.003 0.5 5 | town
+    # A sweet potato truck: a little kei truck with a wood-fired stone oven on its bed, a red lantern and a chimney, calling out its song.
+    box 0 0.75 -1.2 0.7 0.5 0.6 F2F2F2
+    box 0 1.15 -1.2 0.71 0.25 0.5 2A3A4A glass
+    box 0 0.55 0.5 0.7 0.15 1.1 F2F2F2
+    box 0 1.0 0.5 0.55 0.3 0.8 3A3A3A
+    blob 0 1.35 0.5 0.45 0.1 0.7 9A9690 0.5
+    cyl 0 1.3 1.1 0.07 0.07 0.8 6 3A3A3A
+    blob 0.5 1.7 0.0 0.15 0.2 0.15 C82A2A lit
+    mirror
+    mirrorx
+    tube 0.6 0.25 1.0 0.72 0.25 1.0 0.25 10 1E1E1E
+
+shape RAMBUTAN_STALL
+    home MALAYSIA, THAILAND, INDONESIA, SRI LANKA, VIETNAM, PHILIPPINES | 0.004 0.5 6 | country
+    # A fruit stall on the highway: bunches of hairy red rambutan, yellow bananas and mangosteens heaped on a bench under a blue tarp.
+    box 0 0.5 0 0.4 0.05 1.5 8A6A48
+    mirror
+    mirrorx
+    tube 0.35 0 1.4 0.35 0.5 1.4 0.04 3 8A6A48
+    blob 0 0.7 -0.8 0.35 0.18 0.5 C82A2A 0.6
+    blob 0 0.68 0.3 0.3 0.15 0.4 E8C02A 0.3
+    blob 0 0.68 1.1 0.3 0.15 0.3 5A2A4A 0.3
+    quad -0.8 2.3 -1.8 -0.8 2.3 1.8 0.8 2.0 1.8 0.8 2.0 -1.8 2A6AC8
+    tube 0.8 0 1.8 0.8 2.0 1.8 0.04 3 8A6A48
+    tube 0.8 0 -1.8 0.8 2.0 -1.8 0.04 3 8A6A48
+    tube -0.8 0 1.8 -0.8 2.3 1.8 0.04 3 8A6A48
+    tube -0.8 0 -1.8 -0.8 2.3 -1.8 0.04 3 8A6A48

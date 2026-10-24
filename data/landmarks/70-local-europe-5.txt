@@ -1,0 +1,575 @@
+# Europe, round five: street food, old houses, coast and industry, customs, and the animals of field and forest.
+
+shape CHESTNUT_ROASTER
+    home ITALY, FRANCE, PORTUGAL, SPAIN, GREECE, TURKEY, CROATIA | 0.004 0.5 4 | town
+    # A chestnut roaster on a cold street corner: a little cart with a smoking drum of hot coals, chestnuts in paper cones.
+    box 0 0.5 0 0.4 0.4 0.6 3A3A3A
+    cyl 0 0.9 0 0.3 0.25 0.35 10 1E1E1E
+    box 0 1.26 0 0.28 0.01 0.28 E8501E glow
+    repeat 8 0 0 0.07
+    blob 0.05 1.3 -0.25 0.04 0.03 0.04 6A3A1E
+    tube 0 1.3 0.3 0 2.2 0.3 0.06 6 3A3A3A
+    blob 0 2.6 0.3 0.25 0.4 0.25 C8C8C8 glass
+    hoop 0.42 0.3 -0.5 0.3 0.03 10 3A3A3A
+    hoop -0.42 0.3 -0.5 0.3 0.03 10 3A3A3A
+
+shape FRITKOT
+    home BELGIUM | 0.004 0.5 6 | town
+    # A frietkot: a small chip shack on a square with a big painted cone of fries on its roof, a hatch open and people eating from paper cones.
+    box 0 1.3 0 1.4 1.3 2 E8E0C8
+    box 1.41 1.4 0 0.01 0.45 1.2 2A2018
+    box 1.6 0.95 0 0.2 0.04 1.3 C8C8C8
+    tbox 0 2.6 0 0.4 0.4 0 4 0 0.8 0.8 E8E0D0
+    blob 0 4.1 0 0.7 0.3 0.7 F2D040 0.5
+    box 1.42 2.3 0 0.01 0.2 1.6 C82A2A
+
+shape WAFFLE_STAND
+    home BELGIUM, NETHERLANDS | 0.003 0.5 6 | town
+    # A waffle stand: a counter with hot waffle irons, warm waffles stacked under glass with strawberries and cream, a striped awning.
+    box 0 0.5 0 0.5 0.5 1.2 F2E8D8
+    repeat 3 0 0 0.6
+    box 0.1 1.05 -0.6 0.25 0.05 0.22 2A2A2A
+    box 0.1 1.2 0.6 0.3 0.15 0.35 C8D8E0 glass
+    repeat 3 0 0.06 0
+    box 0.1 1.1 0.6 0.18 0.025 0.12 D8A050
+    quad -0.6 2.3 -1.4 -0.6 2.3 1.4 0.9 2.0 1.4 0.9 2.0 -1.4 C82A2A
+
+shape BRATWURST_STAND
+    home GERMANY, AUSTRIA | 0.004 0.5 6 | town
+    # A sausage stand at the market: a round charcoal grill of bratwurst under a small roof, rolls stacked on the counter, a jar of mustard.
+    box 0 0.5 0 0.5 0.5 1 8A6A48
+    cyl 0 1.0 -0.4 0.45 0.45 0.05 14 2A2A2A
+    repeat 6 0 0 0.12
+    tube -0.25 1.07 -0.7 0.25 1.07 -0.7 0.03 4 B8602A
+    repeat 4 0 0 0.15
+    blob 0.2 1.05 0.4 0.12 0.06 0.06 D8A860
+    cyl -0.2 1.0 0.5 0.06 0.06 0.15 8 E8C02A
+    gable 0 2.2 0 0.8 1.2 0.4 0.2 6A3A2A 8A6A48
+    mirror
+    mirrorx
+    tube 0.6 0 1.0 0.6 2.2 1.0 0.04 4 6A4A2A
+
+shape PAPRIKA_GARLANDS
+    home HUNGARY, SERBIA | 0.004 1 10 | country
+    # Strings of red paprika drying on a whitewashed farmhouse: long garlands hung from the eaves all along its porch.
+    box -1 1.3 0 1 1.3 5 F2F2EE
+    gable -1 2.6 0 1 5 1.4 0.5 A8503A F2F2EE
+    repeat 12 0 0 0.8
+    tube 0.4 2.5 -4.4 0.4 0.9 -4.4 0.08 5 C82A1E
+    repeat 5 0 0 2.2
+    tube 0.55 0 -4.4 0.55 2.5 -4.4 0.07 4 F2F2EE
+
+shape MORRIS_DANCERS
+    home ENGLAND | 0.003 1 10 | country
+    # Morris dancers outside a village pub: men in white with ribbons and bells on their shins, waving handkerchiefs, an accordion player beside them.
+    repeat 3 0 0 1.4
+    blob 0.4 0.85 -1.4 0.16 0.42 0.13 F2F2F2
+    repeat 3 0 0 1.4
+    blob 0.4 1.35 -1.4 0.1 0.11 0.1 E0B090
+    repeat 3 0 0 1.4
+    cyl 0.4 1.42 -1.4 0.12 0.1 0.12 8 1E1E1E
+    repeat 3 0 0 1.4
+    box 0.4 0.95 -1.4 0.17 0.06 0.14 C82A2A
+    repeat 3 0 0 1.4
+    blob 0.6 1.6 -1.2 0.06 0.06 0.02 F2F2F2
+    repeat 3 0 0 1.4
+    blob -0.6 0.85 -1.4 0.16 0.42 0.13 F2F2F2
+    repeat 3 0 0 1.4
+    blob -0.6 1.35 -1.4 0.1 0.11 0.1 E0B090
+    blob -1.6 0.85 2.5 0.17 0.42 0.14 2A3A2A
+    blob -1.6 1.35 2.5 0.1 0.11 0.1 E0B090
+    box -1.45 1.0 2.5 0.12 0.15 0.18 C82A2A
+
+shape LIFEBOAT_STATION
+    home ENGLAND, SCOTLAND, WALES, IRELAND, NORTHERN IRELAND | 0.003 6 40 | coast
+    # A lifeboat station: a boathouse with a steep slipway into the sea, the orange and blue lifeboat ready at the top of it.
+    box 0 3 0 4 3 6 E8E0D0
+    gable 0 6 0 4 6 2 0.3 6A6A6A E8E0D0
+    box -4.01 2.4 0 0.01 2.4 2.2 2A3A6A
+    box 4.01 4.6 0 0.01 0.4 3.5 F2801E
+    box 4.01 1.2 -3 0.01 1.2 0.6 2A3A6A
+    quad -4 0.4 -1.6 -4 0.4 1.6 -16 -3 1.6 -16 -3 -1.6 7A7A74
+    tube -5.5 1.6 0 -10 1.6 0 0.9 8 1E3A8A
+    box -7.75 2.5 0 2.2 0.4 0.8 F2801E
+    box -7.0 3.2 0 0.8 0.4 0.6 F2801E
+
+shape MARTELLO_TOWER
+    home IRELAND, ENGLAND | 0.002 8 50 | coast
+    # A Martello tower on the shore: a squat round stone fort with thick sloping walls, a door high up and a parapet round the top.
+    cyl 0 0 0 6 5 9 20 B8B0A0
+    cyl 0 9 0 5.1 5.1 0.6 20 A8A090
+    box 5.6 5 0 0.1 0.8 0.5 3A2A1E
+    tube 6 2 0 6 4.8 0 0.04 3 6A5A48
+    tube 6 2 0.6 6 4.8 0.6 0.04 3 6A5A48
+
+shape SPOIL_TERRIL
+    home BELGIUM, FRANCE:HAUTS-DE-FRANCE, GERMANY:NORTH RHINE-WESTPHALIA, GERMANY:SAARLAND, POLAND, CZECHIA | 0.002 60 160 | country
+    # A coal spoil heap from the mining days: a great black cone rising over the plain, birch trees creeping up its lower slopes, a winding tower nearby.
+    spire 0 0 0 40 45 16 3A3A3A
+    repeat 6 4 0 6
+    spire -10 0 -30 2.5 7 6 6A8A4A
+    tbox 30 0 20 3 3 30 25 20 1.5 1.5 9A3A2A
+    cyl 30 25 20 4 4 0.4 12 6A6A6A
+
+shape BUCKET_WHEEL_EXCAVATOR
+    home GERMANY:NORTH RHINE-WESTPHALIA, GERMANY:BRANDENBURG, GERMANY:SAXONY, CZECHIA, POLAND | 0.001 40 150 | country
+    # A bucket-wheel excavator in an opencast lignite pit: a monstrous steel machine on crawlers with a long boom and a giant wheel of buckets.
+    box 0 4 0 10 4 12 C8C8C0
+    tube 0 8 0 0 18 0 3 8 C8C8C0
+    tube 0 18 0 -40 30 0 1.5 6 C8C8C0
+    tube 0 18 0 20 22 0 1.2 6 C8C8C0
+    hoop -42 30 0 10 1.2 20 C8C8C0
+    at -42 30 0
+    vring 12 10
+    box 0 0 0 1.2 1 1.5 C82A2A
+    at 0 0 0
+    mirror
+    box 0 1.5 10 12 1.5 3 3A3A3A
+
+shape COOLING_TOWERS
+    home FRANCE, GERMANY, CZECHIA, BELGIUM, SPAIN, USA, ROMANIA, UKRAINE | 0.001 60 200 | country
+    # The cooling towers of a power station: huge waisted concrete shells, white clouds of steam rising from two of them.
+    tbox 0 0 0 30 30 0 40 0 20 20 C8C4BC
+    tbox 0 40 0 20 20 0 70 0 22 22 C8C4BC
+    tbox 0 0 70 30 30 0 40 70 20 20 C8C4BC
+    tbox 0 40 70 20 20 0 70 70 22 22 C8C4BC
+    blob 0 85 0 20 18 20 F2F2F2 glass
+    blob 0 85 70 18 16 18 F2F2F2 glass
+
+shape ROWING_EIGHT
+    home ENGLAND, GERMANY, NETHERLANDS, AUSTRALIA, USA:MASSACHUSETTS, USA:PENNSYLVANIA, CANADA:ONTARIO | 0.002 35 70 | water
+    # A rowing eight on the river: a long thin shell with eight rowers in a line pulling their oars together, the cox at the stern.
+    tube 0 0.15 -9 0 0.15 9 0.3 8 F2F2F2
+    repeat 8 0 0 1.6
+    blob 0 0.6 -6 0.15 0.3 0.12 2A3A8A
+    repeat 8 0 0 1.6
+    blob 0 0.95 -6 0.09 0.1 0.09 E0B090
+    repeat 4 0 0 3.2
+    tube 0 0.5 -6 3 0.1 -6.4 0.025 3 F2F2F2
+    repeat 4 0 0 3.2
+    tube 0 0.5 -4.4 -3 0.1 -4.8 0.025 3 F2F2F2
+    blob 0 0.55 7.5 0.15 0.25 0.12 C82A2A
+
+shape BIRD_HIDE
+    home NETHERLANDS, ENGLAND, SCOTLAND, DENMARK, GERMANY:SCHLESWIG-HOLSTEIN, BELGIUM, SWEDEN | 0.003 8 40 | country
+    # A bird hide by a marsh: a wooden hut on stilts with a long viewing slot, a boardwalk to it through the reeds, geese on the water.
+    box 0 1.8 0 1.5 1.2 3 7A5A3A
+    box 1.51 2.2 0 0.01 0.2 2.5 1E1E1E
+    gable 0 3 0 1.5 3 0.8 0.3 4A3A2A 7A5A3A
+    mirror
+    mirrorx
+    tube 1.2 0 2.6 1.2 0.6 2.6 0.1 4 6A4A2A
+    box -5 0.5 0 3.5 0.05 0.6 8A6A48
+    box 5 0.02 0 4 0.02 6 5A7A7A water
+    repeat 5 0.8 0 1.4
+    blob 4 0.15 -3 0.14 0.12 0.22 9A9080
+
+shape BLACKHOUSE
+    home SCOTLAND | 0.004 4 30 | country
+    # A blackhouse of the islands: a long low house of drystone walls with rounded ends and a thick thatch held down by ropes and hanging stones.
+    box 0 0.9 0 1.8 0.9 5 8A8478
+    tbox 0 1.8 0 1.7 4.9 0 3.2 0 0.4 4.2 8A7A50
+    repeat 6 0 0 1.6
+    tube -1.7 1.5 -4 1.7 1.5 -4 0.02 3 4A3A2A
+    repeat 6 0 0 1.6
+    blob 1.8 1.2 -4 0.12 0.12 0.12 7A7670
+    box 1.81 0.7 1 0.01 0.6 0.4 3A2A1E
+
+shape CLOCHAN
+    home IRELAND | 0.003 4 30 | country
+    # Beehive huts of the old hermits: round drystone huts corbelled into domes, huddled on a hillside above the sea.
+    repeat 3 3 0 3
+    dome -4 0 -4 2 3 8A8478
+    repeat 3 3 0 3
+    box -2.05 0.5 -4 0.02 0.5 0.3 1E1E1E
+
+shape FRISIAN_HAUBARG
+    home GERMANY:SCHLESWIG-HOLSTEIN, NETHERLANDS, DENMARK | 0.003 8 50 | country
+    # A great Frisian farmhouse: a huge reed-thatched pyramid of a roof over the barn, the brick living quarters at the front.
+    box 0 2 0 7 2 7 A8503A
+    tbox 0 4 0 7.5 7.5 0 12 0 1 1 9A8A50
+    windows 7.01 1.2 -5 0 1 10 1.4
+    box 7.01 1.5 0 0.01 1.5 1 3A5A3A
+
+shape DAMMUSO
+    home ITALY:SICILY | 0.003 4 30 | country
+    # A dammuso of the islands: a thick-walled cube of black lava stone with a whitewashed dome, a vine trained over a pergola.
+    box 0 1.5 0 2.5 1.5 3 4A4440
+    dome 0 3 -1.2 1.6 0.9 F2F2EE
+    dome 0 3 1.4 1.4 0.8 F2F2EE
+    box 2.51 1 0 0.01 1 0.5 2A6AC8
+    mirror
+    tube 4.5 0 1.5 4.5 2.2 1.5 0.05 4 8A6A48
+    box 4 2.2 0 0.8 0.05 1.6 5A8A3A
+
+shape YALI
+    home TURKEY | 0.003 8 40 | coast
+    # A wooden waterside mansion: a long timber house painted pale with dark shutters, built right on the water with a boathouse beneath.
+    box 0 3.5 0 3 2 9 E8D8C0
+    box 0 1 0 3 1 9 B8A890
+    box 3.01 1 -4 0.01 0.9 1.4 1E2A3A
+    hip 0 5.5 0 3.3 9.3 1.2 0.6 9A3A2A
+    windows 3.01 2.6 -8 0 1 16 1.6
+    box 3.6 0.02 0 0.6 0.02 9 3A6A8A water
+
+shape HOLY_WELL
+    home IRELAND, NORTHERN IRELAND, SCOTLAND, WALES | 0.003 2 20 | country
+    # A holy well under a rag tree: a small stone well-house, the hawthorn beside it tied with ribbons, rosaries and strips of cloth left with prayers.
+    box 0 0.6 0 0.8 0.6 0.8 8A8478
+    gable 0 1.2 0 0.8 0.8 0.5 0.1 6A6A60 8A8478
+    box 0.81 0.4 0 0.01 0.35 0.3 1E2A3A
+    tube 2.5 0 0 2.6 2 0 0.12 4 5A4A3A
+    blob 2.6 2.6 0 1.2 0.8 1.2 4A6A3A 0.4
+    repeat 6 0 -0.15 0.18
+    box 3.2 2.3 -0.5 0.02 0.12 0.04 E83A3A
+    repeat 6 0 -0.12 -0.2
+    box 2.0 2.3 0.5 0.02 0.12 0.04 F2F2F2
+
+shape MIDSUMMER_BONFIRE
+    home FINLAND, SWEDEN, NORWAY, DENMARK, ESTONIA, LATVIA, LITHUANIA | 0.002 6 40 | coast
+    # A midsummer bonfire built by the lake: a tall cone of logs and old boats waiting to be lit, a rowing boat pulled up beside it.
+    spire 0 0 0 2.5 5 10 7A5A3A
+    ring 8 1.8
+    tube 0 0 0 -1.2 4.5 0 0.12 4 8A6A48
+    blob 0 0.5 1.8 0.6 0.4 1.6 3A6A8A
+    box 4 0.3 -3 0.6 0.3 1.8 C8C0B0
+
+shape FALLAS_NINOT
+    home SPAIN:VALENCIA | 0.003 3 20 | town
+    # A falla in the street before the fire festival: a towering satirical figure of painted papier-mache, cheerful and grotesque, on a decorated base.
+    box 0 1 0 2 1 2 E8C02A
+    blob 0 3.5 0 1.2 1.6 1 E83A6A
+    blob 0 5.8 0 0.9 0.9 0.8 F2C8A0
+    blob 0.7 6 -0.3 0.18 0.18 0.1 F2F2F2
+    blob 0.7 6 0.3 0.18 0.18 0.1 F2F2F2
+    cyl 0 6.6 0 0.9 0.6 0.9 10 2A6AC8
+    tube 0.5 4.5 1 1.8 6.5 2 0.25 5 F2C8A0
+    blob 1.8 1.6 -1.5 0.5 0.6 0.4 3AC86A
+
+shape STECCI
+    home BOSNIA, MONTENEGRO, CROATIA, SERBIA | 0.004 3 25 | country
+    # Medieval tombstones in a meadow: big blocks and gabled stones carved with spirals, swords and raised hands, scattered among the grass.
+    repeat 4 1.8 0 2.4
+    box -4 0.5 -4 0.6 0.5 1.1 B8B4A8
+    repeat 3 1.8 0 2.6
+    box -5 0.4 -2.5 0.5 0.4 1.0 A8A498
+    repeat 3 1.8 0 2.6
+    gable -5 0.8 -2.5 0.5 1.0 0.4 0 A8A498 A8A498
+    box -1 1 3 0.4 1 0.4 B8B4A8
+
+shape MARTENITSA_TREE
+    home BULGARIA, NORTH MACEDONIA, ROMANIA, MOLDOVA | 0.003 1 12 | country
+    # A blossoming tree hung with red and white woven threads, the spring tokens tied on its twigs when the first storks come back.
+    tube 0 0 0 0 2.4 0 0.15 5 6A5A40
+    blob 0 3.2 0 1.6 1.2 1.6 F2E8E8 0.4
+    repeat 8 0.3 -0.05 0.2
+    box -1.2 2.4 -0.8 0.01 0.1 0.01 E82A2A
+    repeat 8 0.3 -0.05 0.2
+    box -1.2 2.45 -0.6 0.01 0.1 0.01 F2F2F2
+    repeat 6 -0.3 0.05 0.25
+    box 1.2 2.2 -0.6 0.01 0.1 0.01 E82A2A
+
+shape KONIK_HORSES
+    home NETHERLANDS, POLAND, LATVIA, LITHUANIA, BELARUS, BELGIUM | 0.003 6 50 | country
+    # Wild konik horses grazing on a nature reserve: small mouse-grey ponies with a dark stripe down the back, roaming the wet grassland.
+    repeat 5 1.2 0 2.5
+    blob -3 1.0 -5 0.3 0.36 0.7 9A9080
+    repeat 5 1.2 0 2.5
+    tube -3 1.15 -4.4 -3 0.9 -3.9 0.14 5 9A9080
+    repeat 5 1.2 0 2.5
+    blob -3 0.85 -3.75 0.11 0.13 0.25 6A6050
+    repeat 5 1.2 0 2.5
+    box -3 1.36 -5 0.02 0.01 0.6 3A3A3A
+    repeat 5 1.2 0 2.5
+    tube -2.85 0.75 -4.4 -2.85 0 -4.4 0.06 4 4A4440
+    repeat 5 1.2 0 2.5
+    tube -3.15 0.75 -5.6 -3.15 0 -5.6 0.06 4 4A4440
+
+shape LYNX
+    home SWEDEN, NORWAY, FINLAND, POLAND, SLOVAKIA, ROMANIA, CZECHIA, ESTONIA, LATVIA, SWITZERLAND, CANADA, RUSSIA | 0.001 3 25 | country
+    # A lynx stepping out of the spruce forest: long legs, big paws, a short black-tipped tail and tufted ears.
+    blob 0 0.55 0 0.18 0.22 0.45 B8906A
+    blob 0 0.72 0.45 0.14 0.13 0.13 B8906A
+    tube 0.07 0.82 0.47 0.07 0.98 0.45 0.015 3 1E1E1E
+    tube -0.07 0.82 0.47 -0.07 0.98 0.45 0.015 3 1E1E1E
+    tube 0 0.6 -0.45 0 0.55 -0.6 0.05 4 1E1E1E
+    mirror
+    mirrorx
+    tube 0.1 0.4 0.3 0.1 0 0.3 0.05 4 B8906A
+    spire -2 0 -1 1.2 5 8 2A4A3A
+
+shape HEDGEHOG
+    home GERMANY, ENGLAND, NETHERLANDS, BELGIUM, DENMARK, FRANCE, AUSTRIA, CZECHIA, POLAND, NEW ZEALAND | 0.002 0.5 4 | country
+    # A hedgehog trundling along the verge at dusk: a brown ball of spines with a pointed nose.
+    blob 0 0.08 0 0.11 0.09 0.15 6A5A40 0.5
+    blob 0 0.06 0.15 0.05 0.04 0.06 B8A080
+    blob 0 0.06 0.21 0.012 0.012 0.012 1E1E1E
+
+shape RED_SQUIRREL
+    home ENGLAND, SCOTLAND, IRELAND, SWEDEN, NORWAY, FINLAND, GERMANY, POLAND, AUSTRIA, SWITZERLAND, CZECHIA, ESTONIA, LATVIA, RUSSIA | 0.002 1 10 | country
+    # A red squirrel on a pine stump: rust-red fur, tufted ears and a great bushy tail curled over its back, a cone in its paws.
+    cyl 0 0 0 0.35 0.3 0.5 8 7A5A3A
+    blob 0 0.68 0 0.1 0.14 0.08 B8481E
+    blob 0 0.86 0.04 0.07 0.07 0.07 B8481E
+    blob 0 0.8 -0.12 0.06 0.18 0.08 B8481E
+    blob 0 0.68 0.1 0.04 0.05 0.04 8A6A3A
+
+shape OUTDOOR_THERMAL_BATH
+    home HUNGARY, SLOVAKIA, CZECHIA, SLOVENIA, ICELAND, TURKEY | 0.002 6 40 | country
+    # An open-air thermal bath: steaming blue pools with bathers soaking, a yellow bathhouse with a green dome behind, people playing chess in the water.
+    box 0 0.05 0 4 0.05 8 5AA8C8 water
+    blob 0 0.8 0 3.5 0.8 6 E8E8E8 glass
+    repeat 5 0 0 2.5
+    blob 1 0.25 -5 0.15 0.15 0.15 E0B090
+    box -9 4 0 4 4 9 E8D070
+    dome -9 8 0 3 2.5 3A8A5A
+    windows -4.99 1.5 -8 0 1 16 1.8
+
+shape ICE_SWIMMING_HOLE
+    home FINLAND, RUSSIA, ESTONIA, SWEDEN, LATVIA | 0.002 4 30 | cold
+    # An ice-swimming hole on a frozen lake: a square of black water cut in the ice with a steel ladder, a wooden sauna puffing smoke on the shore.
+    box 0 0.02 0 6 0.02 8 E8F0F8
+    box 2 0.03 0 1 0.01 1.5 1E2A3A
+    tube 1.1 0 -0.4 1.1 0.9 -0.4 0.03 3 C8C8C8
+    tube 1.1 0 0.4 1.1 0.9 0.4 0.03 3 C8C8C8
+    box -4 1.3 0 1.6 1.3 2 6A4A2A
+    gable -4 2.6 0 1.6 2 0.8 0.2 3A3A3A 6A4A2A
+    tube -4.5 2.6 1 -4.5 3.8 1 0.1 4 3A3A3A
+    blob -4.5 4.5 1 0.4 0.7 0.4 D8D8D8 glass
+    blob 1.5 0.75 2.5 0.17 0.42 0.14 C82A2A
+    blob 1.5 1.25 2.5 0.1 0.11 0.1 E0B090
+
+shape GELATO_CART
+    home ITALY, SAN MARINO, MALTA | 0.003 0.5 6 | town
+    # A gelato cart on a promenade: a little painted cart with a canopy, round lids over the tubs of ice cream and cones stacked in a holder.
+    box 0 0.6 0 0.45 0.35 0.8 F2E8D0
+    box 0.46 0.6 0 0.01 0.25 0.6 E8A0B8
+    repeat 4 0 0 0.35
+    dome 0 0.95 -0.5 0.13 0.06 C8C8C8 shiny
+    mirror
+    mirrorx
+    tube 0.4 0.95 0.75 0.4 2.0 0.75 0.025 3 C8C8C8
+    quad -0.6 2.0 -1.0 -0.6 2.0 1.0 0.6 2.0 1.0 0.6 2.0 -1.0 E8A0B8
+    tube 0.45 0.25 -0.7 0.55 0.25 -0.7 0.25 10 3A3A3A
+    tube -0.45 0.25 -0.7 -0.55 0.25 -0.7 0.25 10 3A3A3A
+
+shape ROMANESQUE_BELFRY
+    home ANDORRA, SPAIN:CATALONIA, FRANCE:OCCITANIE, ITALY:LOMBARDY, ITALY:PIEDMONT | 0.003 8 50 | country
+    # A Romanesque church in a mountain valley: a small stone nave with a round apse and a slender square bell tower pierced by tiers of arched windows.
+    box 0 2.5 0 3 2.5 6 A89880
+    gable 0 5 0 3 6 1.5 0.2 6A5A50 A89880
+    cyl 0 0 -6 2.6 2.6 4.4 12 A89880
+    box 0 6 6 1.6 6 1.6 A89880
+    repeat 4 0 2.4 0
+    box 1.61 4 6 0.02 0.7 0.6 2A2018
+    hip 0 12 6 1.7 1.7 1 0.1 6A5A50
+
+shape F1_GRANDSTAND
+    home MONACO, SINGAPORE, BAHRAIN, AZERBAIJAN, HUNGARY, ITALY:LOMBARDY, BELGIUM, ENGLAND:EAST MIDLANDS, UAE | 0.002 4 30 | country
+    # A grandstand of a motor racing circuit: steep rows of coloured seats under a cantilevered roof, flags on poles and a big screen.
+    box -6 0.2 0 0.2 0.2 25 8A8A8A
+    repeat 8 -0.9 0.6 0
+    box -1 0.3 0 0.45 0.3 24 2A6AC8
+    quad -1 6 -25 -1 6 25 -10 7.5 25 -10 7.5 -25 E8E8E8
+    repeat 6 0 0 9
+    tube -10 0 -22.5 -10 7.5 -22.5 0.25 6 C8C8C8
+    box -4 9.5 30 0.2 2 3.5 1E1E1E
+    box -3.8 9.5 30 0.01 1.8 3.3 3A6AC8 glow
+
+shape RACECOURSE
+    home IRELAND, ENGLAND, AUSTRALIA, FRANCE:NORMANDY, NEW ZEALAND, USA:KENTUCKY, ARGENTINA, UAE | 0.002 6 50 | country
+    # A racecourse: white railings round a broad green turf track, a grandstand with a striped roof and horses in silks thundering round the bend.
+    repeat 10 0 0 6
+    tube 0 0.9 -30 0 0.9 -24 0.05 4 F2F2F2
+    repeat 11 0 0 6
+    tube 0 0 -30 0 0.9 -30 0.04 4 F2F2F2
+    box -8 0.02 0 7.5 0.02 30 4A9A3A
+    repeat 4 0.6 0 1.6
+    blob -5 1.3 -3 0.3 0.4 0.75 6A3A1E
+    repeat 4 0.6 0 1.6
+    blob -5 1.85 -2.9 0.13 0.16 0.12 E83A3A
+    box -22 3 0 4 3 15 E8E0D0
+    quad -18 6.5 -15 -18 6.5 15 -26 7.5 15 -26 7.5 -15 2A6A3A
+
+shape SOLAR_TOWER
+    home SPAIN:ANDALUSIA, MOROCCO, USA:CALIFORNIA, USA:NEVADA, CHILE, SOUTH AFRICA:NORTHERN CAPE, CHINA:QINGHAI, UAE | 0.001 50 200 | arid
+    # A solar power tower: a tall concrete column whose top glows white-hot in the focus of thousands of mirrors standing in rings round it.
+    cyl 0 0 0 4 3 70 12 C8C4BC
+    cyl 0 70 0 4 4 12 12 F2F2E8 glow
+    ring 24 20
+    box 0 1.5 0 0.1 1.2 2.5 6A8AB8 shiny
+    ring 30 30 0.1
+    box 0 1.5 0 0.1 1.2 2.5 6A8AB8 shiny
+    ring 36 40
+    box 0 1.5 0 0.1 1.2 2.5 6A8AB8 shiny
+
+shape BERRY_SELLERS
+    home RUSSIA, UKRAINE, BELARUS, FINLAND, ESTONIA, LATVIA, LITHUANIA | 0.004 0.5 4 | country
+    # Old women selling berries and mushrooms at the forest's edge: buckets of bilberries and cranberries and baskets of chanterelles on a stool.
+    blob 0 0.4 0 0.22 0.4 0.2 6A4A6A
+    blob 0 0.9 0 0.11 0.12 0.11 E0B090
+    blob 0 0.97 0 0.13 0.08 0.13 C82A2A
+    cyl 0.5 0 -0.4 0.15 0.13 0.3 10 C8C8C8
+    blob 0.5 0.32 -0.4 0.13 0.04 0.13 3A3A6A
+    cyl 0.5 0 0.2 0.15 0.13 0.3 10 C8C8C8
+    blob 0.5 0.32 0.2 0.13 0.04 0.13 C82A2A
+    cyl 0.6 0 0.8 0.22 0.25 0.22 10 B8905A
+    blob 0.6 0.25 0.8 0.18 0.05 0.18 E8A02A
+
+shape RAKIJA_STILL
+    home SERBIA, BOSNIA, CROATIA, MONTENEGRO, NORTH MACEDONIA, BULGARIA, KOSOVO | 0.003 2 15 | country
+    # A plum brandy still in an autumn yard: a copper kettle over a wood fire, its pipe running through a barrel of cold water, barrels of fermenting plums.
+    box 0 0.35 0 0.5 0.35 0.5 8A8A80
+    cyl 0 0.7 0 0.45 0.35 0.6 12 B8703A shiny
+    tube 0 1.3 0 1.2 1.1 0 0.05 6 B8703A
+    cyl 1.4 0 0 0.35 0.35 0.9 10 8A6A48
+    box 0 0.2 0.5 0.3 0.12 0.02 E8501E glow
+    repeat 3 0 0 1.1
+    cyl -1.3 0 -1.1 0.4 0.4 1.0 10 6A4A2A
+    blob 2 1.2 1 0.2 0.5 0.2 C8C8C8 glass
+
+shape GARLIC_BRAID_STALL
+    home SPAIN, FRANCE, UKRAINE, ITALY, PORTUGAL, ROMANIA | 0.004 0.5 6 | country
+    # A roadside stall of garlic and onions: braided strings of white garlic and red onions hung from a frame, sacks on the ground.
+    tube 0 0 -1.5 0 2.2 -1.5 0.05 4 8A6A48
+    tube 0 0 1.5 0 2.2 1.5 0.05 4 8A6A48
+    tube 0 2.2 -1.5 0 2.2 1.5 0.04 4 8A6A48
+    repeat 8 0 0 0.38
+    tube 0.05 2.15 -1.33 0.05 1.2 -1.33 0.09 5 F2EEE2
+    repeat 4 0 0 0.75
+    tube 0.1 2.1 -1.15 0.1 1.5 -1.15 0.1 5 A84A6A
+    repeat 3 0 0 0.6
+    cyl 0.8 0 -0.6 0.25 0.25 0.5 8 C8B890
+
+shape SHETLAND_PONIES
+    home SCOTLAND | 0.003 3 25 | country
+    # Shetland ponies on a windswept moor: tiny stocky ponies with shaggy manes and long forelocks, piebald and brown.
+    repeat 4 0.9 0 1.6
+    blob -2 0.65 -2.5 0.22 0.25 0.45 5A3A2A
+    repeat 4 0.9 0 1.6
+    blob -2 0.7 -2.0 0.12 0.15 0.18 5A3A2A
+    repeat 4 0.9 0 1.6
+    blob -1.95 0.78 -2.4 0.1 0.08 0.3 E8E0D0
+    repeat 4 0.9 0 1.6
+    tube -1.9 0.45 -2.2 -1.9 0 -2.2 0.05 4 5A3A2A
+    repeat 4 0.9 0 1.6
+    tube -2.1 0.45 -2.8 -2.1 0 -2.8 0.05 4 5A3A2A
+
+shape GANNET_COLONY
+    home SCOTLAND, IRELAND, WALES, NORWAY, ICELAND, CANADA:QUEBEC, NEW ZEALAND | 0.002 30 150 | coast
+    # A gannet colony on a sea stack: a great rock white with thousands of nesting seabirds, more of them wheeling round it.
+    blob 0 10 0 12 12 14 7A7670 0.5
+    blob 0 19 0 9 4 10 F2F2EE 0.6
+    blob 2 12 -6 6 4 6 F2F2EE 0.6
+    repeat 8 3 1.5 4
+    box 10 22 -16 1 0.05 0.25 F2F2F2
+
+shape CREPE_STAND
+    home FRANCE | 0.003 0.5 6 | town
+    # A creperie stand: two round hotplates with a crepe spreading on each, jars of chocolate spread and sugar, a striped awning.
+    box 0 0.5 0 0.45 0.5 1 2A3A6A
+    cyl 0 1.0 -0.4 0.3 0.3 0.05 14 2A2A2A
+    cyl 0 1.0 0.4 0.3 0.3 0.05 14 2A2A2A
+    cyl 0 1.05 -0.4 0.26 0.26 0.01 14 E8C880
+    repeat 3 0 0 0.15
+    cyl -0.3 1.0 -0.15 0.05 0.05 0.12 8 6A3A1E
+    quad -0.6 2.2 -1.3 -0.6 2.2 1.3 0.9 1.9 1.3 0.9 1.9 -1.3 F2F2F2
+    quad -0.6 2.21 -1.3 -0.6 2.21 -0.8 0.9 1.91 -0.8 0.9 1.91 -1.3 2A4A8A
+
+shape LANGOS_STAND
+    home HUNGARY | 0.003 1.5 7 | town
+    # A langos stand at the lakeside: a kiosk frying flat rounds of dough, covered in sour cream and grated cheese, picnic tables in front.
+    box 0 1.2 0 1 1.2 1.5 E8E0C8
+    box 1.01 1.3 0 0.01 0.4 1.1 2A2018
+    box 1.3 0.95 0 0.3 0.04 1.2 C8C8C8
+    repeat 3 0 0 0.6
+    cyl 1.3 0.99 -0.6 0.2 0.2 0.03 12 E8D8A0
+    repeat 2 0 0 2.5
+    box 3 0.75 -1.25 0.5 0.04 0.9 8A6A48
+    box 0 2.5 0 1.1 0.1 1.6 C82A2A
+
+shape CHIMNEY_CAKE_STALL
+    home HUNGARY, ROMANIA, CZECHIA, SLOVAKIA | 0.003 0.5 6 | town
+    # A chimney cake stall: spiral cakes turning on wooden rollers over glowing coals, rolled in sugar and cinnamon, sold steaming hot.
+    box 0 0.5 0 0.45 0.5 1 8A6A48
+    box 0 1.0 0 0.35 0.05 0.8 E8501E glow
+    repeat 4 0 0 0.4
+    tube -0.25 1.2 -0.6 0.25 1.2 -0.6 0.1 8 D8A050
+    repeat 3 0 0 0.3
+    cyl 0.3 1.0 0.4 0.08 0.08 0.25 8 C8803A
+
+shape SOUVLAKI_GRILL
+    home GREECE, CYPRUS | 0.004 0.5 6 | town
+    # A souvlaki grill: skewers of pork turning over charcoal, pitta breads warming on the edge, a blackboard menu and tables under a vine.
+    box 0 0.5 0 0.3 0.5 1 6A6A6A
+    box 0 1.02 0 0.28 0.02 0.95 E8501E glow
+    repeat 10 0 0 0.18
+    tube -0.35 1.08 -0.8 0.35 1.08 -0.8 0.012 3 9A5A2A
+    box 0.3 1.6 0.8 0.02 0.4 0.3 1E1E1E
+    mirror
+    tube -0.2 0 1.5 -0.2 2.3 1.5 0.05 4 6A4A2A
+    mirror
+    tube -1.8 0 1.5 -1.8 2.3 1.5 0.05 4 6A4A2A
+    box -1 2.35 0 1.2 0.12 1.8 4A8A3A
+
+shape DANISH_STEPPED_CHURCH
+    home DENMARK, GERMANY:SCHLESWIG-HOLSTEIN, SWEDEN | 0.003 8 50 | country
+    # A Danish village church: whitewashed walls and a red tiled roof, the tower crowned by stepped gables, the churchyard behind a white wall.
+    box 0 2.5 0 3 2.5 6 F2F2EE
+    gable 0 5 0 3 6 2 0.2 A8442E F2F2EE
+    box 0 5 -8 2.4 5 2.4 F2F2EE
+    gable 0 10 -8 2.4 2.4 2.5 0 A8442E F2F2EE
+    tbox 0 10 -10.4 2.4 0.2 0 12.5 -10.4 0.4 0.2 F2F2EE
+    tbox 0 10 -5.6 2.4 0.2 0 12.5 -5.6 0.4 0.2 F2F2EE
+    box 4.5 0.6 0 0.15 0.6 9 F2F2EE
+
+shape SWEDISH_BELL_TOWER
+    home SWEDEN, FINLAND, NORWAY | 0.003 6 40 | country
+    # A wooden bell tower standing apart from the church: a tall frame of tarred timber clad in shingles, an onion-shaped cap and an open belfry.
+    tbox 0 0 0 1.8 1.8 0 7 0 1.2 1.2 4A3A2A
+    box 0 8 0 1.2 1 1.2 4A3A2A
+    box 1.21 8 0 0.01 0.6 0.6 1E1E1E
+    blob 0 9.6 0 1.3 0.9 1.3 3A3A3A
+    spire 0 10.4 0 0.4 2 8 3A3A3A
+
+shape CAR_BOOT_SALE
+    home ENGLAND, SCOTLAND, WALES, IRELAND, AUSTRALIA, NEW ZEALAND | 0.002 4 30 | country
+    # A car boot sale in a field: a row of cars with their boots open, pasting tables of bric-a-brac, old toys and books in front of them.
+    repeat 4 0 0 4
+    box -3 0.7 -6 0.85 0.4 2.1 9A9A9A
+    repeat 4 0 0 4
+    box -3 1.25 -6.2 0.8 0.25 1.2 2A3A4A glass
+    repeat 4 0 0 4
+    quad -3.8 1.4 -8.1 -2.2 1.4 -8.1 -2.2 1.9 -8.8 -3.8 1.9 -8.8 9A9A9A
+    repeat 4 0 0 4
+    box -3 0.75 -9.6 0.9 0.03 0.4 E8E0D0
+    repeat 4 0 0 4
+    blob -2.8 0.85 -9.6 0.5 0.1 0.3 C83A2A 0.5
+
+shape WOLF_PACK
+    home RUSSIA, POLAND, ROMANIA, SLOVAKIA, CANADA, USA:ALASKA, USA:MONTANA, USA:WYOMING, MONGOLIA, KAZAKHSTAN | 0.001 6 50 | cold
+    # A wolf pack crossing a snowy clearing in single file: grey wolves with bushy tails held low, the leader looking back at the road.
+    repeat 5 0.4 0 1.6
+    blob -3 0.7 -4 0.17 0.22 0.5 8A8478
+    repeat 5 0.4 0 1.6
+    blob -3 0.8 -3.45 0.11 0.12 0.18 8A8478
+    repeat 5 0.4 0 1.6
+    tube -3 0.7 -4.5 -3 0.45 -4.9 0.06 4 8A8478
+    repeat 5 0.4 0 1.6
+    tube -2.92 0.5 -3.8 -2.92 0 -3.8 0.035 3 8A8478
+    repeat 5 0.4 0 1.6
+    tube -3.08 0.5 -4.2 -3.08 0 -4.2 0.035 3 8A8478
+
+shape RED_FOX
+    home ENGLAND, GERMANY, FRANCE, POLAND, SWEDEN, JAPAN, IRELAND, NETHERLANDS, CZECHIA, AUSTRIA, USA, CANADA | 0.002 1 15 | country
+    # A red fox trotting along a field edge: a slim russet body, white-tipped bushy tail and black stockings.
+    blob 0 0.4 0 0.11 0.14 0.32 C8601E
+    blob 0 0.5 0.33 0.09 0.09 0.12 C8601E
+    blob 0 0.46 0.45 0.04 0.04 0.07 F2F2F2
+    tube 0.05 0.57 0.32 0.05 0.68 0.3 0.025 3 C8601E
+    tube -0.05 0.57 0.32 -0.05 0.68 0.3 0.025 3 C8601E
+    tube 0 0.4 -0.3 0 0.3 -0.65 0.07 5 C8601E
+    blob 0 0.28 -0.7 0.05 0.05 0.06 F2F2F2
+    mirror
+    mirrorx
+    tube 0.06 0.28 0.2 0.06 0 0.2 0.025 3 2A1E1A

@@ -1,0 +1,481 @@
+# Africa, round five: food by the road, crafts, village life and the animals not yet seen.
+
+shape SHEBEEN
+    home SOUTH AFRICA, NAMIBIA, BOTSWANA, ESWATINI, LESOTHO | 0.004 5 18 | town
+    # A township tavern: a painted container bar with a hand-lettered sign, crates of beer stacked outside and plastic chairs under a tree.
+    box 0 1.3 0 1.2 1.3 3 2A8AC8
+    box 1.21 1.6 0 0.01 0.5 1.6 2A2018
+    box 1.22 2.4 0 0.01 0.25 2.2 F2E81E
+    repeat 3 0 0.3 0
+    box 2 0.15 -2 0.3 0.15 0.4 C82A2A
+    repeat 4 0 0 0.8
+    box 2.8 0.45 -0.5 0.22 0.03 0.22 F2F2F2
+    tube 4 0 3 4 2.5 3 0.2 5 6A5A40
+    blob 4 3.6 3 2.2 1.2 2.2 4A7A3A 0.4
+
+shape TEFF_THRESHING
+    home ETHIOPIA, ERITREA | 0.005 3 25 | country
+    # Threshing teff the old way: oxen driven round and round a ring of trampled grain, a farmer with a whip, golden straw stacked beside it.
+    box 0 0.03 0 3 0.03 3 C8A860
+    repeat 3 0 0 1.4
+    blob 2 0.75 -1.4 0.3 0.4 0.75 6A4A30
+    repeat 3 0 0 1.4
+    blob 2 0.95 -0.55 0.13 0.15 0.25 6A4A30
+    blob 0 0.75 0 0.16 0.4 0.14 F2F2EE
+    blob 0 1.25 0 0.1 0.11 0.1 4A3020
+    tube 0 1.0 0.1 0.8 1.6 0.3 0.015 3 6A4A30
+    spire -5 0 0 2 3.5 10 D8B860
+    spire -5 0 4.5 1.6 2.8 10 D8B860
+
+shape HIMBA_HUT
+    home NAMIBIA, ANGOLA | 0.004 4 30 | country
+    # A homestead of the cattle herders of the north-west: conical huts of poles plastered with dung and red earth, a round thorn-bush kraal.
+    repeat 3 0 0 5
+    cyl 0 0 -5 1.6 1.4 1.8 10 9A6A48
+    repeat 3 0 0 5
+    spire 0 1.8 -5 1.6 1.4 10 8A5A3A
+    repeat 3 0 0 5
+    box 1.55 0.6 -5 0.05 0.5 0.35 2A2018
+    halo -5 0.5 0 4 0.5 14 6A5A3A
+    repeat 4 1.5 0 0
+    blob -6.5 0.7 -1 0.3 0.4 0.75 8A4A3A
+
+shape KAPENTA_RIGS
+    home ZIMBABWE, ZAMBIA, MALAWI, TANZANIA | 0.003 40 120 | water
+    # Kapenta fishing rigs on a great lake: pontoon rafts with a tall boom arm and a lamp, a cabin on each, moored in a line.
+    repeat 3 0 0 12
+    box 0 0.4 -12 2.5 0.4 4 9A9A9A
+    repeat 3 0 0 12
+    box -1 1.3 -13.5 1.2 0.9 1.2 E8E0D0
+    repeat 3 0 0 12
+    tube 0 0.8 -11 3.5 4.5 -11 0.12 4 C82A2A
+    repeat 3 0 0 12
+    blob 3.5 4.3 -11 0.25 0.25 0.25 F2E89A lit
+
+shape TEA_FACTORY
+    home KENYA, MALAWI, RWANDA, TANZANIA, UGANDA, SRI LANKA, INDIA:ASSAM, INDIA:WEST BENGAL | 0.003 15 70 | country
+    # A tea factory among the bushes: a long white building of several floors with rows of windows, a tin roof and a tall chimney.
+    box 0 4 0 6 4 18 F2F2EE
+    gable 0 8 0 6 18 2.5 0.4 9AA0A8 F2F2EE
+    boxwindows 0 0.5 0 6 18 7
+    cyl -3 0 22 0.8 0.6 14 10 B8603A
+    box 7 1.2 -10 1 1.2 3 C8C8C0
+
+shape PALAVER_HUT
+    home GHANA, LIBERIA, SIERRA LEONE, NIGERIA, CAMEROON, IVORY COAST, TOGO, BENIN | 0.004 3 25 | country
+    # The village palaver hut: an open round shelter of carved posts under a big thatched cone, benches inside where the elders meet.
+    ring 8 3
+    tube 0 0 0 0 2.2 0 0.15 5 6A4A30
+    cyl 0 2.2 0 3.4 3.4 0.15 16 8A6A48
+    spire 0 2.3 0 4.2 3.2 16 B8A060
+    ring 4 2 0.4
+    box 0 0.45 0 0.2 0.04 0.8 8A6A48
+
+shape HEAD_TRAY_SELLERS
+    home NIGERIA, GHANA, SENEGAL, IVORY COAST, TOGO, BENIN, CAMEROON, MALI | 0.004 0.5 4 | town
+    # Hawkers with their goods on their heads: a tray of bread, a basin of sachets of water and a tower of plastic bowls, walking between the cars.
+    repeat 3 0 0 1.6
+    blob 0.4 0.75 -1.6 0.17 0.42 0.14 E8A02A
+    repeat 3 0 0 1.6
+    blob 0.4 1.27 -1.6 0.1 0.11 0.1 3A2A1E
+    cyl 0.4 1.38 -1.6 0.35 0.35 0.06 12 C8A060
+    blob 0.4 1.5 -1.6 0.28 0.08 0.28 E8C890
+    cyl 0.4 1.38 0 0.3 0.35 0.18 12 2A6AC8
+    blob 0.4 1.6 0 0.25 0.08 0.25 E8F0F8 glass
+    cyl 0.4 1.38 1.6 0.18 0.22 0.6 10 E83A6A
+
+shape GROUNDNUT_PYRAMID
+    home NIGERIA, SENEGAL, NIGER, GAMBIA | 0.003 6 40 | country
+    # A pyramid of groundnut sacks at a trading depot, stacked in steps as high as a house, a lorry being loaded beside it.
+    tbox 0 0 0 4 4 0 5 0 0.5 0.5 E8D8B0
+    box 0 0.6 0 4.05 0.02 4.05 C8B890
+    box 0 1.8 0 3.1 0.02 3.1 C8B890
+    box 0 3.0 0 2.1 0.02 2.1 C8B890
+    box 0 4.2 0 1.1 0.02 1.1 C8B890
+    box 6 1.5 0 1.1 1.0 3 2A5A8A
+    box 6 1.6 3.6 1.0 0.8 0.6 2A5A8A
+    mirror
+    tube 5.2 0.5 2.4 6.8 0.5 2.4 0.5 10 1E1E1E
+
+shape POUSSE_POUSSE
+    home MADAGASCAR | 0.005 1 6 | town
+    # A pousse-pousse, the hand-pulled rickshaw of the highland towns: a bright painted cab on two wheels, its puller between the shafts.
+    box 0 1.0 -0.4 0.55 0.35 0.55 E83A6A
+    box 0 1.65 -0.75 0.55 0.3 0.15 E8C02A
+    quad -0.55 1.9 -0.9 0.55 1.9 -0.9 0.55 1.75 0.3 -0.55 1.75 0.3 2A6AC8
+    hoop 0.62 0.65 -0.4 0.65 0.04 12 3A3A3A
+    hoop -0.62 0.65 -0.4 0.65 0.04 12 3A3A3A
+    tube 0.4 0.75 0.1 0.4 0.8 1.6 0.03 3 8A6A48
+    tube -0.4 0.75 0.1 -0.4 0.8 1.6 0.03 3 8A6A48
+    blob 0 0.75 1.5 0.16 0.38 0.13 F2F2EE
+    blob 0 1.22 1.5 0.1 0.11 0.1 3A2A1E
+
+shape VANILLA_DRYING
+    home MADAGASCAR, COMOROS, UGANDA | 0.004 2 15 | country
+    # Vanilla pods drying in the sun: long mats on trestles covered in dark brown beans, a woman turning them, the vines climbing on posts behind.
+    repeat 3 0 0 2.2
+    box 0 0.8 -2.2 0.5 0.03 1 6A6A50
+    repeat 3 0 0 2.2
+    box 0 0.84 -2.2 0.45 0.02 0.95 4A2A1A
+    repeat 3 0 0 2.2
+    mirror
+    tube 0.4 0 -3.0 0.4 0.8 -3.0 0.03 3 8A6A48
+    repeat 3 0 0 2.2
+    mirror
+    tube -0.4 0 -3.0 -0.4 0.8 -3.0 0.03 3 8A6A48
+    blob 1.0 0.75 0 0.17 0.4 0.14 2A8A6A
+    blob 1.0 1.25 0 0.1 0.11 0.1 4A3020
+    repeat 5 0 0 1.5
+    tube -3 0 -3 -3 1.8 -3 0.06 4 8A7A60
+    repeat 5 0 0 1.5
+    blob -3 1.5 -3 0.4 0.5 0.4 3A7A3A 0.4
+
+shape BUNNA_CEREMONY
+    home ETHIOPIA, ERITREA | 0.004 1 8 | town
+    # A roadside coffee ceremony: a woman roasting beans over a small charcoal stove on a bed of fresh grass, a black clay pot and tiny cups on a low table.
+    box 0 0.02 0 1 0.02 1 5A9A3A
+    blob 0 0.4 -0.5 0.25 0.4 0.22 F2F2EE
+    blob 0 0.95 -0.5 0.1 0.11 0.1 4A3020
+    cyl 0.3 0 0.2 0.15 0.12 0.25 8 3A3A3A
+    box 0.3 0.26 0.2 0.12 0.01 0.12 E8501E glow
+    blob 0.3 0.45 0.6 0.12 0.15 0.12 1E1E1E
+    tube 0.3 0.55 0.6 0.3 0.75 0.6 0.03 4 1E1E1E
+    box 0.4 0.25 -0.3 0.25 0.03 0.25 8A6A48
+    repeat 4 0 0 0.08
+    cyl 0.45 0.28 -0.42 0.03 0.03 0.04 6 F2F2F2
+    blob 0.6 0.9 0 0.2 0.6 0.2 C8C8C8 glass
+
+shape CORN_ROASTER
+    home KENYA, UGANDA, MALAWI, NIGERIA, GHANA, TANZANIA, ZAMBIA, INDIA, TURKEY, ZIMBABWE | 0.004 0.5 4 | town
+    # A maize roaster at the roadside: cobs laid on a wire grill over glowing charcoal in a cut-down tin, a stack of fresh cobs in their husks.
+    cyl 0 0 0 0.3 0.25 0.5 10 6A6A6A
+    box 0 0.5 0 0.32 0.01 0.32 E8501E glow
+    repeat 5 0 0 0.12
+    blob 0 0.56 -0.25 0.2 0.05 0.05 E8C040
+    blob -0.6 0.25 0.5 0.4 0.25 0.35 8AB060 0.3
+    blob -0.4 0.4 -0.8 0.15 0.4 0.13 E83A6A
+    blob -0.4 0.95 -0.8 0.1 0.11 0.1 3A2A1E
+    blob 0 0.9 0 0.2 0.35 0.2 B8B8B8 glass
+
+shape BRAAI_FIRE
+    home SOUTH AFRICA, NAMIBIA, BOTSWANA, ZIMBABWE | 0.004 2 15 | country
+    # A braai in a picnic spot: a brick fireplace with a grid of sausage coils and chops, a cool box, camp chairs round a fire of camelthorn wood.
+    box 0 0.45 0 0.5 0.45 0.8 A8503A
+    box 0 0.92 0 0.48 0.02 0.75 3A3A3A
+    blob 0 0.97 -0.3 0.25 0.04 0.25 8A3A1E
+    repeat 3 0 0 0.25
+    blob 0.1 0.96 0.2 0.1 0.03 0.08 B8603A
+    box 1.5 0.25 1.5 0.35 0.25 0.25 2A6AC8
+    repeat 3 0 0 1.2
+    box 2.3 0.45 -1.5 0.25 0.03 0.25 2A5A2A
+    repeat 3 0 0 1.2
+    box 2.08 0.75 -1.5 0.03 0.3 0.25 2A5A2A
+    tube 0 0.95 0 0 1.4 0.4 0.15 4 C8C8C8 glass
+
+shape BILTONG_STALL
+    home SOUTH AFRICA, NAMIBIA, ZIMBABWE, BOTSWANA | 0.003 2 12 | country
+    # A farm stall selling biltong: strips of dried meat hanging in rows under a shade net, a hand-painted sign and a counter of jars.
+    box 0 0.5 0 0.4 0.5 1.5 8A6A48
+    box 0 2.4 0 1.2 0.03 1.8 3A4A3A
+    mirror
+    mirrorx
+    tube 1.1 0 1.7 1.1 2.4 1.7 0.05 4 8A7A60
+    repeat 10 0 0 0.3
+    tube -0.6 2.3 -1.4 -0.6 1.7 -1.4 0.04 3 6A2A1E
+    repeat 10 0 0 0.3
+    tube 0.6 2.3 -1.4 0.6 1.75 -1.4 0.04 3 6A2A1E
+    tube 2 0 2.5 2 1.8 2.5 0.05 4 8A7A60
+    box 2 1.7 2.5 0.03 0.3 0.7 F2E8C8
+
+shape SNAIL_SOUP_STALL
+    home MOROCCO | 0.004 1 8 | town
+    # A snail soup cart in the evening: a big steaming pot of spiced broth, little bowls on the counter and a ring of stools round it.
+    box 0 0.8 0 0.6 0.05 1 C8C0B0
+    box 0 0.4 0 0.55 0.4 0.95 2A6AC8
+    cyl 0 0.85 -0.4 0.35 0.32 0.5 12 C8C8C8 shiny
+    blob 0 1.6 -0.4 0.35 0.6 0.35 E8E8E8 glass
+    repeat 5 0 0 0.25
+    cyl 0.35 0.85 0.1 0.06 0.05 0.06 8 F2F2F2
+    repeat 4 0 0 0.6
+    cyl 1.1 0 -0.9 0.15 0.15 0.45 8 C82A2A
+    tube -0.6 0.85 0.9 -0.6 2.2 0.9 0.03 4 6A6A6A
+    blob -0.6 2.1 0.9 0.08 0.08 0.08 F2E89A lit
+
+shape ORANGE_JUICE_CARTS
+    home MOROCCO, TUNISIA, EGYPT | 0.004 1 8 | town
+    # A row of fresh orange juice carts: green barrows piled high with oranges in pyramids, a press and glasses on each.
+    repeat 3 0 0 2.6
+    box 0 0.9 -2.6 0.6 0.05 1.0 2A7A3A
+    repeat 3 0 0 2.6
+    box 0 0.45 -2.6 0.55 0.45 0.95 2A7A3A
+    repeat 3 0 0 2.6
+    blob 0 1.2 -2.6 0.45 0.3 0.75 F2901E 0.2
+    repeat 3 0 0 2.6
+    cyl 0.4 0.95 -2.1 0.08 0.08 0.25 8 C8C8C8 shiny
+    repeat 3 0 0 2.6
+    tube -0.6 0.9 -1.7 -0.6 2.3 -1.7 0.03 4 6A6A6A
+    repeat 3 0 0 2.6
+    box -0.6 2.25 -2.6 0.6 0.03 1.0 F2F2EE
+
+shape KUSHARI_CART
+    home EGYPT | 0.004 1 6 | town
+    # A kushari cart: a glass-fronted barrow with tins of rice, lentils and pasta, a pot of red sauce and a crowd waiting for their bowls.
+    box 0 0.45 0 0.6 0.45 1.1 2A6AC8
+    box 0 1.2 0 0.55 0.3 1.0 C8D8E0 glass
+    repeat 3 0 0 0.6
+    cyl 0 0.95 -0.6 0.18 0.18 0.25 10 C8C8C8 shiny
+    cyl 0.3 0.95 0.6 0.15 0.15 0.2 10 B8301E
+    tube 0.5 0.3 -0.9 0.5 0.3 -0.8 0.3 10 1E1E1E
+    tube 0.5 0.3 0.9 0.5 0.3 0.8 0.3 10 1E1E1E
+    repeat 3 0 0 0.7
+    blob 1.4 0.75 -0.7 0.16 0.4 0.13 E8E0D0
+    repeat 3 0 0 0.7
+    blob 1.4 1.22 -0.7 0.1 0.11 0.1 4A3020
+
+shape MAQUIS
+    home IVORY COAST, BURKINA FASO, MALI, CAMEROON, TOGO, BENIN, GABON | 0.004 2 15 | town
+    # A maquis, the open-air eatery: a thatched shelter over plastic tables, a grill of fish and chicken smoking at the front, music from a speaker.
+    mirror
+    mirrorx
+    tube 1.8 0 2.5 1.8 2.4 2.5 0.08 4 8A6A48
+    hip 0 2.4 0 2.2 3 1.2 0.3 B8A060
+    repeat 3 0 0 1.8
+    cyl 0.6 0 -1.8 0.45 0.45 0.75 12 F2F2F2
+    repeat 3 0 0 1.8
+    cyl -0.6 0 -1.8 0.45 0.45 0.75 12 E83A2A
+    box 3 0.5 0 0.3 0.5 0.6 3A3A3A
+    box 3 1.02 0 0.3 0.02 0.6 E8501E glow
+    blob 3 1.8 0 0.3 0.6 0.3 C8C8C8 glass
+    box -2 0.6 2 0.2 0.6 0.2 1E1E1E
+
+shape RIVER_PANNERS
+    home SIERRA LEONE, GUINEA, GHANA, MALI, BURKINA FASO, LIBERIA, DR CONGO | 0.004 4 22 | country
+    # Gold and diamond diggers in a river: men up to their knees in the muddy water swirling wide pans, sieves on stilts and heaps of gravel on the bank.
+    box 0 0.02 0 4 0.02 5 7A6A4A water
+    repeat 3 1.2 0 2.5
+    blob -2 0.55 -2.5 0.17 0.4 0.14 E8E0D0
+    repeat 3 1.2 0 2.5
+    blob -2 1.05 -2.5 0.1 0.11 0.1 3A2A1E
+    repeat 3 1.2 0 2.5
+    cyl -1.6 0.6 -2.5 0.35 0.2 0.08 12 6A6A6A
+    repeat 3 0 0 2
+    blob 5 0.4 -2 0.8 0.4 0.8 9A8A6A 0.4
+    box 4 1 3 0.6 0.04 0.6 8A8A8A
+    repeat 2 0 0 1.1
+    tube 3.45 0 2.45 3.45 1 2.45 0.04 3 8A6A48
+    repeat 2 0 0 1.1
+    tube 4.55 0 2.45 4.55 1 2.45 0.04 3 8A6A48
+
+shape BURUNDI_DRUMMERS
+    home BURUNDI, RWANDA | 0.003 3 20 | country
+    # Drummers in a half circle, tall wooden drums painted in stripes standing before them, one dancer leaping in the middle with his sticks raised.
+    ring 7 3.5
+    cyl 0 0 0 0.35 0.4 1.1 10 8A5A3A
+    ring 7 3.5
+    cyl 0 1.1 0 0.36 0.36 0.06 10 E8D8B0
+    ring 7 3.5
+    halo 0 0.6 0 0.4 0.04 10 C82A2A
+    ring 7 4.3
+    blob 0 1.0 0 0.17 0.42 0.14 F2F2F2
+    ring 7 4.3
+    blob 0 1.52 0 0.1 0.11 0.1 3A2A1E
+    blob 0 1.4 0 0.17 0.42 0.14 C82A2A
+    blob 0 1.92 0 0.1 0.11 0.1 3A2A1E
+
+shape CATTLE_CAMP_SMOKE
+    home SOUTH SUDAN, UGANDA | 0.004 6 50 | country
+    # A cattle camp at dusk: long-horned white cattle tethered among smouldering dung fires, smoke hanging low over the herd, young herders by them.
+    repeat 4 2 0 2.5
+    blob -4 1.0 -4 0.32 0.42 0.85 F2EEE2
+    repeat 4 2 0 2.5
+    tube -4 1.35 -3.3 -4.5 2.3 -3.4 0.06 4 E8E0D0
+    repeat 4 2 0 2.5
+    tube -4 1.35 -3.3 -3.5 2.3 -3.4 0.06 4 E8E0D0
+    repeat 3 1.5 0 3
+    blob -5 0.35 -2.5 0.4 0.2 0.4 8A8A80 0.3
+    repeat 3 1.5 0 3
+    blob -5 1.6 -2.5 1.2 0.5 1.2 D8D8D8 glass
+
+shape CROCODILE_POOL
+    home GAMBIA, BURKINA FASO, GHANA, IVORY COAST | 0.003 6 24 | country
+    # A sacred crocodile pool: still green water under trees, crocodiles basking on its muddy edge, a little shrine of white cloth beside it.
+    box 0 0.02 0 3.5 0.02 5 4A6A3A water
+    repeat 3 1.3 0 2.5
+    blob -4 0.15 -3 0.28 0.15 0.9 5A6A40
+    repeat 3 1.3 0 2.5
+    blob -4 0.12 -1.9 0.13 0.1 0.35 5A6A40
+    repeat 3 1.3 0 2.5
+    tube -4 0.12 -3.8 -4 0.06 -4.9 0.12 5 5A6A40
+    tube 5 0 4 5 3 4 0.25 5 6A5A40
+    blob 5 4.2 4 2.4 1.4 2.4 3A6A2A 0.4
+    box 5 0.5 -3 0.3 0.5 0.3 F2F2F2
+
+shape MANDRILLS
+    home GABON, CAMEROON, CONGO, EQUATORIAL GUINEA | 0.002 3 25 | country
+    # Mandrills at the forest edge: big olive monkeys with red and blue faces sitting in the leaves, one male showing off his colours.
+    repeat 3 1.2 0 1.6
+    blob -1 0.45 -1.6 0.3 0.4 0.35 5A5A3A
+    repeat 3 1.2 0 1.6
+    blob -0.75 0.85 -1.6 0.15 0.17 0.14 C82A2A
+    repeat 3 1.2 0 1.6
+    blob -0.66 0.85 -1.6 0.06 0.12 0.11 3A6AC8
+    blob -3 1 0 2 1.2 2 3A6A2A 0.4
+
+shape CHIMPANZEES
+    home UGANDA, TANZANIA, GUINEA, SIERRA LEONE, IVORY COAST, CONGO, DR CONGO, CAMEROON, GABON, RWANDA | 0.002 3 25 | country
+    # Chimpanzees in a fig tree: dark shapes sitting on the branches and one knuckle-walking along the ground below.
+    tube 0 0 0 0 4 0 0.4 6 6A5A40
+    tube 0 3 0 1.8 4 0.5 0.15 4 6A5A40
+    tube 0 3.3 0 -1.8 4.2 -0.5 0.15 4 6A5A40
+    blob 0 5.6 0 2.8 1.6 2.6 3A6A2A 0.4
+    blob 1.5 4.2 0.4 0.3 0.35 0.25 2A2420
+    blob 1.55 4.65 0.45 0.15 0.15 0.14 2A2420
+    blob -1.4 4.4 -0.4 0.3 0.35 0.25 2A2420
+    blob 1.5 0.5 3 0.25 0.35 0.45 2A2420
+    blob 1.5 0.75 3.45 0.14 0.15 0.14 2A2420
+
+shape CHAMELEON
+    home MADAGASCAR, KENYA, TANZANIA | 0.002 0.5 3 | country
+    # A chameleon crossing the road's edge with its rocking walk, bright green and blue, its tail curled and one eye turned to the cars.
+    blob 0 0.12 0 0.07 0.1 0.18 3AC86A
+    blob 0 0.15 0.18 0.06 0.08 0.07 3AA8C8
+    tube 0 0.12 -0.15 0 0.06 -0.28 0.025 3 3AC86A
+    halo 0 0.06 -0.3 0.04 0.012 6 3AC86A
+    mirror
+    mirrorx
+    tube 0.05 0.08 0.08 0.08 0 0.1 0.012 3 3AC86A
+
+shape SECRETARY_BIRD
+    home KENYA, TANZANIA, SOUTH AFRICA, BOTSWANA, NAMIBIA, ZAMBIA, ZIMBABWE | 0.002 3 25 | country
+    # A secretary bird striding through the grass: long legs, grey body, black quill feathers at the back of its head, hunting snakes.
+    blob 0 1.0 0 0.2 0.25 0.4 B8B8B8
+    tube 0 1.1 0.3 0 1.35 0.4 0.06 4 B8B8B8
+    blob 0 1.4 0.45 0.07 0.08 0.1 E87A2A
+    repeat 4 0 0.04 -0.04
+    tube 0 1.42 0.38 0 1.5 0.2 0.012 3 1E1E1E
+    tube 0 1.0 -0.35 0 0.85 -0.8 0.05 3 1E1E1E
+    tube 0.06 0.8 0 0.06 0 0.05 0.025 3 1E1E1E
+    tube -0.06 0.8 0 -0.06 0 -0.05 0.025 3 1E1E1E
+
+shape LEOPARD_IN_TREE
+    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, SOUTH AFRICA, NAMIBIA, ZIMBABWE | 0.002 4 30 | country
+    # A leopard asleep on the branch of an acacia, its legs and spotted tail hanging down, an antelope carcass hauled up beside it.
+    tube 0 0 0 0 3 0 0.3 6 6A5A40
+    tube 0 2.6 0 2.5 3.3 0 0.15 4 6A5A40
+    blob 0 4.2 0 3 0.5 2.6 4A7A3A 0.3
+    blob 1.5 3.4 0 0.6 0.18 0.18 D8A050
+    blob 2.15 3.4 0 0.13 0.14 0.13 D8A050
+    tube 0.9 3.3 0.05 0.8 2.5 0.1 0.04 4 D8A050
+    tube 1.7 3.3 0.12 1.7 2.9 0.15 0.05 4 D8A050
+    repeat 4 0.25 0 0
+    blob 1.1 3.5 0.12 0.05 0.03 0.05 3A2A1E
+
+shape NILE_CROCODILES
+    home EGYPT, SUDAN, UGANDA, KENYA, TANZANIA, ZAMBIA, ZIMBABWE, BOTSWANA, ETHIOPIA, SOUTH SUDAN, MALAWI | 0.002 4 30 | country
+    # Nile crocodiles basking on a sandbank with their jaws open, one sliding into the brown water.
+    box 2 0.02 0 2 0.02 5 6A6A4A water
+    blob -1 0.1 0 2 0.12 4.5 C8B890 0.3
+    repeat 3 0.7 0 2.4
+    blob -1.5 0.2 -2.5 0.35 0.18 1.1 6A6A40
+    repeat 3 0.7 0 2.4
+    tube -1.5 0.25 -1.4 -1.5 0.3 -0.6 0.12 4 6A6A40
+    repeat 3 0.7 0 2.4
+    tube -1.5 0.25 -3.6 -1.5 0.12 -4.8 0.14 5 6A6A40
+    blob 1.5 0.1 3 0.3 0.12 1 6A6A40
+
+shape BARBARY_MACAQUES
+    home MOROCCO, ALGERIA | 0.003 1 12 | country
+    # Barbary macaques in a cedar forest by the road: tailless golden-grey monkeys sitting on the wall, a mother with her baby on her back.
+    tube -3 0 0 -3 6 0 0.4 6 6A5A40
+    spire -3 2 0 2.5 6 10 3A5A3A
+    box 0 0.4 0 0.25 0.4 3 9A9284
+    repeat 3 0 0 1.4
+    blob 0 1.05 -1.4 0.2 0.25 0.18 B8A080
+    repeat 3 0 0 1.4
+    blob 0.08 1.38 -1.4 0.12 0.12 0.11 B8A080
+    blob 0.08 1.38 -1.29 0.06 0.06 0.02 D8A890
+
+shape ROLEX_STAND
+    home UGANDA | 0.004 0.5 4 | town
+    # A rolex stand: a flat iron griddle on a charcoal burner frying omelettes that are rolled up in chapati, eggs stacked in trays beside it.
+    box 0 0.5 0 0.5 0.5 0.6 6A6A6A
+    box 0 1.02 0 0.45 0.02 0.45 2A2A2A
+    blob 0 1.06 -0.1 0.2 0.02 0.2 E8D040
+    repeat 4 0 0.07 0
+    box 0 1.06 0.45 0.15 0.03 0.12 C8B890
+    repeat 3 0 0 0.25
+    blob 0.3 1.07 0.3 0.03 0.04 0.03 F2E8D8
+    blob -0.6 0.75 0 0.17 0.4 0.14 2A6AC8
+    blob -0.6 1.25 0 0.1 0.11 0.1 3A2A1E
+    tube 0.6 0 0.8 0.6 2.2 0.8 0.04 4 8A6A48
+    box 0.6 2.0 0.8 0.03 0.25 0.5 F2E81E
+
+shape YLANG_YLANG_STILL
+    home COMOROS, MADAGASCAR | 0.003 3 20 | country
+    # A ylang-ylang distillery: a copper still over a wood fire under an open shed, sacks of yellow flowers and the stunted trees with their drooping branches behind.
+    mirror
+    mirrorx
+    tube 1.5 0 2 1.5 2.4 2 0.08 4 8A6A48
+    quad -1.8 2.6 -2.3 -1.8 2.6 2.3 1.8 2.3 2.3 1.8 2.3 -2.3 9AA0A8
+    cyl 0 0 0 0.6 0.5 1.4 12 B8703A shiny
+    tube 0 1.4 0 1.2 1.6 1.0 0.08 6 B8703A
+    cyl 1.3 0 1.0 0.3 0.3 0.8 10 B8703A
+    box 0 0.15 -0.6 0.5 0.15 0.3 E8501E glow
+    repeat 3 0 0 0.8
+    blob -1.2 0.3 -1.5 0.3 0.3 0.25 E8E070
+    repeat 3 0 0 4
+    tube -5 0 -4 -5 1.5 -4 0.12 4 6A5A40
+    repeat 3 0 0 4
+    blob -5 1.6 -4 1.5 0.8 1.5 4A7A3A 0.4
+
+shape CLOVE_DRYING
+    home TANZANIA, COMOROS, MADAGASCAR, INDONESIA:MALUKU | 0.004 1 10 | country
+    # Cloves drying on mats by the road, the buds turning from pink to brown, a woman raking them over and a clove tree shading the house.
+    repeat 3 0 0 2
+    box 0.3 0.02 -2 0.8 0.02 0.9 C8A880
+    box 0.3 0.05 -2 0.7 0.02 0.8 B85A3A
+    box 0.3 0.05 0 0.7 0.02 0.8 8A4A2A
+    box 0.3 0.05 2 0.7 0.02 0.8 6A3A1E
+    blob -0.6 0.75 0 0.17 0.4 0.14 E8C02A
+    blob -0.6 1.25 0 0.1 0.11 0.1 3A2A1E
+    tube -0.4 0.8 0.1 0.2 0.05 0.3 0.015 3 8A6A48
+    tube -4 0 0 -4 2 0 0.15 5 6A5A40
+    spire -4 1.5 0 1.5 4 10 3A6A3A
+
+shape COCO_DE_MER
+    home SEYCHELLES | 0.006 5 28 | country
+    # Coco de mer palms in their valley: tall smooth trunks with huge fan leaves, the giant double nuts hanging in clusters.
+    repeat 3 3 0 2.5
+    tube -3 0 -2.5 -3 9 -2.5 0.25 6 7A7068
+    repeat 3 3 0 2.5
+    fronds -3 9 -2.5 10 3.5 0.2 3A6A2A
+    repeat 3 3 0 2.5
+    blob -2.6 8.4 -2.5 0.35 0.25 0.3 3A4A2A
+
+shape GUINEA_FOWL
+    home KENYA, TANZANIA, SOUTH AFRICA, ZAMBIA, ZIMBABWE, BOTSWANA, NAMIBIA, MALAWI, NIGERIA, GHANA, SENEGAL, BURKINA FASO, MALI | 0.003 1 15 | country
+    # A flock of guinea fowl running along the verge: round grey birds speckled with white, small blue heads bobbing.
+    repeat 8 0.4 0 0.7
+    blob -2 0.3 -2.5 0.18 0.18 0.25 5A5A64
+    repeat 8 0.4 0 0.7
+    blob -2 0.48 -2.3 0.06 0.08 0.06 3A7AC8
+    repeat 8 0.4 0 0.7
+    tube -2 0.15 -2.5 -2 0 -2.5 0.012 3 6A6A6A
+
+shape SORGHUM_FIELD
+    home SUDAN, SOUTH SUDAN, CHAD, NIGER, MALI, BURKINA FASO, ETHIOPIA, NIGERIA, TANZANIA | 0.004 4 30 | country
+    # A field of tall sorghum: stalks taller than a man with heavy red-brown heads, a raised watch platform where a boy scares the birds.
+    repeat 8 0 0 1.2
+    tube -1 0 -5 -1 2.6 -5 0.03 3 7A8A40
+    repeat 8 0 0 1.2
+    blob -1 2.7 -5 0.1 0.2 0.1 9A4A2A
+    repeat 8 0 0 1.2
+    tube -2.2 0 -4.4 -2.2 2.4 -4.4 0.03 3 7A8A40
+    repeat 8 0 0 1.2
+    blob -2.2 2.5 -4.4 0.1 0.2 0.1 9A4A2A
+    mirror
+    tube -5.2 0 0.7 -5.2 2.2 0.7 0.05 3 8A6A48
+    mirror
+    tube -3.8 0 0.7 -3.8 2.2 0.7 0.05 3 8A6A48
+    box -4.5 2.2 0 0.8 0.04 0.8 B8A060
+    blob -4.5 2.65 0 0.15 0.35 0.13 E8A02A

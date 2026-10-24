@@ -1,0 +1,377 @@
+# Road life: the crews that keep the roads, the vehicles of particular countries, the trains beside the road.
+
+shape ROAD_GRADER
+    home NAMIBIA, BOTSWANA, ZAMBIA, TANZANIA, KENYA, AUSTRALIA:NORTHERN TERRITORY, AUSTRALIA:WESTERN AUSTRALIA, ICELAND, MONGOLIA, CHILE, CANADA:YUKON | 0.003 4 25 | country
+    # A motor grader levelling a gravel road: a long yellow machine with its cab at the back, the blade slung under its neck, a windrow of gravel beside it.
+    box 0 1.2 -2.6 1.1 0.7 1.2 E8B020
+    box 0 2.1 -1.0 0.9 0.8 0.8 E8B020
+    box 0 2.15 -1.0 0.91 0.55 0.7 2A3A4A glass
+    box 0 2.95 -1.0 1.0 0.06 0.9 E8B020
+    tube 0 1.4 -0.2 0 1.2 4.2 0.22 6 E8B020
+    box 0 0.5 1.2 1.6 0.35 0.08 7A7A7A shiny
+    tube 0 1.3 0.4 0 0.85 1.2 0.08 4 3A3A3A
+    repeat 2 0 0 1.15
+    mirrorx
+    tube 0.95 0.6 -3.3 1.3 0.6 -3.3 0.6 10 1E1E1E
+    mirrorx
+    tube 0.95 0.6 4.0 1.3 0.6 4.0 0.6 10 1E1E1E
+    blob 2.6 0.35 1.5 0.9 0.35 4 A08060 0.3
+
+shape POTHOLE_FILLERS
+    home KENYA, NIGERIA, MALAWI, ZAMBIA, CAMEROON, UGANDA, GHANA, DR CONGO, TANZANIA, ZIMBABWE | 0.004 1 6 | country
+    # Boys filling the potholes with earth for a coin: a heap of soil, a shovel at work and a tin held out on a stick to the passing cars.
+    blob 0.5 0.25 0 0.6 0.25 0.5 9A5A3A 0.4
+    blob 0.4 0.75 -1.2 0.16 0.35 0.13 E8C02A
+    blob 0.4 1.2 -1.2 0.1 0.11 0.1 3A2A1E
+    tube 0.6 0.2 -1.0 0.3 1.2 -1.3 0.025 3 8A6A48
+    box 0.62 0.15 -0.98 0.12 0.02 0.1 7A7A7A
+    blob 0.3 0.75 1.3 0.16 0.35 0.13 2A6AC8
+    blob 0.3 1.2 1.3 0.1 0.11 0.1 3A2A1E
+    tube 0.4 0.9 1.4 1.1 1.2 1.5 0.02 3 8A6A48
+    cyl 1.1 1.1 1.5 0.07 0.07 0.12 8 C8C8C8 shiny
+
+shape STONE_BREAKERS
+    home UGANDA, KENYA, MALAWI, GHANA, TANZANIA, INDIA, NEPAL, BANGLADESH, ZAMBIA, BURUNDI, RWANDA | 0.004 2 15 | country
+    # Women breaking stones by hand under a sunshade: a pile of rocks, heaps of gravel sorted by size, basins ready to sell it.
+    blob 0 0.5 -2 1.0 0.5 0.9 8A8A84 0.5
+    blob 0 0.35 0 0.8 0.35 0.8 A8A49C 0.2
+    blob 0 0.25 1.8 0.7 0.25 0.7 B8B4AC 0.1
+    blob 1.0 0.35 -0.9 0.25 0.35 0.2 C83A6A
+    blob 1.0 0.8 -0.9 0.1 0.11 0.1 3A2A1E
+    tube 1.0 0 -0.4 1.0 1.6 -0.4 0.02 3 6A6A6A
+    dome 1.0 1.6 -0.4 0.9 0.35 2A6AC8
+    blob 1.2 0.35 0.9 0.25 0.35 0.2 E8A02A
+    blob 1.2 0.8 0.9 0.1 0.11 0.1 3A2A1E
+    repeat 3 0 0 0.45
+    cyl 1.7 0 -0.6 0.16 0.13 0.22 8 C82A2A
+
+shape TAR_KETTLE_CREW
+    home INDIA, BANGLADESH, NEPAL, PAKISTAN, SRI LANKA | 0.004 1 10 | country
+    # A road crew laying tar: a black drum of bitumen smoking over a fire, women carrying pans of gravel on their heads, a little yellow roller.
+    box 0 0.35 0 0.5 0.35 0.45 3A3430
+    tube 0 0.95 -0.6 0 0.95 0.6 0.4 10 1E1E1E
+    box 0.3 0.25 0 0.2 0.12 0.2 E8501E glow
+    blob 0 2.2 0 0.4 0.8 0.4 B8B8B8 glass
+    blob 0.3 3.2 0.5 0.5 0.6 0.5 D8D8D8 glass
+    repeat 3 0 0 1.2
+    blob 1.2 0.8 -2.0 0.18 0.45 0.15 E83A6A
+    repeat 3 0 0 1.2
+    blob 1.2 1.35 -2.0 0.1 0.11 0.1 4A3020
+    repeat 3 0 0 1.2
+    cyl 1.2 1.45 -2.0 0.25 0.3 0.08 10 6A6A6A
+    box -1.2 1.0 2.8 0.6 0.5 0.9 E8C02A
+    box -1.2 1.75 2.6 0.45 0.3 0.4 E8C02A
+    tube -1.85 0.55 2.0 -0.55 0.55 2.0 0.55 10 6A6A6A
+    tube -1.75 0.6 3.6 -0.65 0.6 3.6 0.6 10 6A6A6A
+
+shape BUSH_TAXI_WAGON
+    home SENEGAL, MALI, BURKINA FASO, NIGER, CHAD, MAURITANIA, GUINEA, GAMBIA, CAMEROON | 0.004 1 8 | country
+    # An old estate car waiting to fill up for the next town: its roof piled high with bags, bundles and a mattress, passengers sitting in the shade.
+    box 0 0.65 0 0.85 0.3 2.3 D8C8A0
+    box 0 1.15 -0.3 0.8 0.25 1.5 D8C8A0
+    box 0 1.15 -0.3 0.81 0.2 1.35 2A3A4A glass
+    box 0 1.55 -0.4 0.8 0.15 1.4 6A4A30
+    blob 0 1.85 -0.9 0.6 0.25 0.5 C83A2A
+    blob 0.1 1.85 0.2 0.5 0.25 0.5 2A8A4A
+    box -0.1 2.15 -0.3 0.7 0.08 1.2 E8E0D0
+    mirror
+    mirrorx
+    tube 0.7 0.35 1.4 0.88 0.35 1.4 0.35 10 1E1E1E
+    blob 1.4 0.75 0.6 0.16 0.38 0.14 E8E0D0
+    blob 1.4 1.25 0.6 0.1 0.11 0.1 3A2A1E
+    blob 1.5 0.4 -1.2 0.2 0.3 0.18 2A6AC8
+
+shape ROAD_SALT_DOME
+    home USA, CANADA, GERMANY, AUSTRIA, SWITZERLAND, CZECHIA, POLAND | 0.003 10 40 | country
+    # The road depot's salt dome for the winter: a big round wooden dome with a gabled entrance, a white heap of road salt by the door.
+    dome 0 0 0 7 6 B0A898
+    cyl 0 0 0 7.1 7.1 0.6 24 7A7A74
+    box 6.2 1.8 0 1.4 1.8 1.8 9A8E7A
+    gable 6.2 3.6 0 1.4 1.9 0.9 0.1 6A6A6A 9A8E7A
+    box 7.61 1.5 0 0.01 1.4 1.4 2A2018
+    blob 9.5 0.6 -3 1.5 0.6 1.5 F2F2F0 0.2
+
+shape SPEED_BUMP_VENDORS
+    home MEXICO, GUATEMALA, NIGERIA, GHANA, HONDURAS, EL SALVADOR, NICARAGUA, KENYA, UGANDA, CAMEROON | 0.004 0.5 4 | country
+    # Hawkers waiting where the cars must slow down: trays of mangoes, bags of snacks and bottles of water held up to the windows.
+    repeat 3 0 0 1.5
+    blob 0.4 0.75 -1.5 0.17 0.4 0.14 2A6AC8
+    repeat 3 0 0 1.5
+    blob 0.4 1.25 -1.5 0.1 0.11 0.1 4A3020
+    repeat 3 0 0 1.5
+    box 0.65 1.3 -1.5 0.15 0.03 0.25 C8A060
+    blob 0.65 1.38 -1.5 0.12 0.06 0.2 E8C02A
+    blob 0.65 1.4 0 0.12 0.08 0.2 C83A2A
+    repeat 3 0 0 0.12
+    cyl 0.6 1.33 1.38 0.04 0.04 0.18 6 9AD0F0 glass
+    box 0.9 0.05 0 0.12 0.05 2.5 F2E81E
+
+shape OIL_DRUM_CHECKPOINT
+    home NIGERIA, CAMEROON, CHAD, NIGER, MALI, DR CONGO, CENTRAL AFRICAN REPUBLIC, GUINEA, SIERRA LEONE, LIBERIA, SOUTH SUDAN | 0.003 1 6 | country
+    # A roadside checkpoint: two painted oil drums with a rope between them, a plank hut with a tin roof and a plastic chair in its shade.
+    cyl 0.5 0 -1.5 0.3 0.3 0.9 10 C82A2A
+    cyl 0.5 0 1.5 0.3 0.3 0.9 10 2A6AC8
+    tube 0.5 0.85 -1.5 0.5 0.85 1.5 0.03 3 E8E0D0
+    box -2 1.1 0 1.0 1.1 1.0 8A6A48
+    box -0.99 1.0 0 0.01 0.8 0.4 2A2018
+    quad -3.2 2.3 -1.4 -3.2 2.3 1.4 -0.6 2.0 1.4 -0.6 2.0 -1.4 9AA0A8
+    box -0.3 0.45 -0.6 0.25 0.03 0.25 F2F2F2
+    box -0.52 0.75 -0.6 0.03 0.3 0.25 F2F2F2
+
+shape ROAD_CREW_CAMP
+    home ETHIOPIA, KENYA, ZAMBIA, LAOS, PAKISTAN, TANZANIA, ANGOLA, UGANDA, CAMBODIA | 0.003 10 50 | country
+    # The camp of a highway construction company: rows of white prefab huts with blue roofs, stacks of culvert pipes and a red banner over the gate.
+    repeat 3 0 0 7
+    box 0 1.4 -7 2 1.4 3 F2F2EE
+    repeat 3 0 0 7
+    quad -2.1 2.9 -10.1 -2.1 2.9 -3.9 2.1 2.7 -3.9 2.1 2.7 -10.1 2A5AB8
+    repeat 3 0 0 7
+    box 2.01 1.6 -7 0.01 0.4 1.8 2A3A4A glass
+    repeat 4 0 0.5 0
+    tube 5 0.3 -8 5 0.3 -2 0.25 8 8A8A8A
+    tube 5 0 7 5 3 7 0.08 4 C8C8C8
+    tube 5 0 11 5 3 11 0.08 4 C8C8C8
+    box 5 2.6 9 0.03 0.35 2 C82A2A
+    box 5.04 2.6 9 0.005 0.08 1.6 F2E81E
+
+shape ROAD_SWEEPERS
+    home VIETNAM, CHINA, INDIA, PHILIPPINES, THAILAND, CAMBODIA, INDONESIA | 0.003 0.5 4 | country
+    # Street sweepers in orange vests and conical hats working along the verge with long brooms, their green handcart behind them.
+    repeat 2 0 0 3
+    blob 0.3 0.75 -1.5 0.16 0.38 0.13 F2801E
+    repeat 2 0 0 3
+    blob 0.3 1.22 -1.5 0.1 0.11 0.1 C8A080
+    repeat 2 0 0 3
+    spire 0.3 1.28 -1.5 0.3 0.22 10 E8D8A0
+    repeat 2 0 0 3
+    tube 0.5 1.1 -1.4 0.9 0.05 -1.1 0.02 3 8A6A48
+    repeat 2 0 0 3
+    blob 0.95 0.05 -1.05 0.15 0.06 0.2 C8A060
+    box -0.6 0.6 2.6 0.4 0.3 0.6 2A8A4A
+    tube -1.05 0.25 2.4 -1.0 0.25 2.4 0.25 8 1E1E1E
+    tube -0.2 0.25 2.4 -0.15 0.25 2.4 0.25 8 1E1E1E
+    tube -0.6 0.8 3.2 -0.6 1.0 3.8 0.025 3 6A6A6A
+
+shape EMERGENCY_PHONE
+    home GERMANY, AUSTRIA, ITALY, SPAIN, PORTUGAL, AUSTRALIA, SWITZERLAND, FRANCE, CZECHIA | 0.003 0.5 2 | country
+    # An orange emergency telephone pillar at the roadside, its little door facing the road and a sign on a post beside it.
+    box 0 0.6 0 0.18 0.6 0.14 F2801E
+    box 0.181 0.85 0 0.005 0.12 0.08 1E1E1E
+    box 0 1.24 0 0.2 0.05 0.16 F2801E
+    box 0.181 0.5 0 0.005 0.06 0.1 F2F2F2
+    tube 0 0 0.6 0 1.6 0.6 0.04 4 F2F2F2
+    box 0 1.6 0.6 0.02 0.18 0.25 F2801E
+
+shape TRUCK_ESCAPE_RAMP
+    home USA, CANADA, SOUTH AFRICA, AUSTRALIA, NEW ZEALAND, NORWAY | 0.002 1 6 | country
+    # A runaway truck ramp: a deep bed of loose gravel climbing beside the road, a big sign before it and a wall of yellow drums at its end.
+    quad -3.5 0.05 -30 0 0.05 -30 0 2.5 30 -3.5 2.5 30 B0A080
+    quad 0 0.05 -30 0 0 -30 0 0 30 0 2.5 30 9A8E70
+    quad -3.5 0.05 -30 -3.5 0 -30 -3.5 0 30 -3.5 2.5 30 9A8E70
+    repeat 4 0.85 0 0
+    cyl -3.1 2.5 30.5 0.35 0.35 0.9 10 F2C21E
+    tube 0.5 0 -36 0.5 2.6 -36 0.06 4 9A9A9A
+    tube 0.5 0 -33 0.5 2.6 -33 0.06 4 9A9A9A
+    box 0.5 2.6 -34.5 0.04 0.7 1.8 F2C21E
+    box 0.54 2.6 -34.5 0.005 0.08 1.4 1E1E1E
+
+shape RHYME_SIGNS
+    home USA:IOWA, USA:MISSOURI, USA:OKLAHOMA, USA:ILLINOIS, USA:NEW MEXICO, USA:ARIZONA, USA:TEXAS, USA:MINNESOTA, USA:NEBRASKA | 0.002 1 4 | country
+    # A row of small red signs spaced out along the verge, each with a line of an old roadside jingle, to be read one after the other.
+    repeat 6 0 0 12
+    tube 0 0 -30 0 1.4 -30 0.05 4 E8E0D0
+    repeat 6 0 0 12
+    box 0 1.3 -30 0.03 0.25 0.6 C82A2A
+    repeat 6 0 0 12
+    box 0.031 1.3 -30 0.005 0.05 0.45 F2F2F2
+
+shape CUTE_BARRICADES
+    home JAPAN | 0.004 0.5 3 | country
+    # Roadworks fenced off with barricades in the shape of smiling green frogs, linked by yellow bars, and a guard in a white helmet waving a red light baton.
+    repeat 4 0 0 2
+    blob 0 0.45 -3 0.25 0.45 0.2 4AC84A
+    repeat 4 0 0 2
+    blob 0 1.0 -3 0.28 0.22 0.22 4AC84A
+    repeat 4 0 0 2
+    blob 0.2 1.15 -3.1 0.07 0.07 0.07 F2F2F2
+    repeat 3 0 0 2
+    tube 0 0.8 -3 0 0.8 -1 0.05 4 F2E81E
+    blob 0.5 0.8 6 0.17 0.42 0.14 2A4A8A
+    blob 0.5 1.3 6 0.1 0.11 0.1 E0B090
+    blob 0.5 1.42 6 0.12 0.06 0.12 F2F2F2
+    tube 0.6 1.0 6.2 0.9 1.4 6.3 0.03 4 E83A2A glow
+
+shape BUSH_AIRSTRIP
+    home KENYA, TANZANIA, BOTSWANA, NAMIBIA, AUSTRALIA, USA:ALASKA, CANADA:YUKON, PAPUA NEW GUINEA, ZAMBIA | 0.002 20 90 | country
+    # A bush airstrip: a long strip of beaten earth, an orange windsock, a little high-winged plane waiting by its tin hangar.
+    box -10 0.02 0 6 0.02 60 B8A070
+    tube -3 0 30 -3 4 30 0.05 4 C8C8C8
+    tube -3 4 30 -3 3.85 31.3 0.18 8 F2801E
+    tube -10 1.3 -6 -10 1.3 -0.5 0.45 8 F2F2F2
+    box -10 2.0 -4.5 4.5 0.05 0.7 F2F2F2
+    box -10 1.6 -0.8 1.5 0.04 0.4 F2F2F2
+    box -10 2.0 -0.6 0.04 0.6 0.4 C82A2A
+    box -10 1.6 -5.0 0.46 0.25 0.5 2A3A4A glass
+    box -10 1.3 -3.0 0.46 0.06 2.2 C82A2A
+    tube -10.6 0.3 -4.6 -10.5 0.3 -4.6 0.3 8 1E1E1E
+    tube -9.4 0.3 -4.6 -9.5 0.3 -4.6 0.3 8 1E1E1E
+    tube -10 1.2 -4.6 -10.55 0.3 -4.6 0.03 3 9A9A9A
+    tube -10 1.2 -4.6 -9.45 0.3 -4.6 0.03 3 9A9A9A
+    box -20 2.5 -22 5 2.5 6 9AA0A8
+    box -14.99 2.0 -22 0.01 2.0 4.5 3A3A3A
+
+shape MATATU
+    home KENYA | 0.004 1 8 | town
+    # A matatu, the painted minibus: black with wild graffiti art down its side, a slogan over the windscreen, a roof rack and loud music.
+    box 0 1.2 0 1.0 0.9 2.6 1E1E2A
+    box 1.01 0.8 -0.6 0.01 0.4 1.6 E83AC8
+    box 1.02 0.85 0.4 0.01 0.3 0.9 3AE8E8
+    box 1.03 0.7 1.5 0.01 0.25 0.8 F2E81E
+    box 0 1.65 0 1.01 0.28 2.3 2A3A4A glass
+    box 0 2.15 -0.5 0.8 0.06 1.6 8A8A8A
+    box 0 1.95 2.61 0.9 0.08 0.01 E83A2A
+    mirror
+    mirrorx
+    tube 0.85 0.4 1.7 1.02 0.4 1.7 0.4 10 1E1E1E
+
+shape KOMBI_VAN
+    home BRAZIL, MEXICO, PERU, BOLIVIA, PARAGUAY | 0.004 1 8 | country
+    # An old two-tone rear-engined van, blue below and white above, its round nose to the road, used as a school bus or a market stall.
+    box 0 0.75 0 0.85 0.45 2.1 2A6AC8
+    box 0 1.5 -0.1 0.85 0.32 2.0 F2F2EE
+    box 0 1.5 -0.1 0.86 0.22 1.8 2A3A4A glass
+    blob 0 0.95 2.05 0.84 0.5 0.18 2A6AC8
+    blob 0 1.0 2.2 0.25 0.25 0.05 F2F2EE
+    mirror
+    mirrorx
+    tube 0.7 0.35 1.4 0.87 0.35 1.4 0.35 10 1E1E1E
+
+shape MARSHRUTKA
+    home RUSSIA, UKRAINE, BELARUS, KAZAKHSTAN, KYRGYZSTAN, UZBEKISTAN, GEORGIA, ARMENIA, MOLDOVA, TAJIKISTAN | 0.004 1 6 | town
+    # A yellow marshrutka at its stop, the shared minibus with a short bonnet and the route number on a card behind the windscreen.
+    box 0 1.25 -0.3 0.95 0.95 2.0 F2D21E
+    box 0 0.75 2.1 0.9 0.45 0.5 F2D21E
+    box 0 1.55 -0.3 0.96 0.3 1.8 2A3A4A glass
+    box 0 1.45 1.75 0.85 0.35 0.05 2A3A4A glass
+    box 0.3 1.2 1.81 0.25 0.1 0.01 F2F2F2
+    mirrorx
+    tube 0.8 0.38 -1.6 0.97 0.38 -1.6 0.38 10 1E1E1E
+    mirrorx
+    tube 0.8 0.38 2.0 0.97 0.38 2.0 0.38 10 1E1E1E
+
+shape POSTBUS
+    home SWITZERLAND, AUSTRIA, LIECHTENSTEIN | 0.004 1 6 | country
+    # The yellow postbus waiting at a mountain stop, a red stripe along its side and the stop's yellow sign beside it.
+    box 0 1.5 0 1.2 1.2 5.5 F2C21E
+    box 0 1.85 0 1.21 0.45 5.2 2A3A4A glass
+    box 0 0.75 0 1.21 0.06 5.4 C82A2A
+    mirror
+    mirrorx
+    tube 1.0 0.5 3.8 1.22 0.5 3.8 0.5 10 1E1E1E
+    tube -1.8 0 7.5 -1.8 2.4 7.5 0.04 4 9A9A9A
+    box -1.8 2.3 7.5 0.03 0.25 0.35 F2C21E
+
+shape MILK_FLOAT
+    home ENGLAND, SCOTLAND, WALES | 0.003 1 6 | town
+    # An electric milk float on its early round: a small cab, a green canopy and crates of glass bottles with silver tops.
+    box 0 0.65 0.8 0.75 0.3 1.6 F2F2EE
+    box 0 1.3 -0.9 0.75 0.6 0.5 F2F2EE
+    box 0 1.4 -0.9 0.76 0.35 0.45 2A3A4A glass
+    box 0 1.95 0.3 0.8 0.05 2.2 2A6A3A
+    repeat 3 0 0 0.9
+    box 0 1.1 0.0 0.6 0.15 0.35 C82A2A
+    repeat 3 0 0 0.9
+    box 0 1.3 0.0 0.5 0.06 0.3 E8E8F0
+    mirror
+    mirrorx
+    tube 0.75 0.95 2.3 0.75 1.95 2.3 0.03 3 2A6A3A
+    mirror
+    mirrorx
+    tube 0.65 0.28 1.6 0.8 0.28 1.6 0.28 8 1E1E1E
+
+shape HORSE_SLEIGH
+    home AUSTRIA, SWITZERLAND, RUSSIA, FINLAND, POLAND, NORWAY, SWEDEN, GERMANY:BAVARIA | 0.003 2 15 | cold
+    # A horse-drawn sleigh: a red wooden sleigh on curled runners with a blanket over the seat, a brown horse in harness with bells.
+    box 0 0.7 -1 0.65 0.3 1.0 8A2A2A
+    box 0 1.15 -1.85 0.6 0.4 0.15 8A2A2A
+    mirrorx
+    tube 0.6 0.15 -2.2 0.6 0.15 0.4 0.05 4 C8A040
+    mirrorx
+    tube 0.6 0.15 0.4 0.6 0.6 0.8 0.05 4 C8A040
+    blob 0 0.98 -1.2 0.5 0.12 0.5 2A5A2A
+    blob 0 1.35 -0.8 0.2 0.35 0.18 1E1E1E
+    blob 0 1.8 -0.8 0.1 0.11 0.1 E0B090
+    cyl 0 1.88 -0.8 0.12 0.12 0.15 8 4A3A2A
+    blob 0 1.3 2.3 0.35 0.4 0.8 5A3A2A
+    tube 0 1.55 2.9 0 1.95 3.2 0.15 5 5A3A2A
+    blob 0 2.0 3.4 0.12 0.15 0.3 5A3A2A
+    repeat 2 0 0 1.0
+    mirrorx
+    tube 0.2 1.0 1.8 0.2 0 1.8 0.06 4 5A3A2A
+    mirrorx
+    tube 0.45 0.75 0.1 0.45 1.15 2.6 0.03 3 6A4A2A
+    halo 0 1.55 2.85 0.38 0.04 10 C8A040
+
+shape CALESA
+    home PHILIPPINES | 0.003 1 6 | town
+    # A calesa, the horse carriage of the old towns: a two-wheeled cab under a black canopy on big spoked wheels, a small brown horse in front.
+    box 0 1.0 -0.6 0.6 0.35 0.8 C8A060
+    box 0 1.85 -0.6 0.65 0.06 0.95 3A3A3A
+    tube 0.55 1.35 0.25 0.55 1.85 0.25 0.03 3 3A3A3A
+    tube -0.55 1.35 0.25 -0.55 1.85 0.25 0.03 3 3A3A3A
+    tube 0.55 1.35 -1.45 0.55 1.85 -1.45 0.03 3 3A3A3A
+    tube -0.55 1.35 -1.45 -0.55 1.85 -1.45 0.03 3 3A3A3A
+    hoop 0.68 0.8 -0.6 0.8 0.05 14 6A4A2A
+    hoop -0.68 0.8 -0.6 0.8 0.05 14 6A4A2A
+    at 0.68 0.8 -0.6
+    vring 8 0
+    tube 0 0 0 0 0.78 0 0.02 3 6A4A2A
+    at -0.68 0.8 -0.6
+    vring 8 0
+    tube 0 0 0 0 0.78 0 0.02 3 6A4A2A
+    at 0 0 0
+    tube 0.4 0.95 0.2 0.4 1.1 2.0 0.03 3 6A4A2A
+    tube -0.4 0.95 0.2 -0.4 1.1 2.0 0.03 3 6A4A2A
+    blob 0 1.2 1.9 0.28 0.32 0.65 8A5A3A
+    tube 0 1.4 2.4 0 1.75 2.65 0.12 5 8A5A3A
+    blob 0 1.78 2.8 0.1 0.12 0.25 8A5A3A
+    repeat 2 0 0 0.8
+    tube 0.15 0.9 1.5 0.15 0 1.5 0.05 4 8A5A3A
+    repeat 2 0 0 0.8
+    tube -0.15 0.9 1.5 -0.15 0 1.5 0.05 4 8A5A3A
+
+shape SUGAR_TRAIN
+    home FIJI, SAINT KITTS AND NEVIS, CUBA, INDONESIA:EAST JAVA, INDONESIA:CENTRAL JAVA, AUSTRALIA:QUEENSLAND | 0.003 4 25 | country
+    # A narrow-gauge cane train in the harvest: a little yellow diesel pulling a line of wagons heaped with cut sugar cane.
+    box 0 0.05 0 0.6 0.05 30 6A6A6A
+    box 0 1.0 -20 0.7 0.7 2.0 E8C02A
+    box 0 1.95 -21 0.6 0.3 0.8 E8C02A
+    box 0 2.0 -21 0.61 0.2 0.7 2A3A4A glass
+    repeat 6 0 0 5.5
+    box 0 0.75 -15 0.6 0.35 2.4 4A4A4A
+    repeat 6 0 0 5.5
+    blob 0 1.35 -15 0.65 0.45 2.4 8A9A40 0.3
+    repeat 7 0 0 5.5
+    mirrorx
+    tube 0.5 0.3 -19.5 0.62 0.3 -19.5 0.3 8 1E1E1E
+
+shape STEAM_TRAIN
+    home ENGLAND, WALES, SCOTLAND, GERMANY:SAXONY, GERMANY:SAXONY-ANHALT, AUSTRIA, CZECHIA, POLAND | 0.002 6 40 | country
+    # A heritage steam train on a branch line: a black locomotive puffing white smoke, two maroon carriages with cream window bands.
+    box 0 0.05 0 0.9 0.05 25 6A5A48
+    tube 0 1.4 -14 0 1.4 -9 0.65 10 1E1E1E
+    box 0 1.6 -8.2 0.85 0.95 0.8 1E1E1E
+    box 0 2.6 -8.2 0.95 0.06 0.9 3A3A3A
+    cyl 0 2.0 -13.2 0.18 0.22 0.6 8 1E1E1E
+    dome 0 2.0 -11.5 0.3 0.25 C8A040 shiny
+    blob 0 3.2 -13 0.5 0.8 0.5 E8E8E8 glass
+    blob 0 4.2 -11.5 0.8 0.7 0.7 F2F2F2 glass
+    repeat 3 0 0 1.4
+    mirrorx
+    tube 0.6 0.6 -13.5 0.75 0.6 -13.5 0.6 12 C82A2A
+    repeat 2 0 0 8.5
+    box 0 1.6 -2 0.95 1.1 3.8 6A1E1E
+    repeat 2 0 0 8.5
+    box 0 1.9 -2 0.96 0.35 3.5 E8E0C8
+    repeat 2 0 0 8.5
+    box 0 1.9 -2 0.97 0.25 3.2 2A3A4A glass

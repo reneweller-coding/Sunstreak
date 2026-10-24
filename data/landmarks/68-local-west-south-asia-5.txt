@@ -1,0 +1,406 @@
+# West and South Asia, round five: food stalls, festivals, crafts, mosques and the animals of the high ranges.
+
+shape YAKHCHAL
+    home IRAN | 0.003 6 40 | country
+    # An old desert ice house: a tall stepped cone of mud brick over a deep pit, a long shading wall beside the pool where the ice was frozen.
+    cyl 0 0 0 5 4.5 1 16 C8A878
+    tbox 0 1 0 4.5 4.5 0 9 0 0.4 0.4 C8A878
+    box 0 1.2 9 0.6 1.2 4 C0A070
+    box 0 3 9 0.6 3 4 C8A878
+    box 2.5 0.05 9 1.5 0.05 4 6A8AA0 water
+
+shape PISTACHIO_ORCHARD
+    home IRAN, TURKEY, SYRIA, AFGHANISTAN | 0.004 4 30 | country
+    # A pistachio orchard on dry red earth: low round trees in neat rows, their clusters of nuts blushing pink.
+    repeat 5 0 0 5
+    tube -3 0 -10 -3 1.2 -10 0.12 4 6A5A40
+    repeat 5 0 0 5
+    blob -3 1.8 -10 1.4 1.0 1.4 6A8A4A 0.4
+    repeat 5 0 0 5
+    blob -2 1.7 -10 0.25 0.15 0.25 D88A8A
+    repeat 5 0 0 5
+    tube -8 0 -10 -8 1.2 -10 0.12 4 6A5A40
+    repeat 5 0 0 5
+    blob -8 1.8 -10 1.4 1.0 1.4 6A8A4A 0.4
+
+shape SAJ_STALL
+    home LEBANON, SYRIA, JORDAN, PALESTINE, TURKEY | 0.004 0.5 6 | town
+    # A saj bread stall: a woman rolling dough thin and laying it over a hot iron dome on a gas burner, flatbreads folded in a stack.
+    box 0 0.45 0 0.4 0.45 0.6 8A8A8A
+    dome 0 0.9 0.2 0.35 0.18 3A3A3A
+    blob 0 1.1 0.2 0.3 0.02 0.3 E8D8B0
+    box 0 0.92 -0.4 0.3 0.02 0.2 C8A060
+    repeat 5 0 0.03 0
+    box 0.1 0.95 -0.4 0.2 0.012 0.15 E8D8B0
+    blob -0.6 0.75 0 0.17 0.42 0.14 2A2A4A
+    blob -0.6 1.25 0 0.11 0.12 0.11 F2F2F2
+
+shape DILMUN_MOUNDS
+    home BAHRAIN | 0.006 6 60 | country
+    # A field of ancient burial mounds: hundreds of round humps of sand and stone crowding to the horizon.
+    repeat 6 2 0 4
+    dome -6 0 -12 1.8 1.2 C8B090
+    repeat 6 1.5 0 4
+    dome -11 0 -10 2.2 1.4 C0A888
+    repeat 5 2.5 0 4.5
+    dome -15 0 -11 1.5 1.0 C8B090
+    dome -20 0 0 3.5 2.4 B8A080
+
+shape SHAWARMA_STAND
+    home LEBANON, JORDAN, SYRIA, UAE, SAUDI ARABIA, QATAR, KUWAIT, BAHRAIN, OMAN, IRAQ, ISRAEL, PALESTINE, EGYPT | 0.004 0.5 6 | town
+    # A shawarma stand: a big cone of meat turning on its spit before a glowing grill, the cook shaving it into flatbread at the counter.
+    box 0 0.5 0 0.5 0.5 1 C8C8C8 shiny
+    tube 0 1.0 -0.4 0 2.0 -0.4 0.02 4 C8C8C8
+    cyl 0 1.05 -0.4 0.25 0.18 0.85 10 9A5A2A
+    box -0.35 1.5 -0.4 0.05 0.45 0.3 E8501E glow
+    box 0 1.02 0.5 0.45 0.02 0.4 E8D8B0
+    blob -0.8 1.0 0.2 0.17 0.42 0.14 F2F2F2
+    blob -0.8 1.5 0.2 0.1 0.11 0.1 C8A080
+    box 0 2.6 0 0.6 0.04 1.1 C82A2A
+
+shape FALAFEL_STAND
+    home EGYPT, ISRAEL, PALESTINE, JORDAN, LEBANON, SYRIA, SUDAN | 0.004 0.5 6 | town
+    # A falafel stall: a wide pan of bubbling oil, golden balls draining in a basket, bowls of salad and pickles under a striped awning.
+    box 0 0.5 0 0.5 0.5 1 C8C8C8 shiny
+    cyl 0 1.0 -0.4 0.35 0.35 0.08 12 3A3A3A
+    repeat 6 0 0 0.07
+    blob 0.1 1.12 -0.6 0.04 0.04 0.04 B8701E
+    repeat 4 0 0 0.25
+    cyl 0.2 1.0 0.2 0.1 0.1 0.08 10 3A9A3A
+    quad -0.6 2.2 -1.1 -0.6 2.2 1.1 0.9 1.9 1.1 0.9 1.9 -1.1 2A6A3A
+    blob -0.8 1.0 0 0.17 0.42 0.14 E8E0D0
+    blob -0.8 1.5 0 0.1 0.11 0.1 C8A080
+
+shape TODDY_SHOP
+    home INDIA:KERALA, SRI LANKA | 0.004 4 22 | country
+    # A toddy shop among coconut palms: a low whitewashed hut with a red-painted sign, a tapper's ladder up a palm and clay pots tied under its crown.
+    box 0 1.2 0 2 1.2 3 F2F2EE
+    gable 0 2.4 0 2 3 1.2 0.3 B8603A F2F2EE
+    box 2.01 2 0 0.01 0.25 1.5 C82A2A
+    box 2.01 0.9 0 0.01 0.9 0.5 2A2018
+    tube 4 0 4 4.5 9 4 0.22 6 7A6A58
+    fronds 4.5 9 4 12 3.2 0.6 3E6A2A
+    tube 3.7 0 3.7 4.2 8.5 3.7 0.03 3 8A6A48
+    repeat 2 0 0 0.5
+    blob 4.4 8.5 3.8 0.12 0.18 0.12 B8603A
+
+shape NEPAL_PATI
+    home NEPAL | 0.004 1 12 | country
+    # A pati, the travellers' rest house: an open brick pavilion with carved wooden posts and a tiled roof, porters resting with their baskets.
+    box 0 0.3 0 1.4 0.3 2.5 A8503A
+    repeat 4 0 0 1.6
+    tube 1.2 0.6 -2.4 1.2 2.4 -2.4 0.1 6 6A4A2A
+    box -1.3 1.5 0 0.1 1.2 2.5 A8503A
+    hip 0 2.7 0 1.6 2.8 1.2 0.3 8A3A2A
+    cyl 0.3 0.6 1 0.3 0.4 0.6 8 B8A060
+    blob 0.6 1.0 0.3 0.16 0.35 0.14 E8E0D0
+    blob 0.6 1.42 0.3 0.1 0.11 0.1 6A4A30
+
+shape MOMO_STALL
+    home NEPAL, BHUTAN, INDIA:SIKKIM, INDIA:LADAKH, INDIA:HIMACHAL PRADESH, CHINA:TIBET | 0.004 0.5 6 | town
+    # A momo stall: a tower of aluminium steamers puffing on a kerosene stove, plates of dumplings with red chutney on a wooden counter.
+    box 0 0.45 0 0.4 0.45 0.7 8A6A48
+    repeat 4 0 0.2 0
+    cyl 0 0.9 -0.3 0.25 0.25 0.18 12 C8C8C8 shiny
+    dome 0 1.7 -0.3 0.25 0.1 C8C8C8 shiny
+    blob 0 2.2 -0.3 0.25 0.4 0.25 E8E8E8 glass
+    repeat 3 0 0 0.25
+    cyl 0.2 0.9 0.15 0.1 0.1 0.02 10 F2F2F2
+    repeat 3 0 0 0.25
+    blob 0.2 0.94 0.15 0.06 0.03 0.06 E8D8B0
+    blob -0.6 0.75 0 0.17 0.42 0.14 8A2A2A
+    blob -0.6 1.25 0 0.1 0.11 0.1 C8A080
+
+shape PANI_PURI_CART
+    home INDIA, PAKISTAN, BANGLADESH, NEPAL | 0.004 0.5 4 | town
+    # A pani puri cart: a glass case piled with crisp hollow puris, steel pots of spiced water and the vendor filling them one by one for a crowd.
+    box 0 0.5 0 0.5 0.1 0.9 6A6A6A
+    box 0 0.8 -0.3 0.4 0.25 0.45 C8D8E0 glass
+    blob 0 0.75 -0.3 0.35 0.15 0.4 E8C070
+    repeat 2 0 0 0.3
+    cyl 0.1 0.6 0.35 0.13 0.13 0.25 10 C8C8C8 shiny
+    tube 0.5 0.3 -0.7 0.6 0.3 -0.7 0.3 8 1E1E1E
+    tube -0.5 0.3 -0.7 -0.6 0.3 -0.7 0.3 8 1E1E1E
+    blob -0.7 0.75 0 0.17 0.42 0.14 F2F2EE
+    blob -0.7 1.25 0 0.1 0.11 0.1 6A4A30
+    repeat 3 0 0 0.6
+    blob 1.0 0.75 -0.6 0.16 0.4 0.13 E83A6A
+
+shape DURGA_PANDAL
+    home INDIA:WEST BENGAL, INDIA:ASSAM, INDIA:ODISHA, INDIA:TRIPURA, BANGLADESH | 0.002 6 30 | town
+    # A festival pandal: a temporary temple of cloth and bamboo with a towering painted gate, strings of lights and a crowd queueing to see the goddess.
+    box 0 3 0 2.5 3 4 E8C02A
+    tbox 0 6 0 2.5 4 0 9 0 0.5 0.6 C83A2A
+    box 2.51 2.2 0 0.01 2.2 1.5 3A1E1E
+    box 2.6 2.2 0 0.08 1.4 0.7 E8A02A lit
+    repeat 8 0 0.8 0
+    box 2.55 0.5 -3.8 0.02 0.02 0.02 F2E89A glow
+    repeat 8 0 0.8 0
+    box 2.55 0.5 3.8 0.02 0.02 0.02 F2E89A glow
+    arch 2.6 6.5 0 8 1.5 0.02 12 F2E89A glow
+    repeat 6 0 0 0.7
+    blob 4 0.75 -2 0.16 0.4 0.13 2A6AC8
+
+shape GIANT_HANUMAN
+    home INDIA | 0.001 10 60 | country
+    # A giant statue of the monkey god towering over the fields: painted orange, his mace on his shoulder, standing on a temple roof.
+    box 0 2 0 4 2 4 F2E8D8
+    blob 0 6 0 1.8 2.2 1.4 E8701E
+    blob 0 9 0 1 1.1 1 E8701E
+    tube 0 4 1.0 0 5.8 0.6 0.6 5 E8701E
+    tube 0 4 -1.0 0 5.8 -0.6 0.6 5 E8701E
+    tube 0 7.5 1.6 0 10 2.4 0.3 5 E8701E
+    tube 0 9.5 2.4 0 11 2.6 0.12 4 C8A040
+    blob 0 11.4 2.6 0.6 0.7 0.6 C8A040
+    cyl 0 10.0 0 0.6 0.4 0.9 8 E8C02A
+
+shape GIANT_SHIVA
+    home MAURITIUS, NEPAL, INDIA:KARNATAKA, INDIA:UTTARAKHAND, INDIA:GUJARAT | 0.001 10 70 | country
+    # A colossal statue of Shiva: a pale blue figure standing with his trident beside him, a snake round his neck, gazing over the land.
+    box 0 1.5 0 3 1.5 3 E8E0D0
+    tbox 0 3 0 1.4 1.0 0 9 0 1.1 0.8 6A8AC0
+    blob 0 11 0 1.3 2.0 0.9 6A8AC0
+    blob 0 13.6 0 0.65 0.75 0.65 6A8AC0
+    cyl 0 14.2 0 0.35 0.2 1.2 8 3A2A2A
+    tube 0 12.5 1.4 0 10 2.2 0.25 5 6A8AC0
+    tube 0 3 3 0 17 3 0.12 5 B8B8B8 shiny
+    spire 0 17 3 0.2 0.8 6 B8B8B8 shiny
+    halo 0 12.6 0 0.8 0.1 10 3A6A3A
+
+shape WELL_WITH_POTS
+    home INDIA, PAKISTAN, NEPAL, BANGLADESH | 0.004 2 15 | country
+    # A village well: a round parapet with a wooden pulley frame, women drawing water and walking away with brass and clay pots balanced on their heads.
+    cyl 0 0 0 1.2 1.2 0.8 14 C8B8A0
+    cyl 0 0.8 0 1.0 1.0 0.01 14 1E2A3A
+    tube -1.2 0.8 0 -1.2 2.2 0 0.08 4 8A6A48
+    tube 1.2 0.8 0 1.2 2.2 0 0.08 4 8A6A48
+    tube -1.2 2.2 0 1.2 2.2 0 0.06 4 8A6A48
+    tube 0 2.2 0 0 1.0 0 0.01 3 C8B890
+    repeat 3 0 0 1.4
+    blob 1.8 0.75 -1.4 0.17 0.42 0.14 E83A6A
+    repeat 3 0 0 1.4
+    blob 1.8 1.27 -1.4 0.1 0.11 0.1 4A3020
+    repeat 3 0 0 1.4
+    blob 1.8 1.5 -1.4 0.16 0.14 0.16 C8A040 shiny
+
+shape STONE_CARVING_YARD
+    home INDIA:TAMIL NADU, INDIA:KARNATAKA, INDIA:RAJASTHAN, VIETNAM, INDONESIA:CENTRAL JAVA | 0.003 2 15 | country
+    # A stone carvers' yard by the road: gods, elephants and lions half freed from granite blocks, standing in rows for sale, chisels ringing.
+    repeat 4 0 0 1.8
+    box -1 0.5 -2.7 0.5 0.5 0.5 9A9690
+    repeat 4 0 0 1.8
+    blob -1 1.5 -2.7 0.35 0.6 0.3 8A8680
+    repeat 3 0 0 2.2
+    blob 1 0.6 -2.2 0.45 0.6 0.7 7A7670
+    repeat 3 0 0 2.2
+    blob 1.3 1.1 -1.7 0.3 0.3 0.25 7A7670
+    box -3 1.0 0 1.5 1.0 1.5 B8B4A8
+
+shape COIR_SPINNERS
+    home INDIA:KERALA, SRI LANKA | 0.004 1 12 | country
+    # Coir rope makers along a backwater path: women walking backwards from a spinning wheel as the coconut fibre twists into long ropes.
+    box 0 0.6 -6 0.3 0.6 0.3 8A6A48
+    hoop 0.31 0.9 -6 0.5 0.04 10 8A6A48
+    repeat 3 0 0.15 0
+    tube 0 0.8 -6 0 0.8 6 0.015 3 B8905A
+    repeat 3 0 0 3
+    blob 0.4 0.75 -1 0.17 0.42 0.14 E8A02A
+    repeat 3 0 0 3
+    blob 0.4 1.25 -1 0.1 0.11 0.1 4A3020
+    blob -1.5 0.3 0 0.6 0.3 2 A8784A 0.4
+
+shape SHIPBREAKING_BEACH
+    home BANGLADESH, INDIA:GUJARAT, PAKISTAN | 0.002 30 150 | coast
+    # A ship-breaking beach: the rusting hull of a huge freighter driven up onto the mud, its bow cut open, plates of steel lying in the shallows.
+    box -6 6 0 6 6 30 8A4A2A
+    box -6 13 -24 5 1.5 5 C8C0B0
+    tbox -6 0 32 6 2 -6 12 32 0.5 6 8A4A2A
+    box -6 6 -30.01 6 6 0.01 1E1E1E
+    repeat 5 2 0 4
+    box 3 0.1 -10 1 0.1 1.5 6A3A1E
+    repeat 3 0 0 6
+    blob 4 0.75 -6 0.16 0.4 0.13 2A6AC8
+
+shape CINNAMON_PEELERS
+    home SRI LANKA | 0.004 1 12 | country
+    # Cinnamon peelers at work under a thatched shed: men sitting with knives stripping the bark from cut sticks, quills of cinnamon drying on racks.
+    mirror
+    mirrorx
+    tube 1.4 0 1.8 1.4 2 1.8 0.06 4 8A6A48
+    hip 0 2 0 1.6 2 1 0.3 B8A060
+    repeat 2 0 0 1.6
+    blob 0.4 0.35 -0.8 0.25 0.35 0.2 F2F2EE
+    repeat 2 0 0 1.6
+    blob 0.4 0.82 -0.8 0.1 0.11 0.1 4A3020
+    blob -0.3 0.15 0 0.6 0.15 0.4 9A6A40
+    repeat 6 0 0.15 0
+    tube -1.2 0.6 -1.2 -1.2 0.6 1.2 0.025 3 B8703A
+
+shape PEPPER_VINES
+    home INDIA:KERALA, INDIA:KARNATAKA, SRI LANKA, VIETNAM, MALAYSIA:SABAH, INDONESIA | 0.004 3 25 | country
+    # Black pepper vines climbing the trunks of shade trees in a spice garden, red berries hanging in strings, a ladder against one.
+    repeat 4 0 0 4
+    tube -2 0 -6 -2 6 -6 0.2 5 6A5A40
+    repeat 4 0 0 4
+    cyl -2 0 -6 0.45 0.4 4 8 3A7A3A
+    repeat 4 0 0 4
+    blob -2 7 -6 1.5 1.2 1.5 4A7A3A 0.4
+    tube -1.6 0 -1.8 -1.9 3.5 -2 0.04 3 C8B070
+    tube -1.6 0 -2.3 -1.9 3.5 -2.5 0.04 3 C8B070
+
+shape KITE_FLYERS
+    home AFGHANISTAN, PAKISTAN, INDIA:GUJARAT, INDIA:RAJASTHAN, GUATEMALA, CHINA:SHANDONG | 0.003 1 15 | country
+    # Kite flyers on a rooftop and a field: boys with reels of string, a sky full of small paper kites in bright colours.
+    repeat 3 0 0 2
+    blob 0 0.75 -2 0.16 0.4 0.13 E8E0D0
+    repeat 3 0 0 2
+    blob 0 1.25 -2 0.1 0.11 0.1 4A3020
+    tube 0 1.2 -2 -3 12 -6 0.006 3 F2F2F2
+    tube 0 1.2 0 -1 15 2 0.006 3 F2F2F2
+    tube 0 1.2 2 2 10 6 0.006 3 F2F2F2
+    quad -3 12.6 -6 -3 12 -5.5 -3 11.4 -6 -3 12 -6.5 E83A2A
+    quad -1 15.6 2 -1 15 2.5 -1 14.4 2 -1 15 1.5 2A6AC8
+    quad 2 10.6 6 2 10 6.5 2 9.4 6 2 10 5.5 F2E81E
+
+shape SNOW_LEOPARD
+    home INDIA:LADAKH, INDIA:HIMACHAL PRADESH, NEPAL, BHUTAN, PAKISTAN, KYRGYZSTAN, TAJIKISTAN, MONGOLIA, CHINA:TIBET, CHINA:QINGHAI, AFGHANISTAN | 0.001 6 40 | cold
+    # A snow leopard on a rocky ledge: a pale grey cat with dark rosettes, its long thick tail curled round, watching the valley.
+    blob 0 1.2 0 2 1.2 1.6 8A8680 0.5
+    blob 0 2.65 0 0.25 0.25 0.7 D8D4CC
+    blob 0 2.8 0.75 0.17 0.16 0.16 D8D4CC
+    tube 0 2.6 -0.6 0.3 2.45 -1.4 0.12 5 D8D4CC
+    tube 0.3 2.45 -1.4 0.5 2.6 -1.7 0.12 5 D8D4CC
+    repeat 5 0 0 0.25
+    blob 0.18 2.75 -0.5 0.05 0.04 0.05 4A4A4A
+
+shape PRZEWALSKI_HORSES
+    home MONGOLIA | 0.003 6 50 | country
+    # Wild takhi horses on the steppe: stocky dun horses with upright dark manes and pale muzzles, grazing in a small band.
+    repeat 4 1.5 0 2.5
+    blob -3 1.05 -4 0.3 0.38 0.75 C89A5A
+    repeat 4 1.5 0 2.5
+    tube -3 1.2 -3.4 -3 1.55 -3.0 0.15 5 C89A5A
+    repeat 4 1.5 0 2.5
+    blob -3 1.55 -2.85 0.12 0.15 0.28 E8D8B0
+    repeat 4 1.5 0 2.5
+    box -3 1.55 -3.25 0.02 0.12 0.3 3A2A1E
+    repeat 4 1.5 0 2.5
+    tube -2.85 0.8 -4.5 -2.85 0 -4.5 0.06 4 3A2A1E
+    repeat 4 1.5 0 2.5
+    tube -3.15 0.8 -3.5 -3.15 0 -3.5 0.06 4 3A2A1E
+
+shape CHESS_PLAYERS
+    home ARMENIA, GEORGIA, RUSSIA, UKRAINE, AZERBAIJAN, UZBEKISTAN, MOLDOVA | 0.003 1 10 | town
+    # Old men playing chess and backgammon at concrete tables under plane trees, onlookers standing round with their hands behind their backs.
+    repeat 3 0 0 2.4
+    box 0 0.75 -2.4 0.4 0.04 0.4 9A9A9A
+    repeat 3 0 0 2.4
+    cyl 0 0 -2.4 0.12 0.12 0.75 6 9A9A9A
+    repeat 3 0 0 2.4
+    box 0 0.8 -2.4 0.25 0.01 0.25 E8D8B0
+    repeat 3 0 0 2.4
+    blob 0.7 0.5 -2.4 0.2 0.35 0.17 4A4A5A
+    repeat 3 0 0 2.4
+    blob 0.7 0.95 -2.4 0.1 0.11 0.1 E0B090
+    repeat 3 0 0 2.4
+    blob -0.7 0.5 -2.4 0.2 0.35 0.17 5A4A3A
+    repeat 3 0 0 2.4
+    blob -0.7 0.95 -2.4 0.1 0.11 0.1 E0B090
+    tube -2 0 0 -2 4 0 0.35 6 B8B0A0
+    blob -2 6 0 2.8 1.8 2.8 5A8A3A 0.4
+
+shape SERGE_POSTS
+    home RUSSIA:SIBERIA, MONGOLIA | 0.003 3 25 | country
+    # Hitching posts of the shamans by a sacred tree: a row of carved wooden posts wound with blue, white and yellow ribbons fluttering in the wind.
+    repeat 7 0 0 1.2
+    tube 0 0 -3.6 0 2.6 -3.6 0.1 6 8A7A60
+    repeat 7 0 0 1.2
+    spire 0 2.6 -3.6 0.12 0.3 6 8A7A60
+    repeat 7 0 0 1.2
+    box 0.12 1.9 -3.6 0.02 0.25 0.06 2A6AC8
+    repeat 7 0 0 1.2
+    box 0.12 1.5 -3.4 0.02 0.25 0.06 F2F2F2
+    repeat 7 0 0 1.2
+    box 0.12 1.2 -3.8 0.02 0.2 0.06 F2E81E
+    tube -3 0 0 -3 5 0 0.25 6 7A6A58
+    blob -3 5.5 0 1.6 1.4 1.6 4A6A3A 0.4
+
+shape JALEBI_STALL
+    home INDIA, PAKISTAN, BANGLADESH, NEPAL | 0.004 0.5 6 | town
+    # A sweet shop frying jalebi: orange spirals of batter sizzling in a huge flat pan, heaped on trays and soaked in syrup.
+    box 0 0.45 0 0.5 0.45 1 C8C8C8
+    cyl 0 0.9 -0.4 0.45 0.4 0.12 14 3A3A3A
+    repeat 5 0 0 0.12
+    halo 0.1 1.03 -0.65 0.06 0.02 8 E8901E
+    box 0 0.92 0.5 0.4 0.02 0.4 C8C8C8 shiny
+    blob 0 0.97 0.5 0.32 0.05 0.32 E8901E 0.4
+    blob -0.8 1.0 0 0.17 0.42 0.14 F2F2F2
+    blob -0.8 1.5 0 0.1 0.11 0.1 6A4A30
+    box 0 2.4 0 0.6 0.04 1.1 E8C02A
+
+shape PLOV_CAULDRON
+    home UZBEKISTAN, TAJIKISTAN, KYRGYZSTAN, KAZAKHSTAN, TURKMENISTAN, AFGHANISTAN | 0.004 1 10 | town
+    # A plov house: a huge black kazan set into a brick stove, golden rice and carrots piled in a mound, the cook in his skullcap stirring with a paddle.
+    box 0 0.5 0 0.9 0.5 0.9 B8603A
+    cyl 0 1.0 0 0.85 0.95 0.15 16 1E1E1E
+    dome 0 1.1 0 0.75 0.35 E8A040
+    tube 0 1.2 0 0.6 2.0 0.4 0.03 3 8A6A48
+    blob -1.2 1.0 0 0.18 0.42 0.15 F2F2F2
+    blob -1.2 1.5 0 0.1 0.11 0.1 C8A080
+    cyl -1.2 1.58 0 0.11 0.11 0.08 8 1E3A2A
+    box 0.5 0.2 0.5 0.15 0.08 0.15 E8501E glow
+
+shape GAUR
+    home INDIA, NEPAL, MYANMAR, THAILAND, MALAYSIA, LAOS, CAMBODIA, BHUTAN | 0.002 4 30 | country
+    # A gaur bull at the forest edge: a massive dark wild ox with a high ridged back, curved pale horns and white stockings.
+    blob 0 1.4 0 0.55 0.65 1.1 2A2420
+    blob 0 1.9 -0.3 0.45 0.35 0.6 2A2420
+    blob 0 1.35 1.2 0.25 0.3 0.35 2A2420
+    tube 0.15 1.6 1.2 0.4 1.85 1.15 0.05 4 D8D0B0
+    tube -0.15 1.6 1.2 -0.4 1.85 1.15 0.05 4 D8D0B0
+    mirror
+    mirrorx
+    tube 0.3 0.9 0.6 0.3 0 0.6 0.11 4 2A2420
+    mirror
+    mirrorx
+    tube 0.3 0.35 0.6 0.3 0 0.6 0.12 4 E8E0D0
+
+shape KIANG
+    home CHINA:TIBET, CHINA:QINGHAI, INDIA:LADAKH, NEPAL | 0.003 6 50 | cold
+    # Kiang, the wild asses of the high plateau: chestnut backs, white bellies and legs, a dark stripe down the spine, trotting in a line.
+    repeat 5 1.2 0 2.2
+    blob -3 1.0 -5 0.28 0.35 0.7 A86A3A
+    repeat 5 1.2 0 2.2
+    blob -3 0.85 -5 0.27 0.2 0.65 F2EEE2
+    repeat 5 1.2 0 2.2
+    tube -3 1.15 -4.4 -3 1.5 -4.0 0.13 5 A86A3A
+    repeat 5 1.2 0 2.2
+    blob -3 1.5 -3.85 0.11 0.13 0.25 A86A3A
+    repeat 5 1.2 0 2.2
+    tube -2.85 0.75 -4.4 -2.85 0 -4.4 0.05 4 F2EEE2
+    repeat 5 1.2 0 2.2
+    tube -3.15 0.75 -5.6 -3.15 0 -5.6 0.05 4 F2EEE2
+
+shape OTTOMAN_MOSQUE
+    home TURKEY, BOSNIA, ALBANIA, KOSOVO, NORTH MACEDONIA, BULGARIA, CYPRUS | 0.003 8 50 | country
+    # A village mosque of the Ottoman kind: a square stone hall under a lead dome, a slender pencil minaret with a balcony and a cone on top.
+    box 0 3 0 5 3 5 E8E0D0
+    dome 0 6 0 4.5 3.5 7A8A98
+    windows 5.01 1.5 -3 0 1 6 1.5
+    box 5.01 1.2 0 0.01 1.2 0.8 3A2A1E
+    cyl 3.5 0 6.5 0.6 0.6 14 12 E8E0D0
+    halo 3.5 11 6.5 0.9 0.08 12 E8E0D0
+    cyl 3.5 11 6.5 0.85 0.85 0.15 12 E8E0D0
+    spire 3.5 14 6.5 0.65 3 12 7A8A98
+
+shape MOROCCAN_MINARET
+    home MOROCCO, ALGERIA, TUNISIA, MAURITANIA, LIBYA | 0.003 8 50 | country
+    # A village mosque with a square minaret: a tall tower of pale ochre with a band of green tiles and a small lantern on top, the flat-roofed prayer hall beside it.
+    box 0 2 -4 5 2 4 E0C8A0
+    box 0 6 4 1.6 6 1.6 E0C8A0
+    box 0 10.8 4 1.62 0.6 1.62 2A8A5A
+    merlons -1.6 12 2.4 1.6 12 2.4 0.15 E0C8A0
+    box 0 13 4 0.8 1 0.8 E0C8A0
+    dome 0 14 4 0.6 0.5 2A8A5A
+    box 1.61 8 4 0.01 0.8 0.4 3A2A1E
+    spire 0 14.5 4 0.08 0.8 6 C8A040

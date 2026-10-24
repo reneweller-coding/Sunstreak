@@ -1,0 +1,515 @@
+# The Americas, round five: roadside food, customs and festivals, old houses, and the animals by the road.
+
+shape CORN_MAZE
+    home USA:IOWA, USA:ILLINOIS, USA:INDIANA, USA:OHIO, USA:PENNSYLVANIA, USA:WISCONSIN, USA:MICHIGAN, CANADA:ONTARIO | 0.002 6 40 | country
+    # An autumn corn maze: a field of tall dry corn with paths cut through it, a wooden lookout tower in the middle and hay bales by the entrance.
+    box -12 1.1 0 10 1.1 14 C8B060
+    repeat 4 0 0 6
+    box -12 1.11 -9 8 1.1 0.6 8A7A4A
+    repeat 3 4 0 0
+    box -18 1.11 0 0.6 1.1 12 8A7A4A
+    tube -12 0 0 -12 4 0 0.1 4 8A6A48
+    box -12 4 0 1 0.05 1 8A6A48
+    repeat 3 0 0.6 0
+    box -1 0.3 -3 0.6 0.3 1 D8C070
+
+shape ROADRUNNER
+    home USA:ARIZONA, USA:NEW MEXICO, USA:TEXAS, USA:NEVADA, USA:CALIFORNIA, MEXICO:SONORA, MEXICO:CHIHUAHUA | 0.002 0.5 5 | arid
+    # A roadrunner dashing along the verge: a long-legged streaky brown bird with a crest and a long tail held up behind.
+    blob 0 0.32 0 0.08 0.09 0.18 8A7050
+    blob 0 0.42 0.17 0.05 0.06 0.06 8A7050
+    tube 0 0.45 0.15 0 0.52 0.12 0.02 3 3A3A3A
+    tube 0 0.43 0.22 0 0.42 0.33 0.012 3 3A3A3A
+    tube 0 0.35 -0.15 0 0.5 -0.45 0.035 3 6A5A40
+    tube 0.03 0.25 0 0.03 0 0.08 0.012 3 6A6A6A
+    tube -0.03 0.25 0 -0.03 0 -0.08 0.012 3 6A6A6A
+
+shape ELOTES_CART
+    home MEXICO, GUATEMALA, EL SALVADOR, HONDURAS | 0.004 0.5 6 | town
+    # An elotes cart at dusk: steaming pots of corn on the cob, cups of kernels with lime, chilli and cheese, a little umbrella over it.
+    box 0 0.7 0 0.45 0.3 0.8 E8E0C8
+    cyl 0 1.0 -0.4 0.25 0.25 0.35 10 C8C8C8 shiny
+    blob 0 1.6 -0.4 0.2 0.35 0.2 E8E8E8 glass
+    repeat 4 0 0 0.12
+    blob 0.15 1.35 -0.5 0.03 0.12 0.03 E8C040
+    repeat 4 0 0 0.15
+    cyl 0.25 1.0 0.3 0.05 0.05 0.1 8 C83A2A
+    tube 0 1.0 0.6 0 2.2 0.6 0.02 3 6A6A6A
+    dome 0 2.2 0.6 0.8 0.3 E8C02A
+    hoop 0.47 0.3 -0.5 0.28 0.03 10 3A3A3A
+    hoop -0.47 0.3 -0.5 0.28 0.03 10 3A3A3A
+
+shape MARIACHI_BAND
+    home MEXICO | 0.002 1 8 | town
+    # A mariachi band on a plaza corner: musicians in black charro suits with silver buttons and wide sombreros, guitars, violins and trumpets.
+    repeat 5 0 0 0.9
+    blob 0.3 0.8 -1.8 0.17 0.42 0.14 1E1E1E
+    repeat 5 0 0 0.9
+    blob 0.3 1.3 -1.8 0.1 0.11 0.1 C8A080
+    repeat 5 0 0 0.9
+    cyl 0.3 1.36 -1.8 0.35 0.35 0.03 12 1E1E1E
+    repeat 5 0 0 0.9
+    cyl 0.3 1.39 -1.8 0.1 0.08 0.15 8 1E1E1E
+    repeat 5 0 0 0.9
+    box 0.45 0.85 -1.8 0.005 0.12 0.06 C8C8C8 shiny
+    blob 0.5 0.85 -1.0 0.08 0.2 0.15 C8803A
+    blob 0.5 0.85 0.8 0.08 0.25 0.2 C8803A
+
+shape PAINTED_CEMETERY
+    home MEXICO, GUATEMALA, BOLIVIA, PERU, ECUADOR | 0.003 4 30 | country
+    # A village cemetery of brightly painted tombs: little houses and crosses in turquoise, pink, yellow and green, crowded behind a white wall.
+    box 0 0.5 0 0.1 0.5 7 F2F2EE
+    repeat 5 0 0 2.5
+    box -1.5 0.6 -5 0.5 0.6 0.8 3AC8C8
+    repeat 5 0 0 2.5
+    gable -1.5 1.2 -5 0.5 0.8 0.4 0.05 E83A8A 3AC8C8
+    repeat 4 0 0 2.8
+    box -3.2 0.5 -4 0.4 0.5 0.7 E8C02A
+    repeat 4 0 0 2.8
+    tube -3.2 1.0 -4 -3.2 1.7 -4 0.05 3 F2F2F2
+    repeat 4 0 0 2.8
+    tube -3.2 1.5 -4.25 -3.2 1.5 -3.75 0.04 3 F2F2F2
+    repeat 4 0 0 3
+    box -5 0.4 -5 0.5 0.4 0.8 3AC86A
+
+shape OFRENDA_ALTAR
+    home MEXICO | 0.002 2 12 | town
+    # An altar for the Day of the Dead set up in a doorway: tiers draped in cloth, marigolds, candles, sugar skulls and an arch of flowers.
+    box 0 0.4 0 0.5 0.4 1.2 6A2A6A
+    box -0.2 0.95 0 0.35 0.15 1.0 E8E0D0
+    box -0.4 1.25 0 0.2 0.15 0.8 E83A8A
+    arch -0.1 1.4 0 2.2 1.3 0.08 12 F2901E
+    repeat 6 0 0 0.35
+    cyl 0.3 0.8 -0.9 0.03 0.03 0.2 6 F2F2E8
+    repeat 6 0 0 0.35
+    blob 0.3 1.03 -0.9 0.02 0.04 0.02 F2E89A glow
+    repeat 3 0 0 0.6
+    blob -0.1 1.2 -0.6 0.08 0.09 0.08 F2F2F2
+    repeat 4 0 0 0.6
+    blob 0.4 0.15 -0.9 0.18 0.15 0.18 F2901E 0.4
+
+shape ASADO_CROSS
+    home ARGENTINA, URUGUAY, PARAGUAY, BRAZIL:RIO GRANDE DO SUL, CHILE | 0.003 2 15 | country
+    # An asado in the open: whole sides of lamb spread on iron crosses leaning over a bed of embers, gauchos keeping the fire.
+    box 0 0.05 0 0.6 0.05 1.2 E8501E glow
+    repeat 3 0 0 0.9
+    tube -0.6 0 -0.9 -0.1 2 -0.9 0.04 4 3A3A3A
+    repeat 3 0 0 0.9
+    tube -0.5 1.6 -1.2 -0.5 1.6 -0.6 0.03 3 3A3A3A
+    repeat 3 0 0 0.9
+    blob -0.35 1.2 -0.9 0.1 0.55 0.32 B8603A
+    blob 0 0.6 0 0.6 0.4 0.6 B8B8B8 glass
+    blob -1.6 0.8 1.6 0.18 0.42 0.15 2A2A3A
+    blob -1.6 1.3 1.6 0.1 0.11 0.1 C8A080
+    cyl -1.6 1.38 1.6 0.25 0.25 0.02 10 1E1E1E
+
+shape AMAZON_RIVER_BOAT
+    home BRAZIL:AMAZONAS, BRAZIL:PARA, PERU, COLOMBIA, BOLIVIA, VENEZUELA | 0.003 35 120 | water
+    # An Amazon river boat: a white double-decker wooden riverboat crowded with hammocks slung along its open decks, blue trim and a flag at the stern.
+    box 0 0.8 0 2.5 0.8 9 F2F2EE
+    box 0 1.65 0 2.55 0.05 9.1 2A6AC8
+    box 0 2.8 -0.5 2.3 1.1 8 F2F2EE
+    box 0 2.8 -0.5 2.31 0.7 7.6 2A3A4A
+    box 0 4.0 -1 2.3 0.08 7 F2F2EE
+    repeat 10 0 0 1.4
+    blob 2.2 2.6 -7 0.05 0.12 0.5 E83A3A
+    repeat 10 0 0 1.4
+    blob 2.0 2.5 -6.3 0.05 0.12 0.5 E8C02A
+    box 0 4.6 -6 1.2 0.6 1.5 F2F2EE
+    tube 0 4 8.5 0 6 8.5 0.04 3 C8C8C8
+    box 0 5.6 8.9 0.02 0.3 0.4 3AA83A
+
+shape TAMALE_POT
+    home MEXICO, GUATEMALA, EL SALVADOR, HONDURAS, NICARAGUA, USA:TEXAS | 0.003 0.5 5 | town
+    # A tamale seller on a tricycle: a tall steaming steel pot of tamales wrapped in corn husks, a cooler of atole beside it.
+    cyl 0 0.6 0 0.3 0.3 0.7 12 C8C8C8 shiny
+    blob 0 1.6 0 0.25 0.35 0.25 E8E8E8 glass
+    box 0 0.55 0 0.4 0.05 0.5 6A6A6A
+    hoop 0.45 0.3 -0.3 0.3 0.03 10 3A3A3A
+    hoop -0.45 0.3 -0.3 0.3 0.03 10 3A3A3A
+    hoop 0 0.3 0.9 0.3 0.03 10 3A3A3A
+    tube 0 0.3 0.9 0 1.0 0.7 0.03 3 3A3A3A
+    box 0 0.8 -0.4 0.2 0.2 0.15 2A6AC8
+
+shape AGUAS_FRESCAS
+    home MEXICO, GUATEMALA, USA:CALIFORNIA, USA:TEXAS | 0.003 0.5 5 | town
+    # An aguas frescas stand: big glass barrels of hibiscus, horchata and watermelon water in red, white and pink, ladles hanging, under a canopy.
+    box 0 0.5 0 0.4 0.5 1.1 E8E0C8
+    cyl 0 1.0 -0.7 0.2 0.2 0.5 12 C82A4A glass
+    cyl 0 1.0 0 0.2 0.2 0.5 12 F2EEE2 glass
+    cyl 0 1.0 0.7 0.2 0.2 0.5 12 F27A8A glass
+    quad -0.6 2.2 -1.3 -0.6 2.2 1.3 0.7 2.0 1.3 0.7 2.0 -1.3 2AA8A8
+    mirror
+    tube 0.6 0 1.2 0.6 2.0 1.2 0.025 3 C8C8C8
+
+shape BOILED_PEANUTS
+    home USA:GEORGIA, USA:SOUTH CAROLINA, USA:NORTH CAROLINA, USA:ALABAMA, USA:FLORIDA, USA:MISSISSIPPI | 0.003 1 8 | country
+    # A boiled peanut stand by a country road: a big kettle steaming on a propane burner under a tarp, a hand-painted sign and a pickup truck.
+    cyl 0 0 0 0.3 0.3 0.3 8 6A6A6A
+    cyl 0 0.3 0 0.4 0.35 0.6 12 C8C8C8 shiny
+    blob 0 1.2 0 0.3 0.45 0.3 E8E8E8 glass
+    quad -1 2.2 -1.2 -1 2.2 1.2 1 2.0 1.2 1 2.0 -1.2 2A5AA8
+    tube 1.6 0 2 1.6 1.4 2 0.04 3 8A6A48
+    box 1.6 1.3 2 0.02 0.35 0.7 F2F2E8
+    box -2.5 0.75 0 0.9 0.35 2.4 8A2A2A
+    box -2.5 1.35 0.7 0.85 0.3 0.8 8A2A2A
+    mirror
+    tube -3.45 0.38 1.5 -3.2 0.38 1.5 0.38 10 1E1E1E
+    mirror
+    tube -1.8 0.38 1.5 -1.55 0.38 1.5 0.38 10 1E1E1E
+
+shape POUTINE_TRUCK
+    home CANADA:QUEBEC, CANADA:ONTARIO, CANADA:NEW BRUNSWICK | 0.003 3 10 | country
+    # A chip truck by the highway: an old van turned snack bar with a serving hatch, fries, cheese curds and gravy, picnic tables beside it.
+    box 0 1.4 0 1.1 1.2 3 F2F2EE
+    box 1.11 1.6 0 0.01 0.45 1.6 2A2018
+    box 1.4 1.15 0 0.3 0.03 1.6 C8C8C8
+    box 1.12 2.35 0 0.01 0.2 2.6 C82A2A
+    mirror
+    mirrorx
+    tube 0.9 0.35 2.2 1.12 0.35 2.2 0.35 10 1E1E1E
+    repeat 2 0 0 2.5
+    box 3.2 0.75 -1.25 0.5 0.04 0.9 8A6A48
+
+shape MAPLE_TAFFY
+    home CANADA:QUEBEC, USA:NEW HAMPSHIRE, USA:MAINE, USA:NEW YORK | 0.003 1 8 | cold
+    # Maple taffy on snow: a wooden trough of packed snow where hot syrup is poured in strips and rolled up on sticks, children queueing.
+    box 0 0.6 0 0.35 0.1 1.5 8A6A48
+    box 0 0.72 0 0.3 0.03 1.45 F2F6FA
+    repeat 6 0 0 0.45
+    box 0 0.76 -1.1 0.15 0.01 0.03 C8802A
+    mirror
+    tube 0 0 1.3 0 0.5 1.3 0.05 3 8A6A48
+    repeat 3 0 0 0.7
+    blob 0.7 0.6 -0.7 0.15 0.32 0.13 C82A2A
+    repeat 3 0 0 0.7
+    blob 0.7 1.0 -0.7 0.09 0.1 0.09 E0B090
+    cyl -1.5 0 0 0.4 0.35 0.6 10 6A4A2A
+    blob -1.5 1.2 0 0.3 0.5 0.3 E8E8E8 glass
+
+shape SPANISH_MOSS_OAKS
+    home USA:GEORGIA, USA:SOUTH CAROLINA, USA:LOUISIANA, USA:FLORIDA, USA:MISSISSIPPI, USA:ALABAMA | 0.004 3 30 | country
+    # Live oaks draped in Spanish moss: massive low trees with wide spreading limbs, long grey beards of moss hanging from every branch.
+    tube 0 0 0 0 2.5 0 0.6 7 5A4A38
+    tube 0 2.2 0 4 3.8 0.5 0.3 5 5A4A38
+    tube 0 2.4 0 -3.5 4 -0.8 0.3 5 5A4A38
+    blob 0 5 0 5.5 1.8 4.5 3A5A2A 0.4
+    repeat 8 1 0 0.3
+    tube -3.5 4 -1 -3.5 2.4 -1 0.18 4 9A9A8A
+    repeat 6 1.1 0 -0.4
+    tube -2 4 1.5 -2 2.6 1.5 0.18 4 9A9A8A
+
+shape BEAD_TREE
+    home USA:LOUISIANA | 0.004 1 15 | town
+    # A street tree after the parades: its branches tangled with hundreds of strings of purple, green and gold carnival beads.
+    tube 0 0 0 0 3 0 0.35 6 5A4A38
+    blob 0 4.5 0 2.8 1.6 2.6 3A6A2A 0.4
+    repeat 6 0.6 -0.1 0.2
+    halo -1.5 3.4 -0.8 0.3 0.03 8 8A2AC8 shiny
+    repeat 6 0.5 -0.08 -0.2
+    halo -1.2 3.5 0.9 0.25 0.03 8 2AA83A shiny
+    repeat 6 0.55 -0.05 0.1
+    halo -1.4 3.3 0.1 0.28 0.03 8 E8C02A shiny
+
+shape FLAMINGO_LAWN
+    home USA:FLORIDA | 0.004 1 10 | town
+    # A front lawn in pastel: a little bungalow with pink plastic flamingos stuck in the grass, a palm and a white picket fence.
+    box -3 1.4 0 2.5 1.4 3.5 A8E0D8
+    hip -3 2.8 0 2.7 3.7 1 0.3 E8E0D0
+    repeat 3 0.5 0 0.8
+    tube 0 0 -1 0 0.5 -1 0.012 3 1E1E1E
+    repeat 3 0.5 0 0.8
+    blob 0 0.62 -1 0.06 0.08 0.12 F27AA8
+    repeat 3 0.5 0 0.8
+    tube 0 0.66 -0.9 0 0.85 -0.88 0.015 3 F27AA8
+    repeat 12 0 0 0.6
+    box 1.2 0.4 -3.3 0.02 0.4 0.04 F2F2F2
+    tube 0.5 0 2.5 0.8 6 2.5 0.15 5 7A6A58
+    fronds 0.8 6 2.5 9 2.5 0.6 3E7A2A
+
+shape KUDZU_GHOSTS
+    home USA:GEORGIA, USA:ALABAMA, USA:MISSISSIPPI, USA:TENNESSEE, USA:SOUTH CAROLINA, USA:NORTH CAROLINA, USA:KENTUCKY | 0.004 3 30 | country
+    # Kudzu swallowing the edge of the woods: trees, poles and an old shed all smothered under one green blanket of vines, like ghosts.
+    blob -3 3 -6 2 3 2 4A8A2A 0.3
+    blob -4 4 0 2.4 4 2.2 4A8A2A 0.3
+    blob -3 2 5 1.6 2 2 5A9A2A 0.3
+    blob -1 0.5 0 3 0.5 9 4A8A2A 0.4
+    tube -2 0 9 -2 6 9 0.25 4 4A8A2A
+    tube -2 5.5 8 -2 5.5 10 0.2 4 4A8A2A
+
+shape SURFBOARD_FENCE
+    home USA:HAWAII | 0.003 1 8 | coast
+    # A fence of old surfboards stuck upright in the sand in a long colourful row along the coast road.
+    repeat 10 0 0 0.6
+    blob 0 1.1 -3 0.04 1.1 0.25 E8C02A
+    repeat 10 0 0 0.6
+    blob 0 1.1 -2.7 0.04 1.0 0.24 3AA8C8
+    repeat 10 0 0 0.6
+    blob 0.02 1.2 -3 0.01 0.6 0.04 E83A3A
+
+shape LEI_STAND
+    home USA:HAWAII | 0.003 0.5 6 | country
+    # A lei stand under a tin roof: garlands of plumeria, orchids and ti leaves hanging in rows, coolers of fresh flowers and a ukulele on the counter.
+    box 0 0.5 0 0.4 0.5 1.2 8A6A48
+    quad -0.8 2.4 -1.5 -0.8 2.4 1.5 0.7 2.2 1.5 0.7 2.2 -1.5 9AA0A8
+    mirror
+    mirrorx
+    tube 0.6 0 1.3 0.6 2.2 1.3 0.04 3 8A6A48
+    repeat 8 0 0 0.32
+    halo 0.55 1.8 -1.1 0.12 0.04 8 F2E8A0
+    repeat 8 0 0 0.32
+    halo 0.55 1.55 -1.1 0.12 0.04 8 E87AA8
+    blob 0.1 1.05 0.5 0.12 0.05 0.2 C8803A
+
+shape PINEAPPLE_FIELD
+    home USA:HAWAII, COSTA RICA, PHILIPPINES, THAILAND, GHANA, IVORY COAST, HONDURAS, MALAYSIA | 0.004 3 30 | country
+    # A pineapple field: long rows of spiky grey-green plants on red earth, golden fruits sitting in the middle of each.
+    box -6 0.02 0 5 0.02 10 9A4A2A
+    repeat 8 0 0 2.5
+    blob -2 0.35 -9 0.5 0.35 0.5 6A8A6A 0.6
+    repeat 8 0 0 2.5
+    blob -2 0.55 -9 0.1 0.15 0.1 D8A030
+    repeat 8 0 0 2.5
+    blob -4 0.35 -8 0.5 0.35 0.5 6A8A6A 0.6
+    repeat 8 0 0 2.5
+    blob -6 0.35 -9 0.5 0.35 0.5 6A8A6A 0.6
+    repeat 8 0 0 2.5
+    blob -8 0.35 -8 0.5 0.35 0.5 6A8A6A 0.6
+
+shape CUBAN_BOHIO
+    home CUBA, DOMINICAN REPUBLIC | 0.004 4 25 | country
+    # A bohio, the country house: walls of palm boards, a steep roof thatched with royal palm leaves, a porch with rocking chairs.
+    box 0 1.2 0 2 1.2 3 B8A070
+    gable 0 2.4 0 2 3 2 0.5 9A8A50 B8A070
+    box 2.01 0.9 0.5 0.01 0.9 0.5 3A2A1E
+    repeat 2 0 0 1.4
+    box 2.6 0.45 -1.8 0.25 0.03 0.25 6A4A2A
+    tube 4 0 3 4 9 3 0.2 6 C8C8C0
+    fronds 4 9 3 10 2.8 0.5 3E6A2A
+
+shape MALOCA
+    home COLOMBIA, PERU, BRAZIL:AMAZONAS, ECUADOR, VENEZUELA | 0.003 6 40 | country
+    # A maloca, the great communal house of the forest: a huge round house thatched to the ground with palm leaves, a painted front with a low door.
+    cyl 0 0 0 7 7 1.5 18 8A6A48
+    spire 0 1.5 0 7.6 8 18 9A8A50
+    box 6.9 0.9 0 0.2 0.9 0.6 2A2018
+    box 6.95 1.3 -1.5 0.05 0.6 0.6 C83A2A
+    box 6.95 1.3 1.5 0.05 0.6 0.6 1E1E1E
+
+shape GAUCHO_PUESTO
+    home ARGENTINA, URUGUAY, CHILE | 0.003 6 40 | country
+    # A shepherd's outpost on the pampa: a low adobe hut with a tin roof, a windmill pump, a corral of poles and saddled horses tied at the rail.
+    box 0 1.2 0 2 1.2 3 D8C8A8
+    quad -2.2 2.6 -3.3 -2.2 2.6 3.3 2.2 2.3 3.3 2.2 2.3 -3.3 9AA0A8
+    box 2.01 0.9 0 0.01 0.9 0.5 3A2A1E
+    tube 2.8 0 4 2.8 1.1 4 0.06 3 8A6A48
+    tube 2.8 0 7 2.8 1.1 7 0.06 3 8A6A48
+    tube 2.8 1.0 4 2.8 1.0 7 0.04 3 8A6A48
+    repeat 2 0 0 1.4
+    blob 3.6 1.2 4.8 0.28 0.35 0.65 6A3A1E
+    repeat 2 0 0 1.4
+    box 3.6 1.5 4.8 0.3 0.06 0.3 3A2A1E
+    halo -6 0.9 0 3 0.08 12 8A6A48
+
+shape BENAB
+    home GUYANA, SURINAME, VENEZUELA | 0.004 3 25 | country
+    # A benab, the open shelter of the forest villages: a steep thatched roof on poles with no walls, hammocks slung inside.
+    mirror
+    mirrorx
+    tube 1.6 0 2 1.6 1.8 2 0.08 4 6A4A2A
+    gable 0 1.8 0 1.8 2.4 2.6 0.6 9A8A50 6A4A2A
+    blob 0 1.0 -0.8 0.6 0.12 0.15 E83A3A
+    blob 0 1.0 0.8 0.6 0.12 0.15 3AA8C8
+
+shape DOGTROT_CABIN
+    home USA:TENNESSEE, USA:KENTUCKY, USA:ALABAMA, USA:MISSISSIPPI, USA:ARKANSAS, USA:TEXAS | 0.003 4 30 | country
+    # A dogtrot cabin: two log rooms under one roof with an open breezeway between them, a hound asleep in the shade and a stone chimney at each end.
+    box 0 1.3 -3 2 1.3 2 8A6A48
+    box 0 1.3 3 2 1.3 2 8A6A48
+    gable 0 2.6 0 2.2 5.2 1.6 0.3 5A5A5A 8A6A48
+    box 0 2.4 -5.4 0.6 2.4 0.4 8A8478
+    box 0 2.4 5.4 0.6 2.4 0.4 8A8478
+    blob 1.2 0.15 0 0.3 0.15 0.12 B8803A
+
+shape SOUND_SYSTEM_STACK
+    home JAMAICA, COLOMBIA, TRINIDAD AND TOBAGO, BARBADOS | 0.003 2 15 | town
+    # A street sound system: a towering wall of hand-built speaker boxes painted with names and colours, a selector at the decks under a tent.
+    repeat 3 0 1.2 0
+    box 0 0.6 -1.6 0.6 0.6 0.75 1E1E1E
+    repeat 3 0 1.2 0
+    box 0 0.6 0 0.6 0.6 0.75 1E1E1E
+    repeat 3 0 1.2 0
+    box 0 0.6 1.6 0.6 0.6 0.75 1E1E1E
+    repeat 3 0 1.2 0
+    hoop 0.61 0.6 -1.6 0.4 0.05 12 E8C02A
+    repeat 3 0 1.2 0
+    hoop 0.61 0.6 1.6 0.4 0.05 12 3AA83A
+    box 0.61 3.4 0 0.01 0.25 2.2 E82A2A
+    box 2 0.9 3.5 0.5 0.05 1 8A6A48
+    blob 2.6 0.85 3.5 0.17 0.42 0.14 E8C02A
+    blob 2.6 1.35 3.5 0.1 0.11 0.1 3A2A1E
+
+shape METAL_ART_STALL
+    home HAITI | 0.004 1 10 | town
+    # A metalworkers' street: steel drums cut and hammered into flat sculptures of trees of life, mermaids and birds, propped along a wall.
+    box -1 1.2 0 0.1 1.2 5 B8B0A0
+    repeat 6 0 0 1.5
+    blob -0.85 1.2 -3.8 0.03 0.7 0.55 4A4440
+    repeat 6 0 0 1.5
+    blob -0.84 1.6 -3.8 0.02 0.25 0.3 6A6460
+    repeat 3 0 0 2.5
+    cyl 0.5 0 -2.5 0.3 0.3 0.9 10 3A6AC8
+    blob 0.6 0.75 3 0.17 0.42 0.14 E8E0D0
+    blob 0.6 1.25 3 0.1 0.11 0.1 3A2A1E
+
+shape BREADFRUIT_TREE
+    home SAINT VINCENT, JAMAICA, SAMOA, TONGA, FIJI, USA:HAWAII, SAINT LUCIA, GRENADA, HAITI, FRENCH POLYNESIA | 0.004 3 25 | country
+    # A breadfruit tree in a yard: big deeply lobed glossy leaves and round green fruits the size of a head hanging among them.
+    tube 0 0 0 0 3 0 0.3 6 7A6A58
+    blob 0 5 0 3 2.2 3 3A7A2A 0.4
+    repeat 5 0.6 -0.2 0.4
+    blob -1.2 3.6 -1 0.2 0.22 0.2 8AB040
+    repeat 4 -0.6 0.15 0.5
+    blob 1.4 3.8 -0.6 0.2 0.22 0.2 8AB040
+
+shape MANATEE
+    home USA:FLORIDA, BELIZE, MEXICO:QUINTANA ROO, CUBA, GUYANA, SURINAME, BRAZIL:AMAZONAS, SENEGAL, GAMBIA | 0.002 4 30 | country
+    # Manatees resting in a clear spring run: big grey round-tailed shapes just under the surface, one lifting its whiskered snout for air.
+    box 0 0.02 0 3 0.02 6 3A8A8A water
+    blob -0.5 -0.2 -2 0.6 0.45 1.4 7A7A74
+    blob -0.5 -0.15 -3.6 0.5 0.15 0.4 7A7A74
+    blob 0.8 -0.2 1.5 0.55 0.4 1.3 7A7A74
+    blob 0.8 0.05 2.8 0.25 0.22 0.25 7A7A74
+
+shape FRIGATEBIRDS
+    home BELIZE, MEXICO:YUCATAN, ECUADOR, PANAMA, BAHAMAS, ANTIGUA AND BARBUDA, KIRIBATI, SEYCHELLES, COSTA RICA | 0.002 4 40 | coast
+    # Frigatebirds over a mangrove: black birds with long angled wings and forked tails hanging in the wind, a male puffing out his red throat on a branch.
+    blob -3 1.5 0 2.5 1.5 4 2A5A3A 0.4
+    blob -2.6 3.2 0 0.15 0.18 0.35 1E1E1E
+    blob -2.4 3.1 0.15 0.18 0.2 0.18 E82A2A
+    repeat 5 2 1.5 -2
+    box -2 8 4 1.1 0.03 0.15 1E1E1E
+    repeat 5 2 1.5 -2
+    tri -2 8 3.9 -2 8 3.4 -1.95 8 3.2 1E1E1E
+
+shape ANTICUCHO_GRILL
+    home PERU, BOLIVIA, CHILE | 0.004 0.5 6 | town
+    # An anticucho stand on a street corner at night: a woman fanning the charcoal under skewers of spiced heart, potatoes and corn on the side.
+    box 0 0.45 0 0.3 0.45 0.9 6A6A6A
+    box 0 0.92 0 0.28 0.02 0.85 E8501E glow
+    repeat 8 0 0 0.2
+    tube -0.35 0.98 -0.7 0.35 0.98 -0.7 0.012 3 6A2A1E
+    blob 0 1.6 0 0.3 0.5 0.6 C8C8C8 glass
+    blob -0.7 0.75 0 0.2 0.42 0.17 6A2A4A
+    blob -0.7 1.27 0 0.1 0.11 0.1 C8A080
+    cyl -0.7 1.33 0 0.12 0.1 0.15 8 3A3A3A
+    tube 0 1.0 1.2 0 2.4 1.2 0.03 3 6A6A6A
+    blob 0 2.3 1.2 0.08 0.08 0.08 F2E89A lit
+
+shape EMPANADA_STALL
+    home ARGENTINA, CHILE, URUGUAY, BOLIVIA, COLOMBIA, PARAGUAY | 0.004 0.5 6 | country
+    # A roadside empanada stand: a clay oven puffing smoke, golden half-moon pastries stacked on trays and a flag on a pole to make drivers stop.
+    dome -1.2 0 0 0.9 1.0 C8805A
+    box -0.31 0.4 0 0.02 0.25 0.3 1E1E1E
+    box 0.5 0.85 0 0.4 0.05 0.8 8A6A48
+    box 0.5 0.4 0 0.35 0.4 0.75 8A6A48
+    repeat 6 0 0 0.22
+    blob 0.5 0.92 -0.55 0.09 0.04 0.06 D8A050
+    tube 1.2 0 1.2 1.2 3 1.2 0.03 3 C8C8C8
+    box 1.2 2.8 1.5 0.01 0.25 0.3 E82A2A
+    blob -1.2 1.6 0 0.3 0.6 0.3 C8C8C8 glass
+
+shape AREPA_GRILL
+    home COLOMBIA, VENEZUELA | 0.004 0.5 6 | town
+    # An arepa stand: corn cakes toasting on a round grill over coals, stuffed with cheese, a stool for the cook and a bottle of sauce.
+    cyl 0 0 0 0.35 0.3 0.75 10 6A6A6A
+    cyl 0 0.75 0 0.4 0.4 0.03 14 2A2A2A
+    repeat 5 0 0 0.15
+    cyl 0.1 0.78 -0.3 0.07 0.07 0.03 10 E8D090
+    blob -0.6 0.5 0 0.2 0.35 0.17 E8C02A
+    blob -0.6 0.95 0 0.1 0.11 0.1 C8A080
+    cyl 0.3 0.78 0.3 0.04 0.04 0.15 6 C82A2A
+
+shape SEA_TURTLES
+    home MEXICO:QUINTANA ROO, COSTA RICA, MALAYSIA, SRI LANKA, OMAN, AUSTRALIA:QUEENSLAND, SURINAME, NICARAGUA, BRAZIL:BAHIA, USA:HAWAII | 0.002 4 30 | coast
+    # Sea turtles hauling up the beach at dawn: big shells dragging tracks through the sand towards the dunes, one digging her nest.
+    blob 0 0.02 0 3 0.02 6 E8D8B0
+    repeat 3 1.5 0 3
+    blob -2 0.2 -3 0.45 0.2 0.6 6A5A3A
+    repeat 3 1.5 0 3
+    blob -2 0.15 -2.3 0.12 0.1 0.15 7A7A60
+    repeat 3 1.5 0 3
+    box -2 0.03 -1 0.4 0.01 1.4 C8B890
+
+shape ORCA
+    home CANADA:BRITISH COLUMBIA, USA:WASHINGTON, NORWAY, ICELAND, NEW ZEALAND, ARGENTINA:CHUBUT, USA:ALASKA | 0.002 40 140 | water
+    # A pod of orcas surfacing: tall black dorsal fins slicing the water, a black and white back rolling over between them.
+    repeat 4 0 0 6
+    tri 0 0 -9 0 2 -9.3 0 0 -8 1E1E1E
+    repeat 4 0 0 6
+    blob 0 0 -8.6 0.5 0.3 1.6 1E1E1E
+    blob 0.2 0.1 0 0.4 0.2 1.4 F2F2F2
+
+shape SEA_OTTERS
+    home USA:CALIFORNIA, USA:ALASKA, CANADA:BRITISH COLUMBIA, USA:WASHINGTON, RUSSIA:FAR EAST | 0.002 35 100 | water
+    # Sea otters floating on their backs in the kelp, paws together, one cracking a shell on its chest.
+    blob 0 0.02 0 4 0.02 6 3A5A3A
+    repeat 5 0.8 0 1.6
+    blob -2 0.1 -3 0.18 0.1 0.45 6A4A30
+    repeat 5 0.8 0 1.6
+    blob -2 0.15 -2.55 0.1 0.1 0.1 B8A080
+
+shape BALD_EAGLE
+    home USA:ALASKA, CANADA:BRITISH COLUMBIA, USA:WASHINGTON, USA:MINNESOTA, USA:WISCONSIN, USA:MAINE, CANADA:NOVA SCOTIA, USA:MONTANA, USA:IDAHO | 0.002 3 25 | country
+    # A bald eagle perched on a dead snag: dark brown body, snow-white head and tail, a hooked yellow beak watching the river.
+    tube 0 0 0 0 7 0 0.3 5 9A9080
+    tube 0 6 0 1 6.5 0 0.08 3 9A9080
+    blob 0.8 6.95 0 0.18 0.3 0.15 4A3020
+    blob 0.82 7.32 0.05 0.12 0.12 0.12 F2F2F2
+    tube 0.82 7.32 0.15 0.82 7.28 0.25 0.035 3 E8C02A
+    tube 0.8 6.75 -0.12 0.8 6.5 -0.25 0.06 3 F2F2F2
+
+shape OSPREY_NEST_PLATFORM
+    home USA, CANADA, SCOTLAND, GERMANY, SWEDEN, FINLAND | 0.002 2 25 | country
+    # An osprey nest on a platform atop a tall pole: a big untidy heap of sticks, the white-headed parent standing guard over its young.
+    tube 0 0 0 0 9 0 0.15 5 8A7A60
+    box 0 9 0 0.7 0.04 0.7 8A7A60
+    blob 0 9.3 0 0.9 0.35 0.9 8A7050 0.6
+    blob 0.3 9.75 0 0.12 0.2 0.12 F2F2F2
+    blob 0.3 9.95 0.05 0.08 0.08 0.08 F2F2F2
+
+shape COYOTE
+    home USA, MEXICO, CANADA:ALBERTA, CANADA:SASKATCHEWAN | 0.002 1 15 | arid
+    # A coyote trotting along the edge of the desert road: a lean tawny-grey dog with big ears and a bushy black-tipped tail.
+    blob 0 0.5 0 0.13 0.16 0.38 A8906A
+    blob 0 0.62 0.38 0.1 0.1 0.15 A8906A
+    tube 0.05 0.7 0.36 0.05 0.85 0.34 0.03 3 A8906A
+    tube -0.05 0.7 0.36 -0.05 0.85 0.34 0.03 3 A8906A
+    tube 0 0.45 -0.35 0 0.3 -0.7 0.07 5 A8906A
+    mirror
+    mirrorx
+    tube 0.07 0.35 0.25 0.07 0 0.25 0.03 3 A8906A
+
+shape RACCOON
+    home USA, CANADA | 0.002 0.5 8 | country
+    # A raccoon on the lid of a trash can at the end of a driveway: a grey bandit with a black mask and a ringed tail.
+    cyl 0 0 0 0.3 0.28 0.9 12 6A6A6A
+    blob 0 1.08 0 0.18 0.18 0.25 8A8680
+    blob 0 1.18 0.25 0.1 0.1 0.1 8A8680
+    box 0.0 1.2 0.32 0.09 0.03 0.03 1E1E1E
+    tube 0 1.0 -0.2 0 0.85 -0.5 0.05 4 8A8680
+    repeat 3 0 -0.08 -0.08
+    halo 0 0.95 -0.3 0.05 0.02 6 2A2A2A
+
+shape TRAPICHE_OX_MILL
+    home CAPE VERDE, COLOMBIA, PERU, ECUADOR, BRAZIL, PARAGUAY | 0.003 3 20 | country
+    # A trapiche, the old cane mill: an ox walking round and round to turn the wooden rollers that squeeze the juice, a cauldron boiling beside it.
+    cyl 0 0 0 0.5 0.5 1.4 10 8A6A48
+    tube 0 1.2 0 3 1.2 0 0.08 4 8A6A48
+    blob 3 0.9 0 0.3 0.4 0.75 E8E0D0
+    blob 3 1.1 0.75 0.12 0.15 0.25 E8E0D0
+    halo 0 0.02 0 3 0.15 16 7A6A4A
+    cyl -2 0 2 0.6 0.5 0.8 12 3A3A3A
+    blob -2 1.4 2 0.4 0.6 0.4 E8E8E8 glass
+    repeat 3 0 0.2 0
+    tube -2.5 0.1 -2 -2.5 0.1 -0.5 0.06 4 C8B060
