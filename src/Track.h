@@ -60,8 +60,21 @@ constexpr double ForkWiden = 300.0;     ///< the road widens to two carriageways
 constexpr double ForkMedian = 1300.0;   ///< then they run side by side, beyond the sight of the choice
 constexpr double ForkPeel = 300.0;      ///< then the other one turns away and the road narrows again
 
+constexpr double CrossingQuay = 350.0;  ///< the quay of a ferry or a car train stands this far before its sea (and after)
+constexpr double CrossingReach = 700.0; ///< how far before and after its sea a crossing shapes the road
+constexpr float  CrossingTime = 9.0f;   ///< seconds the crossing takes (the clock stands still)
 constexpr float  SeaDipDepth = 12.0f;   ///< how far the road sinks below the land to an undersea tunnel
 constexpr double SeaRamp = 320.0;       ///< the ramp down to an undersea tunnel's portal, and up from the other
+
+/** @brief A sea crossed aboard a ferry or a car train: the car drives aboard at the quay and off at the far one. */
+struct Crossing
+{
+    CrossingE m_type = CrossingE::NONE;   ///< none, ferry or car train
+    BiomeE    m_sea{};                    ///< the sea crossed
+    double    m_board = 0.0;              ///< where the car drives aboard (before the sea's stage)
+    double    m_land = 0.0;               ///< where it drives off (after it)
+    double    m_length = 0.0;             ///< the vessel's length
+};
 
 /** @brief A fork of the world tour: the road splits, each carriageway towards another country or state. */
 struct Fork
@@ -249,6 +262,13 @@ public:
      * @return metres (0..SeaDipDepth)
      */
     float seaDip( double s, float *trench = nullptr ) const;
+
+    /**
+     * @brief The ferry or car train near a distance: the stage it lies in or one of its neighbours crosses a sea aboard.
+     * @param[in] s  distance along the road
+     * @return the crossing (m_type NONE: none near)
+     */
+    Crossing crossingAt( double s ) const;
 
     /**
      * @brief The choices made at the world tour's forks so far.

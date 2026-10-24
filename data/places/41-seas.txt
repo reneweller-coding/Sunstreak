@@ -75,6 +75,7 @@ place NORTH_ATLANTIC | NORTH ATLANTIC | - | -
 
 place IRISH_SEA | IRISH SEA | - | -
     like COLD_SEA
+    crossing ferry
     landmark GALLEON 50 90
     swim SEAL 2 2 8 1 3
     swim GREAT_WHITE 0.5 6 12 circle
@@ -83,6 +84,7 @@ place IRISH_SEA | IRISH SEA | - | -
 
 place ENGLISH_CHANNEL | ENGLISH CHANNEL | - | -
     like COLD_SEA
+    crossing train
     sky 5A7A80 0E2428
     fog 0.006 1A3236
     land A8A090 9C9484 3A4A48
@@ -104,6 +106,7 @@ place NORTH_SEA | NORTH SEA | - | -
 
 place BALTIC_SEA | BALTIC SEA | - | -
     like COLD_SEA
+    crossing ferry
     landmark SEA_STATION 35 70
     sky 5A7A60 0E221A
     fog 0.0068 1A3428
@@ -143,6 +146,7 @@ place CANARY_ISLANDS_SEA | CANARY ISLANDS | - | -
 
 place GIBRALTAR | STRAIT OF GIBRALTAR | - | -
     like SEA_FLOOR
+    crossing ferry
     sky 4A90B8 0A2E48
     landmark GIANT_ANCHOR 30 60
     swim DOLPHIN 2 4 12
@@ -151,6 +155,7 @@ place GIBRALTAR | STRAIT OF GIBRALTAR | - | -
 
 place BALEARIC_SEA | BALEARIC SEA | - | -
     like SEA_FLOOR
+    crossing ferry
     sky 5ABAE0 0E4870
     fog 0.0032 1A6A90
     scatter SEAGRASS 0.12 2 60
@@ -196,6 +201,7 @@ place CENTRAL_MEDITERRANEAN | CENTRAL MEDITERRANEAN | - | -
 
 place AEGEAN_SEA | AEGEAN SEA | - | -
     like SEA_FLOOR
+    crossing ferry
     landmark SEA_STATION 35 70
     sky 5AC0E8 0E4C78
     fog 0.003 1A70A0
@@ -289,6 +295,7 @@ place SOUTH_CHINA_SEA | SOUTH CHINA SEA | - | -
 
 place JAVA_SEA | JAVA SEA | - | -
     like REEF
+    crossing ferry
     landmark WARSHIP_WRECK 50 90
     swim MOLA 1 3 10
     swim MANTA 1 4 12

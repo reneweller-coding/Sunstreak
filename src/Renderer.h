@@ -44,6 +44,14 @@ struct CarDraw
     float  m_alpha = 1.0f; ///< below 1: a see-through ghost without a shadow
 };
 
+/** @brief A lone model in the scene (the landmark viewer, a crossing). */
+struct ScenePiece
+{
+    const Mesh *m_mesh = nullptr;   ///< the model
+    Vec3d       m_pos;              ///< where its origin stands
+    float       m_yaw = 0.0f;       ///< turned about the vertical (rad)
+};
+
 /** @brief Everything one frame shows. */
 struct SceneInput
 {
@@ -67,8 +75,9 @@ struct SceneInput
     std::vector<CarDraw> m_cars;              ///< rivals and the ghost
     bool             m_shadows = true;        ///< real-time sun shadows
     float            m_lensRain = 0.0f;       ///< 0..1 drops on the lens
-    const Mesh      *m_showcase = nullptr;    ///< a lone model at the world's origin (the landmark viewer)
-    const Mesh      *m_showcaseGround = nullptr;   ///< the ground it stands on
+    bool             m_showcase = false;      ///< lone models instead of the world (the landmark viewer, a crossing)
+    std::vector<ScenePiece> m_pieces;         ///< those models
+    Vec3d            m_focus;                 ///< where the shadows centre then
 };
 
 /** @brief The renderer. */

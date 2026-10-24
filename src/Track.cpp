@@ -174,7 +174,12 @@ float Track::seaDip( double s, float *trench ) const
 {
     if( trench ) *trench = 0.0f;
     if( !m_tour || s < 0.0 ) return 0.0f;
-    auto        sea = [this]( int stage ) { return stage >= 0 && biomeDef( stageBiome( stage ) ).m_underwater; };
+    auto sea = [this]( int stage )
+    {
+        if( stage < 0 ) return false;
+        const BiomeDef &d = biomeDef( stageBiome( stage ) );
+        return d.m_underwater && d.m_crossing == CrossingE::NONE;
+    };
     const int   stage = static_cast<int>( s / StageLength );
     if( sea( stage ) ) return SeaDipDepth;
     // Down the ramp to the next stage's portal, up the ramp from the last one's. The next stage is asked only on the
@@ -187,6 +192,29 @@ float Track::seaDip( double s, float *trench ) const
         dip = std::max( dip, SeaDipDepth * ( 1.0f - smoothstepf( 0.0f, static_cast<float>( SeaRamp ), static_cast<float>( s - b0 ) ) ) );
     if( trench ) *trench = dip;
     return dip;
+}
+
+Crossing Track::crossingAt( double s ) const
+{
+    Crossing c;
+    if( !m_tour || s < 0.0 ) return c;
+    // The neighbours are asked only near them: the next stage is known for sure once the fork before it is behind.
+    const int stage = static_cast<int>( s / StageLength );
+    for( int k : { stage, stage + 1, stage - 1 } )
+    {
+        const double b0 = static_cast<double>( k ) * StageLength, b1 = b0 + StageLength;
+        if( k < 1 || s < b0 - CrossingReach || s > b1 + CrossingReach ) continue;
+        const BiomeE    sea = stageBiome( k );
+        const BiomeDef &d = biomeDef( sea );
+        if( d.m_crossing == CrossingE::NONE ) continue;
+        c.m_type = d.m_crossing;
+        c.m_sea = sea;
+        c.m_board = b0 - CrossingQuay;
+        c.m_land = b1 + CrossingQuay;
+        c.m_length = c.m_type == CrossingE::FERRY ? 170.0 : 245.0;
+        return c;
+    }
+    return c;
 }
 
 bool Track::nearSeaPortal( double s, double margin ) const
@@ -541,6 +569,25 @@ void Track::appendSegment()
             // Flat land only where the other carriageway turns away into it.
             seg.m_flat = smoothstepf( static_cast<float>( ForkMedian - 350.0 ), static_cast<float>( ForkMedian - 150.0 ), static_cast<float>( u ) ) *
                          ( 1.0f - smoothstepf( static_cast<float>( ForkMedian + ForkPeel ), static_cast<float>( ForkMedian + ForkPeel + 200.0 ), static_cast<float>( u ) ) );
+        }
+    }
+    if( m_tour )
+    {
+        const Crossing xc = crossingAt( s );
+        if( xc.m_type != CrossingE::NONE && s > xc.m_board - 300.0 && s < xc.m_land + 300.0 )
+        {
+            // To the quay and aboard, and off again: straight, level, two lanes, the port flat, nothing in the way.
+            const float w = smoothstepf( -300.0f, -150.0f, static_cast<float>( s - xc.m_board ) ) *
+                            ( 1.0f - smoothstepf( 150.0f, 300.0f, static_cast<float>( s - xc.m_land ) ) );
+            seg.m_curve *= 1.0f - w;
+            seg.m_grade *= 1.0f - w;
+            seg.m_halfWidth = lerpf( seg.m_halfWidth, LaneWidth, w );
+            if( w > 0.5f ) seg.m_lanes = 2;
+            if( w > 0.02f && w < 0.98f ) seg.m_flags |= SEG_NO_DASH;
+            seg.m_flat = std::max( seg.m_flat, w );
+            seg.m_flags &= static_cast<uint16_t>( ~( SEG_TUNNEL | SEG_BRIDGE | SEG_JUMP | SEG_ROADWORKS | SEG_PUDDLE | SEG_RAIL_L | SEG_RAIL_R |
+                                                     SEG_CHEVRON_L | SEG_CHEVRON_R ) );
+            seg.m_blockedLanes = 0;
         }
     }
     if( seg.m_flags & ( SEG_TUNNEL | SEG_BRIDGE ) ) seg.m_flags |= SEG_RAIL_L | SEG_RAIL_R;

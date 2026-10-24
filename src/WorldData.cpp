@@ -349,6 +349,14 @@ const std::unordered_map<std::string, Step> &steps()
               }
               w.p( PropKindE::LANDMARK, a.f( 1 ), a.f( 2 ), a.f( 3 ), a.f( 4, 0.8f ), a.f( 5, 1.2f ) ).v( lm );
           } },
+        { "crossing",
+          []( W &w, const Args &a )
+          {
+              // crossing ferry|train: the tour crosses this sea aboard instead of under it
+              if( a.s( 0 ) == "ferry" ) w.crossing( CrossingE::FERRY );
+              else if( a.s( 0 ) == "train" ) w.crossing( CrossingE::TRAIN );
+              else ++g_errors;
+          } },
         { "swim",
           []( W &w, const Args &a )
           {

@@ -831,6 +831,7 @@ void Game::draw()
     }
     CameraView view = m_cam;
     if( m_state == StateE::VIEWER ) viewerScene( in, view );
+    if( m_state == StateE::CROSSING ) crossingScene( in, view );
     m_renderer.render( in, view, m_settings.m_renderScale );
     if( m_state == StateE::PHOTO && m_photoWanted ) takePhoto();
     if( m_postcardWanted >= 0 && !m_demo && m_state == StateE::RACE && m_car.m_s >= m_postcardAt )
@@ -906,6 +907,7 @@ void Game::draw()
         drawViewer();
         drawPopups();
         break;
+    case StateE::CROSSING: drawCrossing(); break;
     }
     const bool menuScreen = m_state == StateE::TITLE || m_state == StateE::LAB || m_state == StateE::CODE_ENTRY || m_state == StateE::RECORDS ||
                             m_state == StateE::GARAGE || m_state == StateE::PASSPORT || m_state == StateE::RALLIES;
@@ -1641,8 +1643,9 @@ void Game::viewerScene( SceneInput &in, CameraView &cam )
     in.m_aberration = 0.0f;
     in.m_windStreaks = 0.0f;
     in.m_lensRain = 0.0f;
-    in.m_showcase = &m_viewerMesh;
-    in.m_showcaseGround = &m_viewerGround;
+    in.m_showcase = true;
+    in.m_pieces = { { &m_viewerGround, Vec3d{}, 0.0f }, { &m_viewerMesh, Vec3d{}, 0.0f } };
+    in.m_focus = Vec3d{ 0.0, m_viewerCenterY, 0.0 };
     // Round the model, far enough to see all of it.
     const float   radius = std::max( { m_viewerSize.x, m_viewerSize.y * 0.6f, m_viewerSize.z, 2.0f } );
     const float   dist = ( radius * 2.3f + 6.0f ) * m_viewerZoom, c = std::cos( m_viewerPitch );
@@ -1678,6 +1681,161 @@ void Game::drawViewer()
     drawHint( m_input.m_gamepad ? "[DPAD] MODEL AND ZOOM     [B] BACK"
                                 : "[LEFT] [RIGHT] MODEL     [UP] [DOWN] ZOOM     [MOUSE] TURN     [F5] RELOAD DATA     [ESC] BACK",
               W * 0.5f, H - 30.0f * u, 11.0f * u, Color{ 255, 255, 255, 190 }, AlignE::CENTER );
+}
+
+void Game::buildCrossingScene()
+{
+    unloadCrossingScene();
+    const bool ferry = m_crossing.m_type == CrossingE::FERRY;
+    const int  vessel = landmarkByName( ferry ? "FERRY_SHIP" : "CAR_TRAIN" );
+    if( vessel >= 0 ) m_crossVessel = m_models.prop( PropKindE::LANDMARK, static_cast<uint64_t>( vessel ) ).upload();
+    const BiomeDef &from = biomeDef( m_track->stageBiome( static_cast<int>( m_crossing.m_board / StageLength ) ) );
+    const BiomeDef &to = biomeDef( m_track->stageBiome( static_cast<int>( m_crossing.m_land / StageLength ) ) );
+    MeshBuilder     m;
+    if( ferry )
+    {
+        // The sea, a disc to the horizon.
+        const int n = 48;
+        for( int k = 0; k < n; ++k )
+        {
+            const float a0 = Tau * static_cast<float>( k ) / static_cast<float>( n ), a1 = Tau * static_cast<float>( k + 1 ) / static_cast<float>( n );
+            m.tri( Vector3{ 0.0f, 0.0f, 0.0f }, Vector3{ std::cos( a1 ) * 6000.0f, 0.0f, std::sin( a1 ) * 6000.0f },
+                   Vector3{ std::cos( a0 ) * 6000.0f, 0.0f, std::sin( a0 ) * 6000.0f }, from.m_surface.m_water, Mat{ from.m_surface.m_waterGlow, 0.85f } );
+        }
+        m_crossWater = m.upload();
+        // The coasts: a line of green hills behind, another ahead.
+        for( int side = 0; side < 2; ++side )
+        {
+            MeshBuilder     coast;
+            const BiomeDef &land = side == 0 ? from : to;
+            for( int k = -14; k <= 14; ++k )
+            {
+                const float h = 30.0f + 35.0f * ( 1.0f + std::sin( static_cast<float>( k ) * 2.39f + static_cast<float>( side ) * 4.1f ) );
+                coast.blob( Vector3{ static_cast<float>( k ) * 190.0f, 0.0f, 0.0f }, Vector3{ 170.0f, h, 120.0f }, land.m_surface.m_groundFar,
+                            static_cast<unsigned>( 300 + k * 7 + side * 101 ), 0.25f );
+            }
+            coast.box( Vector3{ 0.0f, 1.0f, -110.0f * ( side == 0 ? -1.0f : 1.0f ) }, Vector3{ 2800.0f, 1.5f, 20.0f }, Color{ 226, 214, 176, 255 } );
+            ( side == 0 ? m_crossCoastA : m_crossCoastB ) = coast.upload();
+        }
+        // A gull: two wings and a body.
+        MeshBuilder gull;
+        gull.tri( Vector3{ 0.0f, 0.0f, 0.6f }, Vector3{ 2.0f, 0.5f, -0.2f }, Vector3{ 0.0f, 0.0f, -0.5f }, Color{ 236, 238, 240, 255 } );
+        gull.tri( Vector3{ 0.0f, 0.0f, 0.6f }, Vector3{ 0.0f, 0.0f, -0.5f }, Vector3{ -2.0f, 0.5f, -0.2f }, Color{ 236, 238, 240, 255 } );
+        gull.box( Vector3{ 0.0f, 0.0f, 0.0f }, Vector3{ 0.16f, 0.16f, 0.7f }, Color{ 200, 202, 206, 255 } );
+        m_crossGull = gull.upload();
+    }
+    else
+    {
+        // The tunnel: a vault of concrete, a walkway, lamps every 25 m on both walls.
+        const int   n = 10;
+        const float r = 9.5f;
+        for( int z = -800; z < 800; z += 20 )
+        {
+            const float z0 = static_cast<float>( z ), z1 = z0 + 20.0f;
+            for( int k = 0; k < n; ++k )
+            {
+                const float t0 = Tau * 0.5f * static_cast<float>( k ) / static_cast<float>( n ), t1 = Tau * 0.5f * static_cast<float>( k + 1 ) / static_cast<float>( n );
+                const Color wall = k == 0 || k == n - 1 ? Color{ 120, 120, 116, 255 } : Color{ 150, 150, 144, 255 };
+                m.quad( Vector3{ -std::cos( t0 ) * r, std::sin( t0 ) * r - 1.4f, z0 }, Vector3{ -std::cos( t0 ) * r, std::sin( t0 ) * r - 1.4f, z1 },
+                        Vector3{ -std::cos( t1 ) * r, std::sin( t1 ) * r - 1.4f, z1 }, Vector3{ -std::cos( t1 ) * r, std::sin( t1 ) * r - 1.4f, z0 }, wall );
+            }
+            m.quad( Vector3{ -r, -1.4f, z0 }, Vector3{ r, -1.4f, z0 }, Vector3{ r, -1.4f, z1 }, Vector3{ -r, -1.4f, z1 }, Color{ 90, 86, 80, 255 } );
+            for( float side : { -1.0f, 1.0f } )
+            {
+                if( z % 40 == 0 ) m.box( Vector3{ side * 7.3f, 4.2f, z0 }, Vector3{ 0.25f, 0.2f, 1.4f }, Color{ 255, 236, 190, 255 }, Mat{ 1.0f, 0.0f } );
+                m.box( Vector3{ side * ( r - 1.6f ), -0.8f, z0 + 10.0f }, Vector3{ 0.6f, 0.6f, 10.0f }, Color{ 128, 128, 122, 255 } );
+            }
+        }
+        m_crossWater = m.upload();
+    }
+}
+
+void Game::unloadCrossingScene()
+{
+    for( Mesh *mesh : { &m_crossVessel, &m_crossWater, &m_crossCoastA, &m_crossCoastB, &m_crossGull } )
+    {
+        if( mesh->vaoId ) UnloadMesh( *mesh );
+        *mesh = Mesh{};
+    }
+}
+
+void Game::crossingScene( SceneInput &in, CameraView &cam )
+{
+    const float t = m_stateTime, k = clampf( t / CrossingTime, 0.0f, 1.0f );
+    const bool  ferry = m_crossing.m_type == CrossingE::FERRY;
+    in.m_world = nullptr;
+    in.m_player = nullptr;
+    in.m_traffic = nullptr;
+    in.m_particles = nullptr;
+    in.m_cars.clear();
+    in.m_speedBlur = 0.0f;
+    in.m_aberration = 0.0f;
+    in.m_windStreaks = 0.0f;
+    in.m_lensRain = 0.0f;
+    in.m_showcase = true;
+    in.m_pieces.clear();
+    Vector3 target{}, pos{};
+    if( ferry )
+    {
+        // The ship under way between the coasts, gulls over its stern; the camera swings round from behind.
+        in.m_env = blendEnvironment( m_crossEnvA, m_crossEnvB, smoothstepf( 0.35f, 0.95f, k ) );
+        in.m_env.m_underwater = 0.0f;
+        const float z = -200.0f + 30.0f * t;
+        in.m_pieces.push_back( { &m_crossWater, Vec3d{ 0.0, -3.0, 0.0 }, 0.0f } );
+        in.m_pieces.push_back( { &m_crossCoastA, Vec3d{ 0.0, -3.0, -1300.0 }, 0.0f } );
+        in.m_pieces.push_back( { &m_crossCoastB, Vec3d{ 0.0, -3.0, 2400.0 - 90.0 * t }, 0.0f } );
+        for( int g = 0; g < 5; ++g )
+        {
+            const float a = t * ( 0.7f + 0.12f * static_cast<float>( g ) ) + static_cast<float>( g ) * 1.3f, r = 10.0f + 4.0f * static_cast<float>( g );
+            in.m_pieces.push_back( { &m_crossGull, Vec3d{ std::cos( a ) * r, 24.0 + 2.0 * std::sin( a * 1.7f ), z + 40.0f + std::sin( a ) * r }, -a } );
+        }
+        in.m_pieces.push_back( { &m_crossVessel, Vec3d{ 0.0, 0.0, z }, 0.0f } );
+        target = Vector3{ 0.0f, 9.0f, z + 80.0f };
+        const float yaw = lerpf( 2.9f, 1.25f, smoothstepf( 0.0f, 1.0f, k ) ), pitch = lerpf( 0.3f, 0.14f, k ), dist = 120.0f;
+        pos = Vector3{ target.x + std::sin( yaw ) * std::cos( pitch ) * dist, target.y + std::sin( pitch ) * dist, target.z + std::cos( yaw ) * std::cos( pitch ) * dist };
+    }
+    else
+    {
+        // The train in its tunnel, the lamps rushing past.
+        Environment e = m_crossEnvA;
+        e.m_skyZenith = e.m_skyHorizon = e.m_fogColor = Color{ 10, 12, 16, 255 };
+        e.m_fogDensity = 0.009f;
+        e.m_sunIntensity = 0.18f;
+        e.m_sunElevation = 70.0f;
+        e.m_cloudAmount = e.m_stars = e.m_rain = e.m_snow = e.m_dust = e.m_aurora = e.m_rainbow = e.m_lightning = 0.0f;
+        e.m_mountainHeight = 0.0f;
+        e.m_planetSize = 0.0f;
+        e.m_underwater = 0.0f;
+        e.m_bloom = std::max( e.m_bloom, 0.8f );
+        in.m_env = e;
+        const float z = -400.0f + 48.0f * t;
+        in.m_pieces.push_back( { &m_crossWater, Vec3d{}, 0.0f } );
+        in.m_pieces.push_back( { &m_crossVessel, Vec3d{ 0.0, 0.0, z }, 0.0f } );
+        target = Vector3{ 0.0f, 4.0f, z + 220.0f };
+        pos = Vector3{ -0.8f, 7.0f, z + 30.0f };
+    }
+    in.m_focus = Vec3d{ target.x, target.y, target.z };
+    cam.m_pos = Vec3d{ pos.x, pos.y, pos.z };
+    cam.m_forward = Vector3Normalize( Vector3Subtract( target, pos ) );
+    cam.m_up = Vector3{ 0.0f, 1.0f, 0.0f };
+    cam.m_fovY = 50.0f;
+}
+
+void Game::drawCrossing()
+{
+    const float       W = static_cast<float>( GetScreenWidth() ), H = static_cast<float>( GetScreenHeight() ), u = unit();
+    const bool        ferry = m_crossing.m_type == CrossingE::FERRY;
+    const BiomeDef   &dest = biomeDef( m_track->stageBiome( static_cast<int>( m_crossing.m_land / StageLength ) ) );
+    const BiomeDef   &sea = biomeDef( m_crossing.m_sea );
+    const std::string to = dest.m_name ? dest.m_name : "", over = sea.m_name ? sea.m_name : "";
+    DrawRectangle( 0, 0, static_cast<int>( W ), static_cast<int>( 130.0f * u ), Color{ 0, 0, 0, 90 } );
+    drawTextFx( std::string( ferry ? "FERRY TO " : "CAR TRAIN TO " ) + to, W * 0.5f, 34.0f * u, 30.0f * u, Ink, AlignE::CENTER, 0.6f );
+    drawText( std::string( ferry ? "ACROSS THE " : "UNDER THE " ) + over, W * 0.5f, 78.0f * u, 14.0f * u, Accent, AlignE::CENTER );
+    drawText( "THE CLOCK STANDS STILL", W * 0.5f, 102.0f * u, 11.0f * u, Dim, AlignE::CENTER );
+    const float k = clampf( m_stateTime / CrossingTime, 0.0f, 1.0f ), bw = W * 0.4f, bx = W * 0.3f, by = H - 70.0f * u;
+    DrawRectangle( static_cast<int>( bx ), static_cast<int>( by ), static_cast<int>( bw ), static_cast<int>( 4.0f * u ), Color{ 255, 255, 255, 50 } );
+    DrawRectangle( static_cast<int>( bx ), static_cast<int>( by ), static_cast<int>( bw * k ), static_cast<int>( 4.0f * u ), Accent );
+    drawHint( m_input.m_gamepad ? "[A] SKIP" : "[ENTER] SKIP", W * 0.5f, H - 30.0f * u, 11.0f * u, Color{ 255, 255, 255, 190 }, AlignE::CENTER );
 }
 
 void Game::drawRegions( float x, float y, float w, float h )

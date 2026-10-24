@@ -436,6 +436,56 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
         const bool     tunnel = seg.m_flags & SEG_TUNNEL;
         const bool     bridge = seg.m_flags & SEG_BRIDGE;
         ground.setShade( tunnel ? 0.12f : 1.0f );
+
+        // A ferry or a car train over the sea: from where the car drives aboard to where it drives off, the vessels'
+        // decks, open water to the horizon (or the bank the train goes into) and the vessels themselves.
+        const double   sj = static_cast<double>( j ) * SegmentLength;
+        const Crossing xc = track.crossingAt( sj );
+        if( xc.m_type != CrossingE::NONE && sj >= xc.m_board && sj < xc.m_land )
+        {
+            const bool      ferry = xc.m_type == CrossingE::FERRY;
+            const bool      out = sj < xc.m_board + xc.m_length, in = sj >= xc.m_land - xc.m_length;
+            const BiomeDef &shore = biomeDef( track.stageBiome( static_cast<int>( ( sj < ( xc.m_board + xc.m_land ) * 0.5 ? xc.m_board : xc.m_land ) / StageLength ) ) );
+            const Surface  &sh = shore.m_surface;
+            if( ferry )
+            {
+                ground.quad( at( A, -1500.0f, -3.0f ), at( A, 1500.0f, -3.0f ), at( B, 1500.0f, -3.0f ), at( B, -1500.0f, -3.0f ), sh.m_water,
+                             Mat{ sh.m_waterGlow, sh.m_waterGloss } );
+            }
+            else if( out || in )
+            {
+                ground.quad( at( A, -40.0f, -0.25f ), at( A, 40.0f, -0.25f ), at( B, 40.0f, -0.25f ), at( B, -40.0f, -0.25f ), sh.m_shoulder );
+                for( float side : { -1.0f, 1.0f } )
+                    ground.quad( at( A, side * 40.0f, -0.25f ), at( A, side * 900.0f, 0.0f ), at( B, side * 900.0f, 0.0f ), at( B, side * 40.0f, -0.25f ),
+                                 sh.m_groundFar );
+            }
+            else
+            {
+                // The bank over the tunnel: its top, and its face where the trains go in and come out.
+                ground.quad( at( A, -900.0f, 22.0f ), at( A, 900.0f, 22.0f ), at( B, 900.0f, 22.0f ), at( B, -900.0f, 22.0f ), sh.m_groundFar );
+                const double ua = sj - xc.m_board - xc.m_length, ub = xc.m_land - xc.m_length - sj - SegmentLength;
+                if( ua >= 0.0 && ua < SegmentLength )
+                    ground.quad( at( A, -900.0f, -0.3f ), at( A, 900.0f, -0.3f ), at( A, 900.0f, 22.0f ), at( A, -900.0f, 22.0f ), scaleColor( sh.m_groundFar, 0.8f ) );
+                if( ub >= 0.0 && ub < SegmentLength )
+                    ground.quad( at( B, -900.0f, -0.3f ), at( B, 900.0f, -0.3f ), at( B, 900.0f, 22.0f ), at( B, -900.0f, 22.0f ), scaleColor( sh.m_groundFar, 0.8f ) );
+            }
+            if( out || in )
+                ground.quad( at( A, -A.m_hw, 0.0f ), at( A, A.m_hw, 0.0f ), at( B, B.m_hw, 0.0f ), at( B, -B.m_hw, 0.0f ), Color{ 70, 74, 80, 255 } );
+            // The vessels, open towards the land; beyond the trains the mouth of their tunnel.
+            const int    vessel = landmarkByName( ferry ? "FERRY_SHIP" : "CAR_TRAIN" ), mouth = landmarkByName( "TUNNEL_PORTAL" );
+            const double ua = sj - xc.m_board, ub = xc.m_land - sj - SegmentLength;
+            if( vessel >= 0 && ua < SegmentLength ) props.append( models.prop( PropKindE::LANDMARK, static_cast<uint64_t>( vessel ) ), at( A, 0.0f, 0.0f ), A.m_heading, 1.0f );
+            if( vessel >= 0 && ub >= 0.0 && ub < SegmentLength )
+                props.append( models.prop( PropKindE::LANDMARK, static_cast<uint64_t>( vessel ) ), at( B, 0.0f, 0.0f ), B.m_heading + Tau * 0.5f, 1.0f );
+            if( !ferry && mouth >= 0 )
+            {
+                const double ma = ua - xc.m_length - 5.0, mb = ub - xc.m_length - 5.0;
+                if( ma >= 0.0 && ma < SegmentLength ) props.append( models.prop( PropKindE::LANDMARK, static_cast<uint64_t>( mouth ) ), at( A, 0.0f, 0.0f ), A.m_heading, 1.0f );
+                if( mb >= 0.0 && mb < SegmentLength )
+                    props.append( models.prop( PropKindE::LANDMARK, static_cast<uint64_t>( mouth ) ), at( B, 0.0f, 0.0f ), B.m_heading + Tau * 0.5f, 1.0f );
+            }
+            continue;
+        }
         const bool     band = ( j / 2 ) % 2 == 0;
         const int      lanes = seg.m_lanes;
         // The country's markings: a yellow line on the centre side (the Americas, Scandinavia, East Asia) or on the
@@ -915,6 +965,33 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                     props.quad( a2, b2, b1, a1, scaleColor( wall, 1.1f ) );
                 }
             }
+        }
+
+        // The port before a crossing: signs to the ferry (or the car train), the check-in, the quay wall; after the
+        // crossing the far quay.
+        if( xc.m_type != CrossingE::NONE )
+        {
+            const bool         ferry = xc.m_type == CrossingE::FERRY;
+            const double       before = xc.m_board - sj, after = sj - xc.m_land;
+            const BiomeDef    &dest = biomeDef( track.stageBiome( static_cast<int>( xc.m_land / StageLength ) ) );
+            const CountryInfo &nation = countryInfo( here.m_country );
+            const float        driver = nation.m_left ? -1.0f : 1.0f;
+            for( double at0 : { 600.0, 260.0 } )
+                if( before > at0 - SegmentLength && before <= at0 )
+                {
+                    MeshBuilder sign;
+                    buildPlaceSign( sign, std::string( ferry ? "FERRY TO " : "CAR TRAIN TO " ) + ( dest.m_name ? dest.m_name : "" ), 3, 0.5f, 2.2f );
+                    const float l = driver * ( A.m_edge + 3.0f );
+                    props.append( sign, at( A, l, 0.0f ), A.m_heading, 1.0f );
+                    c.m_colliders.push_back( { sj, l, 0.6f } );
+                }
+            const int canopy = landmarkByName( "TERMINAL_CANOPY" );
+            if( canopy >= 0 && before > 180.0 - SegmentLength && before <= 180.0 )
+                props.append( models.prop( PropKindE::LANDMARK, static_cast<uint64_t>( canopy ) ), at( A, 0.0f, 0.0f ), A.m_heading, 1.0f );
+            if( ferry && before > 0.0 && before <= SegmentLength )
+                ground.quad( at( B, -1500.0f, -6.0f ), at( B, 1500.0f, -6.0f ), at( B, 1500.0f, 0.0f ), at( B, -1500.0f, 0.0f ), Color{ 150, 150, 146, 255 } );
+            if( ferry && after >= 0.0 && after < SegmentLength )
+                ground.quad( at( A, -1500.0f, -6.0f ), at( A, 1500.0f, -6.0f ), at( A, 1500.0f, 0.0f ), at( A, -1500.0f, 0.0f ), Color{ 150, 150, 146, 255 } );
         }
 
         // The fork: a barrier between the carriageways, a cushion at its nose, the gantry with both places; after it

@@ -150,7 +150,7 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
     {
         const BiomeDef &sea = biomeDef( track.stageBiome( static_cast<int>( ( player.m_s + 500.0 ) / StageLength ) ) );
         if( m_swimS < player.m_s + 200.0 ) m_swimS = player.m_s + 200.0 + m_rng.range( 0.0f, 80.0f );
-        if( !sea.m_swim.empty() && player.m_s + 460.0 > m_swimS )
+        if( !sea.m_swim.empty() && sea.m_crossing == CrossingE::NONE && player.m_s + 460.0 > m_swimS )
         {
             float total = 0.0f;
             for( const SwimRule &r : sea.m_swim ) total += r.m_weight;
@@ -234,6 +234,8 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
         m_spawnS += static_cast<double>( lerpf( 200.0f, 60.0f, std::min( 1.0f, density / 1.8f ) ) * m_rng.range( 0.55f, 1.45f ) );
         const Segment &seg = track.segment( static_cast<long>( m_spawnS / SegmentLength ) );
         if( m_spawnS < StartLine + 150.0 ) continue;
+        const Crossing xc = track.crossingAt( m_spawnS );
+        if( xc.m_type != CrossingE::NONE && m_spawnS > xc.m_board - 150.0 && m_spawnS < xc.m_land + 60.0 ) continue;
         TrafficCar c;
         c.m_s = m_spawnS;
         int lane = m_rng.rangeInt( 0, seg.m_lanes - 1 );
@@ -430,7 +432,9 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
                    [&]( const TrafficCar &c )
                    {
                        const bool across = c.m_animal && c.m_x * c.m_vx > 0.0f && std::abs( c.m_x ) > track.segment( static_cast<long>( c.m_s / SegmentLength ) ).m_halfWidth + 9.0f;
-                       return across || c.m_gone || ( c.m_swim && std::abs( c.m_x ) > 160.0f ) || c.m_s < player.m_s - 140.0 || c.m_s > player.m_s + 1700.0;
+                       const Crossing xc = c.m_swim ? Crossing() : track.crossingAt( c.m_s );
+                       const bool     aboard = xc.m_type != CrossingE::NONE && c.m_s > xc.m_board - 25.0 && c.m_s < xc.m_land - 20.0;
+                       return across || aboard || c.m_gone || ( c.m_swim && std::abs( c.m_x ) > 160.0f ) || c.m_s < player.m_s - 140.0 || c.m_s > player.m_s + 1700.0;
                    } );
 
     // Cones and boards.

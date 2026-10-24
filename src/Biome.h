@@ -878,6 +878,14 @@ struct SwimRule
     bool  m_circle = false;   ///< circles over the tunnel (sharks)
 };
 
+/** @brief How the world tour crosses a sea. */
+enum class CrossingE : uint8_t
+{
+    NONE,    ///< a glass tunnel on the sea floor
+    FERRY,   ///< aboard a ferry
+    TRAIN,   ///< on a car train through a tunnel
+};
+
 /** @brief A biome: its look and the style of its roads. */
 struct BiomeDef
 {
@@ -911,6 +919,7 @@ struct BiomeDef
     const char           *m_island = nullptr;                     ///< an island of its own (none: the country's landmass)
     bool                  m_underwater = false;                   ///< a glass tunnel on the sea floor
     std::vector<SwimRule> m_swim;                                 ///< what swims round the tunnel
+    CrossingE             m_crossing = CrossingE::NONE;           ///< a sea crossed aboard a ferry or a car train instead
 };
 
 /**

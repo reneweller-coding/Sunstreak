@@ -331,6 +331,27 @@ int main()
             std::printf( "      %d sea crossings round the world; stage 2 from the cliffs: %s\n", crossings, placeName( world.stageBiome( 1 ) ).c_str() );
             check( crossings >= 20 && seas == crossings && channel, "under the sea between landmasses" );
         }
+        { // Some seas are crossed aboard: the Channel on a car train, a few straits on ferries.
+            const auto &route = worldRoute();
+            int         ferries = 0, trains = 0;
+            for( size_t i = 0; i < route.size(); ++i )
+            {
+                const int sea = seaCrossing( route[i], route[( i + 1 ) % route.size()] );
+                if( sea < 0 ) continue;
+                const CrossingE how = biomeDef( static_cast<BiomeE>( sea ) ).m_crossing;
+                ferries += how == CrossingE::FERRY ? 1 : 0;
+                trains += how == CrossingE::TRAIN ? 1 : 0;
+            }
+            TrackParams tour;
+            tour.m_biome = SceneryWorld;
+            Track world( 99, tour, static_cast<int>( BiomeE::CLIFFS ) );
+            world.generateTo( 2.0 * StageLength + 800.0 );
+            const Crossing xc = world.crossingAt( StageLength - 100.0 );
+            const Segment &deck = world.segment( static_cast<long>( ( xc.m_board + 20.0 ) / SegmentLength ) );
+            std::printf( "      %d ferries and %d car trains round the world\n", ferries, trains );
+            check( trains >= 1 && ferries >= 3 && xc.m_type == CrossingE::TRAIN && deck.m_lanes == 2 && std::abs( deck.m_curve ) < 1e-6f,
+                   "ferries and car trains" );
+        }
         std::printf( "      %d biomes, %d data errors\n", biomeCount(), dataErrors() );
         check( dataErrors() == 0 && biomeCount() >= static_cast<int>( BiomeE::COUNT ) && biomeId( "TUSCANY" ) == static_cast<int>( BiomeE::TUSCANY ) &&
                    biomeKey( BiomeE::PARIS ) == "PARIS",

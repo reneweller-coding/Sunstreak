@@ -748,6 +748,17 @@ public:
     }
 
     /**
+     * @brief Crosses this sea aboard a ferry or a car train instead of under it.
+     * @param[in] type  how
+     * @return this
+     */
+    W &crossing( CrossingE type )
+    {
+        m_d.m_crossing = type;
+        return *this;
+    }
+
+    /**
      * @brief Puts the road in a glass tunnel on the sea floor.
      * @return this
      */

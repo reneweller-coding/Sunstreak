@@ -145,6 +145,7 @@ enum class StateE
     REPLAY,      ///< the last minute again, from the roadside
     PHOTO,       ///< the game stands still, the camera roams
     VIEWER,      ///< every landmark and creature, one at a time (F6)
+    CROSSING,    ///< aboard a ferry or a car train, the clock standing still
 };
 
 /** @brief What is being played. */
@@ -638,6 +639,38 @@ private:
     void drawViewer();
 
     /**
+     * @brief The car is aboard a ferry or a car train: the crossing begins (in the title's demo it is over at once).
+     * @param[in] xc  the crossing
+     */
+    void startCrossing( const Crossing &xc );
+
+    /** @brief The crossing is over: the car stands aboard at the far quay, the clock runs again. */
+    void finishCrossing();
+
+    /**
+     * @brief Moves the crossing on; the far side is built meanwhile.
+     * @param[in] mi  the menu keys (skip)
+     */
+    void crossingStep( const MenuInput &mi );
+
+    /** @brief Builds what the crossing shows: the vessel, the water and the coasts, gulls, or the tunnel. */
+    void buildCrossingScene();
+
+    /** @brief Forgets the crossing's meshes. */
+    void unloadCrossingScene();
+
+    /**
+     * @brief Turns the scene into the crossing's: the ship at sea under the sky between the coasts, or the train in
+     *        its tunnel.
+     * @param[in,out] in   the scene
+     * @param[out]    cam  the camera
+     */
+    void crossingScene( SceneInput &in, CameraView &cam );
+
+    /** @brief Draws the crossing's labels. */
+    void drawCrossing();
+
+    /**
      * @brief A garage item's value as text.
      * @param[in] item  the item
      * @return the value, with (LOCKED) where it is
@@ -703,6 +736,13 @@ private:
     float       m_viewerPitch = 0.22f;         ///< and above it
     float       m_viewerZoom = 1.0f;           ///< and how near
     StateE      m_viewerReturn = StateE::TITLE;   ///< where it goes back to
+    Crossing    m_crossing;                    ///< the ferry or car train the car is aboard
+    Environment m_crossEnvA{}, m_crossEnvB{};  ///< the light at the quay and at the far one
+    Mesh        m_crossVessel{};               ///< the ship or the train
+    Mesh        m_crossWater{};                ///< the sea (the tunnel for a train)
+    Mesh        m_crossCoastA{};               ///< the coast left behind
+    Mesh        m_crossCoastB{};               ///< the coast ahead
+    Mesh        m_crossGull{};                 ///< a gull
 
     // The track being driven.
     TrackSetup  m_setup;              ///< its setup

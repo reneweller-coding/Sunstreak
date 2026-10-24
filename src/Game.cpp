@@ -576,6 +576,60 @@ void Game::unloadPostcards()
     m_postcardTex.clear();
 }
 
+void Game::startCrossing( const Crossing &xc )
+{
+    m_crossing = xc;
+    m_records.m_seen.set( static_cast<size_t>( xc.m_sea ) );
+    if( m_demo )
+    {
+        finishCrossing();
+        return;
+    }
+    m_state = StateE::CROSSING;
+    m_stateTime = 0.0f;
+    m_crossEnvA = sceneEnvironment( xc.m_board );
+    m_crossEnvB = sceneEnvironment( xc.m_land + 100.0 );
+    buildCrossingScene();
+    m_audio.play( SfxE::STAGE );
+}
+
+void Game::finishCrossing()
+{
+    // Off at the far quay: the car aboard, facing the land; no checkpoints were passed at sea.
+    const Crossing xc = m_crossing;
+    const double   s = xc.m_land - 30.0;
+    m_track->generateTo( s + ViewDistance + 600.0 );
+    const Segment &seg = m_track->segment( static_cast<long>( s / SegmentLength ) );
+    const float    x = clampf( m_car.m_x, -seg.m_halfWidth + 1.2f, seg.m_halfWidth - 1.2f );
+    m_car.reset( carSpec( m_carIndex ), s, x, *m_track );
+    const float density = m_traffic.m_density;
+    m_traffic.reset( m_seed ^ static_cast<uint64_t>( s ), s );
+    m_traffic.m_density = density;
+    m_particles.clear();
+    for( Rival &r : m_race.m_rivals )
+        if( r.m_s < xc.m_land ) r.m_s += xc.m_land - xc.m_board;
+    m_lastS = s;
+    while( m_nextCheckpoint <= s )
+    {
+        ++m_checkpoints;
+        m_nextCheckpoint += CheckpointSpacing;
+    }
+    m_camInit = false;
+    unloadCrossingScene();
+    if( !m_demo )
+    {
+        m_state = StateE::RACE;
+        m_stateTime = 0.0f;
+    }
+}
+
+void Game::crossingStep( const MenuInput &mi )
+{
+    // The far side is built while the vessel crosses.
+    m_world.update( *m_track, m_crossing.m_land - 30.0, 2 );
+    if( m_stateTime >= CrossingTime || ( ( mi.m_accept || mi.m_back ) && m_stateTime > 1.0f ) ) finishCrossing();
+}
+
 void Game::reloadGameData()
 {
     // Places are numbered anew: the records go by name through their file, the chosen places by their IDs.
@@ -684,15 +738,16 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
             }
         m_options.m_find = 0;
     }
-    if( m_options.m_find >= 6 && m_options.m_find <= 8 )
+    if( m_options.m_find >= 6 && m_options.m_find <= 9 )
     {
-        // Testing: start before the first undersea tunnel's portal, inside it, or before its far portal.
+        // Testing: start before the first undersea tunnel's portal, inside it, or before its far portal; or before the
+        // first ferry.
         Track probe( setup.m_seed, params, m_options.m_startBiome );
-        for( int st = 1; st < 80; ++st )
-            if( biomeDef( probe.stageBiome( st ) ).m_underwater )
+        for( int st = 1; st < 400; ++st )
+            if( m_options.m_find == 9 ? biomeDef( probe.stageBiome( st ) ).m_crossing == CrossingE::FERRY : biomeDef( probe.stageBiome( st ) ).m_underwater )
             {
                 const double portal = static_cast<double>( st ) * StageLength;
-                startS = m_options.m_find == 6 ? portal - SeaRamp - 120.0 : m_options.m_find == 7 ? portal + 300.0 : portal + StageLength - 260.0;
+                startS = m_options.m_find == 6 || m_options.m_find == 9 ? portal - 800.0 : m_options.m_find == 7 ? portal + 300.0 : portal + StageLength - 260.0;
                 break;
             }
         m_options.m_find = 0;
@@ -993,6 +1048,7 @@ void Game::frame( float dt )
         if( m_demo ) simulate( dt, true );
         break;
     case StateE::VIEWER: viewerStep( mi, dt ); break;
+    case StateE::CROSSING: crossingStep( mi ); break;
     case StateE::COUNTDOWN:
     {
         if( m_input.m_pause )
@@ -1400,6 +1456,15 @@ void Game::timeAttackRules( float h )
         m_audio.playOnBeat( SfxE::STAGE );
     }
     {
+        // A ferry or a car train: aboard, the crossing begins.
+        const Crossing xc = track.crossingAt( m_car.m_s );
+        if( xc.m_type != CrossingE::NONE && ( m_state == StateE::RACE || m_demo ) && m_car.m_s >= xc.m_board + 14.0 && m_car.m_s < xc.m_land - xc.m_length )
+        {
+            startCrossing( xc );
+            return;
+        }
+    }
+    {
         // A fork of the world tour: the carriageway the car is on where the barrier begins decides the way on.
         const Fork fork = track.fork( stage );
         if( fork.m_exists && fork.m_chosen == 0 && m_car.m_s >= fork.m_at )
@@ -1800,7 +1865,7 @@ void Game::updateCamera( float dt )
 void Game::updateAudio()
 {
     EngineState s;
-    s.m_active = !m_demo && m_state != StateE::PAUSED && m_state != StateE::SETTINGS;
+    s.m_active = !m_demo && m_state != StateE::PAUSED && m_state != StateE::SETTINGS && m_state != StateE::CROSSING;
     s.m_rpm = m_car.m_rpm;
     s.m_throttle = m_car.m_throttle;
     s.m_speed = s.m_active ? m_car.m_speed : 0.0f;
@@ -1837,6 +1902,15 @@ void Game::updateAudio()
         a.m_rain = sceneEnvironment( m_car.m_s ).m_rain;
         a.m_bridge = flags & SEG_BRIDGE ? 1.0f : 0.0f;
         if( flags & SEG_TUNNEL ) a = Ambience{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f };
+        if( m_state == StateE::CROSSING )
+        {
+            // Waves and wind on the ferry; in the train the tunnel rushing past.
+            const bool ferry = m_crossing.m_type == CrossingE::FERRY;
+            a = Ambience{};
+            a.m_surf = ferry ? 1.0f : 0.0f;
+            a.m_wind = ferry ? 0.4f : 0.3f;
+            a.m_tunnel = ferry ? 0.0f : 0.8f;
+        }
         // Under the sea: the world muffled behind glass and water, the tube's echo, whales.
         const float under = ( biomeDef( mix.m_from ).m_underwater ? 1.0f - mix.m_t : 0.0f ) + ( biomeDef( mix.m_to ).m_underwater ? mix.m_t : 0.0f );
         if( under > 0.5f )

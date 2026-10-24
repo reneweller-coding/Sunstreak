@@ -1,0 +1,92 @@
+# The ferries and car trains over the sea: placed on the road itself, their open end where the car drives aboard
+# (z = 0), reaching ahead along +z. x runs across the road (two lanes of 3.7 m each side of the middle).
+
+shape FERRY_SHIP
+    # A car ferry at the quay, its stern door open: the car deck runs through it at the road's height.
+    box 0 -3.6 84 12 3.6 84 1E2A4A
+    box 0 -2.6 84 12.05 0.35 84 B02A2A
+    blob 0 -1.2 168 12 5.2 16 1E2A4A
+    mirrorx
+    box 10.6 3.2 84 1.4 3.2 84 F2F2EE
+    mirrorx
+    box 12.02 1.6 84 0.02 0.25 80 2A5AA8
+    box 0 6.8 86 12 0.4 82 E8E8E4
+    blob 0 5.4 166 10.5 2.4 13 F2F2EE
+    box 0 11.6 92 11 4.4 46 F4F4F0
+    boxwindows 0 7.2 92 11 46 8.8 lit 2.9
+    box 0 18 122 9.4 2 12 F4F4F0
+    boxwindows 0 16 122 9.4 12 4 lit
+    box 0 20.3 122 9.6 0.3 12.2 2A5AA8
+    cyl 0 16 90 3.4 2.8 10 14 D02A2A
+    cyl 0 25.6 90 2.9 2.9 0.6 14 1A1A1E
+    tube 0 20.6 128 0 30 128 0.22 4 C8C8C8
+    blob 0 30.3 128 0.4 0.4 0.4 FF5A3A glow
+    repeat 5 0 0 15
+    mirrorx
+    blob 11.7 9.6 58 1.1 1.0 3.4 F08020
+    box 0 6.2 0.8 12 0.6 0.8 E8E8E4
+    box 0 0.04 -4.5 5.5 0.08 4.5 4A4E54
+    mirrorx
+    box 5.6 0.5 -4.5 0.12 0.5 4.5 F2C21A
+
+shape CAR_TRAIN
+    # Two car trains side by side, one for each lane, their last wagons open: the cars drive in at the road's height.
+    repeat 9 0 0 24
+    mirrorx
+    box 3.6 2.3 12 0.15 2.3 11.7 E4E6EA
+    repeat 9 0 0 24
+    box 0 2.3 12 0.18 2.3 11.7 E4E6EA
+    repeat 9 0 0 24
+    box 0 4.75 12 3.8 0.15 11.9 D4D6DA
+    repeat 9 0 0 24
+    mirrorx
+    box 3.76 3.2 12 0.02 0.28 11.7 2A4A9A
+    repeat 9 0 0 24
+    mirrorx
+    box 3.76 1.2 12 0.02 0.12 11.7 2A4A9A
+    repeat 9 0 0 24
+    box 0 -0.6 12 3.6 0.55 11 3A3C40
+    repeat 18 0 0 12
+    mirrorx
+    box 1.85 -1.0 4 1.4 0.35 1.6 2A2C30
+    mirrorx
+    box 1.85 2.6 229 1.75 2.6 13 E4E6EA
+    mirrorx
+    blob 1.85 2.4 242 1.75 2.4 3.4 E4E6EA
+    mirrorx
+    box 1.85 3.5 244.2 1.25 0.6 0.4 1A2230
+    mirrorx
+    box 3.62 3.2 229 0.02 0.3 13 D02A2A
+    mirrorx
+    blob 1.85 1.0 245.2 0.3 0.3 0.12 FFF4C0 glow
+    box 0 -1.3 122 4.6 0.12 124 6A6058
+    mirrorx
+    box 2.7 0.04 -4 1.2 0.08 4 4A4E54
+
+shape TUNNEL_PORTAL
+    # The mouth of the tunnel under the sea, set in a steep bank: the trains go in on two tracks.
+    box 0 11 2 70 11 2 A8A8A0
+    mirrorx
+    box 1.85 3.0 -0.1 1.95 3.0 0.15 0C0E12
+    box 0 6.6 -0.2 4.6 0.6 0.3 C8C8C0
+    mirrorx
+    box 4.5 3.3 -0.2 0.6 3.3 0.3 C8C8C0
+    box 0 0.15 -40 4.6 0.15 40 6A6058
+    box 0 22.2 30 70 0.2 30 6A8A4A
+
+shape TERMINAL_CANOPY
+    # The check-in of a ferry port or a car train terminal: booths beside the lanes under a wide roof.
+    box 0 6.4 0 15 0.35 7 E8E8E4
+    box 0 6.9 0 15 0.15 7 2A5AA8
+    mirrorx
+    cyl 9.5 0 -5.5 0.35 0.35 6.1 8 C8C8C8
+    mirrorx
+    cyl 9.5 0 5.5 0.35 0.35 6.1 8 C8C8C8
+    mirrorx
+    box 5.4 1.4 0 1.0 1.4 2.2 F2F2EE
+    mirrorx
+    box 5.4 1.7 0 1.02 0.45 1.6 3A5A7A glass
+    mirrorx
+    box 4.6 0.5 -4 0.2 0.5 0.2 F2C21A
+    mirrorx
+    box 4.6 0.5 4 0.2 0.5 0.2 F2C21A

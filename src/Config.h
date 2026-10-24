@@ -82,7 +82,7 @@ struct LaunchOptions
     int         m_height = 0;          ///< its height
     bool        m_mute = false;        ///< no sound at all (test runs)
     std::string m_audioTest;           ///< render a test drive's sound to this WAV and quit
-    int         m_find = 0;            ///< start before the first 1 tunnel, 2 bridge, 3/4 landmark, 5 fork, 6 sea portal, 7 in it, 8 its far portal (testing)
+    int         m_find = 0;            ///< start before the first 1 tunnel, 2 bridge, 3/4 landmark, 5 fork, 6 sea portal, 7 in it, 8 its far portal, 9 ferry (testing)
     int         m_weather = -1;        ///< a weather front all the way (WeatherE, testing; -1: as it comes)
     int         m_timeOfDay = -1;      ///< the time of day for this start (Settings::m_timeOfDay; -1: the settings')
     int         m_rally = -1;          ///< start this rally (0-based; -1: none)

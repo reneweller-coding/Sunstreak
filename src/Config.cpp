@@ -164,7 +164,12 @@ LaunchOptions parseCommandLine( int argc, char **argv )
         if( a == "--fullscreen" ) o.m_forceDisplay = 1;
         else if( a == "--windowed" ) o.m_forceDisplay = 0;
         else if( a == "--seed" ) o.m_seed = std::strtoull( next().c_str(), nullptr, 0 );
-        else if( a == "--biome" ) o.m_startBiome = std::atoi( next().c_str() );
+        else if( a == "--biome" )
+        {
+            // A number, or a place's ID.
+            const std::string v = next();
+            o.m_startBiome = !v.empty() && std::isdigit( static_cast<unsigned char>( v[0] ) ) ? std::atoi( v.c_str() ) : biomeId( v );
+        }
         else if( a == "--scenery" )
         {
             const std::string what = next();
@@ -200,7 +205,7 @@ LaunchOptions parseCommandLine( int argc, char **argv )
         else if( a == "--find" )
         {
             const std::string what = next();
-            o.m_find = what == "tunnel" ? 1 : what == "bridge" ? 2 : what == "landmark" ? 3 : what == "landmark2" ? 4 : what == "fork" ? 5 : what == "sea" ? 6 : what == "seain" ? 7 : what == "seaout" ? 8 : 0;
+            o.m_find = what == "tunnel" ? 1 : what == "bridge" ? 2 : what == "landmark" ? 3 : what == "landmark2" ? 4 : what == "fork" ? 5 : what == "sea" ? 6 : what == "seain" ? 7 : what == "seaout" ? 8 : what == "ferry" ? 9 : 0;
         }
         else if( a == "--camera" ) o.m_camera = std::clamp( std::atoi( next().c_str() ), 0, 2 );
         else if( a == "--code" ) o.m_code = next();

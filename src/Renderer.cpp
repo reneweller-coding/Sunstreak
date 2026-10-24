@@ -365,10 +365,15 @@ void Renderer::drawShadows( const SceneInput &in, const CameraView &cam, const V
                            ? clampf( ( e.m_sunIntensity - 0.4f ) * 1.5f, 0.0f, 0.85f ) * ( 1.0f - e.m_cloudAmount * 0.5f )
                            : 0.0f;
     if( m_shadowStrength <= 0.0f || !in.m_track || ( !in.m_world && !in.m_showcase ) ) return;
+    auto pieceMatrix = [&]( const ScenePiece &p )
+    {
+        const Vector3 o = relativeTo( p.m_pos, origin );
+        return MatrixMultiply( MatrixRotateY( p.m_yaw ), MatrixTranslate( o.x, o.y, o.z ) );
+    };
 
     // The box follows the camera, snapped to the map's texels so the shadows do not shimmer.
     const Vector3 flatFwd = Vector3Normalize( Vector3{ cam.m_forward.x, 0.0f, cam.m_forward.z } );
-    Vector3       center = in.m_showcase ? relativeTo( Vec3d{}, origin ) : Vector3Scale( flatFwd, ShadowExtent * 0.3f );
+    Vector3       center = in.m_showcase ? relativeTo( in.m_focus, origin ) : Vector3Scale( flatFwd, ShadowExtent * 0.3f );
     const Vector3 lightFwd = Vector3Negate( sun );
     const Vector3 lightRight = Vector3Normalize( Vector3CrossProduct( lightFwd, Vector3{ 0, 1, 0 } ) );
     const Vector3 lightUp = Vector3CrossProduct( lightRight, lightFwd );
@@ -402,11 +407,8 @@ void Renderer::drawShadows( const SceneInput &in, const CameraView &cam, const V
             const Vector3 o = relativeTo( c.m_origin, origin );
             DrawMesh( c.m_props, m_depthMaterial, MatrixTranslate( o.x, o.y, o.z ) );
         }
-    if( in.m_showcase && in.m_showcase->vertexCount )
-    {
-        const Vector3 o = relativeTo( Vec3d{}, origin );
-        DrawMesh( *in.m_showcase, m_depthMaterial, MatrixTranslate( o.x, o.y, o.z ) );
-    }
+    for( const ScenePiece &p : in.m_pieces )
+        if( p.m_mesh && p.m_mesh->vertexCount ) DrawMesh( *p.m_mesh, m_depthMaterial, pieceMatrix( p ) );
     if( in.m_traffic )
         for( const TrafficCar &t : in.m_traffic->m_cars )
             if( std::abs( t.m_s - playerS ) < ShadowExtent )
@@ -539,11 +541,12 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
             if( c.m_ground.vertexCount ) DrawMesh( c.m_ground, m_material, t );
             if( c.m_props.vertexCount ) DrawMesh( c.m_props, m_material, t );
         }
-    // A lone model on its ground (the landmark viewer).
+    // Lone models (the landmark viewer, a crossing).
+    for( const ScenePiece &p : in.m_pieces )
     {
-        const Vector3 o = relativeTo( Vec3d{}, origin );
-        if( in.m_showcaseGround && in.m_showcaseGround->vertexCount ) DrawMesh( *in.m_showcaseGround, m_material, MatrixTranslate( o.x, o.y, o.z ) );
-        if( in.m_showcase && in.m_showcase->vertexCount ) DrawMesh( *in.m_showcase, m_material, MatrixTranslate( o.x, o.y, o.z ) );
+        if( !p.m_mesh || !p.m_mesh->vertexCount ) continue;
+        const Vector3 o = relativeTo( p.m_pos, origin );
+        DrawMesh( *p.m_mesh, m_material, MatrixMultiply( MatrixRotateY( p.m_yaw ), MatrixTranslate( o.x, o.y, o.z ) ) );
     }
 
     // Vehicles and cones.
