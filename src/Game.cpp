@@ -11,6 +11,7 @@
 #include <rlgl.h>
 
 #include <algorithm>
+#include <cstring>
 #include <ctime>
 #include <filesystem>
 #include <future>

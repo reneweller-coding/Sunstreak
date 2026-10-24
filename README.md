@@ -3,10 +3,10 @@
 An arcade racer in the spirit of *Lotus III: The Ultimate Challenge*: a low camera, a road that bends, climbs and
 throws you over crests, traffic to slice through and a clock that only checkpoints refill. The endless mode drives a
 track generated from a seed, one biome per 5 km stage, and it grows curvier, denser and stricter as you go. By
-default it is a world tour: 732 places in all 202 countries and territories it visits, every member of the United
-Nations among them, the big countries state by state and province by province, round the globe. At the borders the
-road forks and you choose where to go next; between continents and to the islands you drive along the sea floor in a
-glass tunnel.
+default it is a world tour: 781 places in all 202 countries and territories it visits, every member of the United
+Nations among them, the big countries state by state and province by province, round the globe, through the seasons
+and their festivals. At the borders the road forks and you choose where to go next; between continents and to the
+islands you drive along the sea floor in a glass tunnel, or onto a ferry or the car train under the Channel.
 
 Beside the endless run there is a championship against eleven rivals, a Track Lab that turns any setting into a
 shareable track code, a ghost of your best drive on every code and a top ten.
@@ -29,6 +29,8 @@ soundtrack.
 | Pause | Esc / P | Start |
 | Window / fullscreen | F11 or Alt+Enter | |
 | Performance overlay | F3 | |
+| Read the data files again | F5 | |
+| Landmark viewer | F6 | |
 
 The clock starts at 55 s. Every checkpoint (2.5 km) adds time, a little less each stage. Near misses (passing
 traffic close and fast) fill the boost tank and raise the combo; overtakes and speed add to the score. The run ends
@@ -39,7 +41,8 @@ VIBRATION; on the Deck through Steam Input).
 
 ## Modes
 
-- **Endless run**: the clock, the checkpoints and the stages, on a fresh random track each time.
+- **Endless run**: the clock, the checkpoints and the stages, on a fresh random track each time. On the world tour it
+  continues where the last endless run stopped (left and right on the title: NEW TOUR).
 - **Championship**: five races on generated tracks against eleven rivals, from the back of the grid; points
   10-8-6-5-4-3-2-1 per race, the standings after each. Rivals draft in your slipstream and you in theirs.
 - **Track Lab**: mode (time attack or a race against the eleven), scenery (the world tour, all mixed, or one place:
@@ -52,12 +55,18 @@ VIBRATION; on the Deck through Steam Input).
 - **Rallies**: ten long-distance routes driven in one go against the clock, place after place: Paris - Dakar, the
   Panamericana from Alaska to Patagonia, Route 66, the Silk Road, Cape to Cairo, the Alpine passes, the Outback, a
   Himalayan raid, the Nordkapp and the Mekong Express. The clock counts up; each finished rally keeps its best time.
+- **Journeys** (in the rallies' menu): from one place of the world tour to another against the clock, London - Paris,
+  Venice - Rome, Osaka - Tokyo and more, up to Lisbon - Tokyo, half the world. The forks choose the way: before each
+  the screen shows how many stages the goal is either way, the shorter in gold; the other may be a detour or a
+  shortcut. Each journey keeps its best time and its ghost.
 - **Replay and photo mode**: after a run, WATCH REPLAY plays the last minute again from roadside cameras, a helicopter
   and the chase camera. PHOTO MODE (pause menu) stops the game and lets the camera roam round the car; a photo is saved
   in the settings folder's `photos` and becomes the place's postcard.
-- **Passport**: the world tour on a map (every place a dot, the ones you have seen lit, the twelve slices of the globe
-  you have driven through as a bar: all twelve is a drive round the world), a stamp for every country, and an album of
-  postcards: every new place you drive through sends one home, taken in sight of its landmark.
+- **Passport**: the world tour on a map (every place a dot, the ones you have seen lit, the way you drove as a line, the
+  twelve slices of the globe you have driven through as a bar: all twelve is a drive round the world), a stamp for every
+  country, the regions of the big countries with how many of their states you have seen, the postcards (every new place
+  you drive through sends one home, taken in sight of its landmark) and an album with a photo of every landmark you
+  have passed.
 - **Records**: the top ten (with your initials), total kilometres, titles, places and countries seen. The best drive
   on each code is kept as a ghost car that races along the next time.
 
@@ -79,7 +88,7 @@ Difficulty (Settings: EASY, NORMAL, HARD) scales the grip, the clock, the traffi
 is in `tuning.ini` beside the settings (written with comments on the first start): steer, centrifugal, accel, brake,
 boost, grip, crash_keep, time, traffic, rivals. Change a value and restart; delete the file for the defaults.
 
-786 biomes. The world tour (Settings > SCENERY) runs east from Ireland: the British Isles, France, Germany and the
+835 biomes. The world tour (Settings > SCENERY) runs east from Ireland: the British Isles, France, Germany and the
 Alps, Italy, Iberia, Morocco, West, East and Southern Africa, Arabia, Egypt and the Levant, Turkey, Greece and the
 Balkans, Central and Eastern Europe, Central Asia, India and the Himalaya, Southeast and East Asia, Australia, New
 Zealand and the Pacific, South and Central America, Mexico, the United States and Canada, Russia, the Baltic,
@@ -117,6 +126,16 @@ the hour. Every place sounds like itself: the surf on the shore it lies on, wind
 and birds in the tropics, the hum and horns of a city, rain on the car, the joints of a bridge and the engine echoing
 in a tunnel.
 
+The seasons (Settings > SEASONS: AS TODAY by the date, AS YOU TRAVEL a year every 400 km, or OFF) reach the temperate
+and cold places: in autumn the broadleaf trees, bushes, hedges and vines turn orange, red and gold, the fields to
+stubble and leaves blow across the road; in winter snow lies on the land and on everything that faces up, the trees
+are bare and it snows; in spring the green is fresh, some trees blossom and petals drift. South of the equator the year
+is turned round; the tropics and the deserts have none. On their dates the festivals come: Holi in India with bunting
+and colour in the air, the carnival in Brazil, red lanterns for the Lunar New Year in China, Taiwan, Vietnam, Korea,
+Singapore and Malaysia, Diwali with lights along the road and fireworks at night, Christmas markets with stalls, fairy
+lights and trees in Germany, Austria, Switzerland, Czechia and Alsace, the Oktoberfest's tents in Bavaria, fireworks
+everywhere at New Year and the northern lights in the far north from autumn to spring.
+
 Every country keeps its own rules of the road. Where they drive on the left (Britain and Ireland, Japan, India, Southeast
 Asia, Australia and the Pacific, southern and eastern Africa, much of the Caribbean) the slow traffic keeps left, cars
 overtake on the right and you start in the left lane. The markings follow the country: a yellow line on the centre side
@@ -129,9 +148,18 @@ country changes there is a border post with both flags and the new country's nam
 school buses, pickups and big rigs in North America, black cabs and red double-deckers in Britain, beetles and painted
 chicken buses in Latin America, auto rickshaws, scooters and decorated trucks in South Asia, tuk-tuks and jeepneys in
 Southeast Asia, kei trucks in Japan, road trains in the outback, matatus and land cruisers in Africa and Arabia, boxy
-saloons and marshrutkas in the east, tractors on European country roads. Out in the country the animals of the place cross
-the road, announced as they come: cattle and sheep (which like to stop in the middle), kangaroos, moose, camels,
-elephants, zebras, llamas, bison, reindeer and yaks.
+saloons and marshrutkas in the east, tractors on European country roads, all with the country's number plates (the
+EU's blue band, Britain's yellow, America's coloured top, Japan's small green). Out in the country the animals of the
+place cross the road, announced as they come: cattle and sheep (which like to stop in the middle), kangaroos, moose,
+camels, elephants, zebras, llamas, bison, reindeer and yaks. After each place sign the speed limit stands, in miles per
+hour in the United States and Britain and on a white board in North America; toll plazas cross the roads of France,
+Italy, Spain, Japan, China, India, Mexico and others; speed cameras in Germany, Austria, Switzerland, France, the Low
+Countries, Italy and Britain flash, and cost two seconds, if you pass them too fast (the limit stands before them).
+The old towns of Amsterdam, Lisbon, the Romantic Road, Quebec, Cartagena and Ouro Preto are cobbled, and shake. The
+houses are the region's own: canal houses in the Low Countries, machiya in Japan, white Cycladic cubes, falu-red
+cottages in Scandinavia, izbas in Russia, azulejo facades in Portugal, bright casitas in Latin America, stilt houses in
+Southeast Asia, shotgun houses on the Gulf and in the Caribbean, hutong gates in China, Queenslanders, Andean adobe,
+New England clapboard, crofts in Scotland and Ireland and the tower houses of Yemen.
 
 At most borders the road forks, as it did in OutRun. A gantry announces where each side goes (THE ROAD FORKS
 < BELGIUM  FRANCE > on the screen as well), the road widens into two carriageways and a barrier with a crash cushion
@@ -146,8 +174,17 @@ down. The sea is the one nearest the middle of the crossing, forty-two of them, 
 life: the wreck of the Titanic in the North Atlantic, a U-boat in the Channel, the Christ of the Abyss in the Ligurian
 Sea, the Thistlegorm on the Red Sea reef, the ghost fleet of Chuuk, Yonaguni's stone terraces, a galleon in the
 Caribbean, a whale's skeleton on the sand. Shoals, sharks, hammerheads, whale sharks, humpbacks, orcas, dolphins,
-mantas, turtles, jellyfish, seals, walruses, narwhals, penguins and marine iguanas swim along the tunnel and over it,
-and in the Bering Sea king crabs as wide as a car walk the bottom.
+mantas, turtles, jellyfish, seals, walruses, narwhals, penguins and marine iguanas swim close along the glass and over
+it, sharks circle above the tube, and in the Bering Sea king crabs as wide as a car walk the bottom. The road sinks
+into a walled cutting before the portal and rises out of one after it; the tube's glass is tinted, shafts of light
+fall from the surface, bubbles rise, the world outside sounds muffled and now and then a whale calls. Twelve seas have
+a research station on the floor.
+
+Seven seas are crossed aboard instead: the Channel on the car train, the Irish Sea, the Baltic, the Strait of
+Gibraltar, the Aegean, the Balearic Sea and the Java Sea on a ferry. The road runs straight to the quay past the signs
+and the check-in, you drive into the ship's car deck (or the train's wagons) yourself, the crossing is a short ride
+with the clock standing still (the ship between the coasts with its gulls, the train through its tunnel), and at the
+far quay you drive off yourself.
 
 Bridges are built the way the region builds them: concrete beams, tall viaducts over Alpine gorges, stone arches in
 Europe, steel trusses in North America, suspension bridges over the Bosphorus and in New York, cable-stayed spans in
@@ -156,13 +193,17 @@ sea in the Florida Keys and the Maldives.
 
 ## Radio
 
-Twenty-six generated stations, every track composed from its own seed and named. Genres: Sunset FM (synthwave),
+Thirty-one generated stations, every track composed from its own seed and named. Genres: Sunset FM (synthwave),
 Turbo House, Amiga Techno (acid bass, tracker arpeggios), Trance Gate, Jungle Pressure (drum and bass), 8-Bit Racer
 (chiptune), Fusion Drive (funk fusion), Big Beat, Route 66 Radio (twang, harmonica, train beat) and Lo-Fi Cruise.
 Regions: City Pop FM, Koto Wave (koto, ney, taiko), Bollywood Express (sitar, tabla, tanpura), Desert Caravan (oud,
 darbuka, Hijaz), Afro Highway (kalimba, marimba, congas), Samba Avenida, Tango Turbo (bandoneon), Andes Wind (pan
 flute, charango), Caribbean Steel, Mariachi Motor, Celtic Coast (whistle, fiddle, bodhran, pipes), Balkan Brass,
-Gamelan Drive, Outback Drone (didgeridoo, clapsticks), Steppe Rider (fiddle, throat drone, gallop) and Nordic Night.
+Gamelan Drive, Outback Drone (didgeridoo, clapsticks), Steppe Rider (fiddle, throat drone, gallop), Nordic Night, K-Pop
+Neon (Korea), Fado Noite (Portugal: guitars, hardly any drums), Schlager Express (the German-speaking countries),
+Polka Parade (Poland, Czechia, Slovakia) and Afrobeat Lagos (Nigeria, Ghana, Benin, Togo: horns, organ, a long
+groove). Driving into a new region or country, the station sings its jingle and says where it plays from (LIVE FROM
+BAVARIA, GERMANY).
 A track picks its tempo, key, scale or mode (from major and minor to Hijaz, Bhairav, hirajoshi and pelog), chord
 progression, two melodies, a lead instrument and an arrangement of 32 to 64 bars with fills and risers. In AUTO the
 station follows the place: the countryside plays its region, cities and motorways their genre. M (gamepad: View)
@@ -211,19 +252,24 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
 
     --windowed | --fullscreen     this start only
     --seed N                      the endless run's track (otherwise random)
-    --biome N                     the first stage's biome (on the world tour: where it starts)
+    --biome N|ID                  the first stage's biome (on the world tour: where it starts)
     --scenery world|mixed|N|ID    the endless run's scenery for this start (a biome's number or a place's ID such
                                   as TUSCANY: that one all the way)
     --play                        skip the title
     --championship                start a championship
     --rally N                     start rally N (1..10)
+    --journey N                   start journey N (1..)
     --daily                       start the daily challenge
-    --action replay|photo T       testing: the replay or the photo mode after T seconds of racing
+    --action replay|photo|reload T   testing: the replay, the photo mode or reading the data again after T seconds
     --code XXXXX-XXXXX-XXXXX      drive a Track Lab code
-    --screen lab|records|code|garage|passport|stamps|postcards|rallies   open that screen
+    --screen lab|records|code|garage|passport|stamps|regions|postcards|album|rallies|viewer   open that screen
+    --shape NAME                  the landmark the viewer opens on
     --camera 0..2                 chase, far or bumper camera
-    --find tunnel|bridge|landmark|landmark2|fork
-                                 start just before the first tunnel, bridge, landmark (or the second) or fork
+    --find tunnel|bridge|landmark|landmark2|fork|sea|seain|seaout|ferry
+                                 start just before the first tunnel, bridge, landmark (or the second), fork, undersea
+                                 portal (or inside, or before its far portal) or ferry
+    --season spring|summer|autumn|winter   that season (testing)
+    --date MM-DD                  that date, for the seasons and the festivals (testing)
     --weather clear|rain|storm|fog|snow|sand   that weather all the way (testing)
     --time place|clock|dawn|day|dusk|night     the time of day for this start
     --autopilot                   the car drives itself
@@ -245,7 +291,10 @@ checks the generator, the car, the track codes and the championship (`ctest --pr
 ## Data files
 
 The world lives in `data/` as plain text, built into the program (CMake embeds it); set the environment variable
-`SUNSTREAK_DATA` to a copy of the folder to try changes without building.
+`SUNSTREAK_DATA` to a copy of the folder to try changes without building. F5 reads the files again while the game
+runs (from `SUNSTREAK_DATA`, else from a `data` folder in the working directory, beside the program or a few folders
+above it, so a build in the repository finds its own) and builds the road anew where you are; F6 opens the landmark
+viewer, every landmark and creature alone under its first place's sky, to turn and zoom while you shape it.
 
 - `places/*.txt`: every place. `place ID | NAME | COUNTRY | SKY | REGION`, then one builder step per line: the light
   (`sun`, `fog`, `clouds`, `sky`, `ranges`, `rain`, `snow`, `look`, `light`), the ground (`land`, `verge`, `water`,
@@ -253,7 +302,8 @@ The world lives in `data/` as plain text, built into the program (CMake embeds i
   `gantries`, `rails`, `tunnels`, `bridges`), the things beside it (`p KIND chance nearest farthest`, painted with `c`,
   varied with `v`, `pastel`, `floating`, `once`; `landmark NAME nearest farthest [scale]`; `scatter NAME ...` strews a
   landmark shape), `like ID` to start from another place or a `template`, `drop KIND` to take a rule away, `island NAME`
-  for a place on an island of its own, and for the seas `underwater` and `swim NAME weight liftMin liftMax [min max]`.
+  for a place on an island of its own, `cobbles` for an old town, and for the seas `underwater`, `swim NAME weight
+  liftMin liftMax [min max] [circle]` (circle: round over the tube, as sharks do) and `crossing ferry|train`.
   New places go into new files after the last one, so the numbers of the old ones (and the track codes that use them)
   stay; the records keep places by their IDs.
 - `countries.txt`: each country's side of the road, vehicles, markings, signs, radio station, flag and landmass.
@@ -262,4 +312,10 @@ The world lives in `data/` as plain text, built into the program (CMake embeds i
 - `seas.txt`: the seas and points in them; a crossing goes under the sea nearest its middle.
 - `landmarks/*.txt` and `creatures/*.txt`: shapes in a small language (`00-language.txt` describes it): boxes, tapered
   boxes, columns, cones, rods, balls, domes, roofs, windows, arches, rings, repeated, turned and mirrored. The creatures
-  swim round the undersea tunnels.
+  swim round the undersea tunnels; the ferry, the car train, the festivals' stalls and tents and the regional houses
+  are shapes too.
+- `festivals.txt`: the festivals, their dates and places and what they bring (bunting, lanterns, lights, lamps,
+  stalls, tents, trees, confetti, fireworks, the aurora).
+- `roads.txt`: each country's road customs: miles per hour, speed limit boards, toll plazas, speed cameras, number
+  plates.
+- `journeys.txt`: the journeys, from a place of the route to another.
