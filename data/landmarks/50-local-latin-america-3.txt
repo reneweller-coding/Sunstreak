@@ -189,7 +189,7 @@ shape FLOATING_FUEL_STATION
     tbox 4.2 -0.2 0 0.3 3 4.2 0.3 0 0.5 3.4 8A5A3A
 
 shape CACAO_DRYING
-    home ECUADOR, GHANA, IVORY COAST, BRAZIL:BAHIA, DOMINICAN REPUBLIC, CAMEROON, NIGERIA, PERU:AMAZONAS, VENEZUELA, INDONESIA | 0.006 2 20 | country
+    home ECUADOR, GHANA, IVORY COAST, BRAZIL:BAHIA, DOMINICAN REPUBLIC, CAMEROON, NIGERIA, PERU:AMAZONAS, VENEZUELA, INDONESIA, SAO TOME AND PRINCIPE, EQUATORIAL GUINEA, TOGO, GRENADA | 0.006 2 20 | country
     # Cacao beans drying in the sun on raised bamboo racks, the farmer raking them over, ripe yellow pods on the trees behind.
     repeat 3 0 0 2.5
     box 0 0.8 -2.5 0.8 0.04 1 C8B070

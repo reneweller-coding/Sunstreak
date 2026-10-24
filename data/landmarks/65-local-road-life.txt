@@ -356,7 +356,7 @@ shape SUGAR_TRAIN
     tube 0.5 0.3 -19.5 0.62 0.3 -19.5 0.3 8 1E1E1E
 
 shape STEAM_TRAIN
-    home ENGLAND, WALES, SCOTLAND, GERMANY:SAXONY, GERMANY:SAXONY-ANHALT, AUSTRIA, CZECHIA, POLAND | 0.002 6 40 | country
+    home ENGLAND, WALES, SCOTLAND, GERMANY:SAXONY, GERMANY:SAXONY-ANHALT, AUSTRIA, CZECHIA, POLAND, ERITREA | 0.002 6 40 | country
     # A heritage steam train on a branch line: a black locomotive puffing white smoke, two maroon carriages with cream window bands.
     box 0 0.05 0 0.9 0.05 25 6A5A48
     tube 0 1.4 -14 0 1.4 -9 0.65 10 1E1E1E

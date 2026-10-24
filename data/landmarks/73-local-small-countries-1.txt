@@ -1,0 +1,297 @@
+# Round five, the countries that had the fewest: Africa and the islands of the Atlantic and the Indian Ocean.
+
+shape SALT_CRUST_SHORE
+    home DJIBOUTI, ETHIOPIA | 0.004 6 50 | arid
+    # The shore of a salt lake far below sea level: a blinding white crust of salt crystals round turquoise water, salt slabs stacked for the caravans.
+    box -6 0.02 0 6 0.02 10 F2F2EE
+    box -10 0.03 0 3 0.02 7 3AC8C8 water
+    repeat 12 1 0 1.6
+    blob -12 0.15 -9 0.3 0.15 0.3 F8F8F4 0.6
+    repeat 4 0 0.15 0
+    box -1 0.08 4 0.5 0.06 0.3 E8E0D0
+
+shape TRAVERTINE_CHIMNEYS
+    home DJIBOUTI, ETHIOPIA | 0.003 10 60 | arid
+    # Limestone chimneys on a dried lake bed: tall knobbly towers of pale travertine, wisps of steam rising from the tops of some.
+    repeat 3 4 0 6
+    tbox -8 0 -8 2 2 -8 9 -8 0.6 0.6 C8B8A0
+    repeat 3 4 0 6
+    blob -8 9 -8 0.8 0.8 0.8 C8B8A0 0.5
+    repeat 2 5 0 7
+    tbox -12 0 -2 1.6 1.6 -12 6 -2 0.5 0.5 B8A890
+    blob -8 11 -8 0.6 1.2 0.6 E8E8E8 glass
+    blob -4 11 -2 0.5 1 0.5 E8E8E8 glass
+
+shape ELECTRIC_RAILWAY_TRAIN
+    home DJIBOUTI, ETHIOPIA, KENYA | 0.002 8 50 | country
+    # A new electric railway across the plain: a modern locomotive and coaches under the catenary on a long embankment.
+    box 0 0.6 0 1.6 0.6 40 8A7A60
+    box 0 2.6 -30 1.4 1.4 8 F2F2EE
+    box 0 2.2 -30 1.41 0.2 8 2A8A3A
+    repeat 3 0 0 17
+    box 0 2.6 -12 1.4 1.4 8 F2F2EE
+    repeat 3 0 0 17
+    box 0 2.9 -12 1.41 0.35 7.5 2A3A4A glass
+    repeat 8 0 0 10
+    tube 2.2 0 -38 2.2 6 -38 0.12 4 9A9A9A
+    tube 0 5.6 -40 0 5.6 40 0.02 3 3A3A3A
+
+shape PAINTED_SHOPFRONT
+    home SOMALIA, DJIBOUTI, ETHIOPIA, YEMEN | 0.005 1 10 | town
+    # A row of shops painted with pictures of what they sell: a giant bottle of soda, a goat, a phone and a sack of rice on the walls.
+    box -1 1.5 0 1 1.5 6 E8E0C8
+    box 0.01 1.8 -4 0.01 0.9 1.5 3AA8E8
+    box 0.02 1.8 -4 0.01 0.6 0.25 C82A2A
+    box 0.01 1.8 0 0.01 0.9 1.5 E8C02A
+    blob 0.03 1.8 0 0.02 0.4 0.6 F2F2F2
+    box 0.01 1.8 4 0.01 0.9 1.5 3AC86A
+    box 0.02 1.8 4 0.01 0.5 0.35 1E1E1E
+    repeat 3 0 0 4
+    box 0.01 0.6 -4 0.01 0.6 0.5 3A2A1E
+
+shape PHONOLITE_NEEDLE
+    home SAO TOME AND PRINCIPE | 0.002 60 200 | country
+    # A volcanic needle rising out of the rainforest: a sheer grey plug of rock hundreds of metres high, cloud clinging to its top.
+    blob 0 6 0 25 8 25 3A6A2A 0.4
+    tbox 0 0 0 9 9 0 120 0 4 4 7A7A74
+    blob 0 122 0 4.5 6 4.5 7A7A74 0.4
+    blob 0 110 3 8 4 8 F2F2F2 glass
+
+shape SANTOMEAN_STILT_HOUSE
+    home SAO TOME AND PRINCIPE, EQUATORIAL GUINEA | 0.006 2 20 | country
+    # A wooden house on stilts: planked walls painted blue or ochre, a rusty tin roof, wooden steps up to the door and chickens underneath.
+    repeat 3 0 0 2.2
+    tube 1.4 0 -2.2 1.4 1.2 -2.2 0.1 4 6A5A40
+    repeat 3 0 0 2.2
+    tube -1.4 0 -2.2 -1.4 1.2 -2.2 0.1 4 6A5A40
+    box 0 2.2 0 1.6 1 2.6 3A8AB8
+    quad -1.9 3.6 -2.8 -1.9 3.6 2.8 1.9 3.1 2.8 1.9 3.1 -2.8 9A6A4A
+    box 1.61 2.1 0.6 0.01 0.8 0.4 6A4A2A
+    tube 2.6 0 0.6 1.7 1.2 0.6 0.25 4 8A6A48
+    repeat 3 0.3 0 0.4
+    blob -0.5 0.2 -1 0.08 0.1 0.1 C8501E
+
+shape BIJAGOS_HUT
+    home GUINEA-BISSAU | 0.006 3 25 | country
+    # Houses of the islands: round mud huts with a ring of posts carrying a deep overhanging thatch, low doors and a sacred tree beside them.
+    repeat 3 0 0 6
+    cyl 0 0 -6 2 2 1.6 14 9A6A48
+    repeat 3 0 0 6
+    spire 0 1.4 -6 3.4 3 14 B8A060
+    repeat 3 0 0 6
+    box 2.01 0.6 -6 0.05 0.6 0.35 2A2018
+    tube -5 0 0 -5 4 0 0.5 6 7A6A58
+    blob -5 6 0 3 2 3 3A6A2A 0.4
+
+shape MANGROVE_RICE_DYKES
+    home GUINEA-BISSAU, GAMBIA, SENEGAL, GUINEA, SIERRA LEONE | 0.004 4 40 | country
+    # Rice fields won from the mangroves: square paddies of shining water divided by earth dykes, women bent over planting, the mangrove wall behind.
+    box -8 0.03 0 7 0.02 10 5A8A7A water
+    repeat 4 0 0 5
+    box -8 0.15 -10 7 0.15 0.3 7A5A40
+    repeat 3 0 0 5
+    box -8 0.15 0 0.3 0.15 10 7A5A40
+    repeat 4 1.5 0 2
+    blob -5 0.4 -6 0.25 0.3 0.2 E8A02A
+    blob -18 2 0 2.5 2 11 2A4A2A 0.5
+
+shape UNDHOLI_SWINGS
+    home MALDIVES | 0.006 1 12 | coast
+    # Swing seats on the beach: wooden frames hung with woven seats like hammock beds, shaded by palms over white coral sand.
+    repeat 3 0 0 3
+    tube 0 0 -3.8 0 2.4 -3.8 0.08 4 8A6A48
+    repeat 3 0 0 3
+    tube 0 0 -2.2 0 2.4 -2.2 0.08 4 8A6A48
+    repeat 3 0 0 3
+    tube 0 2.4 -3.8 0 2.4 -2.2 0.06 4 8A6A48
+    repeat 3 0 0 3
+    box 0 0.6 -3 0.5 0.05 0.6 C8A060
+    repeat 3 0 0 3
+    tube 0 2.4 -3.5 0 0.65 -3.5 0.015 3 C8B890
+    repeat 3 0 0 3
+    tube 0 2.4 -2.5 0 0.65 -2.5 0.015 3 C8B890
+    tube -3 0 0 -2.6 8 0 0.18 5 8A7A60
+    fronds -2.6 8 0 10 2.6 0.6 3E7A2A
+
+shape CORAL_STONE_MOSQUE
+    home MALDIVES, COMOROS | 0.003 4 25 | town
+    # An old island mosque built of cut coral stone: a low white hall with a carved wooden roof, a squat round minaret and coral tombstones in the yard.
+    box 0 1.5 0 3 1.5 4.5 E8E4D8
+    hip 0 3 0 3.3 4.8 1.4 0.4 6A5A48
+    cyl 4.5 0 5 0.8 0.6 6 12 F2F2EE
+    dome 4.5 6 5 0.65 0.5 F2F2EE
+    repeat 6 0 0 1.1
+    box 5 0.35 -3 0.04 0.35 0.2 E8E0D0
+
+shape LAVA_STONE_HOUSE
+    home CAPE VERDE | 0.006 3 25 | country
+    # A house in a volcano's crater: walls of black lava stone, a flat concrete roof, a vine trained over the door and the cone looming behind.
+    box 0 1.3 0 2.2 1.3 3 3A3634
+    box 0 2.65 0 2.3 0.06 3.1 9A9A94
+    box 2.21 0.9 0.5 0.01 0.9 0.45 2A6AC8
+    box 2.6 2.2 0 0.4 0.05 1.4 4A8A3A
+    spire -40 0 0 30 40 12 3A3230
+
+shape ALUGUER_PICKUP
+    home CAPE VERDE, EAST TIMOR | 0.004 1 8 | country
+    # A shared pickup taxi: a white pickup with benches and a frame of rails on its bed, passengers and sacks riding in the back.
+    box 0 0.7 -1.2 0.85 0.4 0.9 F2F2F2
+    box 0 1.3 -1.2 0.8 0.3 0.8 2A3A4A glass
+    box 0 0.55 1.0 0.85 0.25 1.4 F2F2F2
+    repeat 2 0 0 2.5
+    mirrorx
+    tube 0.85 0.8 -0.2 0.85 1.7 -0.2 0.03 3 8A8A8A
+    mirrorx
+    tube 0.85 1.7 -0.2 0.85 1.7 2.3 0.03 3 8A8A8A
+    repeat 3 0 0 0.7
+    blob 0.4 1.15 0.2 0.15 0.3 0.13 E83A3A
+    repeat 3 0 0 0.7
+    blob 0.4 1.55 0.2 0.09 0.1 0.09 4A3020
+    mirror
+    mirrorx
+    tube 0.7 0.35 1.5 0.88 0.35 1.5 0.35 10 1E1E1E
+
+shape PASTEL_HILLSIDE_HOUSES
+    home CAPE VERDE, SAO TOME AND PRINCIPE, SAINT LUCIA, GRENADA, DOMINICA | 0.005 6 40 | town
+    # Little cube houses climbing a steep hillside in pastel paint, some unfinished with rebar on the roof, steps winding between them.
+    box -2 1.2 -4 1.4 1.2 1.6 E8A0B8
+    box -4 2.4 -1 1.4 1.2 1.6 A8D8E8
+    box -2 1.2 2 1.4 1.2 1.6 E8D070
+    box -6 3.6 3 1.4 1.2 1.6 B8E0A8
+    box -7 4.6 -4 1.4 1.4 1.6 E8E0D0
+    repeat 4 0 0 0.6
+    tube -7 6 -5 -7 6.6 -5 0.02 3 6A3A2A
+    blob -6 1 0 4 1.2 7 7A6A4A 0.4
+
+shape OFFSHORE_RIG
+    home EQUATORIAL GUINEA, GABON, ANGOLA, NIGERIA, CONGO, NORWAY, SCOTLAND, BRAZIL:RIO DE JANEIRO | 0.002 60 200 | water
+    # An oil platform out at sea: a steel deck on four legs, a derrick tower, cranes and a flare boom burning at its end.
+    mirror
+    mirrorx
+    tube 8 -3 8 8 14 8 1.2 8 E8C02A
+    box 0 15 0 10 1.5 10 8A8A8A
+    box -3 19 -3 4 2.5 4 E8E0D0
+    tbox 4 16.5 4 2 2 4 32 4 0.5 0.5 C82A2A
+    tube 8 20 -8 22 26 -8 0.4 4 9A9A9A
+    blob 22.5 27 -8 1 2 1 F28A1E glow
+
+shape DIAMOND_BUYER_SHOP
+    home CENTRAL AFRICAN REPUBLIC, SIERRA LEONE, DR CONGO, LIBERIA, GUINEA, ANGOLA | 0.004 1 10 | town
+    # A diamond buyer's shop: a small concrete office painted with a huge sparkling diamond and the buyer's name, bars on the window.
+    box -1 1.4 0 1.2 1.4 2 F2F2EE
+    box 0.21 1.9 0 0.01 0.8 1.6 2A6AC8
+    tri 0.22 1.3 -0.6 0.22 2.5 0 0.22 1.3 0.6 E8F4FA
+    tri 0.22 2.5 0 0.22 2.7 -0.4 0.22 2.7 0.4 C8E0F0
+    box 0.21 0.9 1.4 0.01 0.9 0.4 3A2A1E
+    repeat 4 0 0 0.2
+    box 0.23 1.4 -1.5 0.01 0.3 0.015 6A6A6A
+
+shape TIMBER_LOG_YARD
+    home GABON, CONGO, CAMEROON, EQUATORIAL GUINEA, CENTRAL AFRICAN REPUBLIC, DR CONGO | 0.003 6 40 | country
+    # A timber yard of the forest: enormous red-brown logs stacked in piles, a yellow log loader and a lorry with three trunks on its trailer.
+    repeat 4 0 0.9 0
+    tube -6 0.45 -10 -6 0.45 2 0.45 8 8A4A2A
+    repeat 3 0 0.9 0
+    tube -8 0.45 -10 -8 0.45 2 0.45 8 7A3A1E
+    box 0 1.2 6 0.8 0.8 1.2 E8C02A
+    tube 0 1.8 7 0 2.8 9 0.12 4 E8C02A
+    box 3 1.4 -2 1.1 0.3 6 3A3A3A
+    repeat 3 0 0.8 0
+    tube 2.6 2.2 -7 2.6 2.2 3 0.4 8 8A4A2A
+    box 3 1.6 5 1.1 1 1 C82A2A
+
+shape VERVET_MONKEYS
+    home SAINT KITTS AND NEVIS, BARBADOS, KENYA, TANZANIA, SOUTH AFRICA, UGANDA, ETHIOPIA, ZAMBIA, MALAWI | 0.003 0.5 10 | country
+    # Vervet monkeys on a stone wall by the road: grey-green monkeys with black faces and long tails, one with a stolen mango.
+    box 0 0.4 0 0.25 0.4 3 9A9284
+    repeat 4 0 0 1.4
+    blob 0 1.0 -2 0.13 0.18 0.15 8A8A6A
+    repeat 4 0 0 1.4
+    blob 0.05 1.25 -2 0.08 0.08 0.08 1E1E1E
+    repeat 4 0 0 1.4
+    tube 0 0.85 -2.15 0.1 0.2 -2.35 0.025 3 8A8A6A
+    blob 0.15 1.05 -1.9 0.05 0.06 0.05 E8A02A
+
+shape BANTABA_PLATFORM
+    home GAMBIA, SENEGAL, MALI, GUINEA, GUINEA-BISSAU | 0.004 2 20 | country
+    # A bantaba under a great tree: a raised platform of poles and planks in the shade where the village meets, men sitting and talking.
+    tube 0 0 0 0 4 0 0.7 8 6A5A48
+    blob 0 6.5 0 4.5 2.5 4.5 3A6A2A 0.4
+    box 2.5 0.6 0 1.5 0.06 2.5 8A6A48
+    mirror
+    tube 3.8 0 2.3 3.8 0.6 2.3 0.08 4 6A4A2A
+    mirror
+    tube 1.2 0 2.3 1.2 0.6 2.3 0.08 4 6A4A2A
+    repeat 3 0 0 1.4
+    blob 2.6 0.95 -1.4 0.22 0.3 0.2 E8E0D0
+    repeat 3 0 0 1.4
+    blob 2.6 1.35 -1.4 0.1 0.11 0.1 3A2A1E
+
+shape OYSTER_GATHERERS
+    home GAMBIA, SENEGAL, GUINEA-BISSAU, SIERRA LEONE | 0.004 3 25 | coast
+    # Women gathering oysters in the mangroves at low tide: wading among the roots with baskets, piles of oyster shells drying on the bank.
+    box 0 0.02 0 3 0.02 5 6A7A6A water
+    repeat 6 0 0 1.6
+    blob -4 1.5 -4 1 1.4 0.8 2A5A2A 0.5
+    repeat 6 0 0 1.6
+    tube -4 0 -4 -3.4 0.8 -4 0.06 3 5A4A38
+    repeat 2 1.5 0 3
+    blob -1.5 0.6 -1.5 0.18 0.4 0.15 E83A6A
+    repeat 2 1.5 0 3
+    blob -1.5 1.08 -1.5 0.1 0.11 0.1 3A2A1E
+    blob 3.5 0.25 3 0.8 0.25 0.8 D8D0C0 0.6
+
+shape KEKE_TRICYCLE
+    home NIGERIA, LIBERIA, GHANA, SIERRA LEONE | 0.005 0.5 8 | town
+    # A keke, the yellow motor tricycle taxi, with a green or yellow canvas roof, the driver waiting for passengers at the junction.
+    box 0 0.7 0 0.6 0.45 0.9 E8C02A
+    box 0 1.55 0 0.62 0.05 1.0 2A7A3A
+    mirror
+    mirrorx
+    tube 0.55 0.9 0.85 0.55 1.55 0.85 0.025 3 3A3A3A
+    tube -0.05 0.3 1.1 0.05 0.3 1.1 0.3 10 1E1E1E
+    tube 0.62 0.3 -0.6 0.5 0.3 -0.6 0.3 10 1E1E1E
+    tube -0.62 0.3 -0.6 -0.5 0.3 -0.6 0.3 10 1E1E1E
+    blob 0 1.1 0.6 0.16 0.3 0.13 2A6AC8
+    blob 0 1.45 0.6 0.09 0.1 0.09 3A2A1E
+
+shape BICYCLE_TAXI
+    home BURUNDI, UGANDA, KENYA, MALAWI, RWANDA | 0.005 0.5 6 | town
+    # Bicycle taxis waiting at a stage: sturdy black bicycles with padded passenger seats over the back wheel, their riders in bright shirts.
+    repeat 4 0 0 1.2
+    hoop 0 0.35 -2.2 0.33 0.03 12 1E1E1E
+    repeat 4 0 0 1.2
+    hoop 0 0.35 -1.2 0.33 0.03 12 1E1E1E
+    repeat 4 0 0 1.2
+    tube 0 0.6 -2.1 0 0.8 -1.3 0.025 3 1E1E1E
+    repeat 4 0 0 1.2
+    box 0 0.8 -2.1 0.12 0.06 0.2 C82A2A
+    repeat 3 0 0 1.2
+    blob 0.5 0.75 -1.6 0.16 0.38 0.13 3AA8C8
+    repeat 3 0 0 1.2
+    blob 0.5 1.2 -1.6 0.1 0.11 0.1 3A2A1E
+
+shape TAMIL_KOVIL
+    home MAURITIUS, SRI LANKA, INDIA:TAMIL NADU, MALAYSIA, SINGAPORE, FIJI, GUYANA, SURINAME | 0.003 3 25 | country
+    # A small Tamil temple: a white shrine with a tiered gateway tower crowded with painted gods, a red and white striped wall round it.
+    box 0 1.2 2 2 1.2 3 F2F2EE
+    tbox 0 0 -3 1.8 1.2 0 6 -3 0.8 0.5 E8C890
+    repeat 5 0 1 0
+    box 0 0.8 -3 1.6 0.06 1.1 C83A3A
+    cyl 0 6 -3 0.3 0.1 0.6 8 C8A040
+    repeat 8 0 0 1
+    box 3 0.6 -3.5 0.1 0.6 0.25 C82A2A
+    repeat 8 0 0 1
+    box 3 0.6 -3 0.1 0.6 0.25 F2F2F2
+
+shape KRIO_BOARD_HOUSE
+    home SIERRA LEONE, LIBERIA, GAMBIA | 0.005 2 20 | town
+    # A Krio board house: a timber house painted in faded colours on a high stone ground floor, a veranda with fretwork and steep tin roofs.
+    box 0 1 0 2.4 1 3.5 8A8478
+    box 0 3 0 2.4 1 3.5 C8A0B8
+    gable 0 4 0 2.4 3.5 1.8 0.3 9A5A3A C8A0B8
+    box 2.8 2.2 0 0.4 0.05 3.5 F2F2F2
+    repeat 6 0 0 1.4
+    tube 3.1 2.2 -3.5 3.1 3.6 -3.5 0.04 3 F2F2F2
+    windows 2.41 2.4 -3 0 1 6 1.2
+    box 2.41 0.7 0 0.01 0.7 0.5 3A2A1E

@@ -1,0 +1,228 @@
+# Round five, the countries that had the fewest: the Pacific, the Caribbean, the small states of Europe and Asia.
+
+shape TAIS_LOOM_STALL
+    home EAST TIMOR, INDONESIA:EAST NUSA TENGGARA | 0.005 1 10 | country
+    # A tais weaver under her shelter: a woman at a backstrap loom on the ground, finished cloths in red, black and gold hanging on a line for sale.
+    quad -1.2 2 -1.5 -1.2 2 1.5 1 1.8 1.5 1 1.8 -1.5 B8A060
+    mirror
+    tube 0.9 0 1.4 0.9 1.8 1.4 0.05 3 8A6A48
+    mirror
+    tube -1.1 0 1.4 -1.1 2 1.4 0.05 3 8A6A48
+    blob 0 0.3 0 0.25 0.3 0.22 C82A2A
+    blob 0 0.75 0 0.1 0.11 0.1 3A2A1E
+    box 0.6 0.25 0 0.4 0.02 0.25 C82A2A
+    tube 1.1 1.4 -1.4 1.1 1.4 1.4 0.015 3 C8B890
+    box 1.1 1.0 -0.8 0.01 0.4 0.3 8A1E1E
+    box 1.1 1.0 0 0.01 0.4 0.3 1E1E1E
+    box 1.1 1.0 0.8 0.01 0.4 0.3 C8A040
+
+shape MICROLET
+    home EAST TIMOR | 0.005 1 8 | town
+    # A microlet, the little minibus of Dili: a small van painted in loud colours with a name across the windscreen and music thumping inside.
+    box 0 1.0 0 0.8 0.7 2 C83AA8
+    box 0 1.35 0 0.81 0.25 1.8 2A3A4A glass
+    box 0 1.85 1.95 0.7 0.1 0.01 F2E81E
+    box 0.81 0.6 0 0.01 0.2 1.8 3AE8E8
+    mirror
+    mirrorx
+    tube 0.65 0.32 1.3 0.82 0.32 1.3 0.32 10 1E1E1E
+
+shape PHOSPHATE_CANTILEVER
+    home NAURU, KIRIBATI | 0.003 20 80 | coast
+    # The phosphate cantilevers: two giant rusty steel arms on concrete piers reaching out over the reef to load ships, with conveyor galleries behind.
+    repeat 2 0 0 14
+    box -6 6 -7 2 6 2 8A8478
+    repeat 2 0 0 14
+    tube -6 12 -7 12 13 -7 1 6 8A4A2A
+    repeat 2 0 0 14
+    tube -6 12 -7 -6 18 -7 0.3 4 6A6A6A
+    repeat 2 0 0 14
+    tube -6 18 -7 10 13.5 -7 0.12 3 6A6A6A
+    tube -6 10 -20 -6 10 14 0.8 6 9A8A7A
+
+shape RUSTED_WWII_GUN
+    home NAURU, KIRIBATI, MARSHALL ISLANDS, PALAU, SOLOMON ISLANDS, PAPUA NEW GUINEA, MICRONESIA | 0.003 2 20 | country
+    # An old coastal gun from the war: a rusting barrel on its mount in a crumbling concrete emplacement overgrown with vines.
+    cyl 0 0 0 2.2 2.2 0.8 16 8A8478
+    cyl 0 0.8 0 1 1 0.6 12 6A3A1E
+    tube 0 1.4 0 3.2 1.9 0 0.22 8 6A3A1E
+    box -0.5 1.6 0 0.6 0.4 0.6 6A3A1E
+    blob -1.6 0.9 1.2 0.8 0.5 0.8 3A6A2A 0.5
+
+shape CANOE_HOUSE
+    home KIRIBATI, TUVALU, MARSHALL ISLANDS, MICRONESIA, PALAU | 0.005 2 20 | coast
+    # A canoe house on the lagoon shore: a long open shed of poles under a pandanus thatch, outrigger canoes resting inside on log rollers.
+    repeat 4 0 0 2.4
+    tube 1.6 0 -3.6 1.6 1.8 -3.6 0.08 4 8A6A48
+    repeat 4 0 0 2.4
+    tube -1.6 0 -3.6 -1.6 1.8 -3.6 0.08 4 8A6A48
+    gable 0 1.8 0 1.7 4 1.8 0.3 B8A060 8A6A48
+    tube 0.3 0.4 -3.5 0.3 0.4 3.5 0.25 6 C8A060
+    tube -0.6 0.3 -3 -0.6 0.3 3 0.06 3 8A6A48
+    box -0.15 0.45 0 0.4 0.03 0.08 8A6A48
+
+shape SANDBAG_SEAWALL
+    home TUVALU, KIRIBATI, MARSHALL ISLANDS, MALDIVES | 0.004 2 20 | coast
+    # A seawall of sandbags against the king tides: rows of white bags stacked along the shore in front of the houses, the ocean right behind.
+    repeat 3 0 0.35 -0.15
+    box -2 0.18 0 0.6 0.18 9 E8E0D0
+    box -4 0.02 0 2 0.02 10 3A8AB8 water
+    box 2.5 1.2 3 1.2 1.2 1.8 F2E8D0
+    quad 1 2.6 1 1 2.6 5 4 2.3 5 4 2.3 1 9AA0A8
+
+shape TAHITIAN_MARAE
+    home FRENCH POLYNESIA | 0.004 3 30 | country
+    # An old marae among the trees: a stepped platform of black volcanic stones, a paved court with upright stones, tiki watching from the edge.
+    tbox -4 0 0 3 5 -4 1.5 0 2.4 4.4 3A3634
+    tbox -4 1.5 0 2.4 4.4 -4 2.6 0 1.8 3.6 3A3634
+    box 1 0.05 0 3 0.05 5 5A5450
+    repeat 4 0 0 2.5
+    box 2.5 0.6 -3.75 0.15 0.6 0.25 4A4440
+    blob 3.5 1 3 0.35 0.9 0.3 5A4A3A
+    tube -8 0 4 -8 7 4 0.25 5 7A6A58
+    blob -8 8 4 2.5 1.5 2.5 3A6A2A 0.4
+
+shape ROULOTTE_FOOD_TRUCK
+    home FRENCH POLYNESIA | 0.004 1 10 | town
+    # Roulottes on the waterfront at night: food trucks with their side hatches open and lit, stools at their counters, steaks and poisson cru.
+    repeat 2 0 0 6
+    box -0.5 1.3 -3 1 1.1 2.4 F2F2EE
+    repeat 2 0 0 6
+    box 0.51 1.5 -3 0.01 0.45 1.8 F2E89A lit
+    repeat 2 0 0 6
+    quad 0.5 2.0 -4.8 0.5 2.0 -1.2 1.6 1.9 -1.2 1.6 1.9 -4.8 C82A2A
+    repeat 2 0 0 6
+    box 0.8 1.0 -3 0.3 0.04 1.8 8A6A48
+    repeat 8 0 0 1.4
+    cyl 1.3 0 -5 0.15 0.15 0.7 8 3AA8C8
+
+shape DUGOUT_CANOE_CARVING
+    home DOMINICA, SAINT LUCIA, SAINT VINCENT, GRENADA | 0.004 2 15 | country
+    # A dugout canoe being carved under a tree: a long trunk hollowed out on trestles, wood chips round it and the carver with his adze.
+    repeat 2 0 0 5
+    box 0 0.35 -2.5 0.3 0.35 0.15 8A6A48
+    tube 0 0.95 -3.8 0 0.95 3.8 0.45 8 9A6A40
+    box 0 1.35 0 0.3 0.04 3.4 6A4020
+    blob 0 0.05 0 1.4 0.05 3 C8A070 0.6
+    blob 1 0.75 1 0.17 0.4 0.14 2A6AC8
+    blob 1 1.25 1 0.1 0.11 0.1 3A2A1E
+    tube -3 0 0 -3 4 0 0.4 6 7A6A58
+    blob -3 5.5 0 2.8 1.8 2.8 3A6A2A 0.4
+
+shape CARIBBEAN_MINIBUS
+    home DOMINICA, SAINT LUCIA, SAINT VINCENT, GRENADA, ANTIGUA AND BARBUDA, SAINT KITTS AND NEVIS, BARBADOS, BAHAMAS, TRINIDAD AND TOBAGO | 0.005 1 8 | town
+    # A private minibus of the islands with a name painted across the windscreen and flashy decals, tinted windows and music playing loud.
+    box 0 1.15 0 0.9 0.85 2.4 F2F2F2
+    box 0 1.5 0 0.91 0.3 2.2 1E2A3A glass
+    box 0 1.95 2.38 0.75 0.1 0.03 E83A3A
+    box 0.91 0.75 0 0.01 0.15 2.3 3A6AE8
+    box 0.92 0.95 -0.8 0.01 0.1 1.2 E8C02A
+    mirror
+    mirrorx
+    tube 0.75 0.35 1.6 0.92 0.35 1.6 0.35 10 1E1E1E
+
+shape STRIPED_SENTRY_BOX
+    home MONACO | 0.004 0.5 6 | town
+    # A sentry box of the palace guard: a little red and white striped box with a pointed roof, a guard in white standing at attention beside it.
+    repeat 5 0 0.5 0
+    box 0 0.25 0 0.5 0.25 0.5 C82A2A
+    repeat 5 0 0.5 0
+    box 0 0.5 0 0.51 0.25 0.51 F2F2F2
+    box 0 1.0 0 0.52 0.02 0.52 F2F2F2
+    hip 0 2.5 0 0.55 0.55 0.6 0.05 C82A2A
+    box 0.51 1.1 0 0.01 0.9 0.35 2A2A2A
+    blob 1.0 0.85 0.8 0.17 0.42 0.14 F2F2F2
+    blob 1.0 1.35 0.8 0.1 0.11 0.1 E0B090
+    cyl 1.0 1.42 0.8 0.11 0.11 0.15 8 1E1E1E
+
+shape VATICAN_POST_BOX
+    home VATICAN | 0.005 0.5 4 | town
+    # A yellow post box of the papal post, the crossed keys on its front, standing by a travertine wall.
+    box 0 0.7 0 0.25 0.45 0.2 F2C21E
+    tube 0 0 0 0 0.25 0 0.06 6 3A3A3A
+    box 0.251 0.95 0 0.005 0.025 0.12 1E1E1E
+    box 0.252 0.7 0 0.003 0.1 0.08 F2F2F2
+    box -0.6 1.2 0 0.3 1.2 2 E8E0C8
+
+shape SWISS_GUARD_POST
+    home VATICAN | 0.004 1 6 | town
+    # A gate of the guards: a stone archway with a guard in blue, red and yellow stripes and a plumed helmet, his halberd upright.
+    box -0.4 2.5 -2 0.6 2.5 0.6 E8E0C8
+    box -0.4 2.5 2 0.6 2.5 0.6 E8E0C8
+    arch -0.4 4 0 3.4 1 0.3 10 E8E0C8
+    blob 0.6 0.85 1 0.17 0.42 0.14 2A3A8A
+    box 0.6 0.85 1 0.18 0.25 0.15 E8A02A
+    blob 0.6 1.35 1 0.1 0.11 0.1 E0B090
+    cyl 0.6 1.42 1 0.12 0.1 0.12 8 3A3A3A
+    blob 0.6 1.6 1 0.05 0.1 0.12 C82A2A
+    tube 0.8 0 1.2 0.8 2.4 1.2 0.02 3 6A4A2A
+    spire 0.8 2.4 1.2 0.08 0.3 4 C8C8C8 shiny
+
+shape STONE_BORDA
+    home ANDORRA, SPAIN:CATALONIA, FRANCE:OCCITANIE, SPAIN:ARAGON | 0.004 3 30 | country
+    # A mountain borda: a barn of rough grey stone with a steep slate roof, its hayloft door high up, built into the slope of a meadow.
+    box 0 2 0 2.5 2 4 8A8478
+    gable 0 4 0 2.5 4 2.2 0.3 4A4A50 8A8478
+    box 2.51 3 0 0.01 0.6 0.6 4A3020
+    box 2.51 0.8 2 0.01 0.8 0.5 4A3020
+    blob -3 0.6 0 2 1 5 5A8A3A 0.4
+
+shape GOLDEN_DOME_MOSQUE
+    home BRUNEI, MALAYSIA | 0.003 6 40 | country
+    # A village mosque with a golden dome: a white prayer hall under a gilded onion dome, a slender minaret with a gold cap beside it.
+    box 0 2.5 0 4 2.5 4 F2F2EE
+    cyl 0 5 0 1.8 1.8 1 12 F2F2EE
+    blob 0 7.2 0 2 1.8 2 E8B830 shiny
+    spire 0 8.8 0 0.2 1 6 E8B830
+    cyl 5 0 5 0.6 0.5 12 10 F2F2EE
+    blob 5 12.3 5 0.7 0.7 0.7 E8B830 shiny
+    windows 4.01 1 -3 0 1 6 2
+
+shape MODEL_VILLAGE_ROWS
+    home NORTH KOREA | 0.006 10 60 | country
+    # A model farm village: rows of identical white houses with blue tiled roofs, laid out in straight lines between the fields.
+    repeat 5 0 0 6
+    box -4 1.3 -12 2 1.3 2.3 F2F2EE
+    repeat 5 0 0 6
+    hip -4 2.6 -12 2.2 2.5 1.1 0.2 3A5AA8
+    repeat 5 0 0 6
+    box -10 1.3 -12 2 1.3 2.3 F2F2EE
+    repeat 5 0 0 6
+    hip -10 2.6 -12 2.2 2.5 1.1 0.2 3A5AA8
+
+shape WOOD_GAS_TRUCK
+    home NORTH KOREA | 0.004 1 10 | country
+    # An old truck running on wood gas: a tall smoking gas generator stove mounted beside the cab, logs piled on the back.
+    box 0 1.2 2.2 1 0.7 0.9 3A5A3A
+    box 0 1.7 1.6 0.95 0.5 0.6 3A5A3A
+    box 0 0.9 -1.2 1.1 0.15 2.2 4A4A3A
+    repeat 3 0 0.35 0
+    tube -0.8 1.2 -3 -0.8 1.2 0.6 0.16 6 8A6A48
+    repeat 3 0 0.35 0
+    tube 0.3 1.2 -3 0.3 1.2 0.6 0.16 6 8A6A48
+    cyl 1.3 0.6 1.0 0.3 0.3 1.6 10 3A3A3A
+    blob 1.3 2.8 1.0 0.3 0.5 0.3 B8B8B8 glass
+    mirror
+    mirrorx
+    tube 0.9 0.45 1.8 1.1 0.45 1.8 0.45 10 1E1E1E
+
+shape RED_WOODEN_CHURCH
+    home GREENLAND, ICELAND | 0.004 4 30 | cold
+    # A small church of red-painted wood with white window frames and a little white bell turret, standing alone on the rocks.
+    box 0 2 0 2.5 2 4.5 B8302A
+    gable 0 4 0 2.5 4.5 1.8 0.2 2A2A2A B8302A
+    windows 2.51 1.2 -3.5 0 1 7 1.6
+    box 0 6.4 -3.8 0.6 0.8 0.6 F2F2F2
+    spire 0 7.2 -3.8 0.7 1.6 4 2A2A2A
+    box 2.51 1 3.5 0.01 1 0.5 F2F2F2
+
+shape FIELD_WATCHTOWER
+    home PALESTINE, ISRAEL, JORDAN | 0.004 2 20 | country
+    # An old field watchtower among olive terraces: a round hut of piled stones with a flat roof where farmers slept at harvest time.
+    cyl 0 0 0 1.6 1.4 2.6 10 B8B0A0
+    cyl 0 2.6 0 1.5 1.5 0.2 10 A8A090
+    box 1.5 0.7 0 0.1 0.7 0.35 3A2A1E
+    repeat 3 0 0.7 -1.8
+    box -3 0.35 3 0.3 0.35 4 A8A090
+    repeat 3 0 0 3
+    blob -4 1.4 -3 1 0.8 1 7A8A5A 0.4

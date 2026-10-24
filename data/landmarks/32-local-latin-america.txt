@@ -744,7 +744,7 @@ shape JERK_DRUM_GRILL
     box -1.98 1.9 0 0.02 0.12 1.8 C82A2A
 
 shape STEELPAN_RACK
-    home TRINIDAD AND TOBAGO | 0.012 4 25
+    home TRINIDAD AND TOBAGO, GRENADA, BARBADOS, ANTIGUA AND BARBUDA | 0.012 4 25
     # Steel pans on their stands under a tent: shining drums cut from oil barrels, waiting for the band.
     quad -2 2.6 -3 -2 2.6 3 2 2.6 3 2 2.6 -3 F2F2F2
     mirror

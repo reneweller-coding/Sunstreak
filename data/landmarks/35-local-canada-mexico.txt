@@ -177,7 +177,7 @@ shape GIANT_PYSANKA
     halo 0 6.75 0 2.43 0.08 16 A86A2A
 
 shape SEALSKIN_FRAMES
-    home CANADA:NUNAVUT, CANADA:NEWFOUNDLAND AND LABRADOR | 0.006 4 30
+    home CANADA:NUNAVUT, CANADA:NEWFOUNDLAND AND LABRADOR, GREENLAND | 0.006 4 30
     # Sealskins stretched on wooden frames to dry in the wind beside a house of the far north.
     repeat 4 0 0 1.8
     blob 0 1.0 -2.7 0.03 0.75 0.5 C8B8A0

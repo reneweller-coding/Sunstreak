@@ -187,7 +187,7 @@ shape HEX_SIGN_BARN
     box 5.02 3 0 0.03 1.4 2 6A1A12
 
 shape TOBACCO_BARN
-    home USA:KENTUCKY, USA:NORTH CAROLINA, USA:VIRGINIA, USA:TENNESSEE, USA:SOUTH CAROLINA | 0.006 15 90 | country
+    home USA:KENTUCKY, USA:NORTH CAROLINA, USA:VIRGINIA, USA:TENNESSEE, USA:SOUTH CAROLINA, ANDORRA | 0.006 15 90 | country
     # A tobacco barn: tall and black, its vertical boards hinged open in strips to let the air through the drying leaves.
     box 0 3 0 4 3 7 1E1E1E
     repeat 8 0 0 1.8
@@ -767,7 +767,7 @@ shape POLAR_BEAR
     blob 0 0.95 2.08 0.06 0.06 0.06 1E1E1E
 
 shape DOG_SLED
-    home CANADA:NUNAVUT, CANADA:YUKON, USA:ALASKA | 0.003 6 40 | cold
+    home CANADA:NUNAVUT, CANADA:YUKON, USA:ALASKA, GREENLAND | 0.003 6 40 | cold
     # A dog team resting in front of its sled: huskies in a double line along the gangline, the sled with its basket and handlebar.
     box 0 0.3 -3 0.4 0.05 1.3 8A6A48
     mirrorx
