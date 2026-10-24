@@ -25,6 +25,7 @@ soundtrack.
 | Boost | Space / Shift | B |
 | Gear down / up (manual) | Q / E | LB / RB |
 | Camera (chase, far, bumper) | C | Y |
+| Look back (hold) | B | right stick pressed in |
 | Radio station / next track | M / N | View |
 | Pause | Esc / P | Start |
 | Window / fullscreen | F11 or Alt+Enter | |
@@ -298,6 +299,7 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --weather clear|rain|storm|fog|snow|sand   that weather all the way (testing)
     --time place|clock|dawn|day|dusk|night     the time of day for this start
     --autopilot                   the car drives itself
+    --look-back                   the camera looks back all the time (screenshots)
     --distance M                  start M metres down the road
     --size WxH                    window size for this start
     --quit-after S --screenshot F quit after S seconds, saving a screenshot

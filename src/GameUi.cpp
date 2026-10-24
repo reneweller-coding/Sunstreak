@@ -894,6 +894,7 @@ void Game::draw()
     in.m_aberration = m_aberration;
     in.m_windStreaks = smoothstepf( 0.62f, 0.95f, m_car.m_speed / m_car.m_spec.m_topSpeed ) + ( m_car.m_boosting ? 0.5f : 0.0f );
     in.m_drawPlayer = !( m_settings.m_camera == 2 && !m_demo && m_state != StateE::PHOTO && m_state != StateE::REPLAY );
+    if( m_lookingBack || m_state == StateE::REPLAY || m_state == StateE::PHOTO ) in.m_behind = 1.0e6f;
     in.m_shadows = m_settings.m_shadows;
     in.m_lensRain = m_settings.m_camera == 2 && !m_demo ? in.m_env.m_rain : in.m_env.m_rain * 0.5f;
     for( const Rival &r : m_race.m_rivals )
@@ -2354,6 +2355,7 @@ void Game::drawHud()
             const bool blink = ( static_cast<int>( m_time * 4.0f ) & 1 ) != 0;
             drawTextFx( format( "POLICE  %d / %d M", static_cast<int>( std::max( 0.0, m_police.gap( m_car.m_s ) ) ), static_cast<int>( PoliceEscape ) ), W * 0.5f,
                         H - 70.0f * u, 22.0f * u, blink ? Red : Color{ 90, 140, 255, 255 }, AlignE::CENTER, 0.6f );
+            if( !m_lookingBack ) drawHint( m_input.m_gamepad ? "HOLD [R3] TO LOOK BACK" : "HOLD [B] TO LOOK BACK", W * 0.5f, H - 42.0f * u, 11.0f * u, Dim, AlignE::CENTER );
         }
     }
 

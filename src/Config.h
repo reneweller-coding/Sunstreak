@@ -76,6 +76,7 @@ struct LaunchOptions
     int         m_startBiome = -1;     ///< -1 as the seed says, else the first stage's biome
     int         m_scenery = -3;        ///< endless runs: a biome, -1 all mixed, -2 the world tour (-3: as the settings say)
     bool        m_autopilot = false;   ///< drive by itself (demo and screenshots)
+    bool        m_lookBack = false;    ///< look back all the time (screenshots)
     bool        m_skipMenu = false;    ///< start a run at once
     float       m_quitAfter = 0.0f;    ///< seconds of play after which the game quits (0: never)
     std::string m_screenshot;          ///< save the last frame there before quitting

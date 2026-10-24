@@ -30,6 +30,7 @@ namespace sunstreak
 constexpr int    ChunkSegments = 16;                                ///< segments per chunk
 constexpr double ChunkLength = ChunkSegments * SegmentLength;       ///< metres per chunk
 constexpr double ViewDistance = 1150.0;                             ///< how far ahead chunks exist
+constexpr double KeepBehind = 320.0;                                ///< how far behind chunks stay (looking back)
 
 /** @brief Something solid beside the road. */
 struct Collider

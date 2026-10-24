@@ -294,7 +294,7 @@ void World::upload( BakedChunk &baked )
 void World::update( Track &track, double s, int maxBuilds )
 {
     const auto t0 = std::chrono::steady_clock::now();
-    const long firstWanted = std::max( 0L, static_cast<long>( std::floor( ( s - 40.0 ) / ChunkLength ) ) );
+    const long firstWanted = std::max( 0L, static_cast<long>( std::floor( ( s - KeepBehind ) / ChunkLength ) ) );
     const long lastWanted = static_cast<long>( std::floor( ( s + ViewDistance ) / ChunkLength ) );
     while( !m_chunks.empty() && m_chunks.front().m_index < firstWanted )
     {

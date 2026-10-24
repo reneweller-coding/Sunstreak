@@ -211,6 +211,7 @@ LaunchOptions parseCommandLine( int argc, char **argv )
             o.m_actionAt = static_cast<float>( std::atof( next().c_str() ) );
         }
         else if( a == "--autopilot" ) o.m_autopilot = true;
+        else if( a == "--look-back" ) o.m_lookBack = true;
         else if( a == "--play" ) o.m_skipMenu = true;
         else if( a == "--mute" ) o.m_mute = true;
         else if( a == "--audio-test" ) o.m_audioTest = next();

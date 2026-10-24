@@ -544,10 +544,11 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
         setF( s, "headStrength", 0.0f );
     }
 
-    // The chunks.
+    // The chunks (those kept behind the car for looking back only when looking back).
     if( in.m_world )
         for( const Chunk &c : in.m_world->chunks() )
         {
+            if( in.m_player && static_cast<double>( c.m_index + 1 ) * ChunkLength < in.m_player->m_s - in.m_behind ) continue;
             const Vector3 o = relativeTo( c.m_origin, origin );
             const Matrix  t = MatrixTranslate( o.x, o.y, o.z );
             if( c.m_ground.vertexCount ) DrawMesh( c.m_ground, m_material, t );

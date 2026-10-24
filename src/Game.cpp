@@ -1323,6 +1323,7 @@ void Game::frame( float dt )
     m_time += dt;
     m_stateTime += dt;
     m_input.update();
+    if( m_options.m_lookBack ) m_input.m_lookBack = true;
     if( m_input.m_fullscreen ) toggleFullscreen();
     if( m_input.m_stats ) m_showStats = !m_showStats;
     const bool busy = m_state == StateE::REPLAY || m_state == StateE::PHOTO || m_state == StateE::INITIALS || m_state == StateE::CODE_ENTRY;
@@ -2240,6 +2241,30 @@ void Game::updateCamera( float dt )
         const float   roll = -m_car.m_steer * 0.025f - clampf( m_car.m_drift * 0.002f, -0.03f, 0.03f );
         const Vector3 right = Vector3Normalize( Vector3CrossProduct( m_cam.m_forward, up ) );
         m_cam.m_up = Vector3Normalize( Vector3Add( Vector3Scale( up, std::cos( roll ) ), Vector3Scale( right, std::sin( roll ) ) ) );
+    }
+    // Looking back while the key is held: over the car's roof (from the driver's seat in the bumper view) down the road behind.
+    m_lookingBack = m_input.m_lookBack && !m_demo && ( m_state == StateE::RACE || m_state == StateE::COUNTDOWN );
+    if( m_lookingBack )
+    {
+        const Pose p = m_car.pose( track );
+        Vec3d      look;
+        if( mode == 2 )
+        {
+            m_cam.m_pos = poseLocal( p, 0.0f, 1.05f, -0.4f );
+            look = track.pointAt( m_car.m_s - 30.0, m_car.m_x, 1.0f );
+        }
+        else
+        {
+            Vec3d pos = track.pointAt( m_car.m_s + 4.6, m_car.m_x * 0.9f, 0.0f );
+            pos.m_y = std::max( pos.m_y, m_car.m_y ) + 2.4;
+            m_cam.m_pos = pos;
+            look = track.pointAt( m_car.m_s - 30.0, m_car.m_x * 0.6f, 1.0f );
+        }
+        m_cam.m_forward = Vector3Normalize( relativeTo( look, m_cam.m_pos ) );
+        m_cam.m_up = Vector3Normalize( Vector3Lerp( Vector3{ 0, 1, 0 }, f.m_up, 0.5f ) );
+        m_cam.m_fovY = 62.0f;
+        m_blur = 0.0f;
+        return;
     }
     if( m_state == StateE::REPLAY && replayCamera() ) return;
     if( m_state == StateE::GARAGE )

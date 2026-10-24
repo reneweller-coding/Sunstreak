@@ -82,6 +82,7 @@ struct SceneInput
     float            m_aberration = 0.0f;     ///< 0..1 colour fringes (boost)
     float            m_windStreaks = 0.0f;    ///< 0..1 air streaks at speed
     bool             m_drawPlayer = true;     ///< false in the bumper view
+    float            m_behind = 60.0f;        ///< metres of scenery drawn behind the player (more when looking back)
     std::vector<CarDraw> m_cars;              ///< rivals and the ghost
     std::vector<PoliceDraw> m_police;         ///< the police
     bool             m_shadows = true;        ///< real-time sun shadows

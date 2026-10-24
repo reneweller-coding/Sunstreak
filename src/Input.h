@@ -3,7 +3,7 @@
  * @brief Keyboard and gamepad (the Steam Deck's controls arrive as a gamepad) mapped to driving and menu actions.
  *
  * Driving: throttle RT / A / Up / W, brake LT / X / Down / S, steer left stick / d-pad / arrows / A D,
- * boost B / Space / Shift, gears LB RB / Q E, camera Y / C, pause Start / Esc / P,
+ * boost B / Space / Shift, gears LB RB / Q E, camera Y / C, look back (held) R3 / B, pause Start / Esc / P,
  * radio station M / View, next track N.
  *
  * @author reneweller
@@ -47,6 +47,7 @@ public:
 
     bool m_pause = false;        ///< pause pressed
     bool m_camera = false;       ///< camera switch pressed
+    bool m_lookBack = false;     ///< B or the right stick pressed in: looking back while held
     bool m_stats = false;        ///< F3: the performance overlay
     bool m_fullscreen = false;   ///< F11 or Alt+Enter pressed
     bool m_nextStation = false;  ///< M or the View button: the next radio station

@@ -902,6 +902,7 @@ private:
     CameraView m_cam;                 ///< the view
     float      m_camX = 0.0f;         ///< smoothed lateral offset
     double     m_camY = 0.0;          ///< smoothed height
+    bool       m_lookingBack = false; ///< the look-back key is held: the camera faces backwards
     float      m_fov = 60.0f;         ///< smoothed field of view
     bool       m_camInit = false;     ///< the camera has a position
     float      m_blur = 0.0f;         ///< smoothed speed blur
