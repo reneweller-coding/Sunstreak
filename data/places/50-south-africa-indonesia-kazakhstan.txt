@@ -1,0 +1,184 @@
+# South Africa province by province, Indonesia across its islands, Kazakhstan: more of each.
+
+place LIMPOPO | LIMPOPO | SOUTH AFRICA | GOLDEN | LIMPOPO
+    land B8A868 AC9C60 B0A070
+    hills 10 3 3
+    drive 2 0.2 0.98 12
+    bends 0.3 0.3 0.25
+    p BAOBAB 0.02 6 150 0.8 1.1
+    p ACACIA 0.08 6 150
+    p ELEPHANT 0.004 20 120
+    p RONDAVEL 0.008 10 60
+
+place JOHANNESBURG | JOHANNESBURG | SOUTH AFRICA | GOLDEN | GAUTENG
+    land 9A9A70 8E8E66 A09A7A
+    drive 4 1.4 0.98 12
+    bends 0.25 0.25 0.1
+    lamps 35
+    gantries 700
+    p GLASS_TOWER 0.06 30 200
+    c 8A9AA8
+    p FLAT_HOUSE 0.06 6 40
+    pastel
+    p BUTTE 0.004 80 200 0.4 0.6
+    c D8C880
+    landmark SOWETO_TOWERS 100 160
+
+place SUN_CITY | PILANESBERG | SOUTH AFRICA | GOLDEN | NORTH WEST
+    land B8A868 AC9C60 B0A070
+    hills 20 6 6
+    drive 2 0.3 0.98 12
+    bends 0.4 0.35 0.3
+    p ACACIA 0.08 6 150
+    p GIRAFFE 0.006 20 120
+    p ZEBRA 0.008 20 120
+    p CASINO 0.002 80 200
+
+place NAMAQUALAND | NAMAQUALAND | SOUTH AFRICA | NOON | NORTHERN CAPE
+    land 9A9A60 8E8E58 A89A70
+    fields 0.7 F0A030 F8E040 E86A9A
+    hills 14 4 4
+    drive 2 0.1 0.98 12
+    bends 0.3 0.3 0.25
+    p KOPJE 0.008 30 200
+    p SHRUB 0.1 2 60
+    c 8A9060
+    p WIND_PUMP 0.004 20 120
+
+place WILD_COAST | WILD COAST | SOUTH AFRICA | MORNING | EASTERN CAPE
+    sea 1 0 -30
+    water 2A6A8A
+    land 6AA048 609440 6A8A58
+    hills 30 0 14
+    drive 2 0.2 0.95 12
+    bends 0.6 0.5 0.55
+    p RONDAVEL 0.015 10 80
+    c E8E0D0 6A8AA8
+    pastel
+    p COW 0.02 10 100
+    p ARCH 0.003 40 150
+    c 6A5A4A
+    floating
+
+place GOLDEN_GATE_HIGHLANDS | GOLDEN GATE HIGHLANDS | SOUTH AFRICA | GOLDEN | FREE STATE
+    land A8A860 9C9C58 A89A6A
+    hills 30 10 10
+    drive 2 0.2 0.98 12
+    bends 0.5 0.45 0.45
+    p BUTTE 0.012 60 300
+    c D8A050
+    p GRASS_TUFT 0.3 1 40
+    p ZEBRA 0.006 20 120
+
+place SUMATRA | LAKE TOBA | INDONESIA | MIST | NORTH SUMATRA
+    island SUMATRA
+    sea 1 0 -8
+    water 2A5A7A
+    land 4E8A3A 46803A 5E8A48
+    hills 30 10 10
+    drive 2 0.3 0.95 20
+    bends 0.6 0.5 0.55
+    p JUNGLE_TREE 0.2 6 150
+    p HUT 0.012 8 60
+    c 6A4A2A 3A3A30
+    p PALM 0.08 3 60
+
+place JAKARTA | JAKARTA | INDONESIA | HAZE | JAKARTA
+    sea 0 1 -4
+    water 3A5A60
+    land 7A8A6A 728262 6A7A62
+    drive 4 1.6 0.95 20
+    bends 0.3 0.3 0.1
+    lamps 35
+    p GLASS_TOWER 0.1 20 250
+    p FLAT_HOUSE 0.06 4 40
+    pastel
+    p PALM 0.08 2 20
+    landmark MONAS 70 120
+
+place LOMBOK | MOUNT RINJANI | INDONESIA | TROPICAL | WEST NUSA TENGGARA
+    island LOMBOK
+    sea 1 0 -4
+    water 2AB0C8
+    land 5E9A48 549040 5E8A50
+    drive 2 0.3 0.95 20
+    bends 0.45 0.4 0.4
+    p VOLCANO_CONE 0.004 300 600 1.4 1.8
+    c 5A5A50 7A8A6A
+    p PALM 0.2 2 50
+    p TERRACES 0.006 40 200
+    p HUT 0.01 8 50
+
+place KOMODO | KOMODO | INDONESIA | DESERT | EAST NUSA TENGGARA
+    island FLORES
+    sea 1 0 -8
+    water 2AA8C8
+    land B8A868 AC9C60 9A9A60
+    hills 30 10 10
+    drive 2 0.1 0.95 20
+    bends 0.5 0.45 0.45
+    p PALM 0.06 3 60
+    p GRASS_TUFT 0.2 1 40
+    p KOPJE 0.006 40 200
+
+place RAJA_AMPAT | RAJA AMPAT | INDONESIA | TROPICAL | WEST PAPUA
+    island NEW GUINEA
+    sea 1 1 -3
+    water 2ACCD0
+    land 3E8A32 38802C 3E7A3A
+    drive 2 0.2 0.95 20
+    bends 0.45 0.4 0.35
+    bridges 0.3 BEAM
+    p KARST 0.03 30 300 0.4 0.8
+    c 3E7A32
+    floating
+    p WATER_VILLA 0.008 20 100
+    floating
+    p JUNGLE_TREE 0.15 6 120
+
+place SULAWESI | TANA TORAJA | INDONESIA | MIST | SOUTH SULAWESI
+    island SULAWESI
+    fog 0.0026
+    land 5E9A48 549040 5E8A50
+    fields 0.4 6AA040 8AB050 4E8A3A
+    hills 30 10 10
+    drive 2 0.3 0.95 20
+    bends 0.6 0.5 0.55
+    p TERRACES 0.006 40 200
+    p BAMBOO 0.1 4 80
+    landmark TONGKONAN 30 60
+
+place KALIMANTAN | KALIMANTAN | INDONESIA | HAZE | EAST KALIMANTAN
+    island BORNEO
+    rain 0.15
+    sea 0 1 -5
+    water 6A5A40 0.85
+    land 3E8A32 38802C 3E7A3A
+    road A86A40 A86A40
+    drive 2 0.2 0.85 20
+    bends 0.4 0.35 0.3
+    p JUNGLE_TREE 0.35 4 150
+    p HOUSEBOAT 0.01 15 80
+    floating
+
+place BAIKONUR | BAIKONUR | KAZAKHSTAN | DESERT | KYZYLORDA
+    land C8B888 BCAC80 B8A888
+    hills 2 0 0
+    drive 2 0.1 1.0 22
+    bends 0.08 0.1 0.05
+    p SHRUB 0.1 2 80
+    c 8A8A60
+    p CAMEL 0.006 20 120
+    p POWER_PYLON 0.01 40 150
+    landmark ROCKET 200 300 1.1
+
+place ASTANA | ASTANA | KAZAKHSTAN | WINTER | ASTANA
+    snow 0.3
+    land E0E4EA D4DAE2 C8D0DA
+    drive 4 1.0 0.85 22
+    bends 0.15 0.2 0.05
+    lamps 35
+    p GLASS_TOWER 0.08 20 250
+    c 7AA0C8
+    p PANEL_BLOCK 0.04 20 150
+    landmark BAITEREK 80 140

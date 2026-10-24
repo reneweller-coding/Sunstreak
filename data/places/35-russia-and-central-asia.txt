@@ -5,7 +5,7 @@
 # change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
-place CHUYSKY | CHUYSKY TRAKT | RUSSIA | ALPINE
+place CHUYSKY | CHUYSKY TRAKT | RUSSIA | ALPINE | ALTAI
     sea 0 1 -8
     water 4AB0B0
     land 7A9A50 708E48 7A8A60
@@ -20,7 +20,7 @@ place CHUYSKY | CHUYSKY TRAKT | RUSSIA | ALPINE
     p YURT 0.004 20 100
     p ROCK 0.08 3 50
 
-place ROAD_OF_BONES | ROAD OF BONES | RUSSIA | WINTER
+place ROAD_OF_BONES | ROAD OF BONES | RUSSIA | WINTER | MAGADAN
     snow 0.4
     land E4E8EE D8DEE6 CCD4DE
     verge B8BCC4
@@ -36,7 +36,7 @@ place ROAD_OF_BONES | ROAD OF BONES | RUSSIA | WINTER
     p PANEL_BLOCK 0.001 40 150
     c 9A9A9A 6A6A6A 1A1E26
 
-place CHARYN | CHARYN CANYON | KAZAKHSTAN | DESERT
+place CHARYN | CHARYN CANYON | KAZAKHSTAN | DESERT | ALMATY
     land B8A070 AC9468 B89A6E
     verge B86A40
     hills 24 -30 8

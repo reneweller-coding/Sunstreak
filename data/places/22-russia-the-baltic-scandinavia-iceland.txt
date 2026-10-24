@@ -5,7 +5,7 @@
 # change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
-place KAMCHATKA | KAMCHATKA | RUSSIA | MIST
+place KAMCHATKA | KAMCHATKA | RUSSIA | MIST | KAMCHATKA
     land 6A9A50 608E48 6A8458
     road 6E6E72
     drive 2 0.1 0.9 3
@@ -17,7 +17,7 @@ place KAMCHATKA | KAMCHATKA | RUSSIA | MIST
     p SHRUB 0.2 2 60
     c 6A8A50
 
-place LAKE_BAIKAL | LAKE BAIKAL | RUSSIA | ARCTIC
+place LAKE_BAIKAL | LAKE BAIKAL | RUSSIA | ARCTIC | IRKUTSK
     sea 1 0 -1.5
     water 8AC8E0 0.98
     land E8ECF2 DCE2EA D8DEE8
@@ -27,7 +27,7 @@ place LAKE_BAIKAL | LAKE BAIKAL | RUSSIA | ARCTIC
     p SNOW_PINE 0.2 4 120
     p ROCK 0.05 3 40
 
-place SIBERIA | SIBERIA | RUSSIA | WINTER
+place SIBERIA | SIBERIA | RUSSIA | WINTER | KRASNOYARSK
     windows FFD696
     land E8ECF2 DCE2EA D0D8E4
     drive 2 0.2 0.8 3
@@ -38,7 +38,7 @@ place SIBERIA | SIBERIA | RUSSIA | WINTER
     c 6A4A3A 8A8A90
     p SNOWBANK 0.25 0.5 3 0.8 1.4
 
-place GOLDEN_RING | GOLDEN RING | RUSSIA | MORNING
+place GOLDEN_RING | GOLDEN RING | RUSSIA | MORNING | YAROSLAVL
     land 7AA04E 6E9448 8A9A5E
     hills 12 3 3 0.1
     drive 2 0.4 0.98 3
