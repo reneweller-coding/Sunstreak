@@ -40,6 +40,7 @@ void Traffic::reset( uint64_t seed, double startS )
     m_rng = Rng( seed ^ 0x7AFF1Cull );
     m_spawnS = startS + 120.0;
     m_scanned = 0;
+    m_sirenS = startS + static_cast<double>( m_rng.range( 1500.0f, 5000.0f ) );
 }
 
 bool Traffic::laneFree( int lane, double s, const TrafficCar *self ) const
@@ -270,6 +271,50 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
     }
     scanRoadworks( track, player.m_s + 900.0 );
 
+    // Now and then an ambulance or a fire engine on a run: from behind when the player is slower than it, else ahead.
+    if( m_density > 0.0f && player.m_s > m_sirenS )
+    {
+        m_sirenS = player.m_s + static_cast<double>( m_rng.range( 3500.0f, 8000.0f ) );
+        const bool fire = m_rng.chance( 0.4f );
+        float      cruise = fire ? 30.0f : 36.0f;
+        const bool behind = player.m_speed < cruise - 3.0f;
+        TrafficCar c;
+        c.m_s = behind ? player.m_s - 120.0 : player.m_s + m_sirenAhead;
+        m_sirenAhead = 900.0;
+        const Segment  &seg = track.segment( static_cast<long>( c.m_s / SegmentLength ) );
+        const Crossing  xc = track.crossingAt( c.m_s );
+        const BiomeDef &place = biomeDef( track.stageBiome( static_cast<int>( c.m_s / StageLength ) ) );
+        const int       model = serviceModel( models, place, fire ? "FIRE_ENGINE" : "AMBULANCE" );
+        const bool      busy = std::any_of( m_cars.begin(), m_cars.end(), []( const TrafficCar &o ) { return o.m_siren != 0; } );
+        const bool      aboard = xc.m_type != CrossingE::NONE && c.m_s > xc.m_board - 150.0 && c.m_s < xc.m_land + 60.0;
+        if( model >= 0 && !busy && !aboard && c.m_s > StartLine + 150.0 && !( seg.m_flags & SEG_FORK ) )
+        {
+            if( behind ) cruise = std::max( cruise, player.m_speed + 6.0f );
+            const VehicleModel &vm = models.m_traffic[static_cast<size_t>( model )];
+            c.m_model = model;
+            c.m_length = vm.m_length;
+            c.m_width = vm.m_width;
+            c.m_siren = static_cast<uint8_t>( place.m_country && countryInfo( place.m_country ).m_fleet == FleetE::EUROPE ? 2 : 1 );
+            c.m_lane = keepLeft ? seg.m_lanes - 1 : 0;
+            c.m_x = laneCenter( c.m_lane, seg.m_lanes, seg.m_halfWidth );
+            c.m_cruise = cruise;
+            c.m_speed = cruise;
+            c.m_passed = behind;
+            c.m_plate = static_cast<uint8_t>( roadCustoms( place.m_country ).m_plate );
+            m_cars.push_back( c );
+        }
+    }
+    // Ahead of a siren the traffic pulls over.
+    std::vector<const TrafficCar *> sirens;
+    for( const TrafficCar &c : m_cars )
+        if( c.m_siren ) sirens.push_back( &c );
+    for( TrafficCar &c : m_cars )
+    {
+        if( c.m_siren || c.m_animal || c.m_swim ) continue;
+        for( const TrafficCar *e : sirens )
+            if( c.m_s - e->m_s > -8.0 && c.m_s - e->m_s < 160.0 ) c.m_yield = 2.0f;
+    }
+
     // Drive.
     for( TrafficCar &c : m_cars )
     {
@@ -315,6 +360,16 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
         }
         if( c.m_lane >= lanes ) c.m_lane = lanes - 1;
         float want = c.m_cruise;
+        // The siren keeps to the fast lane, the others pull over to the slow side's edge.
+        const int   fastLane = keepLeft ? lanes - 1 : 0, slowLane = lanes - 1 - fastLane;
+        const float slowSide = keepLeft ? -1.0f : 1.0f;
+        if( c.m_siren && !laneClosedAhead( track, c.m_s, fastLane, 150.0 ) ) c.m_lane = fastLane;
+        if( c.m_yield > 0.0f )
+        {
+            c.m_yield -= dt;
+            want = c.m_cruise * 0.6f;
+            if( !laneClosedAhead( track, c.m_s, slowLane, 120.0 ) ) c.m_lane = slowLane;
+        }
         // A fork's two carriageways (from where the road widens for them): no changing to the other one.
         const bool median = ( seg.m_flags & SEG_MEDIAN ) || ( ( seg.m_flags & SEG_FORK ) && lanes >= 4 && lanes % 2 == 0 );
         auto       sameSide = [&]( int l ) { return !median || ( l * 2 < lanes ) == ( c.m_lane * 2 < lanes ); };
@@ -332,12 +387,23 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
             }
             if( laneClosedAhead( track, c.m_s, c.m_lane, 50.0 ) ) want = 6.0f;
         }
-        // A slower car ahead: overtake or follow.
+        // A slower car ahead: overtake or follow. The siren only slows behind whatever is still in its way.
+        if( c.m_siren )
+        {
+            auto inWay = [&]( double s, float x, float width, float speed )
+            {
+                const double gap = s - c.m_s;
+                if( gap > 0.0 && gap < 25.0 + c.m_speed * 0.8 && std::abs( x - c.m_x ) < ( width + c.m_width ) * 0.5f + 0.3f ) want = std::min( want, speed );
+            };
+            for( const TrafficCar &o : m_cars )
+                if( &o != &c && !o.m_swim ) inWay( o.m_s, o.m_x, o.m_width, o.m_speed );
+            inWay( player.m_s, player.m_x, player.m_spec.m_width, player.m_speed );
+        }
         for( const TrafficCar &o : m_cars )
         {
-            if( &o == &c || o.m_lane != c.m_lane ) continue;
+            if( &o == &c || o.m_lane != c.m_lane || c.m_siren ) continue;
             const double gap = o.m_s - c.m_s;
-            if( gap > 0.0 && gap < 20.0 + c.m_speed * 1.2 && o.m_speed < want )
+            if( gap > 0.0 && gap < 20.0 + c.m_speed * 1.2 && o.m_speed < want && !o.m_siren && c.m_yield <= 0.0f )
             {
                 // Overtaking on the outer side: the left, or the right where they keep left.
                 const int l = c.m_lane + ( m_rng.chance( 0.8f ) == keepLeft ? 1 : -1 );
@@ -349,6 +415,8 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
         }
         c.m_speed = approach( c.m_speed, std::max( 0.0f, want ), want < c.m_speed ? 1.6f : 0.5f, dt );
         float target = laneCenter( c.m_lane, lanes, seg.m_halfWidth );
+        if( c.m_yield > 0.0f ) target = slowSide * ( seg.m_halfWidth - c.m_width * 0.5f + 0.5f );
+        else if( c.m_siren && lanes == 1 ) target = -slowSide * seg.m_halfWidth * 0.4f;
         if( seg.m_flags & SEG_FORK )
         {
             // On the carriageway the player did not take: follow it as it turns away, then leave.
@@ -434,6 +502,7 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
         else if( c.m_passed && ds < -halfL )
         {
             c.m_passed = false;
+            if( c.m_siren && std::abs( dx ) > halfW + 0.6f && player.m_speed > 3.0f ) ++ev.m_gaveWay;
         }
     }
     std::erase_if( m_cars,
@@ -442,7 +511,8 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
                        const bool across = c.m_animal && c.m_x * c.m_vx > 0.0f && std::abs( c.m_x ) > track.segment( static_cast<long>( c.m_s / SegmentLength ) ).m_halfWidth + 9.0f;
                        const Crossing xc = c.m_swim ? Crossing() : track.crossingAt( c.m_s );
                        const bool     aboard = xc.m_type != CrossingE::NONE && c.m_s > xc.m_board - 25.0 && c.m_s < xc.m_land - 20.0;
-                       return across || aboard || c.m_gone || ( c.m_swim && std::abs( c.m_x ) > 160.0f ) || c.m_s < player.m_s - 140.0 || c.m_s > player.m_s + 1700.0;
+                       return across || aboard || c.m_gone || ( c.m_swim && std::abs( c.m_x ) > 160.0f ) || c.m_s < player.m_s - ( c.m_siren ? 400.0 : 140.0 ) ||
+                              c.m_s > player.m_s + 1700.0;
                    } );
 
     // Cones and boards.

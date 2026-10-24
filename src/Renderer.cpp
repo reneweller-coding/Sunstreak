@@ -580,6 +580,17 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
             p.m_pos.m_y += static_cast<double>( c.m_lift );
             setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, c.m_s ) );
             DrawMesh( models.m_traffic[c.m_model].m_mesh, m_material, poseMatrix( p, origin ) );
+            if( c.m_siren )
+            {
+                // On a run: the light bar flashes, and the lamps on the back answer it.
+                const VehicleModel &vm = models.m_traffic[c.m_model];
+                const int           phase = static_cast<int>( in.m_time * 5.0f ) & 1;
+                const Matrix        m = poseMatrix( p, origin );
+                DrawMesh( models.m_policeFlash[static_cast<size_t>( flashMesh( vm.m_lamps, phase ) )], m_material,
+                          MatrixMultiply( MatrixTranslate( vm.m_light.x, vm.m_light.y, vm.m_light.z ), m ) );
+                DrawMesh( models.m_policeFlash[static_cast<size_t>( flashMesh( vm.m_lamps, 1 - phase ) )], m_material,
+                          MatrixMultiply( MatrixTranslate( 0.0f, vm.m_light.y - 0.12f, -vm.m_length * 0.5f + 0.15f ), m ) );
+            }
             if( !c.m_animal && c.m_s > playerS - 10.0 && c.m_s - playerS < 90.0 && c.m_plate < models.m_plates.size() )
             {
                 // Its number plate behind, in the country's style.
@@ -616,7 +627,7 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
         setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, c.m_s ) );
         DrawMesh( vm.m_mesh, m_material, m );
         if( c.m_flash >= 0 )
-            DrawMesh( models.m_policeFlash[static_cast<size_t>( c.m_flash & 1 )], m_material,
+            DrawMesh( models.m_policeFlash[static_cast<size_t>( flashMesh( vm.m_lamps, c.m_flash & 1 ) )], m_material,
                       MatrixMultiply( MatrixTranslate( vm.m_light.x, vm.m_light.y, vm.m_light.z ), m ) );
         shadows.push_back( { p, vm.m_width, vm.m_length } );
     }

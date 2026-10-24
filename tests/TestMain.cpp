@@ -502,6 +502,54 @@ int main()
             check( usa && hk && policeCars >= 40 && traps >= 4 && traps <= 16 && runChased && runEscaped && !runCaught && stopChased && stopCaught && !stopEscaped,
                    "the police of the world tour" );
         }
+        { // An ambulance or a fire engine on its run: from behind past a slow car, the traffic pulling over for it.
+            Models       models;   // no meshes: sizes only, an everyday car and lorry at the end
+            const size_t shapes = dataShapes().size();
+            models.m_traffic.resize( shapes + 2 );
+            models.m_traffic[shapes + 1].m_truck = true;
+            models.m_policeModel.assign( shapes, -1 );
+            int services = 0;
+            for( size_t i = 0; i < shapes; ++i )
+            {
+                const std::string &name = dataShapes()[i].m_name;
+                const bool service = name.rfind( "AMBULANCE", 0 ) == 0 || name.rfind( "FIRE_ENGINE", 0 ) == 0 || name.rfind( "POLICE_CAR", 0 ) == 0;
+                models.m_traffic[i].m_animal = service ? PropKindE::COUNT : PropKindE::LANDMARK;   // the rest never drives
+                models.m_traffic[i].m_police = service;
+                models.m_traffic[i].m_length = 5.2f;
+                models.m_traffic[i].m_width = 2.0f;
+                if( service ) models.m_policeModel[i] = static_cast<int>( i );
+                services += name.rfind( "AMBULANCE", 0 ) == 0 || name.rfind( "FIRE_ENGINE", 0 ) == 0 ? 1 : 0;
+            }
+            TrackParams p;
+            p.m_biome = biomeId( "ROUTE_66" );
+            Track     road( 5, p );
+            PlayerCar car;
+            car.reset( carSpec( 0 ), StartLine, 0.0f, road );
+            Traffic traffic;
+            traffic.reset( 77, car.m_s );
+            std::string    who;
+            int            gaveWay = 0, yielded = 0, after = 0;
+            for( int k = 0; k < 60 * 400 && after < 60 * 40; ++k )
+            {
+                after += gaveWay > 0 ? 1 : 0;   // then on for 40 s more, the siren ahead among the traffic
+                road.generateTo( car.m_s + 2000.0 );
+                const Segment &seg = road.segment( static_cast<long>( car.m_s / SegmentLength ) );
+                car.m_speed = 20.0f;
+                car.m_x = laneCenter( seg.m_lanes - 1, seg.m_lanes, seg.m_halfWidth ) + 0.4f;
+                TrafficEvents ev;
+                traffic.update( 1.0f / 60.0f, road, car, models, ev );
+                car.m_s += 20.0 / 60.0;
+                gaveWay += ev.m_gaveWay;
+                for( const TrafficCar &c : traffic.m_cars )
+                {
+                    if( c.m_siren && who.empty() ) who = dataShapes()[static_cast<size_t>( c.m_model )].m_name;
+                    yielded += c.m_yield > 1.9f ? 1 : 0;
+                }
+            }
+            std::printf( "      %d ambulances and fire engines; on Route 66 %s came by, %d frames of cars pulling over\n", services, who.c_str(), yielded );
+            check( services >= 40 && ( who == "AMBULANCE_USA" || who == "FIRE_ENGINE_USA" ) && gaveWay == 1 && yielded > 0,
+                   "ambulances and fire engines on their runs" );
+        }
         { // Journeys: every one from a place of the route to another, London to Paris a short one.
             int  shortest = 1 << 30, longest = 0;
             bool known = !journeys().empty();

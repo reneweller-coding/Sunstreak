@@ -1413,6 +1413,7 @@ void Game::frame( float dt )
             if( m_options.m_action == "photo" ) m_state = StateE::PHOTO;
             if( m_options.m_action == "reload" ) reloadGameData();
             if( m_options.m_action == "save" ) saveRun();
+            if( m_options.m_action == "siren" ) m_traffic.sirenNow();
             m_options.m_action.clear();
             break;
         }
@@ -2011,6 +2012,11 @@ void Game::handleEvents()
         }
         m_car.m_boostTank = std::min( 1.0f, m_car.m_boostTank + 0.03f * static_cast<float>( m_ev.m_overtakes ) );
     }
+    if( m_ev.m_gaveWay > 0 && scoring )
+    {
+        m_score += 1000.0;
+        popup( "GAVE WAY", "+1000", Green, 0.8f, 1.8f );
+    }
     for( int i = 0; i < m_ev.m_nearMisses; ++i )
     {
         m_car.m_boostTank = std::min( 1.0f, m_car.m_boostTank + 0.12f );
@@ -2355,6 +2361,17 @@ void Game::updateAudio()
             a.m_underwater = 1.0f;
         }
     }
+    if( !m_demo && ( m_state == StateE::RACE || m_state == StateE::COUNTDOWN ) )
+        for( const TrafficCar &c : m_traffic.m_cars )
+        {
+            // An ambulance or a fire engine on its run, louder as it nears.
+            if( !c.m_siren ) continue;
+            const float loud = clampf( 1.0f - static_cast<float>( std::abs( c.m_s - m_car.m_s ) / SirenRange ), 0.0f, 1.0f );
+            if( loud <= a.m_siren ) continue;
+            a.m_siren = loud;
+            a.m_sirenPan = clampf( ( c.m_x - m_car.m_x ) / 6.0f, -1.0f, 1.0f );
+            a.m_sirenKind = c.m_siren - 1;
+        }
     if( !m_demo && m_police.m_state == PoliceStateE::CHASE )
     {
         // The siren of the patrol car behind, louder as it nears.

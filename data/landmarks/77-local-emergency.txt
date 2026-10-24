@@ -1,0 +1,1248 @@
+# Round six: the ambulances and fire engines of the world (front towards +z). On a run with their sirens on they come
+# along the road and the traffic makes way; the one whose home is the country drives, AMBULANCE or FIRE_ENGINE where
+# none is. Parked, they wait in the towns. Their lamps are found by colour (E82A2A red, 2A5AE8 blue).
+
+shape AMBULANCE_USA
+    home USA | 0.002 1 10 | town
+    # An American ambulance: a white box on a truck cab, an orange stripe along its sides, the blue star of life, red lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 0.95 0.0 0.005 0.1 2.6 E8701E
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.09 2A5AC8
+    mirrorx
+    quad 1.005 1.58 -0.93 1.005 1.66 -0.97 1.005 1.92 -0.27 1.005 1.84 -0.23 2A5AC8
+    mirrorx
+    quad 1.005 1.92 -0.93 1.005 1.84 -0.97 1.005 1.58 -0.27 1.005 1.66 -0.23 2A5AC8
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_CANADA
+    home CANADA | 0.002 1 10 | town
+    # An ambulance: white with a red and a blue stripe along its sides, red lights on the roof.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 1.0 0.0 0.005 0.08 2.6 C82A2A
+    mirrorx
+    box 1.002 0.85 0.0 0.005 0.04 2.6 2A4AB8
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.09 2A5AC8
+    mirrorx
+    quad 1.005 1.58 -0.93 1.005 1.66 -0.97 1.005 1.92 -0.27 1.005 1.84 -0.23 2A5AC8
+    mirrorx
+    quad 1.005 1.92 -0.93 1.005 1.84 -0.97 1.005 1.58 -0.27 1.005 1.66 -0.23 2A5AC8
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_UK
+    home ENGLAND, SCOTLAND, WALES, NORTHERN IRELAND, IRELAND, NEW ZEALAND | 0.002 1 10 | town
+    # An ambulance in high-visibility checks: yellow with a band of green and yellow squares, blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 E8E01E
+    box 0 0.95 1.9 0.95 0.55 0.62 E8E01E
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 0.9 -2.4 0.005 0.10 0.10 2A8A3A
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 0.9 -2.20 0.005 0.10 0.10 E8E01E
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 1.10 -2.20 0.005 0.10 0.10 2A8A3A
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 1.10 -2.4 0.005 0.10 0.10 E8E01E
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_GERMANY
+    home GERMANY | 0.002 1 10 | town
+    # A rescue ambulance: white with day-glo red stripes along its sides and across the cab, blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 1.0 0.0 0.005 0.1 2.6 F2522A
+    mirrorx
+    box 1.002 2.1 -0.6 0.005 0.06 2.0 F2522A
+    box 0 0.95 2.52 0.9 0.2 0.005 F2522A
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_AUSTRIA
+    home AUSTRIA, CROATIA, SLOVENIA | 0.002 1 10 | town
+    # An ambulance of the red cross: white with a red band and a red cross on its sides, blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 0.95 0.0 0.005 0.12 2.6 C82A2A
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.10 C82A2A
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.10 0.3 C82A2A
+    box 0 1.75 -2.615 0.10 0.3 0.005 C82A2A
+    box 0 1.75 -2.615 0.3 0.10 0.005 C82A2A
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_SWITZERLAND
+    home SWITZERLAND, LIECHTENSTEIN | 0.002 1 10 | town
+    # An ambulance: yellow with a band of red and yellow checks, blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2D21E
+    box 0 0.95 1.9 0.95 0.55 0.62 F2D21E
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 0.9 -2.4 0.005 0.10 0.10 C82A2A
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 0.9 -2.20 0.005 0.10 0.10 F2D21E
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 1.10 -2.20 0.005 0.10 0.10 C82A2A
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 1.10 -2.4 0.005 0.10 0.10 F2D21E
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_FRANCE
+    home FRANCE, MONACO, LUXEMBOURG, ANDORRA, FRENCH POLYNESIA | 0.002 1 10 | town
+    # An emergency ambulance: white with a band of blue and an orange stripe below it, blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 1.05 0.0 0.005 0.1 2.6 2A4AB8
+    mirrorx
+    box 1.002 0.88 0.0 0.005 0.05 2.6 F2801E
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.09 2A5AC8
+    mirrorx
+    quad 1.005 1.58 -0.93 1.005 1.66 -0.97 1.005 1.92 -0.27 1.005 1.84 -0.23 2A5AC8
+    mirrorx
+    quad 1.005 1.92 -0.93 1.005 1.84 -0.97 1.005 1.58 -0.27 1.005 1.66 -0.23 2A5AC8
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_BENELUX
+    home NETHERLANDS, BELGIUM | 0.002 1 10 | town
+    # An ambulance: yellow with a band of blue and yellow checks, blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2E01E
+    box 0 0.95 1.9 0.95 0.55 0.62 F2E01E
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 0.9 -2.4 0.005 0.10 0.10 2A4AB8
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 0.9 -2.20 0.005 0.10 0.10 F2E01E
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 1.10 -2.20 0.005 0.10 0.10 2A4AB8
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 1.10 -2.4 0.005 0.10 0.10 F2E01E
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.09 2A5AC8
+    mirrorx
+    quad 1.005 1.58 -0.93 1.005 1.66 -0.97 1.005 1.92 -0.27 1.005 1.84 -0.23 2A5AC8
+    mirrorx
+    quad 1.005 1.92 -0.93 1.005 1.84 -0.97 1.005 1.58 -0.27 1.005 1.66 -0.23 2A5AC8
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_NORDIC
+    home SWEDEN, NORWAY, DENMARK, FINLAND, ICELAND, ESTONIA, GREENLAND | 0.002 1 10 | town
+    # An ambulance: yellow with a band of green and yellow checks along its sides and blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2E01E
+    box 0 0.95 1.9 0.95 0.55 0.62 F2E01E
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    repeat 8 0 0 0.40
+    mirrorx
+    box 1.003 0.95 -2.4 0.005 0.10 0.10 2A7A3A
+    repeat 8 0 0 0.40
+    mirrorx
+    box 1.003 0.95 -2.20 0.005 0.10 0.10 F2E01E
+    repeat 8 0 0 0.40
+    mirrorx
+    box 1.003 1.15 -2.20 0.005 0.10 0.10 2A7A3A
+    repeat 8 0 0 0.40
+    mirrorx
+    box 1.003 1.15 -2.4 0.005 0.10 0.10 F2E01E
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_ITALY
+    home ITALY, SAN MARINO, VATICAN, MALTA | 0.002 1 10 | town
+    # An emergency ambulance: white with orange stripes along its sides, blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 1.05 0.0 0.005 0.08 2.6 F2801E
+    mirrorx
+    box 1.002 0.88 0.0 0.005 0.04 2.6 F2801E
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.09 F2801E
+    mirrorx
+    quad 1.005 1.58 -0.93 1.005 1.66 -0.97 1.005 1.92 -0.27 1.005 1.84 -0.23 F2801E
+    mirrorx
+    quad 1.005 1.92 -0.93 1.005 1.84 -0.97 1.005 1.58 -0.27 1.005 1.66 -0.23 F2801E
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_SPAIN
+    home SPAIN | 0.002 1 10 | town
+    # An ambulance: yellow with a band of green checks along its sides, blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2D21E
+    box 0 0.95 1.9 0.95 0.55 0.62 F2D21E
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 0.9 -2.4 0.005 0.10 0.10 2A8A3A
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 0.9 -2.20 0.005 0.10 0.10 F2D21E
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 1.10 -2.20 0.005 0.10 0.10 2A8A3A
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 1.10 -2.4 0.005 0.10 0.10 F2D21E
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.09 2A5AC8
+    mirrorx
+    quad 1.005 1.58 -0.93 1.005 1.66 -0.97 1.005 1.92 -0.27 1.005 1.84 -0.23 2A5AC8
+    mirrorx
+    quad 1.005 1.92 -0.93 1.005 1.84 -0.97 1.005 1.58 -0.27 1.005 1.66 -0.23 2A5AC8
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_PORTUGAL
+    home PORTUGAL, CYPRUS | 0.002 1 10 | town
+    # An ambulance: yellow with a red band along its sides and blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2D21E
+    box 0 0.95 1.9 0.95 0.55 0.62 F2D21E
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 1.0 0.0 0.005 0.1 2.6 C82A2A
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.09 2A5AC8
+    mirrorx
+    quad 1.005 1.58 -0.93 1.005 1.66 -0.97 1.005 1.92 -0.27 1.005 1.84 -0.23 2A5AC8
+    mirrorx
+    quad 1.005 1.92 -0.93 1.005 1.84 -0.97 1.005 1.58 -0.27 1.005 1.66 -0.23 2A5AC8
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_POLAND
+    home POLAND, CZECHIA, SLOVAKIA, HUNGARY, LITHUANIA, LATVIA | 0.002 1 10 | town
+    # An ambulance: white and day-glo yellow with a band of green and yellow checks, blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 E8F01E
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 0.9 -2.4 0.005 0.10 0.10 2A7A3A
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 0.9 -2.20 0.005 0.10 0.10 E8F01E
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 1.10 -2.20 0.005 0.10 0.10 2A7A3A
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 1.10 -2.4 0.005 0.10 0.10 E8F01E
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_BALKANS
+    home GREECE, BULGARIA, ROMANIA, SERBIA, BOSNIA, MONTENEGRO, NORTH MACEDONIA, ALBANIA, KOSOVO, MOLDOVA | 0.002 1 10 | town
+    # An ambulance: white with a red band along its sides and blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 1.0 0.0 0.005 0.1 2.6 C82A2A
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.09 2A5AC8
+    mirrorx
+    quad 1.005 1.58 -0.93 1.005 1.66 -0.97 1.005 1.92 -0.27 1.005 1.84 -0.23 2A5AC8
+    mirrorx
+    quad 1.005 1.92 -0.93 1.005 1.84 -0.97 1.005 1.58 -0.27 1.005 1.66 -0.23 2A5AC8
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_RUSSIA
+    home RUSSIA, BELARUS, UKRAINE, KAZAKHSTAN, KYRGYZSTAN, UZBEKISTAN, TAJIKISTAN, TURKMENISTAN, GEORGIA, ARMENIA, AZERBAIJAN | 0.002 1 10 | town
+    # An ambulance in the old colours of the former Soviet lands: a white van with a red band along its sides, blue and red lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 0.95 0.0 0.005 0.14 2.6 C82A2A
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.10 C82A2A
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.10 0.3 C82A2A
+    box 0 1.75 -2.615 0.10 0.3 0.005 C82A2A
+    box 0 1.75 -2.615 0.3 0.10 0.005 C82A2A
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_TURKEY
+    home TURKEY | 0.002 1 10 | town
+    # An ambulance: yellow with a red band, a red crescent on its sides, red and blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2D21E
+    box 0 0.95 1.9 0.95 0.55 0.62 F2D21E
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 1.0 0.0 0.005 0.08 2.6 C82A2A
+    mirrorx
+    blob 1.004 1.75 -0.6 0.01 0.3 0.3 C82A2A
+    mirrorx
+    blob 1.008 1.77 -0.48 0.01 0.26 0.26 F2F2F2
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_ISRAEL
+    home ISRAEL | 0.002 1 10 | town
+    # An ambulance: white with a red band along its sides and the red shield on its doors, red and blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 1.0 0.0 0.005 0.1 2.6 C82A2A
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.10 C82A2A
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.10 0.3 C82A2A
+    box 0 1.75 -2.615 0.10 0.3 0.005 C82A2A
+    box 0 1.75 -2.615 0.3 0.10 0.005 C82A2A
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_GULF
+    home UAE, SAUDI ARABIA, QATAR, KUWAIT, BAHRAIN, OMAN | 0.002 1 10 | town
+    # An ambulance: white with a green and a red stripe along its sides, the red crescent on its doors, red and blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 1.05 0.0 0.005 0.08 2.6 2A8A3A
+    mirrorx
+    box 1.002 0.9 0.0 0.005 0.05 2.6 C82A2A
+    mirrorx
+    blob 1.004 1.75 -0.6 0.01 0.3 0.3 C82A2A
+    mirrorx
+    blob 1.008 1.77 -0.48 0.01 0.26 0.26 F2F2F2
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_ARABIA
+    home EGYPT, MOROCCO, ALGERIA, TUNISIA, LIBYA, JORDAN, LEBANON, SYRIA, IRAQ, IRAN, YEMEN, PALESTINE, MAURITANIA, SUDAN | 0.002 1 10 | town
+    # An ambulance: white with a red band along its sides and the red crescent, red and blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 0.95 0.0 0.005 0.12 2.6 C82A2A
+    mirrorx
+    blob 1.004 1.75 -0.6 0.01 0.3 0.3 C82A2A
+    mirrorx
+    blob 1.008 1.77 -0.48 0.01 0.26 0.26 F2F2F2
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_JAPAN
+    home JAPAN | 0.002 1 10 | town
+    # A Japanese ambulance: white with a red line along its sides, a red lamp on the roof.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 0.95 0.0 0.005 0.05 2.6 C82A2A
+    mirrorx
+    box 1.002 1.15 0.0 0.005 0.02 2.6 C82A2A
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_KOREA
+    home SOUTH KOREA, TAIWAN, CHINA:HONG KONG, CHINA:MACAU | 0.002 1 10 | town
+    # An ambulance: white with orange and red stripes along its sides, red and blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 1.05 0.0 0.005 0.06 2.6 F2801E
+    mirrorx
+    box 1.002 0.9 0.0 0.005 0.04 2.6 C82A2A
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.09 C82A2A
+    mirrorx
+    quad 1.005 1.58 -0.93 1.005 1.66 -0.97 1.005 1.92 -0.27 1.005 1.84 -0.23 C82A2A
+    mirrorx
+    quad 1.005 1.92 -0.93 1.005 1.84 -0.97 1.005 1.58 -0.27 1.005 1.66 -0.23 C82A2A
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_CHINA
+    home CHINA, MONGOLIA | 0.002 1 10 | town
+    # An ambulance: white with a blue and a red stripe along its sides, a red cross, red and blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 1.05 0.0 0.005 0.06 2.6 2A4AB8
+    mirrorx
+    box 1.002 0.9 0.0 0.005 0.04 2.6 C82A2A
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.10 C82A2A
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.10 0.3 C82A2A
+    box 0 1.75 -2.615 0.10 0.3 0.005 C82A2A
+    box 0 1.75 -2.615 0.3 0.10 0.005 C82A2A
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_INDIA
+    home INDIA, NEPAL, BANGLADESH, PAKISTAN, SRI LANKA, BHUTAN, MALDIVES | 0.002 1 10 | town
+    # An emergency ambulance: a white van with a red and a yellow stripe, a red cross and a red and blue light on its roof.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 1.0 0.0 0.005 0.07 2.6 C82A2A
+    mirrorx
+    box 1.002 0.86 0.0 0.005 0.04 2.6 F2C21E
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.10 C82A2A
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.10 0.3 C82A2A
+    box 0 1.75 -2.615 0.10 0.3 0.005 C82A2A
+    box 0 1.75 -2.615 0.3 0.10 0.005 C82A2A
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_SOUTHEAST_ASIA
+    home THAILAND, VIETNAM, CAMBODIA, LAOS, MYANMAR, MALAYSIA, INDONESIA, PHILIPPINES, SINGAPORE, BRUNEI, EAST TIMOR | 0.002 1 10 | town
+    # An ambulance: white with a red-orange band along its sides, red and blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 1.0 0.0 0.005 0.1 2.6 E8601E
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.09 2A5AC8
+    mirrorx
+    quad 1.005 1.58 -0.93 1.005 1.66 -0.97 1.005 1.92 -0.27 1.005 1.84 -0.23 2A5AC8
+    mirrorx
+    quad 1.005 1.92 -0.93 1.005 1.84 -0.97 1.005 1.58 -0.27 1.005 1.66 -0.23 2A5AC8
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_AUSTRALIA
+    home AUSTRALIA, FIJI, PAPUA NEW GUINEA | 0.002 1 10 | town
+    # An ambulance: white with a band of red and white checks, red and blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 0.9 -2.4 0.005 0.10 0.10 C82A2A
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 0.9 -2.20 0.005 0.10 0.10 F2F2F2
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 1.10 -2.20 0.005 0.10 0.10 C82A2A
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 1.10 -2.4 0.005 0.10 0.10 F2F2F2
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_SOUTHERN_AFRICA
+    home SOUTH AFRICA, NAMIBIA, BOTSWANA, ZIMBABWE, ZAMBIA, LESOTHO, ESWATINI, MALAWI, MOZAMBIQUE | 0.002 1 10 | town
+    # An ambulance: white with a band of green and yellow checks along its sides, red and blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 0.9 -2.4 0.005 0.10 0.10 2A7A3A
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 0.9 -2.20 0.005 0.10 0.10 F2D21E
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 1.10 -2.20 0.005 0.10 0.10 2A7A3A
+    repeat 10 0 0 0.40
+    mirrorx
+    box 1.003 1.10 -2.4 0.005 0.10 0.10 F2D21E
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.09 2A5AC8
+    mirrorx
+    quad 1.005 1.58 -0.93 1.005 1.66 -0.97 1.005 1.92 -0.27 1.005 1.84 -0.23 2A5AC8
+    mirrorx
+    quad 1.005 1.92 -0.93 1.005 1.84 -0.97 1.005 1.58 -0.27 1.005 1.66 -0.23 2A5AC8
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_AFRICA
+    home KENYA, UGANDA, TANZANIA, RWANDA, BURUNDI, ETHIOPIA, NIGERIA, GHANA, CAMEROON, SENEGAL, IVORY COAST, MALI, BURKINA FASO, NIGER, CHAD, SOUTH SUDAN, GUINEA, SIERRA LEONE, LIBERIA, TOGO, BENIN, GABON, CONGO, DR CONGO, ANGOLA, MADAGASCAR, MAURITIUS | 0.002 1 10 | town
+    # An ambulance: a white four-wheel-drive van with a red cross and a red band, a light bar on the roof.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 0.95 0.0 0.005 0.1 2.6 C82A2A
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.10 C82A2A
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.10 0.3 C82A2A
+    box 0 1.75 -2.615 0.10 0.3 0.005 C82A2A
+    box 0 1.75 -2.615 0.3 0.10 0.005 C82A2A
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_MEXICO
+    home MEXICO, GUATEMALA, HONDURAS, EL SALVADOR, NICARAGUA, COSTA RICA, PANAMA, CUBA, DOMINICAN REPUBLIC | 0.002 1 10 | town
+    # An ambulance of the red cross: white with red stripes sweeping along its sides, red lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 1.05 0.0 0.005 0.08 2.6 C82A2A
+    mirrorx
+    box 1.002 0.88 0.0 0.005 0.03 2.6 C82A2A
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.10 C82A2A
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.10 0.3 C82A2A
+    box 0 1.75 -2.615 0.10 0.3 0.005 C82A2A
+    box 0 1.75 -2.615 0.3 0.10 0.005 C82A2A
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_ANDES
+    home COLOMBIA, VENEZUELA, ECUADOR, PERU, BOLIVIA, CHILE | 0.002 1 10 | town
+    # An ambulance: white with a red and a blue stripe along its sides, red and blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 1.05 0.0 0.005 0.07 2.6 C82A2A
+    mirrorx
+    box 1.002 0.9 0.0 0.005 0.04 2.6 2A4AB8
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.09 2A5AC8
+    mirrorx
+    quad 1.005 1.58 -0.93 1.005 1.66 -0.97 1.005 1.92 -0.27 1.005 1.84 -0.23 2A5AC8
+    mirrorx
+    quad 1.005 1.92 -0.93 1.005 1.84 -0.97 1.005 1.58 -0.27 1.005 1.66 -0.23 2A5AC8
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_BRAZIL
+    home BRAZIL | 0.002 1 10 | town
+    # An emergency ambulance: white with red stripes along its sides and an orange band, red lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 1.05 0.0 0.005 0.08 2.6 C82A2A
+    mirrorx
+    box 1.002 0.9 0.0 0.005 0.04 2.6 F2801E
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.09 C82A2A
+    mirrorx
+    quad 1.005 1.58 -0.93 1.005 1.66 -0.97 1.005 1.92 -0.27 1.005 1.84 -0.23 C82A2A
+    mirrorx
+    quad 1.005 1.92 -0.93 1.005 1.84 -0.97 1.005 1.58 -0.27 1.005 1.66 -0.23 C82A2A
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape AMBULANCE_PLATA
+    home ARGENTINA, URUGUAY, PARAGUAY | 0.002 1 10 | town
+    # An ambulance: white with orange and blue stripes along its sides, red and blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 1.05 0.0 0.005 0.07 2.6 F2801E
+    mirrorx
+    box 1.002 0.9 0.0 0.005 0.04 2.6 2A4AB8
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.09 2A5AC8
+    mirrorx
+    quad 1.005 1.58 -0.93 1.005 1.66 -0.97 1.005 1.92 -0.27 1.005 1.84 -0.23 2A5AC8
+    mirrorx
+    quad 1.005 1.92 -0.93 1.005 1.84 -0.97 1.005 1.58 -0.27 1.005 1.66 -0.23 2A5AC8
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape FIRE_ENGINE_USA
+    home USA, CANADA | 0.002 1 10 | town
+    # An American fire engine: a red pumper with a white cab roof, chrome lockers and red lights.
+    box 0 1.45 -1.0 1.2 1.0 2.6 C81E1E
+    box 0 1.4 2.55 1.15 0.95 0.95 C81E1E
+    box 0 1.9 3.1 1.16 0.32 0.41 2A3A4A glass
+    box 0 0.75 3.51 0.85 0.07 0.01 F2F2E0 glow
+    box 0 0.55 3.52 1.0 0.12 0.03 D8D8D8
+    box 0 2.58 -0.8 0.34 0.05 2.6 C8C8C8
+    repeat 9 0 0 0.55
+    box 0 2.61 -3.0 0.32 0.03 0.03 8A8A8A
+    box 0 0.62 -3.61 1.0 0.07 0.01 C82A2A glow
+    box 0 2.36 2.55 1.15 0.02 0.95 F2F2F2
+    mirrorx
+    box 1.202 0.85 -0.2 0.005 0.05 3.4 F2F2F2
+    mirrorx
+    box 1.202 1.45 -1.2 0.005 0.55 2.0 D8D8D8
+    box 0 2.42 2.6 1.0 0.04 0.12 1E1E1E
+    box 0.5 2.48 2.6 0.48 0.05 0.11 E82A2A glow
+    box -0.5 2.48 2.6 0.48 0.05 0.11 E82A2A glow
+    mirror
+    mirrorx
+    tube 0.98 0.5 2.5 1.16 0.5 2.5 0.5 10 1E1E1E
+
+shape FIRE_ENGINE_UK
+    home ENGLAND, SCOTLAND, WALES, NORTHERN IRELAND, IRELAND, NEW ZEALAND | 0.002 1 10 | town
+    # A fire engine: red with a band of red and yellow checks along its sides and a white ladder on the roof, blue lights.
+    box 0 1.45 -1.0 1.2 1.0 2.6 C81E1E
+    box 0 1.4 2.55 1.15 0.95 0.95 C81E1E
+    box 0 1.9 3.1 1.16 0.32 0.41 2A3A4A glass
+    box 0 0.75 3.51 0.85 0.07 0.01 F2F2E0 glow
+    box 0 0.55 3.52 1.0 0.12 0.03 D8D8D8
+    box 0 2.58 -0.8 0.34 0.05 2.6 C8C8C8
+    repeat 9 0 0 0.55
+    box 0 2.61 -3.0 0.32 0.03 0.03 8A8A8A
+    box 0 0.62 -3.61 1.0 0.07 0.01 C82A2A glow
+    repeat 14 0 0 0.40
+    mirrorx
+    box 1.203 0.8 -3.4 0.005 0.10 0.10 C81E1E
+    repeat 14 0 0 0.40
+    mirrorx
+    box 1.203 0.8 -3.20 0.005 0.10 0.10 F2E01E
+    repeat 14 0 0 0.40
+    mirrorx
+    box 1.203 1.00 -3.20 0.005 0.10 0.10 C81E1E
+    repeat 14 0 0 0.40
+    mirrorx
+    box 1.203 1.00 -3.4 0.005 0.10 0.10 F2E01E
+    box 0 2.42 2.6 1.0 0.04 0.12 1E1E1E
+    box 0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    box -0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.98 0.5 2.5 1.16 0.5 2.5 0.5 10 1E1E1E
+
+shape FIRE_ENGINE_GERMANY
+    home GERMANY, AUSTRIA, SWITZERLAND, LIECHTENSTEIN, LUXEMBOURG | 0.002 1 10 | town
+    # A fire engine: red with a white stripe along its sides, white mudguards and blue lights.
+    box 0 1.45 -1.0 1.2 1.0 2.6 C81E1E
+    box 0 1.4 2.55 1.15 0.95 0.95 C81E1E
+    box 0 1.9 3.1 1.16 0.32 0.41 2A3A4A glass
+    box 0 0.75 3.51 0.85 0.07 0.01 F2F2E0 glow
+    box 0 0.55 3.52 1.0 0.12 0.03 D8D8D8
+    box 0 2.58 -0.8 0.34 0.05 2.6 C8C8C8
+    repeat 9 0 0 0.55
+    box 0 2.61 -3.0 0.32 0.03 0.03 8A8A8A
+    box 0 0.62 -3.61 1.0 0.07 0.01 C82A2A glow
+    mirrorx
+    box 1.202 0.85 -0.2 0.005 0.06 3.4 F2F2F2
+    box 0 0.95 3.5 1.0 0.08 0.03 F2F2F2
+    box 0 2.42 2.6 1.0 0.04 0.12 1E1E1E
+    box 0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    box -0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.98 0.5 2.5 1.16 0.5 2.5 0.5 10 1E1E1E
+
+shape FIRE_ENGINE_FRANCE
+    home FRANCE, MONACO, BELGIUM, ANDORRA, FRENCH POLYNESIA | 0.002 1 10 | town
+    # A fire engine of the firefighters: red with a silver band along its sides, a ladder and blue lights.
+    box 0 1.45 -1.0 1.2 1.0 2.6 C81E1E
+    box 0 1.4 2.55 1.15 0.95 0.95 C81E1E
+    box 0 1.9 3.1 1.16 0.32 0.41 2A3A4A glass
+    box 0 0.75 3.51 0.85 0.07 0.01 F2F2E0 glow
+    box 0 0.55 3.52 1.0 0.12 0.03 D8D8D8
+    box 0 2.58 -0.8 0.34 0.05 2.6 C8C8C8
+    repeat 9 0 0 0.55
+    box 0 2.61 -3.0 0.32 0.03 0.03 8A8A8A
+    box 0 0.62 -3.61 1.0 0.07 0.01 C82A2A glow
+    mirrorx
+    box 1.202 0.9 -0.2 0.005 0.1 3.4 C8C8C8
+    box 0 2.42 2.6 1.0 0.04 0.12 1E1E1E
+    box 0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    box -0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.98 0.5 2.5 1.16 0.5 2.5 0.5 10 1E1E1E
+
+shape FIRE_ENGINE_NORDIC
+    home SWEDEN, NORWAY, DENMARK, FINLAND, ICELAND, ESTONIA, NETHERLANDS, GREENLAND | 0.002 1 10 | town
+    # A fire engine: red with a band of yellow and white checks along its sides, blue lights.
+    box 0 1.45 -1.0 1.2 1.0 2.6 C81E1E
+    box 0 1.4 2.55 1.15 0.95 0.95 C81E1E
+    box 0 1.9 3.1 1.16 0.32 0.41 2A3A4A glass
+    box 0 0.75 3.51 0.85 0.07 0.01 F2F2E0 glow
+    box 0 0.55 3.52 1.0 0.12 0.03 D8D8D8
+    box 0 2.58 -0.8 0.34 0.05 2.6 C8C8C8
+    repeat 9 0 0 0.55
+    box 0 2.61 -3.0 0.32 0.03 0.03 8A8A8A
+    box 0 0.62 -3.61 1.0 0.07 0.01 C82A2A glow
+    repeat 14 0 0 0.40
+    mirrorx
+    box 1.203 0.8 -3.4 0.005 0.10 0.10 F2E01E
+    repeat 14 0 0 0.40
+    mirrorx
+    box 1.203 0.8 -3.20 0.005 0.10 0.10 F2F2F2
+    repeat 14 0 0 0.40
+    mirrorx
+    box 1.203 1.00 -3.20 0.005 0.10 0.10 F2E01E
+    repeat 14 0 0 0.40
+    mirrorx
+    box 1.203 1.00 -3.4 0.005 0.10 0.10 F2F2F2
+    box 0 2.42 2.6 1.0 0.04 0.12 1E1E1E
+    box 0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    box -0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.98 0.5 2.5 1.16 0.5 2.5 0.5 10 1E1E1E
+
+shape FIRE_ENGINE_ITALY
+    home ITALY, SAN MARINO, VATICAN, MALTA | 0.002 1 10 | town
+    # A fire engine: red with white bands and lettering, blue lights.
+    box 0 1.45 -1.0 1.2 1.0 2.6 C81E1E
+    box 0 1.4 2.55 1.15 0.95 0.95 C81E1E
+    box 0 1.9 3.1 1.16 0.32 0.41 2A3A4A glass
+    box 0 0.75 3.51 0.85 0.07 0.01 F2F2E0 glow
+    box 0 0.55 3.52 1.0 0.12 0.03 D8D8D8
+    box 0 2.58 -0.8 0.34 0.05 2.6 C8C8C8
+    repeat 9 0 0 0.55
+    box 0 2.61 -3.0 0.32 0.03 0.03 8A8A8A
+    box 0 0.62 -3.61 1.0 0.07 0.01 C82A2A glow
+    mirrorx
+    box 1.202 1.1 -0.2 0.005 0.05 3.4 F2F2F2
+    mirrorx
+    box 1.202 0.85 -0.2 0.005 0.03 3.4 F2F2F2
+    box 0 2.42 2.6 1.0 0.04 0.12 1E1E1E
+    box 0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    box -0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.98 0.5 2.5 1.16 0.5 2.5 0.5 10 1E1E1E
+
+shape FIRE_ENGINE_IBERIA
+    home SPAIN, PORTUGAL, CYPRUS | 0.002 1 10 | town
+    # A fire engine: red with a band of yellow along its sides and blue lights.
+    box 0 1.45 -1.0 1.2 1.0 2.6 C81E1E
+    box 0 1.4 2.55 1.15 0.95 0.95 C81E1E
+    box 0 1.9 3.1 1.16 0.32 0.41 2A3A4A glass
+    box 0 0.75 3.51 0.85 0.07 0.01 F2F2E0 glow
+    box 0 0.55 3.52 1.0 0.12 0.03 D8D8D8
+    box 0 2.58 -0.8 0.34 0.05 2.6 C8C8C8
+    repeat 9 0 0 0.55
+    box 0 2.61 -3.0 0.32 0.03 0.03 8A8A8A
+    box 0 0.62 -3.61 1.0 0.07 0.01 C82A2A glow
+    mirrorx
+    box 1.202 0.9 -0.2 0.005 0.08 3.4 F2D21E
+    box 0 2.42 2.6 1.0 0.04 0.12 1E1E1E
+    box 0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    box -0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.98 0.5 2.5 1.16 0.5 2.5 0.5 10 1E1E1E
+
+shape FIRE_ENGINE_EAST
+    home POLAND, CZECHIA, SLOVAKIA, HUNGARY, ROMANIA, BULGARIA, SERBIA, CROATIA, SLOVENIA, BOSNIA, MONTENEGRO, NORTH MACEDONIA, ALBANIA, KOSOVO, GREECE, LITHUANIA, LATVIA, MOLDOVA | 0.002 1 10 | town
+    # A fire engine: red with a white stripe along its sides, blue lights.
+    box 0 1.45 -1.0 1.2 1.0 2.6 C81E1E
+    box 0 1.4 2.55 1.15 0.95 0.95 C81E1E
+    box 0 1.9 3.1 1.16 0.32 0.41 2A3A4A glass
+    box 0 0.75 3.51 0.85 0.07 0.01 F2F2E0 glow
+    box 0 0.55 3.52 1.0 0.12 0.03 D8D8D8
+    box 0 2.58 -0.8 0.34 0.05 2.6 C8C8C8
+    repeat 9 0 0 0.55
+    box 0 2.61 -3.0 0.32 0.03 0.03 8A8A8A
+    box 0 0.62 -3.61 1.0 0.07 0.01 C82A2A glow
+    mirrorx
+    box 1.202 0.9 -0.2 0.005 0.08 3.4 F2F2F2
+    box 0 2.42 2.6 1.0 0.04 0.12 1E1E1E
+    box 0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    box -0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.98 0.5 2.5 1.16 0.5 2.5 0.5 10 1E1E1E
+
+shape FIRE_ENGINE_RUSSIA
+    home RUSSIA, BELARUS, UKRAINE, KAZAKHSTAN, KYRGYZSTAN, UZBEKISTAN, TAJIKISTAN, TURKMENISTAN, GEORGIA, ARMENIA, AZERBAIJAN | 0.002 1 10 | town
+    # A fire engine of the rescue ministry: red with a broad white band along its sides, blue and red lights.
+    box 0 1.45 -1.0 1.2 1.0 2.6 C81E1E
+    box 0 1.4 2.55 1.15 0.95 0.95 C81E1E
+    box 0 1.9 3.1 1.16 0.32 0.41 2A3A4A glass
+    box 0 0.75 3.51 0.85 0.07 0.01 F2F2E0 glow
+    box 0 0.55 3.52 1.0 0.12 0.03 D8D8D8
+    box 0 2.58 -0.8 0.34 0.05 2.6 C8C8C8
+    repeat 9 0 0 0.55
+    box 0 2.61 -3.0 0.32 0.03 0.03 8A8A8A
+    box 0 0.62 -3.61 1.0 0.07 0.01 C82A2A glow
+    mirrorx
+    box 1.202 0.95 -0.2 0.005 0.15 3.4 F2F2F2
+    box 0 2.42 2.6 1.0 0.04 0.12 1E1E1E
+    box 0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    box -0.5 2.48 2.6 0.48 0.05 0.11 E82A2A glow
+    mirror
+    mirrorx
+    tube 0.98 0.5 2.5 1.16 0.5 2.5 0.5 10 1E1E1E
+
+shape FIRE_ENGINE_JAPAN
+    home JAPAN | 0.002 1 10 | town
+    # A Japanese fire engine: a compact red truck with a white line, a red lamp and a hose reel behind the cab.
+    box 0 1.45 -1.0 1.2 1.0 2.6 C81E1E
+    box 0 1.4 2.55 1.15 0.95 0.95 C81E1E
+    box 0 1.9 3.1 1.16 0.32 0.41 2A3A4A glass
+    box 0 0.75 3.51 0.85 0.07 0.01 F2F2E0 glow
+    box 0 0.55 3.52 1.0 0.12 0.03 D8D8D8
+    box 0 2.58 -0.8 0.34 0.05 2.6 C8C8C8
+    repeat 9 0 0 0.55
+    box 0 2.61 -3.0 0.32 0.03 0.03 8A8A8A
+    box 0 0.62 -3.61 1.0 0.07 0.01 C82A2A glow
+    mirrorx
+    box 1.202 0.9 -0.2 0.005 0.04 3.4 F2F2F2
+    tube 0 2.75 1.0 0 2.75 0.4 0.5 12 C8C8C8
+    box 0 2.42 2.6 1.0 0.04 0.12 1E1E1E
+    box 0.5 2.48 2.6 0.48 0.05 0.11 E82A2A glow
+    box -0.5 2.48 2.6 0.48 0.05 0.11 E82A2A glow
+    mirror
+    mirrorx
+    tube 0.98 0.5 2.5 1.16 0.5 2.5 0.5 10 1E1E1E
+
+shape FIRE_ENGINE_KOREA
+    home SOUTH KOREA, TAIWAN, CHINA:HONG KONG, CHINA:MACAU | 0.002 1 10 | town
+    # A fire engine: red with a yellow stripe along its sides, red and blue lights.
+    box 0 1.45 -1.0 1.2 1.0 2.6 C81E1E
+    box 0 1.4 2.55 1.15 0.95 0.95 C81E1E
+    box 0 1.9 3.1 1.16 0.32 0.41 2A3A4A glass
+    box 0 0.75 3.51 0.85 0.07 0.01 F2F2E0 glow
+    box 0 0.55 3.52 1.0 0.12 0.03 D8D8D8
+    box 0 2.58 -0.8 0.34 0.05 2.6 C8C8C8
+    repeat 9 0 0 0.55
+    box 0 2.61 -3.0 0.32 0.03 0.03 8A8A8A
+    box 0 0.62 -3.61 1.0 0.07 0.01 C82A2A glow
+    mirrorx
+    box 1.202 0.9 -0.2 0.005 0.07 3.4 F2D21E
+    box 0 2.42 2.6 1.0 0.04 0.12 1E1E1E
+    box 0.5 2.48 2.6 0.48 0.05 0.11 E82A2A glow
+    box -0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.98 0.5 2.5 1.16 0.5 2.5 0.5 10 1E1E1E
+
+shape FIRE_ENGINE_CHINA
+    home CHINA, MONGOLIA | 0.002 1 10 | town
+    # A fire engine: red with a white band along its sides and the number 119, red and blue lights.
+    box 0 1.45 -1.0 1.2 1.0 2.6 C81E1E
+    box 0 1.4 2.55 1.15 0.95 0.95 C81E1E
+    box 0 1.9 3.1 1.16 0.32 0.41 2A3A4A glass
+    box 0 0.75 3.51 0.85 0.07 0.01 F2F2E0 glow
+    box 0 0.55 3.52 1.0 0.12 0.03 D8D8D8
+    box 0 2.58 -0.8 0.34 0.05 2.6 C8C8C8
+    repeat 9 0 0 0.55
+    box 0 2.61 -3.0 0.32 0.03 0.03 8A8A8A
+    box 0 0.62 -3.61 1.0 0.07 0.01 C82A2A glow
+    mirrorx
+    box 1.202 0.95 -0.2 0.005 0.12 3.4 F2F2F2
+    box 0 2.42 2.6 1.0 0.04 0.12 1E1E1E
+    box 0.5 2.48 2.6 0.48 0.05 0.11 E82A2A glow
+    box -0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.98 0.5 2.5 1.16 0.5 2.5 0.5 10 1E1E1E
+
+shape FIRE_ENGINE_ASIA
+    home INDIA, NEPAL, BANGLADESH, PAKISTAN, SRI LANKA, BHUTAN, MALDIVES, THAILAND, VIETNAM, CAMBODIA, LAOS, MYANMAR, MALAYSIA, INDONESIA, PHILIPPINES, SINGAPORE, BRUNEI, EAST TIMOR | 0.002 1 10 | town
+    # A fire engine: red with a white and a yellow stripe along its sides and a bell on the front, red lights.
+    box 0 1.45 -1.0 1.2 1.0 2.6 C81E1E
+    box 0 1.4 2.55 1.15 0.95 0.95 C81E1E
+    box 0 1.9 3.1 1.16 0.32 0.41 2A3A4A glass
+    box 0 0.75 3.51 0.85 0.07 0.01 F2F2E0 glow
+    box 0 0.55 3.52 1.0 0.12 0.03 D8D8D8
+    box 0 2.58 -0.8 0.34 0.05 2.6 C8C8C8
+    repeat 9 0 0 0.55
+    box 0 2.61 -3.0 0.32 0.03 0.03 8A8A8A
+    box 0 0.62 -3.61 1.0 0.07 0.01 C82A2A glow
+    mirrorx
+    box 1.202 1.0 -0.2 0.005 0.05 3.4 F2F2F2
+    mirrorx
+    box 1.202 0.85 -0.2 0.005 0.04 3.4 F2D21E
+    blob 0.7 1.1 3.55 0.1 0.12 0.1 D8A830
+    box 0 2.42 2.6 1.0 0.04 0.12 1E1E1E
+    box 0.5 2.48 2.6 0.48 0.05 0.11 E82A2A glow
+    box -0.5 2.48 2.6 0.48 0.05 0.11 E82A2A glow
+    mirror
+    mirrorx
+    tube 0.98 0.5 2.5 1.16 0.5 2.5 0.5 10 1E1E1E
+
+shape FIRE_ENGINE_AUSTRALIA
+    home AUSTRALIA, FIJI, PAPUA NEW GUINEA | 0.002 1 10 | town
+    # A fire engine: red with a band of yellow and white checks, red and blue lights.
+    box 0 1.45 -1.0 1.2 1.0 2.6 C81E1E
+    box 0 1.4 2.55 1.15 0.95 0.95 C81E1E
+    box 0 1.9 3.1 1.16 0.32 0.41 2A3A4A glass
+    box 0 0.75 3.51 0.85 0.07 0.01 F2F2E0 glow
+    box 0 0.55 3.52 1.0 0.12 0.03 D8D8D8
+    box 0 2.58 -0.8 0.34 0.05 2.6 C8C8C8
+    repeat 9 0 0 0.55
+    box 0 2.61 -3.0 0.32 0.03 0.03 8A8A8A
+    box 0 0.62 -3.61 1.0 0.07 0.01 C82A2A glow
+    repeat 14 0 0 0.40
+    mirrorx
+    box 1.203 0.8 -3.4 0.005 0.10 0.10 F2E01E
+    repeat 14 0 0 0.40
+    mirrorx
+    box 1.203 0.8 -3.20 0.005 0.10 0.10 F2F2F2
+    repeat 14 0 0 0.40
+    mirrorx
+    box 1.203 1.00 -3.20 0.005 0.10 0.10 F2E01E
+    repeat 14 0 0 0.40
+    mirrorx
+    box 1.203 1.00 -3.4 0.005 0.10 0.10 F2F2F2
+    box 0 2.42 2.6 1.0 0.04 0.12 1E1E1E
+    box 0.5 2.48 2.6 0.48 0.05 0.11 E82A2A glow
+    box -0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.98 0.5 2.5 1.16 0.5 2.5 0.5 10 1E1E1E
+
+shape FIRE_ENGINE_ARABIA
+    home TURKEY, ISRAEL, UAE, SAUDI ARABIA, QATAR, KUWAIT, BAHRAIN, OMAN, EGYPT, MOROCCO, ALGERIA, TUNISIA, LIBYA, JORDAN, LEBANON, SYRIA, IRAQ, IRAN, YEMEN, PALESTINE, MAURITANIA, SUDAN | 0.002 1 10 | town
+    # A civil defence fire engine: red with a yellow band along its sides, red and blue lights.
+    box 0 1.45 -1.0 1.2 1.0 2.6 C81E1E
+    box 0 1.4 2.55 1.15 0.95 0.95 C81E1E
+    box 0 1.9 3.1 1.16 0.32 0.41 2A3A4A glass
+    box 0 0.75 3.51 0.85 0.07 0.01 F2F2E0 glow
+    box 0 0.55 3.52 1.0 0.12 0.03 D8D8D8
+    box 0 2.58 -0.8 0.34 0.05 2.6 C8C8C8
+    repeat 9 0 0 0.55
+    box 0 2.61 -3.0 0.32 0.03 0.03 8A8A8A
+    box 0 0.62 -3.61 1.0 0.07 0.01 C82A2A glow
+    mirrorx
+    box 1.202 0.9 -0.2 0.005 0.1 3.4 F2D21E
+    box 0 2.42 2.6 1.0 0.04 0.12 1E1E1E
+    box 0.5 2.48 2.6 0.48 0.05 0.11 E82A2A glow
+    box -0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.98 0.5 2.5 1.16 0.5 2.5 0.5 10 1E1E1E
+
+shape FIRE_ENGINE_AFRICA
+    home SOUTH AFRICA, NAMIBIA, BOTSWANA, ZIMBABWE, ZAMBIA, LESOTHO, ESWATINI, MALAWI, MOZAMBIQUE, KENYA, UGANDA, TANZANIA, RWANDA, BURUNDI, ETHIOPIA, NIGERIA, GHANA, CAMEROON, SENEGAL, IVORY COAST, MALI, BURKINA FASO, NIGER, CHAD, SOUTH SUDAN, GUINEA, SIERRA LEONE, LIBERIA, TOGO, BENIN, GABON, CONGO, DR CONGO, ANGOLA, MADAGASCAR, MAURITIUS | 0.002 1 10 | town
+    # A fire engine: red with a white band along its sides and a red and blue light bar.
+    box 0 1.45 -1.0 1.2 1.0 2.6 C81E1E
+    box 0 1.4 2.55 1.15 0.95 0.95 C81E1E
+    box 0 1.9 3.1 1.16 0.32 0.41 2A3A4A glass
+    box 0 0.75 3.51 0.85 0.07 0.01 F2F2E0 glow
+    box 0 0.55 3.52 1.0 0.12 0.03 D8D8D8
+    box 0 2.58 -0.8 0.34 0.05 2.6 C8C8C8
+    repeat 9 0 0 0.55
+    box 0 2.61 -3.0 0.32 0.03 0.03 8A8A8A
+    box 0 0.62 -3.61 1.0 0.07 0.01 C82A2A glow
+    mirrorx
+    box 1.202 0.95 -0.2 0.005 0.08 3.4 F2F2F2
+    box 0 2.42 2.6 1.0 0.04 0.12 1E1E1E
+    box 0.5 2.48 2.6 0.48 0.05 0.11 E82A2A glow
+    box -0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.98 0.5 2.5 1.16 0.5 2.5 0.5 10 1E1E1E
+
+shape FIRE_ENGINE_LATIN
+    home MEXICO, GUATEMALA, HONDURAS, EL SALVADOR, NICARAGUA, COSTA RICA, PANAMA, CUBA, DOMINICAN REPUBLIC, COLOMBIA, VENEZUELA, ECUADOR, PERU, BOLIVIA, CHILE, BRAZIL, ARGENTINA, URUGUAY, PARAGUAY | 0.002 1 10 | town
+    # A fire engine of the volunteer firefighters: red with white and yellow stripes along its sides, red lights.
+    box 0 1.45 -1.0 1.2 1.0 2.6 C81E1E
+    box 0 1.4 2.55 1.15 0.95 0.95 C81E1E
+    box 0 1.9 3.1 1.16 0.32 0.41 2A3A4A glass
+    box 0 0.75 3.51 0.85 0.07 0.01 F2F2E0 glow
+    box 0 0.55 3.52 1.0 0.12 0.03 D8D8D8
+    box 0 2.58 -0.8 0.34 0.05 2.6 C8C8C8
+    repeat 9 0 0 0.55
+    box 0 2.61 -3.0 0.32 0.03 0.03 8A8A8A
+    box 0 0.62 -3.61 1.0 0.07 0.01 C82A2A glow
+    mirrorx
+    box 1.202 1.0 -0.2 0.005 0.05 3.4 F2F2F2
+    mirrorx
+    box 1.202 0.85 -0.2 0.005 0.05 3.4 F2D21E
+    box 0 2.42 2.6 1.0 0.04 0.12 1E1E1E
+    box 0.5 2.48 2.6 0.48 0.05 0.11 E82A2A glow
+    box -0.5 2.48 2.6 0.48 0.05 0.11 E82A2A glow
+    mirror
+    mirrorx
+    tube 0.98 0.5 2.5 1.16 0.5 2.5 0.5 10 1E1E1E
+
+shape AMBULANCE
+    # An ambulance: white with a red band and a red cross, red and blue lights.
+    box 0 1.35 -0.6 1.0 0.95 2.0 F2F2F2
+    box 0 0.95 1.9 0.95 0.55 0.62 F2F2F2
+    box 0 1.25 2.2 0.96 0.22 0.33 2A3A4A glass
+    box 0 1.75 -2.61 0.5 0.35 0.01 2A3A4A glass
+    box 0 0.72 2.53 0.7 0.06 0.01 F2F2E0 glow
+    box 0 0.62 -2.61 0.85 0.06 0.01 C82A2A glow
+    mirrorx
+    box 1.002 1.0 0.0 0.005 0.1 2.6 C82A2A
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.3 0.10 C82A2A
+    mirrorx
+    box 1.004 1.75 -0.6 0.005 0.10 0.3 C82A2A
+    box 0 1.75 -2.615 0.10 0.3 0.005 C82A2A
+    box 0 1.75 -2.615 0.3 0.10 0.005 C82A2A
+    box 0 2.33 1.2 0.7 0.04 0.12 1E1E1E
+    box 0.35 2.39 1.2 0.33 0.05 0.11 E82A2A glow
+    box -0.35 2.39 1.2 0.33 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.82 0.4 1.7 1.00 0.4 1.7 0.4 10 1E1E1E
+
+shape FIRE_ENGINE
+    # A fire engine: red with a white stripe along its sides, a ladder on the roof, red and blue lights.
+    box 0 1.45 -1.0 1.2 1.0 2.6 C81E1E
+    box 0 1.4 2.55 1.15 0.95 0.95 C81E1E
+    box 0 1.9 3.1 1.16 0.32 0.41 2A3A4A glass
+    box 0 0.75 3.51 0.85 0.07 0.01 F2F2E0 glow
+    box 0 0.55 3.52 1.0 0.12 0.03 D8D8D8
+    box 0 2.58 -0.8 0.34 0.05 2.6 C8C8C8
+    repeat 9 0 0 0.55
+    box 0 2.61 -3.0 0.32 0.03 0.03 8A8A8A
+    box 0 0.62 -3.61 1.0 0.07 0.01 C82A2A glow
+    mirrorx
+    box 1.202 0.9 -0.2 0.005 0.08 3.4 F2F2F2
+    box 0 2.42 2.6 1.0 0.04 0.12 1E1E1E
+    box 0.5 2.48 2.6 0.48 0.05 0.11 E82A2A glow
+    box -0.5 2.48 2.6 0.48 0.05 0.11 2A5AE8 glow
+    mirror
+    mirrorx
+    tube 0.98 0.5 2.5 1.16 0.5 2.5 0.5 10 1E1E1E

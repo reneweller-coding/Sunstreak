@@ -123,7 +123,11 @@ road is gravel than not. Now and then (about one stage in ten) a patrol car of t
 in its own livery (a black-and-white cruiser in the United States, blue and yellow checks in Britain, a carabinieri
 car in Italy, green and white in Chile, a white jeep in India and some thirty more): past it too fast and it gives chase with its lights and siren
 (the long wail, or the two tones in Europe). Get 400 m ahead and you have escaped (+2500); let it pull up beside you
-and the fine is five seconds (POLICE in the settings turns them off). Landmarks stand where they belong, once per stage: Big Ben and Tower Bridge,
+and the fine is five seconds (POLICE in the settings turns them off); hold B (the right stick pressed in) to look back.
+Every few kilometres an ambulance or a fire engine of the country comes along on a run, lights flashing and siren
+going: yellow and green checks in Britain, day-glo red stripes in Germany, the red crescent in the Gulf, a red pumper
+in the United States. The traffic ahead of it pulls over; keep out of its way when it overtakes and you earn +1000.
+Landmarks stand where they belong, once per stage: Big Ben and Tower Bridge,
 the Arc de Triomphe, the Colosseum and St Peter's, the Leaning Tower, the Sagrada Familia, Neuschwanstein, the
 Brandenburg Gate, the Acropolis, St Basil's, the Christ the Redeemer and Cristo Rei statues, the Statue of Liberty,
 the Opera House, the Petronas Towers, the Space Needle, the Capitol and the Washington Monument, the HOLLYWOOD sign,
@@ -282,8 +286,8 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --rally N                     start rally N (1..10)
     --journey N                   start journey N (1..)
     --daily                       start the daily challenge
-    --action replay|photo|reload|save T   testing: the replay, the photo mode, reading the data again or saving the run
-                                  after T seconds
+    --action replay|photo|reload|save|siren T   testing: the replay, the photo mode, reading the data again, saving
+                                  the run or an ambulance or fire engine close by, after T seconds
     --resume                      continue the saved endless run
     --code XXXXX-XXXXX-XXXXX      drive a Track Lab code
     --screen lab|records|code|garage|passport|stamps|regions|country|postcards|album|rallies|viewer|settings   open that screen

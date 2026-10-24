@@ -19,25 +19,7 @@ namespace sunstreak
 
 int policeModel( const Models &models, const BiomeDef &place )
 {
-    const int first = compiledLandmarks();
-    auto      model = [&]( int shape ) { return shape >= 0 && shape < static_cast<int>( models.m_policeModel.size() ) ? models.m_policeModel[static_cast<size_t>( shape )] : -1; };
-    const auto       &shapes = dataShapes();
-    const std::string region = place.m_country && place.m_region ? std::string( place.m_country ) + ":" + place.m_region : std::string();
-    int               found = -1;
-    for( const PropRule &r : place.m_props )
-    {
-        if( r.m_kind != PropKindE::LANDMARK || r.m_variant < first || model( r.m_variant - first ) < 0 ) continue;
-        // The police of the region before the country's (Hong Kong's before China's).
-        const DataShape &shape = shapes[static_cast<size_t>( r.m_variant - first )];
-        const bool       regional = !region.empty() && std::any_of( shape.m_homes.begin(), shape.m_homes.end(),
-                                                                    [&]( const std::string &h ) { return h.find( region ) != std::string::npos; } );
-        if( regional ) return model( r.m_variant - first );
-        if( found < 0 ) found = model( r.m_variant - first );
-    }
-    if( found >= 0 ) return found;
-    for( size_t i = 0; i < shapes.size(); ++i )
-        if( shapes[i].m_name == "POLICE_CAR" ) return model( static_cast<int>( i ) );
-    return -1;
+    return serviceModel( models, place, "POLICE_CAR" );
 }
 
 void Police::reset()

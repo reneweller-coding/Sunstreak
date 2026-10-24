@@ -23,6 +23,31 @@
 namespace sunstreak
 {
 
+class Models;
+
+/**
+ * @brief The vehicle of a service that drives in a place: the one whose home is the region, else the country's, else the
+ *        shape named prefix itself (POLICE_CAR, AMBULANCE, FIRE_ENGINE).
+ * @param[in] models  the models (Models::m_policeModel)
+ * @param[in] place   the place
+ * @param[in] prefix  the shapes' name prefix
+ * @return its index in Models::m_traffic (-1: none)
+ */
+int serviceModel( const Models &models, const BiomeDef &place, std::string_view prefix );
+
+/**
+ * @brief Which flash of Models::m_policeFlash a light bar shows.
+ * @param[in] lamps  VehicleModel::m_lamps
+ * @param[in] phase  0 or 1, alternating
+ * @return the index: red and blue alternate, one colour flashes left and right
+ */
+inline int flashMesh( uint8_t lamps, int phase )
+{
+    if( lamps == 2 ) return phase ? 1 : 2;
+    if( lamps == 1 ) return phase ? 3 : 0;
+    return phase ? 1 : 0;
+}
+
 constexpr int CarCount = 4;     ///< cars the player can choose
 constexpr int PaintCount = 14;  ///< paints per car
 constexpr int RimCount = 7;     ///< rim finishes
@@ -115,8 +140,9 @@ struct VehicleModel
     uint8_t   m_where = 0;                  ///< 0 anywhere, 1 in cities, 2 in the country
     float     m_pace = 1.0f;                ///< its speed against an ordinary car
     PropKindE m_animal = PropKindE::COUNT;  ///< an animal crossing the road (COUNT: a vehicle)
-    bool      m_police = false;             ///< a patrol car (never spawned as traffic)
+    bool      m_police = false;             ///< a patrol car, an ambulance or a fire engine (never spawned as everyday traffic)
     Vector3   m_light{};                    ///< the middle of its light bar
+    uint8_t   m_lamps = 0;                  ///< its lamps: 1 red, 2 blue, 3 both
 };
 
 /**
@@ -219,8 +245,8 @@ public:
     std::vector<VehicleModel>                          m_traffic;        ///< traffic, paints included
     std::vector<int>                                   m_creatureModel;  ///< per data shape: its traffic model if it swims (-1: none)
     size_t                                             m_creatureFirst = 0;   ///< the first creature in m_traffic (they come last)
-    std::vector<int>                                   m_policeModel;    ///< per data shape: its traffic model if it is a patrol car (-1: none)
-    std::array<Mesh, 2>                                m_policeFlash{};  ///< a flash of the light bar: red, blue
+    std::vector<int>                                   m_policeModel;    ///< per data shape: its model if a patrol car, ambulance or fire engine (-1: none)
+    std::array<Mesh, 4>                                m_policeFlash{};  ///< a flash of the light bar: red right, blue left, blue right, red left
     Mesh                                               m_cone{};         ///< traffic cone
     std::array<Mesh, 2>                                m_arrowBoard{};   ///< roadworks board, arrow left / right
     Mesh                                               m_shadow{};       ///< unit blob shadow

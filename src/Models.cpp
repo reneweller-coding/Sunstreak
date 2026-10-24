@@ -2118,11 +2118,13 @@ void Models::buildCreatures()
         m_traffic.push_back( vm );
     }
 
-    // ---- The patrol cars of the world tour's police: the POLICE_CAR shapes, their light bars found by colour -----
+    // ---- The police, the ambulances and the fire engines: the POLICE_CAR, AMBULANCE and FIRE_ENGINE shapes, -------
+    //      their light bars found by colour
     m_policeModel.assign( dataShapes().size(), -1 );
     for( size_t i = 0; i < dataShapes().size(); ++i )
     {
-        if( dataShapes()[i].m_name.rfind( "POLICE_CAR", 0 ) != 0 ) continue;
+        const std::string &name = dataShapes()[i].m_name;
+        if( name.rfind( "POLICE_CAR", 0 ) != 0 && name.rfind( "AMBULANCE", 0 ) != 0 && name.rfind( "FIRE_ENGINE", 0 ) != 0 ) continue;
         MeshBuilder shape;
         buildDataShape( shape, dataShapes()[i] );
         const Vector3 e = shape.extent();
@@ -2130,22 +2132,56 @@ void Models::buildCreatures()
         vm.m_length = std::max( 1.0f, e.z * 2.0f );
         vm.m_width = std::max( 1.0f, e.x * 2.0f );
         vm.m_police = true;
-        Vector3 light{};
+        Vector3 light{}, unused{};
+        auto    red = []( Color c ) { return c.r > 200 && c.g < 80 && c.b < 80; };
+        auto    blue = []( Color c ) { return c.r < 80 && c.g < 120 && c.b > 200; };
         auto    lamp = []( Color c ) { return ( c.r > 200 && c.g < 80 && c.b < 80 ) || ( c.r < 80 && c.g < 120 && c.b > 200 ); };
+        vm.m_lamps = static_cast<uint8_t>( ( shape.centreOf( red, unused ) ? 1 : 0 ) | ( shape.centreOf( blue, unused ) ? 2 : 0 ) );
         vm.m_light = shape.centreOf( lamp, light ) ? Vector3{ 0.0f, light.y, light.z } : Vector3{ 0.0f, e.y, -0.2f };
         vm.m_mesh = shape.upload();
         m_policeModel[i] = static_cast<int>( m_traffic.size() );
         m_traffic.push_back( vm );
     }
-    for( int k = 0; k < 2; ++k )
+    for( int k = 0; k < 4; ++k )
     {
         if( m_policeFlash[static_cast<size_t>( k )].vaoId ) UnloadMesh( m_policeFlash[static_cast<size_t>( k )] );
         MeshBuilder flash;
-        const float side = k == 0 ? 0.25f : -0.25f;
-        flash.box( Vector3{ side, 0.05f, 0.0f }, Vector3{ 0.26f, 0.09f, 0.16f }, k == 0 ? rgb( 255, 40, 30 ) : rgb( 40, 90, 255 ), Mat{ 1.0f, 0.4f } );
-        flash.blob( Vector3{ side, 0.08f, 0.0f }, Vector3{ 0.34f, 0.17f, 0.3f }, k == 0 ? rgb( 255, 60, 40 ) : rgb( 60, 110, 255 ), 1u, 0.0f, Mat{ 0.8f, 0.0f } );
+        const float side = k == 0 || k == 2 ? 0.25f : -0.25f;
+        const bool  isRed = k == 0 || k == 3;
+        flash.box( Vector3{ side, 0.05f, 0.0f }, Vector3{ 0.26f, 0.09f, 0.16f }, isRed ? rgb( 255, 40, 30 ) : rgb( 40, 90, 255 ), Mat{ 1.0f, 0.4f } );
+        flash.blob( Vector3{ side, 0.08f, 0.0f }, Vector3{ 0.34f, 0.17f, 0.3f }, isRed ? rgb( 255, 60, 40 ) : rgb( 60, 110, 255 ), 1u, 0.0f, Mat{ 0.8f, 0.0f } );
         m_policeFlash[static_cast<size_t>( k )] = flash.upload();
     }
+}
+
+int serviceModel( const Models &models, const BiomeDef &place, std::string_view prefix )
+{
+    // By the shapes' home lines, not the place's props: the fire engine belongs to the country even where no town is.
+    const auto       &shapes = dataShapes();
+    const std::string country = place.m_country ? place.m_country : "";
+    const std::string region = place.m_region && !country.empty() ? country + ":" + place.m_region : std::string();
+    int               found = -1, generic = -1;
+    for( size_t i = 0; i < shapes.size() && i < models.m_policeModel.size(); ++i )
+    {
+        const int model = models.m_policeModel[i];
+        if( model < 0 || shapes[i].m_name.rfind( prefix, 0 ) != 0 ) continue;
+        if( shapes[i].m_name == prefix ) generic = model;
+        for( const std::string &line : shapes[i].m_homes )
+        {
+            std::string_view list = std::string_view( line ).substr( 0, line.find( '|' ) );
+            while( !list.empty() )
+            {
+                const size_t     comma = list.find( ',' );
+                std::string_view home = list.substr( 0, comma );
+                list = comma == std::string_view::npos ? std::string_view() : list.substr( comma + 1 );
+                while( !home.empty() && home.front() == ' ' ) home.remove_prefix( 1 );
+                while( !home.empty() && home.back() == ' ' ) home.remove_suffix( 1 );
+                if( !region.empty() && home == region ) return model;   // the region's before the country's (Hong Kong's before China's)
+                if( found < 0 && !country.empty() && home == country ) found = model;
+            }
+        }
+    }
+    return found >= 0 ? found : generic;
 }
 
 void Models::build()

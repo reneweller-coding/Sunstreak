@@ -4,7 +4,8 @@
  *
  * Traffic drives in lanes at its own pace, changes lanes around slower cars and closed lanes, and is spawned ahead
  * beyond the fog. Passing a car counts as an overtake; passing it close and fast is a near miss and fills the boost
- * tank. Cones fly when hit.
+ * tank. Cones fly when hit. Now and then an ambulance or a fire engine of the country comes along with its siren on,
+ * from behind when the player is slower, else ahead: the traffic pulls over to let it through.
  *
  * @author reneweller
  */
@@ -47,6 +48,8 @@ struct TrafficCar
     float  m_orbitA = 0.0f;    ///< where on the circle (radians)
     float  m_orbitW = 0.0f;    ///< how fast round it (radians per second, the sign its sense)
     double m_orbitS = 0.0;     ///< the circle's centre along the road
+    uint8_t m_siren = 0;       ///< an ambulance or a fire engine on a run: 1 its siren wails, 2 the two tones of Europe (0: none)
+    float  m_yield = 0.0f;     ///< seconds it keeps pulling over for a siren behind
 };
 
 /** @brief A cone or an arrow board. */
@@ -75,6 +78,7 @@ struct TrafficEvents
     float m_hit = 0.0f;            ///< 0..1 a collision's strength
     int   m_cones = 0;             ///< cones hit
     int   m_animal = -1;           ///< an animal (PropKindE) about to cross ahead (-1: none)
+    int   m_gaveWay = 0;           ///< a siren passed the player, who had kept out of its way
 };
 
 /** @brief Traffic and roadworks. */
@@ -97,6 +101,13 @@ public:
      * @param[out]    ev      what happened (accumulated)
      */
     void update( float dt, const Track &track, PlayerCar &player, const Models &models, TrafficEvents &ev );
+
+    /** @brief An ambulance or a fire engine comes along at once, close ahead or behind (testing). */
+    void sirenNow()
+    {
+        m_sirenS = 0.0;
+        m_sirenAhead = 200.0;
+    }
 
     std::vector<TrafficCar> m_cars;        ///< the vehicles
     std::vector<Obstacle>   m_obstacles;   ///< cones and boards
@@ -124,6 +135,11 @@ private:
     double m_animalS = 0.0;     ///< where the next animals may cross
     double m_swimS = 0.0;       ///< where the next creatures swim by
     long   m_scanned = 0;       ///< segments checked for roadworks
+    double m_sirenS = 0.0;      ///< where the next ambulance or fire engine comes along
+    double m_sirenAhead = 900.0;   ///< how far ahead it appears when the player is faster
 };
+
+/** @brief How far an ambulance's or a fire engine's siren carries (metres). */
+constexpr double SirenRange = 600.0;
 
 } // namespace sunstreak
