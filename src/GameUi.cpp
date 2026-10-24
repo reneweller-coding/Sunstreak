@@ -385,6 +385,12 @@ void Game::menus( const MenuInput &m )
     {
         move( static_cast<int>( TitleE::COUNT ) );
         const auto item = static_cast<TitleE>( m_menuIndex );
+        const bool canContinue = !m_records.m_tourAt.empty() && biomeId( m_records.m_tourAt ) >= 0 && endlessParams().m_biome == SceneryWorld;
+        if( item == TitleE::ENDLESS && change != 0 && canContinue )
+        {
+            m_tourContinue = !m_tourContinue;
+            m_audio.play( SfxE::TICK );
+        }
         if( !m.m_accept ) break;
         m_audio.play( SfxE::SELECT );
         switch( item )
@@ -402,6 +408,7 @@ void Game::menus( const MenuInput &m )
                 TrackSetup s;
                 s.m_seed = m_options.m_seed ? ( ( m_options.m_seed & 0x1FFFFFFFull ) | 1ull ) : randomSeed();
                 s.m_params = endlessParams();
+                if( canContinue && m_tourContinue ) s.m_startBiome = biomeId( m_records.m_tourAt );
                 startTrack( s, ModeE::ENDLESS );
             }
             break;
@@ -971,8 +978,16 @@ void Game::drawTitle()
     for( double best : m_records.m_rallyBest ) done += best > 0.0 ? 1 : 0;
     const std::string daily = m_records.m_dailyDate == today() && m_records.m_dailyBest > 0 ? format( "TODAY %lld", static_cast<long long>( m_records.m_dailyBest ) )
                                                                                               : std::string( "NEW TODAY" );
+    // The endless run continues the world tour where it stopped, or starts a new one (left and right).
+    std::string tour;
+    const int   tourAt = m_records.m_tourAt.empty() ? -1 : biomeId( m_records.m_tourAt );
+    if( tourAt >= 0 && endlessParams().m_biome == SceneryWorld )
+    {
+        const std::string name = biomeDef( static_cast<BiomeE>( tourAt ) ).m_name;
+        tour = !m_tourContinue ? std::string( "NEW TOUR" ) : name.size() <= 15 ? "FROM " + name : name.substr( 0, 20 );
+    }
     drawMenu( "", { "ENDLESS RUN", "DAILY CHALLENGE", "RALLIES", "CHAMPIONSHIP", "TRACK LAB", "GARAGE", "PASSPORT", "RECORDS", "SETTINGS", "QUIT" },
-              { "", daily, format( "%d / %d DONE", done, static_cast<int>( rallies().size() ) ), "", "", garageValue( GarageE::CAR ),
+              { tour, daily, format( "%d / %d DONE", done, static_cast<int>( rallies().size() ) ), "", "", garageValue( GarageE::CAR ),
                 format( "%d / %d COUNTRIES", m_records.countriesSeen(), countryCount() ), "", "", "" },
               H * 0.3f, 0.84f );
 }
@@ -1333,6 +1348,22 @@ void Game::drawWorldMap( float x, float y, float w, float h )
         prev = g;
         havePrev = true;
     }
+    // The way actually driven, from the travel journal.
+    GeoPoint last{};
+    bool     haveLast = false;
+    for( const std::string &key : m_records.m_journey )
+    {
+        const int id = biomeId( key );
+        GeoPoint  g;
+        if( id < 0 || !placeLocation( static_cast<BiomeE>( id ), g ) )
+        {
+            haveLast = false;
+            continue;
+        }
+        if( haveLast && std::abs( g.m_lon - last.m_lon ) < 180.0f ) DrawLineEx( at( last ), at( g ), 2.2f * u, Color{ 255, 150, 40, 170 } );
+        last = g;
+        haveLast = true;
+    }
     for( BiomeE b : route )
     {
         GeoPoint g;
@@ -1468,6 +1499,65 @@ void Game::drawPostcards( float x, float y, float w, float h )
               AlignE::RIGHT );
 }
 
+void Game::drawRegions( float x, float y, float w, float h )
+{
+    const float u = unit();
+    // The countries driven state by state, in the order the tour meets them: their states, and those seen.
+    struct Row
+    {
+        const char               *m_country;
+        std::vector<const char *> m_regions;
+        std::vector<bool>         m_seen;
+    };
+    std::vector<Row> rows;
+    for( BiomeE b : worldRoute() )
+    {
+        const BiomeDef &d = biomeDef( b );
+        if( !d.m_country || !d.m_region ) continue;
+        auto row = std::find_if( rows.begin(), rows.end(), [&]( const Row &r ) { return std::strcmp( r.m_country, d.m_country ) == 0; } );
+        if( row == rows.end() )
+        {
+            rows.push_back( { d.m_country, {}, {} } );
+            row = rows.end() - 1;
+        }
+        auto reg = std::find_if( row->m_regions.begin(), row->m_regions.end(), [&]( const char *r ) { return std::strcmp( r, d.m_region ) == 0; } );
+        size_t k = static_cast<size_t>( reg - row->m_regions.begin() );
+        if( reg == row->m_regions.end() )
+        {
+            row->m_regions.push_back( d.m_region );
+            row->m_seen.push_back( false );
+            k = row->m_regions.size() - 1;
+        }
+        if( m_records.m_seen.test( static_cast<size_t>( b ) ) ) row->m_seen[k] = true;
+    }
+    rows.erase( std::remove_if( rows.begin(), rows.end(), []( const Row &r ) { return r.m_regions.size() < 2; } ), rows.end() );
+    // Two columns of rows, as many sheets as they need.
+    const float rowH = 30.0f * u, colW = w * 0.5f;
+    const int   perColumn = std::max( 1, static_cast<int>( h / rowH ) - 1 ), perSheet = perColumn * 2;
+    const int   sheets = std::max( 1, ( static_cast<int>( rows.size() ) + perSheet - 1 ) / perSheet );
+    m_passportSheet = std::clamp( m_passportSheet, 0, sheets - 1 );
+    int complete = 0;
+    for( const Row &r : rows ) complete += std::count( r.m_seen.begin(), r.m_seen.end(), true ) == static_cast<long>( r.m_seen.size() ) ? 1 : 0;
+    for( int i = 0; i < perSheet; ++i )
+    {
+        const size_t idx = static_cast<size_t>( m_passportSheet * perSheet + i );
+        if( idx >= rows.size() ) break;
+        const Row  &r = rows[idx];
+        const int   seen = static_cast<int>( std::count( r.m_seen.begin(), r.m_seen.end(), true ) ), total = static_cast<int>( r.m_regions.size() );
+        const float rx = x + static_cast<float>( i / perColumn ) * colW + 8.0f * u, ry = y + static_cast<float>( i % perColumn ) * rowH;
+        const bool  all = seen == total;
+        drawText( r.m_country, rx, ry + 6.0f * u, 13.0f * u, all ? Gold : Ink );
+        const float bx = rx + colW * 0.42f, bw = colW * 0.36f;
+        DrawRectangle( static_cast<int>( bx ), static_cast<int>( ry + 9.0f * u ), static_cast<int>( bw ), static_cast<int>( 8.0f * u ), Color{ 255, 255, 255, 30 } );
+        DrawRectangle( static_cast<int>( bx ), static_cast<int>( ry + 9.0f * u ), static_cast<int>( bw * static_cast<float>( seen ) / static_cast<float>( total ) ),
+                       static_cast<int>( 8.0f * u ), all ? Gold : Accent );
+        drawText( format( "%d / %d", seen, total ), rx + colW - 24.0f * u, ry + 6.0f * u, 12.0f * u, all ? Gold : Dim, AlignE::RIGHT );
+    }
+    drawText( format( "%d OF %d COUNTRIES COMPLETE   JOURNAL %d PLACES   SHEET %d / %d", complete, static_cast<int>( rows.size() ),
+                      static_cast<int>( m_records.m_journey.size() ), m_passportSheet + 1, sheets ),
+              x + w, y + h + 8.0f * u, 11.0f * u, Dim, AlignE::RIGHT );
+}
+
 void Game::drawPassport()
 {
     const float W = static_cast<float>( GetScreenWidth() ), H = static_cast<float>( GetScreenHeight() );
@@ -1477,9 +1567,9 @@ void Game::drawPassport()
     const float x = W * 0.5f - w * 0.5f, y = 20.0f * u;
     panel( x, y, w, h );
     drawTextFx( "PASSPORT", x + 28.0f * u, y + 18.0f * u, 28.0f * u, Accent, AlignE::LEFT, 0.8f );
-    const char *tabs[3] = { "MAP", "STAMPS", "POSTCARDS" };
+    const char *tabs[4] = { "MAP", "STAMPS", "REGIONS", "POSTCARDS" };
     float       tx = x + w - 28.0f * u;
-    for( int i = 2; i >= 0; --i )
+    for( int i = 3; i >= 0; --i )
     {
         const float tw = textWidth( tabs[i], 15.0f * u );
         tx -= tw;
@@ -1496,6 +1586,7 @@ void Game::drawPassport()
     {
     case PassportE::MAP: drawWorldMap( cx, cy, cw, ch - 20.0f * u ); break;
     case PassportE::STAMPS: drawStamps( cx, cy, cw, ch ); break;
+    case PassportE::REGIONS: drawRegions( cx, cy, cw, ch ); break;
     default: drawPostcards( cx, cy, cw, ch ); break;
     }
     const char *hint = m_input.m_gamepad ? "[DPAD] PAGE AND SHEET     [B] BACK" : "[ARROWS] PAGE AND SHEET     [ESC] BACK";

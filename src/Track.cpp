@@ -154,6 +154,22 @@ void Track::choose( int stage, int side )
     }
 }
 
+std::vector<int8_t> Track::tourChoices() const
+{
+    if( !m_tour ) return {};
+    std::lock_guard<std::mutex> lock( m_tour->m_mutex );
+    return m_tour->m_choice;
+}
+
+void Track::setTourChoices( const std::vector<int8_t> &choices )
+{
+    if( !m_tour ) return;
+    std::lock_guard<std::mutex> lock( m_tour->m_mutex );
+    m_tour->m_choice = choices;
+    m_tour->m_pos.resize( 1 );
+    m_tour->m_sea.resize( 1 );
+}
+
 bool Track::inForkZone( double s, double margin ) const
 {
     if( !m_tour ) return false;

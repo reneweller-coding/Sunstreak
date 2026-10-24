@@ -310,6 +310,15 @@ void Records::load( const std::string &path )
             else if( key == "seen2" ) readBits( val, m_seen );
             else if( key == "postcards" ) readBits( val, m_postcards );
             else if( key == "seen3" ) readNames( val, m_seen );
+            else if( key == "tourat" ) m_tourAt = val;
+            else if( key == "journey" )
+            {
+                std::stringstream ss( val );
+                std::string       name;
+                m_journey.clear();
+                while( std::getline( ss, name, ',' ) )
+                    if( !name.empty() ) m_journey.push_back( name );
+            }
             else if( key == "cards3" ) readNames( val, m_postcards );
             else if( key == "points" ) m_points = std::max<int64_t>( 0, std::stoll( val ) );
             else if( key == "daily" )
@@ -367,6 +376,10 @@ void Records::save( const std::string &path ) const
         if( m_rallyBest[i] > 0.0 ) out << "rally=" << i << "|" << m_rallyBest[i] << "\n";
     out << "seen3=";
     writeNames( out, m_seen );
+    if( !m_tourAt.empty() ) out << "tourat=" << m_tourAt << "\n";
+    out << "journey=";
+    for( size_t i = 0; i < m_journey.size(); ++i ) out << ( i ? "," : "" ) << m_journey[i];
+    out << "\n";
     out << "cards3=";
     writeNames( out, m_postcards );
     for( const ScoreEntry &e : m_top ) out << "top=" << e.m_initials << "|" << e.m_score << "|" << e.m_distance << "|" << e.m_code << "\n";

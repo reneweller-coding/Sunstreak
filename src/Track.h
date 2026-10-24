@@ -239,6 +239,18 @@ public:
     bool inForkZone( double s, double margin ) const;
 
     /**
+     * @brief The choices made at the world tour's forks so far.
+     * @return per stage after the detour: -1 left, +1 right, 0 none
+     */
+    std::vector<int8_t> tourChoices() const;
+
+    /**
+     * @brief Takes over the choices of another drive of the same tour (a replay).
+     * @param[in] choices  as tourChoices() gave them
+     */
+    void setTourChoices( const std::vector<int8_t> &choices );
+
+    /**
      * @brief The track's seed.
      * @return the seed
      */

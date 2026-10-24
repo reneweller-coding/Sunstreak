@@ -132,10 +132,12 @@ void Game::init()
         if( m_options.m_screen == "garage" ) m_state = StateE::GARAGE;
         if( m_options.m_screen == "rallies" ) m_state = StateE::RALLIES;
         if( m_options.m_screen == "passport" ) m_state = StateE::PASSPORT;
-        if( m_options.m_screen == "stamps" || m_options.m_screen == "postcards" )
+        if( m_options.m_screen == "stamps" || m_options.m_screen == "regions" || m_options.m_screen == "postcards" )
         {
             m_state = StateE::PASSPORT;
-            m_passportPage = static_cast<int>( m_options.m_screen == "stamps" ? PassportE::STAMPS : PassportE::POSTCARDS );
+            m_passportPage = static_cast<int>( m_options.m_screen == "stamps"    ? PassportE::STAMPS
+                                               : m_options.m_screen == "regions" ? PassportE::REGIONS
+                                                                                 : PassportE::POSTCARDS );
         }
         if( m_options.m_screen == "code" )
         {
@@ -353,7 +355,8 @@ void Game::startReplay( StateE back )
     m_replayIndex = m_menuIndex;
     const ReplayFrame &first = m_replay.front();
     const int          rivals = static_cast<int>( first.m_rivals.size() );
-    setupTrack( m_seed, first.m_s, m_setup.m_params );
+    const auto         choices = m_track ? m_track->tourChoices() : std::vector<int8_t>();
+    setupTrack( m_seed, first.m_s, m_setup.m_params, &choices );
     m_race.m_rivals.resize( static_cast<size_t>( rivals ) );
     for( int i = 0; i < rivals; ++i ) m_race.m_rivals[static_cast<size_t>( i )].m_driver = first.m_rivals[static_cast<size_t>( i )].m_model;
     m_replayT = first.m_t;
@@ -570,11 +573,12 @@ void Game::unloadPostcards()
     m_postcardTex.clear();
 }
 
-void Game::setupTrack( uint64_t seed, double startS, const TrackParams &params )
+void Game::setupTrack( uint64_t seed, double startS, const TrackParams &params, const std::vector<int8_t> *choices )
 {
     m_seed = seed;
     m_world.clear();
-    m_track = std::make_unique<Track>( seed, params, m_options.m_startBiome );
+    m_track = std::make_unique<Track>( seed, params, m_setup.m_startBiome >= 0 ? m_setup.m_startBiome : m_options.m_startBiome );
+    if( choices ) m_track->setTourChoices( *choices );
     m_track->generateTo( startS + ViewDistance + 600.0 );
     const Segment &seg = m_track->segment( static_cast<long>( startS / SegmentLength ) );
     // Start in the slow lane's neighbour: right of the middle, or left of it where they drive on the left.
@@ -840,6 +844,19 @@ void Game::progress( double ds )
     const BiomeMix mix = m_track->biomeMix( m_car.m_s );
     const BiomeE   here = mix.m_t < 0.5f ? mix.m_from : mix.m_to;
     const size_t   bit = static_cast<size_t>( here );
+    // The travel journal: the world tour's places as they are reached, and where the endless tour stands.
+    GeoPoint where;
+    if( !m_demo && m_setup.m_params.m_biome == SceneryWorld && ( m_mode == ModeE::ENDLESS || m_mode == ModeE::DAILY ) &&
+        placeLocation( here, where ) )
+    {
+        const std::string &key = biomeKey( here );
+        if( !key.empty() && ( m_records.m_journey.empty() || m_records.m_journey.back() != key ) )
+        {
+            m_records.m_journey.push_back( key );
+            if( m_records.m_journey.size() > 4000 ) m_records.m_journey.erase( m_records.m_journey.begin() );
+        }
+        if( m_mode == ModeE::ENDLESS && !key.empty() ) m_records.m_tourAt = key;
+    }
     if( !m_records.m_seen.test( bit ) )
     {
         // A new place: points, and a stamp for a new country.

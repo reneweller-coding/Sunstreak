@@ -101,6 +101,7 @@ enum class PassportE
 {
     MAP,        ///< the world tour on a map
     STAMPS,     ///< a stamp per country
+    REGIONS,    ///< the states and provinces of the big countries
     POSTCARDS,  ///< a picture per place
     COUNT       ///< number of pages
 };
@@ -270,7 +271,7 @@ private:
      * @param[in] startS  where the car starts
      * @param[in] params  the generator's parameters
      */
-    void setupTrack( uint64_t seed, double startS, const TrackParams &params );
+    void setupTrack( uint64_t seed, double startS, const TrackParams &params, const std::vector<int8_t> *choices = nullptr );
 
     /** @brief Resets the run's counters and starts the countdown. */
     void beginCountdown();
@@ -597,6 +598,15 @@ private:
     void drawPostcards( float x, float y, float w, float h );
 
     /**
+     * @brief Draws the passport's regions: the countries driven state by state and how many of their states were seen.
+     * @param[in] x  left
+     * @param[in] y  top
+     * @param[in] w  width
+     * @param[in] h  height
+     */
+    void drawRegions( float x, float y, float w, float h );
+
+    /**
      * @brief A garage item's value as text.
      * @param[in] item  the item
      * @return the value, with (LOCKED) where it is
@@ -649,6 +659,7 @@ private:
     int    m_paintIndex = 0;          ///< chosen paint
     bool   m_quit = false;            ///< close the game
     bool   m_demo = true;             ///< the run is the title's demo
+    bool   m_tourContinue = true;     ///< the title's endless run continues the world tour where it stopped
 
     // The track being driven.
     TrackSetup  m_setup;              ///< its setup

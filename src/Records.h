@@ -25,9 +25,10 @@ namespace sunstreak
 /** @brief A track as the Track Lab defines it. */
 struct TrackSetup
 {
-    uint64_t    m_seed = 1;       ///< 29 bits used
-    TrackParams m_params;         ///< overrides (-1 automatic)
-    bool        m_race = false;   ///< against rivals instead of the clock
+    uint64_t    m_seed = 1;         ///< 29 bits used
+    TrackParams m_params;           ///< overrides (-1 automatic)
+    bool        m_race = false;     ///< against rivals instead of the clock
+    int         m_startBiome = -1;  ///< where a continued world tour begins (not in track codes; -1: as the seed says)
 };
 
 /**
@@ -68,6 +69,8 @@ struct Records
     int64_t                 m_dailyBest = 0;    ///< its best score
     int                     m_dailyDays = 0;    ///< days with a daily challenge driven
     std::vector<double>     m_rallyBest;        ///< the best time per rally in seconds (0: not finished)
+    std::vector<std::string> m_journey;         ///< the travel journal: the world tour's places in the order driven (IDs)
+    std::string             m_tourAt;           ///< where the endless world tour stopped (an ID; empty: never driven)
 
     /**
      * @brief Reads the records file.
