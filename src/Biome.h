@@ -789,7 +789,7 @@ struct CountryInfo
     bool        m_left;       ///< drives on the left
     FleetE      m_fleet;      ///< its vehicles
     uint8_t     m_lines;      ///< 0 white, 1 a yellow line on the centre side, 2 a yellow outer edge
-    uint8_t     m_warn;       ///< warning signs: 0 red triangle, 1 red triangle on yellow, 2 yellow diamond
+    uint8_t     m_warn;       ///< warning signs: 0 red triangle, 1 red triangle on yellow, 2 yellow diamond, 3 black triangle on yellow
     uint8_t     m_chevrons;   ///< chevron boards: 0 red and white, 1 black and white, 2 yellow and black
     uint8_t     m_townSign;   ///< place signs: 0 white, 1 yellow, 2 white with a red border, 3 blue, 4 green
     const char *m_flag;       ///< the flag (data/countries.txt tells how it is written)

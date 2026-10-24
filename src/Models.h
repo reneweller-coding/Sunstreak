@@ -207,7 +207,7 @@ public:
     std::array<MeshBuilder, 3> m_chevronRight;   ///< warning board, arrow to the driver's right (CountryInfo::m_chevrons)
     std::array<MeshBuilder, 3> m_chevronLeft;    ///< warning board, arrow to the driver's left
     MeshBuilder                m_lamp;           ///< street lamp, its arm along +z
-    std::array<MeshBuilder, 2> m_jumpSign;       ///< crest warning: red triangle, yellow diamond
+    std::array<MeshBuilder, 4> m_jumpSign;       ///< crest warning by CountryInfo::m_warn: red triangle, on yellow, yellow diamond, black on yellow
     std::vector<MeshBuilder>   m_flags;          ///< a flag on its pole per country (countryAt order), facing -z
     MeshBuilder                m_borderPost;     ///< customs booth and raised barrier, front (+x) to the road
 

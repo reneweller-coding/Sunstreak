@@ -478,7 +478,7 @@ const std::vector<CountryInfo> &countries()
     {
         std::vector<CountryInfo> out;
         const char *const        lines[] = { "WHITE", "YELLOW", "EDGE" };
-        const char *const        warns[] = { "TRIANGLE", "YELLOW", "DIAMOND" };
+        const char *const        warns[] = { "TRIANGLE", "YELLOW", "DIAMOND", "BLACK" };
         const char *const        chevrons[] = { "RED", "BLACK", "YELLOW" };
         const char *const        towns[] = { "WHITE", "YELLOW", "RED", "BLUE", "GREEN" };
         for( const std::string &line : dataLines( dataText( "countries.txt" ) ) )

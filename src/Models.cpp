@@ -1294,12 +1294,16 @@ void Models::buildProps()
     m_lamp.box( Vector3{ 0, 8.65f, 2.9f }, Vector3{ 0.28f, 0.1f, 0.62f }, rgb( 70, 72, 80 ) );
     m_lamp.quad( Vector3{ -0.24f, 8.54f, 2.35f }, Vector3{ 0.24f, 8.54f, 2.35f }, Vector3{ 0.24f, 8.54f, 3.45f },
                  Vector3{ -0.24f, 8.54f, 3.45f }, rgb( 255, 226, 170 ), Glow );
-    MeshBuilder &crest = m_jumpSign[0];
-    crest.tube( Vector3{ 0, 0, 0 }, Vector3{ 0, 1.4f, 0 }, 0.07f, 5, rgb( 120, 120, 128 ) );
-    crest.tri( Vector3{ -0.75f, 1.4f, -0.04f }, Vector3{ 0.75f, 1.4f, -0.04f }, Vector3{ 0, 2.7f, -0.04f }, rgb( 210, 30, 30 ), Mat{ 0.15f, 0.0f } );
-    crest.tri( Vector3{ -0.5f, 1.55f, -0.06f }, Vector3{ 0.5f, 1.55f, -0.06f }, Vector3{ 0, 2.42f, -0.06f }, rgb( 250, 250, 250 ), Mat{ 0.3f, 0.0f } );
-    crest.tri( Vector3{ -0.32f, 1.68f, -0.07f }, Vector3{ 0.32f, 1.68f, -0.07f }, Vector3{ 0, 1.98f, -0.07f }, rgb( 20, 20, 20 ) );
-    MeshBuilder &bump = m_jumpSign[1];
+    for( size_t style : { size_t{ 0 }, size_t{ 1 }, size_t{ 3 } } )
+    { // A crest triangle: red on white, red on yellow, black on yellow.
+        MeshBuilder &crest = m_jumpSign[style];
+        const Color  border = style == 3 ? rgb( 20, 20, 20 ) : rgb( 210, 30, 30 ), face = style == 0 ? rgb( 250, 250, 250 ) : rgb( 245, 196, 20 );
+        crest.tube( Vector3{ 0, 0, 0 }, Vector3{ 0, 1.4f, 0 }, 0.07f, 5, rgb( 120, 120, 128 ) );
+        crest.tri( Vector3{ -0.75f, 1.4f, -0.04f }, Vector3{ 0.75f, 1.4f, -0.04f }, Vector3{ 0, 2.7f, -0.04f }, border, Mat{ 0.15f, 0.0f } );
+        crest.tri( Vector3{ -0.5f, 1.55f, -0.06f }, Vector3{ 0.5f, 1.55f, -0.06f }, Vector3{ 0, 2.42f, -0.06f }, face, Mat{ 0.3f, 0.0f } );
+        crest.tri( Vector3{ -0.32f, 1.68f, -0.07f }, Vector3{ 0.32f, 1.68f, -0.07f }, Vector3{ 0, 1.98f, -0.07f }, rgb( 20, 20, 20 ) );
+    }
+    MeshBuilder &bump = m_jumpSign[2];
     bump.tube( Vector3{ 0, 0, 0 }, Vector3{ 0, 1.5f, 0 }, 0.07f, 5, rgb( 120, 120, 128 ) );
     bump.quad( Vector3{ 0.75f, 2.25f, -0.04f }, Vector3{ 0, 1.5f, -0.04f }, Vector3{ -0.75f, 2.25f, -0.04f }, Vector3{ 0, 3.0f, -0.04f }, rgb( 20, 20, 20 ), Mat{ 0.15f, 0.0f } );
     bump.quad( Vector3{ 0.66f, 2.25f, -0.05f }, Vector3{ 0, 1.59f, -0.05f }, Vector3{ -0.66f, 2.25f, -0.05f }, Vector3{ 0, 2.91f, -0.05f }, rgb( 245, 196, 20 ), Mat{ 0.3f, 0.0f } );

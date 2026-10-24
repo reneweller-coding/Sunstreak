@@ -2441,8 +2441,9 @@ void Models::buildWorldProps()
         for( float x : { -1.0f, 1.0f } ) m.box( Vector3{ x, 1.0f, 0 }, Vector3{ 0.12f, 1.0f, 0.12f }, rgb( 110, 110, 110 ) );
         m.box( Vector3{ 0, 1.9f, 0 }, Vector3{ 1.2f, 0.1f, 0.15f }, rgb( 110, 110, 110 ) );
     }
-    for( int sv = 0; sv < 15; ++sv )
-    { // Animal warning sign: kangaroo, camel, moose, cow, deer; on a yellow diamond, a white or a yellow triangle.
+    for( int sv = 0; sv < 20; ++sv )
+    { // Animal warning sign: kangaroo, camel, moose, cow, deer; on a yellow diamond, a white or a yellow triangle bordered
+      // red, a yellow triangle bordered black.
         const int    v = sv % 5, shape = sv / 5;
         MeshBuilder &m = add( PropKindE::WARNING_SIGN, 0.3f, FacingE::ALONG );
         m.box( Vector3{ 0, 1.2f, 0 }, Vector3{ 0.05f, 1.2f, 0.05f }, rgb( 150, 150, 156 ) );
@@ -2456,9 +2457,10 @@ void Models::buildWorldProps()
         }
         else
         {
-            m.tri( Vector3{ 1.0f, c.y - 0.7f, c.z }, Vector3{ -1.0f, c.y - 0.7f, c.z }, Vector3{ 0, c.y + 1.0f, c.z }, rgb( 210, 30, 30 ), Mat{ 0.2f, 0.0f } );
+            m.tri( Vector3{ 1.0f, c.y - 0.7f, c.z }, Vector3{ -1.0f, c.y - 0.7f, c.z }, Vector3{ 0, c.y + 1.0f, c.z }, shape == 3 ? k : rgb( 210, 30, 30 ),
+                   Mat{ 0.2f, 0.0f } );
             m.tri( Vector3{ 0.74f, c.y - 0.55f, c.z - 0.01f }, Vector3{ -0.74f, c.y - 0.55f, c.z - 0.01f }, Vector3{ 0, c.y + 0.72f, c.z - 0.01f },
-                   shape == 2 ? y : rgb( 248, 248, 246 ), Mat{ 0.25f, 0.0f } );
+                   shape >= 2 ? y : rgb( 248, 248, 246 ), Mat{ 0.25f, 0.0f } );
         }
         const float zz = c.z - 0.02f, sc = shape == 0 ? 1.0f : 0.62f, dy = shape == 0 ? 0.0f : -0.12f;
         auto px = [&]( float x0, float y0, float x1, float y1 )

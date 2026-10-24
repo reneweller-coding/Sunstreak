@@ -1055,16 +1055,16 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
     }
     if( m_options.m_find != 0 )
     {
-        // Testing: start shortly before the first tunnel or bridge.
+        // Testing: start shortly before the first tunnel, bridge or crest.
         Track          probe( setup.m_seed, params, m_options.m_startBiome );
-        const uint16_t want = m_options.m_find == 1 ? SEG_TUNNEL : SEG_BRIDGE;
+        const uint16_t want = m_options.m_find == 1 ? SEG_TUNNEL : m_options.m_find == 10 ? SEG_JUMP : SEG_BRIDGE;
         for( double s = 0.0; s < 60000.0; s += 1000.0 )
         {
             probe.generateTo( s + 1000.0 );
             for( long i = static_cast<long>( s / SegmentLength ); i < static_cast<long>( ( s + 1000.0 ) / SegmentLength ); ++i )
                 if( probe.segment( i ).m_flags & want )
                 {
-                    startS = std::max( params.m_startLine - 9.0, static_cast<double>( i ) * SegmentLength - 160.0 );
+                    startS = std::max( params.m_startLine - 9.0, static_cast<double>( i ) * SegmentLength - ( want == SEG_JUMP ? 30.0 : 160.0 ) );
                     s = 1e9;
                     break;
                 }

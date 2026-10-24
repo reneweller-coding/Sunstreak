@@ -149,9 +149,10 @@ Asia, Australia and the Pacific, southern and eastern Africa, much of the Caribb
 overtake on the right and you start in the left lane. The markings follow the country: a yellow line on the centre side
 in the Americas, Scandinavia and East Asia, yellow outer edges in southern Africa and Ireland. Chevron boards are red and
 white in Europe, black and white in Britain and the Commonwealth, yellow and black in the Americas, Australia and Asia;
-warning signs are red triangles, yellow-backed triangles in Sweden, Finland, Poland and the Balkans, yellow diamonds in
-the Americas, Australia and Japan. Each place greets you with its name on a sign in the national style (yellow in
-Germany, red-bordered in France, blue in the Netherlands and Japan, green in the Americas and Australia), and where the
+warning signs are red triangles, yellow-backed triangles in Sweden, Finland, Poland, Greece, the Balkans, Korea and
+Vietnam, black-bordered yellow triangles in China, yellow diamonds in the Americas, Australia and Japan. Each place
+greets you with its name on a sign in the national style (yellow in Germany, red-bordered in France, blue in the
+Netherlands, Switzerland and Japan, green in the Americas and Australia), and where the
 country changes there is a border post with both flags and the new country's name. The traffic is regional: yellow cabs,
 school buses, pickups and big rigs in North America, black cabs and red double-deckers in Britain, beetles and painted
 chicken buses in Latin America, auto rickshaws, scooters and decorated trucks in South Asia, tuk-tuks and jeepneys in
@@ -276,7 +277,7 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --screen lab|records|code|garage|passport|stamps|regions|country|postcards|album|rallies|viewer   open that screen
     --shape NAME                  the landmark the viewer opens on (with --screen country: the country)
     --camera 0..2                 chase, far or bumper camera
-    --find tunnel|bridge|landmark|landmark2|fork|sea|seain|seaout|ferry
+    --find tunnel|bridge|landmark|landmark2|fork|sea|seain|seaout|ferry|jump
                                  start just before the first tunnel, bridge, landmark (or the second), fork, undersea
                                  portal (or inside, or before its far portal) or ferry
     --season spring|summer|autumn|winter   that season (testing)

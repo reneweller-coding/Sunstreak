@@ -1239,7 +1239,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, l, 0.5f } );
             }
             if( ( seg.m_flags & SEG_JUMP ) && !tunnel )
-                props.append( models.m_jumpSign[signs.m_warn == 2 ? 1 : 0], at( A, side * ( A.m_edge + 1.2f ), 0.0f ), A.m_heading, 1.0f );
+                props.append( models.m_jumpSign[std::min<size_t>( signs.m_warn, 3 )], at( A, side * ( A.m_edge + 1.2f ), 0.0f ), A.m_heading, 1.0f );
 
             // Scattered props.
             for( size_t r = 0; r < rule.m_props.size(); ++r )
@@ -1332,8 +1332,10 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                     if( pr.m_pastel ) keys[0] = Pastels[hash64( key + 7 + static_cast<uint64_t>( j ) ) % std::size( Pastels )];
                 }
                 uint64_t variant = pr.m_variant >= 0 ? static_cast<uint64_t>( pr.m_variant ) : hash64( key + 6 + static_cast<uint64_t>( j ) );
-                // Warning signs in the country's shape: a yellow diamond, a white or a yellow triangle.
-                if( pr.m_kind == PropKindE::WARNING_SIGN ) variant = variant % 5 + ( signs.m_warn == 2 ? 0 : signs.m_warn == 1 ? 10 : 5 );
+                // Warning signs in the country's shape: a yellow diamond, a white or a yellow triangle bordered red, a yellow
+                // one bordered black.
+                static const uint64_t warnShape[] = { 5, 10, 0, 15 };
+                if( pr.m_kind == PropKindE::WARNING_SIGN ) variant = variant % 5 + warnShape[std::min<size_t>( signs.m_warn, 3 )];
                 // Deciduous trees, bushes, hedges and vines turn, lose their leaves and some blossom; the rest only takes the
                 // snow.
                 using K = PropKindE;

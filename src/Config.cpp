@@ -215,7 +215,7 @@ LaunchOptions parseCommandLine( int argc, char **argv )
         else if( a == "--find" )
         {
             const std::string what = next();
-            o.m_find = what == "tunnel" ? 1 : what == "bridge" ? 2 : what == "landmark" ? 3 : what == "landmark2" ? 4 : what == "fork" ? 5 : what == "sea" ? 6 : what == "seain" ? 7 : what == "seaout" ? 8 : what == "ferry" ? 9 : 0;
+            o.m_find = what == "tunnel" ? 1 : what == "bridge" ? 2 : what == "landmark" ? 3 : what == "landmark2" ? 4 : what == "fork" ? 5 : what == "sea" ? 6 : what == "seain" ? 7 : what == "seaout" ? 8 : what == "ferry" ? 9 : what == "jump" ? 10 : 0;
         }
         else if( a == "--camera" ) o.m_camera = std::clamp( std::atoi( next().c_str() ), 0, 2 );
         else if( a == "--code" ) o.m_code = next();
