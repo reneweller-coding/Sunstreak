@@ -1,0 +1,29 @@
+# Landmarks of England's regions.
+
+shape YORK_MINSTER
+    # York Minster: a long gothic nave, two west towers and a broad central tower, all of pale stone.
+    box 0 16 0 14 16 50 D8CCB0
+    gable 0 32 0 14 50 10 0.4 7A7A80 D8CCB0
+    box 0 40 6 12 40 12 D0C4A8
+    merlons 12 80 -6 12 80 18 0.6 D0C4A8
+    mirror
+    box 0 32 -46 7 32 7 D0C4A8
+    mirror
+    merlons 7 64 -52 7 64 -40 0.5 D0C4A8
+    windows 14 6 -44 0 1 88 22 0.15 8
+    mirror
+    mirrorx
+    spire 14 32 -52 0.8 6 4 D0C4A8
+
+shape IRON_BRIDGE
+    # The first iron bridge, over the Severn gorge.
+    blob -10 0 -40 20 18 20 4E7A3E 0.3
+    blob -10 0 40 20 18 20 4E7A3E 0.3
+    box 6 0.2 0 10 0.2 40 4A6A6A water
+    mirrorx
+    arch 1.8 0 0 34 12 0.5 12 3A3A3A
+    mirrorx
+    arch 1.8 2 0 30 9 0.3 10 3A3A3A
+    box 0 13 0 2.6 0.5 22 4A4A4A
+    mirror
+    box 0 7 19 3 7 3 8A7A6A

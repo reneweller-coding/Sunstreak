@@ -1,0 +1,88 @@
+# England region by region, and eastern Anatolia.
+
+place HADRIANS_WALL | HADRIANS WALL | ENGLAND | OVERCAST | NORTH EAST
+    clouds 0.6
+    land 7A9A50 709048 7A8A5A
+    hills 26 8 8
+    drive 2 0.3 0.98 18
+    bends 0.45 0.4 0.5
+    p STONE_WALL 0.5 30 30 1 1
+    p STONE_WALL 0.2 3 3 1 1
+    p SHEEP 0.04 10 120
+    p RUIN 0.006 30 120
+    p FORT 0.003 60 200
+    c 9A9488 6A6A60
+
+place YORKSHIRE_DALES | YORKSHIRE DALES | ENGLAND | MORNING | YORKSHIRE
+    land 6AA048 609440 6A8A58
+    hills 30 10 10
+    drive 2 0.3 0.98 18
+    bends 0.55 0.45 0.55
+    p STONE_WALL 0.4 3 3 1 1
+    p STONE_WALL 0.02 20 150
+    p SHEEP 0.06 10 120
+    p BARN 0.008 20 150
+    c 9A9488 4A4A50
+    p COTTAGE 0.01 10 80
+    c B8AC90 4A4A50
+    landmark YORK_MINSTER 200 300 0.8
+
+place PEAK_DISTRICT | PEAK DISTRICT | ENGLAND | MIST | EAST MIDLANDS
+    fog 0.0026
+    land 7A8A50 707E48 8A7A5A
+    fields 0.3 8A6A7A 7A5A6A 6A7A48
+    hills 28 8 8
+    drive 2 0.3 0.97 18
+    bends 0.6 0.5 0.6
+    p STONE_WALL 0.35 3 3 1 1
+    p ROCK 0.08 3 80
+    c 8A7A6A
+    p SHEEP 0.04 10 120
+    p COTTAGE 0.008 10 80
+    c 9A9488 4A4A50
+
+place IRONBRIDGE | IRONBRIDGE GORGE | ENGLAND | MORNING | WEST MIDLANDS
+    sea 0 1 -14
+    water 4A6A6A
+    land 5E9A48 549040 5E8A50
+    hills 30 14 -8
+    drive 2 0.4 0.97 18
+    bends 0.55 0.45 0.5
+    p BROADLEAF 0.25 4 120
+    c 4E8A3E
+    p ROW_HOUSES 0.04 6 40
+    c A0503C 4A4A50
+    p CHIMNEY 0.004 40 150
+    landmark IRON_BRIDGE 40 70
+
+place NORFOLK_BROADS | NORFOLK BROADS | ENGLAND | OVERCAST | EAST OF ENGLAND
+    clouds 0.6
+    hills 2 0 0 0.6
+    water 4A6A7A
+    land 7AAA50 70A048 7A9A5A
+    drive 2 0.3 0.98 18
+    bends 0.3 0.3 0.1
+    p DUTCH_MILL 0.01 30 200
+    c 3A3A40 F2F0EA
+    p REEDS 0.2 3 60
+    p SAILBOAT 0.01 20 120
+    floating
+    p COTTAGE 0.01 10 80
+    c F2F0EA 8A7A5A
+    p CHURCH 0.004 30 150
+    c C8C0B0 6A6A70
+
+place LAKE_VAN | LAKE VAN | TURKEY | ALPINE | EASTERN ANATOLIA
+    sea 1 0 -4
+    water 2A6AA8
+    land A89A70 9C8E68 9A9A80
+    ranges 8A8070 F4F6FA 13
+    hills 20 6 6
+    drive 2 0.2 0.97 11
+    bends 0.4 0.35 0.35
+    p VOLCANO_CONE 0.003 400 700 1.6 2.2
+    c 7A6A5A F4F6FA
+    p SHEEP 0.02 10 100
+    p FLAT_HOUSE 0.008 10 60
+    c C8B898 8A7A60
+    landmark ISLAND_CHURCH 120 180

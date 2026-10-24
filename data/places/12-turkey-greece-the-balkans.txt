@@ -5,7 +5,7 @@
 # change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
-place CAPPADOCIA | CAPPADOCIA | TURKEY | GOLDEN | NEVSEHIR
+place CAPPADOCIA | CAPPADOCIA | TURKEY | GOLDEN | CENTRAL ANATOLIA
     sun 10 20
     land D8C0A0 CCB494 B8A890
     verge D0B898
@@ -19,7 +19,7 @@ place CAPPADOCIA | CAPPADOCIA | TURKEY | GOLDEN | NEVSEHIR
     p BROADLEAF 0.03 4 60 0.6 0.8
     c 7A9A4A
 
-place LYCIAN_COAST | LYCIAN COAST | TURKEY | NOON | ANTALYA
+place LYCIAN_COAST | LYCIAN COAST | TURKEY | NOON | MEDITERRANEAN
     sea 1 0 -16
     water 1E9AB8
     land 6E9A4E 64904A 7A8A5C
@@ -36,7 +36,7 @@ place LYCIAN_COAST | LYCIAN COAST | TURKEY | NOON | ANTALYA
     c F4F2EA 8A5A3A
     floating
 
-place ISTANBUL | ISTANBUL | TURKEY | GOLDEN | ISTANBUL
+place ISTANBUL | ISTANBUL | TURKEY | GOLDEN | MARMARA
     sea 0 1 -6
     water 2A5A80
     land 7A8A6A 728262 8A8A7A

@@ -39,7 +39,7 @@ void addWorldBiomes( std::vector<BiomeDef> &b )
         { BE::SNOW, "CANADA", C::COLD, "NORTHWEST TERRITORIES" },
         { BE::COAST, "USA", C::TEMPERATE, "CALIFORNIA" },
         { BE::AUTUMN, "USA", C::TEMPERATE, "VERMONT" },
-        { BE::SAKURA, "JAPAN", C::TEMPERATE, "NARA" },
+        { BE::SAKURA, "JAPAN", C::TEMPERATE, "KANSAI" },
         { BE::JUNGLE, "BRAZIL", C::TROPICAL, "ACRE" },
         { BE::SAVANNA, "KENYA", C::ARID },
         { BE::VOLCANO, "USA", C::TROPICAL, "HAWAII" },
@@ -56,7 +56,7 @@ void addWorldBiomes( std::vector<BiomeDef> &b )
         { BE::ICEBERGS, "GREENLAND", C::COLD },
         { BE::BAYOU, "USA", C::TROPICAL, "LOUISIANA" },
         { BE::WHEAT, "USA", C::TEMPERATE, "KANSAS" },
-        { BE::CLIFFS, "ENGLAND", C::TEMPERATE },
+        { BE::CLIFFS, "ENGLAND", C::TEMPERATE, "SOUTH EAST" },
         { BE::WINTER_VILLAGE, "AUSTRIA", C::COLD },
         { BE::RAINBOW, "IRELAND", C::TEMPERATE } };
     for( const Placed &p : places )
