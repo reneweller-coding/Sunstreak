@@ -1,0 +1,518 @@
+# Local things of Russia, the Caucasus, Central Asia, Mongolia and Afghanistan.
+
+shape DACHA
+    home RUSSIA, BELARUS, UKRAINE | 0.006 6 60 | country
+    # A dacha: a little wooden summer house with a glazed veranda, potato beds, a plastic-film greenhouse.
+    box 0 1.5 0 2.8 1.5 3.5 7A9A6A
+    box 2.9 1.1 0 0.6 1.1 3 E8E2D8
+    box 3.51 1.3 0 0.02 0.6 2.6 B8CCD8 glass
+    windows 2.82 0.4 -3 0 1 6 2.6 0.3 2.2
+    gable 0 3 0 2.9 3.6 2 0.3 8A3A2A 7A9A6A
+    repeat 4 0 0 1.4
+    box 7 0.15 -2 1.5 0.15 0.35 5A4030
+    repeat 4 0 0 1.4
+    blob 7 0.4 -2 1.4 0.15 0.3 4A7A2E 0.4
+    tube 7 0 4 7 1.4 4 1.6 10 E0E8E8 glass
+    box 9 0.6 0 0.05 0.6 6 7A5A3A
+
+shape WOODEN_TENT_CHURCH
+    home RUSSIA:NORTHWEST RUSSIA | 0.003 15 100 | country
+    # A wooden church of the Russian north: a log body, a tall octagonal tent roof of shingles, a small onion on top.
+    box 0 2.5 0 3 2.5 4 7A6A58
+    gable 0 5 0 3 4 2 0.3 6A6A70 7A6A58
+    cyl 0 0 -6 2.6 2.6 7 8 7A6A58
+    spire 0 7 -6 2.8 7 8 6A6A70
+    blob 0 14.5 -6 0.5 0.6 0.5 8A9AA8
+    tube 0 15 -6 0 16 -6 0.04 3 C8A040
+    tube 0 15.7 -6.25 0 15.7 -5.75 0.03 3 C8A040
+
+shape ROADSIDE_BUCKETS
+    home RUSSIA, BELARUS, UKRAINE, KAZAKHSTAN, MOLDOVA | 0.005 2 8 | country
+    # A grandmother's roadside stall: buckets of potatoes, berries and mushrooms on a stool, jars of honey.
+    box 0 0.3 0 0.4 0.3 0.6 8A6A48
+    cyl 0 0.6 -0.3 0.18 0.2 0.3 8 C83A2A
+    blob 0 0.9 -0.3 0.17 0.06 0.17 3A2A6A 0.5
+    cyl 0 0.6 0.3 0.18 0.2 0.3 8 3A6AC8
+    blob 0 0.9 0.3 0.17 0.06 0.17 C8A060 0.5
+    cyl 0.4 0 1.2 0.2 0.22 0.4 8 9A9A9A
+    blob 0.4 0.42 1.2 0.18 0.08 0.18 E8D8B0 0.5
+    repeat 3 0 0 0.2
+    cyl 0.55 0 -1.0 0.06 0.06 0.18 6 D89A2A glass
+
+shape CITY_ENTRANCE_STELE
+    home RUSSIA, KAZAKHSTAN, BELARUS, UZBEKISTAN, KYRGYZSTAN, TURKMENISTAN, AZERBAIJAN | 0.002 8 40
+    # A town's entrance stele of the Soviet years: a tall concrete slab with the town's emblem, flowers in front.
+    box 0 0.4 0 1.2 0.4 4 B8B4AC
+    box 0 4 0 0.5 3.6 2 E8E4DC
+    blob 0.51 5.5 0 0.02 1.0 0.9 C83A2A
+    blob 0.52 5.5 0 0.02 0.55 0.5 D8B030
+    box 0.51 3 0 0.02 0.3 1.8 2A3A6A
+    tri 0.5 7.6 -2 0.5 7.6 2 0.5 9 0 E8E4DC
+    repeat 4 0 0 1.8
+    blob 1.4 0.9 -2.7 0.3 0.15 0.5 D83A3A 0.5
+
+shape BOXY_4X4
+    home RUSSIA, KAZAKHSTAN, MONGOLIA, KYRGYZSTAN, TAJIKISTAN, UZBEKISTAN, GEORGIA, ARMENIA, AZERBAIJAN, UKRAINE | 0.004 4 25 | pastel
+    # A little boxy Soviet four-by-four, a spare wheel on its back, parked on the verge.
+    box 0 0.75 0 0.82 0.35 1.85 A
+    box 0 1.3 -0.3 0.8 0.3 1.2 A
+    box 0 1.32 -0.25 0.81 0.22 1.1 2A3A4A glass
+    box 0 0.95 1.2 0.7 0.2 0.6 A
+    mirror
+    mirrorx
+    tube 0.72 0.38 1.2 0.88 0.38 1.2 0.38 10 1E1E1E
+    tube -0.38 0.9 -1.95 0.38 0.9 -1.95 0.36 10 1E1E1E
+    mirrorx
+    blob 0.5 0.95 1.85 0.1 0.1 0.03 F2F2DA
+    box 0 0.5 1.88 0.75 0.12 0.04 9A9A9A
+
+shape SOVIET_TRUCK
+    home RUSSIA, KAZAKHSTAN, MONGOLIA, UZBEKISTAN, KYRGYZSTAN, TAJIKISTAN, TURKMENISTAN, AFGHANISTAN | 0.003 6 40
+    # An old Soviet lorry in army green: a long bonnet, round wings, a canvas over the load bed.
+    box 0 1.2 2.3 0.8 0.5 0.9 4A5A3A
+    box 0 1.9 1.1 1.0 0.7 0.7 4A5A3A
+    box 0 2.0 1.82 0.9 0.3 0.02 2A3A4A glass
+    mirror
+    mirrorx
+    blob 0.85 0.95 2.4 0.25 0.35 0.6 3A4A2A
+    box 0 1.3 -1.6 1.1 0.15 2.1 4A4A3A
+    box 0 2.2 -1.6 1.1 0.9 2.0 6A6A4A
+    mirror
+    mirrorx
+    tube 0.8 0.5 2.4 1.0 0.5 2.4 0.5 10 1E1E1E
+    mirrorx
+    tube 0.8 0.5 -2.4 1.0 0.5 -2.4 0.5 10 1E1E1E
+
+shape WOODEN_RAIL_HALT
+    home RUSSIA:SIBERIA, RUSSIA:FAR EAST, RUSSIA:URALS | 0.002 10 60 | country
+    # A wooden halt of the railway across Siberia: a pale green station house with white trim, a lamp, the track.
+    box -3 2 0 2.5 2 6 7AA88A
+    windows -0.48 0.3 -5.5 0 1 11 3.6 0.4 2.4
+    repeat 3 0 0 3.6
+    box -0.49 1.9 -3.6 0.01 0.75 0.7 F2F2F2
+    hip -3 4 0 2.8 6.3 1.6 0.4 8A9AA8 shiny
+    box 0.2 0.25 0 0.8 0.25 7 9A9A9A
+    mirror
+    box 2.3 0.1 0 0.04 0.06 9 8A8A8A shiny
+    box 3.05 0.1 0 0.04 0.06 9 8A8A8A shiny
+    tube 0.5 0 -5 0.5 4 -5 0.07 4 6A6A6A
+    blob 0.5 4.1 -5 0.2 0.12 0.2 F2E8B0 lit
+
+shape YAKUT_BALAGAN
+    home RUSSIA:FAR EAST | 0.004 8 60 | country
+    # A balagan of Yakutia: a log hut with sloping walls daubed with clay, a flat earth roof, a tall chimney.
+    tbox 0 0 0 3.5 4 0 2.4 0 2.8 3.3 9A8A70
+    box 0 2.5 0 2.8 0.15 3.3 6A5A40
+    box 3.05 1.0 0 0.1 1.0 0.5 4A3A2A
+    box 3.0 1.5 -2 0.1 0.35 0.35 B8CCD8
+    cyl -1 2.6 1 0.3 0.3 1.8 6 9A8A70
+
+shape CHUKCHI_YARANGA
+    home RUSSIA:FAR EAST | 0.004 8 60 | country
+    # A yaranga: the round tent of the reindeer herders, walrus and reindeer skins stretched over a frame of poles.
+    cyl 0 0 0 3.5 3.5 2 12 7A6A58
+    spire 0 2 0 3.6 2.4 12 6A5A48
+    ring 10 3.5
+    tube 0 2 0 -3.2 4.6 0 0.05 3 4A3A2A
+    box 3.4 1 0 0.15 1 0.6 3A2A1E
+    blob 0 4.5 0 0.2 0.25 0.2 C8C8C8 0.3
+
+shape TATAR_HOUSE
+    home RUSSIA:VOLGA | 0.006 6 60
+    # A Tatar village house: blue boards, carved window frames in white and green, a big painted gate beside it.
+    box 0 1.6 0 3 1.6 4 4A6AA8
+    windows 3.02 0.3 -3.5 0 1 7 2.8 0.3 2.4
+    repeat 3 0 0 2.33
+    box 3.015 1.9 -2.33 0.01 0.75 0.75 F2F2F2
+    repeat 3 0 0 2.33
+    tri 3.02 2.65 -3.13 3.02 2.65 -1.53 3.02 3.1 -2.33 3A8A5A
+    hip 0 3.2 0 3.2 4.2 1.6 0.3 3A8A5A
+    box 3 1.5 6 0.15 1.5 2 3A8A5A
+    blob 3.16 1.6 6 0.02 0.8 1.4 F2C21E
+    blob 3.17 1.6 6 0.02 0.4 0.7 C83A2A
+    box 3 3.1 6 0.25 0.12 2.2 4A6AA8
+
+shape TATAR_MOSQUE
+    home RUSSIA:VOLGA, RUSSIA:URALS | 0.002 15 90
+    # A village mosque of the Tatars: a wooden hall, a slim minaret rising from its roof with a green cap and crescent.
+    box 0 2.2 0 3.5 2.2 5 E8E2D4
+    windows 3.52 0.3 -4.5 0 1 9 3.6 0.3 2.6
+    hip 0 4.4 0 3.7 5.2 1.8 0.3 3A8A5A
+    box 0 6 3 0.8 1.6 0.8 E8E2D4
+    cyl 0 7.6 3 0.6 0.6 3 8 E8E2D4
+    halo 0 9 3 0.75 0.06 10 3A8A5A
+    spire 0 10.6 3 0.7 2 8 3A8A5A
+    tube 0 12.6 3 0 13.2 3 0.03 3 D8B030
+    blob 0 13.3 3 0.02 0.15 0.12 D8B030
+
+shape HONEY_STAND
+    home RUSSIA:VOLGA, RUSSIA:URALS, KYRGYZSTAN | 0.004 3 15 | country
+    # A honey stand of Bashkiria: wooden kegs and glass jars of dark honey under a sunshade, a hand-lettered board.
+    box 0 0.8 0 0.5 0.04 1.4 8A6A48
+    mirror
+    mirrorx
+    tube 0.4 0 1.2 0.4 0.78 1.2 0.03 4 6A5A48
+    repeat 3 0 0 0.8
+    cyl 0 0.82 -0.8 0.22 0.25 0.45 10 A8803A
+    repeat 5 0 0 0.45
+    cyl 0.3 0.82 -0.9 0.07 0.07 0.2 6 C8781A glass
+    tube -0.4 0 0 -0.4 2.2 0 0.03 4 D0D0D0
+    dome -0.4 2.0 0 1.4 0.4 F2C21E
+    box 0.9 0.7 1.8 0.02 0.35 0.5 F2E8C8
+
+shape MOUNTAIN_AUL
+    home RUSSIA:NORTH CAUCASUS, AZERBAIJAN, GEORGIA | 0.003 20 110 | country
+    # A mountain village of Dagestan: flat-roofed stone houses climbing a slope one on another's roof.
+    blob -4 0 0 10 4 12 7A7A60 0.3
+    box 0 2 -6 3 2 3 9A9080
+    box -2 5 -2 3 2 3 A89A88
+    box -4 8 3 3 2 3 9A9080
+    box 1 2 4 3 2 3 A89A88
+    box -6 11 -3 3 2 3 9A9080
+    box 3.02 1.6 -6 0.03 0.6 0.4 2A2A2A
+    box 1.02 4.6 -2 0.03 0.6 0.4 2A2A2A
+    box -0.98 7.6 3 0.03 0.6 0.4 2A2A2A
+    box 4.02 1.6 4 0.03 0.6 0.4 2A2A2A
+
+shape CAUCASUS_TOWER
+    home RUSSIA:NORTH CAUCASUS, GEORGIA | 0.003 15 110 | country
+    # A defence tower of the Caucasus: a tall slim stone tower narrowing upward, small openings, a stepped pyramid top.
+    tbox 0 0 0 2.4 2.4 0 18 0 1.8 1.8 A89A88
+    tbox 0 18 0 1.9 1.9 0 20 0 1.2 1.2 A89A88
+    tbox 0 20 0 1.2 1.2 0 21.5 0 0.3 0.3 8A8478
+    repeat 4 0 4 0
+    box 2.25 4 0 0.05 0.5 0.25 1E1E1E
+
+shape SANATORIUM
+    home RUSSIA:SOUTHERN RUSSIA, GEORGIA, AZERBAIJAN, UKRAINE | 0.002 15 100
+    # A Soviet sanatorium by the sea: a long white block, a colonnade before its entrance, palms in the garden.
+    box 0 6 0 5 6 14 F2EEE4
+    windows 5.02 0.5 -13.5 0 1 27 11 0.5 3
+    repeat 8 0 0 1.6
+    tube 7 0 -5.6 7 6 -5.6 0.3 8 F2F2F2
+    box 6 6.2 0 1.6 0.3 6 F2EEE4
+    tri 7.6 6.5 -5 7.6 6.5 5 7.6 8.5 0 F2EEE4
+    box 0 12.2 0 5 0.2 14 E8E2D4
+    tube 10 0 -10 10 6 -10 0.2 5 8A7050
+    fronds 10 6 -10 7 3 0.6 3E7A3A
+    tube 10 0 10 10 6 10 0.2 5 8A7050
+    fronds 10 6 10 7 3 0.6 3E7A3A
+
+shape CITY_KIOSK
+    home RUSSIA, UKRAINE, BELARUS, KAZAKHSTAN, GEORGIA, ARMENIA, AZERBAIJAN | 0.004 3 15 | town
+    # A street kiosk: a white box with a big window of cigarettes, drinks and magazines, a striped awning.
+    box 0 1.3 0 1.2 1.3 1.6 E8E8E8
+    box 1.21 1.4 0 0.02 0.7 1.4 B8CCD8 glass
+    box 1.22 1.2 -0.6 0.01 0.4 0.3 C83A2A
+    box 1.22 1.2 0.6 0.01 0.4 0.3 3A6AC8
+    quad 1.21 2.6 -1.7 1.21 2.6 1.7 2.0 2.3 1.7 2.0 2.3 -1.7 2A6AC8
+    box 0 2.65 0 1.25 0.05 1.65 C8C8C8
+
+shape STAR_DOME_CHURCH
+    home RUSSIA:CENTRAL RUSSIA, RUSSIA:VOLGA, RUSSIA:NORTHWEST RUSSIA | 0.003 15 100 | country
+    # A white church of the Golden Ring: five onion domes, the middle one gold, the others blue with golden stars.
+    box 0 4 0 4 4 4 F2EEE6
+    box 0 8.3 0 4.05 0.3 4.05 E8E2D4
+    cyl 0 8.6 0 1.4 1.4 2.4 10 F2EEE6
+    blob 0 12 0 1.6 1.5 1.6 D8B030 shiny
+    spire 0 13.2 0 0.25 1.2 6 D8B030
+    mirror
+    mirrorx
+    cyl 2.6 8.6 2.6 0.8 0.8 1.6 8 F2EEE6
+    mirror
+    mirrorx
+    blob 2.6 10.8 2.6 0.95 0.9 0.95 2A4A9A
+    mirror
+    mirrorx
+    blob 3.3 11 2.8 0.08 0.08 0.08 D8B030
+    tube 0 13.8 0 0 14.8 0 0.04 3 D8B030
+    tube 0 14.3 -0.3 0 14.3 0.3 0.03 3 D8B030
+    box 4.02 1.4 0 0.03 1.4 0.7 5A3A22
+    windows 4.02 1.5 -3.5 0 1 7 6.4 0.3 3
+
+shape EUROPE_ASIA_OBELISK
+    home RUSSIA:URALS | 0.003 6 40
+    # The border between Europe and Asia: a stone obelisk on a plinth, the two words carved on its sides.
+    box 0 0.4 0 1.5 0.4 1.5 9A968A
+    box 0 1.0 0 1.0 0.2 1.0 A8A498
+    tbox 0 1.2 0 0.6 0.6 0 7 0 0.3 0.3 C8C4B8
+    spire 0 7 0 0.42 1.2 4 C8C4B8
+    box 0.61 3 0 0.01 0.15 0.5 2A2A2A
+    box 0 0.03 0 0.05 0.03 3 C83A2A
+
+shape OVOO_CAIRN
+    home MONGOLIA, RUSSIA:SIBERIA | 0.006 6 60 | country
+    # An ovoo: a sacred cairn of stones, a pole on top hung with blue silk scarves and prayer flags.
+    blob 0 0.6 0 2 1 2 8A8478 0.5
+    blob 0 1.5 0 1.2 0.7 1.2 7A7468 0.5
+    tube 0 1.5 0 0 5 0 0.07 4 6A5A48
+    ring 6 0
+    tube 0 4.5 0 1.6 0.8 0 0.03 3 3A7AD8
+    ring 6 0 30
+    tube 0 4.2 0 1.8 0.6 0 0.025 3 F2F2F2
+    blob 0 5.1 0 0.25 0.35 0.25 3A7AD8
+
+shape HITCHING_POSTS
+    home RUSSIA:SIBERIA, MONGOLIA | 0.004 6 40 | country
+    # Serge: carved wooden hitching posts of the Buryats and Tuvans, wrapped in coloured ribbons.
+    repeat 4 0 0 1.4
+    tube 0 0 -2.1 0 2.4 -2.1 0.12 6 8A6A48
+    repeat 4 0 0 1.4
+    blob 0 2.5 -2.1 0.15 0.18 0.15 8A6A48
+    repeat 4 0 0 1.4
+    tube 0.13 1.8 -2.1 0.13 1.2 -2.2 0.02 3 3A7AD8
+    repeat 4 0 0 1.4
+    tube 0.13 1.8 -2.0 0.13 1.3 -1.9 0.02 3 D8B030
+    repeat 4 0 0 1.4
+    tube 0.13 1.8 -2.15 0.13 1.25 -2.05 0.02 3 E8E8E8
+
+shape ROADSIDE_KAFE_WAGON
+    home RUSSIA:SIBERIA, RUSSIA:FAR EAST, RUSSIA:URALS, KAZAKHSTAN | 0.003 6 30 | country
+    # A trucker's cafe in an old wagon at the roadside: a hand-painted sign, a stove pipe, lorries' tyre tracks before it.
+    box 0 1.5 0 1.3 1.1 4 E8D8B8
+    mirror
+    mirrorx
+    tube 1.1 0.4 2.5 1.3 0.4 2.5 0.4 10 1E1E1E
+    box 1.31 1.7 0 0.02 0.4 2.5 B8CCD8 glass
+    box 1.32 2.85 0 0.02 0.3 2.2 C83A2A
+    box 1.33 2.85 0 0.01 0.12 1.5 F2F2F2
+    tube -0.6 2.6 -2.5 -0.6 3.8 -2.5 0.1 6 4A4A4A
+    box 1.6 0.4 2.8 0.3 0.4 0.4 8A6A48
+
+shape WORSHIP_CROSS
+    home RUSSIA, BELARUS, UKRAINE | 0.003 4 30 | country
+    # A worship cross at the edge of a village: a tall wooden Orthodox cross with its slanted foot bar under a little roof.
+    tube 0 0 0 0 5.5 0 0.12 4 6A4A2A
+    tube 0 4.4 -1.0 0 4.4 1.0 0.1 4 6A4A2A
+    tube 0 4.9 -0.5 0 4.9 0.5 0.08 4 6A4A2A
+    tube 0 1.8 -0.6 0 2.3 0.6 0.08 4 6A4A2A
+    quad 0 5.8 -0.8 0 5.8 0.8 0.35 5.45 0.8 0.35 5.45 -0.8 5A3A22
+    quad 0 5.8 -0.8 0 5.8 0.8 -0.35 5.45 0.8 -0.35 5.45 -0.8 5A3A22
+    blob 0.2 0.15 0.2 0.25 0.15 0.25 D8C83A 0.4
+
+shape GEORGIAN_BALCONY_HOUSE
+    home GEORGIA, ARMENIA, AZERBAIJAN | 0.005 4 40 | town
+    # A house of old Tbilisi: carved wooden balconies painted blue and green running along the front, a tin roof.
+    box 0 4 0 3.5 4 5 E8D8C0
+    windows 3.52 0.4 -5 0 1 10 7.4 0.4 3
+    repeat 2 0 3 0
+    box 4.3 3.6 0 0.8 0.06 4.8 4A7A9A
+    repeat 2 0 3 0
+    box 5.08 4.05 0 0.03 0.45 4.8 4A7A9A
+    repeat 2 0 3 0
+    box 5.08 4.95 0 0.03 0.45 4.8 C8E0E8 glass
+    repeat 6 0 0 1.9
+    tube 5.08 3.6 -4.75 5.08 8.6 -4.75 0.05 4 4A7A9A
+    hip 0 8 0 4.2 5.2 1.6 0.6 9AA8B0 shiny
+
+shape QVEVRI_JARS
+    home GEORGIA | 0.004 4 30 | country
+    # Qvevri: huge egg-shaped clay jars for wine, some half buried in the yard, one lying on its side by the cellar.
+    blob 0 0.6 0 0.9 1.2 0.9 C8783A
+    blob 0 0.95 0 0.35 0.12 0.35 A8603A
+    blob 2 0.3 -1.2 0.8 0.6 0.8 B8703A
+    blob 2 0.62 -1.2 0.3 0.1 0.3 A8603A
+    blob -1 0.75 2 0.75 0.75 1.2 C8783A
+    box -3 1.2 0 0.2 1.2 3 B8A890
+
+shape CHURCHKHELA_STALL
+    home GEORGIA, ARMENIA | 0.004 3 15 | country
+    # Churchkhela for sale: strings of walnuts dipped in grape juice, hanging like long candles, red, purple and amber.
+    mirror
+    tube 0 0 1.6 0 2.4 1.6 0.05 4 6A5A48
+    tube 0 2.3 -1.6 0 2.3 1.6 0.04 4 6A5A48
+    repeat 10 0 0 0.32
+    tube 0 2.25 -1.45 0 1.3 -1.45 0.05 5 8A2A3A
+    repeat 9 0 0 0.32
+    tube 0.08 2.2 -1.3 0.08 1.4 -1.3 0.05 5 C8702A
+    box 0.8 0.4 0 0.4 0.4 0.8 8A6A48
+    repeat 4 0 0 0.35
+    cyl 0.8 0.8 -0.5 0.08 0.08 0.25 6 6A1A2A glass
+
+shape CAUCASIAN_STONE_CHURCH
+    home GEORGIA, ARMENIA | 0.003 10 80 | country
+    # A church of Georgia or Armenia: pale stone in a cross plan, a tall drum with a conical stone roof.
+    box 0 3 0 2.5 3 4.5 D8C8A8
+    box 0 3 0 4 3 2.5 D8C8A8
+    gable 0 6 0 2.5 4.5 1.4 0.2 B8A888 D8C8A8
+    hip 0 6 0 4 2.5 1.2 0.2 B8A888
+    cyl 0 6.8 0 1.5 1.5 3.5 10 D8C8A8
+    spire 0 10.3 0 1.7 2.4 10 B8A888
+    box 4.02 1.4 0 0.03 1.4 0.6 4A3A2A
+    box 1.52 8.5 0 0.02 0.6 0.15 2A2A2A
+    tube 0 12.7 0 0 13.4 0 0.03 3 9A9A9A
+
+shape KHACHKAR
+    home ARMENIA | 0.006 4 30 | country
+    # A khachkar: a tall cross-stone of red tufa, its cross carved in lace-fine knotwork, on a stone base.
+    box 0 0.3 0 0.5 0.3 1.0 9A8A7A
+    box 0 1.7 0 0.18 1.1 0.75 B86A4A
+    tri 0 2.8 -0.75 0 2.8 0.75 0 3.0 0 B86A4A
+    box 0.19 1.8 0 0.01 0.75 0.12 9A5A3A
+    box 0.19 2.1 0 0.01 0.12 0.5 9A5A3A
+    hoop 0.2 1.0 0 0.25 0.03 10 9A5A3A
+    box 0.19 1.75 0 0.01 1.0 0.7 A86040
+
+shape TUFA_HOUSE
+    home ARMENIA | 0.006 6 60
+    # An Armenian house of pink and black tufa stone, a flat roof, a wooden balcony with a vine over it.
+    box 0 2.8 0 3.5 2.8 5 C88A78
+    repeat 4 0 1.4 0
+    box 3.51 0.5 0 0.01 0.06 5 7A4A44
+    windows 3.52 0.3 -4.5 0 1 9 5 0.3 2.6
+    box 0 5.7 0 3.55 0.1 5.05 B87A68
+    box 4.1 2.8 0 0.6 0.05 3 6A4A30
+    blob 4.4 3.4 0 0.5 0.3 3 4A7A2E 0.4
+
+shape STEPPE_MAUSOLEUM
+    home KAZAKHSTAN, KYRGYZSTAN, UZBEKISTAN, TURKMENISTAN | 0.004 15 100 | country
+    # A steppe cemetery: mud-brick and stone mausolea with domes and little towers, iron crescents on their tips.
+    box 0 2 0 2.5 2 2.5 C8A878
+    dome 0 4 0 2.2 1.8 C8A878
+    tube 0 5.8 0 0 6.6 0 0.03 3 9A9A9A
+    blob 0 6.6 0.1 0.01 0.15 0.12 9A9A9A
+    mirror
+    cyl 2.5 4 2.5 0.3 0.25 1.6 6 C8A878
+    box 0 1.5 7 1.8 1.5 1.8 B89868
+    tbox 0 3 7 1.8 1.8 0 4.6 7 0.5 0.5 B89868
+    box -1 0.6 -5 1.2 0.6 0.8 9A9488
+    box 0 1.2 -9 1.5 1.2 1.5 C8A878
+    spire 0 2.4 -9 1.6 2.6 8 C8A878
+
+shape BACTRIAN_CAMEL
+    home MONGOLIA, KAZAKHSTAN, TURKMENISTAN, UZBEKISTAN, KYRGYZSTAN | 0.005 8 70 | country
+    # A Bactrian camel: two humps, a shaggy brown winter coat, a long neck bent forward.
+    blob 0 1.7 0 0.5 0.55 1.1 9A7A50 0.3
+    blob 0 2.3 0.4 0.3 0.4 0.3 8A6A40 0.3
+    blob 0 2.3 -0.45 0.3 0.4 0.3 8A6A40 0.3
+    mirror
+    mirrorx
+    tube 0.25 1.3 0.7 0.25 0 0.7 0.1 5 9A7A50
+    tube 0 1.8 1.0 0 2.0 1.5 0.18 5 9A7A50
+    tube 0 2.0 1.5 0 2.4 1.7 0.13 5 9A7A50
+    blob 0 2.45 1.85 0.14 0.15 0.28 9A7A50
+    blob 0 1.6 0.9 0.2 0.35 0.2 7A5A30 0.4
+
+shape SOLAR_GER
+    home MONGOLIA | 0.006 8 70 | country
+    # A modern nomad's ger: white felt with an orange door, a solar panel and a satellite dish set up beside it.
+    cyl 0 0 0 3 3 1.6 14 F2F2EE
+    spire 0 1.6 0 3.1 1.2 14 E8E8E2
+    cyl 0 2.8 0 0.4 0.4 0.2 8 E87A2A
+    box 2.95 0.8 0 0.1 0.8 0.5 E87A2A
+    halo 0 0.8 0 3.02 0.05 16 3A6AC8
+    quad 4.5 0.3 -2 4.5 0.3 -0.8 3.8 1.2 -0.8 3.8 1.2 -2 2A3A5A shiny
+    tube 4 0 -1.4 4 0.7 -1.4 0.03 3 9A9A9A
+    tube -1 0 -3.8 -1 1.2 -3.8 0.03 3 9A9A9A
+    dome -0.8 1.4 -3.8 0.45 0.2 C8C8C8
+
+shape HORSE_HERD
+    home MONGOLIA, KAZAKHSTAN, KYRGYZSTAN | 0.006 15 110 | country
+    # A herd of small steppe horses grazing, bay, dun and black, heads down in the grass.
+    blob 0 1.0 0 0.3 0.4 0.75 8A5A30
+    tube 0 1.1 0.6 0 0.5 1.1 0.12 5 8A5A30
+    mirror
+    mirrorx
+    tube 0.15 0.7 0.5 0.15 0 0.5 0.06 4 8A5A30
+    blob 3 1.0 2 0.3 0.4 0.75 B89A60
+    tube 3 1.1 2.6 3 0.6 3.1 0.12 5 B89A60
+    tube 3.15 0.7 2.5 3.15 0 2.5 0.06 4 B89A60
+    tube 2.85 0.7 2.5 2.85 0 2.5 0.06 4 B89A60
+    tube 3.15 0.7 1.5 3.15 0 1.5 0.06 4 B89A60
+    tube 2.85 0.7 1.5 2.85 0 1.5 0.06 4 B89A60
+    blob -2 1.0 -3 0.3 0.4 0.75 2A2420
+    tube -2 1.25 -2.4 -2 1.6 -2.1 0.12 5 2A2420
+    blob -2 1.7 -1.95 0.1 0.12 0.22 2A2420
+    tube -1.85 0.7 -2.5 -1.85 0 -2.5 0.06 4 2A2420
+    tube -2.15 0.7 -2.5 -2.15 0 -2.5 0.06 4 2A2420
+    tube -1.85 0.7 -3.5 -1.85 0 -3.5 0.06 4 2A2420
+    tube -2.15 0.7 -3.5 -2.15 0 -3.5 0.06 4 2A2420
+
+shape LOAF_VAN
+    home RUSSIA, MONGOLIA, KAZAKHSTAN, KYRGYZSTAN | 0.004 4 25 | pastel
+    # A loaf van: a stubby Soviet off-road minibus with a rounded nose, a favourite of expeditions.
+    box 0 1.3 0 0.95 0.75 2.1 A
+    tbox 0 0.55 2.1 0.95 0.25 0 2.0 2.1 0.9 0.15 A
+    box 0 1.65 0 0.96 0.3 1.9 2A3A4A glass
+    box 0 1.65 2.22 0.85 0.3 0.02 2A3A4A glass
+    mirror
+    mirrorx
+    tube 0.8 0.42 1.4 0.98 0.42 1.4 0.42 10 1E1E1E
+    mirrorx
+    blob 0.6 1.0 2.28 0.12 0.12 0.03 F2F2DA
+
+shape BLUE_DOME_MAUSOLEUM
+    home UZBEKISTAN, TURKMENISTAN, TAJIKISTAN | 0.003 10 80
+    # A little mausoleum of Samarkand: a tiled portal with a pointed arch, a ribbed dome of turquoise on a drum.
+    box 0 2.5 0 3 2.5 3 C8A070
+    box 3.2 3 0 0.4 3 2.2 2A6AA8
+    blob 3.61 2.4 0 0.02 1.8 1.1 1E2A4A
+    box 3.62 5 0 0.02 0.4 2.0 E8C860
+    cyl 0 5 0 2 2 1.5 12 2A6AA8
+    blob 0 7.2 0 2.1 2.4 2.1 3AB8C8
+    ring 12 2.0
+    tube 0 6.5 0 -1.6 8.8 0 0.04 3 2A8AA8
+    tube 0 9.5 0 0 10.3 0 0.04 3 D8B030
+
+shape CHAIKHANA_TAPCHAN
+    home UZBEKISTAN, TAJIKISTAN, KYRGYZSTAN, TURKMENISTAN, AFGHANISTAN | 0.005 4 30
+    # A tapchan of the tea house: a raised wooden platform spread with carpets and a low table, under the plane trees.
+    box 0 0.55 0 1.5 0.06 1.5 8A6A48
+    mirror
+    mirrorx
+    tube 1.4 0 1.4 1.4 0.55 1.4 0.07 4 6A5A48
+    box 0 0.62 0 1.4 0.02 1.4 A8202A
+    box 0 0.64 0 1.0 0.02 1.0 2A3A7A
+    box 0 0.8 0 0.45 0.15 0.45 6A4A30
+    cyl 0 0.95 0.2 0.12 0.12 0.15 8 F2F2F2
+    mirror
+    box -1.5 0.9 0 0.05 0.3 1.5 8A6A48
+    tube -4 0 2 -4 3.2 2 0.4 6 C8B8A0
+    blob -4 6 2 3.5 2.6 3.5 4A7A3A 0.3
+
+shape TANDOOR_OVEN
+    home UZBEKISTAN, TAJIKISTAN, AFGHANISTAN, TURKMENISTAN, KYRGYZSTAN, KAZAKHSTAN | 0.004 3 20 | country
+    # A tandoor: a dome-shaped clay oven on a mud-brick plinth, round flat breads cooling on a board beside it.
+    box 0 0.4 0 0.8 0.4 0.8 B8986A
+    blob 0 1.1 0 0.75 0.7 0.75 C8A07A
+    cyl 0 1.75 0 0.25 0.25 0.08 8 1E1E1E
+    box 1.6 0.7 0 0.4 0.04 0.8 8A6A48
+    repeat 3 0 0 0.5
+    cyl 1.6 0.74 -0.5 0.2 0.2 0.04 10 D8A050
+
+shape PAMIRI_HOUSE
+    home TAJIKISTAN, KYRGYZSTAN, AFGHANISTAN | 0.006 6 60 | country
+    # A Pamiri house: whitewashed stone walls, a flat earth roof with its skylight lantern, dung cakes drying on the wall.
+    box 0 1.6 0 3.5 1.6 4.5 E8E2D4
+    box 0 3.3 0 3.6 0.1 4.6 8A7A5A
+    box -0.5 3.7 0 0.6 0.4 0.6 E8E2D4
+    box 3.52 1.0 1 0.03 1.0 0.5 5A4030
+    box 3.52 1.8 -2.5 0.03 0.35 0.4 2A3A4A
+    repeat 6 0 0 0.6
+    blob 3.55 0.8 -3.6 0.02 0.18 0.18 6A5038
+
+shape AKHAL_TEKE_HORSE
+    home TURKMENISTAN | 0.006 8 70 | country
+    # An Akhal-Teke: a slender desert horse with a coat that shines like gold.
+    blob 0 1.3 0 0.3 0.42 0.85 D8B060 shiny
+    mirror
+    mirrorx
+    tube 0.15 0.95 0.6 0.15 0 0.6 0.06 5 C8A050
+    tube 0 1.5 0.75 0 2.2 1.1 0.12 5 D8B060 shiny
+    blob 0 2.25 1.3 0.1 0.14 0.3 D8B060 shiny
+    tube 0 1.5 -0.85 0 0.7 -1.0 0.05 3 B89040
+
+shape QALA_FORT
+    home AFGHANISTAN, TAJIKISTAN, UZBEKISTAN, TURKMENISTAN | 0.004 15 100 | country
+    # A qala: a fortified farm compound of mud walls with round corner towers, one wooden gate.
+    box 7 2.5 0 0.5 2.5 7 B89868
+    box -7 2.5 0 0.5 2.5 7 B89868
+    mirror
+    box 0 2.5 7 7 2.5 0.5 B89868
+    mirror
+    mirrorx
+    cyl 7 0 7 1.3 1.1 6 10 B89868
+    box 7.52 1.4 0 0.03 1.4 1.2 5A4030
+    box 0 1.5 -3 4 1.5 3 C8A878
+    tube 3 0 3 3 6 3 0.25 5 8A7A5A
+    blob 3 7 3 1 2 1 5A7A3A 0.3

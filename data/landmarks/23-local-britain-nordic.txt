@@ -414,7 +414,7 @@ shape LAKESIDE_SAUNA
     tube 2.2 -0.3 0.6 2.2 0.4 0.6 0.06 3 6A5A48
 
 shape SAMI_KOTA
-    home FINLAND, SWEDEN:NORRBOTTEN, NORWAY:FINNMARK | 0.004 8 60 | country
+    home FINLAND, SWEDEN:NORRBOTTEN, NORWAY:FINNMARK, RUSSIA:NORTHWEST RUSSIA | 0.004 8 60 | country
     # A Sami kota: a cone of poles under grey cloth, smoke escaping at the top, reindeer skins hung by the door.
     spire 0 0 0 2.2 4 10 8A8070
     ring 8 0.1
