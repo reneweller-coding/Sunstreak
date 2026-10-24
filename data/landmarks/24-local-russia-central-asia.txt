@@ -209,7 +209,7 @@ shape CITY_KIOSK
     box 0 2.65 0 1.25 0.05 1.65 C8C8C8
 
 shape STAR_DOME_CHURCH
-    home RUSSIA:CENTRAL RUSSIA, RUSSIA:VOLGA, RUSSIA:NORTHWEST RUSSIA | 0.003 15 100 | country
+    home RUSSIA:CENTRAL RUSSIA, RUSSIA:VOLGA, RUSSIA:NORTHWEST RUSSIA, USA:ALASKA | 0.003 15 100 | country
     # A white church of the Golden Ring: five onion domes, the middle one gold, the others blue with golden stars.
     box 0 4 0 4 4 4 F2EEE6
     box 0 8.3 0 4.05 0.3 4.05 E8E2D4
@@ -394,7 +394,7 @@ shape BACTRIAN_CAMEL
     blob 0 1.6 0.9 0.2 0.35 0.2 7A5A30 0.4
 
 shape SOLAR_GER
-    home MONGOLIA, CHINA:INNER MONGOLIA | 0.006 8 70 | country
+    home MONGOLIA, CHINA:INNER MONGOLIA, KYRGYZSTAN | 0.006 8 70 | country
     # A modern nomad's ger: white felt with an orange door, a solar panel and a satellite dish set up beside it.
     cyl 0 0 0 3 3 1.6 14 F2F2EE
     spire 0 1.6 0 3.1 1.2 14 E8E8E2
