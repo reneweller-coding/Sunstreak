@@ -333,7 +333,7 @@ shape SHISHA_CAFE
     blob 0.5 1.35 -1.75 0.05 0.05 0.05 C8A040
 
 shape HAZELNUT_DRYING
-    home TURKEY:BLACK SEA | 0.008 2 20 | country
+    home TURKEY:BLACK SEA, ITALY:PIEDMONT | 0.008 2 20 | country
     # Hazelnuts drying in the sun on a concrete yard beside the house, spread in a brown carpet and raked into rows.
     box 0 0.02 0 2.5 0.02 4 C8C0B0
     box 0 0.05 0 2.3 0.02 3.8 8A5A2A

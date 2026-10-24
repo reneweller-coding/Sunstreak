@@ -379,7 +379,7 @@ shape JEJU_STONE_WALL
     blob -2 1.7 -3 0.1 0.1 0.1 F28A1A
 
 shape VINYL_GREENHOUSES
-    home SOUTH KOREA, JAPAN, CHINA, NORTH KOREA, RUSSIA:CENTRAL RUSSIA, RUSSIA:VOLGA | 0.006 8 80 | country
+    home SOUTH KOREA, JAPAN, CHINA, NORTH KOREA, RUSSIA:CENTRAL RUSSIA, RUSSIA:VOLGA, SPAIN:ANDALUSIA, SPAIN:MURCIA | 0.006 8 80 | country
     # Rows of vinyl greenhouses: long low tunnels of white plastic film over hoops, side by side across the fields.
     repeat 5 -3.2 0 0
     tube 0 0 -12 0 0 12 1.6 10 E8EEF2 glass

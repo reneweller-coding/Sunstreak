@@ -274,7 +274,7 @@ shape WALLOON_STONE_FARM
     box 5.02 1.6 6 0.04 1.6 1.4 5A4A3A
 
 shape CAFE_TERRACE
-    home BELGIUM, NETHERLANDS, LUXEMBOURG | 0.003 4 20 | town
+    home BELGIUM, NETHERLANDS, LUXEMBOURG, SPAIN, PORTUGAL, ITALY | 0.003 4 20 | town
     # A cafe terrace: round tables, folding chairs, parasols in the colours of the house beer.
     mirror
     tube 0 0 2 0 2.4 2 0.03 4 D0D0D0

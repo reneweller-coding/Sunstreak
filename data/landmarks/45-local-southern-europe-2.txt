@@ -1,0 +1,302 @@
+# More local things of France, Iberia, Italy, Greece and the Balkans.
+
+shape CANAL_LOCK_PLANES
+    home FRANCE:OCCITANIE, FRANCE:BOURGOGNE-FRANCHE-COMTE, FRANCE:CENTRE-VAL DE LOIRE, FRANCE:GRAND EST, FRANCE:HAUTS-DE-FRANCE | 0.004 8 50 | country
+    # A canal lock under plane trees: stone lock walls with black and white gates, the keeper's cottage, a barge waiting to go through.
+    box -3 0.02 0 1.5 0.02 14 4A6A5A water
+    box -1.3 0.4 0 0.2 0.4 14 B8B0A0
+    box -4.7 0.4 0 0.2 0.4 14 B8B0A0
+    box -3 0.6 3 1.5 0.6 0.15 2A2A2A
+    box -3 0.6 -3 1.5 0.6 0.15 2A2A2A
+    tube -1 1.0 3 0.8 1.0 3.6 0.06 4 F2F2F2
+    tube -1 1.0 -3 0.8 1.0 -3.6 0.06 4 F2F2F2
+    box -3 0.5 -8 1.2 0.5 4 3A4A6A
+    box -3 1.3 -10.5 1 0.4 1 F2F2F2
+    repeat 6 0 0 5
+    tube 0.5 0 -12.5 0.5 6 -12.5 0.3 6 B8B098
+    repeat 6 0 0 5
+    blob 0.5 8 -12.5 2.5 2 2.5 5A8A3A 0.4
+    box 3 1.4 6 1.6 1.4 2 F2EEE2
+    gable 3 2.8 6 1.8 2.2 1 0.3 B8603A F2EEE2
+
+shape ROUNDABOUT_ART
+    home FRANCE | 0.004 3 20 | town
+    # A sculpture on a French roundabout: a grassy mound planted with flowers and a giant painted object, here a heap of oversized wine barrels.
+    cyl 0 0 0 5 4.5 0.6 20 5A8A3A
+    halo 0 0.3 0 5 0.2 20 E8E8E0
+    repeat 6 0 0 1
+    blob 2 1 -2.5 0.4 0.25 0.4 E85A8A 0.5
+    tube -1 1.4 -1 1 1.4 -1 1.2 12 8A5A3A
+    tube -1 1.4 1.5 1 1.4 1.5 1.2 12 8A5A3A
+    tube -1 3.2 0.25 1 3.2 0.25 1.1 12 8A5A3A
+    hoop 1.02 1.4 -1 1.2 0.06 12 3A3A3A
+    hoop 1.02 1.4 1.5 1.2 0.06 12 3A3A3A
+    hoop 1.02 3.2 0.25 1.1 0.06 12 3A3A3A
+
+shape AUTOROUTE_TOLL
+    home FRANCE, SPAIN, ITALY, PORTUGAL, CROATIA, GREECE, SERBIA, NORTH MACEDONIA | 0.003 4 30
+    # A motorway toll plaza: a long canopy over a row of booths with green arrows and red crosses lit above the lanes.
+    box 0 6 0 3 0.5 16 F2F2F2
+    box 3.01 6 0 0.01 0.3 15.5 2A6AC8
+    repeat 6 0 0 6
+    box 0 1.3 -15 0.8 1.3 0.6 E8E8E0
+    repeat 6 0 0 6
+    box 0.81 1.6 -15 0.01 0.6 0.5 2A3A4A glass
+    repeat 6 0 0 6
+    tube 0 2.6 -15 0 5.5 -15 0.15 6 C8C8C8
+    repeat 3 0 0 12
+    box 3.02 5.6 -12 0.01 0.25 0.25 2AC84A glow
+    repeat 3 0 0 12
+    box 3.02 5.6 -6 0.01 0.25 0.25 E82A2A glow
+
+shape YELLOW_POST_VAN
+    home FRANCE, SPAIN, GERMANY, SWITZERLAND, BELGIUM, LUXEMBOURG, NETHERLANDS, SWEDEN | 0.004 2 20 | town
+    # A yellow post van parked at the kerb with its sliding door open, the postwoman walking off with a bag of letters.
+    box 0 1.1 0 0.9 0.8 2.0 F2C21E
+    box 0 0.8 2.4 0.85 0.45 0.5 F2C21E
+    box 0 1.5 2.15 0.8 0.35 0.2 2A3A4A glass
+    box 0.91 0.9 -0.3 0.01 0.6 0.4 2A2A2A
+    box 0.92 1.4 1.0 0.01 0.2 0.5 2A4A8A
+    mirror
+    mirrorx
+    tube 0.75 0.35 1.6 0.92 0.35 1.6 0.35 10 1E1E1E
+    blob 1.8 0.9 -1.0 0.16 0.3 0.13 F2C21E
+    blob 1.8 1.32 -1.0 0.1 0.11 0.1 E0B090
+    box 1.95 0.95 -1.0 0.06 0.18 0.2 2A4A8A
+
+shape WALNUT_GROVE
+    home FRANCE:NOUVELLE-AQUITAINE, FRANCE:AUVERGNE-RHONE-ALPES, FRANCE:OCCITANIE, USA:CALIFORNIA, CHILE, MOLDOVA, UKRAINE | 0.006 6 60 | country
+    # A walnut grove: broad rounded trees with pale grey trunks planted in a grid, the grass mown short beneath.
+    repeat 3 0 0 6
+    tube 0 0 -6 0 2.5 -6 0.35 6 B8B0A0
+    repeat 3 0 0 6
+    blob 0 5 -6 3 2.4 3 4A7A3A 0.3
+    repeat 3 0 0 6
+    tube -6 0 -3 -6 2.5 -3 0.35 6 B8B0A0
+    repeat 3 0 0 6
+    blob -6 5 -3 3 2.4 3 4A7A3A 0.3
+
+shape SARDINE_GRILL
+    home PORTUGAL, SPAIN:GALICIA, SPAIN:ANDALUSIA | 0.006 1 12 | town
+    # A street sardine grill at the festival: a long charcoal brazier smoking with silver fish, bread on the table, paper garlands above.
+    box 0 0.8 0 0.3 0.15 1.0 3A3A3A
+    mirror
+    mirrorx
+    tube 0.25 0 0.9 0.25 0.65 0.9 0.03 3 3A3A3A
+    box 0 0.96 0 0.25 0.01 0.95 E8501E glow
+    repeat 8 0 0 0.24
+    blob 0 1.0 -0.85 0.18 0.03 0.04 B8C0C8 shiny
+    blob 0 1.8 0 0.3 0.5 0.8 D8D8D8 glass
+    box -1.5 0.75 0 0.5 0.03 1.2 F2F2F2
+    blob -1.5 0.85 0.5 0.2 0.08 0.25 C8A060
+    tube 0.5 3 -5 0.5 3 5 0.01 3 3A3A3A
+    repeat 10 0 0 1
+    tri 0.5 3 -4.8 0.5 3 -4.2 0.5 2.6 -4.5 E85A8A
+
+shape ESPETO_BOAT_GRILL
+    home SPAIN:ANDALUSIA | 0.006 6 40 | coast
+    # A beach grill in an old boat: a little wooden boat filled with sand and a wood fire, sardines spitted on canes leaning over the flames.
+    tbox 0 0 0 0.5 2 0 0.6 0 0.9 2.4 3A6AC8
+    box 0 0.62 0 0.85 0.02 2.3 D8C090
+    blob 0 0.7 0 0.4 0.12 1.6 E8501E glow
+    repeat 8 0 0 0.45
+    tube 0.6 0.6 -1.6 0.2 1.3 -1.6 0.015 3 C8B070
+    repeat 8 0 0 0.45
+    blob 0.35 1.05 -1.6 0.03 0.12 0.05 B8C0C8 shiny
+    box 0 0.5 0 0.51 0.04 2.0 F2F2F2
+
+shape CORK_STACKS
+    home PORTUGAL, SPAIN:EXTREMADURA, SPAIN:ANDALUSIA, SPAIN:CATALONIA | 0.006 4 40 | country
+    # Stacked cork bark by the farm track: great curved slabs piled high to season, the stripped trunks of the cork oaks red behind them.
+    repeat 4 0 0 1.5
+    box 0 0.9 -2.25 1.2 0.9 0.7 A88A68
+    repeat 4 0 0 1.5
+    box 0 1.85 -2.25 1.15 0.05 0.65 8A6A48
+    tube -4 0 0 -4 2 0 0.4 6 A83A1E
+    tube -4 2 0 -3 3.5 0.5 0.2 5 5A4A38
+    blob -4 4.2 0 2.6 1.4 2.6 5A6A3A 0.4
+
+shape CAMINO_WAYMARKER
+    home SPAIN:GALICIA, SPAIN:CASTILE AND LEON, SPAIN:NAVARRE, SPAIN:LA RIOJA, SPAIN:BASQUE COUNTRY, SPAIN:ASTURIAS, SPAIN:CANTABRIA, FRANCE:OCCITANIE, FRANCE:NOUVELLE-AQUITAINE, PORTUGAL | 0.006 1 8 | country
+    # A pilgrims' waymarker: a granite post with a yellow scallop shell on blue, the kilometres to go, a few stones left on top.
+    box 0 0.6 0 0.15 0.6 0.2 B8B0A0
+    box 0.16 0.95 0 0.01 0.18 0.16 2A4A9A
+    blob 0.17 0.95 0 0.01 0.12 0.12 F2C21E
+    box 0.16 0.6 0 0.01 0.06 0.12 F2F2F2
+    blob 0 1.22 0 0.06 0.04 0.06 9A9690 0.5
+    blob 0.05 1.27 0.05 0.04 0.03 0.04 8A8680 0.5
+
+shape FLOWERPOT_WALL
+    home SPAIN:ANDALUSIA | 0.006 2 20 | town
+    # A whitewashed courtyard wall hung with dozens of blue flowerpots full of red geraniums.
+    box 0 1.5 0 0.25 1.5 4 F2F2EE
+    repeat 6 0 0 1.4
+    cyl 0.3 2.2 -3.5 0.12 0.15 0.25 8 2A5AA8
+    repeat 6 0 0 1.4
+    blob 0.3 2.5 -3.5 0.16 0.12 0.16 C82A2A 0.5
+    repeat 5 0 0 1.4
+    cyl 0.3 1.4 -2.8 0.12 0.15 0.25 8 2A5AA8
+    repeat 5 0 0 1.4
+    blob 0.3 1.7 -2.8 0.16 0.12 0.16 E83A5A 0.5
+    box 0.27 1.0 1 0.02 1.0 0.5 3A6A3A
+
+shape BLUE_FISHING_TRAWLER
+    home FRANCE:BRITTANY, FRANCE:NORMANDY, SPAIN:GALICIA, SPAIN:BASQUE COUNTRY, SPAIN:ASTURIAS, PORTUGAL, IRELAND, SCOTLAND, ENGLAND:SOUTH WEST | 0.004 30 110 | water
+    # A coastal trawler: a blue steel hull with a white wheelhouse forward, gantry and net drum on the stern, gulls following.
+    tbox 0 -0.5 0 1.2 6 0 1.2 0 2.2 7.5 2A4A8A
+    box 0 1.22 0 2.21 0.06 7.5 C82A2A
+    box 0 2.4 3 1.6 1.2 1.6 F2F2F2
+    box 1.61 2.8 3 0.01 0.35 1.3 2A3A4A glass
+    tube 0 3.6 3.5 0 6 3.5 0.08 4 E8E8E8
+    mirrorx
+    tube 1.6 1.2 -6 1.2 4.5 -6 0.1 4 E8C02A
+    tube -1.2 4.5 -6 1.2 4.5 -6 0.1 4 E8C02A
+    tube -1 2 -4 1 2 -4 0.6 10 3A6A5A
+    blob 2 6 -4 0.15 0.05 0.3 F2F2F2
+
+shape MUSSEL_BOUCHOTS
+    home FRANCE:BRITTANY, FRANCE:NORMANDY, FRANCE:NOUVELLE-AQUITAINE, FRANCE:HAUTS-DE-FRANCE | 0.006 15 60 | coast
+    # Mussel poles on the tidal flats: long straight rows of oak stakes black with mussels, a flat-bottomed boat working along them.
+    box 0 0.02 0 6 0.02 14 9A8A70
+    repeat 20 0 0 1.4
+    cyl 0 0 -13.3 0.15 0.15 1.6 6 2A2A30
+    repeat 20 0 0 1.4
+    cyl -3 0 -13.3 0.15 0.15 1.6 6 2A2A30
+    repeat 20 0 0 1.4
+    cyl -6 0 -13.3 0.15 0.15 1.6 6 2A2A30
+    box -1.5 0.5 3 0.9 0.3 2.5 8A8A8A
+    box -1.5 1.2 2 0.4 0.4 0.4 2A2A2A
+
+shape CAMPSITE
+    home FRANCE, SPAIN, ITALY, CROATIA, NETHERLANDS, GERMANY, PORTUGAL, SLOVENIA, AUSTRIA, SWITZERLAND | 0.006 6 50 | country
+    # A campsite under the pines: a white caravan with its awning out, a dome tent, a table and folding chairs, washing on a line.
+    box 0 1.3 -2 1.1 1.0 2.5 F2F2EE
+    box 1.11 1.5 -2 0.01 0.3 1.5 2A3A4A glass
+    box 0 0.5 -2 1.12 0.08 2.5 3A6AC8
+    mirrorx
+    tube 0.95 0.35 -2.5 1.1 0.35 -2.5 0.35 10 1E1E1E
+    quad 1.1 2.1 -3.5 1.1 2.1 -0.5 3 1.9 -0.5 3 1.9 -3.5 E8902A
+    dome 1 0 3 1.2 1.1 3A8A4A
+    box 2.3 0.7 -2 0.5 0.03 0.4 F2F2F2
+    box 2.3 0.45 -1.2 0.2 0.45 0.2 2A6AC8
+    tube -3 0 -6 -3 8 -6 0.25 6 7A5A40
+    blob -3 8.5 -6 2.5 1.5 2.5 3A5A2A 0.3
+    tube -3 0 5 -3 7 5 0.25 6 7A5A40
+    blob -3 7.5 5 2.3 1.4 2.3 3A5A2A 0.3
+
+shape TREE_LINED_DRIVE
+    home FRANCE, BELGIUM, ITALY:PIEDMONT, ITALY:LOMBARDY, GERMANY:BRANDENBURG, POLAND | 0.004 4 30 | country
+    # The drive to a manor: two stone gate piers with an iron gate standing open, and a straight avenue of plane trees beyond.
+    mirror
+    box 0 1.5 2.5 0.4 1.5 0.4 C8C0B0
+    mirror
+    blob 0 3.2 2.5 0.3 0.3 0.3 C8C0B0
+    box 0.1 1.1 1.3 0.03 1.0 0.02 1E1E1E
+    box -0.5 1.1 -1.8 0.6 1.0 0.02 1E1E1E
+    repeat 5 -5 0 0
+    tube -4 0 4 -4 6 4 0.3 6 B8B098
+    repeat 5 -5 0 0
+    blob -4 8 4 2.2 2 2.2 4A7A3A 0.4
+    repeat 5 -5 0 0
+    tube -4 0 -4 -4 6 -4 0.3 6 B8B098
+    repeat 5 -5 0 0
+    blob -4 8 -4 2.2 2 2.2 4A7A3A 0.4
+
+shape CYPRESS_ALLEY
+    home ITALY:TUSCANY, ITALY:UMBRIA, ITALY:LAZIO | 0.006 8 70 | country
+    # A Tuscan farm track winding up a hill between two lines of tall dark cypresses, the stone farmhouse at the top.
+    blob -8 0 0 9 3 7 9AA060 0.2
+    repeat 7 -1.4 0.4 0
+    cyl -1 0 -1.2 0.4 0.1 6 8 2A4A2A
+    repeat 7 -1.4 0.4 0
+    cyl -1 0 1.2 0.4 0.1 6 8 2A4A2A
+    box -11 4 0 2.2 1.4 3 C8A878
+    hip -11 5.4 0 2.4 3.2 1 0.3 B8603A
+
+shape LIDO_UMBRELLA_ROWS
+    home ITALY:EMILIA-ROMAGNA, ITALY:MARCHE, ITALY:VENETO, ITALY:LIGURIA, ITALY:APULIA, ITALY:TUSCANY, ITALY:CAMPANIA, ITALY:ABRUZZO, CROATIA, SPAIN:VALENCIA, SPAIN:CATALONIA, GREECE | 0.006 6 40 | coast
+    # A beach lido: perfectly straight rows of striped umbrellas and sun loungers, all the same colour, the lifeguard chair at the end.
+    repeat 5 0 0 2.5
+    tube 0 0 -5 0 2.2 -5 0.03 3 E8E8E8
+    repeat 5 0 0 2.5
+    spire 0 2.0 -5 1.1 0.35 8 2A8A6A
+    repeat 5 0 0 2.5
+    tube -2.5 0 -5 -2.5 2.2 -5 0.03 3 E8E8E8
+    repeat 5 0 0 2.5
+    spire -2.5 2.0 -5 1.1 0.35 8 2A8A6A
+    repeat 5 0 0 2.5
+    box 0.7 0.3 -5 0.3 0.05 0.9 F2F2F2
+    repeat 5 0 0 2.5
+    box -1.8 0.3 -5 0.3 0.05 0.9 F2F2F2
+    box 2 1.2 8 0.5 0.05 0.5 C82A2A
+    mirror
+    mirrorx
+    tube 0.4 0 8.4 0.3 1.2 8.3 0.04 3 F2F2F2
+
+shape MARBLE_QUARRY
+    home ITALY:TUSCANY | 0.004 15 100 | country
+    # A marble quarry cut into the mountain: brilliant white terraced steps of stone, cut blocks stacked below, a dump truck on the ramp.
+    blob -17 5 0 6 9 12 8A8680 0.4
+    box -6 1.5 0 6 1.5 10 F2F2F0
+    box -8 4 0 4 1 9 E8E8E4
+    box -10 6 0 2 1 8 F2F2F0
+    box -12 8 0 1 1 7 E8E8E4
+    repeat 3 0 0 2
+    box 2 0.75 -4 0.8 0.75 0.8 F2F2EE
+    box 2 0.6 4 1.2 0.6 0.9 F2F2EE
+    box 4 1.2 0 1 0.6 2 E8C02A
+    mirror
+    mirrorx
+    tube 3.8 0.5 1.5 4.3 0.5 1.5 0.5 10 1E1E1E
+
+shape OCTOPUS_DRYING_LINE
+    home GREECE, CYPRUS, CROATIA, MALTA | 0.006 2 20 | coast
+    # Octopus hung out to dry on a line in front of a seaside taverna, blue chairs and tables on the quay.
+    box -2.5 1.5 0 0.3 1.5 3 F2F2EE
+    tube 0 0 -2 0 2 -2 0.04 3 8A6A48
+    tube 0 0 2 0 2 2 0.04 3 8A6A48
+    tube 0 1.95 -2 0 1.95 2 0.01 3 8A8A8A
+    repeat 6 0 0 0.6
+    blob 0 1.7 -1.5 0.04 0.2 0.12 C8908A
+    repeat 6 0 0 0.6
+    blob 0 1.45 -1.5 0.05 0.12 0.18 B8807A
+    repeat 3 0 0 1.5
+    box 1.2 0.7 -1.5 0.35 0.03 0.35 2A6AC8
+    repeat 3 0 0 1.5
+    box 1.9 0.45 -1.5 0.2 0.45 0.2 2A6AC8
+
+shape SPIT_ROAST_LAMB
+    home GREECE, SERBIA, BOSNIA, MONTENEGRO, NORTH MACEDONIA, ALBANIA, BULGARIA, CROATIA, KOSOVO, TURKEY | 0.004 2 20 | country
+    # A roadside grill restaurant: a whole lamb turning on a spit over the coals under a tin shelter, smoke drifting across the road.
+    mirror
+    tube 0 0 1 0 1.2 1 0.04 3 3A3A3A
+    tube 0 1.1 -1.2 0 1.1 1.2 0.025 3 B8B8B8
+    blob 0 1.1 0 0.3 0.25 0.7 B8703A
+    box 0 0.25 0 0.4 0.25 0.9 6A6A68
+    box 0 0.52 0 0.35 0.01 0.85 E8501E glow
+    quad -0.8 2.4 -1.5 -0.8 2.4 1.5 0.8 2.2 1.5 0.8 2.2 -1.5 9AA0A8
+    mirror
+    mirrorx
+    tube 0.7 0 1.4 0.7 2.25 1.4 0.04 3 6A6A6A
+    blob 0 3 0.5 0.6 0.9 1.2 D8D8D8 glass
+    box -3 1.5 0 1.5 1.5 3 E8E0D0
+    box -1.48 2.6 0 0.02 0.3 1.6 C82A2A
+
+shape KAFENEIO
+    home GREECE, CYPRUS | 0.006 2 20 | town
+    # A village coffee house: wicker-seated wooden chairs and little square tables on the square under a vine, old men watching the road.
+    box -2 1.6 0 0.3 1.6 3.5 F2EEE2
+    box -1.68 1.2 1 0.02 1.2 0.6 2A6AC8
+    quad -1.7 2.8 -3.5 -1.7 2.8 3.5 2 2.6 3.5 2 2.6 -3.5 5A8A3A
+    repeat 3 0 0 2.2
+    tube 2 0 -2.2 2 2.6 -2.2 0.05 3 6A5A48
+    repeat 3 0 0 2.2
+    box 0.5 0.7 -2.2 0.35 0.03 0.35 2A6AC8
+    repeat 3 0 0 2.2
+    box 1.2 0.45 -2.2 0.2 0.45 0.2 6A8A5A
+    repeat 3 0 0 2.2
+    box -0.2 0.45 -2.2 0.2 0.45 0.2 6A8A5A
+    repeat 2 0 0 2.2
+    blob 1.2 0.85 -2.2 0.17 0.28 0.14 3A3A3A
+    repeat 2 0 0 2.2
+    blob 1.2 1.25 -2.2 0.1 0.11 0.1 C8A080

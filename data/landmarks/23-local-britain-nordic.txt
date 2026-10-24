@@ -133,7 +133,7 @@ shape CORNISH_ENGINE_HOUSE
     cyl 0 10 -5.5 0.75 0.7 4 10 A8603A
 
 shape BEACH_HUTS
-    home ENGLAND, WALES | 0.004 6 40 | coast
+    home ENGLAND, WALES, FRANCE:NORMANDY | 0.004 6 40 | coast
     # A row of beach huts, each a different colour, white doors and little gables.
     box 0 1.2 -4 1 1.2 0.9 2A8AC8
     gable 0 2.4 -4 1 0.9 0.5 0.1 F2F2F2 2A8AC8

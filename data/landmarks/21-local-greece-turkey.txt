@@ -104,7 +104,7 @@ shape ORTHODOX_BELL_TOWER
     tube 0 7.0 -0.15 0 7.0 0.15 0.025 3 D8B030
 
 shape GOATS_ON_ROCKS
-    home GREECE, CYPRUS, TURKEY, ALBANIA, MONTENEGRO | 0.004 6 60 | country
+    home GREECE, CYPRUS, TURKEY, ALBANIA, MONTENEGRO, SPAIN:ANDALUSIA, SPAIN:CANARY ISLANDS, ITALY:SARDINIA, CROATIA | 0.004 6 60 | country
     # A few goats on a heap of rocks, brown, black and white.
     blob 0 0.6 0 2 1.0 2 9A9488 0.4
     blob 1.4 0.8 1.6 1.2 0.6 1.0 8A8478 0.4
