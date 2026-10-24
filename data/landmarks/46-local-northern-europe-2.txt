@@ -38,7 +38,7 @@ shape BELISHA_BEACONS
     box 0.5 0.01 -1.2 0.3 0.01 0.25 F2F2F2
 
 shape HIGHLAND_BOTHY
-    home SCOTLAND | 0.004 8 60 | country
+    home SCOTLAND, NEW ZEALAND:OTAGO, NEW ZEALAND:CANTERBURY, NEW ZEALAND:SOUTHLAND | 0.004 8 60 | country
     # A bothy in the glen: a tiny stone shelter with a tin roof and a chimney, alone by the burn below the hills.
     box 0 1.2 0 2.2 1.2 3.2 8A8478
     gable 0 2.4 0 2.4 3.4 1.2 0.2 6A6A6A 8A8478
@@ -159,7 +159,7 @@ shape LAKE_ROWBOAT
     blob -1.2 5.5 -3.2 1.2 1.6 1.2 6A9A3A 0.4
 
 shape HOT_POT_POOL
-    home ICELAND | 0.006 4 40 | country
+    home ICELAND, NEW ZEALAND:WAIKATO, NEW ZEALAND:BAY OF PLENTY | 0.006 4 40 | country
     # A natural hot pot in the lava field: a small stone-rimmed pool steaming in the cold air, a little changing hut beside it.
     cyl 0 0 0 2.2 2.2 0.4 12 6A6460
     cyl 0 0.4 0 1.9 1.9 0.02 12 6AB8C8 water

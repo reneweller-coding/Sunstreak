@@ -1,0 +1,292 @@
+# More local things of Australia, New Zealand and the Pacific islands.
+
+shape OUTBACK_UTE
+    home AUSTRALIA | 0.006 2 25 | country
+    # An outback ute: a dusty white pickup with a big bull bar and spotlights, a rolled swag and jerrycans in the tray, a dog riding on the back.
+    box 0 0.95 1.2 0.9 0.45 1.2 E8E4DC
+    box 0 1.6 0.6 0.85 0.35 0.65 E8E4DC
+    box 0 1.65 1.26 0.75 0.25 0.01 2A3A4A glass
+    box 0 0.85 -1.4 0.9 0.35 1.2 E8E4DC
+    box 0 0.8 2.5 0.95 0.3 0.1 3A3A3A
+    mirrorx
+    blob 0.5 1.3 2.5 0.12 0.12 0.06 F2F2E8
+    tube -0.6 1.3 -1.0 0.6 1.3 -1.0 0.25 8 2A5A3A
+    repeat 2 0 0 0.5
+    box 0.5 1.4 -2.0 0.1 0.2 0.2 C82A2A
+    blob -0.4 1.45 -1.8 0.15 0.18 0.3 C8884A
+    blob -0.4 1.65 -1.5 0.1 0.1 0.12 C8884A
+    mirror
+    mirrorx
+    tube 0.75 0.42 1.5 0.97 0.42 1.5 0.42 10 1E1E1E
+
+shape CATTLE_GRID
+    home AUSTRALIA, NEW ZEALAND, SCOTLAND, WALES, ENGLAND:NORTH WEST, ENGLAND:SOUTH WEST, ICELAND | 0.004 0 4 | country
+    # A cattle grid where the fence crosses the road: steel rails over a pit, white posts with a sign, the fence running off on both sides.
+    repeat 8 0.3 0 0
+    box -1 0.05 0 0.05 0.05 2.5 9A9A9A
+    mirror
+    box 0 0.6 2.8 0.08 0.6 0.08 F2F2F2
+    mirror
+    tube 0 0.9 2.8 0 0.9 12 0.03 3 8A8A8A
+    mirror
+    tube 0 0.5 2.8 0 0.5 12 0.03 3 8A8A8A
+    repeat 4 0 0 3
+    tube 0 0 3.5 0 1 3.5 0.05 3 8A6A48
+    box 0.1 1.5 -3.2 0.02 0.3 0.4 F2C21E
+    tube 0 0 -3.2 0 1.8 -3.2 0.04 3 9A9A9A
+
+shape MAGNETIC_TERMITE_MOUNDS
+    home AUSTRALIA:NORTHERN TERRITORY, AUSTRALIA:QUEENSLAND | 0.008 6 60 | country
+    # Magnetic termite mounds: thin grey slabs of earth taller than a man, all facing the same way like gravestones across the grass.
+    tbox 0 0 0 0.3 1.2 0 3 0 0.1 0.6 9A9080
+    tbox -3 0 -4 0.25 1.0 -3 2.5 -4 0.08 0.5 9A9080
+    tbox 2 0 4 0.3 1.1 2 2.8 4 0.1 0.5 8A8070
+    tbox -2 0 3 0.2 0.8 -2 2 3 0.08 0.4 9A9080
+    tbox -5 0 0 0.25 1.0 -5 2.6 0 0.08 0.5 8A8070
+    tbox 3 0 -3 0.2 0.8 3 1.8 -3 0.08 0.4 9A9080
+
+shape BUSH_AIRSTRIP
+    home AUSTRALIA:NORTHERN TERRITORY, AUSTRALIA:WESTERN AUSTRALIA, AUSTRALIA:QUEENSLAND, AUSTRALIA:SOUTH AUSTRALIA, PAPUA NEW GUINEA | 0.003 10 80 | country
+    # A bush airstrip: a red dirt runway marked with white tyres, a windsock on its pole and a little tin hangar with a light plane.
+    box -5 0.02 0 3 0.02 30 B8603A
+    repeat 11 0 0 6
+    mirrorx
+    tube -2.2 0.2 -30 -2.2 0.2 -29.6 0.3 8 F2F2F2
+    tube 1 0 -20 1 5 -20 0.06 4 9A9A9A
+    tbox 1 4.9 -20.5 0.2 0.3 1 4.7 -22 0.1 0.15 E8702A
+    box -12 2 5 3 2 4 9AA0A8
+    box -8.98 1.6 5 0.02 1.6 3 3A3A3A
+    box -5 1 12 0.4 0.4 1.5 F2F2F2
+    box -5 1.1 11.8 4 0.05 0.6 F2F2F2
+    tube -5 0.5 13 -5 0.5 13.3 0.4 8 C82A2A
+
+shape OUTBACK_DUNNY
+    home AUSTRALIA, NEW ZEALAND | 0.004 4 30 | country
+    # An outback dunny: a little corrugated iron outhouse with a sloping roof and a crescent moon cut in its door, standing alone.
+    box 0 1.1 0 0.6 1.1 0.6 9AA0A8
+    quad -0.7 2.4 -0.7 -0.7 2.4 0.7 0.7 2.2 0.7 0.7 2.2 -0.7 8A9098
+    box 0.61 1.0 0 0.01 0.95 0.45 8A6A48
+    blob 0.62 1.75 0 0.01 0.08 0.06 1E1E1E
+    tube 1.2 0 -0.8 1.2 1.6 -0.8 0.03 3 8A6A48
+
+shape PARK_BBQ_SHELTER
+    home AUSTRALIA | 0.006 3 30 | town
+    # A public barbecue shelter in the park: a hipped roof on posts over a stainless steel hotplate, picnic tables and a gum tree beside it.
+    mirror
+    mirrorx
+    tube 2 0 2 2 2.4 2 0.08 4 8A6A48
+    hip 0 2.4 0 2.4 2.4 1 0.3 2A6A6A
+    box 0 0.45 0 0.4 0.45 0.9 C8C0B0
+    box 0 0.92 0 0.38 0.02 0.85 C8C8C8 shiny
+    repeat 2 0 0 3.6
+    box 4.5 0.75 -1.8 0.5 0.04 1.2 8A6A48
+    repeat 2 0 0 3.6
+    box 4 0.45 -1.8 0.15 0.03 1.2 8A6A48
+    repeat 2 0 0 3.6
+    box 5 0.45 -1.8 0.15 0.03 1.2 8A6A48
+    tube -4 0 3 -3.6 7 3.4 0.3 6 D8D0C0
+    blob -3.6 8.5 3.4 2.6 2 2.6 6A8A6A 0.4
+
+shape COCKATOOS
+    home AUSTRALIA | 0.006 3 30 | country
+    # A flock of white cockatoos in a dead gum tree, yellow crests raised, screeching at the passing cars.
+    tube 0 0 0 0 4 0 0.3 5 D8D0C0
+    tube 0 3.5 0 2.2 5.4 0.5 0.12 4 D8D0C0
+    tube 0 3.5 0 -2 5.2 -0.6 0.12 4 D8D0C0
+    tube 0 4 0 0.5 6.2 -1.5 0.1 4 D8D0C0
+    blob 1.2 4.7 0.3 0.12 0.2 0.12 F2F2F2
+    blob 1.2 4.92 0.33 0.03 0.08 0.03 F2D02A
+    blob 1.9 5.25 0.45 0.12 0.2 0.12 F2F2F2
+    blob 1.9 5.47 0.48 0.03 0.08 0.03 F2D02A
+    blob -1.2 4.55 -0.3 0.12 0.2 0.12 F2F2F2
+    blob -1.2 4.77 -0.28 0.03 0.08 0.03 F2D02A
+    blob -1.8 5.1 -0.5 0.12 0.2 0.12 F2F2F2
+    blob 0.3 5.75 -1.0 0.12 0.2 0.12 F2F2F2
+    blob 0.3 5.97 -0.97 0.03 0.08 0.03 F2D02A
+
+shape KOOKABURRA_ON_POST
+    home AUSTRALIA:QUEENSLAND, AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:VICTORIA, AUSTRALIA:SOUTH AUSTRALIA, AUSTRALIA:TASMANIA, AUSTRALIA:AUSTRALIAN CAPITAL TERRITORY | 0.006 0 6 | country
+    # A kookaburra on a fence post: a stocky brown and white kingfisher with a big bill and a dark eye stripe, about to laugh.
+    repeat 5 0 0 3
+    tube 0 0 -6 0 1.1 -6 0.07 4 8A7A60
+    tube 0 0.8 -6 0 0.8 6 0.015 3 9A9A9A
+    blob 0 1.3 0 0.12 0.18 0.14 E8E0D0
+    blob -0.04 1.35 -0.05 0.13 0.15 0.15 8A6A48
+    blob 0 1.52 0.05 0.1 0.1 0.11 E8E0D0
+    tube 0 1.5 0.12 0 1.47 0.3 0.035 3 3A3A3A
+    tube 0 1.2 -0.12 0 1.0 -0.3 0.04 3 7A5A3A
+
+shape PINK_SALT_LAKE
+    home AUSTRALIA:WESTERN AUSTRALIA, AUSTRALIA:SOUTH AUSTRALIA, SENEGAL | 0.004 10 80 | country
+    # A pink salt lake: a still sheet of bubblegum-pink water with a crust of white salt around its shore.
+    box -4 0.02 0 8 0.02 16 E89AB8 water
+    box -4 0.01 0 9 0.01 17 F2F2EE
+    blob 3 0.15 4 1.2 0.15 2 F2F2EE 0.5
+
+shape BIG_LOBSTER
+    home AUSTRALIA:SOUTH AUSTRALIA, AUSTRALIA:TASMANIA, AUSTRALIA:WESTERN AUSTRALIA | 0.002 5 30 | town
+    # A giant lobster on top of a roadside cafe: a huge red crustacean with claws raised, one of the country's big roadside things.
+    box 0 1.5 0 3 1.5 4 E8E0D0
+    box 3.02 1.3 0 0.02 0.9 3 2A3A4A glass
+    blob 0 5.5 0 2 1.6 3.5 C83A1E
+    blob 0 5.6 3.5 1.4 1.2 1 C83A1E
+    repeat 3 0 0 -1.0
+    blob 0 5.3 -3.6 1.5 1.1 0.6 B82A1A
+    tri 0 5 -6.2 -1.5 4.6 -7.5 1.5 4.6 -7.5 C83A1E
+    mirrorx
+    tube 1.4 5.2 3.2 3 6.5 5 0.3 6 C83A1E
+    mirrorx
+    blob 3.2 6.8 5.5 0.6 0.4 0.9 C83A1E
+    mirrorx
+    tube 0.6 5.8 4.3 1.8 6 7 0.04 3 C83A1E
+    mirror
+    mirrorx
+    tube 1.6 4.8 1 3 3.2 1.5 0.12 4 C83A1E
+
+shape OPAL_FIELD_MOUNDS
+    home AUSTRALIA:SOUTH AUSTRALIA, AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:QUEENSLAND | 0.008 10 100 | arid
+    # The opal fields: hundreds of pale conical spoil heaps across the flat red country, a blower truck and a rusty winch over a shaft.
+    cyl 0 0 0 2.5 0.2 2 10 E8D8B8
+    cyl -5 0 -6 2 0.2 1.6 10 E0D0B0
+    cyl 4 0 -8 2.2 0.2 1.8 10 E8D8B8
+    cyl -3 0 7 2.4 0.2 1.9 10 E0D0B0
+    cyl 6 0 5 1.8 0.2 1.4 10 E8D8B8
+    cyl -8 0 1 2 0.2 1.6 10 E0D0B0
+    box 3 1 0 0.9 0.6 1.6 C8C0B0
+    tube 3 1.6 0 3 4.5 -1.5 0.2 6 9A9A9A
+    tube -1 0 3 -1 2.5 3 0.06 3 8A4A2A
+    tube -2 0 3 -2 2.5 3 0.06 3 8A4A2A
+    tube -2 2.5 3 -1 2.5 3 0.06 3 8A4A2A
+
+shape ROTARY_CLOTHESLINE
+    home AUSTRALIA, NEW ZEALAND | 0.008 2 15 | town
+    # A rotary clothesline in the back yard: a steel mast with four arms and sagging lines, sheets and shirts flapping on it.
+    tube 0 0 0 0 2.1 0 0.04 4 B8B8B8
+    ring 4 0 45
+    tube 0 2.1 0 1.6 1.9 0 0.025 3 B8B8B8
+    halo 0 1.95 0 1.0 0.01 8 9A9A9A
+    halo 0 1.92 0 1.5 0.01 8 9A9A9A
+    box 1.0 1.6 0.4 0.01 0.35 0.5 F2F2F2
+    box -0.6 1.65 0.9 0.4 0.3 0.01 2A6AC8
+    box -0.3 1.7 -1.2 0.3 0.25 0.01 E8C02A
+
+shape PATAKA
+    home NEW ZEALAND | 0.004 4 30 | country
+    # A pataka: a carved Maori storehouse raised high on a single post, its red-painted gable decorated with carved boards and a figure at the top.
+    tube 0 0 0 0 2 0 0.25 6 8A3A22
+    box 0 2.6 0 1.2 0.6 1.6 8A3A22
+    gable 0 3.2 0 1.3 1.8 1 0.3 4A3A2A 8A3A22
+    mirror
+    tube 1.4 3.2 1.8 1.4 4.3 0 0.08 4 A82A22
+    blob 1.45 4.5 0 0.08 0.25 0.12 A82A22
+    box 1.21 2.6 0 0.01 0.4 0.4 3A2A1E
+
+shape KIWIFRUIT_PERGOLA
+    home NEW ZEALAND:BAY OF PLENTY, NEW ZEALAND:WAIKATO, ITALY:LAZIO, CHILE, CHINA:SHAANXI | 0.006 6 60 | country
+    # A kiwifruit orchard: a flat green roof of vines on a grid of posts and wires, tall shelter hedges standing around it.
+    box -5 2 0 5 0.12 10 4A7A2A
+    repeat 5 -2.5 0 0
+    mirror
+    tube 0 0 9.8 0 1.95 9.8 0.06 4 8A7A60
+    repeat 5 -2.5 0 0
+    tube 0 0 0 0 1.95 0 0.06 4 8A7A60
+    repeat 8 0 0 2.5
+    blob -2 1.75 -8.75 0.06 0.06 0.06 8A6A40
+    box -5 3.5 11 5.5 3.5 0.6 2A4A2A
+    box -11 3.5 0 0.6 3.5 11 2A4A2A
+
+shape EARTH_OVEN
+    home SAMOA, TONGA, FIJI, FRENCH POLYNESIA, NEW ZEALAND | 0.006 3 25 | country
+    # An earth oven fired for a feast: a mound of hot stones covered with banana leaves and steaming, baskets of food beside it.
+    dome 0 0 0 1.4 0.6 6A9A3A
+    blob 0 0.7 0 0.6 0.6 0.6 E8EEF0 glass
+    repeat 6 0 0 0.5
+    blob 1.5 0.1 -1.2 0.15 0.1 0.15 4A4A44 0.6
+    repeat 3 0 0 0.7
+    cyl -1.8 0 -0.7 0.3 0.35 0.3 8 C8B070
+    blob -1.8 0.35 -0.7 0.25 0.1 0.25 8AB860
+
+shape PANDANUS_TREE
+    home FIJI, SAMOA, TONGA, FRENCH POLYNESIA, KIRIBATI, MARSHALL ISLANDS, MICRONESIA, PALAU, TUVALU, NAURU, VANUATU, SOLOMON ISLANDS, PAPUA NEW GUINEA, AUSTRALIA:QUEENSLAND, AUSTRALIA:NORTHERN TERRITORY, MALDIVES | 0.006 4 40 | tropical
+    # A pandanus tree on the beach: a leaning trunk propped on stilt roots, branches ending in spiky tufts, a big orange fruit hanging.
+    ring 6 0.5
+    tube 0 0 0 0 1.4 0 0.05 3 8A7A60
+    tube 0 1.2 0 0.8 3.5 0.3 0.15 5 8A7A60
+    tube 0.8 3.5 0.3 2 4.6 1 0.1 4 8A7A60
+    tube 0.8 3.5 0.3 -0.4 4.8 -0.6 0.1 4 8A7A60
+    fronds 2 4.6 1 10 1.2 0.2 5A8A4A
+    fronds -0.4 4.8 -0.6 10 1.2 0.2 5A8A4A
+    fronds 0.8 3.6 0.3 10 1.3 0.3 5A8A4A
+    blob 1.7 4.2 0.8 0.3 0.35 0.3 E8802A 0.4
+
+shape TAPA_CLOTH
+    home TONGA, SAMOA, FIJI | 0.006 2 20 | country
+    # Tapa cloth drying on the grass outside a house: a long sheet of beaten bark printed with brown geometric patterns, weighed down with stones.
+    box 0 0.02 0 1.5 0.01 4 E8DCC0
+    repeat 4 0 0 2
+    box 0 0.03 -3 1.3 0.01 0.6 6A3A1E
+    repeat 4 0 0 2
+    box 0 0.035 -3 0.2 0.01 0.9 3A2A1E
+    repeat 4 0 0 2
+    blob 1.4 0.08 -3.8 0.1 0.08 0.1 6A6460 0.5
+    box -3 1.2 0 1.5 1.2 2.5 E8E8D8
+    hip -3 2.4 0 1.7 2.7 1.2 0.3 6A8A9A
+
+shape PMV_TRUCK
+    home PAPUA NEW GUINEA, SOLOMON ISLANDS | 0.006 2 25
+    # A public motor vehicle: a battered truck with a canvas-topped tray full of passengers sitting on its benches, bags and bunches of bananas tied on.
+    box 0 1.2 2.4 1.0 0.7 0.8 E8E0C8
+    box 0 1.5 3.21 0.9 0.3 0.01 2A3A4A glass
+    box 0 0.85 -1 1.1 0.25 2.6 4A6A3A
+    quad -1.1 2.4 -3.6 -1.1 2.4 1.6 1.1 2.4 1.6 1.1 2.4 -3.6 4A6A3A
+    mirror
+    mirrorx
+    tube 1.05 1.1 1.6 1.05 2.4 1.6 0.04 3 3A3A3A
+    repeat 4 0 0 1.1
+    blob 0.7 1.5 -3 0.15 0.3 0.15 F2C21E
+    repeat 4 0 0 1.1
+    blob -0.7 1.5 -2.5 0.15 0.3 0.15 C82A2A
+    blob 1.15 1.3 -2 0.12 0.3 0.12 E8D040
+    mirrorx
+    tube 0.85 0.45 2.3 1.1 0.45 2.3 0.45 10 1E1E1E
+    mirrorx
+    tube 0.85 0.45 -2.3 1.1 0.45 -2.3 0.45 10 1E1E1E
+
+shape RUSTED_WARPLANE
+    home PAPUA NEW GUINEA, SOLOMON ISLANDS, PALAU, MARSHALL ISLANDS, MICRONESIA, VANUATU | 0.002 8 60 | tropical
+    # The rusting wreck of an old warplane in the jungle grass: a broken fuselage, one wing still attached, vines climbing over the engine.
+    tube 0 1 -4 0 1.2 3 0.7 8 7A4A2A
+    tube 0 1.2 3 0 1.0 4.2 0.55 8 6A3A22
+    box 0 0.9 0.5 5 0.12 1.1 7A4A2A
+    tri 0 1.2 -4 0 2.6 -4.8 0 1.2 -5.2 7A4A2A
+    blob 0 1.3 3.8 0.7 0.6 0.4 3A6A2A 0.6
+    blob 3 0.5 0.5 1.5 0.6 1.2 4A7A2A 0.6
+    blob -2 0.4 -2 1.2 0.5 1.5 4A7A2A 0.6
+
+shape SILO_ART
+    home AUSTRALIA:VICTORIA, AUSTRALIA:SOUTH AUSTRALIA, AUSTRALIA:WESTERN AUSTRALIA, AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:QUEENSLAND | 0.003 15 90 | country
+    # Painted grain silos: a row of tall concrete silos turned into a giant mural of farmers, birds and wheat glowing over the paddocks.
+    repeat 4 0 0 6.2
+    cyl 0 0 -9.3 3 3 22 16 D8D0C0
+    repeat 4 0 0 6.2
+    dome 0 22 -9.3 3 0.8 C8C0B0
+    box 2.9 11 -9.3 0.15 9 1.4 C88A5A
+    box 2.9 11 -3.1 0.15 9 1.4 6A9AC8
+    box 2.9 11 3.1 0.15 9 1.4 2A6AA8
+    box 2.9 11 9.3 0.15 9 1.4 E8C26A
+    blob 2.95 14 -3.1 0.1 3 1.0 E0B090
+    blob 2.95 12 3.1 0.1 2 1.0 F2F2F2
+    blob 2.95 10 9.3 0.1 5 1.0 C8A040
+
+shape FIRE_DANGER_SIGN
+    home AUSTRALIA | 0.004 1 8 | country
+    # A fire danger rating sign at the edge of town: a big half-dial in green, yellow, orange and red, its arrow pointing to today's level.
+    tube 0 0 -1.2 0 2.8 -1.2 0.06 4 9A9A9A
+    tube 0 0 1.2 0 2.8 1.2 0.06 4 9A9A9A
+    box 0.05 2.6 0 0.03 0.9 1.6 F2F2F2
+    tri 0.08 1.9 0 0.08 2.2 -1.5 0.08 3.0 -1.2 2A9A4A
+    tri 0.08 1.9 0 0.08 3.0 -1.2 0.08 3.3 -0.4 F2C21E
+    tri 0.08 1.9 0 0.08 3.3 -0.4 0.08 3.3 0.4 E8802A
+    tri 0.08 1.9 0 0.08 3.3 0.4 0.08 3.0 1.2 E8502A
+    tri 0.08 1.9 0 0.08 3.0 1.2 0.08 2.2 1.5 C82A2A
+    tube 0.1 1.9 0 0.1 3.1 -0.6 0.04 3 1E1E1E
