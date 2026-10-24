@@ -1,0 +1,466 @@
+# More local things of China.
+
+shape STREET_MAHJONG
+    home CHINA | 0.006 2 20 | town
+    # A game of mahjong under a plane tree: a square green table, four players on red stools, the tile walls built up between them.
+    box 0 0.75 0 0.45 0.03 0.45 2A7A4A
+    mirror
+    mirrorx
+    tube 0.4 0 0.4 0.4 0.75 0.4 0.03 3 3A3A3A
+    mirror
+    box 0 0.8 0.3 0.28 0.02 0.03 F2F2E8
+    mirrorx
+    box 0.3 0.8 0 0.03 0.02 0.28 F2F2E8
+    mirrorx
+    cyl 0.85 0 0 0.18 0.18 0.45 8 C82A2A
+    mirror
+    cyl 0 0 0.85 0.18 0.18 0.45 8 C82A2A
+    mirrorx
+    blob 0.85 0.8 0 0.2 0.3 0.16 6A7A9A
+    mirror
+    blob 0 0.8 0.85 0.16 0.3 0.2 8A5A4A
+    mirrorx
+    blob 0.85 1.25 0 0.1 0.11 0.1 C8A080
+    mirror
+    blob 0 1.25 0.85 0.1 0.11 0.1 C8A080
+    tube -3 0 0 -3 4 0 0.3 6 9A9480
+    blob -3 6 0 3 2 3 4A7A3A 0.4
+
+shape STEAMER_BASKET_STALL
+    home CHINA | 0.006 2 15 | town
+    # A breakfast stall: towers of bamboo steamer baskets on the counter, steam rising, the shop's red sign above the door.
+    box -1.5 1.5 0 1 1.5 2 E8E0D0
+    box -0.48 2.7 0 0.02 0.3 1.6 C82A2A
+    box -0.49 1.1 0 0.02 1.1 0.7 2A2A2A
+    box 0 0.45 0 0.5 0.45 1.2 F2F2F2
+    repeat 4 0 0.22 0
+    cyl 0 0.9 -0.5 0.3 0.3 0.2 12 C8A870
+    repeat 3 0 0.22 0
+    cyl 0 0.9 0.2 0.3 0.3 0.2 12 C8A870
+    dome 0 1.78 -0.5 0.3 0.12 C8A870
+    dome 0 1.56 0.2 0.3 0.12 C8A870
+    blob 0 2.2 -0.5 0.25 0.4 0.25 F2F6F8 glass
+    quad -0.5 2.4 -1.5 -0.5 2.4 1.5 0.8 2.1 1.5 0.8 2.1 -1.5 2A6AC8
+
+shape SHARED_BIKES
+    home CHINA:BEIJING, CHINA:SHANGHAI, CHINA:GUANGDONG, CHINA:ZHEJIANG, CHINA:JIANGSU, CHINA:SICHUAN, CHINA:CHONGQING, CHINA:HUBEI, CHINA:TIANJIN, CHINA:SHAANXI, CHINA:FUJIAN, CHINA:HUNAN | 0.006 1 10 | town
+    # A row of shared bicycles parked at the kerb: bright yellow frames and baskets, all exactly alike.
+    repeat 8 0 0 0.7
+    tube 0.5 0.35 -2.48 0.5 0.35 -2.4 0.35 10 2A2A2A
+    repeat 8 0 0 0.7
+    tube -0.5 0.35 -2.48 -0.5 0.35 -2.4 0.35 10 2A2A2A
+    repeat 8 0 0 0.7
+    tube 0.5 0.35 -2.44 -0.1 0.8 -2.44 0.035 4 F2C21E
+    repeat 8 0 0 0.7
+    tube -0.5 0.35 -2.44 -0.1 0.8 -2.44 0.035 4 F2C21E
+    repeat 8 0 0 0.7
+    tube -0.1 0.8 -2.44 0.45 0.95 -2.44 0.035 4 F2C21E
+    repeat 8 0 0 0.7
+    tube 0.45 1.0 -2.62 0.45 1.0 -2.26 0.02 3 2A2A2A
+    repeat 8 0 0 0.7
+    box -0.15 0.95 -2.44 0.12 0.03 0.07 2A2A2A
+    repeat 8 0 0 0.7
+    box 0.62 0.9 -2.44 0.12 0.08 0.14 F2C21E
+
+shape DELIVERY_SCOOTERS
+    home CHINA | 0.006 1 12 | town
+    # Delivery riders waiting at the kerb: electric scooters with big insulated boxes on the back, riders in yellow jackets and helmets.
+    repeat 3 0 0 1.8
+    tube -0.05 0.25 -1.2 0.05 0.25 -1.2 0.25 8 2A2A2A
+    repeat 3 0 0 1.8
+    tube -0.05 0.25 -2.4 0.05 0.25 -2.4 0.25 8 2A2A2A
+    repeat 3 0 0 1.8
+    box 0 0.45 -1.8 0.2 0.15 0.5 3A3A3A
+    repeat 3 0 0 1.8
+    tube 0 0.3 -1.2 0 1.0 -1.3 0.04 4 3A3A3A
+    repeat 3 0 0 1.8
+    tube -0.3 1.0 -1.3 0.3 1.0 -1.3 0.025 3 3A3A3A
+    repeat 3 0 0 1.8
+    box 0 1.0 -2.25 0.25 0.25 0.25 F2C21E
+    repeat 3 0 0 1.8
+    blob 0 1.1 -1.75 0.18 0.28 0.15 F2C21E
+    repeat 3 0 0 1.8
+    blob 0 1.5 -1.7 0.12 0.12 0.12 F2C21E
+
+shape BAMBOO_RAFT
+    home CHINA:GUANGXI, CHINA:FUJIAN, CHINA:YUNNAN, CHINA:GUIZHOU | 0.004 25 100 | water
+    # A bamboo raft on the river: long green-gold poles lashed side by side with an upturned bow, two chairs under a blue umbrella, the boatman poling at the stern.
+    repeat 9 0.2 0 0
+    tube -0.8 0.1 -4 -0.8 0.15 4 0.1 6 C8B870
+    repeat 9 0.2 0 0
+    tube -0.8 0.15 4 -0.8 0.6 5 0.1 6 C8B870
+    repeat 2 0 0 0.9
+    box 0 0.4 -0.9 0.3 0.25 0.3 2A6AC8
+    tube 0 0.2 -0.5 0 2 -0.5 0.03 3 8A8A8A
+    spire 0 1.8 -0.5 1.0 0.3 8 2A6AC8
+    blob 0 0.6 -3.2 0.15 0.35 0.12 2A3A5A
+    blob 0 1.05 -3.2 0.1 0.1 0.1 C8A080
+    tube 0.3 0 -3.6 0 2.5 -3 0.03 3 C8B870
+
+shape HANI_MUSHROOM_HOUSES
+    home CHINA:YUNNAN | 0.008 4 40 | country
+    # Hani mushroom houses on the terraced slopes: square earth-walled houses under steep hipped hats of golden thatch.
+    box 0 1.4 -4 1.8 1.4 1.8 B89870
+    hip 0 2.6 -4 2.2 2.2 2.4 0.3 9A8A60
+    box 0.3 1.2 -4 1.82 0.6 0.3 3A2A1E
+    box -2 1.2 0.5 1.6 1.2 1.6 B08A68
+    hip -2 2.2 0.5 2.0 2.0 2.2 0.3 9A8A60
+    box 0.5 1.3 4.5 1.7 1.3 1.7 B89870
+    hip 0.5 2.4 4.5 2.1 2.1 2.3 0.3 9A8A60
+
+shape BAI_HOUSE
+    home CHINA:YUNNAN | 0.008 4 40 | town
+    # A Bai house of Dali: whitewashed walls with grey tiled roofs, ink paintings framed in blue under the eaves, a gate with its own little roof.
+    box 0 2.5 0 3.5 2.5 5 F2F2EE
+    gable 0 5 0 3.7 5.4 1.8 0.4 4A4E52 F2F2EE
+    box 3.52 4.55 0 0.02 0.25 5 4A6A9A
+    repeat 3 0 0 3
+    box 3.52 3.6 -3 0.02 0.4 0.8 4A6A9A
+    repeat 3 0 0 3
+    box 3.53 3.6 -3 0.02 0.32 0.7 E8E8E0
+    repeat 3 0 0 3
+    blob 3.55 3.6 -3 0.01 0.18 0.4 3A4A5A
+    box 4 1.5 0 0.4 1.5 1.4 F2F2EE
+    gable 4 3 0 0.6 1.6 0.9 0.3 4A4E52 F2F2EE
+    box 4.41 1.1 0 0.02 1.1 0.6 8A2A1E
+
+shape WOODEN_WATERWHEELS
+    home CHINA:YUNNAN, CHINA:GANSU, CHINA:GUANGXI, CHINA:SICHUAN | 0.004 6 40 | country
+    # Wooden waterwheels turning in the stream: great spoked wheels of dark timber, little buckets round their rims lifting the water.
+    box 0 0.02 0 1.2 0.02 8 4A6A7A water
+    hoop 0 4 -2.5 4 0.15 20 6A5040
+    tube 0.6 0 -2.5 0.6 4 -2.5 0.12 4 6A5040
+    tube -0.6 0 -2.5 -0.6 4 -2.5 0.12 4 6A5040
+    tube -0.7 4 -2.5 0.7 4 -2.5 0.12 6 6A5040
+    at 0 4 -2.5
+    vring 12 0
+    tube 0 0 0 0 4 0 0.07 4 6A5040
+    vring 12 4
+    box 0 0 0 0.25 0.2 0.25 7A6050
+    at 0 3 4
+    hoop 0 0 0 3 0.12 16 6A5040
+    vring 10 0 18
+    tube 0 0 0 0 3 0 0.06 4 6A5040
+    vring 10 3 18
+    box 0 0 0 0.22 0.18 0.22 7A6050
+    at 0 0 0
+    tube 0.5 0 4 0.5 3 4 0.1 4 6A5040
+
+shape GRAPE_TRELLIS_LANE
+    home CHINA:XINJIANG | 0.008 3 25 | country
+    # A lane under a grape trellis in the oasis: posts and wires roofed over with vines, green bunches hanging, a mud-brick house beside it.
+    repeat 6 0 0 3
+    mirrorx
+    tube 2 0 -7.5 2 3 -7.5 0.06 4 8A7A60
+    repeat 6 0 0 3
+    tube -2 3 -7.5 2 3 -7.5 0.04 3 8A7A60
+    mirrorx
+    tube 2 3 -7.5 2 3 7.5 0.04 3 8A7A60
+    box 0 3.15 0 2.2 0.12 8 4A7A2A
+    repeat 10 0 0 1.5
+    blob 1 2.85 -7 0.1 0.18 0.1 8AA850
+    repeat 10 0 0 1.5
+    blob -1 2.85 -6.2 0.1 0.18 0.1 6A2A5A
+    box -5 1.5 0 2 1.5 4 C8A878
+    box -2.98 1.0 1 0.02 1.0 0.5 3A8AA8
+
+shape PERSIMMON_CURTAIN
+    home CHINA:SHAANXI, CHINA:HEBEI, CHINA:SHANXI, CHINA:HENAN, CHINA:SHANDONG, CHINA:FUJIAN, JAPAN, SOUTH KOREA | 0.006 4 30 | country
+    # Persimmons drying under the eaves in autumn: curtains of orange fruit on strings across the front of an old farmhouse.
+    box 0 1.6 0 2.5 1.6 4.5 B8A888
+    gable 0 3.2 0 2.7 4.7 1.4 0.6 5A5A58 B8A888
+    box 2.52 1.1 0 0.02 1.1 0.6 5A3A22
+    repeat 14 0 0 0.6
+    tube 3.0 3.1 -3.9 3.0 1.2 -3.9 0.01 3 8A6A48
+    repeat 14 0 0 0.6
+    blob 3.0 2.8 -3.9 0.07 0.07 0.07 E8701E
+    repeat 14 0 0 0.6
+    blob 3.0 2.45 -3.9 0.07 0.07 0.07 E8701E
+    repeat 14 0 0 0.6
+    blob 3.0 2.1 -3.9 0.07 0.07 0.07 E8701E
+    repeat 14 0 0 0.6
+    blob 3.0 1.75 -3.9 0.07 0.07 0.07 E8701E
+    repeat 14 0 0 0.6
+    blob 3.0 1.4 -3.9 0.07 0.07 0.07 E8701E
+
+shape CHILI_DRYING_YARD
+    home CHINA:SICHUAN, CHINA:GUIZHOU, CHINA:HUNAN, CHINA:CHONGQING, CHINA:YUNNAN, CHINA:SHAANXI, CHINA:XINJIANG, INDIA:ANDHRA PRADESH, INDIA:RAJASTHAN | 0.006 4 30 | country
+    # Chillies drying in the sun: a courtyard floor and a flat roof carpeted bright red, strings of chillies hung on the wall.
+    box 0 0.02 0 3 0.02 4 C8C0B0
+    box 0 0.05 0 2.6 0.02 3.6 C82A1E
+    box -4.5 1.5 0 1.5 1.5 4 D8D0C0
+    box -4.5 3.05 0 1.4 0.03 3.9 C82A1E
+    repeat 6 0 0 1
+    blob -2.95 2.0 -2.5 0.05 0.6 0.1 B82A1E
+
+shape BULLET_TRAIN_VIADUCT
+    home CHINA:HEBEI, CHINA:HENAN, CHINA:SHANDONG, CHINA:JIANGSU, CHINA:ANHUI, CHINA:HUBEI, CHINA:HUNAN, CHINA:GUANGDONG, CHINA:ZHEJIANG, CHINA:JIANGXI, CHINA:FUJIAN, CHINA:SHAANXI, CHINA:SHANXI, CHINA:SICHUAN, CHINA:GUIZHOU, CHINA:GUANGXI, CHINA:TIANJIN, CHINA:BEIJING, CHINA:LIAONING, CHINA:JILIN, CHINA:HEILONGJIANG | 0.003 20 90 | country
+    # A high-speed line on its endless viaduct across the fields: concrete piers and a box girder, a white streamlined train gliding past.
+    box 0 9 0 2.4 0.7 60 B8B8B0
+    repeat 5 0 0 30
+    box 0 4.15 -60 1.0 4.15 1.6 A8A8A0
+    repeat 5 0 0 30
+    box 0 8.1 -60 1.8 0.3 1.8 A8A8A0
+    box 0 11.1 -10 1.6 1.4 25 F2F2F2
+    blob 0 11.1 15 1.6 1.4 5 F2F2F2
+    box 1.61 11.6 -10 0.01 0.3 24 2A3A4A glass
+    box 1.61 10.6 -10 0.01 0.08 25 2A6AC8
+    repeat 5 0 0 25
+    tube 2.2 9.7 -50 2.2 15 -50 0.1 4 8A8A8A
+    tube 0 14 -60 0 14 60 0.02 3 3A3A3A
+
+shape SHIKUMEN_LANE
+    home CHINA:SHANGHAI, CHINA:ZHEJIANG, CHINA:JIANGSU | 0.008 4 30 | town
+    # Shanghai lane houses: grey brick terraces banded in red brick, each black door set in a carved stone gate frame.
+    box 0 4 0 3 4 9 7A7A78
+    box 3.01 3.9 0 0.01 0.12 9 A8503A
+    box 3.01 7.6 0 0.01 0.12 9 A8503A
+    repeat 4 0 0 4.5
+    box 3.03 1.4 -6.75 0.03 1.4 0.9 D8D0C0
+    repeat 4 0 0 4.5
+    box 3.05 1.15 -6.75 0.02 1.15 0.6 1E1E1E
+    repeat 4 0 0 4.5
+    tri 3.06 2.8 -7.65 3.06 2.8 -5.85 3.06 3.4 -6.75 D8D0C0
+    windows 3.02 4.2 -8.5 0 1 17 3 0.4 3
+    gable 0 8 0 3.2 9.2 1.6 0.3 3A3A3A 7A7A78
+    repeat 4 0 0 4.5
+    tube 3.05 6.5 -7.5 4.2 6.6 -7.5 0.03 3 C8C8C8
+    repeat 4 0 0 4.5
+    box 4.0 6.2 -7.5 0.15 0.3 0.01 E8502A
+
+shape QILOU_ARCADE
+    home CHINA:GUANGDONG, CHINA:HAINAN, CHINA:FUJIAN, CHINA:GUANGXI, CHINA:MACAU | 0.008 3 25 | town pastel
+    # Arcade shophouses of the south: three storeys over a covered walkway, columns along the pavement, ornate parapets and old shop signs.
+    box 0 6 0 3 3 9 A
+    box -1 1.8 0 2 1.8 9 C8C0B0
+    box 1.02 1.4 0 0.02 1.2 8.6 2A3A4A glass
+    repeat 6 0 0 3.6
+    cyl 2.6 0 -9 0.25 0.25 3.0 8 F2EEE2
+    windows 3.02 3.4 -8.5 0 1 17 5 0.3 3
+    box 0 9.4 0 3.05 0.4 9.05 A
+    repeat 3 0 0 6
+    tri 3.05 9.8 -8 3.05 9.8 -4 3.05 11 -6 A
+    repeat 4 0 0 4.5
+    box 3.3 4.5 -6.75 0.05 1.2 0.25 C82A2A
+
+shape RED_SAIL_JUNK
+    home CHINA:HONG KONG, CHINA:GUANGDONG, CHINA:FUJIAN, CHINA:MACAU | 0.003 30 110 | water
+    # A junk under sail: a dark wooden hull with a high stern, its battened sails of deep red spread like fans.
+    tbox 0 -0.4 0 0.8 5 0 1.2 0 1.8 6.5 6A3A22
+    box 0 1.8 -5 1.6 0.6 1.4 6A3A22
+    tube 0 1.2 1 0 10 1 0.12 5 4A3A28
+    tube 0 1.2 -2.5 0 8 -2.5 0.1 5 4A3A28
+    quad 0.05 2 -0.8 0.05 9.5 0.2 0.05 9.0 3.6 0.05 2 3.0 B82A1E
+    repeat 6 0 1.2 0
+    tube 0.08 2.6 -0.65 0.08 2.6 3.1 0.03 3 3A2A1E
+    quad 0.05 2 -4.2 0.05 7.5 -3.2 0.05 7.2 -0.6 0.05 2 -1.2 B82A1E
+    repeat 4 0 1.2 0
+    tube 0.08 2.6 -4.05 0.08 2.6 -1.1 0.03 3 3A2A1E
+
+shape RED_CROWNED_CRANES
+    home CHINA:HEILONGJIANG, CHINA:JILIN, CHINA:LIAONING, CHINA:JIANGSU, JAPAN:HOKKAIDO, SOUTH KOREA, MONGOLIA | 0.004 6 40 | country
+    # Red-crowned cranes in the reeds: tall white birds with black necks and a red cap, one of the pair dancing with wings spread.
+    repeat 8 0 0 0.8
+    blob -2 0.8 -3 0.2 0.8 0.3 B8A870 0.5
+    repeat 2 1.5 0 1.5
+    blob 0 1.1 0 0.2 0.22 0.45 F2F2F2
+    repeat 2 1.5 0 1.5
+    blob 0 1.05 -0.4 0.15 0.12 0.15 1E1E1E
+    repeat 2 1.5 0 1.5
+    tube 0 1.2 0.35 0 1.7 0.5 0.04 4 1E1E1E
+    repeat 2 1.5 0 1.5
+    blob 0 1.73 0.55 0.05 0.06 0.09 F2F2F2
+    repeat 2 1.5 0 1.5
+    blob 0 1.79 0.55 0.035 0.02 0.04 C82A2A
+    repeat 2 1.5 0 1.5
+    tube 0 1.72 0.62 0 1.68 0.78 0.015 3 8A8A6A
+    repeat 2 1.5 0 1.5
+    tube 0.06 0.9 0 0.06 0 0.05 0.02 3 3A3A3A
+    repeat 2 1.5 0 1.5
+    tube -0.06 0.9 0 -0.06 0 -0.05 0.02 3 3A3A3A
+    quad 1.5 1.25 1.4 2.5 1.95 1.3 2.5 1.95 1.75 1.5 1.25 1.65 F2F2F2
+    quad 1.5 1.25 1.4 0.5 1.95 1.3 0.5 1.95 1.75 1.5 1.25 1.65 F2F2F2
+
+shape BAMBOO_TEAHOUSE
+    home CHINA:SICHUAN, CHINA:CHONGQING, CHINA:YUNNAN, CHINA:GUIZHOU | 0.006 3 25 | town
+    # An open-air teahouse in the park: low bamboo armchairs and little tables under big trees, lidded tea bowls set out.
+    tube -3 0 -2 -3 4 -2 0.3 6 7A6A58
+    blob -3 6 -2 3 2 3 4A7A3A 0.4
+    tube -3.5 0 3 -3.5 3.6 3 0.28 6 7A6A58
+    blob -3.5 5.4 3 2.6 1.8 2.6 3A6A2A 0.4
+    repeat 3 0 0 2.5
+    cyl 0 0 -2.5 0.35 0.35 0.6 8 8A6A48
+    repeat 3 0 0 2.5
+    box 0.7 0.3 -2.5 0.3 0.3 0.3 C8B870
+    repeat 3 0 0 2.5
+    box 1.0 0.7 -2.5 0.05 0.4 0.3 C8B870
+    repeat 3 0 0 2.5
+    box -0.7 0.3 -2.5 0.3 0.3 0.3 C8B870
+    repeat 3 0 0 2.5
+    box -1.0 0.7 -2.5 0.05 0.4 0.3 C8B870
+    repeat 3 0 0 2.5
+    cyl 0.1 0.6 -2.6 0.06 0.05 0.08 8 F2F2F2
+    repeat 3 0 0 2.5
+    cyl -0.1 0.6 -2.4 0.06 0.05 0.08 8 F2F2F2
+
+shape VILLAGE_OPERA_STAGE
+    home CHINA:SHANXI, CHINA:ZHEJIANG, CHINA:ANHUI, CHINA:FUJIAN, CHINA:JIANGXI, CHINA:GUANGDONG, CHINA:HENAN, TAIWAN | 0.003 8 50 | town
+    # A village opera stage: a raised platform under a sweeping tiled roof with upturned corners, red columns and a painted backdrop.
+    box 0 0.8 0 3 0.8 4 9A9488
+    mirror
+    mirrorx
+    tube 2.7 1.6 3.7 2.7 5 3.7 0.18 8 A82A22
+    box -2.7 3.3 0 0.08 1.7 3.8 C8A040
+    box 2.75 4.8 0 0.1 0.2 3.8 A82A22
+    hip 0 5 0 3.6 4.8 2 0.8 3A3A3A
+    mirror
+    mirrorx
+    tube 3.8 5 4.6 4.4 5.6 5.2 0.08 4 3A3A3A
+    box 0 7 0 0.2 0.15 2 3A3A3A
+
+shape FIELD_GRAVE_MOUNDS
+    home CHINA:HENAN, CHINA:HEBEI, CHINA:SHANDONG, CHINA:ANHUI, CHINA:SHAANXI, CHINA:SHANXI, CHINA:JIANGSU, CHINA:HUBEI | 0.006 8 60 | country
+    # Family grave mounds in the middle of the wheat: round heaps of earth with a small stone tablet before each one.
+    box 0 0.35 0 6 0.35 8 C8B060
+    dome 0 0.7 -2 1.2 0.9 8A7A58
+    dome 0.5 0.7 1.5 1.0 0.8 8A7A58
+    dome -1.5 0.7 3.5 0.9 0.7 8A7A58
+    box 1.3 1.0 -2 0.08 0.35 0.25 9A9690
+    box 1.6 0.95 1.5 0.08 0.3 0.22 9A9690
+    tube 0 1.6 -2 0 2.4 -2 0.02 3 8A6A48
+    blob 0 2.3 -2.1 0.02 0.25 0.08 F2F2F2
+
+shape FARM_TRICYCLE_TRUCK
+    home CHINA | 0.006 2 20 | country
+    # A farm tricycle truck: one front wheel under a little blue cab, a wooden bed behind heaped with cabbages.
+    box 0 1.3 1.6 0.6 0.55 0.5 2A5AA8
+    box 0 1.45 2.11 0.5 0.25 0.01 2A3A4A glass
+    tube -0.05 0.35 2.2 0.05 0.35 2.2 0.35 10 1E1E1E
+    box 0 0.6 1.9 0.2 0.25 0.3 3A3A3A
+    box 0 0.85 -0.4 0.8 0.08 1.4 2A5AA8
+    mirrorx
+    box 0.8 1.05 -0.4 0.03 0.2 1.4 2A5AA8
+    mirrorx
+    tube 0.65 0.35 -0.6 0.8 0.35 -0.6 0.35 10 1E1E1E
+    repeat 4 0 0 0.6
+    blob 0.3 1.1 -1.3 0.25 0.22 0.25 8AB860
+    repeat 4 0 0 0.6
+    blob -0.3 1.1 -1.0 0.25 0.22 0.25 9AC870
+
+shape WINTER_CABBAGE_STACK
+    home CHINA:BEIJING, CHINA:HEBEI, CHINA:SHANDONG, CHINA:TIANJIN, CHINA:LIAONING, CHINA:JILIN, CHINA:HEILONGJIANG, CHINA:SHANXI, CHINA:HENAN, NORTH KOREA, SOUTH KOREA | 0.006 2 20
+    # A winter store of napa cabbages: neat walls of pale green heads stacked by the courtyard gate, a quilt folded on top.
+    repeat 6 0 0 0.45
+    blob 0 0.22 -1.1 0.22 0.22 0.3 C8D8A0
+    repeat 6 0 0 0.45
+    blob 0 0.62 -1.1 0.22 0.22 0.3 C8D8A0
+    repeat 5 0 0 0.45
+    blob 0 1.02 -0.88 0.22 0.22 0.3 B8C890
+    blob 0 1.3 0 0.3 0.08 1.0 4A6AA8
+    box -1.5 1.4 0 0.3 1.4 1.8 9A9690
+    box -1.18 1.1 0 0.02 1.1 0.6 A82A22
+    gable -1.5 2.8 0 0.45 2 0.5 0.15 3A3A3A 9A9690
+
+shape HONEYCOMB_COAL_STACK
+    home CHINA:BEIJING, CHINA:HEBEI, CHINA:SHANXI, CHINA:SHAANXI, CHINA:HENAN, CHINA:SHANDONG, CHINA:INNER MONGOLIA, NORTH KOREA | 0.006 2 20 | town
+    # Honeycomb coal briquettes stacked against a courtyard wall in black columns, a small stove with its kettle beside them.
+    box -0.5 1.2 0 0.15 1.2 2.5 9A9690
+    repeat 10 0 0.1 0
+    cyl 0 0 -1 0.12 0.12 0.09 8 2A2A2A
+    repeat 10 0 0.1 0
+    cyl 0 0 -0.75 0.12 0.12 0.09 8 2A2A2A
+    repeat 10 0 0.1 0
+    cyl 0 0 -0.5 0.12 0.12 0.09 8 2A2A2A
+    repeat 9 0 0.1 0
+    cyl 0 0 -0.25 0.12 0.12 0.09 8 2A2A2A
+    repeat 8 0 0.1 0
+    cyl 0 0 0 0.12 0.12 0.09 8 2A2A2A
+    repeat 6 0 0.1 0
+    cyl 0 0 0.25 0.12 0.12 0.09 8 2A2A2A
+    cyl 0.6 0 1.2 0.2 0.18 0.6 8 6A6A6A
+    blob 0.6 0.7 1.2 0.12 0.1 0.12 C8C8C8 shiny
+
+shape LOTUS_POND
+    home CHINA:HUBEI, CHINA:HUNAN, CHINA:JIANGSU, CHINA:ZHEJIANG, CHINA:JIANGXI, CHINA:ANHUI, CHINA:GUANGDONG, CHINA:BEIJING, VIETNAM, CAMBODIA, THAILAND, INDIA, SRI LANKA, JAPAN | 0.006 6 50 | country
+    # A lotus pond in summer: big round leaves held up above the water on their stalks, pink flowers opening among them.
+    box 0 0.02 0 4 0.02 6 3A5A4A water
+    repeat 5 1.2 0.1 2.1
+    cyl -2.5 0.6 -4.5 0.5 0.5 0.03 12 4A8A3A
+    repeat 5 1.2 0.1 2.1
+    tube -2.5 0 -4.5 -2.5 0.6 -4.5 0.02 3 5A7A3A
+    repeat 4 -1.1 0.05 2.3
+    cyl 2 0.8 -3.5 0.6 0.6 0.03 12 3E7A33
+    repeat 4 -1.1 0.05 2.3
+    tube 2 0 -3.5 2 0.8 -3.5 0.02 3 5A7A3A
+    repeat 3 1.5 0 2.5
+    blob -1.8 1.15 -3 0.15 0.2 0.15 E88AB0
+    repeat 3 1.5 0 2.5
+    tube -1.8 0 -3 -1.8 1.0 -3 0.02 3 5A7A3A
+
+shape ZIGZAG_BRIDGE_PAVILION
+    home CHINA:JIANGSU, CHINA:ZHEJIANG, CHINA:SHANGHAI, CHINA:ANHUI, CHINA:BEIJING | 0.004 6 40 | town
+    # A garden lake crossed by a zigzag stone bridge, leading to a little hexagonal pavilion with upswept eaves.
+    box -2 0.02 0 5 0.02 7 4A6A6A water
+    box 2 0.4 -5.5 0.6 0.1 1.5 C8C0B0
+    box 0.5 0.4 -4.0 2.1 0.1 0.6 C8C0B0
+    box -1 0.4 -2.5 0.6 0.1 1.5 C8C0B0
+    repeat 3 0 0 1.5
+    cyl 2 0 -6.5 0.2 0.2 0.35 6 9A9690
+    repeat 3 0 0 1.5
+    cyl -1 0 -3.5 0.2 0.2 0.35 6 9A9690
+    at -1 0 1.5
+    cyl 0 0 0 1.8 1.8 0.5 6 C8C0B0
+    ring 6 1.5
+    tube 0 0.5 0 0 2.8 0 0.1 6 A82A22
+    cyl 0 2.8 0 2.2 0.2 1.4 6 3A3A3A
+    ring 6 2.1
+    tube 0 2.8 0 0.4 3.2 0 0.06 4 3A3A3A
+    spire 0 4.2 0 0.15 0.5 6 3A3A3A
+    at 0 0 0
+
+shape TAIHU_ROCK
+    home CHINA:JIANGSU, CHINA:ZHEJIANG, CHINA:SHANGHAI, CHINA:BEIJING, CHINA:ANHUI | 0.004 3 25 | town
+    # A scholar's garden rock: a tall eroded grey limestone full of holes, standing on its pedestal before a white wall with a few bamboos.
+    box 0 0.2 0 0.8 0.2 0.8 9A9690
+    blob 0 1.5 0 0.6 1.3 0.5 A8A8A0 0.8
+    blob 0.2 2.6 0.2 0.45 0.6 0.4 A0A098 0.8
+    blob -0.2 3.1 -0.1 0.3 0.4 0.35 A8A8A0 0.8
+    blob 0.55 1.6 0.1 0.03 0.15 0.12 3A3A38
+    blob 0.5 2.6 0.3 0.03 0.12 0.1 3A3A38
+    blob 0.5 1.0 -0.2 0.03 0.1 0.12 3A3A38
+    box -2 1.6 0 0.2 1.6 4 F2F2EE
+    gable -2 3.2 0 0.4 4.2 0.3 0.1 3A3A3A F2F2EE
+    repeat 5 0 0 0.3
+    tube -1.5 0 1.5 -1.4 4 1.6 0.04 4 6A9A4A
+    blob -1.4 3.6 2.2 0.4 0.8 0.8 5A9A3A 0.5
+
+shape OUTDOOR_FITNESS_GEAR
+    home CHINA | 0.006 2 20 | town
+    # A neighbourhood fitness corner: bright yellow and blue steel machines, a waist twister, a stepper and a pull-up bar.
+    box 0 0.02 0 2 0.02 3 3A8A4A
+    mirror
+    tube 0 0 1.5 0 2.2 1.5 0.06 4 F2C21E
+    tube 0 2.2 -1.5 0 2.2 1.5 0.04 4 2A6AC8
+    cyl 1.2 0 -2 0.3 0.3 0.1 10 2A6AC8
+    tube 1.2 0 -2 1.2 1.1 -2 0.05 4 F2C21E
+    tube 1.0 1.1 -2 1.4 1.1 -2 0.03 3 2A6AC8
+    box -1 0.3 0.3 0.4 0.05 0.2 2A6AC8
+    tube -1 0 -0.2 -1 1.3 -0.2 0.05 4 F2C21E
+    tube -1.3 1.3 -0.2 -0.7 1.3 -0.2 0.03 3 2A6AC8
+    tube 1 0 2 1 1.6 2 0.05 4 F2C21E
+    hoop 1.05 1.0 2 0.4 0.04 12 2A6AC8
+
+shape DRAGON_BOAT
+    home CHINA:GUANGDONG, CHINA:HONG KONG, CHINA:HUNAN, CHINA:ZHEJIANG, CHINA:GUANGXI, CHINA:HUBEI, CHINA:MACAU, TAIWAN | 0.003 30 100 | water
+    # A dragon boat on the river: a long narrow hull painted with scales, a carved dragon head at the bow, the drum on the deck.
+    tbox 0 -0.3 0 0.3 9 0 0.4 0 0.65 10 C82A2A
+    box 0 0.3 0 0.66 0.06 10 F2C21E
+    tube 0 0.4 10 0 1.4 11 0.25 6 F2C21E
+    blob 0 1.5 11.2 0.3 0.3 0.45 2A8A4A
+    tube 0 1.35 11.4 0 1.25 11.8 0.08 4 C82A2A
+    mirrorx
+    tube 0.1 1.75 11.0 0.2 2.2 10.7 0.04 3 F2C21E
+    tri 0 0.4 -10 0 1.4 -11 0 0.4 -10.8 F2C21E
+    cyl 0 0.4 6 0.3 0.3 0.4 10 C82A2A
+    repeat 10 0 0 1.6
+    box 0 0.45 -7 0.6 0.04 0.1 8A6A48

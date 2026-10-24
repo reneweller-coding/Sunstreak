@@ -120,7 +120,7 @@ shape GOATS_ON_ROCKS
     blob 2 1.65 1.85 0.08 0.1 0.12 F2F2EE
 
 shape ROOFTOP_SOLAR_HEATERS
-    home GREECE, CYPRUS, TURKEY, ISRAEL, PALESTINE, JORDAN, LEBANON | 0.004 6 50 | town
+    home GREECE, CYPRUS, TURKEY, ISRAEL, PALESTINE, JORDAN, LEBANON, CHINA | 0.004 6 50 | town
     # A flat-roofed house with its solar water heaters on top: tilted panels, white tanks lying behind them.
     box 0 3 0 4 3 5 E8E2D4
     windows 4.02 0.3 -4.5 0 1 9 5.6 0.4 2.8

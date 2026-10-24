@@ -13,7 +13,7 @@ shape WINDCATCHER_HOUSE
     box 3.52 2.6 -2 0.03 0.4 0.3 2A2018
 
 shape QANAT_SHAFTS
-    home IRAN, AFGHANISTAN, OMAN | 0.004 10 90 | country
+    home IRAN, AFGHANISTAN, OMAN, CHINA:XINJIANG | 0.004 10 90 | country
     # The shafts of a qanat: a line of round earth mounds, each with its hole, marking the water tunnel below.
     repeat 6 0 0 5
     cyl 0 0 -12.5 1.6 0.7 0.7 10 B89868

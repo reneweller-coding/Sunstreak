@@ -281,7 +281,7 @@ shape THREE_WHEEL_TRUCK
     tube 0.5 0.28 -1.1 0.65 0.28 -1.1 0.26 10 1E1E1E
 
 shape LAUNDRY_LINES
-    home ITALY:CAMPANIA, ITALY:SICILY, ITALY:LIGURIA, ITALY:VENETO, MALTA | 0.003 4 25 | town
+    home ITALY:CAMPANIA, ITALY:SICILY, ITALY:LIGURIA, ITALY:VENETO, MALTA, CHINA:SHANGHAI, CHINA:HONG KONG | 0.003 4 25 | town
     # Washing hung on lines between two house fronts: sheets, shirts and towels drying over the lane.
     box -2 5 -3.5 2 5 0.3 E8C8A0
     box -2 5 3.5 2 5 0.3 E0D0B0
