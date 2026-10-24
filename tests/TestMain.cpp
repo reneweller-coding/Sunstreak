@@ -12,6 +12,7 @@
 
 #include <cstdio>
 #include <cmath>
+#include <filesystem>
 
 namespace
 {
@@ -134,7 +135,7 @@ int main()
         a.m_params.m_biome = 25;
         a.m_params.m_length = 12500.0;
         a.m_race = true;
-        a.m_params.m_biome = biomeCount() - 1;
+        a.m_params.m_biome = static_cast<int>( BiomeE::COUNT ) - 1;
         const std::string code = encodeTrack( a );
         TrackSetup        b;
         const bool        ok = decodeTrack( code, b );
@@ -153,6 +154,15 @@ int main()
         w.m_seed = 4711;
         w.m_params.m_biome = SceneryWorld;
         check( decodeTrack( encodeTrack( w ), c ) && c.m_params.m_biome == SceneryWorld && c.m_seed == 4711, "the world tour in a code" );
+        if( biomeCount() > 510 )
+        { // A place past the nine-bit field: sixteen symbols.
+            TrackSetup far = a;
+            far.m_params.m_biome = biomeCount() - 1;
+            const std::string longCode = encodeTrack( far );
+            check( longCode.size() == 19 && longCode[4] == '-' && decodeTrack( longCode, c ) && c.m_params.m_biome == biomeCount() - 1 &&
+                       c.m_seed == far.m_seed && c.m_params.m_length == far.m_params.m_length && c.m_race == far.m_race,
+                   "long codes for the new places" );
+        }
         // A code from before the world tour: twelve symbols, the biome in six bits.
         uint64_t v = 0x1234567ull;
         for( int i = 0; i < 5; ++i ) v = ( v << 4 ) | 15u;
@@ -227,6 +237,16 @@ int main()
         check( career.rimsUnlocked( 3 ) && !career.rimsUnlocked( 4 ) && career.paintUnlocked( 6 ) && !career.paintUnlocked( 8 ) &&
                    !career.decalUnlocked( DecalCount - 1 ) && !career.paintUnlocked( PaintCount - 1 ) && Records::pointsText( 25000 ) == "25 000 POINTS",
                "garage unlocks" );
+        // The places seen are kept by name, so new places in the data never move them.
+        Records written, read;
+        written.m_seen.set( static_cast<size_t>( BiomeE::PARIS ) );
+        written.m_seen.set( static_cast<size_t>( biomeCount() - 1 ) );
+        written.m_postcards.set( static_cast<size_t>( BiomeE::KYOTO ) );
+        const std::string file = ( std::filesystem::temp_directory_path() / "sunstreak_test_records.txt" ).string();
+        written.save( file );
+        read.load( file );
+        std::filesystem::remove( file );
+        check( read.m_seen == written.m_seen && read.m_postcards == written.m_postcards, "records keep places by name" );
         // The tour clock: noon is bright and starless, midnight dark with stars, whatever the place wrote.
         const Environment &paris = biomeDef( BiomeE::PARIS ).m_env;
         const Environment  noon = environmentAtHour( paris, 12.5f ), midnight = environmentAtHour( paris, 0.5f );

@@ -4,7 +4,8 @@
  *        what they unlock, the biomes discovered.
  *
  * A track code holds everything the Track Lab sets (seed, curves, sharpness, hills, traffic, obstacles, scenery,
- * length, race or time attack) in twelve characters of Crockford's base 32: XXXX-XXXX-XXXX.
+ * length, race or time attack) in fifteen characters of Crockford's base 32: XXXXX-XXXXX-XXXXX; a place numbered 510
+ * or higher takes sixteen: XXXX-XXXX-XXXX-XXXX.
  *
  * @author reneweller
  */
@@ -60,8 +61,8 @@ struct Records
     double                  m_totalKm = 0.0;    ///< kilometres driven in all modes
     int                     m_titles = 0;       ///< championships won
     int                     m_bestPlace = 0;    ///< best championship place (0: none)
-    std::bitset<512>        m_seen;             ///< a bit per biome driven through
-    std::bitset<512>        m_postcards;        ///< a bit per place with a postcard in the album
+    std::bitset<MaxBiomes>  m_seen;             ///< a bit per biome driven through (saved by name)
+    std::bitset<MaxBiomes>  m_postcards;        ///< a bit per place with a postcard in the album (saved by name)
     int64_t                 m_points = 0;       ///< career points: scores, race results, discoveries (the garage's currency)
     int                     m_dailyDate = 0;    ///< the day of the daily challenge driven last (YYYYMMDD)
     int64_t                 m_dailyBest = 0;    ///< its best score
@@ -170,7 +171,7 @@ struct Records
 
     /**
      * @brief Counts the biomes discovered.
-     * @return 0..BiomeE::COUNT
+     * @return 0..biomeCount()
      */
     int seenCount() const;
 

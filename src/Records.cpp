@@ -100,8 +100,11 @@ struct Bits
 };
 
 constexpr int      CodeVersion = 1;     ///< the layout of the fifteen-symbol codes
+constexpr int      CodeVersion2 = 2;    ///< the layout of the sixteen-symbol codes (twelve bits of scenery)
 constexpr uint64_t CodeWorld = 510;     ///< scenery field: the world tour
 constexpr uint64_t CodeMixed = 511;     ///< scenery field: all biomes mixed
+constexpr uint64_t CodeWorld2 = 4094;   ///< scenery field of the long codes: the world tour
+constexpr uint64_t CodeMixed2 = 4095;   ///< scenery field of the long codes: all biomes mixed
 
 /**
  * @brief Reads the old twelve-symbol codes (before the world tour): seed, five values, a biome in six bits.
@@ -144,19 +147,24 @@ bool decodeLegacy( uint64_t v, TrackSetup &setup )
 std::string encodeTrack( const TrackSetup &setup )
 {
     const TrackParams &p = setup.m_params;
+    // The places past the nine-bit field take the long code; everything else keeps the codes of earlier versions.
+    const bool         wide = p.m_biome >= static_cast<int>( CodeWorld );
     Bits               b;
-    b.push( CodeVersion, 4 );
+    if( wide ) b.push( 0, 2 );
+    b.push( wide ? CodeVersion2 : CodeVersion, 4 );
     b.push( setup.m_seed & 0x1FFFFFFFull, 29 );
     for( int v : { p.m_curvy, p.m_sharp, p.m_hilly, p.m_traffic, p.m_obstacles } ) b.push( nibble( v ), 4 );
-    b.push( p.m_biome >= 0 ? static_cast<uint64_t>( p.m_biome ) : p.m_biome == SceneryWorld ? CodeWorld : CodeMixed, 9 );
+    if( wide ) b.push( static_cast<uint64_t>( std::min( p.m_biome, MaxBiomes - 3 ) ), 12 );
+    else b.push( p.m_biome >= 0 ? static_cast<uint64_t>( p.m_biome ) : p.m_biome == SceneryWorld ? CodeWorld : CodeMixed, 9 );
     b.push( p.m_length > 0.0 ? static_cast<uint64_t>( std::clamp( std::lround( p.m_length / 2500.0 ), 1L, 15L ) ) : 0u, 4 );
     b.push( setup.m_race ? 1u : 0u, 1 );
     b.push( b.check(), 8 );
     std::string s;
-    for( int i = 14; i >= 0; --i )
+    const int   symbols = wide ? 16 : 15;
+    for( int i = symbols - 1; i >= 0; --i )
     {
         s += Alphabet[b.symbol( i )];
-        if( i == 10 || i == 5 ) s += '-';
+        if( wide ? ( i == 12 || i == 8 || i == 4 ) : ( i == 10 || i == 5 ) ) s += '-';
     }
     return s;
 }
@@ -176,29 +184,32 @@ bool decodeTrack( const std::string &code, TrackSetup &setup )
         if( !pos || c == 0 ) return false;
         b.push( static_cast<uint64_t>( pos - Alphabet ), 5 );
         legacy = ( legacy << 5 ) | static_cast<uint64_t>( pos - Alphabet );
-        if( ++n > 15 ) return false;
+        if( ++n > 16 ) return false;
     }
     if( n == 12 ) return decodeLegacy( legacy, setup );
-    if( n != 15 ) return false;
+    if( n != 15 && n != 16 ) return false;
+    const bool     wide = n == 16;
     const uint64_t check = b.pop( 8 );
     if( check != b.check() ) return false;
     TrackSetup out;
     out.m_race = b.pop( 1 );
     const uint64_t len = b.pop( 4 );
-    const uint64_t scenery = b.pop( 9 );
+    const uint64_t scenery = b.pop( wide ? 12 : 9 );
     int            values[5];
     for( int i = 4; i >= 0; --i )
         if( !fromNibble( b.pop( 4 ), values[i] ) ) return false;
     out.m_seed = b.pop( 29 );
-    if( b.pop( 4 ) != CodeVersion ) return false;
+    if( b.pop( 4 ) != static_cast<uint64_t>( wide ? CodeVersion2 : CodeVersion ) ) return false;
+    if( wide && b.pop( 2 ) != 0 ) return false;
     if( out.m_seed == 0 ) out.m_seed = 1;
-    if( scenery < CodeWorld && scenery >= static_cast<uint64_t>( biomeCount() ) ) return false;
+    const uint64_t world = wide ? CodeWorld2 : CodeWorld, mixed = wide ? CodeMixed2 : CodeMixed;
+    if( scenery < world && scenery >= static_cast<uint64_t>( biomeCount() ) ) return false;
     out.m_params.m_curvy = values[0];
     out.m_params.m_sharp = values[1];
     out.m_params.m_hilly = values[2];
     out.m_params.m_traffic = values[3];
     out.m_params.m_obstacles = values[4];
-    out.m_params.m_biome = scenery == CodeWorld ? SceneryWorld : scenery == CodeMixed ? SceneryMixed : static_cast<int>( scenery );
+    out.m_params.m_biome = scenery == world ? SceneryWorld : scenery == mixed ? SceneryMixed : static_cast<int>( scenery );
     out.m_params.m_length = static_cast<double>( len ) * 2500.0;
     if( out.m_race && len == 0 ) return false;
     setup = out;
@@ -209,11 +220,11 @@ namespace
 {
 
 /**
- * @brief Reads a set of biome bits written as 128 hex digits (bit 511 first).
+ * @brief Reads a set of biome bits written as 128 hex digits (bit 511 first; the files of earlier versions).
  * @param[in]  val   the digits
  * @param[out] bits  the set (bits are added)
  */
-void readBits( const std::string &val, std::bitset<512> &bits )
+void readBits( const std::string &val, std::bitset<MaxBiomes> &bits )
 {
     const size_t n = std::min<size_t>( val.size(), 128 );
     for( size_t i = 0; i < n; ++i )
@@ -225,17 +236,34 @@ void readBits( const std::string &val, std::bitset<512> &bits )
 }
 
 /**
- * @brief Writes a set of biome bits as 128 hex digits.
+ * @brief Reads a set of places written as their IDs; names the data no longer has are dropped.
+ * @param[in]  val   "TUSCANY,PARIS,..."
+ * @param[out] bits  the set (bits are added)
+ */
+void readNames( const std::string &val, std::bitset<MaxBiomes> &bits )
+{
+    std::stringstream ss( val );
+    std::string       name;
+    while( std::getline( ss, name, ',' ) )
+    {
+        const int id = biomeId( name );
+        if( id >= 0 && id < MaxBiomes ) bits.set( static_cast<size_t>( id ) );
+    }
+}
+
+/**
+ * @brief Writes a set of places as their IDs, so new places in the data files never move them.
  * @param[in,out] out   the stream
  * @param[in]     bits  the set
  */
-void writeBits( std::ostream &out, const std::bitset<512> &bits )
+void writeNames( std::ostream &out, const std::bitset<MaxBiomes> &bits )
 {
-    for( int i = 0; i < 128; ++i )
+    bool first = true;
+    for( int i = 0; i < biomeCount() && i < MaxBiomes; ++i )
     {
-        int d = 0;
-        for( int k = 0; k < 4; ++k ) d = d * 2 + ( bits.test( static_cast<size_t>( 511 - i * 4 - k ) ) ? 1 : 0 );
-        out << "0123456789ABCDEF"[d];
+        if( !bits.test( static_cast<size_t>( i ) ) ) continue;
+        out << ( first ? "" : "," ) << biomeKey( static_cast<BiomeE>( i ) );
+        first = false;
     }
     out << "\n";
 }
@@ -278,9 +306,11 @@ void Records::load( const std::string &path )
             if( key == "total_km" ) m_totalKm = std::stod( val );
             else if( key == "titles" ) m_titles = std::stoi( val );
             else if( key == "best_place" ) m_bestPlace = std::stoi( val );
-            else if( key == "seen" ) m_seen = std::bitset<512>( std::stoull( val ) );
+            else if( key == "seen" ) m_seen |= std::bitset<MaxBiomes>( std::stoull( val ) );
             else if( key == "seen2" ) readBits( val, m_seen );
             else if( key == "postcards" ) readBits( val, m_postcards );
+            else if( key == "seen3" ) readNames( val, m_seen );
+            else if( key == "cards3" ) readNames( val, m_postcards );
             else if( key == "points" ) m_points = std::max<int64_t>( 0, std::stoll( val ) );
             else if( key == "daily" )
             {
@@ -335,10 +365,10 @@ void Records::save( const std::string &path ) const
     out << "daily=" << m_dailyDate << "|" << m_dailyBest << "|" << m_dailyDays << "\n";
     for( size_t i = 0; i < m_rallyBest.size(); ++i )
         if( m_rallyBest[i] > 0.0 ) out << "rally=" << i << "|" << m_rallyBest[i] << "\n";
-    out << "seen2=";
-    writeBits( out, m_seen );
-    out << "postcards=";
-    writeBits( out, m_postcards );
+    out << "seen3=";
+    writeNames( out, m_seen );
+    out << "cards3=";
+    writeNames( out, m_postcards );
     for( const ScoreEntry &e : m_top ) out << "top=" << e.m_initials << "|" << e.m_score << "|" << e.m_distance << "|" << e.m_code << "\n";
 }
 
