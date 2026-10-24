@@ -2181,17 +2181,31 @@ void Models::buildWorldProps()
         for( float x : { -1.0f, 1.0f } ) m.box( Vector3{ x, 1.0f, 0 }, Vector3{ 0.12f, 1.0f, 0.12f }, rgb( 110, 110, 110 ) );
         m.box( Vector3{ 0, 1.9f, 0 }, Vector3{ 1.2f, 0.1f, 0.15f }, rgb( 110, 110, 110 ) );
     }
-    for( int v = 0; v < 5; ++v )
-    { // Animal warning sign: kangaroo, camel, moose, cow, deer.
+    for( int sv = 0; sv < 15; ++sv )
+    { // Animal warning sign: kangaroo, camel, moose, cow, deer; on a yellow diamond, a white or a yellow triangle.
+        const int    v = sv % 5, shape = sv / 5;
         MeshBuilder &m = add( PropKindE::WARNING_SIGN, 0.3f, FacingE::ALONG );
         m.box( Vector3{ 0, 1.2f, 0 }, Vector3{ 0.05f, 1.2f, 0.05f }, rgb( 150, 150, 156 ) );
         const Vector3 c = { 0, 3.1f, -0.06f };
         const Color   y = rgb( 250, 200, 30 ), k = rgb( 20, 20, 20 );
-        m.quad( Vector3{ -0.9f, c.y, c.z }, Vector3{ 0, c.y - 0.9f, c.z }, Vector3{ 0.9f, c.y, c.z }, Vector3{ 0, c.y + 0.9f, c.z }, k, Mat{ 0.2f, 0.0f } );
-        m.quad( Vector3{ -0.8f, c.y, c.z - 0.01f }, Vector3{ 0, c.y - 0.8f, c.z - 0.01f }, Vector3{ 0.8f, c.y, c.z - 0.01f }, Vector3{ 0, c.y + 0.8f, c.z - 0.01f }, y,
-                Mat{ 0.25f, 0.0f } );
-        const float zz = c.z - 0.02f;
-        auto px = [&]( float x0, float y0, float x1, float y1 ) { m.quad( Vector3{ x0, c.y + y0, zz }, Vector3{ x1, c.y + y0, zz }, Vector3{ x1, c.y + y1, zz }, Vector3{ x0, c.y + y1, zz }, k ); };
+        if( shape == 0 )
+        {
+            m.quad( Vector3{ -0.9f, c.y, c.z }, Vector3{ 0, c.y - 0.9f, c.z }, Vector3{ 0.9f, c.y, c.z }, Vector3{ 0, c.y + 0.9f, c.z }, k, Mat{ 0.2f, 0.0f } );
+            m.quad( Vector3{ -0.8f, c.y, c.z - 0.01f }, Vector3{ 0, c.y - 0.8f, c.z - 0.01f }, Vector3{ 0.8f, c.y, c.z - 0.01f }, Vector3{ 0, c.y + 0.8f, c.z - 0.01f }, y,
+                    Mat{ 0.25f, 0.0f } );
+        }
+        else
+        {
+            m.tri( Vector3{ 1.0f, c.y - 0.7f, c.z }, Vector3{ -1.0f, c.y - 0.7f, c.z }, Vector3{ 0, c.y + 1.0f, c.z }, rgb( 210, 30, 30 ), Mat{ 0.2f, 0.0f } );
+            m.tri( Vector3{ 0.74f, c.y - 0.55f, c.z - 0.01f }, Vector3{ -0.74f, c.y - 0.55f, c.z - 0.01f }, Vector3{ 0, c.y + 0.72f, c.z - 0.01f },
+                   shape == 2 ? y : rgb( 248, 248, 246 ), Mat{ 0.25f, 0.0f } );
+        }
+        const float zz = c.z - 0.02f, sc = shape == 0 ? 1.0f : 0.62f, dy = shape == 0 ? 0.0f : -0.12f;
+        auto px = [&]( float x0, float y0, float x1, float y1 )
+        {
+            m.quad( Vector3{ x0 * sc, c.y + y0 * sc + dy, zz }, Vector3{ x1 * sc, c.y + y0 * sc + dy, zz }, Vector3{ x1 * sc, c.y + y1 * sc + dy, zz },
+                    Vector3{ x0 * sc, c.y + y1 * sc + dy, zz }, k );
+        };
         switch( v )
         {
         case 0: px( -0.25f, -0.2f, 0.15f, 0.2f ), px( 0.05f, 0.2f, 0.25f, 0.4f ), px( -0.45f, -0.35f, -0.15f, -0.25f ), px( 0.1f, -0.45f, 0.3f, -0.2f ); break;

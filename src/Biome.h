@@ -758,6 +758,64 @@ struct Environment
     float m_dust;               ///< 0..1 blowing sand (a sandstorm)
 };
 
+/** @brief The vehicles a region adds to the everyday traffic. */
+enum class FleetE : uint8_t
+{
+    EUROPE,          ///< tractors, camper vans
+    NORTH_AMERICA,   ///< yellow cabs, school buses, pickups, big rigs
+    BRITISH,         ///< black cabs, red double-deckers
+    LATIN,           ///< beetles, painted chicken buses, pickups
+    SOUTH_ASIA,      ///< auto rickshaws, decorated trucks, scooters
+    SOUTHEAST_ASIA,  ///< tuk-tuks, scooters, jeepneys, minibuses
+    EAST_ASIA,       ///< kei trucks, scooters
+    OCEANIA,         ///< road trains, utes, camper vans
+    AFRICA,          ///< matatus, pickups, land cruisers
+    ARABIA,          ///< white land cruisers, pickups
+    EASTERN,         ///< boxy saloons, marshrutkas, tractors
+    ISLANDS,         ///< minibuses, pickups
+    COUNT            ///< number of fleets
+};
+
+/** @brief A country's roads: the side, the vehicles, the markings and signs, the flag (Countries.cpp). */
+struct CountryInfo
+{
+    const char *m_name;       ///< as the places write it
+    bool        m_left;       ///< drives on the left
+    FleetE      m_fleet;      ///< its vehicles
+    uint8_t     m_lines;      ///< 0 white, 1 a yellow line on the centre side, 2 a yellow outer edge
+    uint8_t     m_warn;       ///< warning signs: 0 red triangle, 1 red triangle on yellow, 2 yellow diamond
+    uint8_t     m_chevrons;   ///< chevron boards: 0 red and white, 1 black and white, 2 yellow and black
+    uint8_t     m_townSign;   ///< place signs: 0 white, 1 yellow, 2 white with a red border, 3 blue, 4 green
+    const char *m_flag;       ///< the flag (Countries.cpp tells how it is written)
+};
+
+/**
+ * @brief A country's roads.
+ * @param[in] country  its name (nullptr: a place off the map)
+ * @return its entry, or Europe's for none
+ */
+const CountryInfo &countryInfo( const char *country );
+
+/**
+ * @brief A country's place in the table (the flags are built in that order).
+ * @param[in] country  its name
+ * @return 0..countryTableSize()-1, or -1
+ */
+int countryIndex( const char *country );
+
+/**
+ * @brief How many countries the table holds.
+ * @return the number
+ */
+int countryTableSize();
+
+/**
+ * @brief A country by its place in the table.
+ * @param[in] index  0..countryTableSize()-1
+ * @return its entry
+ */
+const CountryInfo &countryAt( int index );
+
 /** @brief What weather a place gets when a front passes. */
 enum class ClimateE : uint8_t
 {

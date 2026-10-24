@@ -8,6 +8,8 @@
 #include <raylib.h>
 
 #include <string_view>
+#include <utility>
+#include <vector>
 
 namespace sunstreak
 {
@@ -27,6 +29,14 @@ enum class AlignE
  * @return the width in pixels
  */
 float textWidth( std::string_view text, float size );
+
+/**
+ * @brief The strokes of a text, upright, for building it into a sign: cap height 1, the baseline at y 0, x to the right.
+ * @param[in]  text   the text (upper case)
+ * @param[out] lines  segments, as pairs of points
+ * @return the text's width
+ */
+float textStrokes( std::string_view text, std::vector<std::pair<Vector2, Vector2>> &lines );
 
 /**
  * @brief Draws a text.

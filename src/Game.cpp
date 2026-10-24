@@ -325,7 +325,9 @@ void Game::setupTrack( uint64_t seed, double startS, const TrackParams &params )
     m_track = std::make_unique<Track>( seed, params, m_options.m_startBiome );
     m_track->generateTo( startS + ViewDistance + 600.0 );
     const Segment &seg = m_track->segment( static_cast<long>( startS / SegmentLength ) );
-    m_car.reset( carSpec( m_carIndex ), startS, laneCenter( seg.m_lanes / 2, seg.m_lanes, seg.m_halfWidth ), *m_track );
+    // Start in the slow lane's neighbour: right of the middle, or left of it where they drive on the left.
+    const bool keepLeft = countryInfo( biomeDef( m_track->stageBiome( static_cast<int>( startS / StageLength ) ) ).m_country ).m_left;
+    m_car.reset( carSpec( m_carIndex ), startS, laneCenter( keepLeft ? ( seg.m_lanes - 1 ) / 2 : seg.m_lanes / 2, seg.m_lanes, seg.m_halfWidth ), *m_track );
     m_traffic.reset( seed, startS );
     m_traffic.m_density = params.m_traffic < 0 ? 1.0f : static_cast<float>( params.m_traffic ) / 4.5f;
     m_race.m_rivals.clear();
@@ -1094,6 +1096,17 @@ void Game::handleEvents()
         m_audio.play( m_raceEv.m_hit > 0.6f ? SfxE::CRASH : SfxE::BUMP, m_raceEv.m_hit );
         m_haptics.pulse( 0.5f * m_raceEv.m_hit, 0.35f * m_raceEv.m_hit, 0.25f );
         sparks( poseLocal( pose, 0.0f, 0.5f, 1.0f ), 10, 5.0f );
+    }
+    if( m_ev.m_animal >= 0 && !m_demo && m_state == StateE::RACE )
+    {
+        static const std::pair<PropKindE, const char *> names[] = {
+            { PropKindE::COW, "CATTLE ON THE ROAD" },  { PropKindE::SHEEP, "SHEEP ON THE ROAD" }, { PropKindE::HORSE, "HORSES CROSSING" },
+            { PropKindE::CAMEL, "CAMELS CROSSING" },   { PropKindE::ELEPHANT, "ELEPHANTS!" },     { PropKindE::GIRAFFE, "GIRAFFES CROSSING" },
+            { PropKindE::ZEBRA, "ZEBRAS CROSSING" },   { PropKindE::KANGAROO, "KANGAROOS!" },     { PropKindE::LLAMA, "LLAMAS CROSSING" },
+            { PropKindE::BISON, "BISON ON THE ROAD" }, { PropKindE::MOOSE, "MOOSE CROSSING" },    { PropKindE::REINDEER, "REINDEER CROSSING" },
+            { PropKindE::YAK, "YAKS ON THE ROAD" } };
+        for( const auto &[kind, text] : names )
+            if( static_cast<int>( kind ) == m_ev.m_animal ) popup( text, "", Gold, 0.75f, 2.2f );
     }
     if( m_ev.m_hit > 0.0f )
     {

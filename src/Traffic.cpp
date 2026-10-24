@@ -99,6 +99,53 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
     const float     density = lerpf( biomeDef( mix.m_from ).m_traffic, biomeDef( mix.m_to ).m_traffic, mix.m_t ) *
                           std::min( 1.8f, 0.85f + 0.12f * static_cast<float>( player.m_s / StageLength ) ) * tuning().m_traffic * m_density;
     if( m_spawnS < player.m_s + 220.0 ) m_spawnS = player.m_s + 220.0;
+    // The country decides the side: slower cars keep right, or left where they drive on the left.
+    const int          playerStage = static_cast<int>( player.m_s / StageLength );
+    const bool         keepLeft = countryInfo( biomeDef( track.stageBiome( playerStage ) ).m_country ).m_left;
+    const BiomeDef    &spawnPlace = biomeDef( track.stageBiome( static_cast<int>( ( player.m_s + 900.0 ) / StageLength ) ) );
+    const CountryInfo &spawnLand = countryInfo( spawnPlace.m_country );
+    const uint32_t     fleetBit = 1u << static_cast<unsigned>( spawnLand.m_fleet );
+
+    // Animals of the place cross the road now and then, out in the country.
+    if( m_animalS < player.m_s + 500.0 ) m_animalS = player.m_s + 500.0 + m_rng.range( 300.0f, 1200.0f );
+    if( m_density > 0.0f && player.m_s + 800.0 > m_animalS )
+    {
+        std::vector<int> fauna;
+        if( spawnPlace.m_lanes <= 2 && spawnPlace.m_country )
+            for( const PropRule &r : spawnPlace.m_props )
+                for( size_t i = 0; i < models.m_traffic.size(); ++i )
+                    if( models.m_traffic[i].m_animal == r.m_kind ) fauna.push_back( static_cast<int>( i ) );
+        const Segment &seg = track.segment( static_cast<long>( m_animalS / SegmentLength ) );
+        if( !fauna.empty() && !( seg.m_flags & ( SEG_TUNNEL | SEG_BRIDGE ) ) && m_animalS > StartLine + 300.0 )
+        {
+            const int          model = fauna[static_cast<size_t>( m_rng.rangeInt( 0, static_cast<int>( fauna.size() ) - 1 ) )];
+            const VehicleModel &vm = models.m_traffic[static_cast<size_t>( model )];
+            const PropKindE    kind = vm.m_animal;
+            const bool herd = kind == PropKindE::SHEEP || kind == PropKindE::COW || kind == PropKindE::ZEBRA || kind == PropKindE::CAMEL ||
+                              kind == PropKindE::BISON || kind == PropKindE::REINDEER || kind == PropKindE::YAK || kind == PropKindE::LLAMA;
+            const float pace = kind == PropKindE::KANGAROO ? 7.0f : kind == PropKindE::ZEBRA ? 3.0f : kind == PropKindE::HORSE ? 2.5f
+                             : kind == PropKindE::MOOSE || kind == PropKindE::REINDEER ? 2.0f : kind == PropKindE::SHEEP ? 1.5f : 1.1f;
+            const float side = m_rng.chance( 0.5f ) ? 1.0f : -1.0f;
+            const int   count = herd ? m_rng.rangeInt( 1, 3 ) : 1;
+            for( int k = 0; k < count; ++k )
+            {
+                TrafficCar a;
+                a.m_animal = true;
+                a.m_model = model;
+                a.m_s = m_animalS + static_cast<double>( k ) * m_rng.range( 3.0f, 6.0f );
+                a.m_x = side * ( seg.m_halfWidth + 4.0f + 2.5f * static_cast<float>( k ) );
+                a.m_vx = -side * pace * m_rng.range( 0.85f, 1.15f );
+                a.m_yaw = a.m_vx > 0.0f ? Tau * 0.25f : -Tau * 0.25f;
+                a.m_length = vm.m_width;
+                a.m_width = vm.m_length;
+                a.m_lane = -1;
+                a.m_passed = true;
+                m_cars.push_back( a );
+            }
+            ev.m_animal = static_cast<int>( kind );
+        }
+        m_animalS += m_rng.range( 900.0f, 2400.0f );
+    }
     while( m_density > 0.0f && m_spawnS < player.m_s + 1050.0 )
     {
         m_spawnS += static_cast<double>( lerpf( 200.0f, 60.0f, std::min( 1.0f, density / 1.8f ) ) * m_rng.range( 0.55f, 1.45f ) );
@@ -112,14 +159,25 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
         if( laneClosedAhead( track, c.m_s - 40.0, lane, 80.0 ) || !laneFree( lane, c.m_s, nullptr ) ) continue;
         c.m_lane = lane;
         c.m_x = laneCenter( lane, seg.m_lanes, seg.m_halfWidth );
-        const int truckCount = 4;
-        const int carCount = static_cast<int>( models.m_traffic.size() ) - truckCount;
+        // Everyday cars and lorries, and now and then what the region drives: tuk-tuks, yellow cabs, road trains.
+        const bool       city = seg.m_lanes >= 3;
+        std::vector<int> cars, trucks, local;
+        for( size_t i = 0; i < models.m_traffic.size(); ++i )
+        {
+            const VehicleModel &vm = models.m_traffic[i];
+            if( vm.m_animal != PropKindE::COUNT ) continue;
+            if( vm.m_fleets == 0 ) ( vm.m_truck ? trucks : cars ).push_back( static_cast<int>( i ) );
+            else if( ( vm.m_fleets & fleetBit ) && spawnPlace.m_country && ( vm.m_where == 0 || ( vm.m_where == 1 ) == city ) )
+                local.push_back( static_cast<int>( i ) );
+        }
+        auto pick = [&]( const std::vector<int> &from ) { return from[static_cast<size_t>( m_rng.rangeInt( 0, static_cast<int>( from.size() ) - 1 ) )]; };
         const bool truck = m_rng.chance( 0.14f );
-        c.m_model = truck ? carCount + m_rng.rangeInt( 0, truckCount - 1 ) : m_rng.rangeInt( 0, carCount - 1 );
-        c.m_length = models.m_traffic[c.m_model].m_length;
-        c.m_width = models.m_traffic[c.m_model].m_width;
-        const float laneBonus = static_cast<float>( seg.m_lanes - 1 - lane ) * 2.0f;
-        c.m_cruise = truck ? m_rng.range( 15.0f, 20.0f ) : m_rng.range( 16.0f, 26.0f ) + laneBonus;
+        c.m_model = !local.empty() && m_rng.chance( 0.38f ) ? pick( local ) : truck ? pick( trucks ) : pick( cars );
+        const VehicleModel &vm = models.m_traffic[static_cast<size_t>( c.m_model )];
+        c.m_length = vm.m_length;
+        c.m_width = vm.m_width;
+        const float laneBonus = static_cast<float>( keepLeft ? lane : seg.m_lanes - 1 - lane ) * 2.0f;
+        c.m_cruise = ( vm.m_truck ? m_rng.range( 15.0f, 20.0f ) : m_rng.range( 16.0f, 26.0f ) + laneBonus ) * vm.m_pace;
         c.m_speed = c.m_cruise;
         m_cars.push_back( c );
     }
@@ -130,6 +188,23 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
     {
         const Segment &seg = track.segment( static_cast<long>( c.m_s / SegmentLength ) );
         const int      lanes = seg.m_lanes;
+        if( c.m_animal )
+        {
+            // Across the road at its own pace; cattle and sheep stop in the middle for a while.
+            const PropKindE kind = models.m_traffic[static_cast<size_t>( c.m_model )].m_animal;
+            if( !c.m_waited && std::abs( c.m_x ) < 1.6f && ( kind == PropKindE::COW || kind == PropKindE::SHEEP || kind == PropKindE::YAK ) )
+            {
+                c.m_waited = true;
+                if( m_rng.chance( 0.5f ) ) c.m_wait = m_rng.range( 2.0f, 5.0f );
+            }
+            if( c.m_wait > 0.0f ) c.m_wait -= dt;
+            else c.m_x += c.m_vx * dt;
+            c.m_speed = approach( c.m_speed, 0.0f, 3.0f, dt );
+            c.m_s += static_cast<double>( c.m_speed ) * dt;
+            c.m_lane = std::abs( c.m_x ) < seg.m_halfWidth + 0.8f ? laneOf( c.m_x, lanes, seg.m_halfWidth ) : -1;
+            if( c.m_hitTimer > 0.0f ) c.m_hitTimer -= dt;
+            continue;
+        }
         if( c.m_lane >= lanes ) c.m_lane = lanes - 1;
         float want = c.m_cruise;
         // Closed lane ahead: move over.
@@ -153,7 +228,8 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
             const double gap = o.m_s - c.m_s;
             if( gap > 0.0 && gap < 20.0 + c.m_speed * 1.2 && o.m_speed < want )
             {
-                const int l = c.m_lane + ( m_rng.chance( 0.5f ) ? -1 : 1 );
+                // Overtaking on the outer side: the left, or the right where they keep left.
+                const int l = c.m_lane + ( m_rng.chance( 0.8f ) == keepLeft ? 1 : -1 );
                 if( l >= 0 && l < lanes && laneFree( l, c.m_s, &c ) && !laneClosedAhead( track, c.m_s, l, 100.0 ) )
                     c.m_lane = l;
                 else
@@ -213,6 +289,7 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
             c.m_hitTimer = 1.5f;
             player.m_shake = std::max( player.m_shake, ev.m_hit );
         }
+        if( c.m_animal ) continue;
         if( !c.m_passed && ds > halfL )
         {
             c.m_passed = true;
@@ -234,7 +311,12 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
             c.m_passed = false;
         }
     }
-    std::erase_if( m_cars, [&]( const TrafficCar &c ) { return c.m_s < player.m_s - 140.0 || c.m_s > player.m_s + 1700.0; } );
+    std::erase_if( m_cars,
+                   [&]( const TrafficCar &c )
+                   {
+                       const bool across = c.m_animal && c.m_x * c.m_vx > 0.0f && std::abs( c.m_x ) > track.segment( static_cast<long>( c.m_s / SegmentLength ) ).m_halfWidth + 9.0f;
+                       return across || c.m_s < player.m_s - 140.0 || c.m_s > player.m_s + 1700.0;
+                   } );
 
     // Cones and boards.
     const TrackFrame pf = track.frameAt( player.m_s );

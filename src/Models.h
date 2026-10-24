@@ -16,6 +16,7 @@
 
 #include <array>
 #include <cstdint>
+#include <string_view>
 #include <vector>
 
 namespace sunstreak
@@ -104,11 +105,25 @@ enum class FacingE : uint8_t
 /** @brief A traffic vehicle's mesh and size. */
 struct VehicleModel
 {
-    Mesh  m_mesh{};        ///< on the GPU
-    float m_length = 4;    ///< metres
-    float m_width = 1.8f;  ///< metres
-    bool  m_truck = false; ///< slow and long
+    Mesh      m_mesh{};                     ///< on the GPU
+    float     m_length = 4;                 ///< metres
+    float     m_width = 1.8f;               ///< metres
+    bool      m_truck = false;              ///< slow and long
+    uint32_t  m_fleets = 0;                 ///< the regions it belongs to (a bit per FleetE; 0: everywhere)
+    uint8_t   m_where = 0;                  ///< 0 anywhere, 1 in cities, 2 in the country
+    float     m_pace = 1.0f;                ///< its speed against an ordinary car
+    PropKindE m_animal = PropKindE::COUNT;  ///< an animal crossing the road (COUNT: a vehicle)
 };
+
+/**
+ * @brief Builds a place-name sign on two posts, its face towards -z (the driver, with the road's heading as yaw).
+ * @param[out] out    where the triangles go
+ * @param[in]  text   the name (upper case)
+ * @param[in]  style  0 white, 1 yellow, 2 white with a red border, 3 blue, 4 green (CountryInfo::m_townSign)
+ * @param[in]  cap    letter height (m)
+ * @param[in]  lift   height of the board's lower edge (m)
+ */
+void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float cap = 0.42f, float lift = 1.4f );
 
 /** @brief All models. */
 class Models
@@ -160,10 +175,12 @@ public:
     void buildLivery( const Livery &livery );
 
     MeshBuilder m_post;           ///< delineator post
-    MeshBuilder m_chevronRight;   ///< warning board, arrow to the driver's right
-    MeshBuilder m_chevronLeft;    ///< warning board, arrow to the driver's left
-    MeshBuilder m_lamp;           ///< street lamp, its arm along +z
-    MeshBuilder m_jumpSign;       ///< crest warning
+    std::array<MeshBuilder, 3> m_chevronRight;   ///< warning board, arrow to the driver's right (CountryInfo::m_chevrons)
+    std::array<MeshBuilder, 3> m_chevronLeft;    ///< warning board, arrow to the driver's left
+    MeshBuilder                m_lamp;           ///< street lamp, its arm along +z
+    std::array<MeshBuilder, 2> m_jumpSign;       ///< crest warning: red triangle, yellow diamond
+    std::vector<MeshBuilder>   m_flags;          ///< a flag on its pole per country (countryAt order), facing -z
+    MeshBuilder                m_borderPost;     ///< customs booth and raised barrier, front (+x) to the road
 
     std::array<std::array<Mesh, PaintCount>, CarCount> m_playerCars{};   ///< the player's cars in plain paint (rivals, ghosts)
     Mesh                                               m_livery{};       ///< the player's own car, dressed in the garage

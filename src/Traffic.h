@@ -35,6 +35,9 @@ struct TrafficCar
     float  m_length = 4;       ///< metres
     float  m_width = 1.8f;     ///< metres
     bool   m_passed = false;   ///< the player is ahead of it
+    bool   m_animal = false;   ///< an animal crossing the road (m_vx carries it across)
+    float  m_wait = 0.0f;      ///< seconds it stands still in the road
+    bool   m_waited = false;   ///< it has stood already
 };
 
 /** @brief A cone or an arrow board. */
@@ -62,6 +65,7 @@ struct TrafficEvents
     float m_whoosh = 0.0f;         ///< 0..1 its strength
     float m_hit = 0.0f;            ///< 0..1 a collision's strength
     int   m_cones = 0;             ///< cones hit
+    int   m_animal = -1;           ///< an animal (PropKindE) about to cross ahead (-1: none)
 };
 
 /** @brief Traffic and roadworks. */
@@ -108,6 +112,7 @@ private:
 
     Rng    m_rng;               ///< spawning
     double m_spawnS = 0.0;      ///< the next spawn point
+    double m_animalS = 0.0;     ///< where the next animals may cross
     long   m_scanned = 0;       ///< segments checked for roadworks
 };
 

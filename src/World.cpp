@@ -9,6 +9,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <cstring>
 #include <iterator>
 
 namespace sunstreak
@@ -429,6 +430,17 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
         ground.setShade( tunnel ? 0.12f : 1.0f );
         const bool     band = ( j / 2 ) % 2 == 0;
         const int      lanes = seg.m_lanes;
+        // The country's markings: a yellow line on the centre side (the Americas, Scandinavia, East Asia) or on the
+        // outer edge (southern Africa, Ireland), mirrored where they drive on the left.
+        const BiomeDef    &here = ruling( seg, 0.5f );
+        const CountryInfo &land = countryInfo( here.m_country );
+        Color              lineL = sf.m_line, lineR = sf.m_line;
+        if( here.m_country && sf.m_lineGlow <= 0.0f )
+        {
+            const Color yellow = { 242, 188, 34, 255 };
+            if( land.m_lines == 1 ) ( land.m_left ? lineR : lineL ) = yellow;
+            if( land.m_lines == 2 ) ( land.m_left ? lineL : lineR ) = yellow;
+        }
 
         // Road surface: strips between the edge lines and lane dividers, each with per-corner lamp light. A column
         // sits at a fraction of the half width plus fixed metres, resolved per cross-section.
@@ -462,7 +474,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             float       gloss = 0.18f;
             if( cols[k].m_kind == StripE::LINE || ( cols[k].m_kind == StripE::DASH && dashOn ) )
             {
-                base = sf.m_line;
+                base = cols[k].m_kind == StripE::LINE ? ( cols[k].m_frac < 0.0f ? lineL : lineR ) : sf.m_line;
                 glow = sf.m_lineGlow * 0.45f;
                 gloss = 0.3f;
             }
@@ -773,7 +785,6 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
         }
 
         // Guard rails, or tall sound walls.
-        const BiomeDef &here = ruling( seg, 0.5f );
         for( float side : { -1.0f, 1.0f } )
         {
             if( !( seg.m_flags & ( side < 0 ? SEG_RAIL_L : SEG_RAIL_R ) ) ) continue;
@@ -818,6 +829,46 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             const uint64_t  sideKey = side < 0 ? 0x1111ull : 0x2222ull;
             const BiomeDef &rule = ruling( seg, hashFloat( seed ^ sideKey, static_cast<uint64_t>( j ) ) );
             const bool      railed = seg.m_flags & ( side < 0 ? SEG_RAIL_L : SEG_RAIL_R );
+            const CountryInfo &signs = countryInfo( rule.m_country );
+
+            // The place's name at the start of its stage, a border post where the country changes.
+            const long stageSegs = static_cast<long>( StageLength / SegmentLength ), stage = j / stageSegs, local = j % stageSegs;
+            if( local >= 3 && local <= 7 && !tunnel && !bridge )
+            {
+                const BiomeDef    &place = biomeDef( track.stageBiome( static_cast<int>( stage ) ) );
+                const CountryInfo &nation = countryInfo( place.m_country );
+                const float        driver = nation.m_left ? -1.0f : 1.0f;
+                const char        *before = stage > 0 ? biomeDef( track.stageBiome( static_cast<int>( stage - 1 ) ) ).m_country : nullptr;
+                const bool border = place.m_country && before && std::strcmp( place.m_country, before ) != 0;
+                if( local == 7 && side == driver && place.m_name )
+                {
+                    MeshBuilder sign;
+                    buildPlaceSign( sign, place.m_name, nation.m_townSign );
+                    const float l = side * ( A.m_edge + 2.4f );
+                    props.append( sign, at( A, l, 0.0f ), A.m_heading, 1.0f );
+                    c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, l, 0.6f } );
+                }
+                if( border && local == 3 && side == driver )
+                {
+                    const float l = side * ( A.m_edge + 2.0f );
+                    props.append( models.m_borderPost, at( A, l, 0.0f ), A.m_heading + ( side < 0 ? Tau * 0.5f : 0.0f ), 1.0f );
+                    c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, l, 1.4f } );
+                }
+                if( border && local == 5 )
+                {
+                    // The new country's flag and name on the driver's side, the old country's flag across the road.
+                    const int   flag = countryIndex( side == driver ? place.m_country : before );
+                    const float l = side * ( A.m_edge + 6.0f );
+                    if( flag >= 0 ) props.append( models.m_flags[static_cast<size_t>( flag )], at( A, l, 0.0f ), A.m_heading, 1.0f );
+                    if( side == driver )
+                    {
+                        MeshBuilder sign;
+                        buildPlaceSign( sign, place.m_country, 3, 0.6f, 2.4f );
+                        props.append( sign, at( A, side * ( A.m_edge + 3.0f ), 0.0f ), A.m_heading, 1.0f );
+                        c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, side * ( A.m_edge + 3.0f ), 0.6f } );
+                    }
+                }
+            }
 
             if( rule.m_postSpacing > 0.0f && !railed && !tunnel && !bridge )
             {
@@ -839,11 +890,12 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             if( chevron && j % 2 == 0 && !tunnel && !bridge )
             {
                 const float l = side * ( A.m_edge + 1.4f );
-                props.append( side < 0 ? models.m_chevronRight : models.m_chevronLeft, at( A, l, 0.0f ), A.m_heading, 1.0f );
+                const size_t style = std::min<size_t>( signs.m_chevrons, 2 );
+                props.append( side < 0 ? models.m_chevronRight[style] : models.m_chevronLeft[style], at( A, l, 0.0f ), A.m_heading, 1.0f );
                 c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, l, 0.5f } );
             }
             if( ( seg.m_flags & SEG_JUMP ) && !tunnel )
-                props.append( models.m_jumpSign, at( A, side * ( A.m_edge + 1.2f ), 0.0f ), A.m_heading, 1.0f );
+                props.append( models.m_jumpSign[signs.m_warn == 2 ? 1 : 0], at( A, side * ( A.m_edge + 1.2f ), 0.0f ), A.m_heading, 1.0f );
 
             // Scattered props.
             for( size_t r = 0; r < rule.m_props.size(); ++r )
@@ -853,9 +905,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 const float     h0 = hashFloat( key, static_cast<uint64_t>( j ) );
                 if( pr.m_perStage > 0 )
                 { // A landmark stands at a few fixed spots per stage, not by chance.
-                    const long stageSegs = static_cast<long>( StageLength / SegmentLength );
-                    const long stage = j / stageSegs, local = j % stageSegs;
-                    bool       spot = false;
+                    bool spot = false;
                     for( int k = 0; k < pr.m_perStage && !spot; ++k )
                     {
                         bool       right = false;
@@ -928,7 +978,9 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                     keys[2] = pr.m_c.a ? pr.m_c : defaults[2];
                     if( pr.m_pastel ) keys[0] = Pastels[hash64( key + 7 + static_cast<uint64_t>( j ) ) % std::size( Pastels )];
                 }
-                const uint64_t variant = pr.m_variant >= 0 ? static_cast<uint64_t>( pr.m_variant ) : hash64( key + 6 + static_cast<uint64_t>( j ) );
+                uint64_t variant = pr.m_variant >= 0 ? static_cast<uint64_t>( pr.m_variant ) : hash64( key + 6 + static_cast<uint64_t>( j ) );
+                // Warning signs in the country's shape: a yellow diamond, a white or a yellow triangle.
+                if( pr.m_kind == PropKindE::WARNING_SIGN ) variant = variant % 5 + ( signs.m_warn == 2 ? 0 : signs.m_warn == 1 ? 10 : 5 );
                 props.append( models.prop( pr.m_kind, variant ), pos, yaw, scale, bright,
                               defaults ? keys : nullptr );
                 const float radius = models.propRadius( pr.m_kind );

@@ -170,6 +170,24 @@ void strokes( std::string_view text, float x, float y, float size, Color color, 
 
 } // namespace
 
+float textStrokes( std::string_view text, std::vector<std::pair<Vector2, Vector2>> &lines )
+{
+    const auto &table = glyphs();
+    float       pen = 0.0f;
+    for( char raw : text )
+    {
+        char c = raw;
+        if( c >= 'a' && c <= 'z' ) c = static_cast<char>( c - 'a' + 'A' );
+        const auto idx = static_cast<unsigned char>( c );
+        if( idx < 128 )
+            for( const auto &line : table[idx] )
+                for( size_t i = 0; i + 1 < line.size(); ++i )
+                    lines.push_back( { Vector2{ ( pen + line[i].x ) / 6.0f, line[i].y / 6.0f }, Vector2{ ( pen + line[i + 1].x ) / 6.0f, line[i + 1].y / 6.0f } } );
+        pen += Advance;
+    }
+    return text.empty() ? 0.0f : ( pen - ( Advance - 4.0f ) ) / 6.0f;
+}
+
 float textWidth( std::string_view text, float size )
 {
     if( text.empty() ) return 0.0f;

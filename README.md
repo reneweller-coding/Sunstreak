@@ -83,6 +83,22 @@ the hour. Every place sounds like itself: the surf on the shore it lies on, wind
 and birds in the tropics, the hum and horns of a city, rain on the car, the joints of a bridge and the engine echoing
 in a tunnel.
 
+Every country keeps its own rules of the road. Where they drive on the left (Britain and Ireland, Japan, India, Southeast
+Asia, Australia and the Pacific, southern and eastern Africa, much of the Caribbean) the slow traffic keeps left, cars
+overtake on the right and you start in the left lane. The markings follow the country: a yellow line on the centre side
+in the Americas, Scandinavia and East Asia, yellow outer edges in southern Africa and Ireland. Chevron boards are red and
+white in Europe, black and white in Britain and the Commonwealth, yellow and black in the Americas, Australia and Asia;
+warning signs are red triangles, yellow-backed triangles in Sweden, Finland, Poland and the Balkans, yellow diamonds in
+the Americas, Australia and Japan. Each place greets you with its name on a sign in the national style (yellow in
+Germany, red-bordered in France, blue in the Netherlands and Japan, green in the Americas and Australia), and where the
+country changes there is a border post with both flags and the new country's name. The traffic is regional: yellow cabs,
+school buses, pickups and big rigs in North America, black cabs and red double-deckers in Britain, beetles and painted
+chicken buses in Latin America, auto rickshaws, scooters and decorated trucks in South Asia, tuk-tuks and jeepneys in
+Southeast Asia, kei trucks in Japan, road trains in the outback, matatus and land cruisers in Africa and Arabia, boxy
+saloons and marshrutkas in the east, tractors on European country roads. Out in the country the animals of the place cross
+the road, announced as they come: cattle and sheep (which like to stop in the middle), kangaroos, moose, camels,
+elephants, zebras, llamas, bison, reindeer and yaks.
+
 Bridges are built the way the region builds them: concrete beams, tall viaducts over Alpine gorges, stone arches in
 Europe, steel trusses in North America, suspension bridges over the Bosphorus and in New York, cable-stayed spans in
 Dubai, Shanghai and Lofoten, covered wooden bridges in the Black Forest and Bhutan, and long low causeways over the

@@ -7,7 +7,11 @@
 
 #include "MathUtil.h"
 #include "Rng.h"
+#include "VectorFont.h"
 
+#include <cstdlib>
+#include <initializer_list>
+#include <string>
 #include <utility>
 
 namespace sunstreak
@@ -1236,33 +1240,303 @@ void Models::buildProps()
     // Road furniture.
     m_post.box( Vector3{ 0, 0.55f, 0 }, Vector3{ 0.06f, 0.55f, 0.06f }, rgb( 236, 236, 236 ) );
     m_post.box( Vector3{ 0, 0.95f, 0 }, Vector3{ 0.07f, 0.08f, 0.07f }, rgb( 255, 150, 40 ), Mat{ 0.7f, 0.0f } );
-    for( int dir = 0; dir < 2; ++dir )
-    {
-        MeshBuilder &m = dir ? m_chevronLeft : m_chevronRight;
-        m.tube( Vector3{ 0, 0, 0 }, Vector3{ 0, 1.1f, 0 }, 0.07f, 5, rgb( 120, 120, 128 ) );
-        m.box( Vector3{ 0, 1.6f, 0 }, Vector3{ 0.95f, 0.55f, 0.05f }, rgb( 200, 26, 26 ), Mat{ 0.12f, 0.0f } );
-        // The arrow points to the driver's right (-x) or left (+x), drawn on the face towards the driver (-z).
-        const float s = dir ? 1.0f : -1.0f;
-        for( float off : { -0.35f, 0.35f } )
+    // Chevron boards in the country's colours: red and white, black and white, yellow and black.
+    const Color chevronBoard[3] = { rgb( 200, 26, 26 ), rgb( 24, 24, 26 ), rgb( 245, 196, 20 ) };
+    const Color chevronArrow[3] = { rgb( 250, 250, 250 ), rgb( 250, 250, 250 ), rgb( 20, 20, 20 ) };
+    for( int style = 0; style < 3; ++style )
+        for( int dir = 0; dir < 2; ++dir )
         {
-            boardLine( m, Vector2{ -s * 0.2f + off, 1.95f }, Vector2{ s * 0.2f + off, 1.6f }, -0.07f, 0.17f,
-                       rgb( 250, 250, 250 ), Mat{ 0.45f, 0.0f } );
-            boardLine( m, Vector2{ s * 0.2f + off, 1.6f }, Vector2{ -s * 0.2f + off, 1.25f }, -0.07f, 0.17f,
-                       rgb( 250, 250, 250 ), Mat{ 0.45f, 0.0f } );
+            MeshBuilder &m = dir ? m_chevronLeft[static_cast<size_t>( style )] : m_chevronRight[static_cast<size_t>( style )];
+            m.tube( Vector3{ 0, 0, 0 }, Vector3{ 0, 1.1f, 0 }, 0.07f, 5, rgb( 120, 120, 128 ) );
+            m.box( Vector3{ 0, 1.6f, 0 }, Vector3{ 0.95f, 0.55f, 0.05f }, chevronBoard[style], Mat{ 0.12f, 0.0f } );
+            // The arrow points to the driver's right (-x) or left (+x), drawn on the face towards the driver (-z).
+            const float s = dir ? 1.0f : -1.0f;
+            for( float off : { -0.35f, 0.35f } )
+            {
+                boardLine( m, Vector2{ -s * 0.2f + off, 1.95f }, Vector2{ s * 0.2f + off, 1.6f }, -0.07f, 0.17f, chevronArrow[style], Mat{ 0.45f, 0.0f } );
+                boardLine( m, Vector2{ s * 0.2f + off, 1.6f }, Vector2{ -s * 0.2f + off, 1.25f }, -0.07f, 0.17f, chevronArrow[style], Mat{ 0.45f, 0.0f } );
+            }
         }
-    }
     m_lamp.tube( Vector3{ 0, 0, 0 }, Vector3{ 0, 8.6f, 0 }, 0.14f, 6, rgb( 110, 112, 122 ) );
     m_lamp.tube( Vector3{ 0, 8.4f, 0 }, Vector3{ 0, 8.7f, 2.6f }, 0.09f, 5, rgb( 110, 112, 122 ) );
     m_lamp.box( Vector3{ 0, 8.65f, 2.9f }, Vector3{ 0.28f, 0.1f, 0.62f }, rgb( 70, 72, 80 ) );
     m_lamp.quad( Vector3{ -0.24f, 8.54f, 2.35f }, Vector3{ 0.24f, 8.54f, 2.35f }, Vector3{ 0.24f, 8.54f, 3.45f },
                  Vector3{ -0.24f, 8.54f, 3.45f }, rgb( 255, 226, 170 ), Glow );
-    m_jumpSign.tube( Vector3{ 0, 0, 0 }, Vector3{ 0, 1.4f, 0 }, 0.07f, 5, rgb( 120, 120, 128 ) );
-    m_jumpSign.tri( Vector3{ -0.75f, 1.4f, -0.04f }, Vector3{ 0.75f, 1.4f, -0.04f }, Vector3{ 0, 2.7f, -0.04f },
-                    rgb( 210, 30, 30 ), Mat{ 0.15f, 0.0f } );
-    m_jumpSign.tri( Vector3{ -0.5f, 1.55f, -0.06f }, Vector3{ 0.5f, 1.55f, -0.06f }, Vector3{ 0, 2.42f, -0.06f },
-                    rgb( 250, 250, 250 ), Mat{ 0.3f, 0.0f } );
-    m_jumpSign.tri( Vector3{ -0.32f, 1.68f, -0.07f }, Vector3{ 0.32f, 1.68f, -0.07f }, Vector3{ 0, 1.98f, -0.07f },
-                    rgb( 20, 20, 20 ) );
+    MeshBuilder &crest = m_jumpSign[0];
+    crest.tube( Vector3{ 0, 0, 0 }, Vector3{ 0, 1.4f, 0 }, 0.07f, 5, rgb( 120, 120, 128 ) );
+    crest.tri( Vector3{ -0.75f, 1.4f, -0.04f }, Vector3{ 0.75f, 1.4f, -0.04f }, Vector3{ 0, 2.7f, -0.04f }, rgb( 210, 30, 30 ), Mat{ 0.15f, 0.0f } );
+    crest.tri( Vector3{ -0.5f, 1.55f, -0.06f }, Vector3{ 0.5f, 1.55f, -0.06f }, Vector3{ 0, 2.42f, -0.06f }, rgb( 250, 250, 250 ), Mat{ 0.3f, 0.0f } );
+    crest.tri( Vector3{ -0.32f, 1.68f, -0.07f }, Vector3{ 0.32f, 1.68f, -0.07f }, Vector3{ 0, 1.98f, -0.07f }, rgb( 20, 20, 20 ) );
+    MeshBuilder &bump = m_jumpSign[1];
+    bump.tube( Vector3{ 0, 0, 0 }, Vector3{ 0, 1.5f, 0 }, 0.07f, 5, rgb( 120, 120, 128 ) );
+    bump.quad( Vector3{ 0.75f, 2.25f, -0.04f }, Vector3{ 0, 1.5f, -0.04f }, Vector3{ -0.75f, 2.25f, -0.04f }, Vector3{ 0, 3.0f, -0.04f }, rgb( 20, 20, 20 ), Mat{ 0.15f, 0.0f } );
+    bump.quad( Vector3{ 0.66f, 2.25f, -0.05f }, Vector3{ 0, 1.59f, -0.05f }, Vector3{ -0.66f, 2.25f, -0.05f }, Vector3{ 0, 2.91f, -0.05f }, rgb( 245, 196, 20 ), Mat{ 0.3f, 0.0f } );
+    bump.tri( Vector3{ 0.35f, 2.05f, -0.06f }, Vector3{ -0.35f, 2.05f, -0.06f }, Vector3{ 0, 2.4f, -0.06f }, rgb( 20, 20, 20 ) );
+}
+
+namespace
+{
+
+/**
+ * @brief A colour from "RRGGBB".
+ * @param[in] hex  the digits
+ * @return the colour
+ */
+Color hexColor( const std::string &hex )
+{
+    const unsigned v = static_cast<unsigned>( std::strtoul( hex.c_str(), nullptr, 16 ) );
+    return rgb( static_cast<int>( v >> 16 ), static_cast<int>( ( v >> 8 ) & 255 ), static_cast<int>( v & 255 ) );
+}
+
+/**
+ * @brief Builds a flag from its description (Countries.cpp) on a pole; the cloth faces -z and +z.
+ * @param[out] m     where the triangles go
+ * @param[in]  spec  the flag
+ */
+void buildFlag( MeshBuilder &m, const char *spec )
+{
+    const float W = 1.5f, H = 1.0f, X0 = 0.08f, Y0 = 5.4f;   // the cloth, its hoist at the pole
+    std::vector<std::string> t;
+    for( const char *p = spec; *p; )
+    {
+        while( *p == ' ' ) ++p;
+        const char *e = p;
+        while( *e && *e != ' ' ) ++e;
+        if( e > p ) t.emplace_back( p, static_cast<size_t>( e - p ) );
+        p = e;
+    }
+    int layer = 0;
+    // A shape in cloth coordinates (u across from the hoist, v up), on both faces; models face +x to the left, so the
+    // hoist (next to the pole) is at +x and the fly towards -x.
+    auto vtx = [&]( float u, float v, float side ) { return Vector3{ X0 - u * W, Y0 + v * H, side * ( 0.012f + 0.002f * static_cast<float>( layer ) ) }; };
+    auto poly = [&]( const std::vector<Vector2> &pts, Color c )
+    {
+        for( size_t i = 1; i + 1 < pts.size(); ++i )
+        {
+            m.tri( vtx( pts[0].x, pts[0].y, -1.0f ), vtx( pts[i].x, pts[i].y, -1.0f ), vtx( pts[i + 1].x, pts[i + 1].y, -1.0f ), c, Mat{ 0.15f, 0.0f } );
+            m.tri( vtx( pts[0].x, pts[0].y, 1.0f ), vtx( pts[i + 1].x, pts[i + 1].y, 1.0f ), vtx( pts[i].x, pts[i].y, 1.0f ), c, Mat{ 0.15f, 0.0f } );
+        }
+        ++layer;
+    };
+    auto rect = [&]( float u0, float v0, float u1, float v1, Color c ) { poly( { { u0, v0 }, { u1, v0 }, { u1, v1 }, { u0, v1 } }, c ); };
+    auto disc = [&]( float u, float v, float r, Color c, float hole = 0.0f )
+    {
+        std::vector<Vector2> pts;
+        const int            n = 18;
+        if( hole <= 0.0f )
+        {
+            for( int i = 0; i < n; ++i )
+            {
+                const float a = Tau * static_cast<float>( i ) / n;
+                pts.push_back( Vector2{ u + std::cos( a ) * r * H / W, v + std::sin( a ) * r } );
+            }
+            poly( pts, c );
+            return;
+        }
+        for( int i = 0; i < n; ++i )
+        {
+            const float a0 = Tau * static_cast<float>( i ) / n, a1 = Tau * static_cast<float>( i + 1 ) / n;
+            poly( { { u + std::cos( a0 ) * r * H / W, v + std::sin( a0 ) * r }, { u + std::cos( a1 ) * r * H / W, v + std::sin( a1 ) * r },
+                    { u + std::cos( a1 ) * hole * H / W, v + std::sin( a1 ) * hole }, { u + std::cos( a0 ) * hole * H / W, v + std::sin( a0 ) * hole } },
+                  c );
+            --layer;
+        }
+        ++layer;
+    };
+    auto band = [&]( Vector2 a, Vector2 b, float thick, Color c )
+    {
+        // A straight band of the given thickness (in heights) from a to b, in metres so it keeps its width.
+        const Vector2 d = Vector2Normalize( Vector2{ ( b.x - a.x ) * W, ( b.y - a.y ) * H } );
+        const Vector2 n = { -d.y * thick * 0.5f / W, d.x * thick * 0.5f / H };
+        poly( { { a.x + n.x, a.y + n.y }, { b.x + n.x, b.y + n.y }, { b.x - n.x, b.y - n.y }, { a.x - n.x, a.y - n.y } }, c );
+    };
+    auto unionJack = [&]( float u0, float v0, float u1, float v1 )
+    {
+        rect( u0, v0, u1, v1, rgb( 1, 33, 105 ) );
+        const float k = ( v1 - v0 );
+        band( { u0, v0 }, { u1, v1 }, 0.2f * k, rgb( 255, 255, 255 ) );
+        band( { u0, v1 }, { u1, v0 }, 0.2f * k, rgb( 255, 255, 255 ) );
+        band( { u0, v0 }, { u1, v1 }, 0.07f * k, rgb( 200, 16, 46 ) );
+        band( { u0, v1 }, { u1, v0 }, 0.07f * k, rgb( 200, 16, 46 ) );
+        rect( u0, ( v0 + v1 ) * 0.5f - 0.17f * k, u1, ( v0 + v1 ) * 0.5f + 0.17f * k, rgb( 255, 255, 255 ) );
+        rect( ( u0 + u1 ) * 0.5f - 0.17f * k * H / W, v0, ( u0 + u1 ) * 0.5f + 0.17f * k * H / W, v1, rgb( 255, 255, 255 ) );
+        rect( u0, ( v0 + v1 ) * 0.5f - 0.1f * k, u1, ( v0 + v1 ) * 0.5f + 0.1f * k, rgb( 200, 16, 46 ) );
+        rect( ( u0 + u1 ) * 0.5f - 0.1f * k * H / W, v0, ( u0 + u1 ) * 0.5f + 0.1f * k * H / W, v1, rgb( 200, 16, 46 ) );
+    };
+    float cantonW = 0.45f, cantonH = 0.5f;
+    size_t i = 0;
+    auto num = [&]() { return i < t.size() ? std::stof( t[i++] ) : 0.0f; };
+    auto col = [&]() { return i < t.size() ? hexColor( t[i++] ) : rgb( 255, 255, 255 ); };
+    // Stripes.
+    if( !t.empty() )
+    {
+        const bool horizontal = t[0] == "H";
+        i = 1;
+        std::vector<Color> stripes;
+        while( i < t.size() && t[i][0] != '+' ) stripes.push_back( col() );
+        const float n = static_cast<float>( std::max<size_t>( 1, stripes.size() ) );
+        for( size_t k = 0; k < stripes.size(); ++k )
+        {
+            const float a = static_cast<float>( k ) / n, b = static_cast<float>( k + 1 ) / n;
+            if( horizontal ) rect( 0.0f, 1.0f - b, 1.0f, 1.0f - a, stripes[k] );
+            else rect( a, 0.0f, b, 1.0f, stripes[k] );
+        }
+        layer = 1;
+    }
+    // Decorations.
+    while( i < t.size() )
+    {
+        const std::string op = t[i++];
+        if( op == "+D" ) { const Color c = col(); disc( 0.5f, 0.5f, num(), c ); }
+        else if( op == "+DH" ) { const Color c = col(); disc( 0.42f, 0.5f, num(), c ); }
+        else if( op == "+O" ) { const Color c = col(); const float r = num(); disc( 0.5f, 0.5f, r, c, r * 0.72f ); }
+        else if( op == "+T" ) { const Color c = col(); const float d = num(); poly( { { 0.0f, 0.0f }, { d, 0.5f }, { 0.0f, 1.0f } }, c ); }
+        else if( op == "+K" ) { const Color c = col(); cantonW = num(); cantonH = num(); rect( 0.0f, 1.0f - cantonH, cantonW, 1.0f, c ); }
+        else if( op == "+KD" ) { const Color c = col(); disc( cantonW * 0.5f, 1.0f - cantonH * 0.5f, num(), c ); }
+        else if( op == "+KX" )
+        {
+            const Color c = col();
+            const float th = num();
+            rect( 0.0f, 1.0f - cantonH * 0.5f - th * 0.5f, cantonW, 1.0f - cantonH * 0.5f + th * 0.5f, c );
+            rect( cantonW * 0.5f - th * 0.5f * H / W, 1.0f - cantonH, cantonW * 0.5f + th * 0.5f * H / W, 1.0f, c );
+        }
+        else if( op == "+N" || op == "+X" )
+        {
+            const Color c = col();
+            const float th = num(), u = op == "+N" ? 0.36f : 0.5f;
+            rect( 0.0f, 0.5f - th * 0.5f, 1.0f, 0.5f + th * 0.5f, c );
+            rect( u - th * 0.5f * H / W, 0.0f, u + th * 0.5f * H / W, 1.0f, c );
+        }
+        else if( op == "+S" )
+        {
+            const Color c = col();
+            const float th = num();
+            band( { 0.0f, 0.0f }, { 1.0f, 1.0f }, th, c );
+            band( { 0.0f, 1.0f }, { 1.0f, 0.0f }, th, c );
+        }
+        else if( op == "+HB" ) { const Color c = col(); rect( 0.0f, 0.0f, num(), 1.0f, c ); }
+        else if( op == "+VB" ) { const Color c = col(); const float w = num(); rect( 0.5f - w * 0.5f, 0.0f, 0.5f + w * 0.5f, 1.0f, c ); }
+        else if( op == "+DB" ) { const Color c = col(); band( { 0.0f, 0.0f }, { 1.0f, 1.0f }, num(), c ); }
+        else if( op == "+DIA" ) { const Color c = col(); poly( { { 0.08f, 0.5f }, { 0.5f, 0.08f }, { 0.92f, 0.5f }, { 0.5f, 0.92f } }, c ); }
+        else if( op == "+Q" )
+        {
+            const Color a = col(), b = col(), c = col(), d = col();
+            rect( 0.0f, 0.5f, 0.5f, 1.0f, a );
+            --layer;
+            rect( 0.5f, 0.5f, 1.0f, 1.0f, b );
+            --layer;
+            rect( 0.0f, 0.0f, 0.5f, 0.5f, c );
+            --layer;
+            rect( 0.5f, 0.0f, 1.0f, 0.5f, d );
+        }
+        else if( op == "+R" ) { const Color c = col(); const float w = num(), h = num(); rect( 0.5f - w * 0.5f, 0.5f - h * 0.5f, 0.5f + w * 0.5f, 0.5f + h * 0.5f, c ); }
+        else if( op == "+UJ" ) { cantonW = 0.5f; cantonH = 0.5f; unionJack( 0.0f, 0.5f, 0.5f, 1.0f ); }
+    }
+    // The pole and its finial.
+    m.cylinder( Vector3{ X0 + 0.05f, 0, 0 }, 0.06f, 0.045f, Y0 + H + 0.3f, 6, rgb( 225, 228, 232 ), Mat{ 0.0f, 0.5f } );
+    m.blob( Vector3{ X0 + 0.05f, Y0 + H + 0.35f, 0 }, Vector3{ 0.08f, 0.08f, 0.08f }, rgb( 214, 170, 60 ), 31, 0.0f );
+}
+
+/**
+ * @brief Four tyres on two axles.
+ * @param[out] m      where the triangles go
+ * @param[in]  half   half the track width
+ * @param[in]  r      tyre radius
+ * @param[in]  axles  the axles' z
+ * @param[in]  hub    rim colour
+ */
+void tyres( MeshBuilder &m, float half, float r, std::initializer_list<float> axles, Color hub = rgb( 170, 172, 178 ) )
+{
+    for( float z : axles )
+        for( float side : { -1.0f, 1.0f } )
+        {
+            m.tube( Vector3{ side * ( half - 0.26f ), r, z }, Vector3{ side * half, r, z }, r, 10, rgb( 20, 20, 22 ), Mat{}, true );
+            m.tube( Vector3{ side * ( half - 0.02f ), r, z }, Vector3{ side * ( half + 0.01f ), r, z }, r * 0.55f, 8, hub, Mat{ 0.0f, 0.6f }, true );
+        }
+}
+
+/**
+ * @brief Head and tail lights on a box-shaped vehicle.
+ * @param[out] m      where the triangles go
+ * @param[in]  half   half its width
+ * @param[in]  y      their height
+ * @param[in]  front  the front face's z
+ * @param[in]  back   the back face's z
+ */
+void lights( MeshBuilder &m, float half, float y, float front, float back )
+{
+    for( float side : { -1.0f, 1.0f } )
+    {
+        const float x0 = side * ( half - 0.1f ), x1 = side * ( half - 0.45f );
+        m.quad( Vector3{ x1, y, front + 0.01f }, Vector3{ x0, y, front + 0.01f }, Vector3{ x0, y + 0.22f, front + 0.01f }, Vector3{ x1, y + 0.22f, front + 0.01f },
+                rgb( 255, 246, 224 ), Mat{ 0.7f, 0.3f } );
+        m.quad( Vector3{ x0, y, back - 0.01f }, Vector3{ x1, y, back - 0.01f }, Vector3{ x1, y + 0.22f, back - 0.01f }, Vector3{ x0, y + 0.22f, back - 0.01f },
+                rgb( 255, 24, 24 ), Mat{ 0.5f, 0.3f } );
+    }
+}
+
+/**
+ * @brief A row of windows along both flanks of a box body.
+ * @param[out] m     where the triangles go
+ * @param[in]  half  half the width
+ * @param[in]  y0    sill
+ * @param[in]  y1    top
+ * @param[in]  z0    rear end
+ * @param[in]  z1    front end
+ * @param[in]  n     how many per side
+ */
+void sideWindows( MeshBuilder &m, float half, float y0, float y1, float z0, float z1, int n )
+{
+    const float step = ( z1 - z0 ) / static_cast<float>( n );
+    for( int i = 0; i < n; ++i )
+    {
+        const float a = z0 + step * ( static_cast<float>( i ) + 0.1f ), b = z0 + step * ( static_cast<float>( i ) + 0.9f );
+        m.quad( Vector3{ half + 0.01f, y0, a }, Vector3{ half + 0.01f, y0, b }, Vector3{ half + 0.01f, y1, b }, Vector3{ half + 0.01f, y1, a }, rgb( 22, 30, 44 ), Glass );
+        m.quad( Vector3{ -half - 0.01f, y0, b }, Vector3{ -half - 0.01f, y0, a }, Vector3{ -half - 0.01f, y1, a }, Vector3{ -half - 0.01f, y1, b }, rgb( 22, 30, 44 ), Glass );
+    }
+}
+
+/**
+ * @brief The fleet bit of a region.
+ * @param[in] f  the fleet
+ * @return its bit
+ */
+constexpr uint32_t bit( FleetE f )
+{
+    return 1u << static_cast<unsigned>( f );
+}
+
+} // namespace
+
+void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float cap, float lift )
+{
+    static const Color boards[5] = { rgb( 244, 244, 240 ), rgb( 255, 204, 0 ), rgb( 244, 244, 240 ), rgb( 0, 72, 160 ), rgb( 0, 112, 66 ) };
+    static const Color inks[5] = { rgb( 20, 20, 22 ), rgb( 20, 20, 22 ), rgb( 20, 20, 22 ), rgb( 250, 250, 250 ), rgb( 250, 250, 250 ) };
+    static const Color frames[5] = { rgb( 20, 20, 22 ), rgb( 20, 20, 22 ), rgb( 214, 30, 36 ), rgb( 250, 250, 250 ), rgb( 250, 250, 250 ) };
+    const int                                 s = std::clamp( style, 0, 4 );
+    std::vector<std::pair<Vector2, Vector2>> lines;
+    const float                               w = textStrokes( text, lines ) * cap;
+    const float                               hw = w * 0.5f + cap * 0.9f, h = cap * 2.2f, y = lift + h * 0.5f;
+    for( float x : { -hw * 0.7f, hw * 0.7f } ) out.box( Vector3{ x, lift * 0.5f + 0.1f, 0.04f }, Vector3{ 0.05f, lift * 0.5f + 0.1f, 0.05f }, rgb( 140, 142, 148 ) );
+    out.box( Vector3{ 0, y, 0 }, Vector3{ hw, h * 0.5f, 0.03f }, frames[s], Mat{ 0.2f, 0.0f } );
+    const float inset = s == 2 ? cap * 0.22f : cap * 0.1f;
+    out.quad( Vector3{ hw - inset, y - h * 0.5f + inset, -0.035f }, Vector3{ -hw + inset, y - h * 0.5f + inset, -0.035f },
+              Vector3{ -hw + inset, y + h * 0.5f - inset, -0.035f }, Vector3{ hw - inset, y + h * 0.5f - inset, -0.035f }, boards[s], Mat{ 0.22f, 0.0f } );
+    // The letters, read left to right by the driver (whose left is +x).
+    const float   thick = cap * 0.15f;
+    const Vector3 origin = { w * 0.5f, y - cap * 0.5f, -0.04f };
+    for( const auto &[a, b] : lines )
+    {
+        const Vector3 p = { origin.x - a.x * cap, origin.y + a.y * cap, origin.z }, q = { origin.x - b.x * cap, origin.y + b.y * cap, origin.z };
+        Vector3       d = Vector3Subtract( q, p );
+        const float   len = Vector3Length( d );
+        d = len > 1e-4f ? Vector3Scale( d, 1.0f / len ) : Vector3{ 1, 0, 0 };
+        const Vector3 n = { -d.y * thick * 0.5f, d.x * thick * 0.5f, 0 };
+        const Vector3 p0 = Vector3Subtract( Vector3Subtract( p, n ), Vector3Scale( d, thick * 0.4f ) ), p1 = Vector3Add( Vector3Subtract( q, n ), Vector3Scale( d, thick * 0.4f ) );
+        const Vector3 p2 = Vector3Add( Vector3Add( q, n ), Vector3Scale( d, thick * 0.4f ) ), p3 = Vector3Subtract( Vector3Add( p, n ), Vector3Scale( d, thick * 0.4f ) );
+        out.quad( p0, p1, p2, p3, inks[s], Mat{ 0.25f, 0.0f } );
+        out.quad( p3, p2, p1, p0, inks[s], Mat{ 0.25f, 0.0f } );
+    }
 }
 
 void Models::buildVehicles()
@@ -1352,6 +1626,298 @@ void Models::buildVehicles()
         vm.m_width = 2.5f;
         vm.m_truck = true;
         m_traffic.push_back( vm );
+    }
+
+    // ---- Regional vehicles ------------------------------------------------------------------------------------------
+    auto addVehicle = [&]( MeshBuilder &mb, float length, float width, uint32_t fleets, uint8_t where, float pace, bool truck )
+    {
+        VehicleModel vm;
+        vm.m_mesh = mb.upload();
+        vm.m_length = length;
+        vm.m_width = width;
+        vm.m_fleets = fleets;
+        vm.m_where = where;
+        vm.m_pace = pace;
+        vm.m_truck = truck;
+        m_traffic.push_back( vm );
+    };
+    const Color tyreHub = rgb( 170, 172, 178 );
+    { // Yellow cab.
+        MeshBuilder mb;
+        buildCar( mb, saloon, rgb( 250, 196, 18 ) );
+        mb.box( Vector3{ 0, 1.52f, -0.3f }, Vector3{ 0.32f, 0.1f, 0.12f }, rgb( 250, 250, 240 ), Mat{ 0.6f, 0.0f } );
+        for( float side : { -1.0f, 1.0f } ) mb.box( Vector3{ side * 0.895f, 0.62f, 0.0f }, Vector3{ 0.01f, 0.06f, 1.2f }, rgb( 20, 20, 20 ) );
+        addVehicle( mb, 4.6f, 1.78f, bit( FleetE::NORTH_AMERICA ), 1, 1.0f, false );
+    }
+    for( int v = 0; v < 2; ++v )
+    { // School bus, or a painted chicken bus.
+        MeshBuilder mb;
+        const Color body = v ? rgb( 40, 120, 200 ) : rgb( 246, 178, 0 );
+        mb.box( Vector3{ 0, 1.75f, -0.8f }, Vector3{ 1.2f, 1.25f, 4.6f }, body, Mat{ 0.0f, 0.4f } );
+        mb.box( Vector3{ 0, 1.0f, 4.45f }, Vector3{ 1.1f, 0.5f, 0.65f }, body, Mat{ 0.0f, 0.4f } );
+        mb.quad( Vector3{ 1.0f, 2.0f, 3.81f }, Vector3{ -1.0f, 2.0f, 3.81f }, Vector3{ -1.0f, 2.75f, 3.81f }, Vector3{ 1.0f, 2.75f, 3.81f }, rgb( 22, 30, 44 ), Glass );
+        sideWindows( mb, 1.2f, 1.9f, 2.6f, -5.0f, 3.4f, 9 );
+        if( v )
+            for( int k = 0; k < 4; ++k )
+                for( float side : { -1.0f, 1.0f } )
+                    mb.box( Vector3{ side * 1.205f, 1.0f + 0.18f * k, -0.8f }, Vector3{ 0.005f, 0.07f, 4.5f },
+                            k % 2 ? rgb( 250, 210, 30 ) : k == 0 ? rgb( 220, 40, 40 ) : rgb( 60, 180, 80 ) );
+        else
+            for( float side : { -1.0f, 1.0f } ) mb.box( Vector3{ side * 1.205f, 1.45f, -0.8f }, Vector3{ 0.005f, 0.05f, 4.5f }, rgb( 20, 20, 20 ) );
+        tyres( mb, 1.18f, 0.5f, { 3.6f, -3.4f }, tyreHub );
+        lights( mb, 1.1f, 0.85f, 5.1f, -5.4f );
+        addVehicle( mb, 10.6f, 2.4f, v ? bit( FleetE::LATIN ) : bit( FleetE::NORTH_AMERICA ), v ? 2 : 0, 0.8f, true );
+    }
+    const Color pickups[4] = { rgb( 180, 30, 30 ), rgb( 236, 236, 232 ), rgb( 150, 154, 160 ), rgb( 36, 40, 48 ) };
+    for( int v = 0; v < 4; ++v )
+    { // Pickup (a ute down under).
+        MeshBuilder mb;
+        const Color c = pickups[v];
+        mb.box( Vector3{ 0, 0.85f, 1.55f }, Vector3{ 0.95f, 0.4f, 0.95f }, c, Mat{ 0.0f, 0.5f } );
+        mb.box( Vector3{ 0, 1.35f, 0.25f }, Vector3{ 0.93f, 0.6f, 0.75f }, c, Mat{ 0.0f, 0.5f } );
+        mb.quad( Vector3{ 0.85f, 1.25f, 1.01f }, Vector3{ -0.85f, 1.25f, 1.01f }, Vector3{ -0.8f, 1.85f, 0.95f }, Vector3{ 0.8f, 1.85f, 0.95f }, rgb( 22, 30, 44 ), Glass );
+        sideWindows( mb, 0.93f, 1.3f, 1.8f, -0.4f, 0.9f, 1 );
+        mb.box( Vector3{ 0, 0.6f, -1.3f }, Vector3{ 0.95f, 0.15f, 1.0f }, scaleColor( c, 0.6f ) );
+        for( float side : { -1.0f, 1.0f } ) mb.box( Vector3{ side * 0.9f, 1.0f, -1.3f }, Vector3{ 0.05f, 0.3f, 1.0f }, c, Mat{ 0.0f, 0.5f } );
+        mb.box( Vector3{ 0, 1.0f, -2.28f }, Vector3{ 0.95f, 0.3f, 0.04f }, c, Mat{ 0.0f, 0.5f } );
+        tyres( mb, 0.98f, 0.4f, { 1.6f, -1.4f }, tyreHub );
+        lights( mb, 0.95f, 0.95f, 2.5f, -2.32f );
+        addVehicle( mb, 5.0f, 1.95f, bit( FleetE::NORTH_AMERICA ) | bit( FleetE::LATIN ) | bit( FleetE::AFRICA ) | bit( FleetE::ARABIA ) | bit( FleetE::OCEANIA ) |
+                                         bit( FleetE::ISLANDS ),
+                    2, 1.0f, false );
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Long-nose big rig, or a road train of three trailers.
+        MeshBuilder mb;
+        const Color cab = v ? rgb( 200, 60, 30 ) : rgb( 30, 70, 150 );
+        mb.box( Vector3{ 0, 1.3f, 5.6f }, Vector3{ 1.15f, 0.65f, 1.1f }, cab, Mat{ 0.0f, 0.5f } );
+        mb.box( Vector3{ 0, 2.0f, 3.9f }, Vector3{ 1.25f, 1.3f, 0.75f }, cab, Mat{ 0.0f, 0.5f } );
+        mb.quad( Vector3{ 1.1f, 2.4f, 4.66f }, Vector3{ -1.1f, 2.4f, 4.66f }, Vector3{ -1.1f, 3.0f, 4.66f }, Vector3{ 1.1f, 3.0f, 4.66f }, rgb( 22, 30, 44 ), Glass );
+        mb.box( Vector3{ 0, 1.05f, 6.72f }, Vector3{ 1.0f, 0.5f, 0.05f }, rgb( 200, 200, 204 ), Mat{ 0.0f, 0.7f } );
+        for( float side : { -1.0f, 1.0f } ) mb.cylinder( Vector3{ side * 1.1f, 2.6f, 3.1f }, 0.1f, 0.1f, 1.6f, 6, rgb( 200, 200, 204 ), Mat{ 0.0f, 0.7f } );
+        const int   loads = v ? 3 : 1;
+        float       z = 2.9f;
+        for( int k = 0; k < loads; ++k )
+        {
+            const float len = v ? 9.5f : 13.0f;
+            const Color box = v ? ( k % 2 ? rgb( 210, 206, 196 ) : rgb( 190, 180, 160 ) ) : rgb( 214, 218, 224 );
+            mb.box( Vector3{ 0, 2.35f, z - len * 0.5f }, Vector3{ 1.25f, 1.55f, len * 0.5f }, box, Mat{ 0.0f, 0.4f } );
+            tyres( mb, 1.2f, 0.5f, { z - len + 1.2f, z - len + 2.4f }, tyreHub );
+            z -= len + 0.8f;
+        }
+        tyres( mb, 1.2f, 0.5f, { 5.5f, 2.2f }, tyreHub );
+        lights( mb, 1.1f, 0.9f, 6.75f, z + 0.79f );
+        const float length = 6.7f - ( z + 0.8f );
+        addVehicle( mb, length, 2.5f, v ? bit( FleetE::OCEANIA ) : bit( FleetE::NORTH_AMERICA ), 2, v ? 0.85f : 0.9f, true );
+    }
+    { // Black cab.
+        MeshBuilder mb;
+        CarShape cab = saloon;
+        for( CabinStation &c : cab.m_cabin ) c.m_yT += 0.15f;
+        buildCar( mb, cab, rgb( 18, 18, 22 ) );
+        mb.box( Vector3{ 0, 1.68f, -0.2f }, Vector3{ 0.25f, 0.08f, 0.1f }, rgb( 255, 190, 40 ), Mat{ 0.8f, 0.0f } );
+        addVehicle( mb, 4.6f, 1.78f, bit( FleetE::BRITISH ), 1, 1.0f, false );
+    }
+    { // Red double-decker.
+        MeshBuilder mb;
+        const Color red = rgb( 200, 20, 28 );
+        mb.box( Vector3{ 0, 2.35f, 0 }, Vector3{ 1.25f, 2.0f, 5.4f }, red, Mat{ 0.0f, 0.4f } );
+        sideWindows( mb, 1.25f, 1.5f, 2.3f, -5.0f, 4.8f, 7 );
+        sideWindows( mb, 1.25f, 3.0f, 3.9f, -5.0f, 5.0f, 7 );
+        for( float y : { 1.5f, 3.0f } )
+            mb.quad( Vector3{ 1.1f, y, 5.41f }, Vector3{ -1.1f, y, 5.41f }, Vector3{ -1.1f, y + 0.8f, 5.41f }, Vector3{ 1.1f, y + 0.8f, 5.41f }, rgb( 22, 30, 44 ), Glass );
+        mb.box( Vector3{ 0, 4.36f, 4.0f }, Vector3{ 0.9f, 0.08f, 0.3f }, rgb( 20, 20, 20 ) );
+        tyres( mb, 1.2f, 0.52f, { 3.8f, -3.2f }, tyreHub );
+        lights( mb, 1.15f, 0.7f, 5.4f, -5.4f );
+        addVehicle( mb, 10.9f, 2.5f, bit( FleetE::BRITISH ), 0, 0.8f, true );
+    }
+    const Color beetles[3] = { rgb( 60, 160, 70 ), rgb( 236, 236, 228 ), rgb( 70, 130, 200 ) };
+    for( int v = 0; v < 3; ++v )
+    { // Beetle.
+        MeshBuilder mb;
+        CarShape    bug;
+        bug.m_body = { { -1.95f, 0.78f, 0.32f, 0.86f }, { -1.6f, 0.8f, 0.28f, 1.0f }, { 0.9f, 0.8f, 0.28f, 0.98f }, { 1.6f, 0.76f, 0.32f, 0.8f },
+                       { 1.95f, 0.6f, 0.4f, 0.66f } };
+        bug.m_cabin = { { -1.6f, 0.7f, 0.98f, 0.7f, 0.98f }, { -1.1f, 0.72f, 1.0f, 0.55f, 1.42f }, { 0.2f, 0.72f, 0.98f, 0.55f, 1.42f }, { 0.75f, 0.72f, 0.96f, 0.72f, 0.96f } };
+        bug.m_wheelFront = 1.3f;
+        bug.m_wheelRear = -1.2f;
+        bug.m_wheelR = 0.33f;
+        bug.m_sideGlass = true;
+        bug.m_wing = 0.0f;
+        buildCar( mb, bug, beetles[v] );
+        addVehicle( mb, 4.0f, 1.6f, bit( FleetE::LATIN ) | ( v == 2 ? bit( FleetE::EUROPE ) : 0u ), 0, 0.85f, false );
+    }
+    const Color minibuses[3] = { rgb( 250, 210, 30 ), rgb( 40, 160, 120 ), rgb( 230, 70, 140 ) };
+    for( int v = 0; v < 3; ++v )
+    { // Minibus: matatu, marshrutka, island bus.
+        MeshBuilder mb;
+        buildCar( mb, van, minibuses[v] );
+        for( float side : { -1.0f, 1.0f } )
+            for( int k = 0; k < 3; ++k )
+                mb.box( Vector3{ side * 0.955f, 0.75f + 0.12f * k, 0.0f }, Vector3{ 0.005f, 0.04f, 2.0f },
+                        k == 1 ? rgb( 250, 250, 250 ) : scaleColor( minibuses[( v + 1 ) % 3], 0.9f ) );
+        mb.box( Vector3{ 0, 2.12f, -0.4f }, Vector3{ 0.8f, 0.06f, 1.2f }, rgb( 60, 60, 64 ) );
+        addVehicle( mb, 4.9f, 1.9f, v == 0 ? bit( FleetE::EASTERN ) | bit( FleetE::AFRICA ) : v == 1 ? bit( FleetE::AFRICA ) | bit( FleetE::SOUTHEAST_ASIA ) : bit( FleetE::ISLANDS ) | bit( FleetE::LATIN ),
+                    0, 0.95f, false );
+    }
+    const Color rickshaws[3] = { rgb( 250, 200, 20 ), rgb( 40, 140, 70 ), rgb( 30, 100, 200 ) };
+    for( int v = 0; v < 3; ++v )
+    { // Auto rickshaw, tuk-tuk.
+        MeshBuilder mb;
+        const Color c = rickshaws[v];
+        mb.box( Vector3{ 0, 0.55f, 0.0f }, Vector3{ 0.65f, 0.25f, 1.25f }, rgb( 30, 30, 34 ) );
+        mb.box( Vector3{ 0, 1.15f, -0.3f }, Vector3{ 0.68f, 0.35f, 0.8f }, c, Mat{ 0.0f, 0.4f } );
+        mb.taperedBox( Vector3{ 0, 0.8f, 0.85f }, Vector2{ 0.45f, 0.3f }, Vector3{ 0, 1.5f, 0.75f }, Vector2{ 0.35f, 0.2f }, c, Mat{ 0.0f, 0.4f } );
+        mb.box( Vector3{ 0, 1.85f, -0.15f }, Vector3{ 0.72f, 0.06f, 1.0f }, v == 0 ? rgb( 40, 140, 70 ) : rgb( 30, 30, 34 ) );
+        for( float side : { -1.0f, 1.0f } ) mb.box( Vector3{ side * 0.62f, 1.55f, 0.75f }, Vector3{ 0.03f, 0.3f, 0.03f }, rgb( 30, 30, 34 ) );
+        mb.quad( Vector3{ 0.55f, 1.35f, 0.86f }, Vector3{ -0.55f, 1.35f, 0.86f }, Vector3{ -0.55f, 1.78f, 0.86f }, Vector3{ 0.55f, 1.78f, 0.86f }, rgb( 22, 30, 44 ), Glass );
+        mb.tube( Vector3{ -0.1f, 0.28f, 1.1f }, Vector3{ 0.1f, 0.28f, 1.1f }, 0.28f, 8, rgb( 20, 20, 22 ), Mat{}, true );
+        for( float side : { -1.0f, 1.0f } )
+            mb.tube( Vector3{ side * 0.48f, 0.28f, -0.75f }, Vector3{ side * 0.68f, 0.28f, -0.75f }, 0.28f, 8, rgb( 20, 20, 22 ), Mat{}, true );
+        lights( mb, 0.6f, 0.75f, 1.26f, -1.26f );
+        addVehicle( mb, 2.6f, 1.4f, bit( FleetE::SOUTH_ASIA ) | bit( FleetE::SOUTHEAST_ASIA ), 0, 0.55f, false );
+    }
+    { // Decorated truck.
+        MeshBuilder mb;
+        const Color colours[5] = { rgb( 230, 40, 40 ), rgb( 250, 200, 20 ), rgb( 40, 160, 80 ), rgb( 40, 100, 220 ), rgb( 240, 120, 30 ) };
+        mb.box( Vector3{ 0, 1.6f, 3.0f }, Vector3{ 1.15f, 1.0f, 0.9f }, colours[0], Mat{ 0.0f, 0.5f } );
+        mb.taperedBox( Vector3{ 0, 2.6f, 3.3f }, Vector2{ 1.15f, 0.6f }, Vector3{ 0, 3.6f, 3.6f }, Vector2{ 1.0f, 0.3f }, colours[1], Mat{ 0.0f, 0.5f } );
+        mb.quad( Vector3{ 1.0f, 1.9f, 3.91f }, Vector3{ -1.0f, 1.9f, 3.91f }, Vector3{ -1.0f, 2.4f, 3.91f }, Vector3{ 1.0f, 2.4f, 3.91f }, rgb( 22, 30, 44 ), Glass );
+        mb.box( Vector3{ 0, 1.9f, -1.0f }, Vector3{ 1.25f, 1.2f, 3.0f }, colours[3] );
+        for( int k = 0; k < 10; ++k )
+            for( float side : { -1.0f, 1.0f } )
+                mb.box( Vector3{ side * 1.26f, 1.1f + 0.16f * static_cast<float>( k ), -1.0f }, Vector3{ 0.005f, 0.06f, 2.9f }, colours[( k + 1 ) % 5], Mat{ 0.2f, 0.4f } );
+        tyres( mb, 1.2f, 0.5f, { 2.9f, -2.6f }, tyreHub );
+        lights( mb, 1.1f, 0.85f, 3.95f, -4.05f );
+        addVehicle( mb, 8.0f, 2.5f, bit( FleetE::SOUTH_ASIA ), 0, 0.75f, true );
+    }
+    const Color scooters[3] = { rgb( 220, 40, 40 ), rgb( 240, 240, 236 ), rgb( 50, 120, 200 ) };
+    for( int v = 0; v < 3; ++v )
+    { // Scooter with its rider.
+        MeshBuilder mb;
+        for( float z : { 0.62f, -0.6f } ) mb.tube( Vector3{ -0.06f, 0.28f, z }, Vector3{ 0.06f, 0.28f, z }, 0.28f, 8, rgb( 20, 20, 22 ), Mat{}, true );
+        mb.box( Vector3{ 0, 0.55f, -0.2f }, Vector3{ 0.2f, 0.2f, 0.55f }, scooters[v], Mat{ 0.0f, 0.5f } );
+        mb.box( Vector3{ 0, 0.85f, 0.55f }, Vector3{ 0.18f, 0.35f, 0.08f }, scooters[v], Mat{ 0.0f, 0.5f } );
+        mb.tube( Vector3{ -0.3f, 1.2f, 0.55f }, Vector3{ 0.3f, 1.2f, 0.55f }, 0.025f, 4, rgb( 40, 40, 44 ) );
+        const Color shirt = v == 0 ? rgb( 240, 240, 236 ) : v == 1 ? rgb( 60, 90, 140 ) : rgb( 200, 80, 40 );
+        mb.box( Vector3{ 0, 1.15f, -0.25f }, Vector3{ 0.2f, 0.32f, 0.12f }, shirt );
+        mb.blob( Vector3{ 0, 1.65f, -0.2f }, Vector3{ 0.14f, 0.15f, 0.15f }, v == 1 ? rgb( 230, 230, 230 ) : rgb( 30, 30, 34 ), 41 + v, 0.0f );
+        for( float side : { -1.0f, 1.0f } )
+        {
+            mb.tube( Vector3{ side * 0.12f, 0.85f, -0.25f }, Vector3{ side * 0.15f, 0.6f, 0.15f }, 0.06f, 4, rgb( 50, 60, 80 ) );
+            mb.tube( Vector3{ side * 0.18f, 1.35f, -0.2f }, Vector3{ side * 0.28f, 1.2f, 0.5f }, 0.05f, 4, shirt );
+        }
+        mb.quad( Vector3{ 0.08f, 0.85f, 0.64f }, Vector3{ -0.08f, 0.85f, 0.64f }, Vector3{ -0.08f, 0.95f, 0.64f }, Vector3{ 0.08f, 0.95f, 0.64f }, rgb( 255, 246, 224 ), Mat{ 0.7f, 0.3f } );
+        mb.quad( Vector3{ -0.08f, 0.6f, -0.76f }, Vector3{ 0.08f, 0.6f, -0.76f }, Vector3{ 0.08f, 0.68f, -0.76f }, Vector3{ -0.08f, 0.68f, -0.76f }, rgb( 255, 24, 24 ), Mat{ 0.5f, 0.3f } );
+        addVehicle( mb, 1.9f, 0.8f, bit( FleetE::SOUTHEAST_ASIA ) | bit( FleetE::EAST_ASIA ) | bit( FleetE::SOUTH_ASIA ), 0, 0.7f, false );
+    }
+    { // Jeepney.
+        MeshBuilder mb;
+        const Color chrome = rgb( 210, 212, 218 );
+        mb.box( Vector3{ 0, 1.0f, 2.3f }, Vector3{ 0.85f, 0.4f, 0.8f }, chrome, Mat{ 0.0f, 0.7f } );
+        mb.box( Vector3{ 0, 1.55f, -0.9f }, Vector3{ 1.0f, 0.85f, 2.6f }, rgb( 236, 60, 50 ), Mat{ 0.0f, 0.5f } );
+        mb.box( Vector3{ 0, 2.45f, -0.9f }, Vector3{ 1.02f, 0.06f, 2.7f }, rgb( 250, 210, 30 ) );
+        sideWindows( mb, 1.0f, 1.6f, 2.15f, -3.3f, 1.4f, 6 );
+        for( float side : { -1.0f, 1.0f } ) mb.box( Vector3{ side * 1.005f, 1.1f, -0.9f }, Vector3{ 0.005f, 0.1f, 2.5f }, rgb( 40, 100, 220 ) );
+        mb.blob( Vector3{ 0, 1.55f, 3.0f }, Vector3{ 0.3f, 0.3f, 0.12f }, chrome, 51, 0.0f, Mat{ 0.0f, 0.8f } );
+        tyres( mb, 0.98f, 0.38f, { 2.3f, -2.4f }, chrome );
+        lights( mb, 0.85f, 1.0f, 3.1f, -3.52f );
+        addVehicle( mb, 6.6f, 2.0f, bit( FleetE::SOUTHEAST_ASIA ), 0, 0.85f, false );
+    }
+    { // Kei truck.
+        MeshBuilder mb;
+        mb.box( Vector3{ 0, 1.05f, 1.2f }, Vector3{ 0.72f, 0.65f, 0.55f }, rgb( 240, 240, 236 ), Mat{ 0.0f, 0.5f } );
+        mb.quad( Vector3{ 0.65f, 1.15f, 1.76f }, Vector3{ -0.65f, 1.15f, 1.76f }, Vector3{ -0.65f, 1.6f, 1.76f }, Vector3{ 0.65f, 1.6f, 1.76f }, rgb( 22, 30, 44 ), Glass );
+        mb.box( Vector3{ 0, 0.6f, -0.55f }, Vector3{ 0.72f, 0.1f, 1.2f }, rgb( 200, 200, 196 ) );
+        for( float side : { -1.0f, 1.0f } ) mb.box( Vector3{ side * 0.7f, 0.82f, -0.55f }, Vector3{ 0.02f, 0.14f, 1.2f }, rgb( 200, 200, 196 ) );
+        tyres( mb, 0.72f, 0.28f, { 1.2f, -1.2f }, tyreHub );
+        lights( mb, 0.7f, 0.75f, 1.76f, -1.76f );
+        addVehicle( mb, 3.4f, 1.48f, bit( FleetE::EAST_ASIA ), 0, 0.85f, false );
+    }
+    { // White land cruiser.
+        MeshBuilder mb;
+        buildCar( mb, van, rgb( 242, 242, 238 ) );
+        mb.box( Vector3{ 0, 2.1f, -0.2f }, Vector3{ 0.85f, 0.05f, 1.3f }, rgb( 60, 60, 64 ) );
+        mb.box( Vector3{ 0, 1.0f, -2.5f }, Vector3{ 0.3f, 0.3f, 0.06f }, rgb( 40, 40, 44 ) );
+        addVehicle( mb, 4.9f, 1.9f, bit( FleetE::ARABIA ) | bit( FleetE::AFRICA ), 0, 1.05f, false );
+    }
+    const Color ladas[3] = { rgb( 200, 190, 160 ), rgb( 150, 40, 40 ), rgb( 70, 110, 90 ) };
+    for( int v = 0; v < 3; ++v )
+    { // Boxy saloon of the east.
+        MeshBuilder mb;
+        CarShape    box = saloon;
+        for( Station &s : box.m_body ) s.m_hw *= 0.94f;
+        box.m_body.front().m_yt = box.m_body.back().m_yt = 0.86f;
+        buildCar( mb, box, ladas[v] );
+        addVehicle( mb, 4.2f, 1.62f, bit( FleetE::EASTERN ), 0, 0.85f, false );
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Tractor.
+        MeshBuilder mb;
+        const Color body = v ? rgb( 200, 30, 30 ) : rgb( 40, 120, 50 );
+        mb.box( Vector3{ 0, 1.15f, 0.9f }, Vector3{ 0.45f, 0.45f, 0.9f }, body, Mat{ 0.0f, 0.4f } );
+        mb.box( Vector3{ 0, 1.95f, -0.45f }, Vector3{ 0.7f, 0.85f, 0.6f }, rgb( 22, 30, 44 ), Glass );
+        mb.box( Vector3{ 0, 2.85f, -0.45f }, Vector3{ 0.78f, 0.06f, 0.7f }, body );
+        for( float side : { -1.0f, 1.0f } )
+        {
+            mb.tube( Vector3{ side * 0.55f, 0.8f, -0.6f }, Vector3{ side * 1.0f, 0.8f, -0.6f }, 0.8f, 12, rgb( 20, 20, 22 ), Mat{}, true );
+            mb.tube( Vector3{ side * 0.5f, 0.45f, 1.45f }, Vector3{ side * 0.78f, 0.45f, 1.45f }, 0.45f, 10, rgb( 20, 20, 22 ), Mat{}, true );
+        }
+        mb.cylinder( Vector3{ 0.25f, 1.6f, 1.4f }, 0.06f, 0.06f, 1.0f, 6, rgb( 40, 40, 44 ) );
+        lights( mb, 0.45f, 1.2f, 1.81f, -1.06f );
+        addVehicle( mb, 3.6f, 2.0f, bit( FleetE::EUROPE ) | bit( FleetE::EASTERN ), 2, 0.38f, false );
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Camper van in two tones.
+        MeshBuilder mb;
+        buildCar( mb, van, v ? rgb( 230, 120, 40 ) : rgb( 70, 150, 190 ) );
+        for( float side : { -1.0f, 1.0f } ) mb.box( Vector3{ side * 0.955f, 1.6f, 0.0f }, Vector3{ 0.005f, 0.5f, 2.3f }, rgb( 244, 242, 234 ) );
+        mb.box( Vector3{ 0, 2.12f, -0.6f }, Vector3{ 0.8f, 0.1f, 1.4f }, rgb( 244, 242, 234 ) );
+        addVehicle( mb, 4.9f, 1.9f, bit( FleetE::EUROPE ) | bit( FleetE::OCEANIA ), 2, 0.9f, false );
+    }
+
+    // ---- Animals that cross the road ---------------------------------------------------------------------------
+    const std::pair<PropKindE, Vector2> beasts[] = { { PropKindE::COW, { 2.2f, 0.8f } },      { PropKindE::SHEEP, { 1.3f, 0.6f } },
+                                                     { PropKindE::HORSE, { 2.2f, 0.7f } },    { PropKindE::CAMEL, { 2.6f, 0.9f } },
+                                                     { PropKindE::ELEPHANT, { 4.5f, 2.0f } }, { PropKindE::GIRAFFE, { 3.0f, 1.2f } },
+                                                     { PropKindE::ZEBRA, { 2.2f, 0.7f } },    { PropKindE::KANGAROO, { 1.4f, 0.6f } },
+                                                     { PropKindE::LLAMA, { 1.6f, 0.6f } },    { PropKindE::BISON, { 3.0f, 1.2f } },
+                                                     { PropKindE::MOOSE, { 3.0f, 1.0f } },    { PropKindE::REINDEER, { 1.8f, 0.7f } },
+                                                     { PropKindE::YAK, { 2.4f, 1.0f } } };
+    for( const auto &[kind, size] : beasts )
+    {
+        const MeshBuilder &src = prop( kind, 0 );
+        if( src.triangleCount() == 0 ) continue;
+        MeshBuilder mb;
+        mb.append( src, Vector3{ 0, 0, 0 }, 0.0f, 1.0f );
+        VehicleModel vm;
+        vm.m_mesh = mb.upload();
+        vm.m_length = size.x;
+        vm.m_width = size.y;
+        vm.m_animal = kind;
+        vm.m_fleets = ~0u;
+        m_traffic.push_back( vm );
+    }
+
+    // ---- Flags and the border post -----------------------------------------------------------------------------
+    m_flags.resize( static_cast<size_t>( countryTableSize() ) );
+    for( int c = 0; c < countryTableSize(); ++c ) buildFlag( m_flags[static_cast<size_t>( c )], countryAt( c ).m_flag );
+    {
+        MeshBuilder &m = m_borderPost;
+        m.box( Vector3{ 0, 1.3f, 0 }, Vector3{ 1.2f, 1.3f, 1.4f }, rgb( 236, 236, 230 ) );
+        m.box( Vector3{ 0, 2.75f, 0 }, Vector3{ 1.5f, 0.15f, 1.7f }, rgb( 40, 70, 140 ) );
+        m.quad( Vector3{ 1.21f, 1.2f, -0.9f }, Vector3{ 1.21f, 1.2f, 0.9f }, Vector3{ 1.21f, 2.1f, 0.9f }, Vector3{ 1.21f, 2.1f, -0.9f }, rgb( 30, 40, 60 ), Glass );
+        // The canopy over the lane, and the barrier, raised.
+        for( float z : { -2.4f, 2.4f } ) m.box( Vector3{ 1.6f, 2.6f, z }, Vector3{ 0.12f, 2.6f, 0.12f }, rgb( 200, 202, 206 ) );
+        m.box( Vector3{ 5.0f, 5.3f, 0 }, Vector3{ 3.6f, 0.2f, 2.8f }, rgb( 236, 236, 230 ) );
+        m.box( Vector3{ 5.0f, 5.05f, 0 }, Vector3{ 3.6f, 0.06f, 2.8f }, rgb( 255, 240, 200 ), Mat{ 0.8f, 0.0f } );
+        m.box( Vector3{ 1.5f, 0.55f, -3.2f }, Vector3{ 0.18f, 0.55f, 0.18f }, rgb( 60, 60, 64 ) );
+        for( int k = 0; k < 6; ++k )
+        {
+            const float a = 1.25f, t0 = 0.6f * k, t1 = t0 + 0.6f;
+            const Vector3 p0 = { 1.5f + std::cos( a ) * t0, 1.0f + std::sin( a ) * t0, -3.2f }, p1 = { 1.5f + std::cos( a ) * t1, 1.0f + std::sin( a ) * t1, -3.2f };
+            m.tube( p0, p1, 0.06f, 5, k % 2 ? rgb( 250, 250, 250 ) : rgb( 210, 30, 30 ) );
+        }
     }
 
     { // Cone.
