@@ -149,6 +149,7 @@ place BORNEO | BORNEO | MALAYSIA | HAZE | SABAH
     c 7A5A3A 6A5030
 
 place SINGAPORE | SINGAPORE | SINGAPORE | TROPICAL
+    pollution 32
     land 5E9A48 569040 6A8A5A
     drive 3 1.2 1.0 1
     bends 0.35 0.3 0.1
@@ -169,6 +170,7 @@ place SINGAPORE | SINGAPORE | SINGAPORE | TROPICAL
     c 3E8A34
 
 place BALI | BALI | INDONESIA | TROPICAL | BALI
+    pollution 79
     island BALI
     land 6AAE4A 60A244 5E9A4E
     hills 30 8 8
@@ -217,6 +219,7 @@ place CHOCOLATE_HILLS | CHOCOLATE HILLS | PHILIPPINES | TROPICAL | BOHOL
     p BANANA 0.04 3 40
 
 place BANGKOK | BANGKOK | THAILAND | NIGHT | BANGKOK
+    pollution 78
     land 5A6A58 526250 4A5A4A
     drive 4 1.7 0.96 0
     bends 0.3 0.3 0.1
@@ -251,6 +254,7 @@ place HA_GIANG | HA GIANG LOOP | VIETNAM | MIST | HA GIANG
     p BANANA 0.05 3 40
 
 place KUALA_LUMPUR | KUALA LUMPUR | MALAYSIA | HAZE | KUALA LUMPUR
+    pollution 65
     land 5E8A48 568040 5A7A4E
     drive 4 1.5 0.96 1
     bends 0.35 0.35 0.2

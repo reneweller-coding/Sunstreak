@@ -465,6 +465,17 @@ public:
     }
 
     /**
+     * @brief Sets how dirty the air is, instead of as its country says (a city's own index).
+     * @param[in] index  Numbeo's pollution index, 0..100
+     * @return this
+     */
+    W &pollution( float index )
+    {
+        m_d.m_pollution = index;
+        return *this;
+    }
+
+    /**
      * @brief Lays out fields.
      * @param[in] share  0..1 of the land
      * @param[in] a      crop one

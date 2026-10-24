@@ -22,6 +22,7 @@ place ROUTE_66 | ROUTE 66 | USA | GOLDEN | ARIZONA
     c D8D8D8
 
 place LAS_VEGAS | LAS VEGAS | USA | NIGHT | NEVADA
+    pollution 52
     land 3A3028 362C24 302820
     road 3A3A40
     drive 4 1.4 1.0 1
@@ -221,6 +222,7 @@ place SMOKY_MOUNTAINS | SMOKY MOUNTAINS | USA | HAZE | TENNESSEE
     c 8A6A4A 4A4A50
 
 place NEW_YORK | NEW YORK | USA | MORNING | NEW YORK
+    pollution 58
     land 6A7A6A 627262 5A6A5A
     drive 4 1.5 0.98 1
     bends 0.3 0.3 0.15
@@ -320,6 +322,7 @@ place DENALI | DENALI | USA | ARCTIC | ALASKA
     p MOOSE 0.02 10 100
 
 place LA_FREEWAY | LOS ANGELES | USA | HAZE | CALIFORNIA
+    pollution 68
     fog 0.0022 D8C8B0
     land 8A9A60 809058 9A9470
     drive 4 1.8 1.0 0
@@ -365,6 +368,7 @@ place NAPA | NAPA VALLEY | USA | GOLDEN | CALIFORNIA
     c E8DCC0 C85A3A
 
 place SAN_FRANCISCO | SAN FRANCISCO | USA | MIST | CALIFORNIA
+    pollution 48
     fog 0.003 E0E4E8
     sea 0 1 -8
     water 3A5A6A
@@ -404,6 +408,7 @@ place OREGON_COAST | OREGON COAST | USA | OVERCAST | OREGON
     c C8B898 4A4A50
 
 place SEATTLE | SEATTLE | USA | RAIN | WASHINGTON
+    pollution 39
     rain 0.3
     sea 0 1 -4
     water 2A4A5A
@@ -537,6 +542,7 @@ place MOUNT_RUSHMORE | BLACK HILLS | USA | MORNING | SOUTH DAKOTA
     landmark RUSHMORE 200 280
 
 place CHICAGO | CHICAGO | USA | OVERCAST | ILLINOIS
+    pollution 50
     sea 1 0 -3
     water 3A6A7A
     land 6A7A62 627258 5A6A5A
@@ -602,6 +608,7 @@ place BLUE_RIDGE | BLUE RIDGE PARKWAY | USA | HAZE | VIRGINIA
     c E88AB0
 
 place WASHINGTON_DC | WASHINGTON | USA | MORNING | DISTRICT OF COLUMBIA
+    pollution 42
     land 6A9A50 609048 6A8A5A
     drive 3 1.2 1.0 1
     bends 0.25 0.3 0.1
@@ -723,6 +730,7 @@ place NIAGARA | NIAGARA FALLS | CANADA | MORNING | ONTARIO
     c 5A8A40
 
 place TORONTO | TORONTO | CANADA | MORNING | ONTARIO
+    pollution 38
     sea 1 0 -3
     water 2A6A8A
     land 6A7A62 627258 5A6A5A
@@ -746,6 +754,7 @@ place TORONTO | TORONTO | CANADA | MORNING | ONTARIO
     c F2F2EE 3A3A40
 
 place QUEBEC_CITY | QUEBEC CITY | CANADA | WINTER | QUEBEC
+    pollution 36
     cobbles
     snow 0.4
     sea 0 1 -20

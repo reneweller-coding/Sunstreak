@@ -37,6 +37,7 @@ place LYCIAN_COAST | LYCIAN COAST | TURKEY | NOON | MEDITERRANEAN
     floating
 
 place ISTANBUL | ISTANBUL | TURKEY | GOLDEN | MARMARA
+    pollution 67
     sea 0 1 -6
     water 2A5A80
     land 7A8A6A 728262 8A8A7A

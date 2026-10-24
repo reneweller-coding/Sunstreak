@@ -276,6 +276,7 @@ place SAKHALIN | SAKHALIN | RUSSIA | MIST | FAR EAST
     p LIGHTHOUSE 0.003 30 120
 
 place ANKARA | ANKARA | TURKEY | NOON | CENTRAL ANATOLIA
+    pollution 64
     land A8A070 9C9468 A89A70
     drive 4 1.4 0.98 11
     bends 0.25 0.25 0.1
@@ -383,6 +384,7 @@ place ELQUI | ELQUI VALLEY | CHILE | NIGHT | COQUIMBO
     landmark OBSERVATORY 200 300 1.2
 
 place SANTIAGO_CL | SANTIAGO | CHILE | MORNING | SANTIAGO
+    pollution 71
     land 8A9A60 7E8E58 8A8A6A
     ranges 6A7080 F2F4F8 15
     drive 4 1.4 0.98 15
@@ -448,6 +450,7 @@ place HOI_AN | HOI AN | VIETNAM | DUSK | QUANG NAM
     floating
 
 place LAHORE | LAHORE | PAKISTAN | HAZE | PUNJAB
+    pollution 79
     fog 0.0026 D8C8A8
     land 8A9A68 7E8E60 8A8A70
     drive 4 1.6 0.95 10
@@ -487,6 +490,7 @@ place PUDUCHERRY | PUDUCHERRY | INDIA | NOON | PUDUCHERRY
     c F2F0EA 8A8A90
 
 place CHANDIGARH | CHANDIGARH | INDIA | MORNING | CHANDIGARH
+    pollution 51
     land 7A9A50 709048 7A8A58
     drive 4 1.2 0.98 10
     bends 0.15 0.2 0.05

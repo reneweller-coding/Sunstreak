@@ -452,6 +452,33 @@ int main()
                        countryInfo( "THAILAND" ).m_lines == 1 && countryInfo( "UAE" ).m_lines == 3,
                    "the roads of the countries" );
         }
+        { // Dirty air: Delhi's own index, Helsinki's, the countries' and the estimated ones; smog and litter where it is high.
+            auto place = [&]( const char *id ) -> const BiomeDef & { return biomeDef( static_cast<BiomeE>( std::max( 0, biomeId( id ) ) ) ); };
+            auto litter = [&]( const BiomeDef &d )
+            {
+                int n = 0;
+                for( const PropRule &r : d.m_props ) n += r.m_soft ? 1 : 0;
+                return n;
+            };
+            const BiomeDef &delhi = place( "DELHI" ), &helsinki = place( "HELSINKI" ), &rajasthan = place( "RAJASTHAN" );
+            int             known = 0, countries = 0;
+            for( int c = 0; c < countryTableSize(); ++c )
+            {
+                ++countries;
+                known += roadCustoms( countryAt( c ).m_name ).m_pollution >= 0.0f ? 1 : 0;
+            }
+            Environment clean{};
+            clean.m_fogDensity = 0.001f;
+            clean.m_fogColor = clean.m_skyHorizon = Color{ 200, 210, 230, 255 };
+            clean.m_saturation = 1.0f;
+            const Environment dirty = withSmog( clean, smogOf( delhi ) );
+            std::printf( "      pollution: Delhi %.0f, Helsinki %.0f, Rajasthan %.0f; %d of %d countries; litter rules %d / %d; haze %.4f\n", delhi.m_pollution,
+                         helsinki.m_pollution, rajasthan.m_pollution, known, countries, litter( delhi ), litter( helsinki ), dirty.m_fogDensity );
+            check( std::abs( delhi.m_pollution - 90.0f ) < 1.0f && helsinki.m_pollution < 15.0f && std::abs( rajasthan.m_pollution - 73.0f ) < 3.0f &&
+                       known == countries && litter( delhi ) >= 6 && litter( helsinki ) == 0 && smogOf( helsinki ) == 0.0f &&
+                       dirty.m_fogDensity > clean.m_fogDensity * 1.5f && dirty.m_fogColor.b < dirty.m_fogColor.r && dirty.m_saturation < 0.9f,
+                   "dirty air: haze and litter by Numbeo's pollution index" );
+        }
         { // The police: traps in some stages; too fast past one, a chase that ends caught when the car stops, escaped when it runs.
             Models models;   // no meshes: only which patrol car a place has
             models.m_policeModel.assign( dataShapes().size(), -1 );

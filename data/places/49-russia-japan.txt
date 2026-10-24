@@ -59,6 +59,7 @@ place TUVA | TUVA STEPPE | RUSSIA | MORNING | SIBERIA
     c 7A5A3A 4A6A5A
 
 place NOVOSIBIRSK | NOVOSIBIRSK | RUSSIA | WINTER | SIBERIA
+    pollution 68
     snow 0.4
     sea 0 1 -8
     water 5A6A7A
@@ -259,6 +260,7 @@ place HIMEJI | HIMEJI | JAPAN | MORNING | KANSAI
     c 6A4A32 3A3E44
 
 place OSAKA | OSAKA | JAPAN | NIGHT | KANSAI
+    pollution 47
     sea 0 1 -5
     water 1A2A40
     land 2A3A30 26342C 22302A

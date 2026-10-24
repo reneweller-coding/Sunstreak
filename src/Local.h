@@ -46,6 +46,7 @@ struct RoadCustoms
     float  m_gravel = 0.0f;            ///< 0..1 of a country road on gravel or dirt
     float  m_traffic = 0.0f;           ///< Numbeo's traffic index (0: not known)
     uint8_t m_styles = 0;              ///< how its traffic drives (Style* bits)
+    float  m_pollution = -1.0f;        ///< Numbeo's pollution index 0..100 (-1: not known)
 };
 
 constexpr uint8_t StyleScooters = 1;     ///< swarms of scooters
@@ -64,6 +65,21 @@ constexpr double PoliceAt = 2500.0;  ///< a stage's patrol car waits somewhere f
  * @return them (the plain ones for none)
  */
 const RoadCustoms &roadCustoms( const char *country );
+
+/**
+ * @brief How much smog a place's air holds.
+ * @param[in] place  the place
+ * @return 0 (clean, an index of 30 or less) .. 1 (an index of 90 or more)
+ */
+float smogOf( const BiomeDef &place );
+
+/**
+ * @brief The air of a polluted place: a thicker haze turning brown, a paler sky, paler colours, a weaker, yellower sun.
+ * @param[in] e    the air as it would be
+ * @param[in] smog 0..1 (smogOf)
+ * @return the smoggy air
+ */
+Environment withSmog( Environment e, float smog );
 
 /**
  * @brief How many lines of data/roads.txt were wrong.

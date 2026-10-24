@@ -153,6 +153,7 @@ const std::vector<DataShape> &dataShapes()
                         open = true;
                     }
                     else if( open && line.rfind( "home ", 0 ) == 0 ) out.back().m_homes.push_back( line.substr( 5 ) );
+                    else if( open && line.rfind( "litter ", 0 ) == 0 ) out.back().m_litter = trim( line.substr( 7 ) );
                     else if( open ) out.back().m_lines.push_back( line );
                 }
             }

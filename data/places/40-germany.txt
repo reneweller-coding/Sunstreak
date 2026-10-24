@@ -1,6 +1,7 @@
 # Germany, Land by Land: the Lander the first tour had left out.
 
 place COLOGNE | COLOGNE | GERMANY | OVERCAST | NORTH RHINE-WESTPHALIA
+    pollution 37
     sea 1 0 -5
     water 4A6A7A
     land 6E8A58 668250 707E68
@@ -64,6 +65,7 @@ place LUNEBURG_HEATH | LUNEBURG HEATH | GERMANY | GOLDEN | LOWER SAXONY
     p DUTCH_MILL 0.003 40 200
 
 place HAMBURG | HAMBURG | GERMANY | RAIN | HAMBURG
+    pollution 27
     rain 0.2
     sea 1 0 -4
     water 3A5A6A

@@ -260,6 +260,8 @@ Environment Game::sceneEnvironment( double s ) const
     // On the sea floor the hour does not reach: the sea keeps its own light.
     if( m_hour >= 0.0f ) e = blendEnvironment( environmentAtHour( e, m_hour ), e, under );
     e.m_underwater = smoothstepf( 0.35f, 0.65f, under );
+    // Dirty air where the place's pollution index is high.
+    e = withSmog( e, lerpf( smogOf( biomeDef( mix.m_from ) ), smogOf( biomeDef( mix.m_to ) ), mix.m_t ) );
     // The season: snow falling in winter, leaves in autumn, petals in spring.
     const float      phase = seasonClock().phaseAt( s );
     const SeasonLook la = seasonAt( mix.m_from, phase ), lb = seasonAt( mix.m_to, phase );

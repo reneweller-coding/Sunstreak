@@ -1426,7 +1426,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 const float h = hashFloat( key + 13, static_cast<uint64_t>( j ) );
                 props.append( models.prop( pr.m_kind, variant ), pos, yaw, scale, bright, defaults ? keys : nullptr, &look, blooms ? h : 0.3f + 0.7f * h );
                 const float radius = models.propRadius( pr.m_kind );
-                if( radius > 0.0f && dist < 45.0f ) c.m_colliders.push_back( { ps, lateral, radius * scale } );
+                if( radius > 0.0f && dist < 45.0f && !pr.m_soft ) c.m_colliders.push_back( { ps, lateral, radius * scale } );
             }
         }
 

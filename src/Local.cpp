@@ -58,7 +58,7 @@ const CustomsMap &customs()
             const std::string &key = head[0];
             const float        value = head.size() > 1 ? std::strtof( head[1].c_str(), nullptr ) : 0.0f;
             const bool flag = ( key == "mph" || key == "board" || key == "tolls" || key == "cameras" || key == "shoulders" || key == "studs" ) && head.size() == 1;
-            const bool number = ( key == "quality" || key == "width" || key == "gravel" || key == "concrete" || key == "traffic" ) && value > 0.0f &&
+            const bool number = ( key == "quality" || key == "width" || key == "gravel" || key == "concrete" || key == "traffic" || key == "pollution" ) && value > 0.0f &&
                                 ( head.size() == 2 || ( key == "concrete" && head.size() == 3 ) );
             const bool kerbs = key == "kerbs" && head.size() == 3 && head[1].size() == 6 && head[2].size() == 6;
             if( !flag && !number && !kerbs && plate < 0 && style < 0 )
@@ -87,6 +87,7 @@ const CustomsMap &customs()
                 if( key == "studs" ) c.m_studs = true;
                 if( key == "gravel" ) c.m_gravel = value / 100.0f;
                 if( key == "traffic" ) c.m_traffic = value;
+                if( key == "pollution" ) c.m_pollution = value;
                 if( style >= 0 ) c.m_styles = static_cast<uint8_t>( c.m_styles | ( 1u << style ) );
                 if( key == "concrete" )
                 {
@@ -212,6 +213,34 @@ bool stagePolice( const Track &track, int stage, double &s, float &side )
     return false;
 }
 
+float smogOf( const BiomeDef &place )
+{
+    return place.m_underwater ? 0.0f : clampf( ( place.m_pollution - 30.0f ) / 60.0f, 0.0f, 1.0f );
+}
+
+Environment withSmog( Environment e, float smog )
+{
+    if( smog <= 0.0f ) return e;
+    // The colour of smog: a colour's own brightness, a little yellow and brown.
+    auto dirty = []( Color c, float r, float g, float b )
+    {
+        const float l = 0.3f * c.r + 0.59f * c.g + 0.11f * c.b;
+        return Color{ static_cast<unsigned char>( std::min( 255.0f, l * r ) ), static_cast<unsigned char>( std::min( 255.0f, l * g ) ),
+                      static_cast<unsigned char>( std::min( 255.0f, l * b ) ), c.a };
+    };
+    e.m_fogColor = lerpColor( e.m_fogColor, dirty( e.m_fogColor, 1.14f, 1.0f, 0.74f ), 0.85f * smog );
+    e.m_fogDensity = std::max( e.m_fogDensity, std::min( e.m_fogDensity * ( 1.0f + 0.9f * smog ), 0.0042f ) );
+    e.m_skyHorizon = lerpColor( e.m_skyHorizon, e.m_fogColor, 0.55f * smog );
+    e.m_skyZenith = lerpColor( e.m_skyZenith, dirty( e.m_skyZenith, 1.06f, 1.0f, 0.86f ), 0.6f * smog );
+    e.m_mountainFar = lerpColor( e.m_mountainFar, e.m_fogColor, 0.5f * smog );
+    e.m_mountainNear = lerpColor( e.m_mountainNear, e.m_fogColor, 0.3f * smog );
+    e.m_cloudColor = lerpColor( e.m_cloudColor, dirty( e.m_cloudColor, 1.04f, 1.0f, 0.88f ), 0.5f * smog );
+    e.m_sunColor = lerpColor( e.m_sunColor, Color{ 255, 190, 130, 255 }, 0.35f * smog );
+    e.m_sunIntensity *= 1.0f - 0.2f * smog;
+    e.m_saturation *= 1.0f - 0.22f * smog;
+    return e;
+}
+
 void applyRoadCustoms( std::vector<BiomeDef> &table )
 {
     for( BiomeDef &d : table )
@@ -226,6 +255,7 @@ void applyRoadCustoms( std::vector<BiomeDef> &table )
         const bool         town = d.m_lampSpacing > 0.0f || d.m_cobbles;
         Surface           &sf = d.m_surface;
         d.m_laneWidth = c.m_width;
+        if( d.m_pollution < 0.0f ) d.m_pollution = c.m_pollution;
         if( c.m_traffic > 0.0f ) d.m_traffic *= clampf( std::sqrt( c.m_traffic / 130.0f ), 0.75f, 1.5f );
         d.m_wear = d.m_unpaved ? 0.0f : clampf( ( 5.0f - c.m_quality ) / 2.8f, 0.0f, 1.0f );
         if( d.m_gravel < 0.0f ) d.m_gravel = town || d.m_unpaved || d.m_lanes >= 3 ? 0.0f : c.m_gravel;

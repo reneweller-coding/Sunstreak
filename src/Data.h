@@ -65,6 +65,7 @@ struct DataShape
     std::vector<std::string> m_lines;   ///< one primitive or modifier per line
     bool                     m_creature = false;   ///< from data/creatures: it swims (a traffic model too)
     std::vector<std::string> m_homes;   ///< its "home" lines: the countries and regions whose places strew it (WorldData.cpp)
+    std::string              m_litter;  ///< its "litter" line: CHANCE NEAREST FARTHEST [solid] FLEETS, for polluted places
 };
 
 /**

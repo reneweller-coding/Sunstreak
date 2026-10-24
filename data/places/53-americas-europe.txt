@@ -1,6 +1,7 @@
 # More regions of the large countries of South America and the north and east of Europe.
 
 place LIMA | LIMA COAST | PERU | OVERCAST | LIMA
+    pollution 84
     clouds 0.8
     sea 1 0 -40
     water 4A6A7A
@@ -116,6 +117,7 @@ place CARPATHIANS_UA | CARPATHIANS | UKRAINE | MIST | ZAKARPATTIA
     c 7A5A3A 4A6A5A
 
 place KYIV | KYIV | UKRAINE | MORNING | KYIV
+    pollution 65
     sea 0 1 -10
     water 4A6A80
     land 6A9A50 609048 6A8A58
@@ -158,6 +160,7 @@ place LAPLAND_SE | KIRUNA | SWEDEN | ARCTIC | NORRBOTTEN
     c 8A2A20 3A3A3A
 
 place STOCKHOLM | STOCKHOLM | SWEDEN | MORNING | STOCKHOLM
+    pollution 18
     sea 1 1 -4
     water 2A5A7A
     land 6A9A50 609048 6A8A58
@@ -190,6 +193,7 @@ place PULPIT_ROCK | PREIKESTOLEN | NORWAY | MORNING | ROGALAND
     c 8A2A20 3A3A3A
 
 place HELSINKI | HELSINKI | FINLAND | MORNING | UUSIMAA
+    pollution 12
     sea 1 0 -3
     water 2A5A7A
     land 6A9A50 609048 6A8A58

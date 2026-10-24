@@ -85,6 +85,7 @@ place ARAGON | MALLOS DE RIGLOS | SPAIN | MORNING | ARAGON
     c C8B088 8A6A50
 
 place VALENCIA | VALENCIA | SPAIN | NOON | VALENCIA
+    pollution 29
     sea 1 0 -3
     water 2A8AB8
     land 7A9A50 709048 8A9A60
@@ -116,6 +117,7 @@ place MURCIA | MAR MENOR | SPAIN | NOON | MURCIA
     pastel
 
 place MADRID | MADRID | SPAIN | NOON | MADRID
+    pollution 38
     land 9A9A70 8E8E66 A09A7A
     drive 4 1.4 1.0 0
     bends 0.25 0.25 0.1
@@ -220,6 +222,7 @@ place PIEDMONT | LANGHE | ITALY | MIST | PIEDMONT
     landmark MOLE_ANTONELLIANA 400 550 0.8
 
 place FRIULI | TRIESTE | ITALY | MORNING | FRIULI VENEZIA GIULIA
+    pollution 45
     sea 1 0 -30
     water 2A6A9A
     land 6A9A4A 609040 6A8A58
@@ -235,6 +238,7 @@ place FRIULI | TRIESTE | ITALY | MORNING | FRIULI VENEZIA GIULIA
     landmark MIRAMARE 70 120 0.9
 
 place EMILIA | BOLOGNA | ITALY | HAZE | EMILIA-ROMAGNA
+    pollution 60
     land 8AAA50 7E9E48 8A9A60
     fields 0.6 D8B860 8AA050 C8A858
     hills 4 1 1

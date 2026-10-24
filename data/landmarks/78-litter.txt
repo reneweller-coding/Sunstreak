@@ -1,0 +1,163 @@
+# Round six: litter. "litter CHANCE NEAREST FARTHEST [solid] FLEETS" strews a shape by the roadsides of the places
+# whose air is dirty (Numbeo's pollution index, data/roads.txt and the places' "pollution" step): the chance per 5 m
+# segment and side is CHANCE at an index of 85 and above, nothing at 35 and below; the small things (CHANCE 0.015 or
+# more) are drawn half as large again, to be seen at speed. FLEETS are the fleets of
+# data/countries.txt whose countries have it, or ANY. Litter is soft (the car drives through it) unless it says solid.
+
+shape LITTER_PLASTIC_BAGS
+    litter 0.03 0.2 6 ANY
+    # Plastic bags blown against the verge: white, blue, pink and black.
+    blob 0 0.08 0 0.22 0.1 0.18 F2F2F2 0.6
+    blob 0.5 0.06 0.7 0.16 0.07 0.14 3A6AC8 0.6
+    blob -0.4 0.07 -0.6 0.18 0.08 0.15 E87AA8 0.6
+    blob 0.3 0.09 -1.3 0.2 0.1 0.2 1E1E1E 0.5
+    blob -0.6 0.05 1.1 0.12 0.05 0.12 F2F2E8 0.6
+
+shape LITTER_BOTTLES
+    litter 0.03 0.2 5 ANY
+    # Plastic bottles and a glass one in the grass.
+    tube 0 0.04 0 0 0.04 0.26 0.04 6 A8D0E0
+    tube 0.4 0.04 0.6 0.62 0.04 0.75 0.04 6 B8E0C8
+    tube -0.3 0.04 -0.5 -0.3 0.04 -0.78 0.045 6 6A4A2A
+    tube 0.2 0.035 -1.0 0.42 0.035 -1.1 0.035 6 E8F0F2
+    box 0 0.04 0.28 0.02 0.02 0.02 2A6AC8
+    box 0.63 0.04 0.77 0.02 0.02 0.02 C82A2A
+
+shape LITTER_CANS
+    litter 0.02 0.2 4 ANY
+    # Crushed drink cans, red, silver and blue.
+    tube 0 0.033 0 0.12 0.033 0.04 0.033 8 C82A2A
+    tube 0.3 0.033 0.5 0.3 0.033 0.62 0.033 8 C8CCD0
+    tube -0.4 0.033 -0.3 -0.3 0.033 -0.4 0.033 8 2A4AB8
+    cyl 0.6 0 -0.6 0.033 0.033 0.12 8 2A8A3A
+
+shape LITTER_RUBBISH_HEAP
+    litter 0.012 1.5 9 ANY
+    # A heap of dumped rubbish: sacks, bags and bottles, a broken chair on top.
+    blob 0 0.25 0 0.9 0.35 1.2 5A5040 0.7
+    blob 0.3 0.45 0.4 0.35 0.25 0.3 1E1E1E
+    blob -0.3 0.5 -0.3 0.3 0.22 0.3 2A4A8A
+    blob 0.1 0.6 -0.6 0.2 0.15 0.2 F2F2F2 0.5
+    blob -0.5 0.35 0.7 0.25 0.18 0.22 C85A8A 0.5
+    tube 0.5 0.3 -0.9 0.8 0.3 -0.7 0.05 6 A8D0E0
+    box 0 0.85 0.1 0.22 0.03 0.22 7A5A3A
+    tube 0.2 0.85 0.3 0.2 1.25 0.3 0.025 4 7A5A3A
+    tube -0.2 0.85 0.3 -0.2 1.25 0.3 0.025 4 7A5A3A
+
+shape LITTER_OLD_TYRES
+    litter 0.008 1.0 10 solid ANY
+    # Old tyres dumped by the road: three in a stack, one leaning on them.
+    repeat 3 0 0.24 0
+    cyl 0 0 0 0.36 0.36 0.22 12 1E1E1E
+    cyl 0 0.73 0 0.2 0.2 0.01 10 4A4A44
+    hoop 0.42 0.38 0.5 0.36 0.12 12 222222
+
+shape LITTER_MATTRESS
+    litter 0.004 1.5 9 ANY
+    # A dumped mattress, stained and sagging, an old pillow beside it.
+    box 0 0.1 0 0.5 0.1 0.95 E8E0C8
+    box 0.1 0.205 0.3 0.25 0.005 0.3 B8A070
+    box -0.2 0.205 -0.4 0.15 0.005 0.2 A89060
+    blob 0.8 0.08 0.6 0.25 0.08 0.15 D8D0B8
+
+shape LITTER_BAGS_IN_BUSHES
+    litter 0.03 0.5 8 SOUTH_ASIA AFRICA ARABIA
+    # A thorn bush full of plastic bags caught on it, white, blue and black, flapping in the wind.
+    blob 0 0.5 0 0.8 0.55 0.8 4A5A2A 0.8
+    blob 0.55 0.75 0.3 0.14 0.12 0.12 F2F2F2 0.6
+    blob 0.4 0.5 -0.5 0.13 0.11 0.12 2A5AC8 0.6
+    blob -0.2 0.95 0.1 0.12 0.1 0.12 1E1E1E 0.6
+    blob 0.6 0.35 0.6 0.12 0.1 0.12 E8E8E0 0.6
+    blob -0.5 0.6 -0.4 0.12 0.1 0.12 C83A3A 0.6
+
+shape LITTER_SMOULDERING_HEAP
+    litter 0.006 3 12 SOUTH_ASIA SOUTHEAST_ASIA AFRICA LATIN
+    # Rubbish burning by the road: a blackened heap with embers glowing in it and a grey drift of smoke.
+    blob 0 0.2 0 1.0 0.3 1.1 2A2622 0.7
+    blob 0.3 0.35 0.2 0.15 0.08 0.15 FF7A1E glow
+    blob -0.3 0.3 -0.3 0.12 0.06 0.12 FF5A1E glow
+    blob 0.1 0.4 -0.1 0.1 0.05 0.1 FFA03A glow
+    blob 0 0.3 0.9 0.5 0.12 0.4 8A8A86 0.4
+    blob 0.1 0.9 0.2 0.9 0.3 0.8 9A9A96 0.5
+
+shape LITTER_STYROFOAM
+    litter 0.025 0.2 5 SOUTHEAST_ASIA EAST_ASIA SOUTH_ASIA
+    # White styrofoam food boxes and cups thrown out of a car window.
+    box 0 0.04 0 0.1 0.04 0.12 F2F2F0
+    box 0.4 0.03 0.5 0.1 0.03 0.12 F2F2F0
+    box 0.42 0.07 0.56 0.1 0.005 0.06 E8E8E4
+    cyl -0.3 0 -0.4 0.04 0.05 0.12 8 F2F2F0
+    tube 0.2 0.04 -0.8 0.32 0.04 -0.86 0.045 8 F2F2F0
+    box -0.5 0.02 0.7 0.12 0.02 0.08 F2F2F0
+
+shape LITTER_SACHETS
+    litter 0.025 0.2 5 SOUTH_ASIA SOUTHEAST_ASIA AFRICA
+    # Little sachets and wrappers of shampoo, sweets and snacks, in every colour.
+    repeat 4 0.15 0 0.35
+    box -0.3 0.005 -0.6 0.05 0.005 0.07 E8C21E
+    repeat 4 0.12 0 0.3
+    box 0.1 0.005 -0.4 0.05 0.005 0.07 C82A6A
+    repeat 3 -0.2 0 0.4
+    box 0.4 0.005 -0.2 0.06 0.005 0.08 2A8AC8
+    repeat 3 0.1 0 0.5
+    box -0.1 0.005 0.2 0.05 0.005 0.06 3AA83A
+    box 0.3 0.005 0.7 0.08 0.005 0.1 F2801E
+
+shape LITTER_COCONUT_HUSKS
+    litter 0.02 0.3 6 SOUTHEAST_ASIA SOUTH_ASIA ISLANDS LATIN
+    # Coconut husks and shells left by a drinks stall, thrown in a pile.
+    blob 0 0.12 0 0.18 0.12 0.2 7A5030 0.4
+    blob 0.35 0.1 0.3 0.16 0.1 0.18 8A6038 0.4
+    blob -0.3 0.1 -0.25 0.17 0.1 0.17 6A4A2A 0.4
+    blob 0.1 0.25 0.1 0.15 0.11 0.16 9A7040 0.4
+    blob -0.1 0.08 0.45 0.14 0.08 0.15 C8B890 0.3
+
+shape LITTER_BLACK_SACKS
+    litter 0.015 0.3 4 EUROPE BRITISH NORTH_AMERICA OCEANIA EASTERN
+    # Black bin bags dumped by a lay-by, tied at the top, one split open.
+    blob 0 0.3 0 0.32 0.3 0.3 1A1A1C
+    spire 0 0.55 0 0.08 0.18 6 1A1A1C
+    blob 0.45 0.25 0.4 0.28 0.25 0.27 1E1E22
+    spire 0.45 0.47 0.4 0.07 0.15 6 1E1E22
+    blob -0.3 0.18 -0.5 0.3 0.18 0.28 1A1A1C
+    blob -0.1 0.06 -0.85 0.2 0.06 0.2 8A7A5A 0.6
+
+shape LITTER_FAST_FOOD
+    litter 0.02 0.2 4 NORTH_AMERICA OCEANIA ARABIA BRITISH
+    # Fast food thrown from a car: paper cups with lids and straws, a burger box, a paper bag.
+    cyl 0 0 0 0.045 0.055 0.16 8 C82A2A
+    cyl 0 0.16 0 0.056 0.056 0.01 8 F2F2F2
+    tube 0.01 0.16 0 0.01 0.28 0.02 0.006 3 F2F2F2
+    tube 0.4 0.05 0.5 0.4 0.05 0.66 0.05 8 F2F2F2
+    box -0.3 0.05 -0.4 0.08 0.05 0.08 E8C21E
+    box 0.2 0.08 -0.8 0.09 0.08 0.06 B89060
+
+shape LITTER_SHOPPING_TROLLEY
+    litter 0.003 0.5 6 EUROPE BRITISH NORTH_AMERICA OCEANIA
+    # A shopping trolley on its side in the ditch.
+    box 0 0.3 0 0.32 0.02 0.45 A8ACB0
+    box 0.3 0.3 0 0.02 0.28 0.45 A8ACB0
+    box -0.3 0.3 0 0.02 0.28 0.45 A8ACB0
+    box 0 0.3 0.44 0.32 0.28 0.02 A8ACB0
+    box 0 0.3 -0.44 0.3 0.24 0.02 A8ACB0
+    tube 0 0.62 0.5 0 0.62 0.7 0.015 4 C82A2A
+    repeat 2 0 0 0.8
+    blob 0 0.05 -0.4 0.05 0.05 0.05 2A2A2A
+
+shape LITTER_CAR_WRECK
+    litter 0.002 4 14 solid AFRICA LATIN EASTERN ARABIA SOUTH_ASIA ISLANDS
+    # The rusted shell of a car, stripped of its wheels and doors, sitting on its axles in the weeds.
+    box 0 0.55 0 0.85 0.3 2.1 8A4A2A
+    box 0 1.05 -0.2 0.78 0.22 1.1 7A3E22
+    box 0 1.05 -0.2 0.79 0.16 0.95 1E1A18
+    box 0 0.62 2.11 0.6 0.08 0.01 5A3A2A
+    blob 0.2 0.9 0.6 0.3 0.05 0.3 A0602A 0.5
+    blob 0 0.15 0 1.0 0.2 2.0 4A5A2A 0.8
+
+shape LITTER_OLD_FRIDGE
+    litter 0.002 2 10 solid LATIN AFRICA EASTERN NORTH_AMERICA ARABIA
+    # An old fridge dumped in the grass, its door hanging open.
+    box 0 0.3 0 0.35 0.3 0.85 E8E8E0
+    box 0.36 0.32 0.3 0.01 0.26 0.5 D8D8D0
+    box 0.62 0.32 0.75 0.25 0.26 0.01 E0E0D8
+    box -0.2 0.62 -0.6 0.05 0.03 0.1 8A8A8A

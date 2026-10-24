@@ -18,6 +18,7 @@ place MACAU | MACAU | CHINA | NIGHT | MACAU
     c B02020 3A3A40
 
 place GUANGDONG | GUANGZHOU | CHINA | NIGHT | GUANGDONG
+    pollution 68
     sea 0 1 -5
     water 1A2A40
     land 2A3A30 26342C 22302A

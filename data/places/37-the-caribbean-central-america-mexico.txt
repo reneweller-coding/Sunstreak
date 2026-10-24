@@ -333,6 +333,7 @@ place OAXACA | HIERVE EL AGUA | MEXICO | NOON | OAXACA
     pastel
 
 place MEXICO_CITY | MEXICO CITY | MEXICO | HAZE | MEXICO CITY
+    pollution 80
     fog 0.0022
     land 6A8A58 628050 6A7A62
     ranges 5A6476 E8ECF4 9

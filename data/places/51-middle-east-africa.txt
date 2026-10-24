@@ -1,6 +1,7 @@
 # More regions of the large countries of the Middle East and Africa.
 
 place RIYADH | RIYADH | SAUDI ARABIA | DESERT | RIYADH
+    pollution 64
     land D8B880 CCAC78 C8A878
     drive 4 1.3 1.0 11
     bends 0.15 0.2 0.05
@@ -71,6 +72,7 @@ place PERSEPOLIS | PERSEPOLIS | IRAN | DESERT | FARS
     landmark PERSEPOLIS 60 100
 
 place TEHRAN | TEHRAN | IRAN | HAZE | TEHRAN
+    pollution 80
     fog 0.0024 D8C8B8
     land 9A9A80 8E8E76 A0A08A
     ranges 7A7A80 F2F4F8 13
@@ -166,6 +168,7 @@ place SINAI | MOUNT SINAI | EGYPT | GOLDEN | SOUTH SINAI
     c C8A880 8A7A60
 
 place ALEXANDRIA | ALEXANDRIA | EGYPT | NOON | ALEXANDRIA
+    pollution 74
     sea 1 0 -3
     water 2A7AA8
     land C8B898 BCAC8C B8A888
@@ -180,6 +183,7 @@ place ALEXANDRIA | ALEXANDRIA | EGYPT | NOON | ALEXANDRIA
     c D8C8A8 8A7A60
 
 place ALGIERS | ALGIERS | ALGERIA | NOON | ALGIERS
+    pollution 68
     sea 1 0 -20
     water 2A7AA8
     land 7A9A50 709048 8A9A60
@@ -370,6 +374,7 @@ place TSINGY | TSINGY DE BEMARAHA | MADAGASCAR | GOLDEN | MELAKY
     p SHRUB 0.1 2 60
 
 place CASABLANCA | CASABLANCA | MOROCCO | NOON | CASABLANCA
+    pollution 82
     sea 1 0 -4
     water 2A6A8A
     land C8B898 BCAC8C B8A888

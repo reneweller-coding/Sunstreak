@@ -302,6 +302,7 @@ const std::unordered_map<std::string, Step> &steps()
           } },
         { "sand", []( W &w, const Args & ) { w.sand(); } },
         { "gravel", []( W &w, const Args &a ) { w.gravel( a.f( 0 ) ); } },
+        { "pollution", []( W &w, const Args &a ) { w.pollution( a.f( 0 ) ); } },
         { "climate",
           []( W &w, const Args &a )
           {
@@ -805,6 +806,69 @@ void addHomes( std::vector<BiomeDef> &table, const std::vector<Header> &places, 
 }
 
 } // namespace
+
+void strewLitter( std::vector<BiomeDef> &table )
+{
+    // What each litter shape says: its chance, its distances, whether it is solid, the fleets that have it.
+    struct Litter
+    {
+        int      m_variant;
+        float    m_chance, m_nearest, m_farthest;
+        bool     m_solid = false, m_any = false;
+        uint32_t m_fleets = 0;
+    };
+    std::vector<Litter> litter;
+    const auto         &shapes = dataShapes();
+    for( size_t s = 0; s < shapes.size(); ++s )
+    {
+        if( shapes[s].m_litter.empty() ) continue;
+        const std::vector<std::string> w = splitLine( shapes[s].m_litter, ' ' );
+        Litter l{ compiledLandmarks() + static_cast<int>( s ), 0.0f, 0.0f, 0.0f };
+        if( w.size() >= 4 )
+        {
+            l.m_chance = std::strtof( w[0].c_str(), nullptr );
+            l.m_nearest = std::strtof( w[1].c_str(), nullptr );
+            l.m_farthest = std::strtof( w[2].c_str(), nullptr );
+        }
+        for( size_t k = 3; k < w.size(); ++k )
+        {
+            const int fleet = indexOf( FleetNames, std::size( FleetNames ), w[k] );
+            if( w[k] == "solid" ) l.m_solid = true;
+            else if( w[k] == "ANY" ) l.m_any = true;
+            else if( fleet >= 0 ) l.m_fleets |= 1u << static_cast<unsigned>( fleet );
+            else ++g_errors;
+        }
+        if( w.size() < 4 || l.m_chance <= 0.0f || ( !l.m_any && l.m_fleets == 0 ) )
+        {
+            ++g_errors;
+            TraceLog( LOG_WARNING, "SUNSTREAK: %s: litter CHANCE NEAREST FARTHEST [solid] FLEETS", shapes[s].m_name.c_str() );
+            continue;
+        }
+        litter.push_back( l );
+    }
+    for( BiomeDef &d : table )
+    {
+        // Nothing at an index of 35, the full chance from 85.
+        const float amount = clampf( ( d.m_pollution - 35.0f ) / 50.0f, 0.0f, 1.0f );
+        if( !d.m_country || d.m_underwater || amount <= 0.0f ) continue;
+        const uint32_t fleet = 1u << static_cast<unsigned>( countryInfo( d.m_country ).m_fleet );
+        for( const Litter &l : litter )
+        {
+            if( !l.m_any && !( l.m_fleets & fleet ) ) continue;
+            PropRule r{};
+            r.m_kind = PropKindE::LANDMARK;
+            r.m_chance = l.m_chance * amount;
+            r.m_nearest = l.m_nearest;
+            r.m_farthest = l.m_farthest;
+            const bool small = l.m_chance >= 0.015f;   // drawn larger, to be seen at speed
+            r.m_scaleMin = small ? 1.3f : 0.85f;
+            r.m_scaleMax = small ? 1.7f : 1.15f;
+            r.m_variant = static_cast<int16_t>( l.m_variant );
+            r.m_soft = !l.m_solid;
+            d.m_props.push_back( r );
+        }
+    }
+}
 
 void addDataPlaces( std::vector<BiomeDef> &table )
 {

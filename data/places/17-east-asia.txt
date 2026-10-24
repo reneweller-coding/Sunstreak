@@ -6,6 +6,7 @@
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
 place HONG_KONG | HONG KONG | CHINA | HAZE | HONG KONG
+    pollution 66
     sea 1 0 -6
     water 3A6A80
     hills 50 0 20
@@ -108,6 +109,7 @@ place ANHUI_VILLAGES | ANHUI VILLAGES | CHINA | MIST | ANHUI
     c B02020 3A3A40
 
 place SHANGHAI | SHANGHAI | CHINA | NIGHT | SHANGHAI
+    pollution 68
     sea 0 1 -6
     water 1A2A40
     land 2A3A30 26342C 22302A
@@ -235,6 +237,7 @@ place SHIRAKAWA_GO | SHIRAKAWA-GO | JAPAN | WINTER | CHUBU
     c 6A4A32 3A3E44
 
 place TOKYO | TOKYO | JAPAN | NIGHT | KANTO
+    pollution 42
     land 2A2A30 26262C 222228
     drive 3 1.4 1.0 1
     bends 0.5 0.45 0.3
@@ -350,6 +353,7 @@ place HUANGSHAN | HUANGSHAN | CHINA | MIST | ANHUI
     c B02020 3A3A40
 
 place BEIJING | BEIJING | CHINA | HAZE | BEIJING
+    pollution 77
     fog 0.0024
     land 6A7A5A 627252 6A6A5E
     drive 4 1.7 0.97 1
@@ -402,6 +406,7 @@ place KUMGANG | KUMGANG MOUNTAINS | NORTH KOREA | MORNING
     v 1
 
 place SEOUL | SEOUL | SOUTH KOREA | DUSK
+    pollution 48
     sea 0 0.4 -6
     water 3A5A7A
     land 5E7A58 567250 5A6A5A

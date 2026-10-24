@@ -71,6 +71,7 @@ void addWorldBiomes( std::vector<BiomeDef> &b )
 
     addDataPlaces( b );
     applyRoadCustoms( b );
+    strewLitter( b );
 
     // AUTO radio: the countryside plays its region's station; cities and motorways keep their genre (Japan's and
     // Korea's turn to city pop).

@@ -76,6 +76,7 @@ place AGRA | AGRA | INDIA | HAZE | UTTAR PRADESH
     landmark TAJ_MAHAL 160 240 0.9
 
 place MUMBAI | MUMBAI | INDIA | DUSK | MAHARASHTRA
+    pollution 83
     sea 1 0 -4
     water 3A5A70
     land 7A8A6A 728262 6A7A62
@@ -92,6 +93,7 @@ place MUMBAI | MUMBAI | INDIA | DUSK | MAHARASHTRA
     landmark GATEWAY_OF_INDIA 40 70
 
 place GOA | GOA | INDIA | TROPICAL | GOA
+    pollution 51
     sea 1 0 -3
     water 2A8AA8
     land 7AA050 6E9448 B86A40
@@ -190,6 +192,7 @@ place HIMALAYA | HIMALAYA | NEPAL | ALPINE
     p YAK 0.02 10 100
 
 place KATHMANDU_VALLEY | KATHMANDU VALLEY | NEPAL | HAZE
+    pollution 96
     land 7AA04E 6E9448 8A9A60
     ranges 6A7480 E8ECF2 12
     drive 2 0.9 0.95 6

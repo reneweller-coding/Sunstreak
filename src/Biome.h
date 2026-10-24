@@ -706,6 +706,7 @@ struct PropRule
     bool      m_pastel = false;  ///< colour one changes per object (painted rows of houses)
     int16_t   m_variant = -1;    ///< one of the kind's variants (-1: any)
     uint8_t   m_perStage = 0;    ///< placed this many times per stage at fixed spots instead of by chance (landmarks)
+    bool      m_soft = false;    ///< nothing to crash into (litter)
 };
 
 /** @brief How a bridge is built. */
@@ -929,6 +930,7 @@ struct BiomeDef
     float                 m_laneWidth = 3.7f;                     ///< metres per lane
     float                 m_wear = 0.0f;                          ///< 0..1 how worn the road is: faded markings, patches, potholes
     float                 m_gravel = -1.0f;                       ///< 0..1 of the road in gravel stretches (-1: as its country says)
+    float                 m_pollution = -1.0f;                    ///< Numbeo's pollution index 0..100 (-1: as its country says)
     bool                  m_concrete = false;                     ///< concrete slabs, a joint every segment
     bool                  m_studs = false;                        ///< reflecting studs along the lines
 };
@@ -968,6 +970,13 @@ const std::string &biomeKey( BiomeE biome );
  * @param[in,out] table  the biome table; grows by the new places
  */
 void addDataPlaces( std::vector<BiomeDef> &table );
+
+/**
+ * @brief Strews the litter shapes of the data files by the roads of polluted places (after applyRoadCustoms, which
+ *        gives each place its country's pollution).
+ * @param[in,out] table  the places
+ */
+void strewLitter( std::vector<BiomeDef> &table );
 
 /**
  * @brief How many steps, names and lines the data files got wrong (0 for a clean world).

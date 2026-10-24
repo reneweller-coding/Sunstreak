@@ -121,7 +121,11 @@ Belgian motorways and Philippine highways; and, by each country's road quality (
 patches, potholes that thump the car and stretches of gravel where the asphalt ends: in Chad and Mongolia more of the
 road is gravel than not. The traffic drives the country's way, as much of it as Numbeo's traffic index says: swarms
 of scooters riding side by side in Vietnam, Indonesia and India; cars weaving across the lines, changing lanes on a whim
-and honking in India, Egypt or Nigeria; tractors on the country roads of Europe; road trains in the outback. Now and then (about one stage in ten) a patrol car of the country's police waits at the roadside,
+and honking in India, Egypt or Nigeria; tractors on the country roads of Europe; road trains in the outback. The air is as clean or as dirty as Numbeo's
+pollution index has it, by country and for some eighty cities of their own: over Delhi, Kathmandu, Lagos or Cairo the
+haze thickens and browns, the sky pales and the colours fade, and litter lies by the road, more of it the dirtier the
+air (plastic bags everywhere; bags caught in thorn bushes in Africa and India, styrofoam boxes in Southeast Asia,
+smouldering heaps, black bin bags in Europe, a car wreck now and then), while Helsinki and Reykjavik stay clear. Now and then (about one stage in ten) a patrol car of the country's police waits at the roadside,
 in its own livery (a black-and-white cruiser in the United States, blue and yellow checks in Britain, a carabinieri
 car in Italy, green and white in Chile, a white jeep in India and some thirty more): past it too fast and it gives chase with its lights and siren
 (the long wail, or the two tones in Europe). Get 400 m ahead and you have escaped (+2500); let it pull up beside you
@@ -352,7 +356,9 @@ viewer, every landmark and creature alone under its first place's sky, to turn a
   stalls, tents, trees, confetti, fireworks, the aurora).
 - `roads.txt`: each country's road customs: miles per hour, speed limit boards, toll plazas, speed cameras, number
   plates; how its roads are built and kept: quality, lane width, shoulders, kerbs, road studs, concrete, gravel; and
-  how its traffic drives: how much of it (Numbeo's traffic index) and its ways (scooters, chaos, tractors, road trains).
+  how its traffic drives: how much of it (Numbeo's traffic index) and its ways (scooters, chaos, tractors, road trains);
+  and how dirty its air is (Numbeo's pollution index, estimated for the countries it lacks; a city's own in its place's
+  `pollution` step). The litter shapes say where they lie with a `litter` line.
 - `journeys.txt`: the journeys, from a place of the route to another.
 - `world/countries.txt`, `world/provinces.txt`: the outlines for the passport's map, from Natural Earth (public domain),
   made by `tools/make_world_outlines.py` from its `ne_50m_admin_0_countries` and `ne_10m_admin_1_states_provinces`.
