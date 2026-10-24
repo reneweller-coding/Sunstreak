@@ -1,0 +1,391 @@
+# More local things of Africa south of the Sahara.
+
+shape BODA_BODA_RANK
+    home UGANDA, KENYA, TANZANIA, RWANDA, BURUNDI, NIGERIA, GHANA, TOGO, BENIN, CAMEROON, DR CONGO, MALAWI, ZAMBIA | 0.008 1 12 | town
+    # A motorbike taxi rank under a tree: riders waiting astride their bikes, one in a bright reflective vest, a spare helmet on the seat.
+    tube -3 0 0 -3 3.5 0 0.3 6 6A5A48
+    blob -3 5 0 3 1.8 3 3A6A2A 0.4
+    repeat 5 0 0 1.2
+    tube 0.6 0.32 -2.43 0.6 0.32 -2.37 0.32 8 1E1E1E
+    repeat 5 0 0 1.2
+    tube -0.6 0.32 -2.43 -0.6 0.32 -2.37 0.32 8 1E1E1E
+    repeat 5 0 0 1.2
+    box 0 0.65 -2.4 0.55 0.15 0.12 C82A2A
+    repeat 5 0 0 1.2
+    tube 0.5 0.6 -2.4 0.45 1.0 -2.4 0.04 3 3A3A3A
+    repeat 5 0 0 1.2
+    tube 0.45 1.0 -2.6 0.45 1.0 -2.2 0.02 3 3A3A3A
+    repeat 3 0 0 2.4
+    blob -0.1 1.05 -2.4 0.18 0.3 0.15 F2C21E
+    repeat 3 0 0 2.4
+    blob -0.1 1.45 -2.4 0.1 0.11 0.1 4A3020
+
+shape DANFO_BUS
+    home NIGERIA:LAGOS, NIGERIA | 0.008 1 15 | town
+    # A danfo: a battered yellow minibus with black stripes, sliding door open, the conductor hanging out of it calling the stops.
+    box 0 1.2 0 1.0 0.8 2.6 F2C21E
+    box 1.01 0.9 0 0.01 0.06 2.6 1E1E1E
+    box 1.01 1.5 0.3 0.01 0.3 1.8 2A3A4A glass
+    tbox 0 0.5 2.6 1 0.6 0 1.8 2.75 0.95 0.3 F2C21E
+    box 0 1.65 2.85 0.85 0.25 0.01 2A3A4A glass
+    box 1.02 1.1 -1.2 0.01 0.7 0.5 1E1E1E
+    blob 1.25 1.2 -1.2 0.15 0.3 0.12 2A6AC8
+    blob 1.3 1.6 -1.2 0.09 0.1 0.09 4A3020
+    mirrorx
+    tube 0.85 0.38 2.0 1.02 0.38 2.0 0.38 10 1E1E1E
+    mirrorx
+    tube 0.85 0.38 -1.8 1.02 0.38 -1.8 0.38 10 1E1E1E
+
+shape CASSAVA_DRYING
+    home NIGERIA, GHANA, DR CONGO, CONGO, CAMEROON, TANZANIA, MOZAMBIQUE, MALAWI, ZAMBIA, ANGOLA, UGANDA, IVORY COAST, BENIN, TOGO, SIERRA LEONE, LIBERIA | 0.008 1 15 | country
+    # Cassava drying by the roadside: white chips spread on mats and tarpaulins along the verge, a few sacks filled and tied.
+    repeat 4 0 0 2.4
+    box 0 0.02 -3.6 0.8 0.01 1.0 8A6A48
+    repeat 4 0 0 2.4
+    blob 0 0.05 -3.6 0.7 0.03 0.9 F2F2E8 0.7
+    repeat 3 0 0 0.6
+    blob -1.4 0.4 -0.6 0.25 0.4 0.22 E8E0C8
+    blob -1.4 0.4 1.2 0.25 0.4 0.22 E8E0C8
+
+shape BOREHOLE_PUMP
+    home KENYA, TANZANIA, UGANDA, ETHIOPIA, NIGERIA, NIGER, MALI, BURKINA FASO, CHAD, SUDAN, SOUTH SUDAN, MALAWI, ZAMBIA, ZIMBABWE, MOZAMBIQUE, GHANA, SENEGAL, MADAGASCAR, SOMALIA | 0.006 2 20 | country
+    # A village borehole: a hand pump on a concrete apron with a long handle, a queue of yellow jerrycans waiting their turn.
+    cyl 0 0 0 1.4 1.4 0.15 12 B8B0A0
+    cyl 0 0.15 0 0.12 0.12 1.0 8 2A6AC8
+    tube 0 1.1 0 0.9 1.4 0 0.04 3 2A6AC8
+    tube 0.08 0.9 0 0.35 0.8 0 0.04 3 2A6AC8
+    repeat 7 0.5 0 0
+    box 0.6 0.38 1.6 0.18 0.23 0.12 F2C21E
+    repeat 7 0.5 0 0
+    tube 0.6 0.61 1.6 0.6 0.7 1.6 0.03 3 F2C21E
+
+shape MANGO_SHADE_TREE
+    home NIGERIA, GHANA, MALI, BURKINA FASO, SENEGAL, IVORY COAST, TOGO, BENIN, GUINEA, CAMEROON, KENYA, TANZANIA, UGANDA, MOZAMBIQUE, MALAWI, ZAMBIA, MADAGASCAR, INDIA | 0.006 4 40 | country
+    # A great mango tree at the centre of the village: a dense dark dome of leaves, benches and a few chairs in its deep shade.
+    tube 0 0 0 0 3 0 0.6 6 5A4A38
+    tube 0 2.5 0 2.5 4.5 1 0.3 5 5A4A38
+    tube 0 2.5 0 -2.5 4.6 -1 0.3 5 5A4A38
+    blob 0 6 0 6 3.5 6 2A4A1E 0.3
+    repeat 4 0 0 1.2
+    blob 3.5 3.2 -1.8 0.1 0.14 0.1 E8A02A
+    box 2.5 0.4 -1.5 0.2 0.04 1.2 8A6A48
+    box -2.5 0.4 1.5 0.2 0.04 1.2 8A6A48
+    box 2.8 0.4 2 0.25 0.4 0.25 2A6AC8
+
+shape CHEETAHS
+    home KENYA, TANZANIA, NAMIBIA, BOTSWANA, SOUTH AFRICA, ZAMBIA, ZIMBABWE | 0.004 6 50 | country
+    # Cheetahs on a termite mound scanning the plain: slim golden cats with black spots and the black tear lines down their faces.
+    cyl 0 0 0 1.5 0.6 1.6 10 B8784A
+    blob 0 1.85 0 0.2 0.22 0.6 D8A848
+    blob 0 2.0 0.65 0.13 0.13 0.13 D8A848
+    tube 0.1 1.6 0.35 0.1 1.3 0.45 0.04 3 D8A848
+    tube -0.1 1.6 0.35 -0.1 1.3 0.45 0.04 3 D8A848
+    tube 0 1.85 -0.55 0 1.2 -0.9 0.04 3 D8A848
+    repeat 4 0 0 0.25
+    blob 0.17 1.9 -0.35 0.03 0.03 0.03 1E1E1E
+    blob 1.8 0.7 1.5 0.18 0.2 0.55 D8A848
+    blob 1.8 1.05 2.05 0.12 0.12 0.12 D8A848
+    tube 1.8 0.95 1.85 1.8 1.05 2.0 0.06 4 D8A848
+    tube 1.9 0.55 1.9 1.9 0 1.9 0.035 3 D8A848
+    tube 1.7 0.55 1.9 1.7 0 1.9 0.035 3 D8A848
+    tube 1.9 0.55 1.1 1.9 0 1.1 0.035 3 D8A848
+    tube 1.7 0.55 1.1 1.7 0 1.1 0.035 3 D8A848
+
+shape BUFFALO_HERD
+    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, ZIMBABWE, SOUTH AFRICA, UGANDA, MOZAMBIQUE, MALAWI | 0.004 8 60 | country
+    # Cape buffalo grazing in a dark mass: heavy black bodies, the great boss of their horns curving down and up again.
+    repeat 4 1.6 0 1.7
+    blob -2 1.2 -3 0.5 0.6 1.0 2A2624
+    repeat 4 1.6 0 1.7
+    blob -2 1.0 -1.95 0.3 0.32 0.35 2A2624
+    repeat 4 1.6 0 1.7
+    box -2 1.35 -2.05 0.45 0.08 0.12 3A3430
+    repeat 4 1.6 0 1.7
+    tube -1.6 1.35 -2.05 -1.5 1.55 -1.9 0.05 3 3A3430
+    repeat 4 1.6 0 1.7
+    tube -2.4 1.35 -2.05 -2.5 1.55 -1.9 0.05 3 3A3430
+    repeat 4 1.6 0 1.7
+    tube -1.75 0.8 -2.4 -1.75 0 -2.4 0.1 4 2A2624
+    repeat 4 1.6 0 1.7
+    tube -2.25 0.8 -2.4 -2.25 0 -2.4 0.1 4 2A2624
+    repeat 4 1.6 0 1.7
+    tube -1.75 0.8 -3.6 -1.75 0 -3.6 0.1 4 2A2624
+    repeat 4 1.6 0 1.7
+    tube -2.25 0.8 -3.6 -2.25 0 -3.6 0.1 4 2A2624
+
+shape VULTURE_TREE
+    home KENYA, TANZANIA, BOTSWANA, NAMIBIA, ZAMBIA, ZIMBABWE, SOUTH AFRICA, ETHIOPIA, SUDAN, CHAD, NIGER, MALI | 0.004 6 50 | country
+    # Vultures crowding a dead acacia: hunched brown birds with bare necks along the bare grey branches, waiting.
+    tube 0 0 0 0 4 0 0.25 5 9A9488
+    tube 0 3.5 0 2.2 5.2 0.5 0.12 4 9A9488
+    tube 0 3.5 0 -2 5 -0.6 0.12 4 9A9488
+    tube 0 4 0 0.5 6 -1.5 0.1 4 9A9488
+    blob 1.4 4.95 0.3 0.2 0.28 0.2 6A5A48
+    blob 1.4 5.3 0.35 0.07 0.08 0.07 D8C8B8
+    blob -1.3 4.85 -0.4 0.2 0.28 0.2 6A5A48
+    blob -1.3 5.2 -0.38 0.07 0.08 0.07 D8C8B8
+    blob 0.3 5.75 -1.1 0.2 0.28 0.2 5A4A38
+    blob 0.3 6.1 -1.05 0.07 0.08 0.07 D8C8B8
+    blob 2.0 5.35 0.45 0.18 0.25 0.18 6A5A48
+
+shape MARABOU_STORKS
+    home UGANDA, KENYA, TANZANIA, ZAMBIA, BOTSWANA, ETHIOPIA, SUDAN, SOUTH SUDAN, MALAWI | 0.006 3 30 | town
+    # Marabou storks on the streetlights and rooftops: huge grey and white birds with bald pink heads and a pouch hanging at the throat.
+    repeat 3 0 0 5
+    tube 0 0 -5 0 6 -5 0.08 6 8A8A8A
+    repeat 3 0 0 5
+    blob 0 6.45 -5 0.25 0.35 0.25 5A5A60
+    repeat 3 0 0 5
+    blob 0.08 6.4 -4.92 0.15 0.25 0.15 E8E8E8
+    repeat 3 0 0 5
+    blob 0.05 6.9 -4.95 0.09 0.1 0.09 E8A8A0
+    repeat 3 0 0 5
+    tube 0.08 6.9 -4.95 0.12 6.4 -4.9 0.04 3 C8C0A0
+    repeat 3 0 0 5
+    blob 0.1 6.6 -4.9 0.06 0.12 0.06 E8A0A0
+    blob 2 0.7 1.5 0.25 0.35 0.25 5A5A60
+    blob 2.05 1.15 1.55 0.09 0.1 0.09 E8A8A0
+    tube 1.95 0.4 1.5 1.95 0 1.5 0.025 3 E8E8E8
+    tube 2.05 0.4 1.5 2.05 0 1.5 0.025 3 E8E8E8
+
+shape MOUNTAIN_GORILLAS
+    home RWANDA, UGANDA, DR CONGO:NORTH KIVU | 0.003 6 40 | country
+    # Mountain gorillas in the bamboo forest: a silverback sitting heavy and calm, a mother with her young one nearby.
+    repeat 8 0 0 0.7
+    tube -2 0 -2.5 -2 5 -2.4 0.07 4 6A9A3A
+    blob 0 0.8 0 0.55 0.7 0.5 2A2624
+    blob 0 1.35 -0.1 0.4 0.25 0.35 9A9690
+    blob 0 1.75 0.15 0.25 0.27 0.25 2A2624
+    mirrorx
+    tube 0.45 1.3 0.1 0.6 0.4 0.4 0.15 5 2A2624
+    blob 1.8 0.6 2 0.4 0.5 0.35 2A2624
+    blob 1.8 1.15 2.15 0.2 0.22 0.2 2A2624
+    blob 1.5 0.5 2.4 0.15 0.18 0.15 2A2624
+
+shape HYENAS
+    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, ZIMBABWE, SOUTH AFRICA, NAMIBIA, ETHIOPIA, SUDAN, SOMALIA | 0.004 6 50 | country
+    # A clan of spotted hyenas: sloping backs, big heads and round ears, spotted sandy-grey coats, one of them laughing.
+    repeat 3 1.3 0 1.4
+    blob -1 0.8 -2 0.22 0.3 0.55 9A8A68
+    repeat 3 1.3 0 1.4
+    blob -1 0.85 -1.4 0.15 0.15 0.22 8A7A58
+    repeat 3 1.3 0 1.4
+    blob -0.92 1.05 -1.45 0.04 0.06 0.04 6A5A48
+    repeat 3 1.3 0 1.4
+    blob -1.08 1.05 -1.45 0.04 0.06 0.04 6A5A48
+    repeat 3 1.3 0 1.4
+    tube -0.9 0.75 -1.7 -0.9 0 -1.75 0.05 4 8A7A58
+    repeat 3 1.3 0 1.4
+    tube -1.1 0.75 -1.7 -1.1 0 -1.75 0.05 4 8A7A58
+    repeat 3 1.3 0 1.4
+    tube -0.9 0.55 -2.4 -0.9 0 -2.4 0.05 4 8A7A58
+    repeat 3 1.3 0 1.4
+    tube -1.1 0.55 -2.4 -1.1 0 -2.4 0.05 4 8A7A58
+    repeat 3 1.3 0 1.4
+    blob -0.82 0.85 -2.05 0.03 0.03 0.03 4A3A28
+
+shape SAFARI_VEHICLE
+    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, ZIMBABWE, SOUTH AFRICA, NAMIBIA, UGANDA, RWANDA | 0.004 6 40 | country
+    # A safari vehicle stopped to watch the game: an open-sided khaki four-wheel drive with tiered seats and a canvas roof.
+    box 0 0.9 1.2 0.95 0.4 1.6 B8A878
+    box 0 1.5 2.1 0.9 0.35 0.02 2A3A4A glass
+    box 0 0.8 -1.2 0.95 0.3 1.6 B8A878
+    repeat 3 0 0.25 -0.9
+    box 0 1.25 0.5 0.9 0.15 0.3 6A4A30
+    box 0 2.5 -0.4 1.0 0.04 2.2 C8B898
+    mirror
+    mirrorx
+    tube 0.95 1.1 1.8 0.95 2.5 1.8 0.04 3 3A3A3A
+    mirror
+    mirrorx
+    tube 0.8 0.45 1.8 1.0 0.45 1.8 0.45 10 1E1E1E
+    box 0 0.95 -2.81 0.4 0.4 0.02 2A2A2A
+    blob 0.5 1.6 0.5 0.15 0.22 0.13 F2F2F2
+    blob -0.5 1.85 -0.4 0.15 0.22 0.13 C8A070
+
+shape SAFARI_TENT_CAMP
+    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, ZIMBABWE, SOUTH AFRICA, NAMIBIA, UGANDA, RWANDA | 0.003 10 70 | country
+    # A safari camp: canvas tents on wooden decks under thatched shade roofs, a campfire circle with director's chairs.
+    repeat 3 0 0 6
+    box 0 0.3 -6 2.2 0.3 2.2 8A6A48
+    repeat 3 0 0 6
+    gable 0 0.6 -6 1.8 1.8 1.4 0.1 C8B898 C8B898
+    repeat 3 0 0 6
+    hip 0 2.4 -6 2.6 2.6 1.3 0.4 B8A060
+    repeat 3 0 0 6
+    box 1.82 1.2 -6 0.01 0.6 0.6 6A5A48
+    halo 5 0.1 0 0.6 0.1 10 6A6A68
+    blob 5 0.15 0 0.4 0.1 0.4 E8501E glow
+    at 5 0 0
+    ring 5 1.6
+    box 0 0.45 0 0.25 0.45 0.25 6A4A30
+    at 0 0 0
+
+shape MINIBUS_TAXI_RANK
+    home SOUTH AFRICA, LESOTHO, ESWATINI, BOTSWANA, NAMIBIA, ZIMBABWE, MOZAMBIQUE, ZAMBIA, MALAWI | 0.006 2 25 | town
+    # A minibus taxi rank: white minibuses parked nose to tail, a queue marshal waving, a vendor with a cool box under an umbrella.
+    repeat 4 0 0 5.6
+    box 0 1.2 -8.4 0.95 0.8 2.5 F2F2F2
+    repeat 4 0 0 5.6
+    box 0.96 1.5 -8.6 0.01 0.3 1.9 2A3A4A glass
+    repeat 4 0 0 5.6
+    box 0 1.5 -5.89 0.85 0.3 0.01 2A3A4A glass
+    repeat 4 0 0 5.6
+    tube 0.8 0.36 -6.6 0.97 0.36 -6.6 0.36 10 1E1E1E
+    repeat 4 0 0 5.6
+    tube 0.8 0.36 -10.2 0.97 0.36 -10.2 0.36 10 1E1E1E
+    blob 2.2 1.0 0 0.18 0.3 0.15 F2C21E
+    blob 2.2 1.42 0 0.1 0.11 0.1 4A3020
+    tube 2.2 1.2 0.15 2.4 1.7 0.3 0.04 3 F2C21E
+    box 3.2 0.25 3 0.3 0.25 0.2 2A6AC8
+    tube 3.2 0 3.3 3.2 2.2 3.3 0.03 3 8A8A8A
+    spire 3.2 2.0 3.3 1.0 0.3 8 E83A2A
+
+shape MEERKATS
+    home SOUTH AFRICA, BOTSWANA, NAMIBIA | 0.004 2 25 | country
+    # Meerkats on sentry duty by their burrow: little tan bodies standing bolt upright on their hind legs, dark eye patches, all looking the same way.
+    dome 0 0 0 0.8 0.2 B89870
+    repeat 5 0.25 0 0.3
+    blob -0.6 0.32 -0.6 0.07 0.16 0.06 C8A878
+    repeat 5 0.25 0 0.3
+    blob -0.6 0.53 -0.6 0.05 0.06 0.05 C8A878
+    repeat 5 0.25 0 0.3
+    blob -0.55 0.54 -0.6 0.025 0.02 0.03 3A2A1E
+    repeat 5 0.25 0 0.3
+    tube -0.6 0.18 -0.65 -0.6 0.02 -0.85 0.02 3 B89870
+
+shape TAXI_BROUSSE
+    home MADAGASCAR, SENEGAL, MALI, BURKINA FASO, NIGER, GUINEA, CAMEROON, CHAD, MAURITANIA, BENIN, TOGO | 0.006 2 25
+    # A bush taxi loaded for the long road: an old minibus with luggage, bicycles, sacks and a goat piled on the roof rack.
+    box 0 1.2 0 1.0 0.8 2.6 C8C0A8
+    box 1.01 1.5 0.2 0.01 0.3 2.0 2A3A4A glass
+    tbox 0 0.5 2.6 1 0.6 0 1.8 2.75 0.95 0.3 C8C0A8
+    box 0 1.65 2.85 0.85 0.25 0.01 2A3A4A glass
+    box 0 2.05 -0.2 0.95 0.05 2.3 3A3A3A
+    blob 0.3 2.4 -1.2 0.5 0.35 0.8 8A5A3A 0.5
+    blob -0.4 2.35 0.5 0.45 0.3 0.6 2A6AC8 0.5
+    blob 0.3 2.45 1.2 0.35 0.35 0.4 C8B060 0.4
+    hoop 0 2.5 -0.3 0.3 0.03 10 3A3A3A
+    blob -0.5 2.4 -1.6 0.1 0.15 0.22 F2F2F2
+    mirrorx
+    tube 0.85 0.38 2.0 1.02 0.38 2.0 0.38 10 1E1E1E
+    mirrorx
+    tube 0.85 0.38 -1.8 1.02 0.38 -1.8 0.38 10 1E1E1E
+
+shape GELADA_BABOONS
+    home ETHIOPIA:AMHARA, ETHIOPIA | 0.006 4 40 | country
+    # Gelada monkeys grazing on the highland meadow at the cliff edge: shaggy brown manes, a bright red patch of bare skin on the chest.
+    repeat 5 0.9 0 1.1
+    blob -1.8 0.35 -2.2 0.22 0.3 0.25 8A6A48
+    repeat 5 0.9 0 1.1
+    blob -1.72 0.45 -2.2 0.12 0.12 0.15 C83A3A
+    repeat 5 0.9 0 1.1
+    blob -1.8 0.65 -2.15 0.2 0.18 0.2 7A5A38
+    repeat 5 0.9 0 1.1
+    blob -1.72 0.68 -2.1 0.08 0.08 0.08 3A2A1E
+    blob -3 0.2 0 1 0.3 4 8A8478 0.5
+
+shape CALABASH_STALL
+    home NIGERIA, GHANA, MALI, BURKINA FASO, NIGER, SENEGAL, BENIN, TOGO, CAMEROON, CHAD | 0.006 1 12 | town
+    # A market stall of calabashes: gourd bowls of every size stacked in pyramids, some carved with patterns, under a straw shade.
+    box 0 0.3 0 0.8 0.3 1.4 8A6A48
+    repeat 4 0 0 0.7
+    dome 0.3 0.6 -1.05 0.3 0.25 C8A060
+    repeat 3 0 0 0.7
+    dome -0.3 0.6 -0.7 0.32 0.27 B89050
+    repeat 3 0 0 0.7
+    dome 0 0.86 -0.7 0.25 0.2 D8B070
+    mirror
+    mirrorx
+    tube 1 0 1.6 1 2 1.6 0.05 4 8A6A48
+    box 0 2.05 0 1.2 0.08 1.8 C8B070
+
+shape CAR_RAPIDE
+    home SENEGAL | 0.008 1 15 | town
+    # A car rapide of Dakar: an old blue and yellow minibus painted with flowers and slogans, the boy riding on the back step.
+    box 0 1.2 0 1.0 0.8 2.6 2A6AC8
+    box 0 1.85 0 1.01 0.15 2.6 F2C21E
+    box 1.01 0.75 0 0.01 0.3 2.6 F2C21E
+    box 1.01 1.45 0.2 0.01 0.25 2.0 2A3A4A glass
+    repeat 4 0 0 1.2
+    blob 1.02 0.75 -1.8 0.01 0.18 0.18 C82A2A
+    tbox 0 0.5 2.6 1 0.6 0 1.8 2.75 0.95 0.3 F2C21E
+    box 0 1.65 2.85 0.85 0.25 0.01 2A3A4A glass
+    box 0 0.4 -2.75 0.7 0.05 0.15 8A8A8A
+    blob 0.3 1.0 -2.75 0.12 0.28 0.12 F2F2F2
+    blob 0.3 1.4 -2.75 0.08 0.1 0.08 3A2A1E
+    mirrorx
+    tube 0.85 0.38 2.0 1.02 0.38 2.0 0.38 10 1E1E1E
+    mirrorx
+    tube 0.85 0.38 -1.8 1.02 0.38 -1.8 0.38 10 1E1E1E
+
+shape KANGA_WASHING_LINE
+    home KENYA, TANZANIA, UGANDA, MOZAMBIQUE, MALAWI, ZAMBIA, RWANDA, SOMALIA, MADAGASCAR | 0.006 2 20 | country
+    # Bright printed cloths drying on a line between two poles in front of a small house, red, yellow, green and blue.
+    box -3 1.3 0 2 1.3 3 D8C8A8
+    gable -3 2.6 0 2.2 3.2 0.8 0.3 9AA0A8 D8C8A8
+    tube 0 0 -3 0 2 -3 0.04 3 8A6A48
+    tube 0 0 3 0 2 3 0.04 3 8A6A48
+    tube 0 1.95 -3 0 1.95 3 0.01 3 8A8A8A
+    box 0.02 1.5 -2.2 0.01 0.45 0.55 C82A2A
+    box 0.02 1.5 -1.0 0.01 0.45 0.55 F2C21E
+    box 0.02 1.5 0.2 0.01 0.45 0.55 2A8A4A
+    box 0.02 1.5 1.4 0.01 0.45 0.55 2A6AC8
+    box 0.02 1.5 2.5 0.01 0.45 0.4 E8701E
+
+shape ANKOLE_CATTLE
+    home UGANDA, RWANDA, BURUNDI, TANZANIA, DR CONGO:NORTH KIVU | 0.006 6 50 | country
+    # Ankole cattle at the water: reddish-brown cows carrying enormous curving horns as long as their bodies.
+    repeat 3 1.5 0 1.6
+    blob -1.5 1.15 -2 0.32 0.4 0.75 8A3A22
+    repeat 3 1.5 0 1.6
+    blob -1.5 1.25 -1.15 0.16 0.2 0.28 8A3A22
+    repeat 3 1.5 0 1.6
+    tube -1.4 1.45 -1.25 -0.6 2.4 -1.5 0.07 4 E8DCC0
+    repeat 3 1.5 0 1.6
+    tube -1.6 1.45 -1.25 -2.4 2.4 -1.5 0.07 4 E8DCC0
+    repeat 3 1.5 0 1.6
+    tube -1.3 0.85 -1.5 -1.3 0 -1.5 0.07 4 8A3A22
+    repeat 3 1.5 0 1.6
+    tube -1.7 0.85 -1.5 -1.7 0 -1.5 0.07 4 8A3A22
+    repeat 3 1.5 0 1.6
+    tube -1.3 0.85 -2.5 -1.3 0 -2.5 0.07 4 8A3A22
+    repeat 3 1.5 0 1.6
+    tube -1.7 0.85 -2.5 -1.7 0 -2.5 0.07 4 8A3A22
+
+shape MISSION_CHURCH
+    home KENYA, TANZANIA, UGANDA, RWANDA, BURUNDI, MALAWI, ZAMBIA, ZIMBABWE, MOZAMBIQUE, NIGERIA, GHANA, CAMEROON, DR CONGO, ANGOLA, LESOTHO, MADAGASCAR, ETHIOPIA | 0.004 6 50 | country
+    # A small brick mission church: red-brown walls, a corrugated tin roof, a cross on the gable and a bell hung on a frame outside.
+    box 0 2 0 3 2 6 A85A3A
+    gable 0 4 0 3.2 6.2 2 0.3 9AA0A8 A85A3A
+    windows 3.02 0.8 -5 0 1 10 2.6 0.2 3
+    box 0 2 6.01 0.8 1.4 0.02 5A3A22
+    tube 0 6 6.1 0 7.2 6.1 0.05 3 F2F2F2
+    box 0 6.85 6.12 0.3 0.05 0.02 F2F2F2
+    tube 4.5 0 3 4.5 2.5 3 0.06 4 8A6A48
+    tube 4.5 0 4.5 4.5 2.5 4.5 0.06 4 8A6A48
+    tube 4.5 2.5 2.9 4.5 2.5 4.6 0.05 3 8A6A48
+    blob 4.5 2.25 3.75 0.18 0.22 0.18 6A5A40
+
+shape AIRTIME_KIOSK
+    home KENYA, TANZANIA, UGANDA, NIGERIA, GHANA, ZAMBIA, MALAWI, ZIMBABWE, MOZAMBIQUE, RWANDA, CAMEROON, IVORY COAST, SENEGAL, DR CONGO, SOUTH AFRICA | 0.008 1 12 | town
+    # A phone credit kiosk: a little wooden booth painted all over in a network's bright colour, with a hatch window and a big painted sign.
+    box 0 1.2 0 0.9 1.2 0.9 F2C21E
+    box 0.91 1.4 0 0.01 0.45 0.5 2A2018
+    box 0.92 2.1 0 0.01 0.2 0.8 1E1E1E
+    gable 0 2.4 0 1.0 1.0 0.4 0.15 9AA0A8 F2C21E
+    box 0.4 0.4 1.6 0.3 0.4 0.3 C82A2A
+
+shape SISAL_ROWS
+    home TANZANIA, KENYA, MADAGASCAR, BRAZIL:BAHIA, BRAZIL:PARAIBA, MEXICO:YUCATAN | 0.008 6 60 | country
+    # A sisal plantation: rows of big spiky blue-green rosettes, a few tall flower poles shooting up among them.
+    box -4 0.02 0 5 0.02 7 B89870
+    repeat 6 0 0 2.2
+    blob 0 0.6 -5.5 0.9 0.6 0.9 5A8A7A 0.7
+    repeat 6 0 0 2.2
+    blob -2.5 0.6 -4.4 0.9 0.6 0.9 5A8A7A 0.7
+    repeat 6 0 0 2.2
+    blob -5 0.6 -5.5 0.9 0.6 0.9 5A8A7A 0.7
+    tube 0 0.8 -1.1 0.1 6 -1.1 0.08 4 8A8A60
+    blob 0.1 6 -1.1 0.4 0.6 0.4 6A7A40 0.5
+    tube -5 0.8 3.3 -5.1 5.5 3.3 0.08 4 8A8A60

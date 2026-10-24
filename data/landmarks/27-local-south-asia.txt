@@ -208,7 +208,7 @@ shape AMBASSADOR_CAR
     box 0 0.55 2.22 0.4 0.12 0.02 C8C8C8 shiny
 
 shape CYCLE_RICKSHAW
-    home INDIA, BANGLADESH, NEPAL, PAKISTAN | 0.005 3 20 | town
+    home INDIA, BANGLADESH, NEPAL, PAKISTAN, MADAGASCAR | 0.005 3 20 | town
     # A cycle rickshaw: a bicycle front pulling a padded seat for two under a folding hood painted with flowers.
     hoop 0 0.35 1.0 0.35 0.025 12 2A2A2A
     tube 0 0.35 1.0 0 1.0 0.6 0.03 3 1E1E1E
