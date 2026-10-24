@@ -1,0 +1,266 @@
+# India, state by state: the ones the first tour had left out, Delhi, Kashmir and the Andaman Islands.
+
+place KASHMIR | DAL LAKE | INDIA | MORNING | JAMMU AND KASHMIR
+    sea 1 0 -3
+    water 5A7A8A
+    land 6AA048 609440 6A8A58
+    ranges 6A7080 F2F4F8 13
+    hills 24 6 6
+    drive 2 0.4 0.95 10
+    bends 0.45 0.4 0.4
+    p POPLAR 0.12 4 80
+    p CHALET 0.012 8 60
+    c B88A5A 4A4A50
+    p HOUSEBOAT 0.02 20 120
+    floating
+    p MOSQUE 0.002 60 200
+    v 0
+
+place HARYANA | KURUKSHETRA | INDIA | HAZE | HARYANA
+    land 8AA850 7E9C48 8A9A60
+    fields 0.8 D8C060 8AB04A C8A050
+    drive 2 0.8 0.95 10
+    bends 0.15 0.2 0.05
+    p BROADLEAF 0.06 6 120
+    c 4E8A3E
+    p FLAT_HOUSE 0.012 10 60
+    c E8D8B8 A8583A
+    p COW 0.02 4 40
+    v 0
+
+place DELHI | DELHI | INDIA | HAZE | DELHI
+    fog 0.0026 D8C8A8
+    land 8A9A68 7E8E60 8A8A70
+    drive 4 1.8 0.95 10
+    bends 0.25 0.25 0.05
+    lamps 35
+    posts 0
+    p FLAT_HOUSE 0.08 4 40
+    pastel
+    p PANEL_BLOCK 0.04 20 150
+    p BROADLEAF 0.1 2 20
+    c 4E8A3E
+    p MOSQUE 0.002 100 300
+    v 1
+    landmark INDIA_GATE 50 90
+    landmark LOTUS_TEMPLE 120 200
+
+place UTTARAKHAND | RISHIKESH | INDIA | MORNING | UTTARAKHAND
+    sea 0 1 -16
+    water 3A8A9A
+    land 5E9A48 549040 5E8A50
+    ranges 6A7080 F2F4F8 13
+    hills 40 20 -12
+    drive 2 0.4 0.95 10
+    bends 0.65 0.55 0.6
+    bridges 0.25 SUSPENSION E0A040
+    p PINE 0.2 4 150
+    p TEMPLE_TOWER 0.004 30 150
+    c F0E0C0 E06A3A
+    p PRAYER_FLAGS 0.02 4 30
+
+place GUJARAT | RANN OF KUTCH | INDIA | DESERT | GUJARAT
+    land F2F0EA E8E6DE D8D4C8
+    verge E8E4D8
+    shine 0.4
+    hills 2 0 0
+    drive 2 0.2 0.98 10
+    bends 0.1 0.15 0.05
+    p HUT 0.006 20 100
+    c F2F0EA 8A6A4A
+    p CAMEL 0.008 10 100
+    landmark STATUE_OF_UNITY 300 450 0.8
+
+place MADHYA_PRADESH | KHAJURAHO | INDIA | GOLDEN | MADHYA PRADESH
+    land 9AA060 8E9458 A09A6A
+    hills 10 3 3
+    drive 2 0.4 0.95 10
+    bends 0.35 0.3 0.25
+    p TEMPLE_TOWER 0.01 40 200
+    c D8B888 C8A070
+    p STUPA 0.003 60 200
+    p ACACIA 0.05 6 120
+    p COW 0.02 4 40
+    v 0
+
+place TAMIL_NADU | MADURAI | INDIA | NOON | TAMIL NADU
+    land 6A9A48 609040 6A8A58
+    fields 0.4 6AA040 8AB050 4E8A3A
+    drive 3 1.0 0.95 10
+    bends 0.3 0.3 0.1
+    lamps 40
+    p PALM 0.2 2 40
+    p FLAT_HOUSE 0.05 6 40
+    pastel
+    landmark GOPURAM 50 90
+    p TEMPLE_TOWER 0.004 60 200
+    c E8C070 D84A3A
+
+place ANDHRA_PRADESH | ARAKU VALLEY | INDIA | MIST | ANDHRA PRADESH
+    fog 0.0024
+    land 5E9A48 549040 5E8A50
+    hills 30 10 10
+    drive 2 0.3 0.95 10
+    bends 0.6 0.5 0.55
+    p TEA_ROW 0.25 6 60 1 1
+    p BROADLEAF 0.15 4 120
+    c 3E7A32
+    p HUT 0.01 8 60
+
+place TELANGANA | HYDERABAD | INDIA | HAZE | TELANGANA
+    land 9A9A70 8E8E66 A09A7A
+    drive 3 1.4 0.95 10
+    bends 0.3 0.3 0.1
+    lamps 35
+    p FLAT_HOUSE 0.06 4 40
+    pastel
+    p GLASS_TOWER 0.02 40 200
+    c 8A9AA8
+    p GRANITE_DOME 0.004 60 200 0.5 0.8
+    landmark CHARMINAR 40 70
+
+place CHHATTISGARH | CHITRAKOTE FALLS | INDIA | MORNING | CHHATTISGARH
+    sea 0 1 -10
+    water 6A6A4A
+    land 5E9A48 549040 5E8A50
+    hills 14 4 -8
+    drive 2 0.3 0.95 10
+    bends 0.45 0.4 0.4
+    p BROADLEAF 0.25 4 150
+    c 3E7A32
+    p WATERFALL 0.004 40 150
+    v 0
+    p HUT 0.008 8 60
+
+place ODISHA | KONARK | INDIA | NOON | ODISHA
+    sea 1 0 -3
+    water 2A8AA8
+    land 7A9A50 709048 7A8A58
+    drive 2 0.5 0.95 10
+    bends 0.3 0.3 0.1
+    p PALM 0.15 2 40
+    p TEMPLE_TOWER 0.006 40 200
+    c 6A5A4A 5A4A3A
+    p HUT 0.012 8 60
+    c E8D8B8 8A6A4A
+
+place JHARKHAND | JHARKHAND FORESTS | INDIA | MIST | JHARKHAND
+    fog 0.0026
+    land 4E8A3A 46803A 5E8A48
+    hills 24 8 8
+    drive 2 0.3 0.95 10
+    bends 0.55 0.45 0.5
+    p BROADLEAF 0.35 4 150
+    c 3E6A32
+    p WATERFALL 0.002 40 150
+    p ELEPHANT 0.004 20 120
+
+place BIHAR | BODH GAYA | INDIA | HAZE | BIHAR
+    land 8AA850 7E9C48 8A9A60
+    fields 0.7 8AB04A D8C060 6AA040
+    drive 2 0.6 0.95 10
+    bends 0.2 0.2 0.05
+    p TEMPLE_TOWER 0.004 60 200
+    c C8B080 B89860
+    p STUPA 0.004 40 150
+    p PALM 0.06 4 60
+    p FLAT_HOUSE 0.012 10 60
+    c E8D8B8 A8583A
+
+place SIKKIM | KANGCHENJUNGA | INDIA | ALPINE | SIKKIM
+    land 5E9A48 549040 5E8A50
+    ranges 6A7080 F4F6FA 16
+    hills 60 40 -20
+    drive 2 0.2 0.92 10
+    bends 0.85 0.75 0.85
+    p PRAYER_FLAGS 0.05 3 30
+    p STUPA 0.006 20 120
+    p SPRUCE 0.2 4 150
+    p PEAK 0.006 300 600 1.6 2.2
+    c 7A7E86 F4F6FA
+
+place ARUNACHAL | TAWANG | INDIA | MIST | ARUNACHAL PRADESH
+    fog 0.0028
+    land 5E8A48 548040 5E7A50
+    ranges 6A7080 F2F4F8 13
+    hills 50 30 -10
+    drive 2 0.15 0.9 10
+    bends 0.8 0.7 0.75
+    p SPRUCE 0.25 4 150
+    p FORT 0.003 100 300
+    v 1
+    p PRAYER_FLAGS 0.03 4 30
+    p YAK 0.01 10 100
+
+place ASSAM | ASSAM TEA GARDENS | INDIA | MIST | ASSAM
+    fog 0.0024
+    land 5E9A48 549040 5E8A50
+    hills 6 2 2
+    drive 2 0.5 0.95 10
+    bends 0.3 0.3 0.15
+    p TEA_ROW 0.45 4 80 1 1
+    p BROADLEAF 0.06 6 120
+    c 3E7A32
+    p ELEPHANT 0.006 20 120
+    p HUT 0.008 10 60
+
+place NAGALAND | NAGA HILLS | INDIA | MIST | NAGALAND
+    fog 0.0026
+    land 4E8A3A 46803A 5E8A48
+    hills 34 14 14
+    drive 2 0.2 0.92 10
+    bends 0.7 0.6 0.65
+    p BAMBOO 0.25 4 100
+    p HUT 0.015 8 60
+    c 8A6A4A 6A5A3A
+    p TERRACES 0.004 40 150
+
+place MANIPUR | LOKTAK LAKE | INDIA | MORNING | MANIPUR
+    sea 1 0 -2
+    water 5A7A6A
+    land 6A9A48 609040 6A8A58
+    hills 16 4 4
+    drive 2 0.3 0.95 10
+    bends 0.4 0.35 0.3
+    p REEDS 0.2 3 60
+    p HUT 0.01 15 80
+    floating
+    p BOAT 0.008 20 100
+    floating
+
+place MIZORAM | MIZO HILLS | INDIA | MIST | MIZORAM
+    fog 0.0026
+    land 4E8A3A 46803A 5E8A48
+    hills 36 16 16
+    drive 2 0.2 0.92 10
+    bends 0.75 0.65 0.7
+    p BAMBOO 0.3 4 100
+    p FLAT_HOUSE 0.02 8 50
+    pastel
+    p CHURCH 0.004 30 120
+    c F2F0EA C83A2A
+
+place TRIPURA | AGARTALA | INDIA | HAZE | TRIPURA
+    sea 1 0 -2
+    water 4A7A7A
+    land 5E9A48 549040 5E8A50
+    drive 2 0.5 0.95 10
+    bends 0.3 0.3 0.15
+    p PALM 0.12 2 40
+    p FLAT_HOUSE 0.03 6 50
+    pastel
+    p MOSQUE 0.003 60 200
+    v 0
+
+place ANDAMAN | ANDAMAN ISLANDS | INDIA | TROPICAL | ANDAMAN AND NICOBAR
+    island ANDAMAN ISLANDS
+    sea 1 0 -2
+    water 2AB8C8
+    land E8DCC0 DCD0B4 4E8A3A
+    drive 2 0.2 0.95 10
+    bends 0.4 0.35 0.3
+    p PALM 0.3 2 40
+    p JUNGLE_TREE 0.1 8 120
+    p HUT 0.006 8 40
+    p WATER_VILLA 0.003 30 100
+    floating
