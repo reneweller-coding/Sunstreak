@@ -106,7 +106,7 @@ shape ABRA_BOAT
     blob -0.35 1.05 -1.35 0.13 0.25 0.12 3A3A6A
 
 shape SAFFRON_HARVEST
-    home IRAN, AFGHANISTAN, SPAIN:CASTILE-LA MANCHA, GREECE | 0.006 4 40 | country
+    home IRAN, AFGHANISTAN, SPAIN:CASTILE-LA MANCHA, GREECE, INDIA:JAMMU AND KASHMIR | 0.006 4 40 | country
     # A saffron field in autumn: low rows of purple crocus flowers on bare earth, baskets of picked blooms at the end of the rows.
     box -3 0.02 0 4 0.02 5 B89A78
     repeat 9 0 0 1.1

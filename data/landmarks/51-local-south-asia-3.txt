@@ -1,0 +1,232 @@
+# Still more local things of India and South Asia.
+
+shape SNAKE_BOAT
+    home INDIA:KERALA | 0.004 30 110 | water
+    # A Kerala snake boat: an immensely long, narrow black boat with its stern rising high like a cobra's hood, a golden flag at the top.
+    tbox 0 -0.2 0 0.3 16 0 0.3 0 0.6 17 2A2420
+    tube 0 0.3 -17 0 4 -20 0.3 6 2A2420
+    tube 0 4 -20 0 4.5 -19.5 0.2 6 D8A830
+    tube 0 4.5 -19.5 0 6 -19.5 0.03 3 8A6A48
+    tri 0 6 -19.5 0 5.4 -19.5 0 5.7 -18.6 F2C21E
+    box 0 0.3 0 0.61 0.04 17 D8A830
+    repeat 16 0 0 2
+    box 0 0.4 -15 0.5 0.03 0.1 8A6A48
+
+shape TEA_PLUCKERS
+    home INDIA:ASSAM, INDIA:WEST BENGAL, INDIA:KERALA, INDIA:TAMIL NADU, SRI LANKA, KENYA, NEPAL, BANGLADESH | 0.006 4 40 | country
+    # Tea pluckers in the garden: women in bright saris moving along the flat-topped bushes, big baskets on their backs, shade trees above.
+    repeat 6 0 0 1.4
+    box -2 0.5 -4 2.5 0.5 0.55 3A6A2A
+    repeat 3 0.9 0 2.8
+    tube -1 0 -3.3 -1 0.8 -3.3 0.12 5 E83A6A
+    repeat 3 0.9 0 2.8
+    box -1 1.1 -3.3 0.13 0.25 0.1 E8802A
+    repeat 3 0.9 0 2.8
+    blob -1 1.5 -3.3 0.09 0.1 0.09 6A4A30
+    repeat 3 0.9 0 2.8
+    cyl -1.2 1.1 -3.3 0.18 0.25 0.5 8 C8A060
+    tube -5 0 0 -5 6 0 0.2 5 9A9488
+    blob -5 7 0 3 0.8 3 4A7A3A 0.4
+
+shape SMALL_RAILWAY_STATION_IN
+    home INDIA, PAKISTAN, BANGLADESH, SRI LANKA | 0.004 4 40 | country
+    # A small railway station: a low ochre building with a red-tiled roof, the long platform, and the yellow name board with black letters at each end.
+    box 0 1.6 0 2.5 1.6 6 E8A84A
+    gable 0 3.2 0 2.7 6.2 1 0.4 B8503A E8A84A
+    windows 2.52 0.4 -5 0 1 10 2.4 0.3 3
+    box 4.5 0.4 0 2 0.4 12 B8B0A0
+    mirror
+    box 5.2 1.6 10 0.05 0.4 1.4 F2C21E
+    mirror
+    box 5.26 1.6 10 0.01 0.15 1.1 1E1E1E
+    mirror
+    tube 5.2 0.8 9 5.2 1.2 9 0.04 3 3A3A3A
+    mirror
+    tube 5.2 0.8 11 5.2 1.2 11 0.04 3 3A3A3A
+    box 8 0.15 0 0.8 0.15 14 7A7068
+
+shape DHOBI_GHAT
+    home INDIA:MAHARASHTRA, INDIA:RAJASTHAN, INDIA:UTTAR PRADESH, INDIA:GUJARAT | 0.004 4 40 | town
+    # An open-air laundry: rows of concrete washing pens with flogging stones, and lines and lines of white sheets and colourful saris drying.
+    repeat 6 0 0 1.6
+    box 0 0.4 -4 0.7 0.4 0.7 B8B0A0
+    repeat 6 0 0 1.6
+    box 0 0.82 -4 0.6 0.02 0.6 6A8A9A water
+    repeat 4 -1 0 0
+    tube -2 2 -5 -2 2 5 0.01 3 8A8A8A
+    repeat 6 0 0 1.6
+    box -2 1.6 -4 0.01 0.4 0.6 F2F2F2
+    repeat 6 0 0 1.6
+    box -3 1.6 -4.3 0.01 0.4 0.6 E83A6A
+    repeat 6 0 0 1.6
+    box -4 1.6 -3.8 0.01 0.4 0.6 F2F2F2
+    repeat 6 0 0 1.6
+    box -5 1.6 -4.1 0.01 0.4 0.6 2A6AC8
+
+shape PERSIAN_WHEEL
+    home INDIA:PUNJAB, INDIA:RAJASTHAN, INDIA:HARYANA, PAKISTAN | 0.004 4 30 | country
+    # An old well wheel: a bullock walking in a circle turning the gear, a chain of buckets lifting water from the well into the channel.
+    halo 0 0.05 0 2.5 0.15 16 9A8A70
+    cyl 0 0 0 0.25 0.25 1.5 8 6A4A30
+    tube 0 1.4 0 2.4 1.2 0 0.08 4 6A4A30
+    blob 2.4 1.0 0 0.3 0.4 0.75 E8E4DC
+    blob 2.4 1.1 0.9 0.17 0.2 0.3 E8E4DC
+    tube 2.55 0.6 0.4 2.55 0 0.4 0.07 4 E8E4DC
+    tube 2.25 0.6 0.4 2.25 0 0.4 0.07 4 E8E4DC
+    tube 2.55 0.6 -0.4 2.55 0 -0.4 0.07 4 E8E4DC
+    tube 2.25 0.6 -0.4 2.25 0 -0.4 0.07 4 E8E4DC
+    cyl -3.5 0 0 1 1 0.6 12 A8986A
+    hoop -3.5 1.2 0 1.2 0.08 14 6A4A30
+    at -3.5 1.2 0
+    vring 10 1.2
+    box 0 0 0 0.12 0.12 0.12 9A9A9A
+    at 0 0 0
+    box -3.5 0.05 3 0.25 0.05 2 6A9AB8 water
+
+shape DAL_HOUSEBOAT
+    home INDIA:JAMMU AND KASHMIR | 0.008 6 50 | country
+    # A Kashmiri houseboat on the lake: a long carved cedar hull with a gabled cabin, a front veranda and a little shikara tied alongside.
+    box 2 0.02 0 4 0.02 10 4A6A6A water
+    box 2 0.4 0 1.6 0.4 7 6A4A30
+    box 2 1.6 -0.5 1.5 0.8 5.5 8A5A3A
+    gable 2 2.4 -0.5 1.6 5.6 0.9 0.2 6A4A3A 8A5A3A
+    repeat 8 0 0 1.3
+    box 3.51 1.7 -5 0.01 0.35 0.4 E8D8A8
+    box 2 0.85 6 1.4 0.05 1 8A6A48
+    mirror
+    mirrorx
+    tube 3.3 0.85 6.8 3.3 2.3 6.8 0.05 3 8A5A3A
+    box 2 2.35 6 1.5 0.05 1.1 6A4A3A
+    tbox 4.6 -0.1 3 0.25 2 4.6 0.3 3 0.35 2.3 8A3A2A
+    box 4.6 0.9 3 0.4 0.05 0.8 E8C02A
+
+shape BLACK_YELLOW_TAXI
+    home INDIA:MAHARASHTRA | 0.008 1 12 | town
+    # A black and yellow taxi of Mumbai: a small rounded old sedan, black below and yellow on the roof, its meter flag on the bonnet.
+    box 0 0.55 0 0.75 0.3 1.9 1E1E1E
+    box 0 0.95 -0.2 0.7 0.2 1.0 F2C21E
+    box 0 0.95 -0.2 0.71 0.16 0.85 2A3A4A glass
+    box 0 1.17 -0.2 0.65 0.04 0.95 F2C21E
+    box 0 1.25 0.2 0.15 0.05 0.12 F2F2F2
+    mirror
+    mirrorx
+    tube 0.6 0.3 1.25 0.77 0.3 1.25 0.3 10 1E1E1E
+
+shape JUTE_DRYING
+    home BANGLADESH, INDIA:WEST BENGAL, INDIA:ASSAM, INDIA:BIHAR | 0.008 2 30 | country
+    # Jute fibre drying in the sun: long golden hanks draped over bamboo rails along the road and over the bridge railings.
+    repeat 6 0 0 2
+    tube 0 0 -5 0 1.6 -5 0.05 3 B8A060
+    tube 0 1.55 -5.5 0 1.55 5.5 0.04 3 B8A060
+    repeat 20 0 0 0.5
+    box 0 1.15 -4.75 0.06 0.45 0.18 D8C080
+    repeat 12 0 0 0.6
+    box -1.5 0.1 -3.5 0.4 0.05 0.25 C8B070
+
+shape TREKKING_LODGE
+    home NEPAL, BHUTAN, INDIA:SIKKIM, INDIA:HIMACHAL PRADESH, INDIA:UTTARAKHAND | 0.004 6 50 | country
+    # A trekkers' tea house: a two-storey stone lodge with blue window frames, a painted sign, prayer flags strung from its roof to a pole.
+    box 0 2.2 0 3 2.2 4 B8B0A0
+    hip 0 4.4 0 3.3 4.3 1.2 0.3 2A5AA8
+    repeat 4 0 0 2
+    box 3.02 3.2 -3 0.02 0.45 0.45 2A6AC8
+    repeat 4 0 0 2
+    box 3.02 1.4 -3 0.02 0.45 0.45 2A6AC8
+    box 3.03 4.0 0 0.02 0.25 1.8 F2F2F2
+    tube 6 0 3 6 6 3 0.05 3 8A6A48
+    tube 6 6 3 0 5.2 0 0.01 3 C8C8C8
+    repeat 6 -1 -0.13 -0.5
+    box 5 5.72 2.5 0.12 0.15 0.01 C82A2A
+    repeat 6 -1 -0.13 -0.5
+    box 4.5 5.65 2.25 0.12 0.15 0.01 2A6AC8
+    repeat 3 0 0 1.2
+    box 4.2 0.45 -1.2 0.6 0.03 0.4 8A6A48
+
+shape DOKO_PORTERS
+    home NEPAL, BHUTAN, INDIA:SIKKIM | 0.004 2 25 | country
+    # Porters on the mountain path: men bent under huge conical baskets slung from a strap across their foreheads, leaning on T-shaped sticks.
+    repeat 3 0 0 2
+    tube 0.06 0.75 -2 0.06 0 -2 0.05 3 3A3A3A
+    repeat 3 0 0 2
+    tube -0.06 0.75 -2 -0.06 0 -2 0.05 3 3A3A3A
+    repeat 3 0 0 2
+    tube 0 0.75 -2 0.15 1.25 -1.85 0.13 5 6A5A8A
+    repeat 3 0 0 2
+    blob 0.2 1.4 -1.8 0.09 0.1 0.09 8A6048
+    repeat 3 0 0 2
+    cyl -0.15 0.9 -2.15 0.15 0.4 1.0 8 B8A060
+    repeat 3 0 0 2
+    blob -0.15 1.95 -2.15 0.38 0.15 0.38 8A5A3A 0.5
+    repeat 3 0 0 2
+    tube 0.3 0 -1.6 0.3 1.1 -1.65 0.025 3 8A6A48
+
+shape APRICOT_ROOFS
+    home PAKISTAN, INDIA:LADAKH, AFGHANISTAN, TAJIKISTAN | 0.008 3 30 | country
+    # Apricots drying on the flat roofs of the mountain village: orange carpets of fruit spread out on every roof against the grey peaks.
+    box 0 1.5 -3 2 1.5 2.5 B8A890
+    box 0 3.02 -3 1.9 0.02 2.4 E8902A
+    box -1 1.8 2.5 2.5 1.8 2.5 C8B8A0
+    box -1 3.62 2.5 2.4 0.02 2.4 F2A23A
+    box 2.02 1.0 -3 0.02 1.0 0.4 4A3A2A
+    tube 3 0 6 3 6 6 0.25 6 B8B0A0
+    blob 3 7 6 1.2 1.5 1.2 6A8A3A 0.4
+
+shape ARCHERY_TARGETS
+    home BHUTAN | 0.006 6 60 | country
+    # An archery range in the meadow: two small brightly painted wooden targets set far apart, archers in robes waiting their turn.
+    box 0 0.7 -14 0.05 0.7 0.15 F2F2F2
+    box 0.06 0.9 -14 0.01 0.25 0.12 C82A2A
+    box 0.06 0.6 -14 0.01 0.08 0.12 2A6AC8
+    box 0 0.7 14 0.05 0.7 0.15 F2F2F2
+    box 0.06 0.9 14 0.01 0.25 0.12 C82A2A
+    box 0.06 0.6 14 0.01 0.08 0.12 2A6AC8
+    repeat 3 0 0 0.8
+    tbox 1 0 11 0.25 0.2 1 1.4 11 0.18 0.14 8A3A2A
+    repeat 3 0 0 0.8
+    blob 1 1.6 11 0.1 0.11 0.1 8A6048
+    tube 1.3 1.2 11 1.3 2.6 11 0.02 3 6A5A48
+
+shape SPICE_CONES_STALL
+    home INDIA, PAKISTAN, SRI LANKA, MOROCCO, TURKEY, IRAN, EGYPT, TUNISIA, OMAN, UAE | 0.006 1 12 | town
+    # A spice seller's stall: neat cones of ground spices in red, yellow, orange and brown heaped in baskets, sacks of whole spices below.
+    box 0 0.6 0 0.6 0.6 1.4 8A6A48
+    repeat 4 0 0 0.7
+    cyl 0.2 1.2 -1.05 0.25 0.25 0.1 10 C8A060
+    spire 0.2 1.3 -1.05 0.22 0.35 10 C82A1E
+    spire 0.2 1.3 -0.35 0.22 0.35 10 E8C02A
+    spire 0.2 1.3 0.35 0.22 0.35 10 E8802A
+    spire 0.2 1.3 1.05 0.22 0.35 10 8A5A2A
+    repeat 3 0 0 0.9
+    cyl 0.9 0 -0.9 0.25 0.22 0.5 8 C8B890
+    box -0.8 1.5 0 0.1 1.5 1.6 C8B8A0
+    quad 0.7 2.6 -1.6 0.7 2.6 1.6 -0.8 2.9 1.6 -0.8 2.9 -1.6 C82A2A
+
+shape GARLAND_STALL
+    home INDIA, NEPAL, BANGLADESH, SRI LANKA | 0.006 1 12 | town
+    # A flower garland seller by the temple: strings of orange and yellow marigolds and white jasmine hanging in heavy loops.
+    box 0 0.6 0 0.5 0.6 1.2 8A6A48
+    tube 0.5 2.0 -1.2 0.5 2.0 1.2 0.03 3 6A5A48
+    mirror
+    tube 0.5 0 1.2 0.5 2 1.2 0.04 3 6A5A48
+    repeat 8 0 0 0.3
+    tube 0.5 2.0 -1.05 0.5 1.1 -1.05 0.06 4 F2902A
+    repeat 8 0 0 0.3
+    tube 0.5 2.0 -0.9 0.5 1.3 -0.9 0.05 4 F2C21E
+    repeat 5 0 0 0.4
+    blob 0.1 1.25 -0.8 0.18 0.06 0.18 F2F2EE 0.6
+    blob -0.5 0.9 0 0.18 0.3 0.15 F2F2F2
+    blob -0.5 1.3 0 0.1 0.11 0.1 6A4A30
+
+shape HAY_LADEN_TRUCK
+    home INDIA:PUNJAB, INDIA:HARYANA, INDIA:UTTAR PRADESH, INDIA:RAJASTHAN, PAKISTAN | 0.004 2 25
+    # A truck loaded with straw: a load bulging out far wider and higher than the truck itself, wrapped in sacking and roped down.
+    box 0 1.4 3 1.1 0.8 0.9 2A6AC8
+    box 0 1.85 3.91 1.0 0.3 0.01 2A3A4A glass
+    box 0 0.8 -1 1.1 0.2 3 6A6A6A
+    blob 0 2.8 -1.2 2.0 1.8 3.4 D8C890 0.3
+    tube -2 3 -1 2 3 -1 0.02 3 8A6A48
+    tube -2 3 -2.5 2 3 -2.5 0.02 3 8A6A48
+    mirrorx
+    tube 0.85 0.45 2.8 1.12 0.45 2.8 0.45 10 1E1E1E
+    mirrorx
+    tube 0.85 0.45 -2.5 1.12 0.45 -2.5 0.45 10 1E1E1E

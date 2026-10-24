@@ -148,7 +148,7 @@ shape TIBETAN_HOUSE
     box 3.98 1.1 0 0.03 1.1 0.5 C83A2A
 
 shape UYGHUR_DRYING_HOUSE
-    home CHINA:XINJIANG | 0.008 6 60 | country
+    home CHINA:XINJIANG, AFGHANISTAN | 0.008 6 60 | country
     # A raisin drying house of Turpan: a tall mud-brick barn with walls of open brick lattice for the hot dry wind.
     box 0 2.5 0 2.5 2.5 5 C8A070
     repeat 8 0 0 1.2

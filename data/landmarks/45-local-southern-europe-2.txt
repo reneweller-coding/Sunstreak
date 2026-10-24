@@ -34,7 +34,7 @@ shape ROUNDABOUT_ART
     hoop 1.02 3.2 0.25 1.1 0.06 12 3A3A3A
 
 shape AUTOROUTE_TOLL
-    home FRANCE, SPAIN, ITALY, PORTUGAL, CROATIA, GREECE, SERBIA, NORTH MACEDONIA | 0.003 4 30
+    home FRANCE, SPAIN, ITALY, PORTUGAL, CROATIA, GREECE, SERBIA, NORTH MACEDONIA, INDIA | 0.003 4 30
     # A motorway toll plaza: a long canopy over a row of booths with green arrows and red crosses lit above the lanes.
     box 0 6 0 3 0.5 16 F2F2F2
     box 3.01 6 0 0.01 0.3 15.5 2A6AC8
