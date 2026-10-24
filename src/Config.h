@@ -92,6 +92,7 @@ struct LaunchOptions
     int         m_journey = -1;        ///< start this journey (0-based; -1: none)
     bool        m_resume = false;      ///< continue the saved endless run
     bool        m_daily = false;       ///< start the daily challenge
+    bool        m_travel = false;      ///< start travelling (the world tour without a clock)
     std::string m_action;              ///< testing: replay, photo, reload (the data files) or save (and quit) after m_actionAt seconds of racing
     float       m_actionAt = 0.0f;     ///< when
     int         m_camera = -1;         ///< a camera for this run only (-1: the settings')

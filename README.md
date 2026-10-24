@@ -45,6 +45,8 @@ VIBRATION; on the Deck through Steam Input).
 - **Endless run**: the clock, the checkpoints and the stages, on a fresh random track each time. On the world tour it
   continues where the last endless run stopped (left and right on the title: NEW TOUR). SAVE AND QUIT in the pause menu
   keeps the run as it stands, the place on the road, the clock and the score; RESUME on the title drives on from there.
+- **Travel**: the world tour without a clock, on and on from where the last tour stopped, for the places, the passport and
+  the postcards. Speed cameras and the police still fine you, in points.
 - **Championship**: five races on generated tracks against eleven rivals, from the back of the grid; points
   10-8-6-5-4-3-2-1 per race, the standings after each. Rivals draft in your slipstream and you in theirs.
 - **Track Lab**: mode (time attack or a race against the eleven), scenery (the world tour, all mixed, or one place:
@@ -316,6 +318,7 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --weather clear|rain|storm|fog|snow|sand   that weather all the way (testing)
     --time place|clock|dawn|day|dusk|night     the time of day for this start
     --autopilot                   the car drives itself
+    --travel                      travel: the world tour without a clock
     --look-back                   the camera looks back all the time (screenshots)
     --distance M                  start M metres down the road
     --size WxH                    window size for this start

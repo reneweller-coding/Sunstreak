@@ -421,6 +421,9 @@ void Game::menus( const MenuInput &m )
         case TitleE::DAILY:
             if( carReady() ) startDaily();
             break;
+        case TitleE::TRAVEL:
+            if( carReady() ) startTravel();
+            break;
         case TitleE::RALLIES:
             m_state = StateE::RALLIES;
             m_menuIndex = 0;
@@ -1106,8 +1109,9 @@ void Game::drawTitle()
     if( m_endlessStart == 0 && savedAt >= 0 ) tour = shorten( "RESUME ", biomeDef( static_cast<BiomeE>( savedAt ) ).m_name );
     else if( m_endlessStart == 1 && continues ) tour = shorten( "FROM ", biomeDef( static_cast<BiomeE>( tourAt ) ).m_name );
     else if( savedAt >= 0 || continues ) tour = "NEW TOUR";
-    drawMenu( "", { "ENDLESS RUN", "DAILY CHALLENGE", "RALLIES", "CHAMPIONSHIP", "TRACK LAB", "GARAGE", "PASSPORT", "RECORDS", "SETTINGS", "QUIT" },
-              { tour, daily, format( "%d / %d DONE", done, static_cast<int>( rallies().size() ) ), "", "", garageValue( GarageE::CAR ),
+    const std::string travel = tourAt >= 0 ? shorten( "FROM ", biomeDef( static_cast<BiomeE>( tourAt ) ).m_name ) : std::string( "NO CLOCK" );
+    drawMenu( "", { "ENDLESS RUN", "TRAVEL", "DAILY CHALLENGE", "RALLIES", "CHAMPIONSHIP", "TRACK LAB", "GARAGE", "PASSPORT", "RECORDS", "SETTINGS", "QUIT" },
+              { tour, travel, daily, format( "%d / %d DONE", done, static_cast<int>( rallies().size() ) ), "", "", garageValue( GarageE::CAR ),
                 format( "%d / %d COUNTRIES", m_records.countriesSeen(), countryCount() ), "", "", "" },
               H * 0.3f, 0.84f );
 }
@@ -2578,8 +2582,8 @@ void Game::drawHud()
         const bool  low = m_timeLeft < 10.0f && !m_timeUp && !m_finishedTrack;
         const float pulse = low ? 0.5f + 0.5f * std::sin( m_time * 12.0f ) : 0.0f;
         const Color tc = low ? lerpColor( Ink, Red, 0.5f + 0.5f * pulse ) : Ink;
-        txt( "TIME", W * 0.5f, 12.0f * u, 13.0f * u, Dim, AlignE::CENTER );
-        if( m_mode == ModeE::RALLY )
+        txt( m_mode == ModeE::TRAVEL ? "ON THE ROAD" : "TIME", W * 0.5f, 12.0f * u, 13.0f * u, Dim, AlignE::CENTER );
+        if( m_mode == ModeE::RALLY || m_mode == ModeE::TRAVEL )
             drawTextFx( clockText( m_raceTime ), W * 0.5f, 32.0f * u, 46.0f * u, Ink, AlignE::CENTER, 0.6f );
         else
             drawTextFx( format( "%d", static_cast<int>( std::ceil( m_timeLeft ) ) ), W * 0.5f, 32.0f * u, ( 54.0f + 6.0f * pulse ) * u, tc,

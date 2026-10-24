@@ -205,6 +205,7 @@ LaunchOptions parseCommandLine( int argc, char **argv )
         else if( a == "--journey" ) o.m_journey = std::atoi( next().c_str() ) - 1;
         else if( a == "--resume" ) o.m_resume = true;
         else if( a == "--daily" ) o.m_daily = true;
+        else if( a == "--travel" ) o.m_travel = true;
         else if( a == "--action" )
         {
             o.m_action = next();

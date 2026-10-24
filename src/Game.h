@@ -81,6 +81,7 @@ enum class SettingE
 enum class TitleE
 {
     ENDLESS,       ///< endless run
+    TRAVEL,        ///< the world tour without a clock
     DAILY,         ///< the daily challenge
     RALLIES,       ///< long-distance routes
     CHAMPIONSHIP,  ///< five races
@@ -165,6 +166,7 @@ enum class ModeE
     CUSTOM,        ///< a Track Lab track (time attack or a single race)
     DAILY,         ///< today's track, the same for everyone
     RALLY,         ///< a long-distance route against the clock
+    TRAVEL,        ///< the world tour without a clock: on and on, where the last tour stopped
 };
 
 /** @brief A moment of the drive, recorded for the replay. */
@@ -543,6 +545,9 @@ private:
 
     /** @brief Draws the HUD of a run or a race. */
     void drawHud();
+
+    /** @brief Starts the world tour without a clock, where the last tour stopped. */
+    void startTravel();
 
     /** @brief The interior in the cockpit view: pillars, mirror, dashboard, dials, the wheel and the country's ornament. */
     void drawCockpit();

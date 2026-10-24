@@ -130,6 +130,10 @@ void Game::init()
     else if( m_options.m_resume && resumeRun() )
     {
     }
+    else if( m_options.m_travel )
+    {
+        startTravel();
+    }
     else if( m_options.m_daily )
     {
         startDaily();
@@ -865,6 +869,18 @@ bool Game::resumeRun()
     return true;
 }
 
+void Game::startTravel()
+{
+    TrackSetup s;
+    s.m_seed = m_options.m_seed ? ( ( m_options.m_seed & 0x1FFFFFFFull ) | 1ull ) : randomSeed();
+    s.m_params = endlessParams();
+    s.m_params.m_biome = SceneryWorld;
+    if( !m_records.m_tourAt.empty() && biomeId( m_records.m_tourAt ) >= 0 ) s.m_startBiome = biomeId( m_records.m_tourAt );
+    if( m_options.m_startBiome >= 0 ) s.m_startBiome = m_options.m_startBiome;
+    startTrack( s, ModeE::TRAVEL );
+    popup( "TRAVEL", "NO CLOCK, JUST THE ROAD", Accent, 1.0f, 3.0f );
+}
+
 std::vector<std::string> Game::pauseItems() const
 {
     std::vector<std::string> items = { "RESUME", "RESTART", "PHOTO MODE", "NEXT SONG", "SETTINGS" };
@@ -1267,7 +1283,7 @@ void Game::progress( double ds )
     }
     // The travel journal: the world tour's places as they are reached, and where the endless tour stands.
     GeoPoint where;
-    if( !m_demo && m_setup.m_params.m_biome == SceneryWorld && ( m_mode == ModeE::ENDLESS || m_mode == ModeE::DAILY ) &&
+    if( !m_demo && m_setup.m_params.m_biome == SceneryWorld && ( m_mode == ModeE::ENDLESS || m_mode == ModeE::DAILY || m_mode == ModeE::TRAVEL ) &&
         placeLocation( here, where ) )
     {
         const std::string &key = biomeKey( here );
@@ -1276,7 +1292,7 @@ void Game::progress( double ds )
             m_records.m_journey.push_back( key );
             if( m_records.m_journey.size() > 4000 ) m_records.m_journey.erase( m_records.m_journey.begin() );
         }
-        if( m_mode == ModeE::ENDLESS && !key.empty() ) m_records.m_tourAt = key;
+        if( ( m_mode == ModeE::ENDLESS || m_mode == ModeE::TRAVEL ) && !key.empty() ) m_records.m_tourAt = key;
     }
     if( !m_records.m_seen.test( bit ) )
     {
@@ -1672,9 +1688,13 @@ void Game::step( float h, const CarInput &in )
         }
         if( pe.m_caught )
         {
-            m_timeLeft = std::max( 0.0f, m_timeLeft - PoliceFine );
+            // The fine: seconds off the clock, or points where there is none.
+            const bool travel = m_mode == ModeE::TRAVEL;
+            if( travel ) m_score = std::max( 0.0, m_score - static_cast<double>( PoliceFine ) * 100.0 );
+            else m_timeLeft = std::max( 0.0f, m_timeLeft - PoliceFine );
             m_car.m_speed *= 0.5f;
-            popup( "CAUGHT", format( "-%d SEC  FINE", static_cast<int>( PoliceFine ) ), Red, 1.0f, 2.8f );
+            popup( "CAUGHT", travel ? format( "-%d  FINE", static_cast<int>( PoliceFine * 100.0f ) ) : format( "-%d SEC  FINE", static_cast<int>( PoliceFine ) ), Red,
+                   1.0f, 2.8f );
             m_audio.play( SfxE::BUMP, 0.6f );
         }
         if( pe.m_escaped )
@@ -1790,7 +1810,7 @@ void Game::timeAttackRules( float h )
         m_audio.playOnBeat( SfxE::CHECKPOINT );
         return;
     }
-    if( !m_timeUp && m_mode != ModeE::RALLY )
+    if( !m_timeUp && m_mode != ModeE::RALLY && m_mode != ModeE::TRAVEL )
     {
         m_timeLeft -= h;
         if( m_timeLeft <= 0.0f )
@@ -1810,7 +1830,7 @@ void Game::timeAttackRules( float h )
     while( m_car.m_s >= m_nextCheckpoint )
     {
         ++m_checkpoints;
-        if( !m_timeUp )
+        if( !m_timeUp && m_mode != ModeE::TRAVEL )
         {
             const float bonus = checkpointBonus( m_checkpoints );
             m_timeLeft += bonus;
@@ -1855,8 +1875,12 @@ void Game::timeAttackRules( float h )
             if( m_car.m_speed > allowed && !m_timeUp )
             {
                 m_flash = 1.0f;
-                m_timeLeft = std::max( 0.0f, m_timeLeft - 2.0f );
-                popup( "SPEED CAMERA", format( "-2 SEC   %d %s", static_cast<int>( m_car.m_speed * ( mph ? 2.23694f : 3.6f ) ), mph ? "MPH" : "KM/H" ), Red, 1.0f, 2.6f );
+                const bool travel = m_mode == ModeE::TRAVEL;
+                if( travel ) m_score = std::max( 0.0, m_score - 200.0 );
+                else m_timeLeft = std::max( 0.0f, m_timeLeft - 2.0f );
+                popup( "SPEED CAMERA",
+                       format( travel ? "-200   %d %s" : "-2 SEC   %d %s", static_cast<int>( m_car.m_speed * ( mph ? 2.23694f : 3.6f ) ), mph ? "MPH" : "KM/H" ), Red,
+                       1.0f, 2.6f );
                 m_audio.play( SfxE::WARNING );
             }
         }
