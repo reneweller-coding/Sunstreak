@@ -5,7 +5,7 @@
 # change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
-place SAMARKAND | SAMARKAND | UZBEKISTAN | NOON
+place SAMARKAND | SAMARKAND | UZBEKISTAN | NOON | SAMARQAND
     land B8A880 AC9C78 A8A080
     drive 3 0.8 1.0 3
     bends 0.35 0.3 0.2

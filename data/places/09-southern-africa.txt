@@ -5,7 +5,7 @@
 # change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
-place ZAMBEZI | ZAMBEZI | ZAMBIA | HAZE
+place ZAMBEZI | ZAMBEZI | ZAMBIA | HAZE | SOUTHERN PROVINCE
     sea 0 1 -12
     water 5A7A6A
     land 7A9A4E 6E8E46 8A9A5A
@@ -18,7 +18,7 @@ place ZAMBEZI | ZAMBEZI | ZAMBIA | HAZE
     p ACACIA 0.05 8 120
     p ELEPHANT 0.015 20 150
 
-place OKAVANGO | OKAVANGO DELTA | BOTSWANA | GOLDEN
+place OKAVANGO | OKAVANGO DELTA | BOTSWANA | GOLDEN | NORTH-WEST
     hills 2 1 1 0.6
     water 4A7A8A
     land 8AAA58 7E9E50 A0A060
@@ -30,7 +30,7 @@ place OKAVANGO | OKAVANGO DELTA | BOTSWANA | GOLDEN
     p ELEPHANT 0.03 15 150
     p ACACIA 0.04 10 120
 
-place KALAHARI | KALAHARI | BOTSWANA | DESERT
+place KALAHARI | KALAHARI | BOTSWANA | DESERT | GHANZI
     land C86A3A BC6036 C88A5A
     verge C06A40
     drive 2 0.15 0.95 7

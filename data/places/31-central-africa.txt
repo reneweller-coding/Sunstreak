@@ -5,7 +5,7 @@
 # change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
-place DZANGA_SANGHA | DZANGA-SANGHA | CENTRAL AFRICAN REPUBLIC | HAZE
+place DZANGA_SANGHA | DZANGA-SANGHA | CENTRAL AFRICAN REPUBLIC | HAZE | SANGHA-MBAERE
     fog 0.0024 B8C8B0
     land 3E7A32 38702C 3A6A36
     verge 9A5A3A
@@ -20,7 +20,7 @@ place DZANGA_SANGHA | DZANGA-SANGHA | CENTRAL AFRICAN REPUBLIC | HAZE
     p HUT 0.006 6 30
     p BANANA 0.06 3 30
 
-place LOANGO | LOANGO | GABON | TROPICAL
+place LOANGO | LOANGO | GABON | TROPICAL | OGOOUE-MARITIME
     sea 0 1 -2
     water 2A7A8A
     land 5A9040 52863A 4E7A42
@@ -36,7 +36,7 @@ place LOANGO | LOANGO | GABON | TROPICAL
     p REEDS 0.1 2 30
     p BUSH 0.1 2 30
 
-place CONGO_RAPIDS | CONGO RAPIDS | CONGO | HAZE
+place CONGO_RAPIDS | CONGO RAPIDS | CONGO | HAZE | BRAZZAVILLE
     sea 0 1 -6
     water 7A6A50 0.7
     land 5A8A3E 528038 56783E

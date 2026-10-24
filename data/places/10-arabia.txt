@@ -5,7 +5,7 @@
 # change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
-place SOCOTRA | SOCOTRA | YEMEN | DESERT
+place SOCOTRA | SOCOTRA | YEMEN | DESERT | SOCOTRA
     island SOCOTRA
     land B8A890 AC9C88 A09484
     hills 40 12 12
@@ -16,7 +16,7 @@ place SOCOTRA | SOCOTRA | YEMEN | DESERT
     p BAOBAB 0.02 6 80 0.5 0.7
     p ROCK 0.1 3 60
 
-place HAJAR_MOUNTAINS | HAJAR MOUNTAINS | OMAN | NOON
+place HAJAR_MOUNTAINS | HAJAR MOUNTAINS | OMAN | NOON | AD DAKHILIYAH
     land A8957C 9C8A72 8C8070
     verge 9A8A70
     hills 50 24 18
