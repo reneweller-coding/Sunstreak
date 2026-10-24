@@ -330,7 +330,9 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --size WxH                    window size for this start
     --quit-after S --screenshot F quit after S seconds, saving a screenshot
     --mute                        no sound (test runs)
-    --stats                       start with the F3 performance overlay
+    --stats                       start with the F3 performance overlay (CPU and GPU milliseconds per part of the frame)
+    --bench F                     measure from six seconds into the drive, no vsync and no frame limit; with
+                                  --quit-after, writes frame times, CPU parts and GPU passes to F
     --audio-test F.wav            render a scripted drive, each station and the adaptive layer offline,
                                   levels in F*.wav.txt
 

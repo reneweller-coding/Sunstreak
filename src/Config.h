@@ -80,6 +80,7 @@ struct LaunchOptions
     bool        m_skipMenu = false;    ///< start a run at once
     float       m_quitAfter = 0.0f;    ///< seconds of play after which the game quits (0: never)
     std::string m_screenshot;          ///< save the last frame there before quitting
+    std::string m_bench;               ///< measure the frames (no vsync, no limit) and write the times there at the end
     float       m_startDistance = 0;   ///< teleport this far along the track at the start (testing)
     int         m_width = 0;           ///< a window size for this run only (0: the settings')
     int         m_height = 0;          ///< its height

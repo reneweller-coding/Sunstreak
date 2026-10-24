@@ -14,6 +14,7 @@
 #include "Car.h"
 #include "Models.h"
 #include "Particles.h"
+#include "Profiler.h"
 #include "Traffic.h"
 #include "World.h"
 
@@ -105,6 +106,12 @@ public:
     void unload();
 
     /**
+     * @brief The GPU time of the render passes.
+     * @return the timer
+     */
+    GpuTimer &gpu() { return m_gpu; }
+
+    /**
      * @brief Draws a frame onto the screen (the caller is between BeginDrawing and EndDrawing).
      * @param[in] in           what to show
      * @param[in] cam          from where
@@ -190,6 +197,7 @@ private:
     Program  m_fxaa;        ///< anti-aliasing
     Program  m_depth;       ///< shadow pass
     Program  m_mirror;      ///< reflections on the wet road and in puddles
+    GpuTimer m_gpu;         ///< GPU time per pass
     Material m_material{};  ///< carries the world shader
     Material m_depthMaterial{};   ///< carries the depth shader
 

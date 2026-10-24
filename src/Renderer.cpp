@@ -181,6 +181,7 @@ float inTunnel( const Track &track, double s )
 
 void Renderer::init()
 {
+    m_gpu.init();
     m_world.m_shader = LoadShaderFromMemory( shaders::WorldVs, shaders::WorldFs );
     m_sky.m_shader = LoadShaderFromMemory( shaders::ScreenVs, shaders::SkyFs );
     m_particle.m_shader = LoadShaderFromMemory( shaders::ParticleVs, shaders::ParticleFs );
@@ -264,6 +265,7 @@ void Renderer::blit( const Texture2D &tex, int w, int h )
 void Renderer::render( const SceneInput &in, const CameraView &cam, float renderScale )
 {
     ensureTargets( GetScreenWidth(), GetScreenHeight(), renderScale );
+    m_gpu.mark( GpuTimer::START );
 
     // Camera motion for the weather, which lives in the camera's neighbourhood.
     Vector3 delta{};
@@ -342,6 +344,7 @@ void Renderer::render( const SceneInput &in, const CameraView &cam, float render
 
     const Vec3d origin = cam.m_pos;
     drawShadows( in, cam, origin );
+    m_gpu.mark( GpuTimer::SHADOWS );
 
     // Where the sun stands on screen, for the lens flare.
     m_flare = 0.0f;
@@ -365,6 +368,7 @@ void Renderer::render( const SceneInput &in, const CameraView &cam, float render
     drawSky( in, cam );
     drawWorld( in, cam, origin );
     EndTextureMode();
+    m_gpu.mark( GpuTimer::SCENE );
     post( in );
 }
 
@@ -914,6 +918,7 @@ void Renderer::post( const SceneInput &in )
     blit( m_scene.texture, m_targetW, m_targetH );
     EndShaderMode();
     EndTextureMode();
+    m_gpu.mark( GpuTimer::MIRROR );
     const Texture2D &scene = m_mirrored.texture;
 
     BeginTextureMode( m_bloomA );
@@ -947,6 +952,7 @@ void Renderer::post( const SceneInput &in )
         blurPass( m_bloomD, m_bloomC, 0.0f, k );
     }
 
+    m_gpu.mark( GpuTimer::BLOOM );
     const Shader &c = m_composite.m_shader;
     BeginTextureMode( m_ldr );
     BeginShaderMode( c );
@@ -973,6 +979,7 @@ void Renderer::post( const SceneInput &in )
     setV2( m_fxaa.m_shader, "texel", 1.0f / static_cast<float>( m_targetW ), 1.0f / static_cast<float>( m_targetH ) );
     blit( m_ldr.texture, m_screenW, m_screenH );
     EndShaderMode();
+    m_gpu.mark( GpuTimer::POST );
 }
 
 } // namespace sunstreak

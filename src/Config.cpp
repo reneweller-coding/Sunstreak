@@ -236,6 +236,7 @@ LaunchOptions parseCommandLine( int argc, char **argv )
         }
         else if( a == "--quit-after" ) o.m_quitAfter = static_cast<float>( std::atof( next().c_str() ) );
         else if( a == "--screenshot" ) o.m_screenshot = next();
+        else if( a == "--bench" ) o.m_bench = next();
         else if( a == "--distance" ) o.m_startDistance = static_cast<float>( std::atof( next().c_str() ) );
         else if( a == "--size" )
         {

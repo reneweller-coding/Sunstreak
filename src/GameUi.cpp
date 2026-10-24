@@ -876,7 +876,8 @@ void Game::menus( const MenuInput &m )
 
 void Game::draw()
 {
-    const bool lastFrame = m_options.m_quitAfter > 0.0f && m_time >= m_options.m_quitAfter;
+    const bool   lastFrame = m_options.m_quitAfter > 0.0f && m_time >= m_options.m_quitAfter;
+    const double drawStart = GetTime();
     BeginDrawing();
     ClearBackground( BLACK );
 
@@ -941,7 +942,10 @@ void Game::draw()
     CameraView view = m_cam;
     if( m_state == StateE::VIEWER ) viewerScene( in, view );
     if( m_state == StateE::CROSSING ) crossingScene( in, view );
+    const double renderStart = GetTime();
     m_renderer.render( in, view, m_settings.m_renderScale );
+    m_cpuRenderMs += ( static_cast<float>( ( GetTime() - renderStart ) * 1000.0 ) - m_cpuRenderMs ) * 0.05f;
+    m_overlayStart = GetTime();
     if( m_state == StateE::PHOTO && m_photoWanted ) takePhoto();
     if( m_albumWanted >= 0 && !m_demo && m_state == StateE::RACE ) takeAlbumPhoto();
     if( m_postcardWanted >= 0 && !m_demo && m_state == StateE::RACE && m_car.m_s >= m_postcardAt )
@@ -1047,6 +1051,12 @@ void Game::draw()
                                           GetFPS(), m_dt * 1000.0f, m_frameMsPeak, m_world.m_buildMs, m_world.m_buildPeakMs,
                                           m_world.m_buildMaxMs, static_cast<int>( m_world.chunks().size() ), triangles / 1000.0 );
         drawTextFx( stats, 12.0f * u, 10.0f * u, 10.0f * u, Green, AlignE::LEFT, 0.0f );
+        const GpuTimer &g = m_renderer.gpu();
+        const std::string times =
+            format( "CPU UPDATE %.2f  DRAW %.2f (3D %.2f, 2D %.2f)  SWAP %.2f MS     GPU SHADOWS %.2f  SCENE %.2f  MIRROR %.2f  BLOOM %.2f  POST %.2f  HUD %.2f MS",
+                    m_cpuUpdateMs, m_cpuDrawMs, m_cpuRenderMs, m_cpuOverlayMs, m_cpuSwapMs, g.ms( GpuTimer::SHADOWS ), g.ms( GpuTimer::SCENE ), g.ms( GpuTimer::MIRROR ), g.ms( GpuTimer::BLOOM ),
+                    g.ms( GpuTimer::POST ), g.ms( GpuTimer::HUD ) );
+        drawTextFx( times, 12.0f * u, 26.0f * u, 10.0f * u, Green, AlignE::LEFT, 0.0f );
     }
 
     auto saveScreen = []( const std::string &file )
@@ -1072,7 +1082,13 @@ void Game::draw()
         if( !m_options.m_screenshot.empty() ) saveScreen( m_options.m_screenshot );
         m_quit = true;
     }
+    m_renderer.gpu().mark( GpuTimer::HUD );
+    const double swapStart = GetTime();
+    if( m_overlayStart > drawStart ) m_cpuOverlayMs += ( static_cast<float>( ( swapStart - m_overlayStart ) * 1000.0 ) - m_cpuOverlayMs ) * 0.05f;
+    m_cpuDrawMs += ( static_cast<float>( ( swapStart - drawStart ) * 1000.0 ) - m_cpuDrawMs ) * 0.05f;
     EndDrawing();
+    m_cpuSwapMs += ( static_cast<float>( ( GetTime() - swapStart ) * 1000.0 ) - m_cpuSwapMs ) * 0.05f;
+    m_renderer.gpu().endFrame();
 }
 
 void Game::drawTitle()

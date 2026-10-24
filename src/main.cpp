@@ -49,6 +49,12 @@ int main( int argc, char **argv )
         settings.m_textSize = 1;
     }
     if( options.m_forceDisplay >= 0 ) settings.m_display = options.m_forceDisplay ? DisplayModeE::FULLSCREEN : DisplayModeE::WINDOWED;
+    if( !options.m_bench.empty() )
+    {
+        // Measuring: as fast as it goes.
+        settings.m_vsync = false;
+        settings.m_fpsLimit = 0;
+    }
 
     SetTraceLogLevel( options.m_quitAfter > 0.0f ? LOG_INFO : LOG_WARNING );   // test runs report their numbers
     unsigned flags = FLAG_WINDOW_RESIZABLE;
@@ -74,7 +80,7 @@ int main( int argc, char **argv )
     if( icon.data ) SetWindowIcon( icon );
     UnloadImage( icon );
     if( settings.m_display == DisplayModeE::FULLSCREEN ) ToggleBorderlessWindowed();
-    SetTargetFPS( settings.m_fpsLimit ? settings.m_fpsLimit : ( settings.m_vsync ? 0 : 240 ) );
+    SetTargetFPS( !options.m_bench.empty() ? 0 : settings.m_fpsLimit ? settings.m_fpsLimit : ( settings.m_vsync ? 0 : 240 ) );
 
     {
         Game game( settings, options );

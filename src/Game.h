@@ -817,6 +817,26 @@ private:
     Haptics                m_haptics;      ///< rumble
     bool                   m_showStats = false;   ///< the F3 overlay
     float                  m_frameMsPeak = 0.0f;  ///< the slowest frame lately
+    float                  m_cpuUpdateMs = 0.0f;  ///< CPU: the game's step, smoothed
+    float                  m_cpuDrawMs = 0.0f;    ///< CPU: building and sending the picture, smoothed
+    float                  m_cpuRenderMs = 0.0f;  ///< CPU: of that, the renderer sending the 3D picture, smoothed
+    float                  m_cpuOverlayMs = 0.0f; ///< CPU: of that, the 2D layer on top (HUD, popups, menus), smoothed
+    double                 m_overlayStart = 0.0;  ///< when this frame's 2D layer began (GetTime)
+    float                  m_cpuSwapMs = 0.0f;    ///< CPU: waiting in the buffer swap, smoothed
+    double                 m_frameStart = 0.0;    ///< when this frame began (GetTime)
+
+    /** @brief A benchmark's sums (--bench). */
+    struct Bench
+    {
+        bool               m_on = false;          ///< measuring has begun
+        std::vector<float> m_frames;              ///< every frame's milliseconds
+        double             m_update = 0.0, m_draw = 0.0, m_render = 0.0, m_overlay = 0.0, m_swap = 0.0;   ///< CPU milliseconds summed
+        double             m_triangles = 0.0;     ///< the chunks' triangles summed
+        int                m_traffic = 0;         ///< vehicles summed
+    } m_bench;
+
+    /** @brief Writes the benchmark's report (--bench). */
+    void writeBench() const;
     bool                   m_audioOk = false;   ///< sound works
 
     StateE m_state = StateE::TITLE;   ///< where the game is

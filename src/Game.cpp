@@ -191,8 +191,38 @@ void Game::init()
     }
 }
 
+void Game::writeBench() const
+{
+    std::vector<float> f = m_bench.m_frames;
+    if( f.empty() ) return;
+    std::sort( f.begin(), f.end() );
+    double sum = 0.0;
+    for( float v : f ) sum += v;
+    const double n = static_cast<double>( f.size() );
+    const auto   pct = [&]( double p ) { return f[std::min( f.size() - 1, static_cast<size_t>( p * n ) )]; };
+    const GpuTimer &g = const_cast<Renderer &>( m_renderer ).gpu();
+    const BiomeE    here = m_track->stageBiome( static_cast<int>( m_car.m_s / StageLength ) );
+    std::ofstream   out( m_options.m_bench );
+    out << "place " << placeName( here ) << "\n";
+    out << "screen " << GetScreenWidth() << "x" << GetScreenHeight() << " scale " << m_settings.m_renderScale << " shadows " << ( m_settings.m_shadows ? 1 : 0 )
+        << " camera " << m_settings.m_camera << "\n";
+    out << format( "frames %d  avg %.3f ms  median %.3f  p95 %.3f  p99 %.3f  max %.3f  fps %.0f\n", static_cast<int>( n ), sum / n, pct( 0.5 ), pct( 0.95 ), pct( 0.99 ),
+                   f.back(), 1000.0 * n / sum );
+    out << format( "cpu update %.3f  draw %.3f (3d %.3f, 2d %.3f)  swap %.3f ms\n", m_bench.m_update / n, m_bench.m_draw / n, m_bench.m_render / n,
+                   m_bench.m_overlay / n, m_bench.m_swap / n );
+    out << format( "gpu shadows %.3f  scene %.3f  mirror %.3f  bloom %.3f  post %.3f  hud %.3f  sum %.3f ms\n", g.average( GpuTimer::SHADOWS ),
+                   g.average( GpuTimer::SCENE ), g.average( GpuTimer::MIRROR ), g.average( GpuTimer::BLOOM ), g.average( GpuTimer::POST ),
+                   g.average( GpuTimer::HUD ),
+                   g.average( GpuTimer::SHADOWS ) + g.average( GpuTimer::SCENE ) + g.average( GpuTimer::MIRROR ) + g.average( GpuTimer::BLOOM ) +
+                       g.average( GpuTimer::POST ) + g.average( GpuTimer::HUD ) );
+    out << format( "world %d chunks  %.0fK triangles  %.1f vehicles  chunk bake avg %.2f ms  slowest %.2f ms  on the main thread %d\n",
+                   static_cast<int>( m_world.chunks().size() ), m_bench.m_triangles / n / 1000.0, static_cast<double>( m_bench.m_traffic ) / n,
+                   m_world.m_buildCount ? m_world.m_buildTotalMs / m_world.m_buildCount : 0.0f, m_world.m_buildMaxMs, m_world.m_syncBuilds );
+}
+
 void Game::shutdown()
 {
+    if( !m_options.m_bench.empty() ) writeBench();
     saveRecords();
     if( m_postcardJob.valid() ) m_postcardJob.wait();
     unloadPostcards();
@@ -1376,6 +1406,7 @@ void Game::progress( double ds )
 
 void Game::frame( float dt )
 {
+    m_frameStart = GetTime();
     m_dt = dt;
     m_time += dt;
     m_stateTime += dt;
@@ -1514,7 +1545,25 @@ void Game::frame( float dt )
     updateAudio();
     m_audio.update();
     m_haptics.update( dt, m_settings.m_vibration && !m_demo && m_state == StateE::RACE );
+    const double drawStart = GetTime();
+    m_cpuUpdateMs += ( static_cast<float>( ( drawStart - m_frameStart ) * 1000.0 ) - m_cpuUpdateMs ) * 0.05f;
     draw();
+    if( !m_options.m_bench.empty() && m_state == StateE::RACE && m_stateTime > 6.0f )
+    {
+        // Measuring: from six seconds into the drive (the first chunks are baked by then).
+        if( !m_bench.m_on ) m_renderer.gpu().resetTotals();
+        m_bench.m_on = true;
+        m_bench.m_frames.push_back( dt * 1000.0f );
+        m_bench.m_update += ( drawStart - m_frameStart ) * 1000.0;
+        m_bench.m_draw += m_cpuDrawMs;
+        m_bench.m_render += m_cpuRenderMs;
+        m_bench.m_overlay += m_cpuOverlayMs;
+        m_bench.m_swap += m_cpuSwapMs;
+        size_t triangles = 0;
+        for( const Chunk &c : m_world.chunks() ) triangles += static_cast<size_t>( c.m_ground.triangleCount + c.m_props.triangleCount );
+        m_bench.m_triangles += static_cast<double>( triangles );
+        m_bench.m_traffic += static_cast<int>( m_traffic.m_cars.size() );
+    }
 }
 
 void Game::endTimeAttack()
