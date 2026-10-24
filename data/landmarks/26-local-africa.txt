@@ -1,0 +1,584 @@
+# Local things of Africa south of the Sahara and its islands.
+
+shape SAHEL_MUD_MOSQUE
+    home MALI, BURKINA FASO, NIGER, GHANA, IVORY COAST, GUINEA, CHAD | 0.003 12 90
+    # A village mosque of the Sahel: smooth mud walls, cone-topped buttresses, wooden toron poles bristling from the towers.
+    box 0 2.5 0 4 2.5 5 B8885A
+    repeat 4 0 0 3.3
+    tbox 4.2 0 -5 0.4 0.4 4.2 6 -5 0.15 0.15 B8885A
+    tbox 0 0 5.6 2 1.5 0 7 5.6 1.2 0.8 B8885A
+    spire 0 7 5.6 0.9 2 8 B8885A
+    repeat 4 0 1.4 0
+    tube -0.8 1.2 5.6 0.8 1.2 5.6 0.04 3 8A6A48
+    repeat 4 0 1.4 0
+    tube 0 1.2 4.6 0 1.2 6.6 0.04 3 8A6A48
+    box 4.02 1.2 0 0.03 1.2 0.6 5A3A22
+
+shape DOGON_GRANARIES
+    home MALI, BURKINA FASO | 0.005 8 70 | country
+    # Dogon granaries: little square mud towers on stone feet, each under a pointed hat of millet straw.
+    repeat 3 0 0 2.6
+    box 0 1.3 -2.6 0.9 1.1 0.9 B88A5A
+    repeat 3 0 0 2.6
+    spire 0 2.3 -2.6 1.3 1.8 8 A89058
+    repeat 3 0 0 2.6
+    box 0.91 1.4 -2.6 0.02 0.3 0.25 3A2A1A
+    box -2.5 1.2 -1.3 0.9 1.0 0.9 A87A4A
+    spire -2.5 2.2 -1.3 1.3 1.6 8 A89058
+    blob 0 0.1 0 4 0.2 4 9A8A70 0.4
+
+shape KASSENA_PAINTED_HOUSE
+    home BURKINA FASO, GHANA | 0.005 8 60
+    # A Kassena house of Tiebele: thick mud walls painted in black, white and red geometric patterns, a tiny low door.
+    box 0 1.4 0 2.5 1.4 2.5 8A4A2A
+    repeat 5 0 0 1
+    tri 2.52 0.3 -2.3 2.52 0.3 -1.5 2.52 1.0 -1.9 F2EEE2
+    repeat 5 0 0 1
+    tri 2.52 1.7 -2.3 2.52 1.7 -1.5 2.52 1.0 -1.9 1E1A18
+    box 2.52 2.3 0 0.01 0.12 2.5 F2EEE2
+    box 2.52 0.45 0.4 0.03 0.45 0.35 1E1A18
+    box 0 2.85 0 2.55 0.05 2.55 9A6A4A
+
+shape TATA_SOMBA
+    home BENIN, TOGO | 0.005 8 60 | country
+    # A Tata Somba: a fortified mud house of round towers joined by walls, the towers capped with conical thatch.
+    mirror
+    mirrorx
+    cyl 2 0 2 1.2 1.1 3 10 B88A5A
+    mirror
+    mirrorx
+    spire 2 3 2 1.4 1.6 10 A89058
+    box 2 1.3 0 0.4 1.3 1.6 B88A5A
+    box 0 3.1 0 2 0.1 2 9A7A4A
+    box 2.42 0.6 0 0.03 0.6 0.4 2A1E14
+
+shape FANTASY_COFFINS
+    home GHANA | 0.006 4 25
+    # A coffin maker's yard: coffins carved and painted as a fish, a shoe and an onion, waiting in the sun.
+    box -1 1.2 0 0.06 1.2 3 8A6A48
+    quad -1 2.6 -3 -1 2.6 3 0.4 2.3 3 0.4 2.3 -3 8A8A8A
+    blob 0 0.5 -1.6 0.35 0.4 1.0 E8702A
+    tri 0 0.5 -2.5 0 0.9 -3.1 0 0.1 -3.1 E8702A
+    blob 0.36 0.6 -0.9 0.02 0.08 0.08 1E1E1E
+    box 0 0.35 0.8 0.4 0.35 0.9 C82A2A
+    blob 0 0.6 1.5 0.35 0.3 0.35 C82A2A
+    blob 1.6 0.45 2 0.45 0.45 0.45 C8A0D8
+    spire 1.6 0.8 2 0.2 0.5 6 6A9A3A
+
+shape BEACHED_PIROGUES
+    home SENEGAL, GAMBIA, GUINEA, GUINEA-BISSAU, MAURITANIA, SIERRA LEONE, IVORY COAST, GHANA, TOGO, BENIN | 0.006 6 50 | coast
+    # Fishing pirogues pulled up on the beach: long and narrow, painted in stripes of every colour, flags at the bow.
+    tbox 0 0 0 0.6 6 0 0.8 0 0.9 6.5 2A8AC8
+    box 0.91 0.6 0 0.01 0.1 6.3 F2C21E
+    box 0.91 0.4 0 0.01 0.08 6.3 C82A2A
+    tube 0 0.8 6.4 0 1.3 7.0 0.12 4 2A8AC8
+    tube 0 1.3 7.0 0 2.4 7.0 0.02 3 8A8A8A
+    box 0 2.2 7.25 0.01 0.18 0.25 3AA84A
+    tbox 3 0 1 0.6 5.5 3 0.8 1 0.9 6 E8C21E
+    box 3.91 0.6 1 0.01 0.1 5.8 2A8A4A
+    box 3.91 0.4 1 0.01 0.08 5.8 F2F2F2
+
+shape HAUSA_MUD_HOUSE
+    home NIGERIA, NIGER | 0.006 6 50
+    # A Hausa house of Kano: smooth mud walls with raised patterns round the door, horn-like pinnacles at the corners.
+    box 0 2.4 0 3.5 2.4 4 C8A070
+    box 0 4.85 0 3.55 0.05 4.05 B89060
+    mirror
+    spire 3.4 4.9 3.9 0.3 1.2 6 C8A070
+    mirror
+    spire 3.4 4.9 0 0.3 0.9 6 C8A070
+    box 3.52 1.2 0 0.03 1.2 0.6 5A3A22
+    hoop 3.55 2.8 0 0.5 0.06 12 B89060
+    blob 3.53 2.8 -1.6 0.02 0.4 0.4 B89060
+    blob 3.53 2.8 1.6 0.02 0.4 0.4 B89060
+
+shape MARKET_UMBRELLAS
+    home NIGERIA, GHANA, SENEGAL, IVORY COAST, TOGO, BENIN, CAMEROON, GUINEA, SIERRA LEONE, LIBERIA, GAMBIA, KENYA, UGANDA, TANZANIA, MALAWI, MOZAMBIQUE, ZAMBIA, RWANDA, BURUNDI, MADAGASCAR, DR CONGO, CONGO | 0.005 3 20
+    # A roadside market: big striped umbrellas over tables piled with tomatoes, yams, oranges and bananas.
+    repeat 3 0 0 3
+    tube 0 0 -3 0 2.4 -3 0.04 4 C8C8C8
+    dome 0 2.2 -3 1.4 0.5 E8C21E
+    dome 0 2.2 0 1.4 0.5 2A8A4A
+    dome 0 2.2 3 1.4 0.5 C82A2A
+    repeat 3 0 0 3
+    box 0.6 0.7 -3 0.6 0.04 0.9 8A6A48
+    blob 0.6 0.85 -3.4 0.4 0.15 0.35 D83A2A 0.5
+    blob 0.6 0.85 -2.6 0.35 0.15 0.3 F28A1A 0.5
+    blob 0.6 0.85 -0.3 0.45 0.15 0.5 E8D040 0.5
+    blob 0.6 0.85 3.2 0.45 0.15 0.5 8A5A3A 0.5
+    blob 0.6 0.85 2.6 0.3 0.15 0.3 4A8A2E 0.5
+
+shape PAINTED_BARBER_SIGN
+    home GHANA, NIGERIA, TOGO, BENIN, IVORY COAST, CAMEROON, KENYA, UGANDA, TANZANIA, RWANDA | 0.004 3 15 | town
+    # A barber's kiosk with its hand-painted sign board: rows of haircuts painted in bright colours.
+    box 0 1.2 0 1.2 1.2 1.5 2A8AC8
+    box 1.21 1.0 0.6 0.02 1.0 0.45 3A2A1A
+    box 0 2.5 0 0.05 0.3 1.5 F2F2F2
+    tube 1.6 0 -1.2 1.6 2.2 -1.2 0.04 4 8A6A48
+    box 1.6 2.2 -1.2 0.03 0.7 0.6 F2F2EE
+    repeat 3 0 0 0.4
+    blob 1.62 2.5 -1.6 0.02 0.12 0.12 2A1A10
+    repeat 3 0 0 0.4
+    blob 1.62 2.0 -1.6 0.02 0.12 0.12 8A5A3A
+    box 1.63 2.8 -1.2 0.01 0.06 0.5 C82A2A
+
+shape ZINC_ROOF_HOUSE
+    home LIBERIA, SIERRA LEONE, GUINEA, GHANA, NIGERIA, CAMEROON, GABON, CONGO, DR CONGO, CENTRAL AFRICAN REPUBLIC, EQUATORIAL GUINEA, UGANDA, TANZANIA, MALAWI, ZAMBIA | 0.006 6 60 | pastel
+    # A house of painted blocks under a roof of corrugated iron, a veranda on posts, curtains in the windows.
+    box 0 1.5 0 3 1.5 4 A
+    box 3.02 0.25 0 0.01 0.25 4 7A6A5A
+    windows 3.02 0.2 -3.5 0 1 7 2.6 0.3 2.2
+    box 3.03 0.9 0 0.03 0.9 0.45 6A4A2A
+    hip 0 3 0 3.2 4.2 1.2 0.3 9AA0A8 shiny
+    quad 3.2 2.9 -4 3.2 2.9 4 4.6 2.5 4 4.6 2.5 -4 9AA0A8 shiny
+    repeat 3 0 0 4
+    tube 4.5 0 -4 4.5 2.5 -4 0.06 4 6A5A48
+
+shape TOGU_NA
+    home MALI | 0.004 6 50 | country
+    # A toguna: the Dogon men's shelter, a roof of piled millet stalks on carved wooden pillars, too low to stand under.
+    repeat 3 0 0 1.4
+    tube 1.2 0 -1.4 1.2 1.3 -1.4 0.2 6 6A4A30
+    repeat 3 0 0 1.4
+    tube -1.2 0 -1.4 -1.2 1.3 -1.4 0.2 6 6A4A30
+    repeat 3 0 0 1.4
+    tube 0 0 -1.4 0 1.3 -1.4 0.2 6 6A4A30
+    tbox 0 1.3 0 2.2 2.6 0 2.3 0 1.8 2.2 8A7A50
+    blob 0 2.4 0 1.9 0.25 2.3 9A8A58 0.5
+
+shape MUSGUM_HOUSE
+    home CAMEROON, CHAD | 0.005 8 60 | country
+    # A Musgum house: a tall shell-shaped dome of mud, ribbed with raised ridges, a keyhole door.
+    spire 0 0 0 2.6 6 12 B8885A
+    blob 0 1.5 0 2.5 1.8 2.5 B8885A
+    ring 12 2.2
+    tube 0 0.3 0 -1.9 5.3 0 0.08 3 A87A4A
+    blob 2.4 0.9 0 0.15 0.9 0.4 2A1A10
+    spire 4 0 3 1.6 4 10 A87A4A
+    blob 4 1 3 1.55 1.1 1.55 A87A4A
+
+shape LEAF_DOME_HUT
+    home CAMEROON, CONGO, DR CONGO, GABON, CENTRAL AFRICAN REPUBLIC | 0.005 8 60 | country
+    # A forest hut: a low dome of bent saplings thatched with big overlapping leaves.
+    dome 0 0 0 2 1.6 3E7A2E
+    blob 0 0.8 0 1.95 0.9 1.95 4A8A34 0.4
+    box 1.85 0.5 0 0.2 0.5 0.35 1E1A10
+    dome 3.5 0 2 1.5 1.2 4A8A34
+
+shape CHARCOAL_SACKS
+    home DR CONGO, CONGO, ZAMBIA, MALAWI, MOZAMBIQUE, MADAGASCAR, TANZANIA, KENYA, UGANDA, ANGOLA, ZIMBABWE, CENTRAL AFRICAN REPUBLIC | 0.006 2 10 | country
+    # Sacks of charcoal for sale at the roadside, stacked and tied, a few chunks spilled on the ground.
+    repeat 4 0 0 0.75
+    blob 0 0.45 -1.1 0.35 0.5 0.35 E8E2D4
+    repeat 3 0 0 0.75
+    blob 0 1.3 -0.75 0.32 0.45 0.32 D8D2C4
+    repeat 4 0 0 0.75
+    blob 0 0.98 -1.1 0.2 0.1 0.2 1E1E1E 0.4
+    blob 0.6 0.05 0.5 0.3 0.05 0.4 1E1E1E 0.5
+
+shape CHUKUDU
+    home DR CONGO, RWANDA | 0.004 3 20 | country
+    # A chukudu: a big wooden scooter for hauling loads, its wheels of solid wood, a sack of potatoes on its deck.
+    box 0 0.45 0 0.15 0.08 1.3 8A6A48
+    tube 0 0.3 1.2 0 1.3 1.0 0.06 4 8A6A48
+    tube -0.4 1.3 1.0 0.4 1.3 1.0 0.04 4 8A6A48
+    tube -0.06 0.3 1.25 0.06 0.3 1.25 0.3 10 6A5040
+    tube -0.06 0.3 -1.1 0.06 0.3 -1.1 0.3 10 6A5040
+    box 0 0.55 0.2 0.12 0.04 0.2 3A3A3A
+    blob 0 0.8 -0.4 0.3 0.3 0.45 C8B080
+
+shape ROCA_PLANTATION_HOUSE
+    home SAO TOME AND PRINCIPE, EQUATORIAL GUINEA, ANGOLA, CAPE VERDE | 0.004 10 70
+    # A colonial plantation house: two storeys of ochre with a long wooden veranda above, a red roof, palms around.
+    box 0 3 0 4 3 8 D8A860
+    windows 4.02 0.3 -7.5 0 1 15 5.6 0.3 2.8
+    box 4.8 3 0 0.8 0.06 8 8A5A30
+    box 5.58 3.4 0 0.03 0.4 8 8A5A30
+    repeat 6 0 0 3.2
+    tube 5.58 3 -8 5.58 6.2 -8 0.06 4 8A5A30
+    hip 0 6 0 5.6 8.2 2 0.4 B84A2A
+    tube 9 0 6 9.3 8 6.3 0.2 6 8A7050
+    fronds 9.3 8 6.3 8 3.5 0.6 3E7A3A
+
+shape MAASAI_MANYATTA
+    home KENYA, TANZANIA | 0.005 15 100 | country
+    # A Maasai manyatta: low loaf-shaped huts of dung and sticks in a ring, a fence of thorn branches around them.
+    repeat 4 0 0 3
+    blob 0 1 -4.5 1.5 1.1 1.2 8A7A60
+    repeat 3 0 0 3
+    blob -4 1 -3 1.2 1.1 1.5 7A6A50
+    ring 16 7
+    blob 0 0.7 0 0.6 0.7 1.4 6A5A3A 0.6
+    box 1.5 0.5 -4.5 0.05 0.4 0.3 2A1A10
+
+shape ETHIOPIAN_TUKUL
+    home ETHIOPIA, ERITREA, SOUTH SUDAN | 0.006 8 60 | country
+    # A tukul: a round hut with walls of mud and wattle, a tall conical thatch roof crowned by a clay pot.
+    cyl 0 0 0 2.6 2.6 2 12 B89868
+    spire 0 2 0 3 3.5 12 8A7A50
+    cyl 0 5.4 0 0.2 0.25 0.35 8 8A5A3A
+    box 2.55 0.9 0 0.1 0.9 0.5 4A3424
+    halo 0 1.2 0 2.62 0.06 14 F2F2E8
+
+shape ETHIOPIAN_ROUND_CHURCH
+    home ETHIOPIA, ERITREA | 0.003 15 90 | country
+    # An Ethiopian church: round, in two rings, painted walls under a conical tin roof with an ornate cross and ostrich eggs.
+    cyl 0 0 0 6 6 3 16 E8D8B0
+    cyl 0 0 0 4 4 5 14 E8D8B0
+    spire 0 3 0 6.4 1.6 16 8A9AA8
+    spire 0 5 0 4.3 3 14 8A9AA8
+    tube 0 8 0 0 9.5 0 0.06 3 D8B030
+    hoop 0 9.4 0 0.35 0.04 10 D8B030
+    blob 0 8.2 0 0.15 0.18 0.15 F2F2E8
+    box 6 1.2 0 0.05 1.2 0.6 2A6AC8
+
+shape SWAHILI_HOUSE
+    home TANZANIA, KENYA, COMOROS | 0.006 6 50
+    # A Swahili house of coral stone: whitewashed, a flat roof, the great carved wooden door studded with brass.
+    box 0 2.8 0 3.5 2.8 4.5 E8E2D4
+    box 0 5.65 0 3.55 0.05 4.55 D8D2C4
+    box 3.52 1.4 0 0.04 1.4 0.85 5A3A22
+    blob 3.53 2.8 0 0.03 0.5 0.85 6A4A2A
+    repeat 6 0 0.4 0
+    blob 3.58 0.4 -0.4 0.03 0.04 0.04 D8B030
+    repeat 6 0 0.4 0
+    blob 3.58 0.4 0.4 0.03 0.04 0.04 D8B030
+    windows 3.52 2.6 -4 0 1 8 3 0.3 2.6
+    box 4.4 0.3 0 0.9 0.3 3 D8D2C4
+
+shape BANANA_BICYCLE
+    home UGANDA, RWANDA, BURUNDI, KENYA, TANZANIA | 0.005 3 15 | country
+    # A bicycle laden with bunches of green bananas, so heavy it is pushed rather than ridden.
+    hoop 0 0.35 -0.55 0.35 0.025 12 2A2A2A
+    hoop 0 0.35 0.55 0.35 0.025 12 2A2A2A
+    tube 0 0.35 -0.55 0 0.85 0.1 0.025 3 1E1E1E
+    tube 0 0.85 0.1 0 0.35 0.55 0.025 3 1E1E1E
+    tube 0 1.0 0.5 0 0.35 0.55 0.025 3 1E1E1E
+    tube -0.3 1.05 0.5 0.3 1.05 0.5 0.02 3 1E1E1E
+    blob 0.35 0.8 -0.4 0.35 0.5 0.4 4A8A2E 0.4
+    blob -0.35 0.8 -0.4 0.35 0.5 0.4 4E8A30 0.4
+    blob 0 1.2 -0.5 0.3 0.4 0.35 5A9A34 0.4
+
+shape SOMALI_AQAL
+    home SOMALIA, DJIBOUTI, ETHIOPIA | 0.005 8 60 | country
+    # An aqal: the nomads' dome hut of bent sticks covered with woven mats and cloths in many colours.
+    dome 0 0 0 2.2 1.8 C8A878
+    blob 0.5 1.4 0.6 1.0 0.4 0.9 C83A3A 0.4
+    blob -0.6 1.2 -0.6 0.9 0.5 1.0 3A7AC8 0.4
+    box 2.05 0.6 0 0.2 0.6 0.4 2A1A10
+
+shape WILDEBEEST_HERD
+    home KENYA, TANZANIA | 0.006 20 120 | country
+    # Wildebeest on the plain: dark grey-brown, humped shoulders, short horns, many of them grazing together.
+    repeat 4 2 0 1.6
+    blob 0 1.0 -3 0.28 0.4 0.75 4A4440
+    repeat 4 2 0 1.6
+    blob 0 1.1 -2.2 0.14 0.25 0.25 3A3430
+    repeat 4 2 0 1.6
+    tube 0.12 0.7 -2.6 0.12 0 -2.6 0.05 3 3A3430
+    repeat 4 2 0 1.6
+    tube -0.12 0.7 -3.4 -0.12 0 -3.4 0.05 3 3A3430
+    repeat 3 -1.8 0 2.2
+    blob -1 1.0 1 0.28 0.4 0.75 4A4440
+    repeat 3 -1.8 0 2.2
+    blob -1 1.1 1.8 0.14 0.25 0.25 3A3430
+    repeat 3 -1.8 0 2.2
+    tube -1 0.7 1.2 -1 0 1.2 0.05 3 3A3430
+
+shape LIONS_ON_ROCK
+    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, ZIMBABWE, SOUTH AFRICA:LIMPOPO, SOUTH AFRICA:MPUMALANGA | 0.003 25 110 | country
+    # Lions resting on a granite outcrop: a maned male on top, two lionesses lying below.
+    blob 0 1.5 0 4 2 4 9A8A78 0.35
+    blob 0 3.5 0 0.4 0.4 0.9 C89A50
+    blob 0 3.9 0.8 0.5 0.5 0.45 7A4A20 0.3
+    blob 0 3.95 1.05 0.25 0.28 0.25 C89A50
+    blob 2.5 2.6 1.5 0.35 0.3 0.8 C8A060
+    blob 2.5 2.75 2.3 0.2 0.22 0.25 C8A060
+    blob -2.2 2.4 -2 0.35 0.3 0.8 C8A060
+    blob -2.2 2.55 -1.2 0.2 0.22 0.25 C8A060
+
+shape HIPPO_POOL
+    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, ZIMBABWE, MALAWI, UGANDA, SOUTH AFRICA:KWAZULU-NATAL, SOUTH AFRICA:LIMPOPO | 0.004 15 90 | country
+    # A muddy pool with hippos wallowing, their backs, eyes and ears just above the water.
+    box 0 0.02 0 5 0.02 7 6A6A4A water
+    blob 1 0.2 -2 0.8 0.35 1.3 6A5A5A
+    blob 1 0.35 -0.9 0.4 0.25 0.45 6A5A5A
+    blob -1.5 0.25 2 0.9 0.4 1.4 7A6A6A
+    blob -1.5 0.35 3.2 0.45 0.25 0.45 7A6A6A
+    blob 2.5 0.15 3 0.7 0.3 1.1 6A5A5A
+
+shape RHINO
+    home SOUTH AFRICA, NAMIBIA, KENYA, BOTSWANA, ZIMBABWE, ESWATINI | 0.003 15 90 | country
+    # A rhinoceros: grey and massive, two horns on its long head, grazing alone.
+    blob 0 1.2 0 0.7 0.75 1.4 8A8680
+    mirror
+    mirrorx
+    tube 0.4 0.7 0.9 0.4 0 0.9 0.18 6 7A7670
+    blob 0 1.0 1.6 0.35 0.4 0.6 7A7670
+    spire 0 1.2 2.0 0.12 0.5 6 B8B0A0
+    spire 0 1.3 1.7 0.08 0.25 6 B8B0A0
+    mirrorx
+    blob 0.25 1.5 1.3 0.06 0.12 0.08 7A7670
+
+shape OSTRICH
+    home SOUTH AFRICA, NAMIBIA, KENYA, BOTSWANA, TANZANIA | 0.004 10 80 | country
+    # An ostrich: a black feathered body with white plumes, long pink legs and a long bare neck.
+    blob 0 1.3 0 0.45 0.4 0.6 1E1E1E
+    blob 0 1.35 -0.55 0.3 0.25 0.2 F2F2EE
+    mirrorx
+    tube 0.12 1.0 0 0.12 0 0.1 0.04 3 C89A8A
+    tube 0 1.5 0.4 0 2.4 0.6 0.06 4 C89A8A
+    blob 0 2.45 0.68 0.08 0.08 0.14 8A7A70
+
+shape WARTHOGS
+    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, ZIMBABWE, NAMIBIA, SOUTH AFRICA, UGANDA, ETHIOPIA | 0.004 6 60 | country
+    # A family of warthogs trotting off, tails straight up like antennas.
+    blob 0 0.5 0 0.3 0.35 0.6 6A5A50
+    blob 0 0.45 0.6 0.2 0.22 0.3 6A5A50
+    tube 0 0.6 -0.55 0 1.2 -0.6 0.02 3 3A3430
+    blob 1.2 0.35 1 0.2 0.25 0.4 6A5A50
+    tube 1.2 0.45 0.6 1.2 0.9 0.55 0.015 3 3A3430
+    blob -1 0.35 -1 0.2 0.25 0.4 6A5A50
+    tube -1 0.45 -1.4 -1 0.9 -1.45 0.015 3 3A3430
+
+shape SPRINGBOK_HERD
+    home SOUTH AFRICA, NAMIBIA, BOTSWANA, ANGOLA | 0.005 15 110 | country
+    # Springbok on the open veld: slender, cinnamon above and white below, a dark stripe between.
+    repeat 5 1.6 0 1.3
+    blob 0 0.95 -3 0.18 0.25 0.5 C8885A
+    repeat 5 1.6 0 1.3
+    blob 0 0.85 -3 0.17 0.15 0.45 F2F2EE
+    repeat 5 1.6 0 1.3
+    tube 0 1.0 -2.6 0 1.4 -2.4 0.06 3 C8885A
+    repeat 5 1.6 0 1.3
+    tube 0.08 0.7 -2.7 0.08 0 -2.7 0.03 3 C8885A
+    repeat 5 1.6 0 1.3
+    tube -0.08 0.7 -3.3 -0.08 0 -3.3 0.03 3 C8885A
+
+shape BABOON_TROOP
+    home KENYA, TANZANIA, ETHIOPIA, SOUTH AFRICA, ZAMBIA, ZIMBABWE, BOTSWANA, NAMIBIA, UGANDA | 0.004 4 40 | country
+    # Baboons sitting by the road waiting for something to fall out of a car.
+    blob 0 0.4 0 0.3 0.4 0.3 8A7A60
+    blob 0 0.95 0.1 0.18 0.2 0.22 8A7A60
+    tube 0 0.2 -0.3 0 0.5 -0.8 0.04 3 8A7A60
+    blob 1.2 0.35 1 0.25 0.35 0.25 7A6A50
+    blob 1.2 0.82 1.1 0.15 0.17 0.19 7A6A50
+    blob -1 0.3 0.8 0.2 0.3 0.2 8A7A60
+    blob -1 0.7 0.9 0.13 0.14 0.16 8A7A60
+
+shape NDEBELE_PAINTED_HOUSE
+    home SOUTH AFRICA:MPUMALANGA, SOUTH AFRICA:LIMPOPO, SOUTH AFRICA:GAUTENG | 0.006 6 50
+    # An Ndebele house: its white walls painted with bold black-outlined patterns in red, yellow, blue and green.
+    box 0 1.6 0 3 1.6 4 F2F2EE
+    box 3.01 1.6 -2.5 0.01 1.2 0.9 1E1E1E
+    box 3.02 1.6 -2.5 0.01 1.05 0.75 C82A2A
+    box 3.03 1.6 -2.5 0.01 0.6 0.4 F2C21E
+    box 3.01 1.6 2.5 0.01 1.2 0.9 1E1E1E
+    box 3.02 1.6 2.5 0.01 1.05 0.75 2A6AC8
+    box 3.03 1.6 2.5 0.01 0.6 0.4 3A9A4A
+    tri 3.02 2.6 -1.2 3.02 2.6 1.2 3.02 3.2 0 C82A2A
+    box 3.02 1.0 0 0.03 1.0 0.5 3A2A1A
+    box 3.01 0.2 0 0.01 0.2 4 1E1E1E
+    hip 0 3.2 0 3.2 4.2 1.4 0.3 9A8A5A
+
+shape ZULU_BEEHIVE_HUT
+    home SOUTH AFRICA:KWAZULU-NATAL, ESWATINI | 0.006 8 60 | country
+    # A Zulu beehive hut: a dome of grass thatch bound over a frame of saplings, a low arched doorway.
+    blob 0 1.2 0 2.2 2.2 2.2 B8A868 0.25
+    repeat 4 0 0.6 0
+    halo 0 0.5 0 2.0 0.05 14 8A7A48
+    blob 2.1 0.6 0 0.2 0.6 0.4 2A1A10
+    blob 0 3.3 0 0.25 0.2 0.25 8A7A48
+
+shape SPAZA_SHOP
+    home SOUTH AFRICA, NAMIBIA, BOTSWANA, ZIMBABWE, LESOTHO, ESWATINI, ZAMBIA, MOZAMBIQUE | 0.006 3 20 | town
+    # A spaza shop: a container corner shop painted in the bright colours of a soft drink, a hatch with bars.
+    box 0 1.3 0 1.2 1.3 3 C82A2A
+    box 1.21 1.4 0 0.02 0.6 1.2 F2F2F2
+    repeat 6 0 0 0.4
+    tube 1.24 0.8 -1 1.24 2.0 -1 0.02 3 3A3A3A
+    box 1.22 2.3 0 0.02 0.25 2.6 F2F2F2
+    box 1.23 2.3 0 0.01 0.1 2 C82A2A
+    box 0 2.62 0 1.25 0.04 3.05 9A9A9A
+
+shape FARM_STALL
+    home SOUTH AFRICA:WESTERN CAPE, SOUTH AFRICA:NORTHERN CAPE, SOUTH AFRICA:EASTERN CAPE, SOUTH AFRICA:FREE STATE, SOUTH AFRICA:NORTH WEST, NAMIBIA | 0.004 4 25 | country
+    # A padstal: a farm stall of whitewash and corrugated iron, a stoep with benches, jams and biltong inside.
+    box 0 1.6 0 3 1.6 5 F2F2EE
+    hip 0 3.2 0 3.3 5.3 1 0.3 C83A2A
+    quad 3.3 3.1 -5 3.3 3.1 5 5 2.6 5 5 2.6 -5 C83A2A
+    repeat 4 0 0 3.3
+    tube 4.9 0 -5 4.9 2.6 -5 0.06 4 F2F2EE
+    box 3.02 1.0 0 0.03 1.0 0.6 2A5A3A
+    windows 3.02 0.2 -4.5 0 1 9 2.6 0.3 2.2
+    box 4 0.45 3 0.2 0.04 1 8A6A48
+    box 3.4 0.4 -3 0.3 0.4 0.3 C89A40
+
+shape BASOTHO_HUT
+    home LESOTHO | 0.008 8 60 | country
+    # A Basotho rondavel of stone, its thatch topped by the woven knot of the Basotho hat.
+    cyl 0 0 0 2.4 2.4 2 12 9A8A78
+    spire 0 2 0 2.8 2.6 12 9A8A58
+    cyl 0 4.4 0 0.25 0.1 0.4 8 8A7A48
+    halo 0 4.6 0 0.2 0.05 8 8A7A48
+    box 2.35 0.9 0 0.1 0.9 0.5 3A2A1A
+    blob 2.42 1.6 1.2 0.02 0.3 0.3 C82A2A
+
+shape QUIVER_TREE
+    home NAMIBIA, SOUTH AFRICA:NORTHERN CAPE | 0.006 8 70 | country
+    # A quiver tree: a pale golden trunk splitting into forked arms, each ending in a rosette of fat blue-green leaves.
+    tube 0 0 0 0 2.2 0 0.35 6 D8C898
+    tube 0 2.2 0 0.8 3.2 0 0.15 5 D8C898
+    tube 0 2.2 0 -0.7 3.3 0.3 0.15 5 D8C898
+    tube 0 2.2 0 0.1 3.4 -0.8 0.15 5 D8C898
+    blob 0.8 3.4 0 0.45 0.3 0.45 6A9A8A
+    blob -0.7 3.5 0.3 0.45 0.3 0.45 6A9A8A
+    blob 0.1 3.6 -0.8 0.45 0.3 0.45 6A9A8A
+
+shape WELWITSCHIA
+    home NAMIBIA, ANGOLA | 0.005 6 50 | country
+    # A welwitschia: two long leathery leaves torn into ribbons sprawling over the gravel, a thousand years old.
+    blob 0 0.3 0 0.5 0.3 0.5 6A5A40
+    quad 0 0.3 0 0 0.05 2.4 1.2 0.05 2.6 0.6 0.3 0 4A6A3A
+    quad 0 0.3 0 0 0.05 -2.4 -1.2 0.05 -2.6 -0.6 0.3 0 4A6A3A
+    quad 0 0.25 0.2 2.2 0.05 0.6 2.4 0.05 1.4 0.4 0.3 0.4 5A7A40
+
+shape WEAVER_NEST_POLE
+    home NAMIBIA, BOTSWANA, SOUTH AFRICA:NORTHERN CAPE | 0.005 4 40 | country
+    # A sociable weaver nest: a huge haystack of grass built by a whole colony around a telephone pole.
+    tube 0 0 0 0 6 0 0.12 6 7A6A58
+    tube 0 5.6 -0.8 0 5.6 0.8 0.05 4 7A6A58
+    blob 0 4.6 0 1.2 0.8 1.3 C8B078 0.4
+    repeat 6 0 0 0.4
+    box 0 3.85 -1 0.06 0.05 0.06 2A1A10
+
+shape GERMAN_COLONIAL_HOUSE
+    home NAMIBIA | 0.006 6 50 | town pastel
+    # A colonial house of Swakopmund: pastel walls, a steep tiled gable with half-timbering, a little tower.
+    box 0 2.5 0 3.5 2.5 4.5 A
+    windows 3.52 0.4 -4 0 1 8 4.2 0.4 2.6
+    gable 0 5 0 3.5 4.5 3.5 0.3 B84A2A A
+    box 2.5 4 -4 1 4 1 A
+    spire 2.5 8 -4 1.2 2.8 4 B84A2A
+    repeat 4 1.4 0 0
+    box -2.1 6.0 4.52 0.08 0.9 0.02 5A3A22
+
+shape RUSTY_CAR_WRECK
+    home NAMIBIA, BOTSWANA, SOUTH AFRICA:NORTHERN CAPE | 0.004 6 50 | country
+    # The wreck of an old car rusting in the desert sand, its wheels gone, a cactus growing beside it.
+    box 0 0.45 0 0.8 0.3 2 8A4A2A
+    box 0 0.95 -0.3 0.75 0.25 0.9 7A3A1E
+    box 0 0.95 -0.3 0.76 0.18 0.8 2A2420
+    blob 0 0.1 0 1.3 0.15 2.4 C8A070 0.4
+    tube 1.6 0 1.4 1.6 1.4 1.4 0.15 6 4A7A3A
+    tube 1.6 0.8 1.4 2.0 1.2 1.4 0.1 5 4A7A3A
+
+shape MOKORO_LAGOON
+    home BOTSWANA, NAMIBIA, ZAMBIA | 0.004 10 60 | country
+    # A mokoro: a dugout canoe pushed with a pole through the reeds and lilies of the delta.
+    box 0 0.02 0 3 0.02 6 4A7A7A water
+    tbox 0 0 0 0.3 2.6 0 0.25 0 0.4 2.8 6A4A2A
+    tube 0 0.3 -1 0 3.2 -0.6 0.03 3 8A6A48
+    repeat 6 0 0 1.8
+    blob 2.2 0.6 -4.5 0.3 0.6 0.3 7A8A3A 0.4
+    blob -1.5 0.04 2 0.3 0.02 0.3 3A7A3A
+    blob -1.6 0.08 2 0.08 0.05 0.08 F2F2F2
+
+shape FISH_DRYING_RACKS
+    home MALAWI, MOZAMBIQUE, TANZANIA, ZAMBIA, UGANDA, DR CONGO | 0.005 6 50 | country
+    # Racks of little silver fish drying on reed mats by the lake shore.
+    repeat 3 0 0 2.4
+    box 0 0.8 -2.4 0.8 0.04 1 B8A868
+    repeat 3 0 0 2.4
+    blob 0 0.86 -2.4 0.7 0.03 0.9 C8C8C8 0.5
+    repeat 3 0 0 2.4
+    tube 0.7 0 -3.3 0.7 0.8 -3.3 0.04 3 6A5A48
+    repeat 3 0 0 2.4
+    tube -0.7 0 -1.5 -0.7 0.8 -1.5 0.04 3 6A5A48
+
+shape MACUTI_HOUSE
+    home MOZAMBIQUE, TANZANIA, MADAGASCAR, COMOROS, KENYA | 0.006 6 60 | country
+    # A house of the coast under a thick roof of palm leaves, walls of plaited palm and mud, a coconut palm beside it.
+    box 0 1.2 0 2.5 1.2 3.5 B89868
+    hip 0 2.4 0 3 4 2.4 0.4 8A7A48
+    box 2.52 0.9 0 0.03 0.9 0.5 4A3424
+    tube 5 0 3 5.6 8 3.4 0.2 6 8A7050
+    fronds 5.6 8 3.4 9 3.5 0.6 4A7A2E
+    repeat 3 0 0 0.3
+    blob 5.5 7.7 3 0.15 0.15 0.15 8A6A30
+
+shape ZEBU_CART
+    home MADAGASCAR | 0.008 4 30 | country
+    # A zebu cart: two humped zebu oxen under a yoke, a wooden cart on big spoked wheels behind them.
+    box 0 1.0 0 0.8 0.08 1.4 8A6A48
+    box 0 1.3 -0.3 0.75 0.3 1.0 8A6A48
+    mirrorx
+    hoop 0.85 0.7 0 0.7 0.06 14 6A4A2A
+    tube 0 0.9 1.4 0 0.9 3 0.05 4 8A6A48
+    mirrorx
+    blob 0.5 1.1 3.4 0.3 0.4 0.7 C8B8A8
+    mirrorx
+    blob 0.5 1.55 3.7 0.18 0.2 0.2 B8A898
+    mirrorx
+    blob 0.5 1.25 4.15 0.14 0.22 0.25 C8B8A8
+    mirrorx
+    tube 0.4 0.75 3.1 0.4 0 3.1 0.06 4 C8B8A8
+    mirrorx
+    tube 0.4 0.75 3.7 0.4 0 3.7 0.06 4 C8B8A8
+    tube -0.9 1.45 4 0.9 1.45 4 0.06 4 6A4A2A
+
+shape BETSILEO_HOUSE
+    home MADAGASCAR | 0.008 6 60 | country
+    # A Betsileo house of the highlands: two storeys of red brick, a steep thatched roof, a carved wooden balcony.
+    box 0 2.6 0 3 2.6 4 A8503A
+    windows 3.02 0.4 -3.5 0 1 7 4.4 0.3 2.4
+    box 3.5 2.4 0 0.5 0.05 3.5 6A4A2A
+    box 3.98 2.75 0 0.03 0.35 3.5 6A4A2A
+    gable 0 5.2 0 3.1 4.1 3.8 0.3 8A7A48 A8503A
+
+shape TRAVELLERS_PALM
+    home MADAGASCAR, MAURITIUS, SEYCHELLES, COMOROS | 0.006 6 60 | country
+    # A traveller's palm: its great paddle leaves spread in one flat fan like a peacock's tail.
+    tube 0 0 0 0 2.5 0 0.25 6 9A8A70
+    tube 0 2.5 0 0 3.59 -4.06 0.22 4 4A8A3A
+    tube 0 2.5 0 0 5.20 -3.22 0.22 4 4A8A3A
+    tube 0 2.5 0 0 6.31 -1.77 0.22 4 4A8A3A
+    tube 0 2.5 0 0 6.70 0.00 0.22 4 4A8A3A
+    tube 0 2.5 0 0 6.31 1.77 0.22 4 4A8A3A
+    tube 0 2.5 0 0 5.20 3.22 0.22 4 4A8A3A
+    tube 0 2.5 0 0 3.59 4.06 0.22 4 4A8A3A
+
+shape RING_TAILED_LEMURS
+    home MADAGASCAR | 0.006 4 40 | country
+    # Ring-tailed lemurs sitting in a row on a rock, their black-and-white striped tails curled up behind them.
+    blob 0 0.4 0 1.5 0.4 0.8 9A9488 0.4
+    repeat 3 0 0 0.6
+    blob 0 1.0 -0.6 0.15 0.22 0.15 A8A098
+    repeat 3 0 0 0.6
+    blob 0.1 1.3 -0.6 0.1 0.09 0.09 F2F2EE
+    repeat 3 0 0 0.6
+    tube 0 0.9 -0.75 0 1.6 -1.0 0.05 4 F2F2F2
+    repeat 3 0 0 0.6
+    tube 0 1.2 -0.85 0 1.35 -0.9 0.055 4 1E1E1E
+
+shape CREOLE_HOUSE
+    home MAURITIUS, SEYCHELLES, COMOROS | 0.008 6 60 | pastel
+    # A Creole house: a wooden bungalow raised on a stone foot, a wide veranda trimmed with fretted lambrequins, a steep tin roof.
+    box 0 0.4 0 3.5 0.4 5 9A9488
+    box 0 2 0 3 1.2 4.5 A
+    windows 3.02 0.8 -4 0 1 8 2.4 0.4 2.2
+    quad 3 3.6 -5 3 3.6 5 4.8 2.9 5 4.8 2.9 -5 C83A2A
+    repeat 5 0 0 2.5
+    tube 4.7 0.8 -5 4.7 2.9 -5 0.06 4 F2F2F2
+    repeat 20 0 0 0.5
+    tri 4.8 2.9 -5 4.8 2.9 -4.5 4.8 2.65 -4.75 F2F2F2
+    hip 0 3.2 0 3.2 4.7 2.4 0.3 C83A2A
+
+shape SUGAR_MILL_CHIMNEY
+    home MAURITIUS, SEYCHELLES | 0.004 15 100 | country
+    # The chimney of an old sugar mill, its stone and brick standing alone in a sea of cane.
+    box 0 2 0 2.2 2 2.2 8A8478
+    cyl 0 4 0 1.3 0.8 14 10 A8503A
+    box 4 0.02 0 3 0.02 6 6A8A3A
+    repeat 8 0 0 1.4
+    box 4 1 -5 2.5 1 0.12 7A9A4A

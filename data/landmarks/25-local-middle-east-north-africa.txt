@@ -141,7 +141,7 @@ shape MUSHROOM_WATER_TOWERS
     dome 0 19.7 -8 3.5 1.2 E8E8E8
 
 shape DHOW
-    home UAE, QATAR, KUWAIT, BAHRAIN, OMAN, YEMEN, SAUDI ARABIA, IRAN | 0.005 30 120 | water
+    home UAE, QATAR, KUWAIT, BAHRAIN, OMAN, YEMEN, SAUDI ARABIA, IRAN, TANZANIA, KENYA, SOMALIA, COMOROS, MADAGASCAR, MOZAMBIQUE | 0.005 30 120 | water
     # A dhow: a wooden trading boat with a high carved stern and one tall raked mast with its lateen yard.
     tbox 0 -0.8 0 1.5 7 0 0.9 0 2.4 8.5 8A5A30
     tbox 0 0.9 -7 2.2 1.5 0 2.4 -7.3 2.2 1.2 8A5A30
