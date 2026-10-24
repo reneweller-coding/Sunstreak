@@ -429,7 +429,7 @@ shape HORSE_HERD
     tube -2.15 0.7 -3.5 -2.15 0 -3.5 0.06 4 2A2420
 
 shape LOAF_VAN
-    home RUSSIA, MONGOLIA, KAZAKHSTAN, KYRGYZSTAN | 0.004 4 25 | pastel
+    home RUSSIA, MONGOLIA, KAZAKHSTAN, KYRGYZSTAN, UKRAINE, BELARUS | 0.004 4 25 | pastel
     # A loaf van: a stubby Soviet off-road minibus with a rounded nose, a favourite of expeditions.
     box 0 1.3 0 0.95 0.75 2.1 A
     tbox 0 0.55 2.1 0.95 0.25 0 2.0 2.1 0.9 0.15 A
@@ -471,7 +471,7 @@ shape CHAIKHANA_TAPCHAN
     blob -4 6 2 3.5 2.6 3.5 4A7A3A 0.3
 
 shape TANDOOR_OVEN
-    home UZBEKISTAN, TAJIKISTAN, AFGHANISTAN, TURKMENISTAN, KYRGYZSTAN, KAZAKHSTAN, IRAN, IRAQ, CHINA:XINJIANG | 0.004 3 20 | country
+    home UZBEKISTAN, TAJIKISTAN, AFGHANISTAN, TURKMENISTAN, KYRGYZSTAN, KAZAKHSTAN, IRAN, IRAQ, CHINA:XINJIANG, ARMENIA, AZERBAIJAN, GEORGIA | 0.004 3 20 | country
     # A tandoor: a dome-shaped clay oven on a mud-brick plinth, round flat breads cooling on a board beside it.
     box 0 0.4 0 0.8 0.4 0.8 B8986A
     blob 0 1.1 0 0.75 0.7 0.75 C8A07A

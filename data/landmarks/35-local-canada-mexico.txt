@@ -191,7 +191,7 @@ shape SEALSKIN_FRAMES
     tube 0 0.15 -3.35 0 0.15 -2.05 0.03 3 6A5A48
 
 shape PERMAFROST_HOUSES
-    home CANADA:NUNAVUT, CANADA:YUKON, USA:ALASKA, RUSSIA:FAR EAST, NORWAY:SVALBARD | 0.008 6 40 | pastel
+    home CANADA:NUNAVUT, CANADA:YUKON, USA:ALASKA, RUSSIA:FAR EAST, NORWAY:SVALBARD, RUSSIA:SIBERIA | 0.008 6 40 | pastel
     # Houses of the far north raised on steel piles above the permafrost: bright siding, small windows, an oil tank by the door.
     repeat 3 0 0 2.4
     tube 2 0 -6.4 2 1.2 -6.4 0.1 4 6A6A6A

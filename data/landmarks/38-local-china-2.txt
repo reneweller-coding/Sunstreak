@@ -147,7 +147,7 @@ shape WOODEN_WATERWHEELS
     tube 0.5 0 4 0.5 3 4 0.1 4 6A5040
 
 shape GRAPE_TRELLIS_LANE
-    home CHINA:XINJIANG | 0.008 3 25 | country
+    home CHINA:XINJIANG, GEORGIA, ARMENIA, AZERBAIJAN, UZBEKISTAN, TAJIKISTAN | 0.008 3 25 | country
     # A lane under a grape trellis in the oasis: posts and wires roofed over with vines, green bunches hanging, a mud-brick house beside it.
     repeat 6 0 0 3
     mirrorx

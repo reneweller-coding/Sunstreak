@@ -43,7 +43,7 @@ shape PEACH_STAND
     blob 3.08 3.45 2.6 0.05 0.12 0.25 4A8A3A
 
 shape COTTON_MODULES
-    home USA:TEXAS, USA:MISSISSIPPI, USA:ALABAMA, USA:GEORGIA, USA:ARKANSAS, USA:LOUISIANA | 0.006 8 70 | country
+    home USA:TEXAS, USA:MISSISSIPPI, USA:ALABAMA, USA:GEORGIA, USA:ARKANSAS, USA:LOUISIANA, UZBEKISTAN, TURKMENISTAN, TAJIKISTAN | 0.006 8 70 | country
     # A cotton field at harvest: rows of plants white with bolls, and the round modules wrapped in yellow at the edge.
     repeat 8 0 0 1
     box -3 0.5 -3.5 4 0.45 0.25 5A5A40
