@@ -113,7 +113,7 @@ shape BLACK_FOREST_FARMHOUSE
     blob 0 11.8 2.5 0.5 0.2 0.5 5E4E40
 
 shape ALLOTMENT_PLOT
-    home GERMANY, CZECHIA, POLAND | 0.004 6 40 | town
+    home GERMANY, CZECHIA, POLAND, ENGLAND, SCOTLAND, WALES | 0.004 6 40 | town
     # A Schrebergarten: a green shed, a picket fence, beds, a gnome and a flag on a pole.
     box 0 1.1 0 1.6 1.1 1.4 6A9A5A
     gable 0 2.2 0 1.6 1.4 0.6 0.2 8A3A2A 6A9A5A

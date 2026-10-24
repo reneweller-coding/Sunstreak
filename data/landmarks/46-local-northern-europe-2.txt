@@ -1,0 +1,247 @@
+# More local things of Britain, Ireland, the Nordic countries and the Baltic lands.
+
+shape ICE_CREAM_VAN
+    home ENGLAND, SCOTLAND, WALES, IRELAND, NORTHERN IRELAND | 0.004 2 20 | town
+    # An ice cream van parked by the green: a white van with pastel stripes, a sliding serving hatch and a giant cone on its roof.
+    box 0 1.2 0 1.0 0.9 2.4 F2F2F2
+    box 0 0.8 2.6 0.95 0.45 0.4 F2F2F2
+    box 0 1.55 2.5 0.9 0.3 0.15 2A3A4A glass
+    box 1.01 0.8 0 0.01 0.12 2.4 E87AA8
+    box 1.01 1.0 0 0.01 0.06 2.4 7AC8E8
+    box 1.02 1.4 -0.4 0.01 0.4 0.9 2A2018
+    cyl 0 2.1 -0.6 0.02 0.25 0.8 8 D8A860
+    blob 0 3.0 -0.6 0.3 0.25 0.3 F2E8D8
+    mirror
+    mirrorx
+    tube 0.8 0.38 1.8 1.02 0.38 1.8 0.38 10 1E1E1E
+
+shape FIVE_BAR_GATE
+    home ENGLAND, WALES, SCOTLAND, IRELAND, NORTHERN IRELAND | 0.008 1 10 | country
+    # A five-bar field gate set in a hawthorn hedge, a muddy track leading into the green field beyond.
+    repeat 5 0 0.25 0
+    box 0 0.25 0 0.04 0.04 1.6 C8C0A8
+    tube 0 0.25 -1.6 0 1.25 1.6 0.04 3 C8C0A8
+    box 0 0.7 -1.65 0.08 0.7 0.08 8A7A60
+    box 0 0.8 1.8 0.1 0.8 0.1 8A7A60
+    box 0 0.9 -7 0.8 0.9 5.2 3A5A2A
+    box 0 0.9 7 0.8 0.9 5 3A5A2A
+    box -3 0.02 0 3 0.02 1.2 6A5A40
+
+shape BELISHA_BEACONS
+    home ENGLAND, SCOTLAND, WALES, NORTHERN IRELAND | 0.006 0 3 | town
+    # A zebra crossing's beacons: striped black and white poles topped with flashing amber globes, one at each side of the road.
+    tube 0 0 0 0 2.4 0 0.06 6 F2F2F2
+    repeat 4 0 0.6 0
+    cyl 0 0 0 0.065 0.065 0.3 8 1E1E1E
+    blob 0 2.6 0 0.22 0.22 0.22 F2A21E glow
+    repeat 5 0 0 0.6
+    box 0.5 0.01 -1.2 0.3 0.01 0.25 F2F2F2
+
+shape HIGHLAND_BOTHY
+    home SCOTLAND | 0.004 8 60 | country
+    # A bothy in the glen: a tiny stone shelter with a tin roof and a chimney, alone by the burn below the hills.
+    box 0 1.2 0 2.2 1.2 3.2 8A8478
+    gable 0 2.4 0 2.4 3.4 1.2 0.2 6A6A6A 8A8478
+    box 2.22 0.9 1 0.02 0.9 0.4 3A3A3A
+    box 2.22 1.4 -1.5 0.02 0.3 0.35 2A3A4A glass
+    box 0 3.6 3 0.3 0.6 0.3 7A7470
+    box 4 0.02 0 0.8 0.02 6 4A6A7A water
+
+shape RED_DEER_STAGS
+    home SCOTLAND, ENGLAND:NORTH WEST, IRELAND, GERMANY, POLAND, HUNGARY, CZECHIA, AUSTRIA, NORWAY, DENMARK | 0.004 8 60 | country
+    # Red deer stags on the hillside: big russet deer with shaggy necks and wide branching antlers, one raising its head to roar.
+    blob 0 1.2 0 0.25 0.32 0.65 8A4A2A
+    tube 0 1.35 0.5 0 1.8 0.8 0.1 5 7A4028
+    blob 0 1.85 0.92 0.08 0.11 0.2 8A4A2A
+    mirrorx
+    tube 0.05 1.95 0.85 0.35 2.5 0.7 0.025 3 C8B8A0
+    mirrorx
+    tube 0.2 2.2 0.78 0.4 2.4 1.0 0.02 3 C8B8A0
+    mirrorx
+    tube 0.3 2.4 0.73 0.5 2.6 0.65 0.02 3 C8B8A0
+    mirror
+    mirrorx
+    tube 0.13 0.9 0.45 0.13 0 0.45 0.04 4 8A4A2A
+    blob 1.6 1.15 2 0.25 0.3 0.62 8A4A2A
+    tube 1.6 1.3 2.5 1.6 1.4 2.95 0.1 5 7A4028
+    blob 1.6 1.45 3.05 0.08 0.1 0.2 8A4A2A
+    tube 1.73 0.85 2.45 1.73 0 2.45 0.04 4 8A4A2A
+    tube 1.47 0.85 2.45 1.47 0 2.45 0.04 4 8A4A2A
+    tube 1.73 0.85 1.55 1.73 0 1.55 0.04 4 8A4A2A
+    tube 1.47 0.85 1.55 1.47 0 1.55 0.04 4 8A4A2A
+
+shape PIPER
+    home SCOTLAND | 0.002 3 20 | country
+    # A piper by the lay-by in full dress: a kilt, a dark jacket and a feather bonnet, the bagpipes on his shoulder.
+    tube 0.08 0.6 0 0.08 0 0 0.05 4 E8E0D0
+    tube -0.08 0.6 0 -0.08 0 0 0.05 4 E8E0D0
+    tbox 0 0.55 0 0.22 0.15 0 0.95 0 0.18 0.12 2A5A3A
+    box 0 1.2 0 0.18 0.28 0.12 1E2A3A
+    blob 0 1.6 0 0.1 0.12 0.1 E0B090
+    cyl 0 1.65 0 0.13 0.16 0.35 8 1E1E1E
+    blob 0.05 1.25 0.2 0.12 0.1 0.15 C82A2A
+    tube 0.05 1.3 0.3 0.25 1.9 0.1 0.025 3 1E1E1E
+    tube 0.05 1.3 0.3 0.1 1.95 0.2 0.025 3 1E1E1E
+    tube 0.05 1.3 0.3 -0.1 1.85 0.25 0.025 3 1E1E1E
+
+shape CURRACHS
+    home IRELAND | 0.006 6 40 | coast
+    # Currachs on the shore: light black tarred canvas boats turned upside down on trestles above the high tide line.
+    repeat 3 0 0 2
+    blob 0 0.75 -2 0.65 0.35 2.8 1E1E1E
+    repeat 3 0 0 2
+    box 0.5 0.3 -2 0.05 0.3 0.05 6A5A48
+    repeat 3 0 0 2
+    box -0.5 0.3 -2 0.05 0.3 0.05 6A5A48
+    blob 2 0.15 0 1 0.3 6 9A9690 0.5
+
+shape SEASIDE_PIER
+    home ENGLAND:SOUTH WEST, ENGLAND:NORTH WEST, ENGLAND:EAST OF ENGLAND, ENGLAND:YORKSHIRE, ENGLAND:NORTH EAST, WALES | 0.002 20 80 | coast
+    # A Victorian pleasure pier striding out over the sea on iron legs, a domed pavilion at its end and a row of lamps along its rails.
+    box -12 5 0 12 0.2 2.5 C8B898
+    repeat 9 -3 0 0
+    mirror
+    tube 0 0 2.2 0 5 2.2 0.2 6 3A3A3A
+    repeat 12 -2 0 0
+    mirror
+    tube -1 5.2 2.3 -1 6.6 2.3 0.04 3 3A5A4A
+    repeat 12 -2 0 0
+    mirror
+    blob -1 6.7 2.3 0.12 0.12 0.12 F2E8B0 lit
+    box -26 7.5 0 3.5 2.5 4 F2F2EE
+    dome -26 10 0 3.2 2.2 3A7A7A
+    windows -22.48 5.8 -3.5 0 1 7 3 0.4 3
+
+shape LYCHGATE
+    home ENGLAND, WALES | 0.004 1 10 | country
+    # A lychgate at the churchyard: a little oak-framed gateway with its own tiled roof, set in the old stone wall.
+    mirror
+    mirrorx
+    tube 0.9 0 1.2 0.9 2.2 1.2 0.1 4 6A4A30
+    gable 0 2.2 0 1.0 1.4 1.0 0.3 6A3A2A 6A4A30
+    box 0 0.6 -4 0.25 0.6 2.6 9A9480
+    box 0 0.6 4 0.25 0.6 2.6 9A9480
+    box 0 0.5 0 0.05 0.5 0.8 6A4A30
+
+shape HAY_HESJER
+    home NORWAY, SWEDEN, FINLAND, ESTONIA, LATVIA, ICELAND | 0.006 6 50 | country
+    # Hay drying on wire fences in the field: long low walls of grass hung over strands between posts, a red barn behind.
+    repeat 7 0 0 2
+    tube 0 0 -6 0 1.6 -6 0.05 3 8A7A60
+    box 0 0.9 0 0.15 0.7 6.2 9AA060
+    box -1 0.75 0.5 0.22 0.55 4 8A9A50
+    box -6 2 0 2.5 2 3.5 9A2A1E
+    gable -6 4 0 2.7 3.7 1.5 0.3 3A3A3A 9A2A1E
+
+shape SALMON_PEN_RINGS
+    home NORWAY, SCOTLAND, CHILE:LOS LAGOS, CHILE:AYSEN, ICELAND, IRELAND | 0.004 30 120 | water
+    # A salmon farm in the fjord: big round floating pens of black plastic tubes in a row, a feed barge moored beside them.
+    halo 0 0.1 -12 6 0.25 16 2A2A2A
+    halo 0 0.1 0 6 0.25 16 2A2A2A
+    halo 0 0.1 12 6 0.25 16 2A2A2A
+    repeat 3 0 0 12
+    halo 0 1.0 -12 6 0.06 16 3A3A3A
+    box 9 1.5 0 2.5 1.5 4 E8E8E0
+    box 9 3.5 0 1.5 0.6 2 C8C8C0
+
+shape LAKE_ROWBOAT
+    home FINLAND, SWEDEN, NORWAY, ESTONIA, RUSSIA:NORTHWEST RUSSIA, CANADA:ONTARIO, CANADA:QUEBEC | 0.006 4 40 | country
+    # A wooden rowboat pulled up at a little jetty on the lake shore, the birches leaning over the still water.
+    box 3 0.02 0 3 0.02 6 3A5A6A water
+    box 2.5 0.4 0 2.5 0.06 0.6 8A7A60
+    repeat 4 1.2 0 0
+    tube 0.5 0 -0.5 0.5 0.4 -0.5 0.06 3 6A5A48
+    tbox 3 0 -2 0.4 1.5 3 0.4 -2 0.7 1.8 C82A2A
+    box 3 0.42 -2 0.6 0.03 0.15 8A6A48
+    tube -1 0 2 -0.5 6 2.3 0.12 5 E8E8E0
+    blob -0.5 6.5 2.3 1.4 1.8 1.4 6A9A3A 0.4
+    tube -1.5 0 -3 -1.2 5 -3.2 0.1 5 E8E8E0
+    blob -1.2 5.5 -3.2 1.2 1.6 1.2 6A9A3A 0.4
+
+shape HOT_POT_POOL
+    home ICELAND | 0.006 4 40 | country
+    # A natural hot pot in the lava field: a small stone-rimmed pool steaming in the cold air, a little changing hut beside it.
+    cyl 0 0 0 2.2 2.2 0.4 12 6A6460
+    cyl 0 0.4 0 1.9 1.9 0.02 12 6AB8C8 water
+    blob 0 1.2 0 1.6 0.8 1.6 E8EEF0 glass
+    box -3.5 1.2 1.5 0.9 1.2 1 E8E0D0
+    gable -3.5 2.4 1.5 1 1.2 0.6 0.1 3A3A3A E8E0D0
+    blob 3 0.3 -3 2 0.5 2 3A3430 0.6
+
+shape NAUST_BOATHOUSES
+    home NORWAY, ICELAND | 0.006 6 50 | coast
+    # Old boathouses at the water's edge: steep-roofed sheds of tarred black boards and stone, their doors opening onto the slipway.
+    box 0 1.5 -3 1.8 1.5 2.5 2A2420
+    gable 0 3 -3 2 2.7 1.8 0.2 4A4A40 2A2420
+    box 1.82 1.2 -3 0.02 1.1 1.2 3A3028
+    box 0 1.3 2.5 1.6 1.3 2.2 7A3A22
+    gable 0 2.6 2.5 1.8 2.4 1.6 0.2 6A8A4A 7A3A22
+    box 1.62 1.1 2.5 0.02 1.0 1.0 4A2A1A
+    box 3.5 0.02 0 1.5 0.02 6 3A5A6A water
+
+shape MILK_CHURN_STAND
+    home POLAND, LITHUANIA, LATVIA, ESTONIA, BELARUS, UKRAINE, SLOVAKIA, ROMANIA | 0.006 0 5 | country
+    # A milk can stand at the farm gate: a little wooden platform at truck height with steel churns waiting for the dairy lorry.
+    box 0 0.9 0 0.6 0.05 0.8 8A7A60
+    mirror
+    mirrorx
+    tube 0.5 0 0.7 0.5 0.9 0.7 0.05 3 6A5A48
+    repeat 3 0 0 0.5
+    cyl 0 0.95 -0.5 0.18 0.15 0.6 10 C8C8C8 shiny
+    repeat 3 0 0 0.5
+    cyl 0 1.55 -0.5 0.1 0.12 0.1 10 C8C8C8 shiny
+
+shape BOG_BOARDWALK
+    home ESTONIA, LATVIA, LITHUANIA, FINLAND, IRELAND, SWEDEN | 0.004 4 40 | country
+    # A raised bog with its plank boardwalk: two boards wide across the moss and dark pools, stunted pines, a little wooden lookout tower.
+    box -3 0.02 0 5 0.02 8 8A8A50
+    box -3 0.03 -3 1.2 0.02 1.5 2A3A3A water
+    box -4 0.03 3 1 0.02 1.2 2A3A3A water
+    box -1 0.15 0 0.4 0.03 8 9A8A70
+    repeat 8 0 0 2
+    tube -1 0 -7 -1 0.15 -7 0.04 3 6A5A48
+    repeat 4 -1.5 0 2
+    tube -3 0 -5 -3 2 -5 0.08 4 6A5A48
+    repeat 4 -1.5 0 2
+    blob -3 2.3 -5 0.6 0.8 0.6 3A5A2A 0.4
+    tube -7.2 0 0.7 -7.2 4 0.7 0.08 3 8A7A60
+    tube -5.8 0 0.7 -5.8 4 0.7 0.08 3 8A7A60
+    tube -7.2 0 -0.7 -7.2 4 -0.7 0.08 3 8A7A60
+    tube -5.8 0 -0.7 -5.8 4 -0.7 0.08 3 8A7A60
+    box -6.5 4 0 0.8 0.05 0.8 8A7A60
+    box -6.5 4.5 0 0.85 0.05 0.85 4A3A30
+
+shape FISH_SMOKEHOUSE
+    home ESTONIA, LATVIA, LITHUANIA, POLAND, DENMARK, GERMANY:MECKLENBURG-VORPOMMERN, FINLAND, SWEDEN | 0.004 4 40 | coast
+    # A fish smokehouse on the shore: a small dark timber hut with tall square chimneys trailing smoke, smoked fish sold at the hatch.
+    box 0 1.5 0 2 1.5 3 4A3A2A
+    gable 0 3 0 2.2 3.2 1.2 0.2 3A3A3A 4A3A2A
+    repeat 3 0 0 2
+    box -0.8 4.5 -2 0.35 1.3 0.35 F2EEE2
+    repeat 3 0 0 2
+    blob -0.8 6.5 -2 0.4 0.8 0.4 C8C8C8 glass
+    box 2.02 1.3 1 0.02 0.4 0.6 2A2018
+    box 2.5 0.9 1 0.4 0.04 0.7 8A6A48
+    repeat 4 0 0 0.3
+    blob 2.5 1.0 0.55 0.06 0.04 0.2 C8903A
+
+shape GRIT_BIN
+    home ENGLAND, SCOTLAND, WALES, NORTHERN IRELAND | 0.006 0 3 | country
+    # A yellow grit bin at the foot of the hill, full of salt for the icy days, its lid stencilled with the council's name.
+    box 0 0.35 0 0.35 0.35 0.45 E8C02A
+    tbox 0 0.7 0 0.38 0.48 0 0.85 0 0.2 0.45 E8C02A
+    box 0.39 0.5 0 0.01 0.06 0.3 1E1E1E
+
+shape WHITE_GEESE
+    home POLAND, HUNGARY, ROMANIA, UKRAINE, LITHUANIA, CZECHIA, SLOVAKIA, MOLDOVA, BELARUS | 0.006 2 25 | country
+    # A flock of white farm geese marching along the verge in a line, orange beaks held high.
+    repeat 7 0.3 0 0.8
+    blob -1 0.35 -3 0.18 0.18 0.3 F2F2F2
+    repeat 7 0.3 0 0.8
+    tube -1 0.4 -2.8 -1 0.75 -2.7 0.05 4 F2F2F2
+    repeat 7 0.3 0 0.8
+    blob -1 0.78 -2.65 0.06 0.07 0.1 F2F2F2
+    repeat 7 0.3 0 0.8
+    tube -1 0.77 -2.57 -1 0.75 -2.45 0.025 3 E8902A
+    repeat 7 0.3 0 0.8
+    tube -1 0.2 -3 -1 0 -2.95 0.02 3 E8902A

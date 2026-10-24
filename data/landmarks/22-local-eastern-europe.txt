@@ -124,7 +124,7 @@ shape KULLA_TOWER_HOUSE
     box 3.52 1.1 0 0.03 1.1 0.6 4A3A2A
 
 shape CONCRETE_BUNKER
-    home ALBANIA | 0.008 6 70 | country
+    home ALBANIA, DENMARK | 0.008 6 70 | country
     # A concrete bunker from the old days: a squat grey dome with a gun slit, sunk into the hillside.
     cyl 0 0 0 1.8 1.8 0.6 12 9A9690
     dome 0 0.6 0 1.8 1.4 9A9690

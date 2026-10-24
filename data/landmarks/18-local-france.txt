@@ -390,7 +390,7 @@ shape FRENCH_POST_BOX
     blob 0.26 0.7 0 0.01 0.08 0.1 2A4AA8
 
 shape VILLAGE_WAR_MEMORIAL
-    home FRANCE | 0.002 6 30 | country
+    home FRANCE, ENGLAND, SCOTLAND, WALES | 0.002 6 30 | country
     # A village war memorial: an obelisk on its steps, a plaque of names, a wreath, posts and chains around.
     box 0 0.3 0 1.2 0.3 1.2 C8C0B0
     box 0 0.9 0 0.7 0.3 0.7 D8D0C0
