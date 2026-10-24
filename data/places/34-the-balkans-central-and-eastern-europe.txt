@@ -1,0 +1,248 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place ALBANIAN_RIVIERA | ALBANIAN RIVIERA | ALBANIA | NOON
+    sea 0 1 -40
+    water 1E7AB0
+    land 7E9050 748648 8A9060
+    verge C8C0B0
+    hills 40 30 -30
+    drive 2 0.4 0.97 19
+    bends 0.85 0.8 0.85
+    p OLIVE 0.15 4 100
+    p DOME 0.02 4 40 0.15 0.2
+    p FLAT_HOUSE 0.03 6 60
+    c F0ECE0 B0583A
+    p CYPRESS 0.05 4 60
+    p SHRUB 0.2 2 60
+    c 6A7A48
+    p SAILBOAT 0.008 60 250
+    floating
+
+place LAKE_OHRID | LAKE OHRID | NORTH MACEDONIA | GOLDEN
+    sea 0 1 -6
+    water 2A7A9A
+    land 7A9A50 709048 80925E
+    hills 30 16 -6
+    drive 2 0.4 0.97 19
+    bends 0.55 0.5 0.5
+    p CHURCH 0.006 8 80
+    c B89878 8A4A3A
+    p ROW_HOUSES 0.05 6 40
+    c F0ECE0 8A4A3A
+    p BROADLEAF 0.1 4 80
+    c 5A8A40
+    p BOAT 0.03 40 150
+    c 2A6AAA F0F0F0
+    pastel
+    floating
+    p CASTLE 0.002 80 200
+    c 9A8A78 8A4A3A
+
+place KOSOVO | RUGOVA GORGE | KOSOVO | MORNING
+    land 5E9446 568A40 5E8450
+    verge 9A9690
+    sea 0 1 -18
+    water 3A8A8A
+    hills 50 60 -10
+    drive 2 0.3 0.95 19
+    bends 0.7 0.65 0.6
+    tunnels 0.3
+    p SPRUCE 0.35 4 150
+    p ROCK 0.12 3 50
+    p COTTAGE 0.008 10 60
+    c E8E0D0 8A4A3A
+    p SHEEP 0.02 8 60
+
+place MOSTAR | MOSTAR | BOSNIA | GOLDEN
+    sea 0 1 -18
+    water 3AA890
+    land 8A9A58 809050 8E9466
+    verge D8D0C0
+    hills 30 20 -10
+    drive 2 0.5 0.97 19
+    bends 0.5 0.45 0.5
+    bridges 0.4 ARCH D8D0C0
+    p MOSQUE 0.006 20 100
+    c E8E0D0 8A8A90
+    p ROW_HOUSES 0.06 6 40
+    c D8D0C0 6A6A6A
+    p CHURCH 0.003 30 120
+    c E8E0D0 6A6060
+    p FLAT_HOUSE 0.03 6 60
+    c E8E0D0 B0583A
+    p CYPRESS 0.04 4 60
+
+place LAKE_BLED | LAKE BLED | SLOVENIA | MORNING
+    sea 0 1 -3
+    water 2A7A7A
+    land 62A048 589640 5E8E50
+    ranges 5A6878 E0E6F0 12
+    hills 30 16 0
+    drive 2 0.4 0.98 19
+    bends 0.5 0.45 0.4
+    landmark ISLAND_CHURCH 120 180
+    floating
+    p CASTLE 0.003 60 160
+    c D8D0C0 8A4A3A
+    p SPRUCE 0.3 4 150
+    p CHALET 0.02 8 60
+    c F0EADC 6A4A3A
+    p BOAT 0.02 40 120
+    c 8A5A3A F0F0F0
+    floating
+
+place IRON_GATES | IRON GATES | SERBIA | HAZE
+    sea 0 1 -8
+    water 4A6A6A
+    land 5E8E46 568440 5A7E4A
+    verge 8A8478
+    hills 50 50 -8
+    drive 2 0.4 0.97 19
+    bends 0.55 0.5 0.35
+    tunnels 0.25
+    p BROADLEAF 0.35 4 150
+    c 4A7A3A
+    p CASTLE 0.004 30 120
+    c A8A090 8A4A3A
+    p ROCK 0.08 3 50
+    p SHIP 0.003 80 250 0.6 0.8
+    floating
+    p COTTAGE 0.006 10 60
+    c E8E0D0 B0583A
+
+place ORHEI | ORHEIUL VECHI | MOLDOVA | MORNING
+    land 7EA44E 749848 8A9A5E
+    fields 0.4 F0D030 8AB04A B89A5A
+    verge C8C0A8
+    hills 24 -16 14
+    drive 2 0.3 0.95 19
+    bends 0.5 0.45 0.5
+    p VINE_ROW 0.4 6 30 1 1
+    p CHURCH 0.004 30 150
+    c F0ECE0 6A7A9A
+    p COTTAGE 0.03 6 60
+    c 7AA8D8 8A8A8A
+    pastel
+    p WAYSIDE_CROSS 0.006 3 10
+    p BROADLEAF 0.08 4 80
+    c 5A8A40
+
+place TRANSFAGARASAN | TRANSFAGARASAN | ROMANIA | ALPINE
+    land 6E9E4C 649244 7A9064
+    verge 8A8680
+    ranges 5A6476 E8ECF4 13
+    hills 60 40 -40
+    drive 2 0.4 0.97 19
+    bends 1.0 0.95 1.0
+    tunnels 0.06
+    rails
+    p PEAK 0.006 150 400 1.0 1.4
+    c 6A6C70 F0F2F6
+    p SPRUCE 0.2 10 150
+    p ROCK 0.15 3 60
+    p SHEEP 0.04 8 80
+    p SNOWBANK 0.06 1 6 0.5 0.9
+
+place SPIS | SPIS CASTLE | SLOVAKIA | MORNING
+    land 7AA44E 6E9848 86A05E
+    fields 0.5 D8C25A 8AB04A B8A860
+    ranges 6A7888 D0D8E4 8
+    hills 20 6 6
+    drive 2 0.5 0.98 6
+    bends 0.45 0.4 0.45
+    p CASTLE 0.0 150 250 1.8 1.8
+    c D8D0C0 8A8A8A
+    once
+    p CHURCH 0.004 30 150
+    c F0ECE0 5A5A60
+    p COTTAGE 0.02 8 70
+    c F0ECE0 8A4A3A
+    p BROADLEAF 0.06 4 80
+    c 5A8A40
+    p HAYBALE 0.01 10 60
+
+place BELOVEZHSKAYA | BELOVEZHSKAYA PUSHCHA | BELARUS | MIST
+    land 4E8040 46763A 3E6A3C
+    hills 4 2 2 0.15
+    drive 2 0.15 0.96 22
+    bends 0.35 0.3 0.15
+    p SPRUCE 0.4 3 150
+    p BROADLEAF 0.25 3 150 1.0 1.4
+    c 3E6A30
+    p BISON 0.012 10 80
+    p COTTAGE 0.006 10 60
+    c 7AA0C8 8A8A8A
+    p FERN 0.2 1 20
+
+place LAHEMAA | LAHEMAA | ESTONIA | MORNING
+    sea 0 1 -2
+    water 3A5A6A
+    land 6A9A4A 608E44 5E8450
+    verge D8D0B8
+    hills 6 2 0 0.2
+    drive 2 0.2 0.98 23
+    bends 0.4 0.35 0.15
+    p BOULDER 0.06 4 120 1.0 2.0
+    p PINE 0.3 4 150
+    p BIRCH 0.1 3 80
+    p CABIN 0.01 3 11
+    p CHURCH 0.003 30 150
+    c F0ECE0 5A5A60
+
+place GAUJA | GAUJA VALLEY | LATVIA | MORNING
+    land 5E9446 568A40 527E48
+    verge A85A3A
+    sea 0 1 -10
+    water 5A5A48
+    hills 24 14 -6
+    drive 2 0.3 0.98 23
+    bends 0.5 0.45 0.5
+    p CASTLE 0.004 40 160
+    c A84A30 8A3A2A
+    p SPRUCE 0.35 4 150
+    p BIRCH 0.12 3 80
+    p COTTAGE 0.008 10 60
+    c C8A070 5A5A60
+
+place ST_PETERSBURG | SAINT PETERSBURG | RUSSIA | DUSK
+    sea 0.5 0.5 -3
+    water 3A4A6A
+    land 6E8A58 668250 707A68
+    drive 3 1.1 0.97 0
+    bends 0.3 0.3 0.0
+    posts 0
+    bridges 0.3 TRUSS 3A4048
+    p ROW_HOUSES 0.2 3 11
+    c E8C890 5A6A5A
+    pastel
+    p ONION_CHURCH 0.006 20 150
+    c F0ECE0 D8A84A
+    p CHURCH 0.004 20 150
+    c 6AA8A0 D8C8A0
+    p BOAT 0.02 36 100
+    c F0F0F0 2A3A5A
+    floating
+
+place MOSCOW | MOSCOW | RUSSIA | WINTER
+    snow 0.3
+    land E0E4EA D4DAE2 C8D0DA
+    verge C8CCD2
+    drive 4 1.6 0.9 1
+    bends 0.3 0.3 0.1
+    lamps 30
+    posts 0
+    gantries 800
+    landmark ST_BASIL 60 100
+    p PANEL_BLOCK 0.1 15 150
+    c D8D0C0
+    p ONION_CHURCH 0.004 30 150
+    c F0ECE0 D8A84A
+    p GLASS_TOWER 0.03 60 250
+    c 5A7A9A
+    p SUPERTALL 0.001 200 400
+    p SNOWBANK 0.2 0.5 3 0.8 1.4

@@ -1,0 +1,561 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place CARRETERA_AUSTRAL | CARRETERA AUSTRAL | CHILE | RAIN
+    rain 0.3
+    land 4E8A44 467E3E 4A7A48
+    hills 40 14 10 0.2
+    water 5AB0C0
+    ranges 4A5A6A E8EEF4 13
+    road 7A7672
+    drive 2 0.15 0.88 3
+    bends 0.7 0.6 0.6
+    p BROADLEAF 0.3 3 120
+    c 3E6A34
+    p TREE_FERN 0.08 3 30
+    p FLOWER_BUSH 0.05 2 20
+    c D8405A
+
+place PATAGONIA | PATAGONIA | ARGENTINA | ALPINE
+    clouds 0.3
+    land B8A870 AC9C68 A09A70
+    hills 14 3 3 0.1
+    water 4A90C0
+    drive 2 0.1 0.95 3
+    bends 0.25 0.25 0.25
+    p PEAK 0.006 250 500 1.2 1.6
+    c 8A8A92 F4F6FA
+    p GRASS_TUFT 0.3 1 60
+    p LLAMA 0.03 10 120
+    v 0
+    p SHRUB 0.1 3 60
+    c 8A8A5A
+
+place PAMPAS | PAMPAS | ARGENTINA | GOLDEN
+    land 8AAA50 7E9E48 9AA860
+    fields 0.5 C8B060 8AB04A 6A9A40
+    hills 3 1 1
+    drive 2 0.3 1.0 6
+    bends 0.15 0.2 0.1
+    p COW 0.08 10 150
+    v 1
+    p HORSE 0.03 10 120
+    p COTTAGE 0.006 20 120
+    c F0EEE6 A8583A
+    p BROADLEAF 0.01 20 150 1.5 1.8
+    c 4E8A3A
+    p EUCALYPTUS 0.05 10 150
+    p WIND_PUMP 0.01 15 120
+
+place MENDOZA | MENDOZA | ARGENTINA | NOON
+    land B8A07A AC9472 A89A7A
+    ranges 8A7A80 F2F4F8 14
+    drive 2 0.4 1.0 6
+    bends 0.35 0.3 0.25
+    p VINE_ROW 0.7 5 40 1 1
+    p POPLAR 0.1 4 80
+    p ADOBE 0.006 15 100
+    c C8A880 8A6A50
+
+place ATACAMA | ATACAMA | CHILE | DESERT
+    sky 1E5ACC D8C8B0
+    land B8987A AC8C72 C8A888
+    hills 14 4 4 0.3
+    water 7AC0D0
+    fields 0.3 F0ECE0 E0D8C8 C8B898
+    drive 2 0.1 0.95 2
+    bends 0.3 0.3 0.3
+    p FLAMINGO 0.05 2 30
+    p VOLCANO_CONE 0.004 250 500
+    c 8A6A5A F0F2F6
+    p SHRUB 0.05 3 60 0.4 0.6
+    c C8B060
+    p LLAMA 0.01 15 120
+    v 0
+
+place ALTIPLANO | ALTIPLANO | BOLIVIA | ALPINE
+    land A8A070 9C9468 9A8E70
+    hills 14 4 4 0.1
+    water C86A5A
+    road 6E6A66
+    drive 2 0.15 0.93 2
+    bends 0.35 0.3 0.3
+    p LLAMA 0.06 10 120
+    p ADOBE 0.015 10 100
+    c B8987A C8B070
+    v 1
+    p VOLCANO_CONE 0.004 250 500
+    c 7A6A60 F2F4F6
+    p SHRUB 0.2 2 60 0.5 0.8
+    c C8B060
+
+place TITICACA | LAKE TITICACA | PERU | ALPINE
+    sea 0 1 -4
+    water 1E5AA8
+    land 8AA050 7E9448 9A9A68
+    ranges 6A7A8A F2F4F8 10
+    drive 2 0.3 0.97 6
+    bends 0.45 0.4 0.4
+    p TERRACES 0.015 30 150
+    c 8AAA4A 8A7A60
+    p REEDS 0.2 2 12
+    p BOAT 0.02 40 150
+    c C8B070 C8B070
+    floating
+    p ADOBE 0.01 10 80
+    c B8987A B8583A
+    v 1
+    p LLAMA 0.02 10 100
+
+place SACRED_VALLEY | SACRED VALLEY | PERU | MORNING
+    land 7AA04E 6E9448 8A9A60
+    hills 50 22 22
+    ranges 5A6A5A E8EEF4 12
+    drive 2 0.3 0.97 6
+    bends 0.6 0.5 0.5
+    bridges 0.1 ARCH 9A9488
+    p TERRACES 0.04 20 200
+    c 8AAA4A 8A7A60
+    v 0
+    p ADOBE 0.02 10 80
+    c B8987A B8583A
+    v 1
+    p EUCALYPTUS 0.08 6 80
+    p LLAMA 0.03 10 100
+    p PEAK 0.004 200 400
+    c 4E6A44 5A7A4E
+
+place VOLCANO_AVENUE | AVENUE OF VOLCANOES | ECUADOR | MORNING
+    land 7AA050 6E9448 8A9A60
+    fields 0.4 8AB04A A8A050 6A9A40
+    drive 2 0.4 0.98 6
+    bends 0.45 0.4 0.45
+    p VOLCANO_CONE 0.008 300 650 1.4 1.9
+    c 5A5A60 F4F6FA
+    p EUCALYPTUS 0.08 6 80
+    p COW 0.03 10 80
+    v 1
+    p LLAMA 0.01 10 80
+    p ADOBE 0.008 10 80
+    c E0D8C8 A8583A
+    v 1
+
+place COCORA_VALLEY | COCORA VALLEY | COLOMBIA | MIST
+    land 6AA44C 609844 5E8E4E
+    hills 40 12 12
+    drive 2 0.3 0.96 6
+    bends 0.8 0.7 0.8
+    p WAX_PALM 0.08 6 150 0.9 1.3
+    p COW 0.03 10 80
+    v 1
+    p COTTAGE 0.015 8 60
+    c F4F2EA A8583A
+    pastel
+    p BANANA 0.05 3 40
+    p TEA_ROW 0.2 6 30 1 1
+
+place GRAN_SABANA | GRAN SABANA | VENEZUELA | HAZE
+    land 8AA050 7E9448 9AA068
+    hills 10 3 3 0.1
+    water 7A4A2A
+    drive 2 0.15 0.97 4
+    bends 0.35 0.3 0.3
+    p TEPUI 0.006 250 600 0.9 1.3
+    p PALM 0.04 6 100
+    p GRASS_TUFT 0.2 1 50
+
+place AMAZON_RIVER | AMAZON RIVER | BRAZIL | HAZE
+    rain 0.15
+    sea 1 0 -4
+    water 9A8060 0.7
+    land 3E7A34 387030 2E6432
+    drive 2 0.3 0.9 4
+    bends 0.45 0.4 0.1
+    p JUNGLE_TREE 0.4 4 100
+    p HUT 0.03 0 12
+    p BOAT 0.02 40 160
+    c 2A6A9A F0F0F0
+    floating
+    p BANANA 0.06 3 40
+    p PALM 0.1 3 60
+
+place PANTANAL | PANTANAL | BRAZIL | GOLDEN
+    hills 2 1 1 0.55
+    water 5A7A5A
+    land 7AA050 6E9448 8A9A60
+    drive 2 0.2 0.95 6
+    bends 0.3 0.3 0.05
+    bridges 0.3 BEAM 7A5A3A
+    p PALM 0.1 4 100
+    p BROADLEAF 0.05 6 100
+    c E89AC8
+    p REEDS 0.2 2 30
+    p COW 0.04 10 120
+    v 1
+    p FLAMINGO 0.01 6 60
+
+place LENCOIS | LENCOIS MARANHENSES | BRAZIL | TROPICAL
+    land F2EEE2 E8E4D8 E6E0D2
+    hills 10 2 2 0.5
+    water 2A98C8
+    verge EAE6DA
+    road 8A8A8E
+    drive 2 0.05 0.9 4
+    bends 0.35 0.3 0.35
+    p DUNE 0.05 20 250 1.5 2.5
+    c F4F0E6
+
+place RIO | RIO DE JANEIRO | BRAZIL | TROPICAL
+    sea 1 0 -3
+    water 2A80A8
+    land E8DCC0 DCD0B4 4E8A44
+    verge E0D4B8
+    hills 40 0 30
+    drive 3 1.1 1.0 6
+    bends 0.45 0.4 0.3
+    lamps 35
+    posts 0
+    p GRANITE_DOME 0.006 150 350 0.8 1.1
+    v 1
+    p FAVELA 0.04 20 120
+    p GLASS_TOWER 0.03 30 150
+    c E0E0D8
+    p PALM 0.25 2 10
+    p PARASOL 0.04 2 10
+    pastel
+    landmark OPEN_ARMS 250 350 1.5
+
+place TORRES_DEL_PAINE | TORRES DEL PAINE | CHILE | ALPINE
+    clouds 0.5
+    sea 0 1 -6
+    water 40A8B8
+    land A8A06A 9C9462 8A9060
+    ranges 4A505A E8ECF2 14
+    hills 30 6 -4
+    drive 2 0.12 0.88 15
+    bends 0.45 0.4 0.4
+    road 9A9080 9A9080
+    posts 0
+    p PEAK 0.0 300 420 2.2 2.2
+    c 8A8680 F0F0F2
+    once
+    p PEAK 0.004 250 500 1.0 1.4
+    c 5A5450 F0F2F6
+    p LLAMA 0.03 8 100
+    p SHRUB 0.3 2 80 0.4 0.7
+    c A89A58
+
+place PERITO_MORENO | PERITO MORENO | ARGENTINA | ALPINE
+    sea 0 1 -4
+    water 7AA8C8
+    land 6A8A48 608040 5E7A4A
+    ranges B8C8D8 F0F4FA 10
+    hills 30 20 -2
+    drive 2 0.2 0.95 14
+    bends 0.5 0.45 0.45
+    p ICEBERG 0.02 40 250 0.8 1.4
+    floating
+    p ICE_SPIKE 0.01 150 300 1.5 2.5
+    floating
+    p BROADLEAF 0.25 4 150
+    c 4A7A3A
+    p PEAK 0.004 250 500 1.2 1.5
+    c 6A6A70 F4F6FA
+
+place RUTA_40 | RUTA 40 | ARGENTINA | DESERT
+    clouds 0.25
+    land B8A878 AC9C70 A89A74
+    verge B8A888
+    ranges 6A6A78 D8DCE6 7
+    hills 8 2 2
+    drive 2 0.08 0.94 14
+    bends 0.12 0.2 0.15
+    posts 60
+    p SHRUB 0.35 2 150 0.3 0.6
+    c A89A58
+    p LLAMA 0.02 8 100
+    p FENCE 0.3 8 8 1 1
+    p COTTAGE 0.002 30 150
+    c E8E0D0 A83A2A
+    p WIND_PUMP 0.003 20 120
+
+place VALPARAISO | VALPARAISO | CHILE | MORNING
+    sea 0 1 -6
+    water 2A5A7A
+    land 7A8A58 708050 7A7A62
+    hills 40 30 -4
+    drive 2 1.0 0.97 15
+    bends 0.65 0.65 0.75
+    lamps 35
+    posts 0
+    p ROW_HOUSES 0.2 4 80
+    c E8A870 8A8A8A
+    pastel
+    p CONTAINERS 0.01 8 11
+    p CRANE 0.004 8 11
+    p SHIP 0.004 80 250
+    floating
+    p PALM 0.04 2 20
+
+place CARACOLES | PASO LOS CARACOLES | CHILE | ALPINE
+    land 9A8A70 8E7E66 8A8070
+    verge 8A8070
+    ranges 5A5A64 F0F2F6 15
+    hills 60 50 -50
+    drive 2 0.5 0.95 15
+    bends 1.0 1.0 1.0
+    tunnels 0.2
+    rails
+    p PEAK 0.008 150 400 1.3 1.8
+    c 6A625A F4F6FA
+    p ROCK 0.25 3 60
+    p SNOWBANK 0.12 1 8
+    p BOULDER 0.04 6 80
+
+place BUENOS_AIRES | BUENOS AIRES | ARGENTINA | GOLDEN
+    land 6E8A58 668250 707A68
+    drive 4 1.5 0.98 14
+    bends 0.2 0.25 0.0
+    lamps 30
+    posts 0
+    landmark OBELISK 30 50 0.4
+    p ROW_HOUSES 0.18 4 30
+    c E0D8C8 5A6470
+    p BROADLEAF 0.15 1.5 10
+    c 8A6AC8
+    p GLASS_TOWER 0.04 30 200
+    c 7A9AB0
+    p PANEL_BLOCK 0.03 20 120
+    c D8D0C0
+
+place PUNTA_DEL_ESTE | PUNTA DEL ESTE | URUGUAY | NOON
+    sea 0 1 -2
+    water 2A6A9A
+    land 7A9A58 709050 7A8A62
+    verge F0E8D0
+    drive 2 0.6 0.98 14
+    bends 0.3 0.3 0.1
+    lamps 40
+    landmark HAND 36 50
+    floating
+    p GLASS_TOWER 0.06 15 120
+    c E8E8E0
+    p PINE 0.15 4 80
+    p PARASOL 0.04 3 11
+    pastel
+    p SAILBOAT 0.01 60 250
+    floating
+
+place CHACO | GRAN CHACO | PARAGUAY | HAZE
+    land 8A9A50 809048 8A9058
+    verge A86A48
+    road 9A5A3A 9A5A3A
+    hills 2 0 0 0.1
+    drive 2 0.08 0.86 14
+    bends 0.15 0.2 0.0
+    posts 0
+    p SHRUB 0.35 2 80
+    c 6A7A40
+    p PALM 0.1 6 150
+    p BAOBAB 0.01 8 120 0.4 0.6
+    p COW 0.03 8 100
+    p RANCH_FENCE 0.3 8 8 1 1
+
+place YUNGAS | YUNGAS ROAD | BOLIVIA | MIST
+    fog 0.004 D8DEE0
+    land 3E7A32 38702C 3E6A3A
+    verge 6A5A48
+    road 8A7A66 8A7A66
+    hills 60 70 -120
+    drive 2 0.12 0.8 15
+    bends 0.95 0.85 0.8
+    posts 0
+    p WATERFALL 0.008 6 12 0.15 0.25
+    v 1
+    p JUNGLE_TREE 0.3 6 150
+    p TREE_FERN 0.15 2 40
+    p WAYSIDE_CROSS 0.006 1 3
+    v 0
+
+place RAINBOW_MOUNTAIN | VINICUNCA | PERU | ALPINE
+    land 9A8A60 8E7E58 A88A6A
+    ranges 6A6A70 F4F6FA 12
+    hills 40 20 20
+    drive 2 0.08 0.86 15
+    bends 0.65 0.55 0.75
+    road 8A7A66 8A7A66
+    posts 0
+    p BADLAND 0.05 20 250 0.8 1.5
+    c C8506A E8C070
+    p BADLAND 0.03 20 250 0.8 1.5
+    c 8AA0A0 D8805A
+    p LLAMA 0.04 8 100
+    p STONE_WALL 0.15 4 4 1 1
+    p PEAK 0.003 250 500 1.4 1.8
+    c 6A6A70 F4F6FA
+
+place NAZCA | NAZCA DESERT | PERU | DESERT
+    land C89A70 BC8E68 B89070
+    verge B88A60
+    hills 6 2 2
+    drive 2 0.3 0.98 15
+    bends 0.1 0.15 0.05
+    p WATCHTOWER 0.0 6 12 0.8 0.8
+    c A8A8A8
+    v 0
+    once
+    p DUNE 0.01 100 400 1.0 2.0
+    c D8A070
+    p ROCK 0.06 3 60
+    p SHRUB 0.02 2 40
+    c 7A8A48
+
+place GALAPAGOS | GALAPAGOS | ECUADOR | NOON
+    sea 0 1 -3
+    water 1E7AA0
+    land 6A6A50 60604A 4A4A44
+    verge 3A3634
+    hills 14 6 0
+    drive 2 0.1 0.95 15
+    bends 0.35 0.3 0.2
+    p TORTOISE 0.03 4 40 0.9 1.3
+    p PRICKLY_PEAR 0.1 3 60 1.2 1.8
+    p LAVA_ROCK 0.15 3 60
+    p SHRUB 0.15 2 60
+    c 7A8A48
+    p FLAMINGO 0.006 8 11
+
+place CARTAGENA | CARTAGENA | COLOMBIA | TROPICAL
+    sea 0 1 -3
+    water 1E8AA0
+    land 7A9A58 709050 7A8A62
+    drive 2 0.8 0.97 16
+    bends 0.35 0.35 0.1
+    lamps 35
+    posts 0
+    p FORT 0.008 8 60
+    c D8C8A8 C8B898
+    v 0
+    p ROW_HOUSES 0.18 3 30
+    c E8C040 B0583A
+    pastel
+    p PALM 0.15 2 20
+    p GLASS_TOWER 0.02 60 200
+    c E0E8EE
+    p FLOWER_BUSH 0.06 2 15
+    c C8307A
+
+place KAIETEUR | KAIETEUR FALLS | GUYANA | MIST
+    land 3E7A32 38702C 3E6A3A
+    verge 9A5A3A
+    road 9A5A3A 9A5A3A
+    hills 30 10 10
+    drive 2 0.04 0.86 16
+    bends 0.5 0.45 0.45
+    posts 0
+    p WATERFALL 0.0 150 250 1.8 1.8
+    v 1
+    once
+    p TEPUI 0.004 250 500
+    c 6A5A4A 3E7A32
+    p JUNGLE_TREE 0.45 3 150
+    p FERN 0.2 1 20
+
+place SURINAME_RIVER | SURINAME RIVER | SURINAME | HAZE
+    sea 0 1 -3
+    water 6A5A40 0.8
+    land 3E7A32 38702C 3E6A3A
+    hills 8 4 0
+    drive 2 0.06 0.88 16
+    bends 0.4 0.35 0.15
+    road 9A6A4A 9A6A4A
+    posts 0
+    p JUNGLE_TREE 0.45 3 150
+    p HUT 0.02 4 11
+    p BOAT 0.04 36 150
+    c 6A4A30 D8C040
+    pastel
+    floating
+    p PALM 0.08 3 11
+
+place RIO_DO_RASTRO | SERRA DO RIO DO RASTRO | BRAZIL | MIST
+    fog 0.003
+    land 5E9A44 56903E 5E8A4A
+    verge 8A8278
+    hills 60 60 -60
+    drive 2 0.3 0.95 13
+    bends 1.0 1.0 1.0
+    rails
+    lamps 40
+    p UMBRELLA_PINE 0.15 4 150 1.0 1.4
+    p COW 0.03 8 80
+    p ROCK 0.1 3 50
+    p WATERFALL 0.003 30 150 0.4 0.6
+    v 1
+
+place SAO_PAULO | SAO PAULO | BRAZIL | HAZE
+    rain 0.15
+    land 5E7A50 567248 5A6A54
+    drive 4 1.8 0.95 13
+    bends 0.3 0.3 0.15
+    lamps 30
+    posts 0
+    gantries 600
+    p GLASS_TOWER 0.15 15 250
+    c 7A8A9A
+    p PANEL_BLOCK 0.15 15 200
+    c E0D8C8
+    p FAVELA 0.02 40 150
+    p BILLBOARD 0.02 4 12
+    p BROADLEAF 0.06 2 12
+    c 4A7A3A
+
+place TRANSAMAZONICA | TRANSAMAZONICA | BRAZIL | HAZE
+    land 6A9A48 609040 3E7A32
+    verge A85A36
+    road A85A36 A85A36
+    hills 8 2 2
+    drive 2 0.12 0.82 13
+    bends 0.2 0.25 0.3
+    posts 0
+    p JUNGLE_TREE 0.3 40 200
+    p DEAD_TREE 0.05 6 60
+    p COW 0.04 8 60
+    v 2
+    p RANCH_FENCE 0.3 6 6 1 1
+    p HUT 0.005 8 40
+
+place HUMAHUACA | QUEBRADA DE HUMAHUACA | ARGENTINA | DESERT
+    land B8A070 AC9468 A89A70
+    verge B87A5A
+    hills 36 20 20
+    drive 2 0.2 0.95 15
+    bends 0.45 0.4 0.45
+    p BADLAND 0.04 20 250 0.8 1.5
+    c C87A60 8A9A6A
+    p CACTUS 0.1 3 80
+    p ADOBE 0.02 8 60
+    c B89A78 9A8A6A
+    p CHURCH 0.003 20 100
+    c F0ECE0 F0ECE0
+    p LLAMA 0.03 8 80
+    p POPLAR 0.03 6 60
+
+place IGUAZU | IGUAZU FALLS | ARGENTINA | HAZE
+    fog 0.0024 D0DCD8
+    sea 0 1 -20
+    water 7A7A5A
+    land 3E7A32 38702C 3E6A3A
+    hills 20 10 -10
+    drive 2 0.3 0.92 13
+    bends 0.45 0.4 0.3
+    p WATERFALL 0.0 80 160 1.0 1.2
+    v 0
+    once 3
+    p JUNGLE_TREE 0.45 3 150
+    p PALM 0.1 3 60
+    p FERN 0.2 1 20

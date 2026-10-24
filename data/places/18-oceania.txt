@@ -1,0 +1,137 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place DAINTREE | DAINTREE | AUSTRALIA | TROPICAL
+    rain 0.1
+    sea 1 0 -3
+    water 2A8AA0
+    land 3E7A34 387030 5E9A44
+    fields 0.4 8ABA4A 7AAA44 6A9A40
+    drive 2 0.4 0.95 4
+    bends 0.55 0.45 0.35
+    p JUNGLE_TREE 0.3 4 100
+    p TREE_FERN 0.1 3 40
+    p PALM 0.15 2 40
+    p BANANA 0.04 3 40
+    p MANGROVE 0.05 2 12
+
+place RED_CENTRE | RED CENTRE | AUSTRALIA | DESERT
+    land C8603A BC5834 C87A4A
+    verge B85A34
+    drive 2 0.15 0.95 7
+    bends 0.2 0.2 0.15
+    p MONOLITH 0.003 250 500 0.9 1.2
+    p SHRUB 0.3 2 60 0.5 0.8
+    c B8A85A
+    p EUCALYPTUS 0.03 8 120
+    p TERMITE_MOUND 0.03 4 80
+    p KANGAROO 0.03 8 80
+
+place BLUE_MOUNTAINS | BLUE MOUNTAINS | AUSTRALIA | HAZE
+    fog 0.002 9AB4D0
+    land 6A8A4E 607E48 5A7A50
+    hills 40 10 -20
+    ranges 4A6080 8AA4C8 6
+    drive 2 0.4 0.97 6
+    bends 0.75 0.6 0.7
+    p EUCALYPTUS 0.35 3 150
+    p ROCK 0.05 3 40
+    p KANGAROO 0.01 8 60
+
+place GREAT_OCEAN_ROAD | GREAT OCEAN ROAD | AUSTRALIA | MORNING
+    clouds 0.5
+    sea 1 0 -30
+    water 2A6A90
+    land 7A9A50 6E8E48 8A9A5A
+    hills 20 0 10
+    drive 2 0.4 0.98 6
+    bends 0.7 0.55 0.6
+    p SEA_STACK 0.02 40 200 1.0 1.6
+    c D8A870
+    floating
+    p SHRUB 0.3 2 50
+    c 6A8A50
+    p EUCALYPTUS 0.05 6 80
+
+place MACKENZIE_BASIN | MACKENZIE BASIN | NEW ZEALAND | ALPINE
+    land B8AE70 B0A468 9A9A68
+    hills 14 3 3 0.25
+    water 3AB8D0
+    ranges 6A7A8A F2F4F8 13
+    drive 2 0.2 1.0 3
+    bends 0.35 0.3 0.25
+    p LUPIN 0.3 2 30
+    pastel
+    p PEAK 0.003 300 600
+    c 7A7A82 F4F6FA
+    p SHEEP 0.03 10 100
+
+place ROTORUA | ROTORUA | NEW ZEALAND | MIST
+    land 6AA048 609440 7A9A5A
+    hills 20 5 5 0.25
+    water 7AA8A0
+    drive 2 0.4 0.97 6
+    bends 0.5 0.4 0.4
+    p GEYSER 0.02 20 200
+    p TREE_FERN 0.1 3 40
+    p REDWOOD 0.03 20 120
+    p SHEEP 0.03 10 80
+
+place FIORDLAND | FIORDLAND | NEW ZEALAND | RAIN
+    rain 0.5
+    land 3E7A3A 387034 4A6A48
+    hills 50 40 40
+    ranges 3A4A50 6A7A84 14
+    drive 2 0.2 0.9 3
+    bends 0.7 0.6 0.6
+    tunnels 0.2
+    p TREE_FERN 0.25 2 40
+    p FERN 0.3 1 20
+    p BROADLEAF 0.2 4 100
+    c 3E6A34
+    p TEPUI 0.002 200 400 0.6 0.8
+    c 3A4A44 3E6A3A
+
+place BORA_BORA | BORA BORA | FRENCH POLYNESIA | TROPICAL
+    sea 1 0 -2
+    water 28C8D0
+    land 5E9A48 569040 E8E0C8
+    hills 20 0 12
+    drive 2 0.2 0.95 4
+    bends 0.45 0.4 0.3
+    p PEAK 0.004 200 400 0.8 1.0
+    c 3E6A3A 4E7A44
+    p WATER_VILLA 0.03 40 150
+    floating
+    p PALM 0.3 2 40
+
+place NORTH_SHORE | NORTH SHORE | HAWAII | TROPICAL
+    sea 1 0 -3
+    water 2A90B8
+    land 5E9A48 569040 E8DCC0
+    hills 30 0 30
+    ranges 3E6A44 6A9A6A 10
+    drive 2 0.6 0.97 6
+    bends 0.45 0.4 0.25
+    p PALM 0.25 2 40
+    p PARASOL 0.02 2 10
+    pastel
+    p FLOWER_BUSH 0.06 2 20
+    c E84A6A
+
+place EASTER_ISLAND | EASTER ISLAND | CHILE | MORNING
+    clouds 0.45
+    sea 1 0 -8
+    water 1E5A8A
+    land 7AA050 6E9448 8A9A60
+    drive 2 0.1 0.97 6
+    bends 0.4 0.35 0.35
+    p MOAI 0.02 10 80 0.9 1.3
+    p ROCK 0.1 3 60
+    p VOLCANO_CONE 0.002 200 400 0.4 0.5
+    c 6A8A50 7A9A58
+    p HORSE 0.02 10 80

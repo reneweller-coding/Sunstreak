@@ -1,0 +1,92 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place SA_CALOBRA | SA CALOBRA | SPAIN | NOON
+    land 8A9058 808650 9A9672
+    verge D0C8B8
+    sea 0 0.5 -90
+    water 1E7AAA
+    hills 50 40 -30
+    drive 2 0.4 0.98 6
+    bends 1.0 1.0 0.95
+    posts 0
+    p STONE_WALL 0.45 2 2 1 1
+    p CHALK_ROCK 0.03 10 120
+    p OLIVE 0.08 6 80
+    p SHRUB 0.3 2 60 0.6 1.0
+    c 6E7A48
+    p PILLAR 0.01 60 250 0.8 1.2
+
+place BARCELONA | BARCELONA | SPAIN | GOLDEN
+    sea 0 0.5 -4
+    water 2A7AAA
+    land 8A9A60 809058 9A9470
+    drive 3 1.3 0.98 1
+    bends 0.3 0.3 0.15
+    lamps 30
+    posts 0
+    landmark SAGRADA 80 140
+    p ROW_HOUSES 0.18 4 30
+    c E0CCA8 8A6A58
+    p PALM 0.12 2 12
+    p GLASS_TOWER 0.02 40 200
+    c 8AA4BA
+    p BROADLEAF 0.1 1.5 8
+    c 6A9A48
+
+place ALHAMBRA | GRANADA | SPAIN | GOLDEN
+    land 9A9A5E 909054 A89A6E
+    ranges 8A8EA8 F0F2F6 9
+    hills 24 10 6
+    drive 2 0.7 1.0 6
+    bends 0.6 0.55 0.55
+    p FORT 0.004 60 180 1.4 1.8
+    c C07A50 B06A44
+    v 0
+    p CYPRESS 0.12 3 60
+    p OLIVE 0.15 6 100
+    p FLAT_HOUSE 0.06 6 60
+    c F4F2EA B8583A
+    p POPLAR 0.05 6 60
+
+place PICOS | PICOS DE EUROPA | SPAIN | MIST
+    land 62A048 589440 6A8E5A
+    verge B0ACA4
+    ranges 8A8A88 D8D8DA 11
+    hills 50 30 20
+    drive 2 0.3 0.95 3
+    bends 0.75 0.65 0.75
+    tunnels 0.1
+    bridges 0.08 ARCH 9A9890
+    p PEAK 0.008 150 400 1.0 1.4
+    c A8A49C E8E8EA
+    p COW 0.06 8 80
+    p COTTAGE 0.015 10 80
+    c 8A8278 8A4A3A
+    p BROADLEAF 0.15 4 100
+    c 4E8A3A
+    p ROCK 0.1 3 60
+
+place LISBON | LISBON | PORTUGAL | GOLDEN
+    sea 0 1 -8
+    water 2A6A8A
+    land 8A9A5E 809056 9A9470
+    hills 24 10 -4
+    drive 3 1.1 0.97 6
+    bends 0.45 0.45 0.6
+    lamps 30
+    posts 0
+    bridges 0.5 SUSPENSION C0402C
+    landmark OPEN_ARMS 160 260 1.4
+    p ROW_HOUSES 0.15 4 40
+    c E8C8A0 B0583A
+    pastel
+    p CHURCH 0.006 20 120
+    c F0ECE0 B0583A
+    p PALM 0.06 2 20
+    p SAILBOAT 0.01 60 250
+    floating

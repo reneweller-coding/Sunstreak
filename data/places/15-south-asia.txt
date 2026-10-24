@@ -1,0 +1,332 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place KARAKORAM | KARAKORAM HIGHWAY | PAKISTAN | MORNING
+    land 9A8A70 8E7E66 8A8070
+    verge 8A7A66
+    hills 50 40 0
+    sea 0 1 -16
+    water 7A8A80 0.6
+    ranges 6A6460 F4F6FA 16
+    drive 2 0.3 0.95 3
+    bends 0.75 0.65 0.7
+    tunnels 0.1
+    bridges 0.15 SUSPENSION 8A8A8A
+    p PEAK 0.006 200 450 1.4 2.0
+    c 7A7470 F4F6FA
+    p BROADLEAF 0.06 4 40 0.6 0.9
+    c 7AA04A
+    p POPLAR 0.08 4 40
+    p FLAT_HOUSE 0.01 10 60
+    c B8A888 8A7A60
+
+place LADAKH | LADAKH | INDIA | ALPINE
+    land B8A07C AC9472 A89880
+    verge A89070
+    ranges 9A8070 F2F4F8 12
+    hills 30 10 10
+    drive 2 0.2 0.95 3
+    bends 0.6 0.55 0.6
+    p STUPA 0.02 10 120
+    c F4F2EA D8A84A
+    p PRAYER_FLAGS 0.03 4 40
+    p FLAT_HOUSE 0.01 10 80
+    c F0ECE0 6A4A3A
+    p FORT 0.002 100 250
+    c F0ECE0 9A2A2A
+    v 1
+    p POPLAR 0.03 6 60
+
+place RAJASTHAN | RAJASTHAN | INDIA | DESERT
+    fog 0.0014 E0C8A0
+    land D8B88A CCAC80 D0B088
+    drive 2 0.6 0.95 6
+    bends 0.35 0.3 0.25
+    p FORT 0.005 80 250
+    c D8B080 C89A68
+    v 0
+    p CAMEL 0.04 10 100
+    v 0
+    p ACACIA 0.04 8 100
+    p FLAT_HOUSE 0.02 8 60
+    c 6AA0D8 E8A040
+    pastel
+
+place AGRA | AGRA | INDIA | HAZE
+    sky 8AA8C8 F0D8B0
+    land 8AA050 7E9448 9AA068
+    drive 3 1.2 0.95 6
+    bends 0.35 0.3 0.15
+    lamps 50
+    p MOSQUE 0.003 150 350 2.0 2.6
+    c F8F6F0 F4F2EC
+    v 1
+    p PALM 0.05 4 40
+    p BROADLEAF 0.08 4 60
+    c 5E9440
+    p COW 0.03 4 40
+    v 0
+    p FLAT_HOUSE 0.03 8 60
+    c E8C890 A8603A
+    pastel
+
+place MUMBAI | MUMBAI | INDIA | DUSK
+    sea 1 0 -4
+    water 3A5A70
+    land 7A8A6A 728262 6A7A62
+    drive 3 1.3 0.97 1
+    bends 0.35 0.3 0.1
+    lamps 25
+    posts 0
+    p PALM 0.2 2 8
+    p GLASS_TOWER 0.06 20 200
+    c A8B8C8
+    p PANEL_BLOCK 0.06 20 150
+    c D8D0C0
+    pastel
+
+place GOA | GOA | INDIA | TROPICAL
+    sea 1 0 -3
+    water 2A8AA8
+    land 7AA050 6E9448 B86A40
+    verge B86A40
+    drive 2 0.5 0.97 6
+    bends 0.45 0.4 0.3
+    p PALM 0.35 2 60
+    p CHURCH 0.006 20 120
+    c F8F6F0 F0EEE6
+    p COTTAGE 0.02 8 60
+    c E8C890 B8583A
+    pastel
+    p BOAT 0.02 40 150
+    c 3A8AC8
+    pastel
+    floating
+
+place KERALA | KERALA BACKWATERS | INDIA | TROPICAL
+    fog 0.0016 C8DCD8
+    hills 2 1 1 0.5
+    sea 0 1 -2
+    water 3A6A5A
+    land 5EA048 549440 4E8A44
+    drive 2 0.6 0.95 4
+    bends 0.45 0.4 0.05
+    p PALM 0.45 2 80
+    p HOUSEBOAT 0.02 40 120
+    floating
+    p BANANA 0.1 3 40
+    p COTTAGE 0.01 8 60
+    c E0D8C0 A8583A
+    p CHURCH 0.003 20 120
+    c F8F6F0 E8E6E0
+
+place SRI_LANKA | SOUTH COAST | SRI LANKA | TROPICAL
+    sea 1 0 -3
+    water 2A8AA8
+    land 6AA44C 609844 5E8A48
+    drive 2 0.5 0.97 4
+    bends 0.45 0.4 0.3
+    p PALM 0.35 2 60
+    p STUPA 0.004 30 150
+    c F8F6F2 F0EEE6
+    v 0
+    p BOAT 0.03 40 150
+    c 3A7AB8 F0D040
+    pastel
+    floating
+    p BROADLEAF 0.05 4 60
+    c 3E7A34
+
+place MALDIVES | MALDIVES | MALDIVES | TROPICAL
+    sea 1 1 -2
+    water 30C8D0
+    land F4EEDA EAE4D0 E8E2CE
+    verge F0EAD6
+    hills 0 0 0
+    drive 2 0.1 0.95 3
+    bends 0.35 0.3 0.05
+    bridges 0.3 CAUSEWAY E0E0DC
+    p PALM 0.3 1 10
+    p WATER_VILLA 0.02 40 150
+    floating
+
+place DARJEELING | DARJEELING | INDIA | MIST
+    land 5EA046 56943F 5E8A4A
+    ranges 6A7A8A F2F4F8 12
+    hills 40 14 -8
+    drive 2 0.4 0.95 4
+    bends 0.85 0.75 0.85
+    p TEA_ROW 0.7 4 12 1 1
+    p TEA_ROW 0.6 14 30 1 1
+    p TEA_ROW 0.4 30 60 1 1
+    p SPRUCE 0.06 40 150
+    p COTTAGE 0.01 10 80
+    c F0EAE0 B8403A
+    p PRAYER_FLAGS 0.01 4 30
+
+place HIMALAYA | HIMALAYA | NEPAL | ALPINE
+    land 7A9A58 6E8E50 8A8E70
+    ranges 6A707A F6F8FA 18
+    road 6E6A66
+    hills 45 16 12
+    drive 2 0.2 0.9 3
+    bends 0.85 0.8 0.9
+    bridges 0.1 SUSPENSION 8A8A8A
+    p PEAK 0.006 250 550 1.6 2.2
+    c 7A7A80 F6F8FA
+    p STUPA 0.006 15 100
+    c F4F2EA D8A84A
+    p PRAYER_FLAGS 0.03 4 40
+    p TERRACES 0.015 30 150
+    c 8AAA4A 8A7056
+    p FLAT_HOUSE 0.01 10 80
+    c E8E0D0 6A4A3A
+    p YAK 0.02 10 100
+
+place KATHMANDU_VALLEY | KATHMANDU VALLEY | NEPAL | HAZE
+    land 7AA04E 6E9448 8A9A60
+    ranges 6A7480 E8ECF2 12
+    drive 2 0.9 0.95 6
+    bends 0.55 0.45 0.5
+    p PAGODA 0.006 20 120
+    p STUPA 0.004 30 150
+    c F4F2EA D8A84A
+    v 0
+    p TERRACES 0.02 30 150
+    c 8AAA4A 8A7056
+    p ROW_HOUSES 0.03 8 50
+    c A8583A 6A4A3A
+    p PRAYER_FLAGS 0.01 4 30
+
+place BHUTAN | PARO VALLEY | BHUTAN | MIST
+    land 5E9A46 56903E 5E8A4E
+    ranges 4A5A5A C8D0DC 12
+    hills 40 12 12
+    drive 2 0.2 0.96 3
+    bends 0.85 0.7 0.8
+    bridges 0.1 COVERED 8A5A3A
+    p SPRUCE 0.35 4 150
+    p FORT 0.003 60 200
+    c F4F2EA 9A2A2A
+    v 1
+    p PRAYER_FLAGS 0.03 4 40
+    p FLAT_HOUSE 0.01 10 80
+    c F0EAE0 7A4A30
+
+place SPITI | SPITI VALLEY | INDIA | ALPINE
+    land B8A078 AC9470 A89A80
+    verge 9A8A70
+    ranges 8A7A70 F0F0F4 14
+    hills 50 30 -30
+    drive 2 0.1 0.88 10
+    bends 0.75 0.7 0.7
+    road 8A8070 8A8070
+    posts 0
+    p FLAT_HOUSE 0.01 30 150
+    c F4F2EA 6A3A2A
+    p STUPA 0.008 10 100
+    c F4F2EA D8A84A
+    p PRAYER_FLAGS 0.03 4 40
+    p YAK 0.02 10 80
+    p PEAK 0.004 250 500 1.2 1.6
+    c 7A6A60 F4F6FA
+    p ROCK 0.12 3 60
+
+place MANALI | MANALI HIGHWAY | INDIA | ALPINE
+    land 6A9A48 609040 6E8E58
+    ranges 5A6476 F0F2F6 14
+    hills 50 40 -30
+    drive 2 0.6 0.92 10
+    bends 0.9 0.85 0.95
+    tunnels 0.08
+    posts 0
+    p CEDAR 0.3 4 150
+    p PEAK 0.005 220 450 1.2 1.6
+    c 6A6A70 F4F6FA
+    p PRAYER_FLAGS 0.02 4 30
+    p FLAT_HOUSE 0.02 6 60
+    c E8D8C0 6A7A9A
+    p SNOWBANK 0.05 1 6
+    p YAK 0.01 10 60
+
+place PUNJAB | PUNJAB | INDIA | HAZE
+    land 8AA850 809C48 9AA060
+    fields 0.85 F0D030 C8B850 8AB04A
+    hills 2 0 0
+    drive 2 0.9 0.96 10
+    bends 0.15 0.2 0.05
+    p BROADLEAF 0.08 4 100
+    c 5A8A3A
+    p COW 0.03 6 60
+    v 0
+    p FLAT_HOUSE 0.02 10 80
+    c E8D8B8 C8B898
+    p WATER_TOWER 0.004 20 120
+    p HAYBALE 0.01 8 40
+    p DOME 0.002 60 200 0.6 0.8
+
+place HAMPI | HAMPI | INDIA | GOLDEN
+    land 9AA058 909450 A89A6A
+    hills 20 6 6
+    drive 2 0.4 0.94 10
+    bends 0.45 0.4 0.35
+    p BOULDER 0.15 6 200 1.5 3.0
+    p KOPJE 0.015 30 250
+    p TEMPLE_TOWER 0.006 30 150
+    c A8906A
+    v 1
+    p COLUMNS 0.01 10 80
+    p BANANA 0.12 3 60
+    p PALM 0.1 3 80
+
+place MEGHALAYA | MEGHALAYA | INDIA | MIST
+    rain 0.6
+    land 4E8A3A 468034 4A7A44
+    hills 40 20 14
+    drive 2 0.3 0.88 10
+    bends 0.7 0.6 0.7
+    bridges 0.15 COVERED 6A5A40
+    p WATERFALL 0.006 60 200 0.8 1.2
+    v 1
+    p JUNGLE_TREE 0.3 6 150
+    p TREE_FERN 0.12 2 40
+    p BAMBOO 0.15 2 40
+    p FLAT_HOUSE 0.02 6 60
+    c E8D8C0 3A6AAA
+    pastel
+
+place SUNDARBANS | SUNDARBANS | BANGLADESH | HAZE
+    sea 0.7 0.7 -1.5
+    water 6A6A50 0.8
+    land 6A9040 60863A 5E8048
+    hills 0 0 0 0.4
+    drive 2 0.25 0.9 10
+    bends 0.3 0.3 0.0
+    posts 0
+    p MANGROVE 0.4 2 11
+    p BOAT 0.05 36 150
+    c 6A4A30 E8C040
+    floating
+    p HUT 0.02 3 11
+    p PALM 0.08 3 11
+    p WARNING_SIGN 0.004 1 1 1 1
+    v 4
+
+place SIGIRIYA | SIGIRIYA | SRI LANKA | TROPICAL
+    land 5E9440 568A3A 5A8448
+    fields 0.3 8AC050 7AB048 9AC060
+    hills 10 4 4 0.15
+    drive 2 0.4 0.93 10
+    bends 0.4 0.35 0.25
+    p MONOLITH 0.0 180 260 1.4 1.4
+    c 8A5A48
+    once
+    p JUNGLE_TREE 0.25 6 150
+    p STUPA 0.004 30 150
+    c F8F6F2 F0EEE6
+    p ELEPHANT 0.01 15 120
+    p PALM 0.1 3 60

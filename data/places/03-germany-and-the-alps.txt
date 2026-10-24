@@ -1,0 +1,161 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place RHINE_VALLEY | RHINE VALLEY | GERMANY | MORNING
+    sea 0 1 -6
+    water 4A7090
+    land 6E9E4A 64904A 7A8E60
+    hills 30 30 0
+    drive 2 0.7 1.0 1
+    bends 0.6 0.45 0.3
+    tunnels 0.12
+    bridges 0.1 TRUSS 3A4A5A
+    p VINE_ROW 0.6 6 30 1 1
+    p CASTLE 0.006 60 200
+    c A89C88 4A4E5A
+    p HALF_TIMBER 0.025 8 50
+    c F2ECDC 5A5A64
+    p CHURCH 0.004 20 120
+    c F0ECE0 4A4E58
+    p BOAT 0.015 40 120 1.4 1.8
+    c 2A4A7A F0F0F0
+    floating
+
+place BLACK_FOREST | BLACK FOREST | GERMANY | MIST
+    land 4E8040 46763A 3E6A40
+    hills 36 12 10
+    drive 2 0.5 0.97 1
+    bends 0.75 0.6 0.75
+    tunnels 0.15
+    bridges 0.08 COVERED 7A4A30
+    p SPRUCE 0.55 3 60
+    p SPRUCE 0.3 60 220 1.0 1.6
+    p CHALET 0.02 10 80
+    c EDE6D8 5A4A40
+    p COW 0.02 10 60
+    p WAYSIDE_CROSS 0.006 3 10
+    v 0
+
+place AUTOBAHN | AUTOBAHN | GERMANY | MORNING
+    land 6A9A48 5E8E42 5A8048
+    drive 4 1.5 1.0 1
+    bends 0.3 0.2 0.3
+    gantries 600
+    posts 50
+    bridges 0.1 BEAM
+    p PINE 0.35 6 80
+    p SPRUCE 0.2 6 120
+    p WINDMILL 0.012 60 300
+    p POWER_PYLON 0.008 40 150
+
+place BAVARIA | BAVARIA | GERMANY | MORNING
+    land 76B04C 6AA244 7EA25A
+    ranges 7A8CA0 C8D4E4 9
+    drive 2 0.6 1.0 6
+    bends 0.5 0.4 0.45
+    bridges 0.06 COVERED 7A4A30
+    p ONION_CHURCH 0.005 40 200
+    c F4F0E6 3A5A44
+    v 1
+    p CHALET 0.02 10 80
+    c F2ECDE 7A4A36
+    p COW 0.06 8 80
+    p HAYBALE 0.02 10 60
+    p WAYSIDE_CROSS 0.008 3 10
+    v 0
+    p BROADLEAF 0.06 4 80
+    c 5E9A40
+
+place SWISS_ALPS | SWISS ALPS | SWITZERLAND | ALPINE
+    land 62A844 58983E 6E9A58
+    ranges 6E8296 E6ECF4 12
+    hills 50 16 -8
+    drive 2 0.5 1.0 3
+    bends 0.75 0.65 0.85
+    tunnels 0.25
+    bridges 0.2 VIADUCT B8B6B0
+    p CHALET 0.03 10 90
+    c 8A5A36 5A4030
+    p COW 0.07 8 90
+    p SPRUCE 0.2 20 150
+    p PEAK 0.003 300 600 1.2 1.6
+    c 8A8C92 F2F4F8
+    p WAYSIDE_CROSS 0.005 3 10
+    v 0
+    p FLOWER_BUSH 0.05 2 30 0.4 0.6
+    c E8D84A
+
+place LAVAUX | LAVAUX | SWITZERLAND | GOLDEN
+    sea 1 0 -14
+    water 3E6A8A
+    land 7AAA4E 70A048 88A462
+    ranges 6A7C96 D0D8E8 8
+    hills 24 0 18
+    drive 2 0.5 1.0 6
+    bends 0.6 0.5 0.6
+    bridges 0.08 ARCH C8C0A8
+    p VINE_ROW 0.7 4 40 1 1
+    p STONE_WALL 0.4 3 3 1 1
+    p COTTAGE 0.02 10 80
+    c F0E8D8 9A5040
+    p CHURCH 0.004 30 120
+    c F0E8D8 6A5A50
+    p SAILBOAT 0.01 40 200
+    floating
+
+place SALZKAMMERGUT | SALZKAMMERGUT | AUSTRIA | MORNING
+    clouds 0.5
+    sea 1 0 -6
+    water 3E6A7A
+    land 5E9E46 56923E 6A8C5A
+    ranges 5A6878 C8D2E0 10
+    hills 40 0 24
+    drive 2 0.5 0.98 6
+    bends 0.6 0.5 0.5
+    tunnels 0.2
+    bridges 0.06 ARCH B8B0A0
+    p CHALET 0.03 8 80
+    c F0EADC 5A4636
+    p CHURCH 0.005 20 120
+    c F2EEE4 3A3E48
+    p SPRUCE 0.3 10 120
+    p BOAT 0.01 40 150
+    c 8A5A3A E8E8E8
+    floating
+    p WAYSIDE_CROSS 0.005 3 10
+
+place CHAMONIX | CHAMONIX | FRANCE | ALPINE
+    land 5E9A44 56903E 6E8A60
+    ranges 606E80 EEF2F8 14
+    hills 50 20 10
+    drive 2 0.5 0.98 3
+    bends 0.7 0.6 0.8
+    tunnels 0.2
+    bridges 0.15 VIADUCT B0AEA8
+    p PEAK 0.004 250 500 1.4 1.8
+    c 6C7078 F4F6FA
+    p SPRUCE 0.4 4 120
+    p CHALET 0.02 10 80
+    c 7A5232 4A3A2E
+    p ROCK 0.06 3 50
+
+place DOLOMITES | DOLOMITES | ITALY | ALPINE
+    land 6AAE4A 60A042 7AA25E
+    ranges B8B0A4 E6E2DC 12
+    hills 45 14 10
+    drive 2 0.4 0.98 3
+    bends 0.85 0.75 0.9
+    tunnels 0.12
+    bridges 0.1 ARCH D0C8B8
+    p PEAK 0.006 200 450 0.9 1.3
+    c D8D0C2 F4F4F6
+    p SPRUCE 0.25 10 150
+    p CHALET 0.02 10 80
+    c 8A5A38 4A3A2E
+    p COW 0.04 10 80
+    p WAYSIDE_CROSS 0.006 3 10
+    v 0

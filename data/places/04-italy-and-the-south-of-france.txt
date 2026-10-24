@@ -1,0 +1,145 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place LAKE_COMO | LAKE COMO | ITALY | GOLDEN
+    sea 1 0 -8
+    water 3E7090
+    land 5E9A48 569040 5A8A50
+    ranges 56687A A8B4C4 10
+    hills 40 0 20
+    drive 2 0.7 0.98 6
+    bends 0.7 0.6 0.5
+    tunnels 0.3
+    p CYPRESS 0.12 3 40
+    p COTTAGE 0.025 6 60
+    c E8C890 A8583A
+    p ROW_HOUSES 0.03 6 40
+    c E8C890 A8583A
+    pastel
+    p BROADLEAF 0.08 3 60
+    c 4E8A3A
+    p SAILBOAT 0.01 40 200
+    floating
+    p CHURCH 0.004 20 120
+    c EEE6D4 A8583A
+
+place TUSCANY | TUSCANY | ITALY | GOLDEN
+    land 9AA65A 8E9A52 A8A060
+    fields 0.6 D8B860 8AA050 A88A58
+    hills 26 6 6
+    drive 2 0.5 1.0 6
+    bends 0.55 0.45 0.65
+    bridges 0.06 ARCH C8B494
+    p CYPRESS 0.12 4 40
+    p CYPRESS 0.05 40 200 1.0 1.3
+    p COTTAGE 0.02 15 120
+    c D8B888 A8583A
+    p OLIVE 0.1 6 60
+    p VINE_ROW 0.3 10 60 1 1
+    p UMBRELLA_PINE 0.02 8 80
+    p CHURCH 0.003 60 200
+    c D8C8A8 A8583A
+
+place VIA_APPIA | VIA APPIA | ITALY | NOON
+    land 8E9E58 82924E 9A9A62
+    road 6A6A70
+    drive 2 0.6 1.0 7
+    bends 0.25 0.2 0.25
+    bridges 0.08 ARCH C0A884
+    p UMBRELLA_PINE 0.15 3 60
+    p CYPRESS 0.06 4 60
+    p COLUMNS 0.008 10 80
+    p AQUEDUCT 0.006 40 160
+    c C0A884
+    p RUIN 0.006 10 80
+    p STONE_WALL 0.2 3 3 1 1
+    p OLIVE 0.05 8 60
+
+place AMALFI | AMALFI COAST | ITALY | NOON
+    sea 1 0 -30
+    water 1E6A9A
+    land 6E9A4E 64904A 7A8A5C
+    hills 40 0 40
+    drive 2 0.6 0.98 6
+    bends 0.9 0.8 0.8
+    tunnels 0.25
+    bridges 0.1 ARCH D8CCB0
+    p ROW_HOUSES 0.05 6 40
+    c F0D8B0 C86A48
+    pastel
+    p FLAT_HOUSE 0.03 6 40
+    c F0D8B0 3A6AA8
+    pastel
+    p BROADLEAF 0.08 3 40 0.6 0.9
+    c 5E9A3A
+    p UMBRELLA_PINE 0.03 5 60
+    p BOAT 0.02 40 150
+    c 3A6AB8
+    pastel
+    floating
+    p SAILBOAT 0.01 60 250
+    floating
+
+place SICILY | SICILY | ITALY | NOON
+    land B0A060 A4945A 9A8E62
+    hills 24 6 6
+    drive 2 0.5 0.98 6
+    bends 0.55 0.45 0.6
+    bridges 0.1 VIADUCT C8C0B0
+    p VOLCANO_CONE 0.003 300 600 1.2 1.5
+    c 6A625E E8ECF0
+    p PRICKLY_PEAR 0.1 3 40
+    p OLIVE 0.12 5 60
+    p BROADLEAF 0.05 4 60 0.6 0.8
+    c 4E8A3A
+    p FLAT_HOUSE 0.015 10 80
+    c E0CCA4 8A5A3A
+    p CHURCH 0.003 40 200
+    c E0CCA4 A8583A
+    p STONE_WALL 0.2 3 3 1 1
+
+place COTE_D_AZUR | COTE D AZUR | FRANCE | NOON
+    sea 1 0 -14
+    water 1E7AB0
+    land 6E9A4E 64904A 7A8E5C
+    hills 30 0 18
+    drive 2 0.8 1.0 0
+    bends 0.7 0.55 0.5
+    tunnels 0.15
+    bridges 0.06 ARCH D8CCB0
+    p UMBRELLA_PINE 0.1 3 50
+    p PALM 0.06 2 20
+    p FLAT_HOUSE 0.03 6 50
+    c F0D8B0 4A7AA8
+    pastel
+    p COTTAGE 0.02 8 60
+    c F2D2A0 B8603E
+    p SAILBOAT 0.015 40 200
+    floating
+    p BOAT 0.015 40 150 1.6 2.0
+    c F4F4F4 2A4A8A
+    v 1
+    floating
+    p FLOWER_BUSH 0.06 2 20
+    c D03A9A
+
+place CAMARGUE | CAMARGUE | FRANCE | MORNING
+    hills 2 1 1 0.6
+    water 6A9AB0
+    land 8AA060 7E9458 A8A07A
+    fields 0.3 E8E4DC 9AB070 B8AE88
+    drive 2 0.3 1.0 6
+    bends 0.3 0.3 0.1
+    bridges 0.15 CAUSEWAY B8B4AC
+    p HORSE 0.05 8 80
+    v 1
+    p FLAMINGO 0.06 12 120
+    p REEDS 0.2 2 40
+    p COW 0.03 10 80
+    v 2
+    p COTTAGE 0.006 15 80
+    c F4F2EA 6A6050

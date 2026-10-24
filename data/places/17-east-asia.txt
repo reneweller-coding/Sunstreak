@@ -1,0 +1,451 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place HONG_KONG | HONG KONG | CHINA | HAZE
+    sea 1 0 -6
+    water 3A6A80
+    hills 50 0 20
+    land 5E8A48 568040 6A8058
+    drive 3 1.3 0.97 1
+    bends 0.55 0.45 0.4
+    lamps 30
+    posts 0
+    tunnels 0.2
+    bridges 0.15 SUSPENSION D0D4D8
+    p GLASS_TOWER 0.12 20 200
+    c 8AA0B8
+    p PANEL_BLOCK 0.08 20 150
+    c E0DCD0
+    pastel
+    v 1
+    p BROADLEAF 0.1 3 40
+    c 3E7A34
+    p BOAT 0.02 40 160 1.8 2.2
+    c 2A6A3A F0F0F0
+    v 1
+    floating
+    p SAILBOAT 0.005 60 250
+    c B0402A 6A4A30
+    v 2
+    floating
+
+place GUILIN | GUILIN | CHINA | MIST
+    sea 0 1 -3
+    water 4A8A7A
+    land 6AA44C 609844 5E8E4E
+    fields 0.3 8AC04A 7AAA44 9AB050
+    drive 2 0.4 0.95 3
+    bends 0.5 0.4 0.3
+    p KARST 0.04 30 400 0.8 1.4
+    c B0AC9A 4A8A44
+    p KARST 0.02 40 300
+    c B0AC9A 4A8A44
+    floating
+    p BAMBOO 0.15 2 30
+    p BOAT 0.02 40 150
+    c 6A5A3A D8C8A0
+    floating
+
+place ZHANGJIAJIE | ZHANGJIAJIE | CHINA | MIST
+    fog 0.004
+    land 4E8A44 467E3E 4A7A48
+    hills 40 20 -10
+    drive 2 0.3 0.95 3
+    bends 0.8 0.7 0.8
+    bridges 0.1 VIADUCT C8C4BC
+    p PILLAR 0.05 30 300 0.8 1.5
+    p PINE 0.2 4 80
+
+place BAMBOO_SEA | BAMBOO SEA | CHINA | MIST
+    land 5A9A44 50903E 4E8848
+    hills 30 8 8
+    drive 2 0.3 0.96 3
+    bends 0.6 0.5 0.6
+    p BAMBOO 0.6 2 60
+    p PANDA 0.01 4 30
+    p COTTAGE 0.005 10 60
+    c F0EEE6 3A3A40
+    p TEA_ROW 0.1 8 40 1 1
+
+place TIBET | TIBET | CHINA | ALPINE
+    sky 1E5ACC A8C8E8
+    land A89A70 9C8E68 8A8A70
+    hills 20 6 6 0.15
+    water 2A8AC8
+    ranges 8A8070 F4F6FA 12
+    drive 2 0.15 0.95 3
+    bends 0.45 0.4 0.4
+    p YAK 0.05 10 150
+    p PRAYER_FLAGS 0.04 4 40
+    p STUPA 0.006 20 150
+    c F4F2EA D8A84A
+    p FORT 0.003 100 300
+    c F4F2EA 8A2A2A
+    v 1
+
+place ANHUI_VILLAGES | ANHUI VILLAGES | CHINA | MIST
+    land 6AAA48 60A042 6A9A50
+    fields 0.6 F0D830 7AAA48 8AB050
+    hills 14 4 4 0.2
+    water 4A7A70
+    ranges 5A6A6A 8A9A9A 9
+    drive 2 0.4 0.97 3
+    bends 0.5 0.4 0.35
+    p HUIZHOU_HOUSE 0.04 10 90
+    p BAMBOO 0.06 3 40
+
+place SHANGHAI | SHANGHAI | CHINA | NIGHT
+    sea 0 1 -6
+    water 1A2A40
+    land 2A3A30 26342C 22302A
+    drive 4 1.4 1.0 1
+    bends 0.35 0.3 0.15
+    lamps 30
+    gantries 500
+    rails
+    bridges 0.2 CABLE_STAYED E0E4E8
+    p TV_TOWER 0.004 150 350
+    v 0
+    p GLASS_TOWER 0.15 20 250
+    c 4A6A8A
+    p SUPERTALL 0.002 200 400
+
+place GREAT_WALL | GREAT WALL | CHINA | MORNING
+    land 8A9A5A 7E8E52 8A8A62
+    hills 50 24 24
+    drive 2 0.3 0.97 3
+    bends 0.8 0.7 0.85
+    p WATCHTOWER 0.02 40 200
+    c 9A9488
+    v 0
+    p BROADLEAF 0.2 3 80
+    c C86A3A
+    p BROADLEAF 0.1 3 80
+    c D8A040
+    p ROCK 0.05 3 60
+
+place GOBI | GOBI DESERT | MONGOLIA | DESERT
+    land B8A078 AC9470 A89A78
+    hills 10 2 2
+    drive 2 0.1 0.95 3
+    bends 0.2 0.2 0.2
+    p CAMEL 0.04 10 150
+    v 1
+    p YURT 0.006 20 150
+    p DUNE 0.01 30 200
+    c D8B080
+    p SHRUB 0.1 3 60 0.4 0.7
+    c 8A8A5A
+
+place MONGOLIAN_STEPPE | MONGOLIAN STEPPE | MONGOLIA | MORNING
+    land 7AA850 6E9C48 8AA460
+    hills 20 3 3
+    drive 2 0.15 0.98 3
+    bends 0.3 0.3 0.3
+    p YURT 0.02 20 200
+    p HORSE 0.08 10 200
+    p SHEEP 0.04 10 150
+    p YAK 0.02 10 150
+
+place HANOK_VILLAGE | HANOK VILLAGE | SOUTH KOREA | GOLDEN
+    land 8A9A58 7E8E50 8A8A62
+    ranges 6A7A70 9AA8A8 8
+    drive 2 0.5 0.98 1
+    bends 0.5 0.4 0.4
+    p HANOK 0.04 10 80
+    p BROADLEAF 0.12 3 60
+    c D8A03A
+    p BROADLEAF 0.06 3 60
+    c C8402A
+    p STONE_WALL 0.2 3 3 1 1
+    p PINE 0.05 10 100
+
+place JEJU | JEJU | SOUTH KOREA | MORNING
+    sea 1 0 -4
+    water 2A7A9A
+    land 6AA048 609440 4A4A46
+    fields 0.5 F0D830 6AA040 3A3A38
+    drive 2 0.5 0.98 1
+    bends 0.5 0.4 0.35
+    p STONE_WALL 0.4 3 3 1 1
+    p BROADLEAF 0.1 4 60 0.5 0.7
+    c 3E7A30
+    p VOLCANO_CONE 0.002 300 600
+    c 5A6A50 6A7A58
+    p COTTAGE 0.01 10 80
+    c 4A4844 8A7A5A
+
+place MOUNT_FUJI | MOUNT FUJI | JAPAN | MORNING
+    land 6AA048 609440 76965A
+    hills 16 4 4
+    drive 2 0.6 1.0 0
+    bends 0.5 0.4 0.4
+    bridges 0.1 BEAM
+    p VOLCANO_CONE 0.006 400 700 1.8 2.2
+    c 5A6070 F4F6FA
+    p TEA_ROW 0.4 5 30 1 1
+    p COTTAGE 0.01 10 80
+    c E8E4DC 3A3E48
+    p TORII 0.003 8 30
+    p PINE 0.05 10 100
+
+place KYOTO | KYOTO | JAPAN | GOLDEN
+    land 7A9A58 6E8E50 7A8A62
+    hills 20 6 6
+    drive 2 0.6 0.98 0
+    bends 0.5 0.4 0.35
+    p BAMBOO 0.2 2 30
+    p BROADLEAF 0.12 3 60
+    c D8402A
+    p PAGODA 0.005 30 150
+    p TORII 0.006 8 30
+    p LANTERN 0.02 2 8
+    p COTTAGE 0.02 8 60
+    c 8A6A4A 3A3E48
+
+place SHIRAKAWA_GO | SHIRAKAWA-GO | JAPAN | WINTER
+    windows FFD696
+    land E8ECF2 DCE2EA D8DEE8
+    ranges B8C0CC D8DEE8 9
+    drive 2 0.3 0.8 0
+    bends 0.5 0.4 0.4
+    lamps 50
+    p GASSHO 0.04 10 80
+    p SPRUCE 0.2 6 120
+    p SNOWBANK 0.25 0.5 3 0.8 1.4
+
+place TOKYO | TOKYO | JAPAN | NIGHT
+    land 2A2A30 26262C 222228
+    drive 3 1.4 1.0 1
+    bends 0.5 0.45 0.3
+    lamps 25
+    gantries 400
+    posts 0
+    tunnels 0.2
+    bridges 0.15 SUSPENSION E8E8E8
+    p GLASS_TOWER 0.2 15 150
+    c 3A4A60
+    p PANEL_BLOCK 0.08 15 120
+    c C8C4BC
+    v 1
+    p LATTICE_TOWER 0.002 150 300 1.6 2.0
+    c D83A2A F0F0F0
+    p BILLBOARD 0.03 6 30
+
+place FURANO | FURANO FIELDS | JAPAN | MORNING
+    land 7AAE50 70A048 86A860
+    fields 0.8 9A6AC8 E84A6A F0D040
+    hills 14 3 3
+    ranges 6A7A8A C8D0DC 8
+    drive 2 0.3 1.0 0
+    bends 0.45 0.4 0.45
+    p BIRCH 0.04 8 80
+    p COTTAGE 0.006 15 90
+    c F0EEE6 3A6A8A
+    p LUPIN 0.1 2 10
+    pastel
+
+place TAROKO | TAROKO GORGE | TAIWAN | MIST
+    sea 0 1 -24
+    water 5AB0B0
+    land 4E8A3A 468034 4A7A44
+    verge D8D8D0
+    hills 60 70 -10
+    drive 2 0.3 0.95 9
+    bends 0.75 0.7 0.5
+    tunnels 0.45
+    bridges 0.25 SUSPENSION C83A2A
+    p JUNGLE_TREE 0.2 6 150
+    p PINE 0.1 6 100
+    p BOULDER 0.06 4 60
+    c E0E0D8
+    p PAGODA 0.003 30 150
+
+place TIANMEN | TIANMEN MOUNTAIN | CHINA | MIST
+    fog 0.0035 D8DEE2
+    land 4E8A3A 468034 4A7A44
+    verge 8A8A80
+    hills 60 50 -40
+    drive 2 0.3 0.95 9
+    bends 1.0 1.0 1.0
+    rails
+    p KARST 0.03 40 300 1.0 1.8
+    c 8A8A80 4A7A40
+    p ARCH 0.0 200 300 2.0 2.0
+    c 7A7A70
+    once
+    p PINE 0.25 4 150
+    p TEMPLE_GATE 0.003 10 60
+
+place ZHANGYE | RAINBOW MOUNTAINS | CHINA | DESERT
+    land D8945E CC8856 D8A070
+    verge C87A50
+    hills 24 10 10
+    drive 2 0.2 0.97 9
+    bends 0.45 0.4 0.45
+    p BADLAND 0.05 15 250 0.8 1.6
+    c D87A50 E8C080
+    p BADLAND 0.04 15 250 0.8 1.6
+    c C85A6A E8D0A0
+    p BADLAND 0.03 15 250 0.8 1.6
+    c E8B060 9A6AA0
+    p SHRUB 0.05 2 40
+    c 8A8A50
+
+place GUOLIANG | GUOLIANG TUNNEL | CHINA | MORNING
+    land 6A9448 608A40 6A8458
+    verge A89A88
+    hills 60 70 60
+    drive 2 0.25 0.95 9
+    bends 0.65 0.6 0.7
+    tunnels 0.6
+    posts 0
+    p COTTAGE 0.02 8 60
+    c A89A88 6A6A6A
+    p PINE 0.2 4 120
+    p ROCK 0.12 3 50
+    p LANTERN 0.01 3 8
+
+place HUANGSHAN | HUANGSHAN | CHINA | MIST
+    fog 0.004 E0E4E6
+    land 4E8A3A 468034 4A7A44
+    verge 9A9890
+    hills 50 30 30
+    drive 2 0.3 0.95 9
+    bends 0.75 0.7 0.75
+    p KARST 0.04 30 250 0.8 1.6
+    c 9A9890 3A6A3A
+    p PINE 0.3 4 120
+    p HUIZHOU_HOUSE 0.015 10 80
+    p TEA_ROW 0.2 6 30 1 1
+
+place BEIJING | BEIJING | CHINA | HAZE
+    fog 0.0024
+    land 6A7A5A 627252 6A6A5E
+    drive 4 1.7 0.97 1
+    bends 0.25 0.3 0.05
+    lamps 30
+    posts 0
+    gantries 700
+    p PANEL_BLOCK 0.12 15 150
+    c D8C8B0
+    p GLASS_TOWER 0.08 30 250
+    c 6A8AA0
+    p TEMPLE_GATE 0.004 20 100
+    p PAGODA 0.003 30 150
+    p LANTERN 0.02 3 8
+    p BROADLEAF 0.12 2 12
+    c 5A8A40
+
+place HARBIN | HARBIN | CHINA | NIGHT
+    snow 0.25
+    land D8DEE8 CCD4DE C0C8D4
+    verge C8D0DA
+    drive 3 0.9 0.84 9
+    bends 0.3 0.3 0.05
+    posts 0
+    landmark ICE_CASTLE 40 70
+    p ONION_CHURCH 0.004 30 120
+    c A85A40 3A6A4A
+    p PANEL_BLOCK 0.08 15 150
+    c C8C0B0
+    p SNOWBANK 0.25 0.5 3 0.8 1.4
+    p LANTERN 0.03 3 8
+
+place KUMGANG | KUMGANG MOUNTAINS | NORTH KOREA | MORNING
+    land 5E9446 568A40 5E8450
+    verge C8C4B8
+    hills 50 30 20
+    drive 3 0.03 0.97 9
+    bends 0.5 0.45 0.5
+    posts 0
+    p KARST 0.03 40 300 0.8 1.4
+    c C8C4B8 3A6A3A
+    p PINE 0.3 4 150
+    p TEMPLE_GATE 0.002 20 80
+    p BILLBOARD 0.003 5 12
+    p WATERFALL 0.003 60 200 0.5 0.8
+    v 1
+
+place SEOUL | SEOUL | SOUTH KOREA | DUSK
+    sea 0 0.4 -6
+    water 3A5A7A
+    land 5E7A58 567250 5A6A5A
+    ranges 3A4A50 6A7A88 7
+    drive 4 1.5 0.97 8
+    bends 0.3 0.3 0.15
+    lamps 30
+    posts 0
+    bridges 0.2 BEAM
+    p PANEL_BLOCK 0.12 15 200
+    c E8E4DC
+    p GLASS_TOWER 0.1 20 250
+    c 5A7A9A
+    p TV_TOWER 0.002 150 350
+    v 0
+    p HANOK 0.01 8 40
+    p NEON_PILLAR 0.01 4 20
+
+place HAKONE | HAKONE TURNPIKE | JAPAN | MORNING
+    land 5E9446 568A40 5E8450
+    hills 40 30 -20
+    drive 2 0.5 0.98 8
+    bends 0.85 0.75 0.85
+    rails
+    p VOLCANO_CONE 0.0 450 550 2.6 2.6
+    c 4A5A7A F4F6FA
+    once
+    p CEDAR 0.35 4 150
+    p TORII 0.003 6 20
+    p CHERRY 0.04 4 60
+    p LANTERN 0.01 3 8
+
+place IROHAZAKA | IROHAZAKA | JAPAN | GOLDEN
+    land 7A8A48 708040 8A7A50
+    hills 50 40 -30
+    drive 2 0.4 0.98 8
+    bends 1.0 1.0 0.95
+    rails
+    p AUTUMN_TREE 0.4 3 150
+    p SPRUCE 0.1 6 150
+    p WATERFALL 0.003 80 200 0.6 0.9
+    v 1
+    p TORII 0.003 6 20
+    p PAGODA 0.002 40 150
+
+place MIYAJIMA | MIYAJIMA | JAPAN | MORNING
+    sea 0 1 -2
+    water 3A7A8A
+    land 5E9446 568A40 5E8450
+    hills 30 20 0
+    drive 2 0.4 0.98 8
+    bends 0.45 0.4 0.3
+    lamps 40
+    landmark SEA_TORII 60 100
+    floating
+    p LANTERN 0.04 2 6
+    p PAGODA 0.003 30 120
+    p CHERRY 0.08 3 60
+    p PINE 0.1 4 80
+    p WARNING_SIGN 0.004 1 1 1 1
+    v 4
+
+place OKINAWA | OKINAWA | JAPAN | TROPICAL
+    sea 1 1 -2
+    water 30C8D0
+    land E8E0C8 DCD4BC 6A9A4A
+    verge E8E0C8
+    hills 6 0 0
+    drive 2 0.4 0.98 8
+    bends 0.3 0.3 0.1
+    bridges 0.5 CAUSEWAY E0E0DA
+    p COTTAGE 0.04 3 11
+    c E8E4D8 C85A3A
+    p PALM 0.25 2 11
+    p BANANA 0.05 2 11
+    p SAILBOAT 0.01 60 250
+    floating

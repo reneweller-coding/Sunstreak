@@ -1,0 +1,310 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place ROCK_ISLANDS | ROCK ISLANDS | PALAU | TROPICAL
+    sea 1 1 -2
+    water 30C8C0
+    land 4E8A3A 468034 4A7A44
+    verge E8E0C8
+    hills 8 4 4
+    drive 2 0.15 0.95 16
+    bends 0.4 0.35 0.2
+    bridges 0.3 BEAM
+    p KARST 0.04 36 250 0.4 0.8
+    c 8A8A80 3A7A3A
+    floating
+    p PALM 0.2 2 11
+    p JUNGLE_TREE 0.1 3 11
+    p BOAT 0.03 36 150
+    c F0F0F0 2A6AAA
+    floating
+
+place NAN_MADOL | NAN MADOL | MICRONESIA | MIST
+    rain 0.25
+    sea 0.7 0.7 -1.5
+    water 3A7A7A
+    land 3E7A32 38702C 3E6A3A
+    hills 10 4 4
+    drive 2 0.1 0.9 16
+    bends 0.4 0.35 0.2
+    p BASALT_COLUMNS 0.04 3 11 0.6 0.9
+    v 1
+    p RUIN 0.02 3 11
+    c 3A3A3E
+    p MANGROVE 0.2 2 11
+    p JUNGLE_TREE 0.15 3 11
+    p PALM 0.1 2 11
+
+place MAJURO | MAJURO | MARSHALL ISLANDS | TROPICAL
+    sea 1 1 -1
+    water 30C0D0
+    land E8E0C8 DCD4BC 6A9A4A
+    verge F0E8D8
+    hills 0 0 0
+    drive 2 0.3 0.96 16
+    bends 0.25 0.25 0.0
+    p PALM 0.35 2 11
+    p FLAT_HOUSE 0.04 3 11
+    c E8C890 8A8A8A
+    pastel
+    p BOAT 0.03 36 150
+    c 2A8AC8 F0F0F0
+    pastel
+    floating
+
+place TARAWA | TARAWA | KIRIBATI | TROPICAL
+    sea 1 1 -1
+    water 2AC8C8
+    land E8E0C8 DCD4BC 6A9A4A
+    verge F0E8D8
+    hills 0 0 0
+    drive 2 0.25 0.95 16
+    bends 0.25 0.25 0.0
+    bridges 0.4 CAUSEWAY D8D4C8
+    p PALM 0.4 2 11
+    p HUT 0.04 3 11
+    p BOAT 0.03 36 150
+    c 6A4A30 E8E0D0
+    floating
+
+place NAURU | NAURU | NAURU | NOON
+    sea 0 1 -3
+    water 1E8AC0
+    land B8B098 ACA48E 8A8A70
+    verge D8D0C0
+    hills 14 8 -2
+    drive 2 0.3 0.96 16
+    bends 0.35 0.35 0.2
+    p PILLAR 0.08 12 150 0.15 0.3
+    p PALM 0.15 2 40
+    p FLAT_HOUSE 0.03 6 60
+    c E8C890 8A8A8A
+    pastel
+    p SHRUB 0.1 2 40
+    c 6A8A48
+
+place PNG_HIGHLANDS | HIGHLANDS | PAPUA NEW GUINEA | MIST
+    rain 0.3
+    land 4E8A3A 468034 4A7A44
+    verge 8A5A3A
+    road 8A6A50 8A6A50
+    hills 46 24 20
+    drive 2 0.25 0.86 16
+    bends 0.7 0.6 0.75
+    posts 0
+    p HUT 0.03 6 60
+    p TREE_FERN 0.1 2 40
+    p JUNGLE_TREE 0.2 6 150
+    p BROADLEAF 0.1 4 80
+    c 2E5E2A
+    p BANANA 0.08 3 40
+
+place MAROVO | MAROVO LAGOON | SOLOMON ISLANDS | TROPICAL
+    sea 1 1 -2
+    water 2AA8B0
+    land 3E7A32 38702C 3E6A3A
+    hills 20 10 10
+    drive 2 0.1 0.94 16
+    bends 0.45 0.4 0.3
+    p WATER_VILLA 0.04 36 150
+    floating
+    p BOAT 0.04 36 150
+    c 6A4A30 E8E0D0
+    floating
+    p PALM 0.25 2 11
+    p JUNGLE_TREE 0.15 3 11
+
+place YASUR | MOUNT YASUR | VANUATU | DUSK
+    land 3A3634 34302E 2E2A28
+    verge 2A2624
+    road 4A4642 4A4642
+    hills 20 6 6
+    drive 2 0.05 0.86 16
+    bends 0.45 0.4 0.45
+    lamps 0
+    posts 0
+    p VOLCANO_CONE 0.0 250 350 1.4 1.4
+    c 2E2A28 3A3634
+    once
+    p LAVA_ROCK 0.25 3 80
+    p PALM 0.06 4 60
+    p BROADLEAF 0.05 6 80 1.2 1.6
+    c 2E5E2A
+    p HUT 0.006 8 40
+
+place SYDNEY | SYDNEY | AUSTRALIA | MORNING
+    sea 0 1 -4
+    water 1E6A9A
+    land 6A8A50 628048 6A7A5A
+    drive 3 1.3 0.98 21
+    bends 0.4 0.4 0.3
+    lamps 30
+    posts 0
+    bridges 0.4 ARCH 6A7480
+    landmark OPERA_HOUSE 60 100
+    floating
+    p GLASS_TOWER 0.08 20 200
+    c 6A8AA8
+    p ROW_HOUSES 0.06 4 30
+    c E8D8B8 6A3A2A
+    pastel
+    p EUCALYPTUS 0.08 3 60
+    p SAILBOAT 0.03 40 200
+    floating
+    p TV_TOWER 0.002 150 300
+    v 1
+
+place SURFERS_PARADISE | GOLD COAST | AUSTRALIA | TROPICAL
+    sea 0 1 -2
+    water 2A9AC0
+    land 6A9A50 629048 6A8A5A
+    verge F0E4C8
+    drive 3 1.0 0.98 21
+    bends 0.2 0.25 0.05
+    lamps 35
+    posts 0
+    p GLASS_TOWER 0.15 6 60
+    c C8D8E0
+    p SUPERTALL 0.002 40 120
+    p PALM 0.25 2 11
+    p PARASOL 0.06 3 11
+    pastel
+
+place KIMBERLEY | GIBB RIVER ROAD | AUSTRALIA | DESERT
+    land B8703E AC6838 A8704A
+    verge B86A3E
+    road A85A36 A85A36
+    hills 16 4 4
+    drive 2 0.05 0.84 21
+    bends 0.3 0.3 0.2
+    posts 0
+    p BAOBAB 0.02 6 150 0.6 0.9
+    p TERMITE_MOUND 0.04 3 80
+    p BUTTE 0.005 100 300
+    p KANGAROO 0.02 8 80
+    p GRASS_TUFT 0.2 1 40
+    p WARNING_SIGN 0.004 1 1 1 1
+    v 3
+
+place NULLARBOR | NULLARBOR PLAIN | AUSTRALIA | DESERT
+    sea 0 1 -60
+    water 1E5A8A
+    land B8A888 AC9C7E A89A80
+    verge C8B890
+    hills 2 0 0
+    drive 2 0.2 0.98 21
+    bends 0.02 0.1 0.02
+    posts 80
+    p SHRUB 0.25 2 150 0.3 0.5
+    c 8A9A80
+    p KANGAROO 0.01 8 80
+    p WARNING_SIGN 0.003 1 1 1 1
+    v 0
+    p WARNING_SIGN 0.003 1 1 1 1
+    v 1
+    p WARNING_SIGN 0.003 1 1 1 1
+    v 3
+    p GAS_STATION 0.001 8 14
+
+place TASMANIA | CRADLE MOUNTAIN | AUSTRALIA | OVERCAST
+    clouds 0.6
+    land 8A9A5A 7E8E52 6E8058
+    ranges 3E4650 6A7480 9
+    hills 30 10 10 0.25
+    water 3A4A5A
+    drive 2 0.2 0.93 21
+    bends 0.6 0.5 0.55
+    p PEAK 0.0 250 350 1.2 1.2
+    c 5A5450 6A6460
+    once
+    p SHRUB 0.3 2 80
+    c A8A060
+    p EUCALYPTUS 0.15 4 150
+    p TREE_FERN 0.06 2 30
+    p KANGAROO 0.01 6 60 0.5 0.6
+
+place CROWN_RANGE | CROWN RANGE | NEW ZEALAND | ALPINE
+    land B8A870 AC9C68 9A9A6A
+    ranges 4A5260 D8DEE8 12
+    hills 50 40 -30
+    drive 2 0.3 0.97 6
+    bends 0.9 0.85 0.95
+    rails
+    p SHRUB 0.4 2 100 0.5 0.8
+    c C8B070
+    p LUPIN 0.05 2 30
+    p SHEEP 0.05 8 100
+    p PEAK 0.005 220 450 1.0 1.4
+    c 5A5E66 F0F2F6
+    p ROCK 0.08 3 50
+
+place CORAL_COAST | CORAL COAST | FIJI | TROPICAL
+    sea 0 1 -2
+    water 2AB8C8
+    land 5E9A44 56903E 5E8A4A
+    verge F0E8D0
+    fields 0.3 8AC050 7AB048 9AC060
+    hills 16 8 0
+    drive 2 0.3 0.96 16
+    bends 0.45 0.4 0.3
+    p PALM 0.3 2 60
+    p HUT 0.03 4 40
+    p BOAT 0.03 36 150
+    c F0F0F0 2A6AAA
+    floating
+    p JUNGLE_TREE 0.08 10 150
+
+place FUNAFUTI | FUNAFUTI | TUVALU | TROPICAL
+    sea 1 1 -1
+    water 2AC8D0
+    land E0D8C0 D4CCB4 6A9A4A
+    verge F0E8D8
+    hills 0 0 0
+    drive 2 0.15 0.96 16
+    bends 0.1 0.15 0.0
+    p PALM 0.35 2 11
+    p FLAT_HOUSE 0.03 3 11
+    c E8C890 8A8A8A
+    pastel
+    p BOAT 0.02 36 150
+    c 6A4A30 E8E0D0
+    floating
+
+place LALOMANU | LALOMANU | SAMOA | TROPICAL
+    sea 0 1 -2
+    water 2AC0C8
+    land 5E9A44 56903E 5E8A4A
+    verge F4ECDC
+    hills 24 12 0
+    drive 2 0.25 0.96 16
+    bends 0.5 0.45 0.4
+    p PALM 0.3 2 60
+    p HUT 0.04 3 30
+    p CHURCH 0.006 10 80
+    c F4F2EA C83A3A
+    pastel
+    p JUNGLE_TREE 0.1 10 150
+    p BOAT 0.02 36 120
+    c 2A8AC8 F0F0F0
+    floating
+
+place TONGA_BLOWHOLES | MAPU A VAEA | TONGA | TROPICAL
+    sea 0 1 -2
+    water 1E8AB0
+    land 5E9A44 56903E 5E8A4A
+    verge 6A6A60
+    hills 6 2 0
+    drive 2 0.25 0.96 16
+    bends 0.35 0.3 0.15
+    p GEYSER 0.03 4 11 0.5 0.8
+    v 0
+    p PALM 0.3 2 60
+    p CHURCH 0.004 10 80
+    c F4F2EA C83A3A
+    p FLAT_HOUSE 0.02 6 60
+    c E8C890 8A8A8A
+    pastel

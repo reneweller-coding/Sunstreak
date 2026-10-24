@@ -1,0 +1,63 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place ROMANTIC_ROAD | ROMANTIC ROAD | GERMANY | MORNING
+    land 76AC4C 6CA046 7E9E5A
+    fields 0.45 D8C25A 8AB04A B8A860
+    ranges 7A8CA2 C8D4E4 7
+    hills 16 4 4
+    drive 2 0.6 1.0 6
+    bends 0.5 0.4 0.45
+    bridges 0.08 ARCH B8A890
+    landmark NEUSCHWANSTEIN 180 260
+    p HALF_TIMBER 0.05 6 50
+    c F2E6CC A8483A
+    p HALF_TIMBER 0.02 6 50
+    c E8D0A8 8A3A2A
+    p WATCHTOWER 0.008 10 60
+    c C8B8A0
+    v 0
+    p CHURCH 0.004 30 150
+    c F2ECDC 8A3A2A
+    p BROADLEAF 0.08 4 80
+    c 5E9A40
+
+place NORDSCHLEIFE | NORDSCHLEIFE | GERMANY | OVERCAST
+    clouds 0.75
+    land 5E8E44 56843E 4E7444
+    hills 34 10 10
+    drive 2 0.7 1.0 1
+    bends 0.85 0.7 0.9
+    rails
+    kerbs E02020 F0F0F0
+    posts 0
+    p SPRUCE 0.45 6 150
+    p BROADLEAF 0.15 6 100
+    c 4E7E3A
+    p BILLBOARD 0.01 4 10
+    p CASTLE 0.003 100 250
+    c 8A8478 4A4E58
+
+place BERLIN | BERLIN | GERMANY | MORNING
+    land 6E8A58 668250 707E68
+    road 666870
+    drive 3 1.2 0.98 1
+    bends 0.3 0.3 0.05
+    lamps 30
+    posts 0
+    bridges 0.1 TRUSS 5A6A5A
+    landmark BRANDENBURG_GATE 30 50
+    p ROW_HOUSES 0.12 5 30
+    c E0D4BE 5A5A60
+    p PANEL_BLOCK 0.04 20 120
+    c C8C0B0
+    p TV_TOWER 0.002 150 350
+    v 0
+    p BROADLEAF 0.18 1.5 8 0.8 1.0
+    c 5A8A40
+    p GLASS_TOWER 0.02 40 200
+    c 7A9AB0

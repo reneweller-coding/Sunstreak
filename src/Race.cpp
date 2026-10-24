@@ -56,11 +56,11 @@ TrackParams Race::roundParams( int round ) const
     static const double lengths[RoundCount] = { 8000.0, 9000.0, 10000.0, 11000.0, 12500.0 };
     // Five different biomes, drawn from the championship's seed.
     Rng order( m_seed * 7 + 3 );
-    int biomes[static_cast<int>( BiomeE::COUNT )];
-    for( int i = 0; i < static_cast<int>( BiomeE::COUNT ); ++i ) biomes[i] = i;
-    for( int i = static_cast<int>( BiomeE::COUNT ) - 1; i > 0; --i ) std::swap( biomes[i], biomes[order.rangeInt( 0, i )] );
+    std::vector<int> biomes( static_cast<size_t>( biomeCount() ) );
+    for( int i = 0; i < biomeCount(); ++i ) biomes[static_cast<size_t>( i )] = i;
+    for( int i = biomeCount() - 1; i > 0; --i ) std::swap( biomes[static_cast<size_t>( i )], biomes[static_cast<size_t>( order.rangeInt( 0, i ) )] );
     TrackParams p;
-    p.m_biome = biomes[std::clamp( round, 0, RoundCount - 1 )];
+    p.m_biome = biomes[static_cast<size_t>( std::clamp( round, 0, RoundCount - 1 ) )];
     p.m_length = lengths[std::clamp( round, 0, RoundCount - 1 )];
     p.m_startLine = 100.0;
     p.m_traffic = 0;

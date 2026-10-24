@@ -1,0 +1,197 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place STELVIO | STELVIO PASS | ITALY | ALPINE
+    land 7A9858 6E8C50 8A8C80
+    verge 8A8884
+    ranges 5E6676 F2F4F8 15
+    hills 60 50 -10
+    drive 2 0.4 0.98 3
+    bends 1.0 1.0 1.0
+    posts 15
+    p PEAK 0.008 150 400 1.3 1.8
+    c 6E6C70 F4F6FA
+    p STONE_WALL 0.5 2 2 1 1
+    p ROCK 0.2 3 60
+    p SNOWBANK 0.12 1 8 0.6 1.2
+    p CHALET 0.004 12 60
+    c E8E0D0 6A4A3A
+
+place VENICE | VENICE | ITALY | HAZE
+    sea 1 1 -1.5
+    water 4A7E76 0.9
+    land B89A7A AC8E70 A89A80
+    hills 0 0 0
+    drive 2 0.6 1.0 6
+    bends 0.2 0.25 0.0
+    lamps 30
+    bridges 0.5 CAUSEWAY C8B8A0
+    p ROW_HOUSES 0.25 3 11
+    c E0B890 A8583A
+    pastel
+    p CHURCH 0.01 4 11
+    c F0EADC 8A9A9A
+    p BOAT 0.05 36 120 0.8 1.0
+    c 1A1A1E C8A040
+    floating
+    p BOAT 0.02 40 200
+    c F0F0F0 2A4A6A
+    floating
+    p WATCHTOWER 0.004 4 11 1.2 1.6
+    c B8583A
+    v 1
+
+place CINQUE_TERRE | CINQUE TERRE | ITALY | GOLDEN
+    sea 0 1 -30
+    water 1E6A90
+    land 7A9450 708A48 86965E
+    hills 40 40 -20
+    drive 2 0.3 0.97 6
+    bends 0.85 0.8 0.7
+    tunnels 0.2
+    rails
+    p ROW_HOUSES 0.06 6 60 1.0 1.4
+    c E8A870 8A5A44
+    pastel
+    p VINE_ROW 0.4 4 40 1 1
+    p TERRACES 0.02 20 120
+    c 7A9A40 8A7A66
+    p OLIVE 0.1 4 60
+    p BOAT 0.03 40 150
+    c 2A6AAA F0F0F0
+    pastel
+    floating
+    p CHURCH 0.004 20 100
+    c E8D8C0 6A6060
+
+place PISA | PISA | ITALY | NOON
+    land 8EA458 849A50 9AA066
+    fields 0.4 D8B860 8AA050 A88A58
+    hills 6 0 0
+    drive 2 0.8 1.0 6
+    bends 0.3 0.3 0.1
+    lamps 40
+    bridges 0.08 ARCH C8B494
+    landmark LEANING_TOWER 60 100
+    p ROW_HOUSES 0.08 6 40
+    c E0B880 A8583A
+    pastel
+    p UMBRELLA_PINE 0.08 4 80
+    p CYPRESS 0.06 4 60
+    p CHURCH 0.003 40 160
+    c EEE6D4 A8583A
+
+place ROME | ROME | ITALY | GOLDEN
+    land 8A9A60 809058 9A9470
+    road 6A6A70
+    drive 3 1.3 0.97 6
+    bends 0.4 0.4 0.3
+    lamps 30
+    posts 0
+    bridges 0.12 ARCH D8CCB0
+    landmark COLOSSEUM 50 90
+    landmark BASILICA 120 200 1.2
+    p ROW_HOUSES 0.14 4 30
+    c E0A070 9A5A3A
+    pastel
+    p UMBRELLA_PINE 0.12 3 60
+    p COLUMNS 0.006 10 60
+    p RUIN 0.006 10 60
+    p CHURCH 0.006 20 120
+    c F0E8D8 8A9A9A
+
+place SAN_MARINO | SAN MARINO | SAN MARINO | MORNING
+    land 7AA04E 709448 86985E
+    verge C8C0B0
+    hills 44 36 -16
+    drive 2 0.5 0.98 6
+    bends 0.85 0.8 0.85
+    rails
+    p WATCHTOWER 0.008 30 200 1.4 1.8
+    c D8D0C0
+    v 0
+    p CASTLE 0.003 120 250
+    c D8D0C0 8A5A44
+    p ROW_HOUSES 0.05 6 40
+    c E0D4BC 9A5A3A
+    p CYPRESS 0.06 4 60
+    p VINE_ROW 0.2 10 40 1 1
+    p OLIVE 0.06 6 60
+
+place VATICAN | VATICAN CITY | VATICAN | NOON
+    land 8A9A60 809058 9A9470
+    road 6E6E72
+    drive 2 0.9 1.0 6
+    bends 0.35 0.4 0.15
+    lamps 30
+    posts 0
+    landmark BASILICA 50 80 1.3
+    p COLUMNS 0.05 6 30
+    p ROW_HOUSES 0.1 4 30
+    c E8C8A0 9A5A3A
+    pastel
+    p UMBRELLA_PINE 0.1 3 60
+    landmark OBELISK 30 45 0.15
+
+place ALBEROBELLO | ALBEROBELLO | ITALY | NOON
+    land 8E9A58 849050 A06A4A
+    fields 0.35 A8603A 9AA050 C8B060
+    verge D8D0C0
+    hills 8 2 2
+    drive 2 0.5 1.0 6
+    bends 0.35 0.3 0.2
+    posts 0
+    p TRULLO 0.06 6 60
+    p OLIVE 0.35 4 150
+    p STONE_WALL 0.5 3 3 1 1
+    p CHURCH 0.003 30 120
+    c F4F2EA 8A8A8A
+    p PRICKLY_PEAR 0.03 3 30
+
+place SARDINIA | SARDINIA | ITALY | NOON
+    sea 0 1 -6
+    water 2ABAC8
+    land 8A9058 808650 9A9468
+    verge D8C8B0
+    hills 24 10 -4
+    drive 2 0.4 0.98 6
+    bends 0.65 0.55 0.55
+    p BOULDER 0.06 4 100 1.0 2.2
+    p SHRUB 0.4 2 80 0.6 1.0
+    c 5E7040
+    p ROUND_MILL 0.004 30 150 1.2 1.5
+    v 1
+    p FLAT_HOUSE 0.03 6 60
+    c F0E8D8 C8603A
+    pastel
+    p SAILBOAT 0.015 40 200
+    floating
+    p OLIVE 0.05 6 60
+
+place MALTA | VALLETTA | MALTA | NOON
+    sea 0 1 -10
+    water 1E6AA0
+    land C8B888 BCAC7E B8A880
+    verge D8C8A0
+    hills 14 6 -4
+    drive 2 0.8 0.98 6
+    bends 0.5 0.5 0.35
+    lamps 35
+    posts 0
+    p ROW_HOUSES 0.15 4 30
+    c E0C890 8A7A5A
+    p FORT 0.006 20 100
+    c D8C08A C8B07A
+    v 0
+    p CHURCH 0.008 20 120
+    c E0C890 8A7A6A
+    p BOAT 0.04 40 150
+    c E8C040 2A6AAA
+    pastel
+    floating
+    p PRICKLY_PEAR 0.04 3 30
+    p STONE_WALL 0.25 3 3 1 1

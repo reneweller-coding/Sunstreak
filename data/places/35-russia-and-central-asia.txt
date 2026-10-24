@@ -1,0 +1,52 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place CHUYSKY | CHUYSKY TRAKT | RUSSIA | ALPINE
+    sea 0 1 -8
+    water 4AB0B0
+    land 7A9A50 708E48 7A8A60
+    ranges 5A6476 E8ECF4 12
+    hills 40 24 -6
+    drive 2 0.25 0.97 22
+    bends 0.55 0.5 0.55
+    p SPRUCE 0.25 4 150
+    p PEAK 0.004 250 500 1.2 1.5
+    c 6A6A70 F0F2F6
+    p HORSE 0.03 10 100
+    p YURT 0.004 20 100
+    p ROCK 0.08 3 50
+
+place ROAD_OF_BONES | ROAD OF BONES | RUSSIA | WINTER
+    snow 0.4
+    land E4E8EE D8DEE6 CCD4DE
+    verge B8BCC4
+    road 8A8680 8A8680
+    hills 12 4 4
+    drive 2 0.05 0.78 22
+    bends 0.35 0.35 0.3
+    posts 0
+    p SNOW_PINE 0.15 6 200 0.5 0.9
+    p DEAD_TREE 0.04 6 80
+    p SNOWBANK 0.2 0.5 3 0.8 1.4
+    p CABIN 0.003 15 80
+    p PANEL_BLOCK 0.001 40 150
+    c 9A9A9A 6A6A6A 1A1E26
+
+place CHARYN | CHARYN CANYON | KAZAKHSTAN | DESERT
+    land B8A070 AC9468 B89A6E
+    verge B86A40
+    hills 24 -30 8
+    drive 2 0.1 0.93 22
+    bends 0.35 0.3 0.3
+    road 9A8A70 9A8A70
+    posts 0
+    p BADLAND 0.04 20 250 0.8 1.5
+    c C86A40 9A4A30
+    p BUTTE 0.004 100 300
+    p SHRUB 0.1 2 60
+    c 8A8A50
+    p HORSE 0.006 10 80

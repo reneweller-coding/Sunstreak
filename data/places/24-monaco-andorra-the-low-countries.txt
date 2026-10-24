@@ -1,0 +1,90 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place MONACO | MONTE CARLO | MONACO | GOLDEN
+    sea 0 1 -10
+    water 1E6E9A
+    land 7A8A62 70805A 8A8A70
+    hills 30 30 -6
+    drive 2 1.0 1.0 0
+    bends 0.75 0.8 0.4
+    tunnels 0.3
+    lamps 30
+    posts 0
+    rails
+    kerbs E02020 F0F0F0
+    p ROW_HOUSES 0.12 4 30
+    c F0D8B8 B0583A
+    pastel
+    p PALM 0.15 2 10
+    p CASINO 0.0 20 40 1 1
+    once
+    p GLASS_TOWER 0.03 20 120
+    c C8C0B0
+    p BOAT 0.04 40 150 1.2 1.6
+    c F4F4F4 2A3A5A
+    floating
+
+place ANDORRA | ANDORRA | ANDORRA | ALPINE
+    land 6AA048 609640 749458
+    ranges 5E6A7A E0E6F0 12
+    hills 46 24 24
+    drive 2 0.7 0.98 3
+    bends 0.7 0.6 0.8
+    tunnels 0.15
+    bridges 0.08 ARCH 8A8278
+    p CHALET 0.03 6 70
+    c 8A8278 4A4A50
+    p CHURCH 0.004 20 100
+    c 8A8278 5A5A60
+    p SPRUCE 0.3 6 150
+    p PEAK 0.004 220 450
+    c 6A6A70 F0F2F6
+    p HORSE 0.02 10 80
+    p GAS_STATION 0.004 6 12
+
+place AMSTERDAM | AMSTERDAM | NETHERLANDS | OVERCAST
+    clouds 0.7
+    sea 0.6 0.6 -2
+    water 4A6A6A 0.85
+    land 6E8A58 668250 707A68
+    road 7A6A64
+    hills 0 0 0
+    drive 2 0.8 0.97 1
+    bends 0.35 0.4 0.0
+    lamps 25
+    posts 0
+    bridges 0.35 ARCH 6A5A50
+    p ROW_HOUSES 0.25 3 11
+    c 6A3A2A F0F0EA
+    p ROW_HOUSES 0.12 3 11
+    c E8E4DC 3A3A40
+    p HOUSEBOAT 0.03 36 60
+    floating
+    p BROADLEAF 0.15 1.5 10 0.8 1.0
+    c 5A8A40
+    p CHURCH 0.004 20 100
+    c 8A5A44 3A4A44
+
+place LUXEMBOURG | LUXEMBOURG | LUXEMBOURG | MORNING
+    land 6EA04A 649444 76925A
+    verge B8B0A0
+    hills 34 -24 20
+    drive 2 0.8 0.98 1
+    bends 0.5 0.45 0.55
+    bridges 0.3 ARCH B8B0A0
+    lamps 40
+    p CASTLE 0.006 50 200
+    c B8B0A0 4A5060
+    p ROW_HOUSES 0.06 6 40
+    c E8E0D0 4A4E58
+    p BROADLEAF 0.2 3 100
+    c 4E8A3C
+    p CHURCH 0.004 30 150
+    c D8D0C0 3E4A50
+    p GLASS_TOWER 0.008 60 200
+    c 8AA0B4

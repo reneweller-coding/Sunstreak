@@ -1,0 +1,100 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place DZANGA_SANGHA | DZANGA-SANGHA | CENTRAL AFRICAN REPUBLIC | HAZE
+    fog 0.0024 B8C8B0
+    land 3E7A32 38702C 3A6A36
+    verge 9A5A3A
+    road 9A5A3A 9A5A3A
+    hills 10 6 6 0.15
+    drive 2 0.05 0.86 12
+    bends 0.55 0.45 0.3
+    posts 0
+    p JUNGLE_TREE 0.5 3 150
+    p FERN 0.3 1 20
+    p ELEPHANT 0.01 15 80
+    p HUT 0.006 6 30
+    p BANANA 0.06 3 30
+
+place LOANGO | LOANGO | GABON | TROPICAL
+    sea 0 1 -2
+    water 2A7A8A
+    land 5A9040 52863A 4E7A42
+    verge E8DCC0
+    hills 6 4 0 0.25
+    drive 2 0.05 0.9 12
+    bends 0.35 0.3 0.1
+    road A88A60 A88A60
+    posts 0
+    p JUNGLE_TREE 0.25 6 150
+    p PALM 0.2 2 11
+    p ELEPHANT 0.015 6 80
+    p REEDS 0.1 2 30
+    p BUSH 0.1 2 30
+
+place CONGO_RAPIDS | CONGO RAPIDS | CONGO | HAZE
+    sea 0 1 -6
+    water 7A6A50 0.7
+    land 5A8A3E 528038 56783E
+    hills 14 6 -4
+    drive 2 0.4 0.93 12
+    bends 0.4 0.4 0.3
+    p BOULDER 0.04 36 150 1.0 2.0
+    floating
+    p JUNGLE_TREE 0.25 6 150
+    p PALM 0.08 3 40
+    p BOAT 0.03 40 150
+    c 6A4A30 E8E0D0
+    floating
+    p FLAT_HOUSE 0.02 8 60
+    c E8D8B8 8A8A8A
+
+place BIOKO | BIOKO | EQUATORIAL GUINEA | MIST
+    rain 0.3
+    sea 0 1 -20
+    water 1E5A7A
+    land 3E7A32 38702C 3E6A3A
+    hills 40 24 -10
+    drive 2 0.25 0.92 12
+    bends 0.65 0.55 0.65
+    p JUNGLE_TREE 0.3 6 150
+    p TREE_FERN 0.12 2 40
+    p BROADLEAF 0.15 4 60
+    c 2E5E2A
+    p FLAT_HOUSE 0.02 8 60
+    c E8D8C0 B0583A
+    p VOLCANO_CONE 0.003 300 600 1.2 1.5
+    c 2E5A2E 4A6A4A
+
+place PICO_CAO_GRANDE | PICO CAO GRANDE | SAO TOME AND PRINCIPE | MIST
+    rain 0.35
+    land 3A7A30 34702A 3A6A36
+    hills 40 20 20
+    drive 2 0.1 0.9 12
+    bends 0.6 0.5 0.6
+    p MONOLITH 0.0 220 320 2.0 2.0
+    c 5A6A50
+    once
+    p JUNGLE_TREE 0.4 4 150
+    p BANANA 0.12 3 40
+    p TREE_FERN 0.1 2 40
+    p HUT 0.008 6 30
+
+place MOON_VIEWPOINT | MIRADOURO DA LUA | ANGOLA | NOON
+    sea 0 1 -40
+    water 1E6A9A
+    land C8A878 BC9C70 B89A70
+    verge C88A60
+    hills 20 4 -24
+    drive 2 0.3 0.98 12
+    bends 0.3 0.3 0.25
+    p BADLAND 0.03 12 120 0.8 1.4
+    c D8B890 B86A48
+    p BAOBAB 0.02 10 150
+    p SHRUB 0.1 2 60
+    c 7A8A48
+    p CACTUS 0.01 4 40 0.4 0.6

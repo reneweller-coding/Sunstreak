@@ -13,6 +13,7 @@
 
 #include <cstdint>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace sunstreak
@@ -776,7 +777,7 @@ enum class FleetE : uint8_t
     COUNT            ///< number of fleets
 };
 
-/** @brief A country's roads: the side, the vehicles, the markings and signs, the flag (Countries.cpp). */
+/** @brief A country's roads: the side, the vehicles, the markings and signs, the flag, the radio (data/countries.txt). */
 struct CountryInfo
 {
     const char *m_name;       ///< as the places write it
@@ -786,7 +787,8 @@ struct CountryInfo
     uint8_t     m_warn;       ///< warning signs: 0 red triangle, 1 red triangle on yellow, 2 yellow diamond
     uint8_t     m_chevrons;   ///< chevron boards: 0 red and white, 1 black and white, 2 yellow and black
     uint8_t     m_townSign;   ///< place signs: 0 white, 1 yellow, 2 white with a red border, 3 blue, 4 green
-    const char *m_flag;       ///< the flag (Countries.cpp tells how it is written)
+    const char *m_flag;       ///< the flag (data/countries.txt tells how it is written)
+    int         m_station;    ///< the radio station its countryside plays in AUTO (-1: the genre stations)
 };
 
 /**
@@ -891,7 +893,42 @@ struct BiomeDef
     Color                 m_bridgeColor = { 150, 150, 154, 255 }; ///< their paint or stone
     ClimateE              m_climate = ClimateE::NONE;             ///< the weather fronts it gets
     uint8_t               m_unpaved = 0;                          ///< 0 asphalt, 1 gravel or dirt, 2 sand
+    const char           *m_region = nullptr;                     ///< its state or province (none: the whole country)
 };
+
+constexpr int MaxBiomes = 4096;   ///< compiled biomes and places of the data files together (records and codes have room)
+
+/**
+ * @brief How many biomes there are: the compiled ones and the places of the data files.
+ * @return the number; every BiomeE below it is valid
+ */
+int biomeCount();
+
+/**
+ * @brief A biome's number by its ID in the data files (the enum's name for the compiled ones).
+ * @param[in] key  e.g. "TUSCANY"
+ * @return its number, or -1
+ */
+int biomeId( std::string_view key );
+
+/**
+ * @brief A biome's ID in the data files.
+ * @param[in] biome  which one
+ * @return its ID (empty for none)
+ */
+const std::string &biomeKey( BiomeE biome );
+
+/**
+ * @brief Reads the places of the data files into the table (WorldData.cpp).
+ * @param[in,out] table  the biome table; grows by the new places
+ */
+void addDataPlaces( std::vector<BiomeDef> &table );
+
+/**
+ * @brief How many steps, names and lines the data files got wrong (0 for a clean world).
+ * @return the count
+ */
+int dataErrors();
 
 /**
  * @brief The definition of a biome.
@@ -942,15 +979,9 @@ int countryCount();
 
 /**
  * @brief Fills in the world tour's biomes (WorldBiomes.cpp).
- * @param[out] table  the biome table, indexed by BiomeE
+ * @param[in,out] table  the biome table, indexed by BiomeE; grows by the places of the data files
  */
-void addWorldBiomes( BiomeDef *table );
-
-/**
- * @brief Fills in the rest of the world: every remaining country and the famous roads (WorldPlaces.cpp).
- * @param[out] table  the biome table, indexed by BiomeE
- */
-void addWorldPlaces( BiomeDef *table );
+void addWorldBiomes( std::vector<BiomeDef> &table );
 
 /** @brief A point on the globe. */
 struct GeoPoint
@@ -962,7 +993,7 @@ struct GeoPoint
 constexpr int LongitudeSectors = 12;   ///< the globe in slices of 30 degrees: one place in each is a circumnavigation
 
 /**
- * @brief Where a place of the world tour is (WorldMap.cpp).
+ * @brief Where a place of the world tour is (data/route.txt).
  * @param[in]  biome  the place
  * @param[out] where  its latitude and longitude
  * @return false for the places that are not on the map

@@ -1,0 +1,103 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place BRITTANY | BRITTANY | FRANCE | MORNING
+    clouds 0.5
+    sea 0 1 -6
+    water 2E5E7A
+    land 6E9E4A 64924A 7A8E5A
+    drive 2 0.5 0.97 6
+    bridges 0.1 BEAM
+    p COTTAGE 0.025 10 80
+    c B8B4AC 3E4048
+    p MENHIR 0.03 8 80
+    p FLOWER_BUSH 0.08 2 25
+    c 6A88D8
+    p HEDGE 0.3 3 3 1 1
+    p LIGHTHOUSE 0.004 30 120
+    p ROCK 0.08 3 40
+
+place NORMANDY | NORMANDY | FRANCE | OVERCAST
+    clouds 0.6
+    land 6AA24A 5E9442 78965A
+    drive 2 0.6 0.97 6
+    bridges 0.08 ARCH B0A890
+    p HALF_TIMBER 0.03 10 70
+    c EDE6D2 8A5A44
+    p BROADLEAF 0.15 4 60 0.6 0.9
+    c 5E9440
+    p COW 0.06 8 80
+    p HEDGE 0.45 3 3 1 1
+    p CHURCH 0.004 30 150
+    c D8D2C4 50565E
+    p HAYBALE 0.015 12 60
+
+place PARIS | PARIS | FRANCE | MORNING
+    land 7A8A6A 728262 8A8A7A
+    road 6E7078
+    drive 3 1.2 0.95 0
+    bends 0.4 0.35 0.15
+    lamps 30
+    posts 0
+    bridges 0.1 ARCH C8C0AC
+    p ROW_HOUSES 0.16 5 30
+    c E6DCC6 5A6470
+    p BROADLEAF 0.2 1.5 6 0.9 1.1
+    c 5A8E40
+    p LATTICE_TOWER 0.0025 200 450 2.2 2.5
+    c 6A5A48 6A5A48
+    p CHURCH 0.004 30 150
+    c F0ECE4 7A8490
+    landmark TRIUMPHAL_ARCH 40 70
+
+place CHAMPAGNE | CHAMPAGNE | FRANCE | MORNING
+    land 8CB25A 80A452 B8B07A
+    verge E0DCCC
+    hills 16 4 4
+    drive 2 0.5 1.0 6
+    bends 0.45 0.35 0.45
+    p VINE_ROW 0.85 5 12 1 1
+    p VINE_ROW 0.85 14 21 1 1
+    p VINE_ROW 0.7 23 30 1 1
+    p VINE_ROW 0.5 32 50 1 1
+    p CHURCH 0.006 60 200
+    c E6DED0 5A6068
+    p COTTAGE 0.01 20 80
+    c E6DED0 8A5A48
+
+place LOIRE_VALLEY | LOIRE VALLEY | FRANCE | GOLDEN
+    sea 0 1 -5
+    water 4A7890
+    land 7CAE52 70A04A 86A462
+    drive 2 0.5 1.0 6
+    bends 0.45 0.35 0.3
+    bridges 0.15 ARCH E0D8C4
+    p POPLAR 0.2 5 40
+    p CASTLE 0.004 60 250
+    c EAE4D4 4E5664
+    p VINE_ROW 0.3 6 30 1 1
+    p COTTAGE 0.012 15 80
+    c EAE2D0 4E5664
+
+place FLANDERS | FLANDERS | BELGIUM | OVERCAST
+    land 7AAE4E 70A048 82A05A
+    fields 0.6 C8302C 8AB048 D8C25A
+    hills 4 2 2
+    drive 2 0.7 0.97 1
+    bends 0.35 0.3 0.15
+    bridges 0.06 BEAM
+    p ROW_HOUSES 0.01 20 90
+    c A85A40 5A4A44
+    v 1
+    p COTTAGE 0.015 15 90
+    c B06048 6A3A30
+    p CHURCH 0.004 40 200
+    c B06048 4A4E58
+    p POPLAR 0.12 6 60
+    p POWER_PYLON 0.006 30 120
+    p WINDMILL 0.006 60 250
+    p COW 0.03 10 80

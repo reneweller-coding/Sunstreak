@@ -134,7 +134,7 @@ int main()
         a.m_params.m_biome = 25;
         a.m_params.m_length = 12500.0;
         a.m_race = true;
-        a.m_params.m_biome = static_cast<int>( BiomeE::COUNT ) - 1;
+        a.m_params.m_biome = biomeCount() - 1;
         const std::string code = encodeTrack( a );
         TrackSetup        b;
         const bool        ok = decodeTrack( code, b );
@@ -191,7 +191,7 @@ int main()
     }
     { // Every biome is complete; the first bag of stages visits all of them.
         bool ok = true;
-        for( int b = 0; b < static_cast<int>( BiomeE::COUNT ); ++b )
+        for( int b = 0; b < biomeCount(); ++b )
         {
             const BiomeDef &d = biomeDef( static_cast<BiomeE>( b ) );
             ok = ok && d.m_name && d.m_lanes >= 2 && d.m_lanes <= 4 && d.m_station >= 0 && d.m_station < StationCount &&
@@ -201,7 +201,7 @@ int main()
         // The route visits every place with a country once, and only those.
         int  onRoute = 0;
         bool once = true;
-        for( int b = 0; b < static_cast<int>( BiomeE::COUNT ); ++b )
+        for( int b = 0; b < biomeCount(); ++b )
         {
             const bool placed = biomeDef( static_cast<BiomeE>( b ) ).m_country != nullptr;
             int        n = 0;
@@ -240,11 +240,15 @@ int main()
                    countryTableSize() >= 204,
                "the rules of the road by country" );
         Track t( 31337 );
-        bool  seen[static_cast<int>( BiomeE::COUNT )] = {};
-        for( int s = 0; s < static_cast<int>( BiomeE::COUNT ); ++s ) seen[static_cast<int>( t.stageBiome( s ) )] = true;
+        std::vector<bool> seen( static_cast<size_t>( biomeCount() ) );
+        for( int s = 0; s < biomeCount(); ++s ) seen[static_cast<size_t>( t.stageBiome( s ) )] = true;
         bool all = true;
         for( bool v : seen ) all = all && v;
         check( all, "one bag of stages visits every biome" );
+        std::printf( "      %d biomes, %d data errors\n", biomeCount(), dataErrors() );
+        check( dataErrors() == 0 && biomeCount() >= static_cast<int>( BiomeE::COUNT ) && biomeId( "TUSCANY" ) == static_cast<int>( BiomeE::TUSCANY ) &&
+                   biomeKey( BiomeE::PARIS ) == "PARIS",
+               "the data files read cleanly" );
     }
     check( trackTitle( 42 ) == trackTitle( 42 ) && trackTitle( 42 ).size() > 6, "track titles" );
 

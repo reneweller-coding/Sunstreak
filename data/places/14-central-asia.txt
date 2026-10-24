@@ -1,0 +1,56 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place SAMARKAND | SAMARKAND | UZBEKISTAN | NOON
+    land B8A880 AC9C78 A8A080
+    drive 3 0.8 1.0 3
+    bends 0.35 0.3 0.2
+    p MOSQUE 0.015 30 150
+    c D8C8A8 2AA0C0
+    p POPLAR 0.15 3 50
+    p ADOBE 0.02 10 80
+    c C8A880 B89A70
+    p BROADLEAF 0.04 4 60
+    c 6A9A44
+
+place KAZAKH_STEPPE | KAZAKH STEPPE | KAZAKHSTAN | GOLDEN
+    land A8A868 9C9C60 B0A870
+    hills 6 1 1
+    drive 2 0.2 1.0 3
+    bends 0.2 0.2 0.15
+    p YURT 0.01 20 150
+    p HORSE 0.05 10 200
+    p GRASS_TUFT 0.3 1 60
+    p CAMEL 0.01 20 150
+    v 1
+
+place TIAN_SHAN | TIAN SHAN | KYRGYZSTAN | ALPINE
+    land 6AA44C 609844 7A9A5E
+    hills 30 8 8 0.2
+    water 3AA0C0
+    ranges 6A7A8A F0F4F8 13
+    drive 2 0.2 0.97 3
+    bends 0.55 0.45 0.6
+    p YURT 0.03 15 150
+    c F2EEE4 C03A3A
+    p HORSE 0.05 10 150
+    p SHEEP 0.05 8 100
+    p SPRUCE 0.05 60 200
+
+place PAMIR_HIGHWAY | PAMIR HIGHWAY | TAJIKISTAN | ALPINE
+    look 0.9
+    land A8957C 9C8A72 8A8478
+    verge 9A8A78
+    road 6E6A66
+    ranges 8A7A70 F0F2F6 14
+    hills 40 12 10
+    drive 2 0.1 0.9 3
+    bends 0.7 0.6 0.7
+    p ROCK 0.15 3 60
+    p YAK 0.02 10 100
+    p ADOBE 0.006 15 80
+    c B8A080 9A8A70

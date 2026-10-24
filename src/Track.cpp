@@ -25,7 +25,7 @@ Track::Track( uint64_t seed, const TrackParams &params, int startBiome )
     if( m_params.m_biome == SceneryWorld )
     {
         // The world tour starts somewhere on the route, or at the requested place; one off the map goes first.
-        const bool wanted = startBiome >= 0 && startBiome < static_cast<int>( BiomeE::COUNT );
+        const bool wanted = startBiome >= 0 && startBiome < biomeCount();
         const int  at = wanted ? routeIndex( static_cast<BiomeE>( startBiome ) ) : -1;
         m_routeStart = at >= 0 ? at : static_cast<int>( hash64( seed * 131 + 17 ) % worldRoute().size() );
         if( wanted && at < 0 ) m_stageBiomes.push_back( static_cast<uint16_t>( startBiome ) );
@@ -35,10 +35,10 @@ Track::Track( uint64_t seed, const TrackParams &params, int startBiome )
         // The first bag of stages decides the start; a requested biome is swapped to the front.
         stageBiome( 0 );
     }
-    if( m_params.m_biome != SceneryWorld && startBiome >= 0 && startBiome < static_cast<int>( BiomeE::COUNT ) )
+    if( m_params.m_biome != SceneryWorld && startBiome >= 0 && startBiome < biomeCount() )
     {
         const auto want = static_cast<uint16_t>( startBiome );
-        const auto end = m_stageBiomes.begin() + static_cast<long>( BiomeE::COUNT );
+        const auto end = m_stageBiomes.begin() + static_cast<long>( biomeCount() );
         auto       it = std::find( m_stageBiomes.begin(), end, want );
         if( it != end ) std::iter_swap( m_stageBiomes.begin(), it );
     }
@@ -47,7 +47,7 @@ Track::Track( uint64_t seed, const TrackParams &params, int startBiome )
 
 BiomeE Track::stageBiome( int stage ) const
 {
-    constexpr int Count = static_cast<int>( BiomeE::COUNT );
+    const int Count = biomeCount();
     if( !m_params.m_stages.empty() )
         return static_cast<BiomeE>( m_params.m_stages[static_cast<size_t>( std::clamp( stage, 0, static_cast<int>( m_params.m_stages.size() ) - 1 ) )] );
     if( m_params.m_biome >= 0 && m_params.m_biome < Count ) return static_cast<BiomeE>( m_params.m_biome );

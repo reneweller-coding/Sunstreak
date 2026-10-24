@@ -1,0 +1,318 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place BAGAN | BAGAN | MYANMAR | GOLDEN
+    sun 8 30
+    fog 0.0016 E0C8A0
+    land B8A070 AC9468 9A9A62
+    drive 2 0.3 0.97 6
+    bends 0.35 0.3 0.15
+    p STUPA 0.04 10 250 0.6 1.4
+    c B8704A D8A84A
+    v 1
+    p BALLOON 0.03 0 400
+    c E0A040
+    p PALM 0.05 6 80
+    p ACACIA 0.03 8 100
+
+place NORTHERN_THAILAND | NORTHERN THAILAND | THAILAND | MIST
+    land 6AA44C 609844 5E8A4E
+    fields 0.4 8AC04A 6AA040 A8A050
+    hills 36 10 10
+    ranges 5A6A6A 9AA8AA 8
+    drive 2 0.5 0.96 4
+    bends 0.75 0.6 0.7
+    p WAT 0.004 40 150
+    p STUPA 0.004 30 150
+    c F4F2EA D8A84A
+    v 1
+    p BAMBOO 0.1 3 40
+    p BANANA 0.08 3 40
+
+place ANDAMAN_COAST | ANDAMAN COAST | THAILAND | TROPICAL
+    sea 1 0 -3
+    water 20A8B8
+    land 5E9A48 56903E E8E0C8
+    hills 30 0 20
+    drive 2 0.4 0.95 4
+    bends 0.6 0.5 0.5
+    p KARST 0.01 40 300 0.6 1.0
+    c B8A890 3E7A3A
+    floating
+    p KARST 0.006 30 200
+    c B8A890 3E7A3A
+    p BOAT 0.03 40 150
+    c 8A5A3A E8D040
+    pastel
+    floating
+    p PALM 0.25 2 40
+
+place MEKONG | MEKONG | LAOS | HAZE
+    sea 1 0 -6
+    water 8A7A5A 0.7
+    land 6A9E48 609240 7A9A58
+    drive 2 0.3 0.95 4
+    bends 0.5 0.4 0.4
+    p STUPA 0.006 20 150
+    c D8A84A D8A84A
+    v 1
+    p HUT 0.02 6 40
+    p PALM 0.1 3 60
+    p BANANA 0.06 3 40
+    p BOAT 0.02 40 150
+    c 6A4A30 E8E0D0
+    floating
+    p BROADLEAF 0.05 6 80
+    c 3E7A34
+
+place ANGKOR | ANGKOR | CAMBODIA | GOLDEN
+    hills 3 1 1 0.25
+    water 5A7A6A
+    land 7AA04E 6E9448 6A8A4E
+    drive 2 0.4 0.97 4
+    bends 0.35 0.3 0.1
+    p TEMPLE_TOWER 0.006 40 200 0.8 1.2
+    c 9A9080
+    v 0
+    p JUNGLE_TREE 0.12 10 120
+    p PALM 0.08 6 80
+
+place SAPA | SAPA TERRACES | VIETNAM | MIST
+    land 7AAA48 6E9E40 6A8E4A
+    hills 50 16 -10
+    ranges 4A5A5A 8A9A9A 12
+    drive 2 0.3 0.93 4
+    bends 0.85 0.75 0.9
+    p TERRACES 0.03 15 150
+    c 9AC04A 8A6A4A
+    v 1
+    p COTTAGE 0.01 10 80
+    c 8A6A4A 5A5A60
+    p BAMBOO 0.05 3 40
+    p COW 0.01 10 60
+    v 2
+
+place HA_LONG_BAY | HA LONG BAY | VIETNAM | MIST
+    sea 1 0 -3
+    water 3A8A8A
+    land 5E8A48 56803E 6A8A58
+    drive 2 0.5 0.95 3
+    bends 0.5 0.4 0.35
+    p KARST 0.03 40 400 0.6 1.2
+    c B0A894 4A7A44
+    floating
+    p SAILBOAT 0.02 40 200
+    c B8602A 6A4A30
+    v 2
+    floating
+    p KARST 0.008 30 200
+    c B0A894 4A7A44
+
+place HAI_VAN_PASS | HAI VAN PASS | VIETNAM | HAZE
+    sea 1 0 -40
+    water 2A7AA0
+    hills 40 0 30
+    land 5E9A48 569040 5E8A4E
+    drive 2 0.4 0.96 4
+    bends 0.9 0.8 0.9
+    tunnels 0.1
+    p JUNGLE_TREE 0.1 6 80
+    p BROADLEAF 0.1 4 60
+    c 3E7A34
+    p ROCK 0.05 3 40
+
+place BORNEO | BORNEO | MALAYSIA | HAZE
+    rain 0.2
+    land 3E7A34 387030 2E6430
+    hills 30 10 10
+    sea 0 1 -6
+    water 7A6A4A 0.7
+    drive 2 0.3 0.9 4
+    bends 0.6 0.5 0.55
+    p JUNGLE_TREE 0.5 4 120 1.0 1.6
+    p FERN 0.3 1 30
+    p TREE_FERN 0.1 3 40
+    p BANANA 0.05 3 40
+    p HUT 0.01 8 40
+
+place SINGAPORE | SINGAPORE | SINGAPORE | TROPICAL
+    land 5E9A48 569040 6A8A5A
+    drive 3 1.2 1.0 1
+    bends 0.35 0.3 0.1
+    lamps 30
+    posts 0
+    bridges 0.1 CABLE_STAYED E8E8E8
+    p SUPERTREE 0.015 20 120
+    p GLASS_TOWER 0.1 30 250
+    c 6A9AB8
+    p GLASS_TOWER 0.05 30 250
+    c D8D8D0
+    p PANEL_BLOCK 0.04 20 150
+    c F0EEE6
+    pastel
+    v 1
+    p PALM 0.15 2 6
+    p BROADLEAF 0.2 2 8
+    c 3E8A34
+
+place BALI | BALI | INDONESIA | TROPICAL
+    land 6AAE4A 60A244 5E9A4E
+    hills 30 8 8
+    drive 2 0.8 0.95 6
+    bends 0.6 0.5 0.55
+    p TERRACES 0.03 20 150
+    c 8AC04A 7A5A40
+    v 1
+    p TEMPLE_GATE 0.01 6 60
+    p PAGODA 0.004 30 150
+    p PALM 0.25 2 60
+    p BANANA 0.06 3 40
+    p VOLCANO_CONE 0.003 300 600
+    c 5A6060 7A8070
+    p FLOWER_BUSH 0.05 2 20
+    c F8F0F0
+
+place BROMO | MOUNT BROMO | INDONESIA | GOLDEN
+    sun 6 30
+    fog 0.002 B8B0A8
+    land 7A7470 6E6A66 5A5A58
+    verge 6A6662
+    ranges 4A4A50 7A7A80 6
+    drive 2 0.2 0.93 3
+    bends 0.5 0.45 0.5
+    p VOLCANO_CONE 0.008 150 400 0.7 1.0
+    c 5A5450 6E6862
+    p GEYSER 0.006 200 400 2.5 3.0
+    p SHRUB 0.05 3 60
+    c 8A9A6A
+    p HORSE 0.02 10 80
+
+place CHOCOLATE_HILLS | CHOCOLATE HILLS | PHILIPPINES | TROPICAL
+    land 8AA050 7E9448 9AA060
+    hills 8 2 2
+    drive 2 0.3 0.97 4
+    bends 0.5 0.45 0.4
+    p HILLOCK 0.05 20 300 0.7 1.3
+    c 9A7A48
+    p HILLOCK 0.02 20 300 0.7 1.2
+    c 7A9A44
+    p PALM 0.08 3 60
+    p BANANA 0.04 3 40
+
+place BANGKOK | BANGKOK | THAILAND | NIGHT
+    land 5A6A58 526250 4A5A4A
+    drive 4 1.7 0.96 0
+    bends 0.3 0.3 0.1
+    lamps 30
+    posts 0
+    gantries 600
+    p GLASS_TOWER 0.18 15 250
+    c 4A6A8A
+    p SUPERTALL 0.002 200 400
+    p WAT 0.004 20 120
+    p BILLBOARD 0.03 4 12
+    p PALM 0.08 2 12
+    p NEON_PILLAR 0.01 4 20
+
+place HA_GIANG | HA GIANG LOOP | VIETNAM | MIST
+    land 6A9A48 609040 6A8A58
+    verge 9A9690
+    ranges 4A5A5A 8A9A9A 9
+    hills 50 40 -40
+    drive 2 0.25 0.92 20
+    bends 0.95 0.9 0.9
+    posts 0
+    p KARST 0.02 60 400 0.6 1.2
+    c 9A9890 4A7A44
+    p TERRACES 0.03 20 150
+    c 8AB04A 8A6A4A
+    p HUT 0.015 8 60
+    p ROCK 0.12 3 50
+    p BANANA 0.05 3 40
+
+place KUALA_LUMPUR | KUALA LUMPUR | MALAYSIA | HAZE
+    land 5E8A48 568040 5A7A4E
+    drive 4 1.5 0.96 1
+    bends 0.35 0.35 0.2
+    lamps 30
+    posts 0
+    gantries 700
+    landmark TWIN_TOWERS 120 200
+    p GLASS_TOWER 0.15 20 250
+    c 5A7A9A
+    p TV_TOWER 0.002 150 350
+    v 0
+    p PALM 0.15 2 30
+    p MOSQUE 0.003 30 150
+    c F0ECE0 3A6AAA
+
+place BRUNEI | BANDAR SERI BEGAWAN | BRUNEI | TROPICAL
+    sea 0 1 -2
+    water 4A7A6A
+    land 4E8A3A 468034 4A7A44
+    drive 2 0.4 0.96 20
+    bends 0.35 0.35 0.1
+    lamps 35
+    p MOSQUE 0.004 20 100 1.2 1.6
+    c F4F2EA D8A840
+    p WATER_VILLA 0.05 36 150
+    floating
+    p JUNGLE_TREE 0.2 6 150
+    p PALM 0.1 2 30
+    p BOAT 0.03 36 120
+    c 3A5A8A E8E8E8
+    floating
+
+place BOROBUDUR | BOROBUDUR | INDONESIA | MIST
+    land 5E9A40 56903A 5E8A48
+    fields 0.5 8AC050 6AA040 A8B860
+    hills 16 4 4 0.2
+    drive 2 0.4 0.94 20
+    bends 0.45 0.4 0.35
+    landmark BOROBUDUR 80 140
+    p VOLCANO_CONE 0.004 300 600 1.4 1.8
+    c 4A4A50 6A6A6A
+    p PALM 0.15 3 80
+    p BANANA 0.1 3 40
+    p FLAT_HOUSE 0.02 6 60
+    c E8D8C0 B0583A
+
+place PALAWAN | PALAWAN | PHILIPPINES | TROPICAL
+    sea 1 1 -2
+    water 2AC0C0
+    land F0E8D8 E6DECE 4E8A3A
+    verge F0E8D8
+    hills 10 6 6
+    drive 2 0.25 0.95 20
+    bends 0.45 0.4 0.3
+    p KARST 0.02 40 300 0.6 1.2
+    c 6A6A60 3A7A3A
+    floating
+    p PALM 0.3 2 11
+    p HUT 0.02 3 11
+    p BOAT 0.05 36 150
+    c 2A8AC8 F0F0F0
+    pastel
+    floating
+
+place DILI | DILI | EAST TIMOR | NOON
+    sea 0 1 -4
+    water 1E8AB0
+    land A0A060 969658 8A9060
+    hills 30 20 -4
+    drive 2 0.4 0.95 20
+    bends 0.5 0.45 0.4
+    landmark OPEN_ARMS 120 200 1.0
+    p PALM 0.12 2 40
+    p FLAT_HOUSE 0.03 6 60
+    c E8D8C0 B0583A
+    pastel
+    p SHRUB 0.15 2 60
+    c 7A8A48
+    p BOAT 0.02 40 150
+    c 2A6AAA F0F0F0
+    floating

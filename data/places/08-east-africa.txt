@@ -1,0 +1,225 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place RWANDA_HILLS | THOUSAND HILLS | RWANDA | MIST
+    land 5A9E3E 50923A 5E8E4A
+    fields 0.5 6AAA40 8A9A44 A87A50
+    hills 40 10 10
+    drive 2 0.5 0.97 4
+    bends 0.8 0.6 0.8
+    p TERRACES 0.02 30 150
+    c 6AAA40 9A6A44
+    p BANANA 0.12 4 40
+    p EUCALYPTUS 0.08 6 80
+    p TEA_ROW 0.2 6 30 1 1
+    p COTTAGE 0.015 10 70
+    c C08A60 8A8A90
+
+place ETHIOPIAN_HIGHLANDS | ETHIOPIAN HIGHLANDS | ETHIOPIA | MORNING
+    land 8AA050 7E944A 9A9A62
+    fields 0.5 D8C050 8AAA4A A88054
+    hills 40 10 -10
+    ranges 6A7A70 A0AAB0 8
+    drive 2 0.3 0.97 4
+    bends 0.65 0.55 0.6
+    p RONDAVEL 0.03 15 90
+    c A8805A 8A7448
+    p EUCALYPTUS 0.1 6 80
+    p ACACIA 0.05 8 100
+    p COW 0.03 10 80
+    v 1
+
+place DANAKIL | DANAKIL DESERT | ETHIOPIA | DESERT
+    fog 0.0016 E8D8B0
+    land E8DCB0 DCD0A4 C8B890
+    fields 0.4 E8D040 8ACA90 E8E4D8
+    shine 0.3
+    hills 6 2 2 0.2
+    water 6AC8B0
+    drive 2 0.1 0.9 2
+    bends 0.3 0.3 0.15
+    p ROCK 0.05 3 60
+    p CAMEL 0.02 15 100
+    v 0
+
+place LAKE_NAKURU | LAKE NAKURU | KENYA | GOLDEN
+    sea 1 0 -3
+    water 8AA8A0
+    land 8AA058 7E9450 A0A068
+    drive 2 0.2 0.98 4
+    bends 0.4 0.35 0.2
+    p FLAMINGO 0.2 2 12 0.9 1.1
+    p ACACIA 0.08 8 120
+    p GRASS_TUFT 0.2 1 40
+    p ZEBRA 0.03 15 120
+
+place SERENGETI | SERENGETI | TANZANIA | GOLDEN
+    land B8A868 AC9C60 C0A870
+    hills 8 2 2
+    look 1.15
+    drive 2 0.15 0.95 4
+    bends 0.3 0.3 0.2
+    p ACACIA 0.04 20 200
+    p KOPJE 0.01 40 200
+    p ZEBRA 0.08 10 150
+    p GIRAFFE 0.02 15 150
+    p ELEPHANT 0.015 20 200
+    p GRASS_TUFT 0.3 1 50
+    p TERMITE_MOUND 0.02 6 80
+
+place KILIMANJARO | KILIMANJARO | TANZANIA | MORNING
+    land 7AA050 6E9448 8A9A60
+    hills 16 4 4
+    drive 2 0.4 0.98 4
+    bends 0.5 0.4 0.5
+    p VOLCANO_CONE 0.006 350 650 1.6 2.0
+    c 6A625E F4F6FA
+    p BANANA 0.1 3 40
+    p BROADLEAF 0.08 4 60
+    c 4E8A3A
+    p ACACIA 0.04 10 120
+    p COTTAGE 0.01 10 80
+    c C89A70 8A8A90
+
+place ZANZIBAR | ZANZIBAR | TANZANIA | TROPICAL
+    sea 1 0 -3
+    water 30B0C0
+    land E8E0C8 DCD4BC 6A9A50
+    verge E0D8C0
+    drive 2 0.4 0.95 4
+    bends 0.4 0.35 0.15
+    p PALM 0.3 2 40
+    p SAILBOAT 0.03 40 200
+    c F4F0E4 8A6A4A
+    v 1
+    floating
+    p FLAT_HOUSE 0.015 8 60
+    c E8E2D2 3A6A9A
+    p BOAT 0.02 40 150
+    c 3A8AC8
+    pastel
+    floating
+
+place MURCHISON | MURCHISON FALLS | UGANDA | HAZE
+    sea 0 1 -6
+    water 5A6A58 0.8
+    land 8AA04A 809444 8A9A58
+    hills 14 4 -4
+    drive 2 0.2 0.93 12
+    bends 0.35 0.3 0.25
+    road A87A58 A87A58
+    posts 0
+    p WATERFALL 0.0 80 140 0.8 0.8
+    v 1
+    once
+    p ACACIA 0.05 8 150
+    p GIRAFFE 0.02 15 150
+    p ELEPHANT 0.01 20 150
+    p PALM 0.05 6 80
+    p BOAT 0.01 40 150
+    c F0F0F0 2A5A3A
+    floating
+    p GRASS_TUFT 0.3 1 40
+
+place TANGANYIKA | LAKE TANGANYIKA | BURUNDI | HAZE
+    sea 0 1 -6
+    water 2A6A8A
+    land 5E9A44 56903E 5E8A4A
+    hills 36 20 -4
+    drive 2 0.4 0.94 12
+    bends 0.6 0.5 0.55
+    p BANANA 0.2 3 60
+    p HUT 0.02 6 60
+    p FLAT_HOUSE 0.02 6 60
+    c C88A60 8A8A8A
+    p PALM 0.08 3 40
+    p BOAT 0.03 40 150
+    c 6A4A30 E8E0D0
+    floating
+    p EUCALYPTUS 0.06 6 80
+
+place SUDD | SUDD | SOUTH SUDAN | HAZE
+    land 8AA048 809442 8A9A58
+    water 5A6A50 0.7
+    hills 2 0 0 0.7
+    drive 2 0.08 0.86 12
+    bends 0.25 0.25 0.05
+    road 8A6A50 8A6A50
+    posts 0
+    p REEDS 0.4 2 60
+    p COW 0.05 6 80
+    v 2
+    p HUT 0.02 8 60
+    p ACACIA 0.02 10 120
+    p PALM 0.03 6 80
+
+place ERITREAN_HIGHLANDS | ASMARA ROAD | ERITREA | ALPINE
+    land A8945E 9C8A56 9A8A62
+    verge 8A7A60
+    ranges 6A6A70 9A9AA0 8
+    hills 40 30 -30
+    drive 2 0.25 0.96 12
+    bends 0.95 0.9 0.95
+    posts 0
+    p PRICKLY_PEAR 0.08 3 40
+    p TERRACES 0.02 30 150
+    c 9A8A50 8A7A5A
+    p SHRUB 0.15 2 60
+    c 7A8048
+    p CAMEL 0.01 10 80
+    p ROCK 0.12 3 60
+    p EUCALYPTUS 0.03 6 80
+
+place LAKE_ASSAL | LAKE ASSAL | DJIBOUTI | DESERT
+    sea 1 0 -6
+    water 3AC8C0
+    land F0EEE8 E6E4DC 3A3634
+    verge 3A3634
+    shine 0.35
+    hills 16 -2 12
+    drive 2 0.1 0.96 12
+    bends 0.35 0.3 0.3
+    posts 0
+    p LAVA_ROCK 0.2 3 80
+    p HILLOCK 0.02 3 11 0.3 0.5
+    c F4F2EC
+    p CAMEL 0.006 10 60
+
+place LAAS_GEEL | LAAS GEEL | SOMALIA | DESERT
+    land C8A878 BC9C70 B8A070
+    verge B88A60
+    road A88A68 A88A68
+    hills 14 4 4
+    drive 2 0.08 0.88 12
+    bends 0.35 0.3 0.25
+    posts 0
+    p GRANITE_DOME 0.006 60 250 0.4 0.7
+    v 1
+    p ACACIA 0.06 6 150
+    p CAMEL 0.03 8 120
+    p SHRUB 0.12 2 60
+    c 8A8A50
+    p HUT 0.006 8 60
+    p TERMITE_MOUND 0.01 4 60
+
+place NGORONGORO | NGORONGORO | TANZANIA | MORNING
+    clouds 0.45
+    land 8AA850 7E9C48 7A9A58
+    ranges 4A6A4A 7A9A80 9
+    hills 40 -30 20 0.15
+    water 8AA8B0
+    drive 2 0.15 0.9 12
+    bends 0.6 0.5 0.6
+    road A88A68 A88A68
+    posts 0
+    p ACACIA 0.06 8 150
+    p ZEBRA 0.06 10 150
+    p ELEPHANT 0.01 20 150
+    p HUT 0.006 10 60
+    p COW 0.02 10 80
+    v 2
+    p FLAMINGO 0.02 40 200

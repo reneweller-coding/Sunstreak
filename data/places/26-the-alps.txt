@@ -1,0 +1,57 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place LIECHTENSTEIN | LIECHTENSTEIN | LIECHTENSTEIN | MORNING
+    land 6AA848 609A42 749A5A
+    ranges 5E6E82 E2E8F2 12
+    hills 40 30 6
+    drive 2 0.6 1.0 3
+    bends 0.5 0.45 0.5
+    p CASTLE 0.005 60 160
+    c E8E2D4 8A4A3A
+    p VINE_ROW 0.35 6 30 1 1
+    p CHALET 0.03 8 80
+    c F0EADC 6A4A3A
+    p CHURCH 0.004 20 120
+    c EEE8DC 5A6070
+    p COW 0.04 10 80
+    p SPRUCE 0.15 30 150
+
+place FURKA_PASS | FURKA PASS | SWITZERLAND | ALPINE
+    land 7A9A5A 6E8E52 8A8A7A
+    verge 8A8A88
+    ranges 5A6476 F0F4FA 14
+    hills 60 40 -40
+    drive 2 0.3 0.98 3
+    bends 0.9 0.9 0.95
+    tunnels 0.08
+    posts 20
+    p PEAK 0.008 150 400 1.2 1.6
+    c 6A6C72 F4F6FA
+    p ROCK 0.25 3 60
+    p BOULDER 0.04 6 80
+    p SNOWBANK 0.08 1 6 0.6 1.0
+    p CHALET 0.0 12 20 1.2 1.2
+    c E8D8A0 7A5A44
+    once
+
+place GROSSGLOCKNER | GROSSGLOCKNER | AUSTRIA | ALPINE
+    land 6EA04C 649444 7A8E66
+    ranges 6A7488 F4F6FA 15
+    hills 60 30 -30
+    drive 2 0.5 0.98 3
+    bends 0.9 0.85 1.0
+    rails
+    tunnels 0.05
+    p PEAK 0.006 200 450 1.4 1.8
+    c 7A7C82 F6F8FA
+    p SNOWBANK 0.15 1 8 0.6 1.2
+    p ROCK 0.15 3 60
+    p SPRUCE 0.12 10 150
+    p COW 0.03 10 80
+    p CHALET 0.008 10 80
+    c 8A5A3A 4A3A30

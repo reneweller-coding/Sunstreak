@@ -1,0 +1,113 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place MONT_SAINT_MICHEL | MONT SAINT-MICHEL | FRANCE | MORNING
+    clouds 0.5
+    sea 1 1 -1.5
+    water 8A9A94 0.6
+    land 86A458 7C9A50 8A9A6A
+    hills 2 0 0
+    drive 2 0.5 1.0 6
+    bends 0.2 0.2 0.05
+    bridges 0.4 CAUSEWAY C8C4B8
+    landmark MONT_ST_MICHEL 220 320
+    floating
+    p SHEEP 0.06 3 12
+    p SAILBOAT 0.004 60 250
+    floating
+
+place DUNE_OF_PILAT | DUNE DU PILAT | FRANCE | GOLDEN
+    sea 0 1 -3
+    water 2A7A9A
+    land 6E9050 648648 E2D2A8
+    verge E0D2B0
+    hills 6 2 0
+    drive 2 0.6 0.98 0
+    bends 0.35 0.3 0.3
+    p DUNE 0.05 4 11 1.4 2.0
+    c EADAB4
+    p PINE 0.45 4 150
+    p UMBRELLA_PINE 0.08 4 80
+    p PARASOL 0.03 3 11
+    pastel
+    p SAILBOAT 0.01 60 250
+    floating
+    p COTTAGE 0.006 10 60
+    c F4F0E4 B8584A
+
+place ALPE_D_HUEZ | ALPE D HUEZ | FRANCE | ALPINE
+    land 6AA44A 609842 749660
+    ranges 66748A EAEEF6 13
+    hills 50 30 -24
+    drive 2 0.4 0.98 3
+    bends 0.95 0.95 1.0
+    rails
+    p PEAK 0.005 220 480 1.2 1.6
+    c 7A7C82 F4F6FA
+    p SPRUCE 0.25 6 120
+    p CHALET 0.02 10 70
+    c 8A5A36 4A3A30
+    p FLOWER_BUSH 0.04 2 20 0.4 0.6
+    c E8D84A
+    p BILLBOARD 0.002 5 12
+
+place VERDON | GORGES DU VERDON | FRANCE | NOON
+    land 8E9E5A 84944E A0A070
+    verge D8D2C2
+    sea 0 1 -90
+    water 2ABAA8
+    hills 40 30 -60
+    drive 2 0.3 0.98 6
+    bends 0.75 0.7 0.6
+    tunnels 0.12
+    rails
+    bridges 0.1 ARCH D8D0BC
+    p SHRUB 0.35 2 60 0.6 1.0
+    c 6E7E48
+    p CHALK_ROCK 0.02 10 120
+    p OLIVE 0.04 6 60
+    p FLOWER_BUSH 0.06 3 30 0.6 0.9
+    c 8A6AC8
+    p COTTAGE 0.004 20 100
+    c E8D8B8 B0583A
+
+place COL_DE_TURINI | COL DE TURINI | FRANCE | NIGHT
+    windows FFD696
+    lamps 0
+    land D8DEE6 6A7A5A 5A6A54
+    verge C8CED8
+    hills 40 20 -20
+    drive 2 0.2 0.86 2
+    bends 0.95 0.9 0.85
+    kerbs E02020 F0F0F0
+    p SPRUCE 0.45 4 150
+    p SNOWBANK 0.25 0.5 3 0.7 1.2
+    p CHALET 0.01 10 60
+    c E8E0D0 6A5040
+    p BILLBOARD 0.004 4 10
+    p ROCK 0.08 3 40
+
+place CORSICA | CORSICA | FRANCE | NOON
+    sea 0 1 -24
+    water 1E7A9E
+    land 7E8E52 74844A 8A8A60
+    verge C8907A
+    hills 36 24 -20
+    drive 2 0.4 0.97 6
+    bends 0.85 0.75 0.7
+    bridges 0.06 ARCH A8A098
+    p SHRUB 0.45 2 80 0.6 1.0
+    c 5E7040
+    p BOULDER 0.05 6 80
+    p WATCHTOWER 0.004 30 120
+    c B8A88A
+    v 1
+    p UMBRELLA_PINE 0.04 6 80
+    p CHURCH 0.003 30 150
+    c D8CCB8 8A6A58
+    p SAILBOAT 0.01 60 250
+    floating

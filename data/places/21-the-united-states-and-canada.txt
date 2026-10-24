@@ -1,0 +1,762 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place ROUTE_66 | ROUTE 66 | USA | GOLDEN
+    land C8A47A BC9872 B89A7A
+    drive 2 0.4 1.0 7
+    bends 0.15 0.2 0.2
+    p DINER 0.004 15 40
+    p MOTEL_SIGN 0.006 8 20
+    p GAS_STATION 0.003 15 40
+    p POLE 0.15 6 6 1 1
+    p BILLBOARD 0.006 8 30
+    p CACTUS 0.02 6 80
+    p SHRUB 0.15 2 60
+    c 9A9A6A
+    p MESA 0.006 100 300
+    p WATER_TOWER 0.003 40 120
+    c D8D8D8
+
+place LAS_VEGAS | LAS VEGAS | USA | NIGHT
+    land 3A3028 362C24 302820
+    road 3A3A40
+    drive 4 1.4 1.0 1
+    bends 0.2 0.2 0.1
+    lamps 30
+    posts 0
+    p CASINO 0.08 20 120
+    p GLASS_TOWER 0.04 30 200
+    c C8A060
+    p PALM 0.2 2 6
+    p MOTEL_SIGN 0.03 8 16
+    p BILLBOARD 0.03 6 30
+
+place DEATH_VALLEY | DEATH VALLEY | USA | DESERT
+    fog 0.0012 E8D8C0
+    land D8C8A8 CCBC9E C0A888
+    fields 0.3 F2F0E8 E8E4D8 D8CCB8
+    shine 0.2
+    ranges 8A6A5A B09080 7
+    drive 2 0.15 0.97 7
+    bends 0.25 0.25 0.25
+    p DUNE 0.015 30 200
+    c E0C8A0
+    p ROCK 0.08 3 60
+    p SHRUB 0.05 3 60 0.4 0.6
+    c 9A9A70
+
+place JOSHUA_TREE | JOSHUA TREE | USA | GOLDEN
+    land C8B08A BCA482 B8A888
+    drive 2 0.2 1.0 7
+    bends 0.35 0.3 0.3
+    p JOSHUA_TREE 0.12 5 150
+    p KOPJE 0.015 20 200
+    p SHRUB 0.1 2 60
+    c 9A9A70
+    p ROCK 0.06 3 60
+
+place BIG_SUR | BIG SUR | USA | MORNING
+    fog 0.0018
+    sea 1 0 -40
+    water 1E5A8A
+    hills 30 0 30
+    land 8A9A58 7E8E50 6A8A50
+    drive 2 0.5 0.98 6
+    bends 0.8 0.65 0.7
+    bridges 0.15 ARCH D8D4CC
+    p REDWOOD 0.03 20 80
+    p SHRUB 0.3 2 60
+    c 7A8A58
+    p BROADLEAF 0.04 4 60
+    c 4E7A3A
+    p SEA_STACK 0.01 40 200
+    c 8A8076
+    floating
+
+place YOSEMITE | YOSEMITE | USA | ALPINE
+    land 6A9A50 608E48 7A9060
+    hills 30 14 14 0.1
+    ranges 8A8A8A D8D8D8 10
+    drive 2 0.4 0.98 7
+    bends 0.6 0.5 0.6
+    tunnels 0.1
+    p GRANITE_DOME 0.008 150 400 0.8 1.2
+    v 0
+    p PINE 0.3 4 150
+    p SPRUCE 0.1 6 150
+    p ROCK 0.05 3 50
+
+place REDWOODS | REDWOODS | USA | MIST
+    rain 0.05
+    land 4E7A3E 467036 3E6A3A
+    drive 2 0.3 0.95 6
+    bends 0.6 0.45 0.4
+    p REDWOOD 0.4 4 80 0.9 1.3
+    p FERN 0.4 1 30
+
+place CASCADES | CASCADES | USA | RAIN
+    rain 0.2
+    land 4E8A44 467E3E 4A7A48
+    hills 36 12 12 0.1
+    drive 2 0.4 0.92 6
+    bends 0.6 0.5 0.6
+    tunnels 0.1
+    bridges 0.15 TRUSS 4A6A5A
+    p SPRUCE 0.55 3 150
+    p VOLCANO_CONE 0.004 350 650 1.6 2.0
+    c 5A6070 F4F6FA
+
+place YELLOWSTONE | YELLOWSTONE | USA | MORNING
+    land 8A9A60 7E8E58 8A8E68
+    hills 20 4 4 0.15
+    water 2A9AB8
+    fields 0.15 E8A040 3AA8C8 E8D8A0
+    drive 2 0.4 0.98 6
+    bends 0.45 0.4 0.35
+    p GEYSER 0.015 30 250
+    p SPRUCE 0.3 10 150
+    p BISON 0.05 10 120
+    p DEAD_TREE 0.05 6 80
+
+place GRAND_CANYON | GRAND CANYON | USA | GOLDEN
+    land C89A6A BC8E62 B0866A
+    hills 14 -50 4
+    ranges B8604A D8906A 8
+    drive 2 0.3 1.0 7
+    bends 0.45 0.4 0.35
+    p BADLAND 0.01 100 300
+    c D8A070 B8603A
+    p PINE 0.08 4 60 0.5 0.8
+    p SHRUB 0.1 2 60
+    c 8A9A6A
+    p BUTTE 0.004 150 400
+
+place ARCHES | ARCHES | USA | NOON
+    land D8865A CC7C52 D0906A
+    verge C8805A
+    drive 2 0.3 1.0 7
+    bends 0.45 0.4 0.45
+    p ARCH 0.015 40 250 0.8 1.3
+    p BUTTE 0.006 80 300
+    p MESA 0.004 100 300
+    p ROCK 0.08 3 60
+    p SHRUB 0.08 2 60
+    c 8A9A6A
+    p PINE 0.03 4 60 0.4 0.6
+
+place BADLANDS | BADLANDS | USA | GOLDEN
+    land C8B898 BCAC8E B8A888
+    drive 2 0.2 1.0 7
+    bends 0.4 0.35 0.4
+    p BADLAND 0.04 20 250 0.7 1.5
+    p GRASS_TUFT 0.2 1 50
+    p BISON 0.02 30 150
+
+place WEST_TEXAS | WEST TEXAS | USA | GOLDEN
+    land B8A878 AC9C70 A89A78
+    drive 2 0.4 1.0 7
+    bends 0.1 0.15 0.15
+    p PUMPJACK 0.03 15 150
+    p WIND_PUMP 0.008 15 120
+    p COW 0.03 10 120
+    v 1
+    p SHRUB 0.15 2 60
+    c 8A9A60
+    p WINDMILL 0.01 60 300
+    p FENCE 0.4 6 6 1 1
+    p WATER_TOWER 0.002 40 150
+    c D8D8D8
+
+place FLORIDA_KEYS | FLORIDA KEYS | USA | TROPICAL
+    sea 1 1 -2
+    water 30C0C8
+    land E8E0C8 DCD4BC DCD4BC
+    verge E0D8C4
+    hills 0 0 0
+    drive 2 0.5 1.0 6
+    bends 0.15 0.2 0.05
+    bridges 0.5 CAUSEWAY E0E0DA
+    p PALM 0.2 1 8
+    p MANGROVE 0.05 1 10
+    p BOAT 0.02 40 150
+    c 3A8AC8
+    pastel
+    floating
+    p SAILBOAT 0.01 60 250
+    floating
+
+place MIAMI | MIAMI BEACH | USA | TROPICAL
+    sea 1 0 -2
+    water 2AB0C8
+    land E8DCC0 DCD0B4 6A9A5A
+    drive 3 1.1 1.0 0
+    bends 0.25 0.25 0.05
+    lamps 30
+    posts 0
+    p FLAT_HOUSE 0.08 3 20
+    c F0D8B0 F0F0F0
+    pastel
+    v 1
+    p PALM 0.3 2 10
+    p GLASS_TOWER 0.05 30 150
+    c 9AC0D8
+    p PARASOL 0.04 2 10
+    pastel
+
+place SMOKY_MOUNTAINS | SMOKY MOUNTAINS | USA | HAZE
+    fog 0.0022 9AB0C8
+    land 5E8A44 56803E 507A48
+    hills 36 10 10
+    ranges 4A6080 8AA0C0 8
+    drive 2 0.4 0.97 6
+    bends 0.75 0.6 0.7
+    p BROADLEAF 0.3 3 150
+    c 4E8A3A
+    p SPRUCE 0.1 10 150
+    p COTTAGE 0.01 10 80
+    c 8A6A4A 4A4A50
+
+place NEW_YORK | NEW YORK | USA | MORNING
+    land 6A7A6A 627262 5A6A5A
+    drive 4 1.5 0.98 1
+    bends 0.3 0.3 0.15
+    lamps 30
+    posts 0
+    tunnels 0.15
+    bridges 0.25 SUSPENSION 8A9AA8
+    p GLASS_TOWER 0.2 10 200
+    c 7A8A9A
+    p GLASS_TOWER 0.1 10 200
+    c C8B8A0
+    p ROW_HOUSES 0.06 6 30
+    c A86A4A 4A4A50
+    p SUPERTALL 0.002 200 400
+    landmark LIBERTY 120 200
+
+place MAINE_COAST | MAINE COAST | USA | MORNING
+    sea 1 0 -6
+    water 1E4A6A
+    land 5E8A48 567E42 4E7A48
+    drive 2 0.4 0.98 6
+    bends 0.6 0.5 0.45
+    bridges 0.1 TRUSS 4A6A5A
+    p LIGHTHOUSE 0.006 20 100
+    p SPRUCE 0.4 4 120
+    p ROCK 0.15 2 40
+    p COTTAGE 0.015 8 60
+    c F2F0EA 4A4A50
+    p COTTAGE 0.01 8 60
+    c A83A30 4A4A50
+    p BOAT 0.03 40 150
+    c F0F0F0 2A4A6A
+    v 1
+    floating
+
+place NEWFOUNDLAND | NEWFOUNDLAND | CANADA | OVERCAST
+    sea 1 0 -10
+    water 2A4A6A
+    land 7A8A58 6E7E50 6A7A58
+    drive 2 0.3 0.95 6
+    bends 0.55 0.45 0.5
+    p ROW_HOUSES 0.04 6 40
+    c D84A3A 3A3A40
+    pastel
+    v 0
+    p ROCK 0.15 2 60
+    p SPRUCE 0.15 6 100 0.5 0.7
+    p ICEBERG 0.006 50 300
+    floating
+    p BOAT 0.02 40 150
+    c 3A8AC8
+    pastel
+    floating
+
+place PRAIRIES | PRAIRIES | CANADA | MORNING
+    land 8AAA50 7E9E48 9AAA60
+    fields 0.9 F0D830 8AB04A C8B060
+    hills 3 1 1
+    drive 2 0.4 1.0 3
+    bends 0.1 0.15 0.1
+    p GRAIN_ELEVATOR 0.004 40 150
+    c A83A30 3A3A40
+    p SILO 0.01 30 150
+    p BARN 0.005 30 150
+    p COTTAGE 0.004 30 150
+    c F2F0EA 4A4A50
+
+place BANFF | BANFF | CANADA | ALPINE
+    land 5E9046 56863E 5E8050
+    hills 40 14 14 0.25
+    water 2AB8C8
+    ranges 6A7A8A F2F4F8 15
+    drive 2 0.4 0.98 3
+    bends 0.5 0.45 0.5
+    bridges 0.1 ARCH 8A8A80
+    p SPRUCE 0.5 3 150
+    p PEAK 0.005 250 550 1.2 1.6
+    c 8A8A90 F4F6FA
+    p MOOSE 0.01 10 80
+
+place DENALI | DENALI | ALASKA | ARCTIC
+    land 8A9A58 7E8E50 A08A5A
+    fields 0.3 B8603A C8A040 7A8A4A
+    ranges B8C0CC E8ECF4 12
+    drive 2 0.15 0.97 3
+    bends 0.4 0.35 0.35
+    p PEAK 0.004 400 700 2.0 2.4
+    c E8ECF2 F8F8FA
+    p SPRUCE 0.15 4 150 0.5 0.8
+    p MOOSE 0.02 10 100
+
+place LA_FREEWAY | LOS ANGELES | USA | HAZE
+    fog 0.0022 D8C8B0
+    land 8A9A60 809058 9A9470
+    drive 4 1.8 1.0 0
+    bends 0.25 0.25 0.15
+    gantries 500
+    posts 0
+    lamps 40
+    p WAX_PALM 0.2 2 20
+    p GLASS_TOWER 0.04 60 250
+    c 7A9AB0
+    p BILLBOARD 0.03 4 12
+    p FLAT_HOUSE 0.08 6 60
+    c F0E0C8 C85A3A
+    pastel
+    p SHRUB 0.1 2 60
+    c 7A8A50
+
+place HOLLYWOOD | HOLLYWOOD HILLS | USA | GOLDEN
+    land 9A9A58 909050 A0986A
+    hills 30 20 -10
+    drive 2 0.7 0.98 0
+    bends 0.85 0.75 0.7
+    lamps 50
+    landmark HOLLYWOOD_SIGN 150 250
+    p WAX_PALM 0.12 2 30
+    p FLAT_HOUSE 0.06 6 60
+    c F4F2EA 4A4A50
+    p SHRUB 0.25 2 60
+    c 7A8048
+    p GLASS_TOWER 0.006 150 300
+    c 7A9AB0
+
+place NAPA | NAPA VALLEY | USA | GOLDEN
+    land 9AA058 909450 A89A62
+    hills 20 6 6
+    drive 2 0.5 1.0 24
+    bends 0.35 0.3 0.3
+    p VINE_ROW 0.85 5 12 1 1
+    p VINE_ROW 0.8 14 21 1 1
+    p VINE_ROW 0.6 23 40 1 1
+    p OAK 0.05 40 150
+    p ADOBE 0.008 30 120
+    c E8DCC0 C85A3A
+
+place SAN_FRANCISCO | SAN FRANCISCO | USA | MIST
+    fog 0.003 E0E4E8
+    sea 0 1 -8
+    water 3A5A6A
+    land 6A8A58 628050 6A7A62
+    drive 3 1.1 0.98 0
+    bends 0.35 0.4 1.0
+    lamps 35
+    posts 0
+    bridges 0.5 SUSPENSION C0402C
+    p ROW_HOUSES 0.2 3 30
+    c E8C8A0 5A5A60
+    pastel
+    p GLASS_TOWER 0.05 40 250
+    c 8AA0B0
+    p CYPRESS 0.04 4 40
+    p SAILBOAT 0.02 40 200
+    floating
+
+place OREGON_COAST | OREGON COAST | USA | OVERCAST
+    clouds 0.7
+    sea 0 1 -10
+    water 2A5068
+    land 5E8A44 56803E 4E7A48
+    verge E0D8C4
+    hills 24 10 -6
+    drive 2 0.4 0.98 24
+    bends 0.55 0.45 0.45
+    bridges 0.2 ARCH D8D8D0
+    p SEA_STACK 0.02 40 200 0.8 1.4
+    c 3A3A3E
+    floating
+    p SPRUCE 0.45 4 150
+    p LIGHTHOUSE 0.004 20 100
+    p COTTAGE 0.01 8 60
+    c C8B898 4A4A50
+
+place SEATTLE | SEATTLE | USA | RAIN
+    rain 0.3
+    sea 0 1 -4
+    water 2A4A5A
+    land 5E8A4A 568044 4E7A4A
+    drive 3 1.3 0.95 1
+    bends 0.35 0.35 0.35
+    lamps 30
+    posts 0
+    landmark SPACE_NEEDLE 60 120
+    p GLASS_TOWER 0.1 20 250
+    c 6A8AA0
+    p SPRUCE 0.15 4 100
+    p VOLCANO_CONE 0.002 450 650 2.2 2.6
+    c 8A8A90 F4F6FA
+    p SHIP 0.004 80 250
+    floating
+
+place GOING_TO_THE_SUN | GOING TO THE SUN ROAD | USA | ALPINE
+    land 6A9A48 609040 6E8E58
+    verge 8A8478
+    ranges 4A5464 E8ECF4 14
+    hills 60 60 -50
+    drive 2 0.3 0.97 24
+    bends 0.8 0.7 0.85
+    tunnels 0.1
+    p STONE_WALL 0.5 2 2 1 1
+    p WATERFALL 0.008 6 12 0.12 0.2
+    v 1
+    p PEAK 0.008 150 400 1.2 1.6
+    c 6A5A50 F4F6FA
+    p SPRUCE 0.2 10 150
+    p ROCK 0.1 3 50
+
+place TETONS | GRAND TETON | USA | MORNING
+    land 9AA068 8E9460 8A9468
+    ranges 4A5464 E8ECF4 15
+    hills 6 2 2
+    drive 2 0.3 1.0 24
+    bends 0.25 0.25 0.2
+    p PEAK 0.008 200 450 1.4 1.8
+    c 5A5E66 F4F6FA
+    p BISON 0.03 10 120
+    p BARN 0.004 30 150
+    p SHRUB 0.3 2 80 0.4 0.7
+    c 9AA088
+    p SPRUCE 0.08 20 150
+    p RANCH_FENCE 0.2 6 6 1 1
+
+place BONNEVILLE | BONNEVILLE SALT FLATS | USA | NOON
+    land F4F2EC EAE8E2 E8E6E0
+    verge F0EEE8
+    shine 0.4
+    ranges 7A7A88 C8CCD8 6
+    hills 0 0 0
+    drive 2 0.05 1.0 24
+    bends 0.02 0.1 0.0
+    posts 100
+    p MAILBOX 0.002 3 6
+    p ROCK 0.004 20 200
+
+place SEDONA | SEDONA | USA | GOLDEN
+    land B8704A AC6844 A8704E
+    verge B86A44
+    hills 20 6 6
+    drive 2 0.5 0.98 24
+    bends 0.45 0.4 0.4
+    p MONOLITH 0.006 150 400 0.6 1.0
+    c B85A3A
+    p BUTTE 0.006 100 300
+    p SHRUB 0.3 2 80
+    c 5E7A48
+    p AGAVE 0.05 3 40
+    p ADOBE 0.01 10 60
+    c C8806A 8A5A44
+
+place WHITE_SANDS | WHITE SANDS | USA | NOON
+    land F4F2EC EAE8E0 EEECE6
+    verge F4F2EC
+    shine 0.15
+    ranges 6A6A80 B8BCCC 6
+    hills 6 2 2
+    drive 2 0.15 0.9 24
+    bends 0.3 0.3 0.3
+    road B8B0A2 B8B0A2
+    sand
+    posts 0
+    p DUNE 0.08 35 300 0.6 1.6
+    c F6F4EE
+    p AGAVE 0.03 3 60 0.6 0.9
+
+place PIKES_PEAK | PIKES PEAK | USA | ALPINE
+    land 7A8A58 6E7E50 8A7A66
+    verge A87A5A
+    ranges 5A5E70 E8ECF4 9
+    hills 50 40 -40
+    drive 2 0.3 0.97 24
+    bends 1.0 0.95 1.0
+    posts 0
+    p PINE 0.2 4 150
+    p ROCK 0.25 3 60
+    c A87A5A
+    p BOULDER 0.04 6 80
+    p SNOWBANK 0.05 1 6
+
+place MILLION_DOLLAR | MILLION DOLLAR HIGHWAY | USA | ALPINE
+    land 6A9A48 609040 6E8E58
+    verge 9A6A4A
+    ranges 4A5464 E8ECF4 13
+    hills 60 50 -60
+    drive 2 0.25 0.95 24
+    bends 0.9 0.85 0.95
+    posts 0
+    p PEAK 0.008 150 400 1.2 1.6
+    c A85A3A F4F6FA
+    p SPRUCE 0.3 6 150
+    p BARN 0.003 20 100
+    p ROCK 0.1 3 50
+
+place MOUNT_RUSHMORE | BLACK HILLS | USA | MORNING
+    land 7A9A50 709048 6A8458
+    hills 34 14 14
+    drive 2 0.4 0.98 24
+    bends 0.7 0.6 0.7
+    tunnels 0.2
+    bridges 0.15 BEAM
+    p PINE 0.4 4 150
+    p GRANITE_DOME 0.006 80 300 0.4 0.7
+    v 0
+    p PILLAR 0.02 30 200
+    p BISON 0.02 10 120
+
+place CHICAGO | CHICAGO | USA | OVERCAST
+    sea 1 0 -3
+    water 3A6A7A
+    land 6A7A62 627258 5A6A5A
+    drive 4 1.5 0.98 1
+    bends 0.2 0.25 0.05
+    lamps 30
+    posts 0
+    bridges 0.3 TRUSS 3A4A5A
+    p GLASS_TOWER 0.2 10 250
+    c 3A4A5A
+    p SUPERTALL 0.003 150 350
+    p ROW_HOUSES 0.04 6 30
+    c A86A4A 4A4A50
+    p BROADLEAF 0.06 2 12
+    c 5A8A40
+
+place NEW_ORLEANS | LAKE PONTCHARTRAIN | USA | HAZE
+    sea 1 1 -2
+    water 5A7A7A 0.9
+    land 6A8A48 608040 5E7A4A
+    hills 0 0 0
+    drive 2 0.5 1.0 24
+    bends 0.05 0.1 0.0
+    bridges 0.9 CAUSEWAY C8C8C0
+    posts 0
+    p MOSS_TREE 0.06 3 11
+    p BOAT 0.01 40 200
+    c F0F0F0 2A4A6A
+    floating
+    p SAILBOAT 0.005 60 300
+    floating
+
+place TAIL_OF_THE_DRAGON | TAIL OF THE DRAGON | USA | MORNING
+    land 5E8A44 56803E 4E7A48
+    hills 30 14 10
+    drive 2 0.4 0.98 24
+    bends 1.0 0.85 0.6
+    rails
+    p BROADLEAF 0.5 3 150
+    c 3E7A34
+    p SPRUCE 0.1 6 150
+    p BILLBOARD 0.004 4 10
+    p CABIN 0.004 10 60
+
+place BLUE_RIDGE | BLUE RIDGE PARKWAY | USA | HAZE
+    fog 0.0024 9AB0D0
+    land 6A9A48 609040 5E8A4A
+    ranges 3A5A8A 7A9AC8 9
+    hills 30 14 -20
+    drive 2 0.3 0.98 24
+    bends 0.6 0.5 0.6
+    bridges 0.1 ARCH 8A8278
+    posts 0
+    p BROADLEAF 0.3 3 150
+    c 4E8A3A
+    p STONE_WALL 0.2 2 2 1 1
+    p CABIN 0.006 10 60
+    p RANCH_FENCE 0.15 6 6 1 1
+    p FLOWER_BUSH 0.05 2 30
+    c E88AB0
+
+place WASHINGTON_DC | WASHINGTON | USA | MORNING
+    land 6A9A50 609048 6A8A5A
+    drive 3 1.2 1.0 1
+    bends 0.25 0.3 0.1
+    lamps 30
+    posts 0
+    bridges 0.1 ARCH D8D4CC
+    landmark CAPITOL 100 160
+    landmark OBELISK 120 200
+    p CHERRY 0.15 2 30
+    p COLUMNS 0.01 10 60
+    p ROW_HOUSES 0.06 6 30
+    c A86A4A 4A4A50
+    p BROADLEAF 0.1 4 80
+    c 5A8A40
+
+place HANA | ROAD TO HANA | HAWAII | TROPICAL
+    sea 0 1 -20
+    water 1E7AB0
+    land 3E8A32 38802C 3E7A3A
+    hills 40 30 -20
+    drive 2 0.4 0.95 16
+    bends 0.95 0.9 0.6
+    bridges 0.4 BEAM
+    posts 0
+    p WATERFALL 0.008 6 12 0.12 0.2
+    v 1
+    p JUNGLE_TREE 0.3 4 150
+    p BANANA 0.12 2 30
+    p EUCALYPTUS 0.05 4 60
+    p TREE_FERN 0.08 2 30
+
+place DALTON | DALTON HIGHWAY | ALASKA | ARCTIC
+    land 8A9A58 7E8E50 8A8A60
+    verge 8A8478
+    road 8A8680 8A8680
+    ranges 8A92A0 E0E6EE 8
+    hills 14 4 4
+    drive 2 0.08 0.84 24
+    bends 0.25 0.25 0.35
+    posts 0
+    p PIPELINE 1.0 11 11 1 1
+    p SPRUCE 0.08 6 150 0.5 0.8
+    p MOOSE 0.01 10 100
+    p SHRUB 0.2 2 60
+    c 8A7A48
+    p WARNING_SIGN 0.003 1 1 1 1
+    v 2
+
+place YUKON | KLONDIKE HIGHWAY | CANADA | ARCTIC
+    sea 0 0.5 -8
+    water 3A6A7A
+    land 6A8A48 608040 5E7A4A
+    ranges 5A6476 E8ECF4 10
+    hills 24 8 -4
+    drive 2 0.12 0.95 24
+    bends 0.4 0.35 0.4
+    p SPRUCE 0.4 4 150
+    p CABIN 0.006 10 60
+    p MOOSE 0.01 10 100
+    p BIRCH 0.06 4 60
+
+place ICEFIELDS | ICEFIELDS PARKWAY | CANADA | ALPINE
+    sea 0 0.6 -4
+    water 2AB8C8
+    land 5E9046 56863E 5E8050
+    ranges 6A7A8A F2F4F8 16
+    hills 40 14 14 0.2
+    drive 2 0.3 0.98 24
+    bends 0.4 0.35 0.4
+    p PEAK 0.01 150 450 1.3 1.8
+    c 7A7C82 F4F6FA
+    p SPRUCE 0.45 3 150
+    p MOOSE 0.01 10 80
+    p WARNING_SIGN 0.003 1 1 1 1
+    v 2
+
+place SEA_TO_SKY | SEA TO SKY HIGHWAY | CANADA | MIST
+    sea 0 1 -20
+    water 2A5A6A
+    land 4E8040 46763A 4A7044
+    ranges 4A5464 D8DEE8 12
+    hills 50 40 -20
+    drive 2 0.7 0.98 24
+    bends 0.65 0.55 0.55
+    rails
+    p GRANITE_DOME 0.0 120 200 1.4 1.4
+    v 0
+    once
+    p SPRUCE 0.45 4 150
+    p WATERFALL 0.004 30 120 0.4 0.6
+    v 1
+    p SHIP 0.002 100 300 0.6 0.8
+    floating
+
+place NIAGARA | NIAGARA FALLS | CANADA | MORNING
+    sea 0 1 -20
+    water 4A8A9A
+    land 6A9A50 609048 6A8A5A
+    drive 3 1.0 0.98 24
+    bends 0.3 0.3 0.15
+    lamps 35
+    posts 0
+    p WATERFALL 0.0 50 100 1.2 1.2
+    v 0
+    once 2
+    floating
+    p CASINO 0.01 20 120
+    p GLASS_TOWER 0.04 20 150
+    c 7A9AB0
+    p TV_TOWER 0.002 60 200 0.6 0.7
+    v 0
+    p BOAT 0.01 40 120
+    c 2A5AAA F0F0F0
+    floating
+    p BROADLEAF 0.1 2 30
+    c 5A8A40
+
+place TORONTO | TORONTO | CANADA | MORNING
+    sea 1 0 -3
+    water 2A6A8A
+    land 6A7A62 627258 5A6A5A
+    drive 4 1.5 0.98 1
+    bends 0.2 0.25 0.05
+    lamps 30
+    posts 0
+    gantries 600
+    p TV_TOWER 0.0 80 120 1.4 1.4
+    v 0
+    once
+    p GLASS_TOWER 0.18 15 250
+    c 4A6A8A
+    p ROW_HOUSES 0.04 6 30
+    c A86A4A 4A4A50
+    p SAILBOAT 0.01 40 200
+    floating
+
+place QUEBEC_CITY | QUEBEC CITY | CANADA | WINTER
+    snow 0.4
+    sea 0 1 -20
+    water 5A6A7A
+    land E0E4EA D4DAE2 C8D0DA
+    verge C8CCD2
+    hills 20 10 -10
+    drive 2 0.7 0.9 24
+    bends 0.4 0.4 0.4
+    lamps 30
+    posts 0
+    p CASTLE 0.0 60 100 1.4 1.4
+    c A85A3A 3A6A5A
+    once
+    p ROW_HOUSES 0.15 4 30
+    c C8B8A0 3A6A5A
+    pastel
+    p CHURCH 0.004 20 120
+    c C8C0B0 6A8AA0
+    p SNOWBANK 0.2 0.5 3 0.8 1.4
+
+place CABOT_TRAIL | CABOT TRAIL | CANADA | GOLDEN
+    sea 0 1 -40
+    water 1E4A6A
+    land 7A8A48 708040 8A7A50
+    hills 40 30 -30
+    drive 2 0.3 0.98 24
+    bends 0.75 0.65 0.8
+    p AUTUMN_TREE 0.4 3 150
+    p SPRUCE 0.15 6 150
+    p LIGHTHOUSE 0.003 20 100
+    p COTTAGE 0.01 8 60
+    c F2F0EA A83A2A
+    p CHURCH 0.003 20 100
+    c F4F2EA 4A4A50

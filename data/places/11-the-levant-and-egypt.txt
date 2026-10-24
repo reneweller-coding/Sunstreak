@@ -1,0 +1,89 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place WADI_RUM | WADI RUM | JORDAN | GOLDEN
+    land D87A48 CC7042 D89060
+    verge C87048
+    drive 2 0.1 0.95 7
+    bends 0.35 0.3 0.3
+    p ARCH 0.006 50 200
+    c C8704A
+    p MESA 0.01 60 300
+    p DUNE 0.015 20 150
+    c D87A48
+    p CAMEL 0.02 15 100
+    v 0
+    p ROCK 0.08 3 60
+
+place DEAD_SEA | DEAD SEA | JORDAN | HAZE
+    fog 0.0025 C8C0B0
+    sea 0 1 -8
+    water 6AA8B0
+    land C8B898 BCAC8E B0A080
+    fields 0.2 F4F2EA E8E4DC D8D0C0
+    ranges A89A90 C8C0B8 7
+    hills 20 16 0
+    drive 2 0.3 0.98 2
+    bends 0.4 0.35 0.3
+    p DATE_PALM 0.03 6 60
+    p ROCK 0.05 3 60
+
+place GIZA | GIZA PLATEAU | EGYPT | DESERT
+    land DCC090 D0B488 D8BC90
+    verge D0B488
+    drive 3 0.8 0.97 7
+    bends 0.3 0.3 0.2
+    p STONE_PYRAMID 0.006 120 400 0.9 1.4
+    p CAMEL 0.03 10 100
+    v 0
+    p DATE_PALM 0.03 6 60
+    p FLAT_HOUSE 0.01 10 80
+    c C8B090 8A6A4A
+    landmark SPHINX 40 80
+
+place NILE_VALLEY | NILE VALLEY | EGYPT | NOON
+    sea 0 1 -4
+    water 3A6A80
+    land 6AA048 5E9440 D8BC90
+    fields 0.6 6AAA44 9AB050 D8C890
+    ranges D8B890 E8D8B8 5
+    drive 2 0.6 0.98 7
+    bends 0.35 0.3 0.1
+    p DATE_PALM 0.3 3 60
+    p SAILBOAT 0.03 40 160
+    c F4F2EA 6A4A30
+    v 1
+    floating
+    p FLAT_HOUSE 0.015 10 80
+    c C8A880 6A6A70
+    p COW 0.02 8 60
+    v 2
+
+place WHITE_DESERT | WHITE DESERT | EGYPT | DESERT
+    land EAE4D4 E0D8C6 D8CCB0
+    verge E0D8C6
+    ranges E0D6C0 F0EAE0 3
+    drive 2 0.05 0.95 2
+    bends 0.3 0.3 0.2
+    p CHALK_ROCK 0.05 10 150 0.8 2.0
+    p ROCK 0.03 3 60
+    p DUNE 0.01 30 200
+    c E8D8B8
+
+place CEDARS | CEDAR MOUNTAINS | LEBANON | ALPINE
+    land 7A9A58 6E8E50 8A8E70
+    ranges 8A8A90 F0F2F6 10
+    hills 40 10 10
+    drive 2 0.4 0.98 6
+    bends 0.7 0.6 0.75
+    p CEDAR 0.2 6 100
+    p ROCK 0.1 3 60
+    p STONE_WALL 0.2 3 3 1 1
+    p FLAT_HOUSE 0.01 10 80
+    c E0D8C0 A8583A
+    p CHURCH 0.003 30 150
+    c D8CCB0 8A6A50

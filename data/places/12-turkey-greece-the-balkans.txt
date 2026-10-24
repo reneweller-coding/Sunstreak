@@ -1,0 +1,186 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place CAPPADOCIA | CAPPADOCIA | TURKEY | GOLDEN
+    sun 10 20
+    land D8C0A0 CCB494 B8A890
+    verge D0B898
+    hills 24 10 10
+    drive 2 0.3 0.98 6
+    bends 0.55 0.45 0.5
+    p FAIRY_CHIMNEY 0.04 8 150 0.8 1.6
+    p BALLOON 0.03 0 400 0.8 1.2
+    pastel
+    p VINE_ROW 0.1 8 50 1 1
+    p BROADLEAF 0.03 4 60 0.6 0.8
+    c 7A9A4A
+
+place LYCIAN_COAST | LYCIAN COAST | TURKEY | NOON
+    sea 1 0 -16
+    water 1E9AB8
+    land 6E9A4E 64904A 7A8A5C
+    hills 30 0 20
+    drive 2 0.4 0.98 6
+    bends 0.75 0.6 0.6
+    tunnels 0.08
+    p PINE 0.25 3 80
+    p UMBRELLA_PINE 0.05 5 60
+    p COLUMNS 0.004 10 80
+    p FLAT_HOUSE 0.02 8 60
+    c F2EEE4 3A6A9A
+    p SAILBOAT 0.02 40 200
+    c F4F2EA 8A5A3A
+    floating
+
+place ISTANBUL | ISTANBUL | TURKEY | GOLDEN
+    sea 0 1 -6
+    water 2A5A80
+    land 7A8A6A 728262 8A8A7A
+    drive 3 1.3 0.97 6
+    bends 0.45 0.4 0.3
+    lamps 35
+    posts 0
+    bridges 0.25 SUSPENSION C8CCD0
+    p MOSQUE 0.015 40 200
+    c E0D8C8 7A8A9A
+    p ROW_HOUSES 0.1 6 40
+    c E0D8C8 A8583A
+    pastel
+    p GLASS_TOWER 0.01 120 300
+    c 7A9AB8
+    p BOAT 0.02 40 160 1.8 2.2
+    c F0F0F0 2A3A5A
+    v 1
+    floating
+
+place SANTORINI | SANTORINI | GREECE | NOON
+    sea 1 0 -30
+    water 1A5AA0
+    land A08A70 947E66 8A7A68
+    verge 9A8A78
+    hills 20 0 10
+    drive 2 0.5 0.97 3
+    bends 0.8 0.7 0.6
+    p FLAT_HOUSE 0.1 4 40
+    c FAFAF8 2A5AB8
+    p ROUND_MILL 0.005 20 100
+    v 1
+    p SHRUB 0.08 3 40 0.4 0.6
+    c 7A8A50
+
+place PELOPONNESE | PELOPONNESE | GREECE | NOON
+    land 9AA060 8E9458 A09A6A
+    ranges 7A8890 A8B4C0 7
+    hills 24 8 8
+    drive 2 0.4 0.98 6
+    bends 0.6 0.5 0.55
+    p OLIVE 0.3 4 100
+    p CYPRESS 0.06 5 60
+    p COLUMNS 0.006 15 120
+    p FLAT_HOUSE 0.015 10 80
+    c F2EEE4 3A6A9A
+    p STONE_WALL 0.15 3 3 1 1
+    p SHEEP 0.02 8 60
+
+place METEORA | METEORA | GREECE | MORNING
+    land 7A9A58 6E8E50 8A9468
+    hills 20 6 6
+    drive 2 0.4 0.98 6
+    bends 0.6 0.5 0.5
+    p PILLAR 0.02 60 300 0.8 1.2
+    p CYPRESS 0.05 5 60
+    p BROADLEAF 0.08 4 80
+    c 5A8A40
+    p CHURCH 0.004 30 150
+    c C8A880 A8583A
+
+place KOTOR | BAY OF KOTOR | MONTENEGRO | MORNING
+    sea 1 0 -6
+    water 1E5A7A
+    hills 40 0 40
+    ranges 4A5660 8A96A4 12
+    land 5E8A48 568040 6A8A58
+    drive 2 0.5 0.98 6
+    bends 0.8 0.6 0.4
+    p ROW_HOUSES 0.04 6 30
+    c E0D4BC A8583A
+    p CHURCH 0.006 15 80
+    c E0D8C8 A8583A
+    p CYPRESS 0.1 3 50
+    p BROADLEAF 0.05 4 60
+    c 4E8A3A
+    p BOAT 0.02 40 150
+    c 3A6AB8
+    pastel
+    floating
+
+place DALMATIA | DALMATIAN COAST | CROATIA | NOON
+    sea 1 0 -10
+    water 1E8AB0
+    land 9A9A80 8E8E76 B0B0A0
+    verge C8C4B8
+    hills 26 0 14
+    drive 2 0.5 0.98 6
+    bends 0.7 0.55 0.5
+    bridges 0.08 ARCH D8D4C8
+    p ROCK 0.2 2 40
+    p STONE_WALL 0.4 3 3 1 1
+    p SHRUB 0.2 2 50
+    c 6A7A50
+    p OLIVE 0.05 5 60
+    p ROW_HOUSES 0.02 8 60
+    c E8E2D4 B8603E
+    p SAILBOAT 0.02 40 200
+    floating
+
+place ROSE_VALLEY | ROSE VALLEY | BULGARIA | MORNING
+    land 7AAA50 6E9E48 86A05E
+    fields 0.6 E878A8 6AA04A C8B060
+    ranges 6A7A70 9AA8B0 8
+    hills 14 4 4
+    drive 2 0.5 1.0 6
+    bends 0.45 0.4 0.35
+    p FLOWER_BUSH 0.1 2 20
+    c E8609A
+    p COTTAGE 0.015 10 80
+    c F0E8D8 A8583A
+    p BROADLEAF 0.05 6 80
+    c 5A9440
+
+place DANUBE_DELTA | DANUBE DELTA | ROMANIA | GOLDEN
+    hills 1 0 0 0.7
+    sea 0 1 -2
+    water 5A8070
+    land 7A9A50 6E8E48 8A9A60
+    drive 2 0.2 0.98 6
+    bends 0.35 0.3 0.05
+    bridges 0.2 CAUSEWAY 8A8A80
+    p REEDS 0.5 2 60
+    p BROADLEAF 0.05 6 80
+    c 8AA060
+    p HUT 0.01 8 40
+    p BOAT 0.02 40 150
+    c 3A5A8A E8E8E8
+    floating
+
+place TRANSYLVANIA | TRANSYLVANIA | ROMANIA | MORNING
+    land 6EA24A 649644 7A9A5A
+    hills 30 8 8
+    ranges 5A6A6A 8A9AA0 8
+    drive 2 0.4 0.98 6
+    bends 0.6 0.5 0.6
+    bridges 0.08 ARCH B0A890
+    p HAYBALE 0.03 10 60
+    p CHURCH 0.006 30 150
+    c E8E0D0 7A4A3A
+    p CASTLE 0.003 120 300
+    c E8E2D6 A8583A
+    p FENCE 0.3 4 4 1 1
+    p HORSE 0.02 10 80
+    p SPRUCE 0.1 40 200
+    p COTTAGE 0.015 10 80
+    c E8DCB8 6A4A3A

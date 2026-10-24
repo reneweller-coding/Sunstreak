@@ -324,7 +324,7 @@ void Game::changeLab( LabE item, int dir )
         std::vector<int> options = { SceneryWorld, SceneryMixed };
         for( BiomeE b : worldRoute() )
             if( static_cast<int>( b ) < 8 || m_records.m_seen.test( static_cast<size_t>( b ) ) ) options.push_back( static_cast<int>( b ) );
-        for( int b = 0; b < static_cast<int>( BiomeE::COUNT ); ++b )
+        for( int b = 0; b < biomeCount(); ++b )
             if( routeIndex( static_cast<BiomeE>( b ) ) < 0 && ( b < 8 || m_records.m_seen.test( static_cast<size_t>( b ) ) ) ) options.push_back( b );
         int idx = 0;
         for( size_t i = 0; i < options.size(); ++i )
@@ -1184,7 +1184,7 @@ void Game::drawRecords()
     drawText( format( "CHAMPIONSHIPS WON  %d", m_records.m_titles ), x + 30.0f * u, sy + 26.0f * u, 14.0f * u, Ink );
     drawText( m_records.m_bestPlace ? format( "BEST CHAMPIONSHIP  P%d", m_records.m_bestPlace ) : std::string( "BEST CHAMPIONSHIP  -" ),
               x + 30.0f * u, sy + 52.0f * u, 14.0f * u, Ink );
-    drawText( format( "PLACES SEEN  %d / %d", m_records.seenCount(), static_cast<int>( BiomeE::COUNT ) ), x + 30.0f * u, sy + 78.0f * u,
+    drawText( format( "PLACES SEEN  %d / %d", m_records.seenCount(), biomeCount() ), x + 30.0f * u, sy + 78.0f * u,
               14.0f * u, Ink );
     drawText( format( "COUNTRIES  %d / %d", m_records.countriesSeen(), countryCount() ), x + 30.0f * u, sy + 104.0f * u, 14.0f * u, Ink );
     drawText( format( "ROUND THE WORLD  %d / %d", m_records.sectorsSeen(), LongitudeSectors ), x + 30.0f * u, sy + 130.0f * u, 14.0f * u,
@@ -1306,7 +1306,7 @@ void Game::drawWorldMap( float x, float y, float w, float h )
 
     // The slices of the globe already driven through, then the grid.
     std::bitset<LongitudeSectors> sectors;
-    for( int i = 0; i < static_cast<int>( BiomeE::COUNT ); ++i )
+    for( int i = 0; i < biomeCount(); ++i )
     {
         GeoPoint g;
         if( m_records.m_seen.test( static_cast<size_t>( i ) ) && placeLocation( static_cast<BiomeE>( i ), g ) )
@@ -1427,7 +1427,7 @@ void Game::drawPostcards( float x, float y, float w, float h )
     std::vector<int> cards;
     for( BiomeE b : worldRoute() )
         if( m_records.m_postcards.test( static_cast<size_t>( b ) ) ) cards.push_back( static_cast<int>( b ) );
-    for( int i = 0; i < static_cast<int>( BiomeE::COUNT ); ++i )
+    for( int i = 0; i < biomeCount(); ++i )
         if( m_records.m_postcards.test( static_cast<size_t>( i ) ) && routeIndex( static_cast<BiomeE>( i ) ) < 0 ) cards.push_back( i );
     if( cards.empty() )
     {
@@ -1488,7 +1488,7 @@ void Game::drawPassport()
         drawText( tabs[i], tx, y + 25.0f * u, 15.0f * u, i == m_passportPage ? Ink : Dim );
         tx -= 34.0f * u;
     }
-    drawText( format( "PLACES %d / %d     COUNTRIES %d / %d     ROUND THE WORLD %d / %d     %s", m_records.seenCount(), static_cast<int>( BiomeE::COUNT ),
+    drawText( format( "PLACES %d / %d     COUNTRIES %d / %d     ROUND THE WORLD %d / %d     %s", m_records.seenCount(), biomeCount(),
                       m_records.countriesSeen(), countryCount(), m_records.sectorsSeen(), LongitudeSectors, Records::pointsText( m_records.m_points ).c_str() ),
               x + 28.0f * u, y + 62.0f * u, 12.0f * u, Dim );
     const float cx = x + 24.0f * u, cy = y + 90.0f * u, cw = w - 48.0f * u, ch = h - 150.0f * u;

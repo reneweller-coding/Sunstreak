@@ -587,7 +587,7 @@ TrackParams Game::endlessParams() const
 {
     TrackParams p;
     p.m_biome = m_settings.m_scenery ? SceneryMixed : SceneryWorld;
-    if( m_options.m_scenery >= SceneryWorld && m_options.m_scenery < static_cast<int>( BiomeE::COUNT ) ) p.m_biome = m_options.m_scenery;
+    if( m_options.m_scenery >= SceneryWorld && m_options.m_scenery < biomeCount() ) p.m_biome = m_options.m_scenery;
     return p;
 }
 

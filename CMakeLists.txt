@@ -51,7 +51,14 @@ FetchContent_MakeAvailable( SDL2 )
 # Everything but main() is a library, so the tests link the same code the game runs.
 file( GLOB SUNSTREAK_SOURCES CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.h )
 list( FILTER SUNSTREAK_SOURCES EXCLUDE REGEX ".*/main\\.cpp$" )
-add_library( sunstreak_core STATIC ${SUNSTREAK_SOURCES} )
+# The data files (places, countries, the route) are built into the program as byte arrays.
+file( GLOB_RECURSE SUNSTREAK_DATA CONFIGURE_DEPENDS ${CMAKE_SOURCE_DIR}/data/*.txt )
+set( SUNSTREAK_EMBEDDED ${CMAKE_BINARY_DIR}/generated/EmbeddedData.cpp )
+add_custom_command( OUTPUT ${SUNSTREAK_EMBEDDED}
+    COMMAND ${CMAKE_COMMAND} -DDATA_DIR=${CMAKE_SOURCE_DIR}/data -DOUT=${SUNSTREAK_EMBEDDED} -P ${CMAKE_SOURCE_DIR}/cmake/Embed.cmake
+    DEPENDS ${SUNSTREAK_DATA} ${CMAKE_SOURCE_DIR}/cmake/Embed.cmake
+    COMMENT "Embedding data/" VERBATIM )
+add_library( sunstreak_core STATIC ${SUNSTREAK_SOURCES} ${SUNSTREAK_EMBEDDED} )
 target_include_directories( sunstreak_core PUBLIC ${CMAKE_SOURCE_DIR}/src )
 target_link_libraries( sunstreak_core PUBLIC raylib SDL2::SDL2-static )
 target_compile_definitions( sunstreak_core PUBLIC SUNSTREAK_VERSION="${PROJECT_VERSION}" )

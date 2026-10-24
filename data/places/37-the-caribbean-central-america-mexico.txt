@@ -1,0 +1,336 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place MARACAS_BAY | MARACAS BAY | TRINIDAD AND TOBAGO | TROPICAL
+    sea 0 1 -24
+    water 1E8AA8
+    land 3E8A32 38802C 3E7A3A
+    hills 40 30 -20
+    drive 2 0.4 0.95 16
+    bends 0.8 0.7 0.7
+    rails
+    p JUNGLE_TREE 0.3 6 150
+    p BAMBOO 0.15 2 30
+    p PALM 0.15 2 60
+    p BOAT 0.02 40 150
+    c 2A8AC8 F0F0F0
+    pastel
+    floating
+
+place GRAND_ANSE | GRAND ANSE | GRENADA | TROPICAL
+    sea 0 1 -2
+    water 2AB8C8
+    land 4E9A3A 469034 4E8A44
+    verge F4ECDC
+    hills 24 14 0
+    drive 2 0.4 0.96 16
+    bends 0.5 0.45 0.45
+    p BROADLEAF 0.15 4 100
+    c 2E6E2A
+    p PALM 0.25 2 40
+    p FLAT_HOUSE 0.04 4 60
+    c E8C890 C83A2A
+    pastel
+    p SAILBOAT 0.02 40 200
+    floating
+
+place LA_SOUFRIERE | LA SOUFRIERE | SAINT VINCENT | MIST
+    rain 0.3
+    sea 0 1 -6
+    water 1E6A8A
+    land 3E7A32 38702C 2E2A28
+    verge 2A2624
+    hills 40 20 -4
+    drive 2 0.2 0.92 16
+    bends 0.6 0.5 0.6
+    p VOLCANO_CONE 0.005 300 600 1.2 1.6
+    c 3A4A3A 6A6A60
+    p BANANA 0.2 3 60
+    p PALM 0.1 2 40
+    p JUNGLE_TREE 0.15 10 150
+
+place BATHSHEBA | BATHSHEBA | BARBADOS | TROPICAL
+    clouds 0.45
+    sea 0 1 -3
+    water 1E7AA0
+    land 5E9A44 56903E 5E8A4A
+    verge F0E4C8
+    hills 20 10 -2
+    drive 2 0.3 0.96 16
+    bends 0.45 0.4 0.4
+    p BOULDER 0.06 4 11 2.0 3.5
+    p PALM 0.25 2 60
+    p COTTAGE 0.03 4 60
+    c E8C890 8A8A8A
+    pastel
+    p FLOWER_BUSH 0.06 2 20
+    c C8307A
+
+place PITONS | THE PITONS | SAINT LUCIA | TROPICAL
+    sea 0 1 -10
+    water 1E8AB0
+    land 3E8A32 38802C 3E7A3A
+    hills 30 20 -6
+    drive 2 0.3 0.95 16
+    bends 0.7 0.6 0.65
+    p VOLCANO_CONE 0.0 220 320 1.0 1.0
+    c 2E6A2E 2E6A2E
+    once 2
+    p BANANA 0.2 3 60
+    p PALM 0.12 2 40
+    p BOAT 0.02 40 150
+    c C83A2A F0F0F0
+    pastel
+    floating
+
+place BOILING_LAKE | MORNE TROIS PITONS | DOMINICA | RAIN
+    rain 0.5
+    land 3E7A32 38702C 3E6A3A
+    hills 46 24 20
+    drive 2 0.15 0.88 16
+    bends 0.7 0.6 0.7
+    p WATERFALL 0.006 40 200 0.4 0.6
+    v 1
+    p TREE_FERN 0.2 2 40
+    p JUNGLE_TREE 0.35 4 150
+    p GEYSER 0.003 30 150 0.6 0.9
+    p BANANA 0.05 3 40
+
+place ENGLISH_HARBOUR | ENGLISH HARBOUR | ANTIGUA AND BARBUDA | TROPICAL
+    sea 0 1 -2
+    water 2AB0C0
+    land 7A9A50 709048 8A9A5A
+    hills 20 10 -2
+    drive 2 0.3 0.96 16
+    bends 0.45 0.4 0.35
+    p COTTAGE 0.04 4 40
+    c C8B898 8A5A4A
+    p SAILBOAT 0.06 36 150
+    floating
+    p FORT 0.004 30 150
+    c C8B898 B8A888
+    v 0
+    p PALM 0.15 2 40
+    p SHRUB 0.15 2 60
+    c 6A8A48
+
+place BRIMSTONE_HILL | BRIMSTONE HILL | SAINT KITTS AND NEVIS | TROPICAL
+    sea 0 1 -6
+    water 1E8AB0
+    land 6A9A48 609040 5E8A4A
+    fields 0.45 8AC050 7AB048 9AC060
+    hills 24 16 -4
+    drive 2 0.3 0.96 16
+    bends 0.45 0.4 0.4
+    p FORT 0.0 120 200 1.4 1.4
+    c 8A8278 7A7268
+    v 0
+    once
+    p ROUND_MILL 0.008 20 150
+    v 1
+    p PALM 0.12 2 60
+    p VOLCANO_CONE 0.003 300 600 1.0 1.3
+    c 3A6A3A 4A6A4A
+
+place PUNTA_CANA | PUNTA CANA | DOMINICAN REPUBLIC | TROPICAL
+    sea 0 1 -2
+    water 30C0C8
+    land 6A9A48 609040 5E8A4A
+    verge F4ECDC
+    fields 0.3 8AC050 7AB048 9AC060
+    hills 4 0 0
+    drive 2 0.5 0.98 16
+    bends 0.25 0.25 0.05
+    p PALM 0.4 2 60
+    p FLAT_HOUSE 0.04 6 60
+    c F0ECE0 C8A060
+    p PARASOL 0.04 3 11
+    pastel
+    p SAILBOAT 0.01 60 250
+    floating
+
+place CITADELLE | CITADELLE LAFERRIERE | HAITI | MIST
+    land 4E8A3A 468034 4A7A44
+    verge 8A6A50
+    hills 50 30 30
+    drive 2 0.4 0.9 16
+    bends 0.75 0.65 0.8
+    road 7A7064 7A7064
+    posts 0
+    p FORT 0.0 180 260 2.0 2.0
+    c 8A8278 7A7268
+    v 0
+    once
+    p BANANA 0.15 3 60
+    p HUT 0.02 6 40
+    p BROADLEAF 0.15 4 100
+    c 2E6E2A
+    p FLAT_HOUSE 0.02 6 60
+    c E8C890 8A8A8A
+    pastel
+
+place EXUMA | EXUMA CAYS | BAHAMAS | TROPICAL
+    sea 1 1 -1.5
+    water 40E0E0 0.98
+    land F4ECDC E8E0D0 6A9A4A
+    verge F4ECDC
+    hills 2 0 0
+    drive 2 0.15 0.97 16
+    bends 0.3 0.3 0.05
+    bridges 0.35 CAUSEWAY E8E4DC
+    p PALM 0.3 2 11
+    p SAILBOAT 0.03 40 250
+    floating
+    p BOAT 0.02 36 150
+    c F0F0F0 2A8AC8
+    floating
+    p FLAT_HOUSE 0.02 3 11
+    c E8C890 F0F0F0
+    pastel
+
+place PANAMA_CANAL | PANAMA CANAL | PANAMA | HAZE
+    sea 1 0 -6
+    water 3A6A6A
+    land 4E8A3A 468034 4A7A44
+    hills 16 0 8
+    drive 3 0.9 0.96 17
+    bends 0.3 0.3 0.2
+    bridges 0.35 CABLE_STAYED E8E8E8
+    p SHIP 0.01 60 200 1.0 1.4
+    floating
+    p JUNGLE_TREE 0.25 6 150
+    p CRANE 0.003 10 40
+    p CONTAINERS 0.008 10 40
+    p PALM 0.08 2 30
+
+place OMETEPE | OMETEPE | NICARAGUA | TROPICAL
+    sea 1 0 -3
+    water 4A7A8A
+    land 6A9A48 609040 5E8A4A
+    hills 10 0 6
+    drive 2 0.15 0.92 17
+    bends 0.4 0.35 0.25
+    p VOLCANO_CONE 0.0 300 420 1.6 1.6
+    c 4A6A40 6A7A60
+    once 2
+    p BANANA 0.15 3 60
+    p HORSE 0.02 6 60
+    p HUT 0.02 6 40
+    p BROADLEAF 0.1 4 100
+    c 3E7A34
+
+place RUTA_DE_LAS_FLORES | RUTA DE LAS FLORES | EL SALVADOR | MORNING
+    land 4E8A3A 468034 4A7A44
+    hills 34 14 14
+    drive 2 0.4 0.95 17
+    bends 0.65 0.55 0.6
+    p SHRUB 0.3 2 80 0.6 0.9
+    c 2E5A2A
+    p FLOWER_BUSH 0.12 2 20
+    c E8508A
+    p COTTAGE 0.03 6 60
+    c 7AA8D8 B0583A
+    pastel
+    p VOLCANO_CONE 0.004 300 600 1.2 1.5
+    c 4A5A48 6A7068
+    p CHURCH 0.003 20 120
+    c F0ECE0 F0ECE0
+
+place COPAN | COPAN | HONDURAS | HAZE
+    land 5E9440 568A3A 5A8448
+    hills 20 6 6
+    drive 2 0.2 0.93 17
+    bends 0.45 0.4 0.4
+    p STEP_PYRAMID 0.006 40 200 0.6 0.9
+    c A8A090
+    p MENHIR 0.01 8 60 0.6 0.8
+    p JUNGLE_TREE 0.25 6 150
+    p ADOBE 0.015 8 60
+    c F0ECE0 B0583A
+    p HORSE 0.01 8 60
+
+place BLUE_HOLE | BARRIER REEF | BELIZE | TROPICAL
+    sea 1 1 -1.5
+    water 30C8D0
+    land F0E8D8 E6DECE 6A9A4A
+    verge F0E8D8
+    hills 2 0 0
+    drive 2 0.15 0.96 17
+    bends 0.3 0.3 0.05
+    bridges 0.3 CAUSEWAY E0DCD4
+    p PALM 0.3 2 11
+    p WATER_VILLA 0.04 36 150
+    floating
+    p SAILBOAT 0.02 40 200
+    floating
+    p MANGROVE 0.08 2 11
+
+place RIVIERA_MAYA | TULUM | MEXICO | TROPICAL
+    sea 0 1 -8
+    water 30C0C8
+    land 5E9440 568A3A 5A8448
+    verge F0E8D8
+    hills 6 2 -6
+    drive 2 0.5 0.97 17
+    bends 0.3 0.3 0.1
+    p STEP_PYRAMID 0.006 8 11 0.3 0.4
+    c C8C0A8
+    p RUIN 0.02 4 11
+    p PALM 0.25 2 40
+    p JUNGLE_TREE 0.15 10 150
+    p PARASOL 0.02 3 11
+    pastel
+
+place OAXACA | HIERVE EL AGUA | MEXICO | NOON
+    land A89A60 9C8E58 A8946A
+    verge C8B898
+    hills 34 20 -20
+    drive 2 0.25 0.95 17
+    bends 0.65 0.55 0.65
+    p WATERFALL 0.0 80 140 0.6 0.6
+    c D8D0C0 E8E2D4
+    v 1
+    once
+    p AGAVE 0.15 3 60
+    p CACTUS 0.06 3 80
+    p ADOBE 0.015 8 60
+    c C8907A 9A6A4A
+    p SHRUB 0.15 2 60
+    c 7A8A48
+
+place MEXICO_CITY | MEXICO CITY | MEXICO | HAZE
+    fog 0.0022
+    land 6A8A58 628050 6A7A62
+    ranges 5A6476 E8ECF4 9
+    drive 4 1.7 0.96 17
+    bends 0.25 0.3 0.1
+    lamps 30
+    posts 0
+    landmark VICTORY_COLUMN 25 40
+    p ROW_HOUSES 0.15 4 30
+    c E8A870 8A8A8A
+    pastel
+    p GLASS_TOWER 0.05 30 200
+    c 6A8AA0
+    p BROADLEAF 0.15 1.5 10
+    c 8A6AC8
+    p VOLCANO_CONE 0.002 400 600 1.6 2.0
+    c 5A5A68 F4F6FA
+
+place COPPER_CANYON | COPPER CANYON | MEXICO | GOLDEN
+    land 9A9058 8E8450 9A8A62
+    verge B87A50
+    hills 60 40 -90
+    drive 2 0.15 0.94 17
+    bends 0.85 0.8 0.85
+    posts 0
+    p PINE 0.25 4 150
+    p BUTTE 0.004 150 400
+    p ADOBE 0.008 10 60
+    c B89A78 8A6A4A
+    p ROCK 0.12 3 60
+    p AGAVE 0.05 3 40

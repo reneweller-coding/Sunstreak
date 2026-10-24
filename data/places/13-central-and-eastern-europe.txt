@@ -1,0 +1,105 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place PUSZTA | PUSZTA | HUNGARY | GOLDEN
+    land 9AAA5A 8E9E52 A8A86A
+    hills 3 1 1
+    drive 2 0.3 1.0 6
+    bends 0.2 0.25 0.1
+    p HORSE 0.06 10 150
+    p COW 0.04 10 120
+    v 1
+    p COTTAGE 0.006 15 100
+    c F4F2EA 9A8A5A
+    p GRASS_TUFT 0.2 1 50
+    p POPLAR 0.03 10 120
+    p BROADLEAF 0.03 8 100
+    c 6A9A44
+
+place BOHEMIA | BOHEMIA | CZECHIA | MORNING
+    land 6EA24A 649644 7A9A5A
+    fields 0.6 F0D830 7AAA48 A88A5A
+    hills 18 4 4
+    drive 2 0.5 1.0 1
+    bends 0.45 0.4 0.45
+    p CASTLE 0.004 80 250
+    c E8E0D0 B8583A
+    p COTTAGE 0.02 10 80
+    c F0E6D0 C0583A
+    p CHURCH 0.004 30 150
+    c F0E8D8 3A5A4A
+    p BROADLEAF 0.25 2.5 3 0.7 0.9
+    c 5E9440
+
+place TATRA | TATRA MOUNTAINS | POLAND | ALPINE
+    land 5E9A44 56903E 6A8A58
+    ranges 5A6A78 C8D0DC 11
+    hills 40 12 10
+    drive 2 0.4 0.97 3
+    bends 0.7 0.6 0.75
+    p SPRUCE 0.45 4 150
+    p CHALET 0.03 10 80
+    c 6A4A30 4A3628
+    p SHEEP 0.03 8 60
+    p WAYSIDE_CROSS 0.006 3 10
+    v 0
+
+place MASURIA | MASURIA | POLAND | MORNING
+    hills 10 3 3 0.5
+    water 3E6A8A
+    land 6AA048 609440 76965A
+    drive 2 0.4 1.0 3
+    bends 0.5 0.4 0.35
+    p BIRCH 0.2 4 80
+    p PINE 0.15 8 120
+    p COTTAGE 0.01 15 80
+    c B06040 8A3A2A
+    p BROADLEAF 0.15 2.5 3 0.8 1.0
+    c 5A9440
+
+place SUNFLOWER_STEPPE | SUNFLOWER STEPPE | UKRAINE | GOLDEN
+    land 8AA04A 7E9442 9AA058
+    look 1.18
+    fields 0.9 F0C020 6A8A30 D8B040
+    hills 6 1 1
+    drive 2 0.3 1.0 3
+    bends 0.2 0.2 0.15
+    p POPLAR 0.1 60 70
+    p COTTAGE 0.006 15 90
+    c F0EEE6 5A7AA0
+    p ONION_CHURCH 0.002 80 250
+    c F0EEE6 3A8A5A
+    v 1
+
+place CAUCASUS | CAUCASUS | GEORGIA | ALPINE
+    land 5E9E46 56923E 6E8E5A
+    ranges 5A6878 EEF2F8 14
+    hills 45 14 12
+    drive 2 0.3 0.95 6
+    bends 0.75 0.65 0.8
+    p WATCHTOWER 0.02 15 150
+    c 9A9488
+    v 1
+    p CHURCH 0.004 30 150
+    c C8B898 6A6A70
+    p COW 0.03 10 80
+    v 1
+    p SPRUCE 0.1 20 150
+
+place YAZD | PERSIAN DESERT | IRAN | DESERT
+    land D8B890 CCAC84 C8B08A
+    ranges B8A090 D8C8B8 6
+    drive 2 0.4 0.97 2
+    bends 0.3 0.3 0.2
+    p ADOBE 0.04 10 100
+    c C8A47A B89068
+    p MOSQUE 0.004 40 200
+    c D8C0A0 3A9AB8
+    p DATE_PALM 0.03 6 80
+    p WATCHTOWER 0.006 20 100 0.6 0.8
+    c C8A47A
+    v 1

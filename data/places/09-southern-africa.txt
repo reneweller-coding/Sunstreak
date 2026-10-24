@@ -1,0 +1,142 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place ZAMBEZI | ZAMBEZI | ZAMBIA | HAZE
+    sea 0 1 -12
+    water 5A7A6A
+    land 7A9A4E 6E8E46 8A9A5A
+    drive 2 0.3 0.97 4
+    bends 0.45 0.4 0.4
+    bridges 0.2 TRUSS 9A7A5A
+    p GEYSER 0.004 200 400 2.0 3.0
+    v 1
+    p BAOBAB 0.03 10 120
+    p ACACIA 0.05 8 120
+    p ELEPHANT 0.015 20 150
+
+place OKAVANGO | OKAVANGO DELTA | BOTSWANA | GOLDEN
+    hills 2 1 1 0.6
+    water 4A7A8A
+    land 8AAA58 7E9E50 A0A060
+    drive 2 0.15 0.97 4
+    bends 0.35 0.3 0.1
+    bridges 0.15 CAUSEWAY 8A8070
+    p REEDS 0.25 2 40
+    p PALM 0.06 6 100
+    p ELEPHANT 0.03 15 150
+    p ACACIA 0.04 10 120
+
+place KALAHARI | KALAHARI | BOTSWANA | DESERT
+    land C86A3A BC6036 C88A5A
+    verge C06A40
+    drive 2 0.15 0.95 7
+    bends 0.25 0.25 0.2
+    p GRASS_TUFT 0.3 1 60
+    p ACACIA 0.04 8 150
+    p SHRUB 0.08 3 60
+    c 9A9A6A
+    p DUNE 0.01 30 200 0.5 0.8
+    c C8683A
+
+place NAMIB | NAMIB DESERT | NAMIBIA | DESERT
+    sky 2A6ACC E8C8A0
+    land D07040 C46638 E0A070
+    verge C86A3A
+    fields 0.2 EAE6DC E0DCD0 D8D0C0
+    ranges B85A30 D8905A 4
+    drive 2 0.15 0.94 7
+    bends 0.3 0.3 0.3
+    p DUNE 0.04 30 250 1.5 3.0
+    c D86A38
+    p DEAD_TREE 0.03 10 80
+
+place SKELETON_COAST | SKELETON COAST | NAMIBIA | MIST
+    fog 0.004 D8D4C8
+    sea 1 0 -3
+    water 5A7A80
+    land D8C8A0 CCBC94 C0B090
+    verge D0C098
+    drive 2 0.1 0.94 2
+    bends 0.2 0.25 0.15
+    p DUNE 0.02 20 200
+    c D8C8A0
+    p ROCK 0.04 3 60
+    p BOAT 0.006 35 80 2.0 2.5
+    c 5A4A3A 4A3A2A
+    floating
+
+place CAPE_PENINSULA | CAPE PENINSULA | SOUTH AFRICA | MORNING
+    sea 1 0 -20
+    water 2A5A8A
+    land 7A8A58 6E7E50 6A7A58
+    hills 30 0 20
+    drive 2 0.5 0.98 6
+    bends 0.7 0.55 0.7
+    p TEPUI 0.003 300 600 1.0 1.3
+    c 6A6A6E 5A7A4A
+    p SHRUB 0.3 2 60
+    c 7A8A5A
+    p FLOWER_BUSH 0.05 2 30
+    c E87A3A
+    p ROCK 0.08 3 60
+
+place CAPE_WINELANDS | CAPE WINELANDS | SOUTH AFRICA | GOLDEN
+    ranges 5A6A80 9AA8C0 10
+    land 7AA050 6E9448 86985E
+    hills 16 4 4
+    drive 2 0.5 1.0 6
+    bends 0.5 0.4 0.45
+    p VINE_ROW 0.7 5 40 1 1
+    p CAPE_DUTCH 0.01 20 100
+    p OAK 0.08 6 80
+
+place DRAKENSBERG | DRAKENSBERG | SOUTH AFRICA | MORNING
+    land 6AA048 609440 7A9A5A
+    hills 50 20 10
+    ranges 5A6A5A 8A9AA0 12
+    drive 2 0.3 0.97 4
+    bends 0.6 0.5 0.7
+    p TEPUI 0.004 300 600
+    c 8A7A6A 6A9A4A
+    p RONDAVEL 0.02 15 90
+    c E8E0D0 9A8A5A
+    p COW 0.02 10 80
+    v 1
+    p SHRUB 0.1 3 60
+    c 8A9A5A
+
+place BAOBAB_AVENUE | AVENUE OF BAOBABS | MADAGASCAR | SUNSET
+    land B8703C AC6636 8A9A4A
+    fields 0.3 8AB04A A8603A 9AA858
+    hills 4 1 1 0.2
+    water 7A6A50
+    road 9A6A50 9A6A50
+    kerbs 9A6A50 A87050
+    verge A86A44
+    drive 2 0.15 0.92 6
+    bends 0.15 0.2 0.1
+    posts 0
+    p BAOBAB 0.12 4 10 1.1 1.4
+    p BAOBAB 0.02 10 150
+    p COW 0.02 10 60
+    v 1
+    p COTTAGE 0.006 15 80
+    c B8703C 8A7A5A
+
+place SEYCHELLES | SEYCHELLES | SEYCHELLES | TROPICAL
+    sea 1 0 -2
+    water 28B8C8
+    land F0EAD8 E6E0CE 4E8A44
+    verge E8E2D0
+    hills 30 0 24
+    drive 2 0.3 0.97 4
+    bends 0.65 0.55 0.5
+    p BOULDER 0.04 2 20
+    p KOPJE 0.01 3 30
+    p PALM 0.25 2 50
+    p SAILBOAT 0.01 40 200
+    floating

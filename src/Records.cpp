@@ -126,7 +126,7 @@ bool decodeLegacy( uint64_t v, TrackSetup &setup )
     }
     out.m_seed = v & 0x1FFFFFFFull;
     if( out.m_seed == 0 ) out.m_seed = 1;
-    if( biome != 63 && biome >= static_cast<uint64_t>( BiomeE::COUNT ) ) return false;
+    if( biome != 63 && biome >= static_cast<uint64_t>( biomeCount() ) ) return false;
     out.m_params.m_curvy = values[0];
     out.m_params.m_sharp = values[1];
     out.m_params.m_hilly = values[2];
@@ -192,7 +192,7 @@ bool decodeTrack( const std::string &code, TrackSetup &setup )
     out.m_seed = b.pop( 29 );
     if( b.pop( 4 ) != CodeVersion ) return false;
     if( out.m_seed == 0 ) out.m_seed = 1;
-    if( scenery < CodeWorld && scenery >= static_cast<uint64_t>( BiomeE::COUNT ) ) return false;
+    if( scenery < CodeWorld && scenery >= static_cast<uint64_t>( biomeCount() ) ) return false;
     out.m_params.m_curvy = values[0];
     out.m_params.m_sharp = values[1];
     out.m_params.m_hilly = values[2];
@@ -422,7 +422,7 @@ std::string Records::pointsText( int64_t points )
 int Records::sectorsSeen() const
 {
     std::bitset<LongitudeSectors> sectors;
-    for( int i = 0; i < static_cast<int>( BiomeE::COUNT ); ++i )
+    for( int i = 0; i < biomeCount(); ++i )
     {
         GeoPoint where;
         if( m_seen.test( static_cast<size_t>( i ) ) && placeLocation( static_cast<BiomeE>( i ), where ) )
@@ -439,7 +439,7 @@ int Records::seenCount() const
 int Records::countriesSeen() const
 {
     std::vector<std::string> countries;
-    for( int i = 0; i < static_cast<int>( BiomeE::COUNT ); ++i )
+    for( int i = 0; i < biomeCount(); ++i )
     {
         const char *c = biomeDef( static_cast<BiomeE>( i ) ).m_country;
         if( c && m_seen.test( static_cast<size_t>( i ) ) && std::find( countries.begin(), countries.end(), c ) == countries.end() )

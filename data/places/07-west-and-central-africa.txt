@@ -1,0 +1,62 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place SAHEL | SAHEL | MALI | HAZE
+    sky 8AA8C8 E0C8A0
+    fog 0.0018 E0C8A0
+    land C8A070 BC9468 B0A070
+    road 6A625E
+    drive 2 0.3 0.95 4
+    bends 0.3 0.3 0.2
+    p BAOBAB 0.025 15 150
+    p ACACIA 0.06 6 120
+    p GRASS_TUFT 0.25 1 40
+    p ADOBE 0.015 15 100
+    c B07A50 C8A060
+    p MOSQUE 0.002 100 250
+    c A8784E A8784E
+    p CAMEL 0.01 15 100
+    v 0
+    p COW 0.02 10 80
+    v 1
+
+place GOLD_COAST | GOLD COAST | GHANA | TROPICAL
+    sea 1 0 -5
+    water 2A7AA0
+    land 6E9A42 649040 A06A44
+    verge B0603C
+    drive 2 0.6 0.97 4
+    bends 0.4 0.35 0.3
+    p PALM 0.3 2 40
+    p BOAT 0.03 40 150
+    c D84A3A F0D040
+    pastel
+    floating
+    p COTTAGE 0.02 8 60
+    c E8D8B0 8A8A8E
+    pastel
+    p BANANA 0.06 3 40
+    p BROADLEAF 0.05 4 60
+    c 3E7A34
+
+place CONGO_BASIN | CONGO BASIN | DR CONGO | HAZE
+    rain 0.2
+    road A85A36 A85A36
+    kerbs 9A5236 A86040
+    verge B0603A
+    land 3E7A34 387030 2E6432
+    sea 0 1 -5
+    water 6A5A40 0.8
+    drive 2 0.25 0.9 4
+    bends 0.55 0.45 0.4
+    posts 0
+    p JUNGLE_TREE 0.5 4 80
+    p FERN 0.3 1 30
+    p BANANA 0.08 3 30
+    p BROADLEAF 0.2 3 60 1.0 1.6
+    c 2E6A2A
+    p HUT 0.01 8 40

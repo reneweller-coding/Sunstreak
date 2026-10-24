@@ -1,0 +1,57 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place SOCOTRA | SOCOTRA | YEMEN | DESERT
+    land B8A890 AC9C88 A09484
+    hills 40 12 12
+    ranges 8A7A70 B0A8A0 8
+    drive 2 0.1 0.95 2
+    bends 0.6 0.5 0.6
+    p DRAGON_TREE 0.08 6 150
+    p BAOBAB 0.02 6 80 0.5 0.7
+    p ROCK 0.1 3 60
+
+place HAJAR_MOUNTAINS | HAJAR MOUNTAINS | OMAN | NOON
+    land A8957C 9C8A72 8C8070
+    verge 9A8A70
+    hills 50 24 18
+    drive 2 0.3 0.98 2
+    bends 0.8 0.7 0.8
+    bridges 0.05 BEAM C8B898
+    p DATE_PALM 0.15 4 40
+    p FORT 0.004 40 160
+    c C8A878 B8986A
+    v 0
+    p ADOBE 0.02 10 80
+    c C0A07A A88A60
+    p ROCK 0.1 3 60
+
+place EMPTY_QUARTER | EMPTY QUARTER | SAUDI ARABIA | DESERT
+    land E0A060 D49458 E8B070
+    verge D8A060
+    drive 2 0.1 0.94 7
+    bends 0.2 0.2 0.3
+    p DUNE 0.05 20 300 2.0 3.5
+    c E6A462
+    p CAMEL 0.02 15 150
+    v 0
+
+place DUBAI | DUBAI | UAE | HAZE
+    sky 6A9ACC E8DCC0
+    fog 0.0014 E0D4B8
+    land D8C098 CCB48C D0B890
+    drive 4 1.4 1.0 1
+    bends 0.25 0.2 0.1
+    lamps 40
+    gantries 500
+    bridges 0.08 CABLE_STAYED E8E8E8
+    p SUPERTALL 0.002 200 450 1.0 1.2
+    p GLASS_TOWER 0.08 30 250
+    c 7A9AB8
+    p GLASS_TOWER 0.04 30 250
+    c C8C8C0
+    p DATE_PALM 0.2 3 12

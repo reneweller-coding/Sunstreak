@@ -1,0 +1,189 @@
+# Places of the world tour. A place starts with "place ID | NAME | COUNTRY | SKY"; each line after it is one
+# step of the builder (see WorldBuilder.h): sun, fog, clouds, ranges, sky, rain, snow, look, land, verge, water,
+# road, kerbs, fields, shine, hills, sea, drive, bends, posts, lamps, gantries, rails, tunnels, bridges, sand,
+# climate; "p KIND chance nearest farthest [smin smax]" adds a scatter rule that c, v, pastel, floating and once
+# change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
+# Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
+
+place BAZARUTO | BAZARUTO | MOZAMBIQUE | TROPICAL
+    sea 1 1 -2
+    water 30C0C8
+    land F0E8D8 E6DECE 7AA058
+    verge F0E8D8
+    hills 8 0 0
+    drive 2 0.1 0.94 12
+    bends 0.3 0.3 0.2
+    road C8B898 C8B898
+    sand
+    posts 0
+    p DUNE 0.05 3 11 0.6 1.0
+    c F4ECDC
+    p PALM 0.2 2 11
+    p SAILBOAT 0.03 40 200
+    c F0ECE0 F0ECE0
+    floating
+    p HUT 0.01 3 11
+
+place LAKE_MALAWI | LAKE MALAWI | MALAWI | TROPICAL
+    sea 1 0 -3
+    water 2A8AB0
+    land 8AA050 809448 7A9A58
+    verge E0D4B8
+    hills 20 0 14
+    drive 2 0.3 0.94 12
+    bends 0.45 0.4 0.35
+    p BAOBAB 0.03 6 120
+    p BOULDER 0.04 3 60
+    p HUT 0.02 6 60
+    p PALM 0.08 3 40
+    p BOAT 0.03 40 150
+    c 6A4A30 E8E0D0
+    floating
+    p BANANA 0.06 3 40
+
+place GREAT_ZIMBABWE | GREAT ZIMBABWE | ZIMBABWE | GOLDEN
+    land 9AA058 909450 9A9A62
+    hills 16 4 4
+    drive 2 0.25 0.95 12
+    bends 0.4 0.35 0.4
+    landmark GREAT_ZIMBABWE 50 90
+    p KOPJE 0.012 40 250
+    p BROADLEAF 0.15 4 120
+    c A86A3A
+    p BOULDER 0.05 4 80
+    p HUT 0.01 8 60
+    p ACACIA 0.03 8 120
+
+place SANI_PASS | SANI PASS | LESOTHO | ALPINE
+    land 8A9A5A 7E8E52 8A8A6A
+    verge 8A8478
+    road 8A8070 8A8070
+    ranges 5A5E64 D8DCE2 12
+    hills 60 50 -40
+    drive 2 0.08 0.82 12
+    bends 1.0 1.0 1.0
+    posts 0
+    p ROCK 0.3 3 60
+    p SHRUB 0.2 2 50 0.5 0.8
+    c 8A8A50
+    p RONDAVEL 0.008 10 80
+    c 8A8278 9A8A5A
+    p SHEEP 0.03 8 80
+    p HORSE 0.01 8 60
+
+place EZULWINI | EZULWINI VALLEY | ESWATINI | MORNING
+    land 6EA048 649440 6E9450
+    fields 0.35 8AC050 6AA040 A8B060
+    ranges 4A6A50 7A9A88 8
+    hills 30 10 10
+    drive 2 0.5 0.97 12
+    bends 0.5 0.45 0.5
+    p RONDAVEL 0.03 8 80
+    c E8E0D0 9A8A5A
+    p HUT 0.01 8 60
+    p COW 0.04 8 80
+    p BROADLEAF 0.1 4 100
+    c 4E8A3A
+    p EUCALYPTUS 0.05 6 100
+
+place CHAMAREL | CHAMAREL | MAURITIUS | TROPICAL
+    sea 0 1 -30
+    water 2AA8C0
+    land 5E9A44 56903E 6A9A4E
+    fields 0.35 8AC050 7AB048 9AC060
+    hills 30 14 -10
+    drive 2 0.4 0.95 12
+    bends 0.65 0.55 0.6
+    p BADLAND 0.01 20 80 0.4 0.6
+    c C87850 8A5A8A
+    p WATERFALL 0.003 60 200 0.6 0.8
+    v 1
+    p PALM 0.1 3 60
+    p FLAT_HOUSE 0.02 6 60
+    c E8C890 C83A2A
+    pastel
+    p JUNGLE_TREE 0.08 10 150
+
+place KARTHALA | GRANDE COMORE | COMOROS | TROPICAL
+    sea 0 1 -6
+    water 1E7AA0
+    land 4E8A3A 468034 3A3634
+    verge 2E2A28
+    hills 24 10 -4
+    drive 2 0.3 0.94 12
+    bends 0.55 0.5 0.45
+    p VOLCANO_CONE 0.005 300 600 1.4 1.8
+    c 3A3634 4A4440
+    p LAVA_ROCK 0.12 3 60
+    p PALM 0.2 2 60
+    p MOSQUE 0.004 20 100
+    c F4F2EC F0EEE6
+    p FLAT_HOUSE 0.03 6 60
+    c F0ECE0 8A8A8A
+
+place CHAPMANS_PEAK | CHAPMANS PEAK | SOUTH AFRICA | NOON
+    sea 0 1 -40
+    water 1E5A8A
+    land 7A8A50 708048 8A8A60
+    verge B89A70
+    hills 40 40 -40
+    drive 2 0.4 0.98 12
+    bends 0.8 0.7 0.5
+    tunnels 0.15
+    rails
+    p SHRUB 0.35 2 60 0.5 0.9
+    c 6A7A48
+    p FLOWER_BUSH 0.06 2 30 0.5 0.8
+    c E88A3A
+    p PEAK 0.006 150 350 0.7 1.0
+    c 8A8070 8A8070
+    p ROCK 0.1 3 40
+
+place GARDEN_ROUTE | GARDEN ROUTE | SOUTH AFRICA | MORNING
+    sea 0 1 -20
+    water 1E6A8A
+    land 5E9A44 56903E 4E8048
+    hills 30 14 -10
+    drive 2 0.5 0.98 12
+    bends 0.5 0.45 0.5
+    bridges 0.2 ARCH C8C0B0
+    p BROADLEAF 0.35 4 150
+    c 3E7A34
+    p TREE_FERN 0.06 2 30
+    p FLAT_HOUSE 0.01 8 60
+    c F4F2EA 4A4E58
+    p LIGHTHOUSE 0.003 30 120
+    p SAILBOAT 0.01 60 250
+    floating
+
+place KRUGER | KRUGER | SOUTH AFRICA | GOLDEN
+    land 9AA050 909448 9A9A5E
+    hills 8 2 2
+    drive 2 0.2 0.97 12
+    bends 0.3 0.3 0.2
+    posts 0
+    p ELEPHANT 0.02 15 150
+    p GIRAFFE 0.02 15 150
+    p ZEBRA 0.05 10 150
+    p ACACIA 0.08 6 150
+    p KOPJE 0.006 40 200
+    p BAOBAB 0.008 15 150
+    p GRASS_TUFT 0.3 1 40
+    p WARNING_SIGN 0.004 1 1 1 1
+    v 4
+
+place ETOSHA | ETOSHA | NAMIBIA | DESERT
+    land E8E4D8 DCD8CC E0DCD0
+    verge D8D2C4
+    shine 0.15
+    hills 2 0 0 0.08
+    water 8AA0A0
+    drive 2 0.12 0.92 12
+    bends 0.2 0.25 0.05
+    road C8C0B0 C8C0B0
+    posts 0
+    p ZEBRA 0.05 10 150
+    p GIRAFFE 0.015 15 150
+    p ELEPHANT 0.015 20 150
+    p ACACIA 0.02 8 150
+    p GRASS_TUFT 0.15 1 40

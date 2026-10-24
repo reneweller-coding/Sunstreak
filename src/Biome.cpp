@@ -147,12 +147,12 @@ void style( BiomeDef &d, float grip, float curvy, float sharp, float hilly, int 
 }
 
 /**
- * @brief Builds the table of biomes.
- * @return all of them, indexed by BiomeE
+ * @brief Builds the table of biomes: the compiled ones, then the places of the data files.
+ * @return all of them, indexed by BiomeE (and the numbers past it)
  */
-std::array<BiomeDef, static_cast<size_t>( BiomeE::COUNT )> makeBiomes()
+std::vector<BiomeDef> makeBiomes()
 {
-    std::array<BiomeDef, static_cast<size_t>( BiomeE::COUNT )> b{};
+    std::vector<BiomeDef> b( static_cast<size_t>( BiomeE::COUNT ) );
 
     { // Green valley: the gentle first stage.
         BiomeDef &d = b[static_cast<size_t>( BiomeE::MEADOW )];
@@ -1098,7 +1098,7 @@ std::array<BiomeDef, static_cast<size_t>( BiomeE::COUNT )> makeBiomes()
                       { PropKindE::GRASS_TUFT, 0.2f, 1.0f, 30.0f, 0.7f, 1.2f },
                       { PropKindE::BUTTE, 0.004f, 80.0f, 300.0f, 1.0f, 1.8f } };
     }
-    addWorldBiomes( b.data() );
+    addWorldBiomes( b );
 
     // Tunnels in the mountains and under cities, bridges over valleys, canals and the clouds.
     const std::pair<BiomeE, float> tunnels[] = { { BiomeE::FOREST, 0.3f },   { BiomeE::SNOW, 0.25f },     { BiomeE::FJORD, 0.35f },
@@ -1119,12 +1119,27 @@ std::array<BiomeDef, static_cast<size_t>( BiomeE::COUNT )> makeBiomes()
     return b;
 }
 
+/**
+ * @brief The table, built once.
+ * @return it
+ */
+const std::vector<BiomeDef> &biomeTable()
+{
+    static const std::vector<BiomeDef> table = makeBiomes();
+    return table;
+}
+
 } // namespace
 
 const BiomeDef &biomeDef( BiomeE biome )
 {
-    static const auto table = makeBiomes();
+    const auto &table = biomeTable();
     return table[static_cast<size_t>( biome ) % table.size()];
+}
+
+int biomeCount()
+{
+    return static_cast<int>( biomeTable().size() );
 }
 
 Environment blendEnvironment( const Environment &a, const Environment &b, float t )
