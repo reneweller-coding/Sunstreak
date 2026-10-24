@@ -1,7 +1,7 @@
 # Local things of Germany, strewn by the places through their "home" lines (see 00-language.txt).
 
 shape HIGH_SEAT
-    home GERMANY, AUSTRIA | 0.004 14 90 | country
+    home GERMANY, AUSTRIA, POLAND, CZECHIA, SLOVAKIA, HUNGARY, SLOVENIA | 0.004 14 90 | country
     # A hunter's high seat at a field's edge: four leaning legs, a ladder, a little cabin up top.
     mirror
     mirrorx
@@ -48,7 +48,7 @@ shape MAYPOLE
     spire 0 23.6 0 0.7 2.4 6 2E5A2A
 
 shape ROOFED_CRUCIFIX
-    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG, AUSTRIA, SWITZERLAND, LIECHTENSTEIN, ITALY:TRENTINO | 0.003 4 30 | country
+    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG, AUSTRIA, SWITZERLAND, LIECHTENSTEIN, ITALY:TRENTINO, SLOVENIA, POLAND:LESSER POLAND | 0.003 4 30 | country
     # A wayside crucifix of the south: a wooden cross with a little roof over the figure, a bench and flowers.
     box 0 0.25 0 0.4 0.25 0.4 8A8478
     tube 0 0.5 0 0 4.2 0 0.09 4 6A4A2A
@@ -62,7 +62,7 @@ shape ROOFED_CRUCIFIX
     blob 0.45 0.25 0.3 0.2 0.18 0.2 D8302A 0.4
 
 shape PILLAR_SHRINE
-    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG, GERMANY:RHINELAND-PALATINATE, AUSTRIA | 0.002 4 30 | country
+    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG, GERMANY:RHINELAND-PALATINATE, AUSTRIA, CZECHIA | 0.002 4 30 | country
     # A Bildstock: a sandstone pillar, a niche with a painted saint, a small stone roof.
     box 0 0.15 0 0.45 0.15 0.45 B89A78
     box 0 1.2 0 0.18 1.0 0.18 C8A888
@@ -113,7 +113,7 @@ shape BLACK_FOREST_FARMHOUSE
     blob 0 11.8 2.5 0.5 0.2 0.5 5E4E40
 
 shape ALLOTMENT_PLOT
-    home GERMANY | 0.004 6 40 | town
+    home GERMANY, CZECHIA, POLAND | 0.004 6 40 | town
     # A Schrebergarten: a green shed, a picket fence, beds, a gnome and a flag on a pole.
     box 0 1.1 0 1.6 1.1 1.4 6A9A5A
     gable 0 2.2 0 1.6 1.4 0.6 0.2 8A3A2A 6A9A5A
@@ -186,7 +186,7 @@ shape ONION_TOWER_CHAPEL
     hoop 1.25 7.4 4.2 0.45 0.04 12 2A2A2A
 
 shape HOP_GARDEN
-    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG | 0.004 6 60 | country
+    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG, CZECHIA, SLOVENIA | 0.004 6 60 | country
     # A hop garden: tall poles strung with wires, the bines climbing to the top.
     repeat 4 0 0 6
     tube 0 0 -9 0 7 -9 0.1 4 8A7A5A
@@ -213,7 +213,7 @@ shape VINEYARD_HUT
     box -3.6 0.6 -2.4 1.8 0.55 0.18 4E7E32
 
 shape BRICK_GOTHIC_CHURCH
-    home GERMANY:MECKLENBURG-VORPOMMERN, GERMANY:BRANDENBURG, GERMANY:SCHLESWIG-HOLSTEIN, GERMANY:LOWER SAXONY | 0.002 20 110 | country
+    home GERMANY:MECKLENBURG-VORPOMMERN, GERMANY:BRANDENBURG, GERMANY:SCHLESWIG-HOLSTEIN, GERMANY:LOWER SAXONY, POLAND:POMERANIA, POLAND:WARMIA-MASURIA | 0.002 20 110 | country
     # A Brick Gothic village church: a red nave, a stout west tower with a green copper pyramid.
     box 0 4 0 4.5 4 9 9A3A2A
     gable 0 8 0 4.5 9 4.5 0.2 5A4A44 9A3A2A
@@ -294,7 +294,7 @@ shape BUS_SHELTER_GERMANY
     box -0.55 1.5 -1.0 0.01 0.3 0.25 F2F2F2
 
 shape SILAGE_BALES
-    home GERMANY, NETHERLANDS, BELGIUM, LUXEMBOURG, AUSTRIA, SWITZERLAND | 0.004 8 70 | country
+    home GERMANY, NETHERLANDS, BELGIUM, LUXEMBOURG, AUSTRIA, SWITZERLAND, POLAND, CZECHIA, HUNGARY | 0.004 8 70 | country
     # Round bales wrapped in white film, stacked at a field's edge.
     repeat 4 0 0 1.3
     tube 0 0.75 -2.6 0 0.75 -1.4 0.75 14 F2F2EE shiny
@@ -336,7 +336,7 @@ shape TRABANT_PARKED
     box 0 0.35 1.78 0.72 0.05 0.04 C8C8C8
 
 shape STORK_NEST_POLE
-    home GERMANY:BRANDENBURG, GERMANY:MECKLENBURG-VORPOMMERN, GERMANY:SAXONY-ANHALT | 0.002 8 60 | country
+    home GERMANY:BRANDENBURG, GERMANY:MECKLENBURG-VORPOMMERN, GERMANY:SAXONY-ANHALT, POLAND, LITHUANIA, LATVIA, BELARUS, UKRAINE | 0.002 8 60 | country
     # A white stork in its nest of twigs on top of a pole.
     tube 0 0 0 0 9 0 0.15 6 7A6A5A
     cyl 0 9 0 0.9 1.1 0.7 10 6A5A3A
@@ -385,7 +385,7 @@ shape ALPINE_BALCONY_FARMHOUSE
     box 6.03 1.6 -6 0.02 0.6 0.22 3E6A3A
 
 shape MEADOW_HAY_BARN
-    home AUSTRIA, SWITZERLAND, LIECHTENSTEIN, GERMANY:BAVARIA, ITALY:TRENTINO, ITALY:AOSTA VALLEY | 0.004 15 110 | country
+    home AUSTRIA, SWITZERLAND, LIECHTENSTEIN, GERMANY:BAVARIA, ITALY:TRENTINO, ITALY:AOSTA VALLEY, SLOVENIA | 0.004 15 110 | country
     # A Heustadl: a little weathered hay barn alone on the meadow.
     box 0 1.6 0 2.5 1.6 3 7A6A58
     gable 0 3.2 0 2.5 3 1.8 0.3 5A5048 7A6A58
@@ -460,7 +460,7 @@ shape VILLAGE_LINDEN
     cyl 0 0.45 0 1.45 1.45 0.08 12 8A6A48
 
 shape FIREWOOD_STACK
-    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG, GERMANY:THURINGIA, AUSTRIA, SWITZERLAND, LIECHTENSTEIN, ITALY:TRENTINO, ITALY:AOSTA VALLEY | 0.004 5 40 | country
+    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG, GERMANY:THURINGIA, AUSTRIA, SWITZERLAND, LIECHTENSTEIN, ITALY:TRENTINO, ITALY:AOSTA VALLEY, SLOVAKIA, CZECHIA, POLAND:LESSER POLAND, SLOVENIA | 0.004 5 40 | country
     # Firewood stacked neat under a little roof, the cut ends pale.
     box 0 0.9 0 0.5 0.9 2.5 8A6A48
     repeat 8 0 0 0.62
@@ -503,7 +503,7 @@ shape SNACK_STAND
     cyl 3.5 1.1 -1.5 0.35 0.35 0.04 10 E8E8E8
 
 shape UMGEBINDE_HOUSE
-    home GERMANY:SAXONY | 0.004 12 90 | country
+    home GERMANY:SAXONY, CZECHIA | 0.004 12 90 | country
     # An Umgebinde house: a log ground floor framed by posts and arches, timbering above, a dark roof.
     box 0 1.3 0 3.5 1.3 6 6A4A30
     repeat 7 0 0 2

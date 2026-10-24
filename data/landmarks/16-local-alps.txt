@@ -304,7 +304,7 @@ shape BERNESE_FARMHOUSE
     box 9.03 1.2 3.5 0.03 1.2 0.6 5A3A22
 
 shape TROUGH_FOUNTAIN
-    home SWITZERLAND, AUSTRIA, LIECHTENSTEIN, GERMANY:BAVARIA, ITALY:TRENTINO | 0.003 4 25
+    home SWITZERLAND, AUSTRIA, LIECHTENSTEIN, GERMANY:BAVARIA, ITALY:TRENTINO, SLOVENIA | 0.003 4 25
     # A village fountain: a long stone trough, a pillar with its spouting pipe, flowers on the rim.
     box 0 0.45 0 0.55 0.45 1.6 B8B0A0
     box 0 0.91 0 0.45 0.02 1.5 4A7A9A water

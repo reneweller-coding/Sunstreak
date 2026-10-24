@@ -220,7 +220,7 @@ shape CAVE_HOTEL
     blob 2.2 2.8 -2 0.05 0.3 0.3 E8A040 lit
 
 shape OTTOMAN_FOUNTAIN
-    home TURKEY | 0.004 3 20 | town
+    home TURKEY, BULGARIA, BOSNIA, NORTH MACEDONIA, KOSOVO | 0.004 3 20 | town
     # A cesme: a marble wall fountain, its arch carved with an inscription, a brass tap over a stone trough.
     box 0 1.4 0 0.4 1.4 1.4 E8E2D8
     blob 0.41 2.2 0 0.02 0.7 0.8 D8D0C0
