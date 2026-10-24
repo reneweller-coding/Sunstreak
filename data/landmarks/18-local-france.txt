@@ -176,7 +176,7 @@ shape APPLE_ORCHARD
     blob 1.1 2.0 -6.1 0.1 0.1 0.1 C8302A
 
 shape ALSATIAN_HOUSE
-    home FRANCE:GRAND EST | 0.005 8 70 | pastel
+    home FRANCE:GRAND EST, BRAZIL:SANTA CATARINA, BRAZIL:RIO GRANDE DO SUL, BRAZIL:SANTA CATARINA, BRAZIL:RIO GRANDE DO SUL | 0.005 8 70 | pastel
     # An Alsatian house: a painted half-timbered upper floor jutting out, St Andrew's crosses, geraniums at the windows.
     box 0 1.5 0 3.5 1.5 4.5 A
     box 0.3 4.3 0 3.8 1.3 4.6 A

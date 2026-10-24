@@ -1,0 +1,779 @@
+# Local things of Mexico, Central and South America and the Caribbean.
+
+shape MEXICAN_ROADSIDE_SHRINE
+    home MEXICO | 0.008 3 20 | country
+    # A capillita: a little roadside chapel painted blue and white, the Virgin of Guadalupe inside, plastic flowers and candles.
+    box 0 0.8 0 0.6 0.8 0.6 F2F2F2
+    gable 0 1.6 0 0.65 0.65 0.5 0.1 3A6AC8 F2F2F2
+    box 0.61 0.9 0 0.02 0.55 0.4 3A6AC8
+    blob 0.62 0.9 0 0.02 0.4 0.22 2A7A5A
+    blob 0.63 0.9 0 0.02 0.25 0.12 E8B840
+    blob 0.7 0.1 0.4 0.15 0.15 0.15 E83A6A 0.4
+    blob 0.7 0.1 -0.4 0.15 0.15 0.15 F2C21E 0.4
+    tube 0.62 2.1 0 0.62 2.6 0 0.03 3 F2F2F2
+
+shape TALAVERA_DOME_CHURCH
+    home MEXICO:PUEBLA, MEXICO:TLAXCALA, MEXICO:OAXACA, MEXICO:GUANAJUATO, MEXICO:QUERETARO | 0.004 10 80
+    # A church of Puebla: an ochre front with white mouldings, a bell tower, a dome tiled in yellow and blue.
+    box 0 4 0 4 4 7 E8B860
+    box 4.02 4 0 0.03 4 3 F2F2EE
+    blob 4.03 2 0 0.03 2 1.2 6A3A1E
+    box 0 7 -8.5 2 7 2 E8B860
+    box 0 14.5 -8.5 1.6 0.5 1.6 F2F2EE
+    dome 0 15 -8.5 1.4 1.2 F2C21E
+    cyl 0 8 2 2.2 2.2 1.4 12 E8B860
+    dome 0 9.4 2 2.2 2 F2C21E
+    at 0 0 2
+    ring 8 2.15
+    tube 0 9.4 0 -1.6 10.9 0 0.08 3 2A4AA8
+    at 0 0 0
+    tube 0 11.4 2 0 12.4 2 0.04 3 D8B030
+
+shape PAPEL_PICADO_STREET
+    home MEXICO | 0.008 2 15 | town
+    # Strings of papel picado across the street: cut tissue paper banners in pink, green, orange and blue fluttering overhead.
+    tube 0 0 -6 0 5 -6 0.08 4 8A6A48
+    tube 0 0 6 0 5 6 0.08 4 8A6A48
+    repeat 3 0 0.3 0
+    tube 0 4.4 -6 0 4.4 6 0.01 3 3A3A3A
+    repeat 12 0 0 1
+    quad 0 4.4 -5.8 0 4.4 -5.2 0 3.9 -5.2 0 3.9 -5.8 E83A8A
+    repeat 12 0 0 1
+    quad 0.02 4.7 -5.6 0.02 4.7 -5.0 0.02 4.2 -5.0 0.02 4.2 -5.6 3AC86A
+    repeat 12 0 0 1
+    quad 0.04 5.0 -5.4 0.04 5.0 -4.8 0.04 4.5 -4.8 0.04 4.5 -5.4 F28A1A
+
+shape TACO_STAND
+    home MEXICO | 0.008 3 15 | town
+    # A taco stand: a steel counter on wheels, the trompo of al pastor turning, plastic stools, a striped tarp overhead.
+    box 0 0.8 0 0.5 0.45 1.2 C8C8C8 shiny
+    cyl 0 1.25 -0.6 0.18 0.25 0.6 8 C8602A
+    blob 0 1.95 -0.6 0.1 0.1 0.1 F2C21E
+    quad -0.6 2.4 -1.6 -0.6 2.4 1.6 1.6 2.1 1.6 1.6 2.1 -1.6 E83A2A
+    repeat 4 0 0 0.6
+    quad -0.6 2.41 -1.6 -0.6 2.41 -1.3 1.6 2.11 -1.3 1.6 2.11 -1.6 F2F2F2
+    mirror
+    tube -0.6 0 1.6 -0.6 2.4 1.6 0.04 4 9A9A9A
+    repeat 3 0 0 0.8
+    cyl 1.2 0 -0.8 0.17 0.14 0.45 8 E83A3A
+
+shape MEZCAL_PALENQUE
+    home MEXICO:OAXACA, MEXICO:GUERRERO, MEXICO:DURANGO, MEXICO:ZACATECAS | 0.004 6 40 | country
+    # A mezcal palenque: a stone wheel rolled round a pit to crush roasted agave hearts, the pinas heaped beside it.
+    cyl 0 0 0 2.4 2.4 0.3 14 9A9488
+    hoop 0 0.9 1.2 0.9 0.25 14 8A8478
+    tube 0 0.9 0 0 0.9 4 0.08 4 6A5A48
+    tube 0 0 0 0 1.5 0 0.15 6 6A5A48
+    repeat 4 0 0 0.9
+    blob 3.5 0.4 -1.5 0.45 0.4 0.45 A8703A
+    quad -3 2.6 -3 -3 2.6 3 1 2.3 3 1 2.3 -3 8A7A48
+
+shape ORGAN_PIPE_CACTUS
+    home MEXICO:SONORA, MEXICO:BAJA CALIFORNIA, MEXICO:BAJA CALIFORNIA SUR, MEXICO:PUEBLA, MEXICO:OAXACA, USA:ARIZONA | 0.006 6 60 | country
+    # An organ pipe cactus: a cluster of tall ribbed green columns rising from one short trunk.
+    tube 0 0 0 0 0.6 0 0.3 8 4A7A3A
+    tube 0 0.5 0 0 5 0 0.18 8 4A7A3A
+    tube 0.2 0.5 0.2 0.4 4.2 0.4 0.16 8 4A7A3A
+    tube -0.2 0.5 0.2 -0.5 4.6 0.3 0.16 8 4A7A3A
+    tube 0.2 0.5 -0.2 0.5 3.8 -0.5 0.16 8 4A7A3A
+    tube -0.2 0.5 -0.2 -0.3 4.4 -0.6 0.16 8 4A7A3A
+
+shape PAINTED_WALL_ADS
+    home MEXICO, GUATEMALA, HONDURAS, EL SALVADOR, NICARAGUA | 0.006 3 25 | town
+    # A wall painted with hand-lettered adverts for beer, cement and a dance, in big bold letters and colours.
+    box 0 1.6 0 0.25 1.6 4 F2F2EE
+    box 0.26 2.2 -2 0.01 0.9 1.8 F2C21E
+    box 0.27 2.2 -2 0.01 0.25 1.4 C82A2A
+    box 0.26 1.4 2 0.01 1.2 1.8 2A6AC8
+    box 0.27 1.7 2 0.01 0.18 1.4 F2F2F2
+    box 0.27 1.1 2 0.01 0.18 1.0 F2C21E
+    box 0.26 0.4 0 0.01 0.4 4 3A8A4A
+
+shape PALAPA_BAR
+    home MEXICO:QUINTANA ROO, MEXICO:YUCATAN, MEXICO:BAJA CALIFORNIA SUR, MEXICO:GUERRERO, MEXICO:JALISCO, MEXICO:NAYARIT, BELIZE, CUBA, DOMINICAN REPUBLIC, JAMAICA, BAHAMAS, COSTA RICA, PANAMA | 0.006 6 40 | coast
+    # A palapa beach bar: a thatched palm roof on poles, a bamboo counter, stools, a hammock strung beside it.
+    mirror
+    mirrorx
+    tube 2 0 2 2 2.6 2 0.12 5 8A6A48
+    hip 0 2.6 0 2.8 2.8 1.8 0.3 C8A860
+    box 0 1.0 0 0.4 0.5 1.6 B8A060
+    repeat 3 0 0 1
+    cyl 1 0 -1 0.15 0.15 0.75 6 8A6A48
+    tube 4 0 -2 4 1.8 -2 0.1 4 8A6A48
+    tube 4 0 2 4 1.8 2 0.1 4 8A6A48
+    arch 4 1.6 0 4 -0.7 0.12 8 E8502A
+
+shape HACIENDA_GATE
+    home MEXICO:YUCATAN, MEXICO:JALISCO, MEXICO:ZACATECAS, MEXICO:GUANAJUATO, MEXICO:SAN LUIS POTOSI, MEXICO:AGUASCALIENTES, MEXICO:DURANGO, MEXICO:HIDALGO | 0.004 8 60 | country
+    # A hacienda gate: an arched portal in ochre and white, a bell in its little gable, long walls running off to each side.
+    box 0 3 0 0.6 3 2.4 E8A860
+    blob 0.61 2.2 0 0.03 2.2 1.6 3A2A1A
+    tri 0.6 6 -1.8 0.6 6 1.8 0.6 7.4 0 E8A860
+    box 0.62 6.5 0 0.02 0.3 0.25 2A2A2A
+    cyl 0.65 6.2 0 0.2 0.1 0.35 8 B8902A
+    box 0 1.5 -8 0.4 1.5 5.6 F2EEE2
+    box 0 1.5 8 0.4 1.5 5.6 F2EEE2
+    box 0.42 0.3 0 0.02 0.3 13.6 E8A860
+
+shape MAYA_NA_HOUSE
+    home MEXICO:YUCATAN, MEXICO:CAMPECHE, MEXICO:QUINTANA ROO, MEXICO:CHIAPAS, BELIZE, GUATEMALA | 0.008 6 50 | country
+    # A Maya house: an oval room with walls of whitewashed stone and sticks, a steep palm-thatched roof, a hammock inside.
+    cyl 0 0 0 2 2 1.8 12 F2EEE2
+    box 0 0.9 0 2 0.9 3 F2EEE2
+    hip 0 1.8 0 2.3 3.3 3 0.3 9A8A58
+    box 2.02 0.9 0 0.03 0.9 0.45 3A2A1A
+
+shape TOWN_BANDSTAND
+    home MEXICO, GUATEMALA, EL SALVADOR, HONDURAS, NICARAGUA | 0.004 6 40 | town
+    # A kiosko: the wrought-iron bandstand in the middle of the town plaza, under a little dome, laurel trees around.
+    cyl 0 0 0 3 3 1 8 E8E2D8
+    ring 8 2.7
+    tube 0 1 0 0 4 0 0.08 6 3A6A4A
+    dome 0 4 0 3 1.6 3A6A4A
+    spire 0 5.6 0 0.2 1 6 D8B030
+    halo 0 1.9 0 2.7 0.04 16 3A6A4A
+    mirror
+    tube -5 0 4 -5 2 4 0.3 6 5A4A3A
+    mirror
+    blob -5 3.5 4 2 1.6 2 3E6A2E 0.3
+
+shape TRAJINERA
+    home MEXICO:MEXICO CITY | 0.01 6 40
+    # A trajinera of Xochimilco: a flat boat painted in bright colours, an arch over its front with a woman's name in flowers.
+    box 0 0.02 0 2.5 0.02 7 3A5A4A water
+    box 0 0.4 0 1.1 0.25 4.5 C82A6A
+    box 0 0.67 0 1.0 0.02 4.4 F2C21E
+    repeat 4 0 0 2.6
+    box 0 1.3 -3.9 1.0 0.6 0.4 3A8AC8
+    tube 0 0.6 4.4 0 2.6 4.4 0.06 3 E8B030
+    box 0 2.4 4.45 1.2 0.4 0.05 E8B030
+    box 0 2.4 4.5 0.9 0.2 0.02 E83A8A
+    box 0 2.0 0 1.1 0.04 4.6 F2F2F2
+
+shape BRAZIL_COLONIAL_HOUSE
+    home BRAZIL:BAHIA, BRAZIL:RIO DE JANEIRO, BRAZIL:MINAS GERAIS, BRAZIL:PERNAMBUCO, BRAZIL:MARANHAO, BRAZIL:GOIAS, BRAZIL:SAO PAULO | 0.008 4 40 | pastel
+    # A colonial house of Paraty or Salvador: pastel walls, white corners, windows and doors framed in a bright contrasting colour.
+    box 0 3 0 3.5 3 4 A
+    mirror
+    box 3.51 3 4 0.02 3 0.2 F2F2F2
+    windows 3.52 0.3 -3.5 0 1 7 5.6 0.4 2.8
+    repeat 3 0 0 2.33
+    box 3.515 1.8 -2.33 0.01 0.8 0.75 2A6AC8
+    repeat 3 0 0 2.33
+    box 3.515 4.6 -2.33 0.01 0.8 0.75 2A6AC8
+    gable 0 6 0 3.7 4.2 1.5 0.5 B8603A A
+
+shape BOTECO_BAR
+    home BRAZIL | 0.008 3 20 | town
+    # A boteco: a corner bar with its shutters rolled up, yellow plastic tables and chairs on the pavement, crates of empties.
+    box -1 2 0 1 2 3.5 E8E2D8
+    box 0.02 1.3 0 0.02 1.3 2.8 3A3A3A
+    box 0.03 2.8 0 0.02 0.25 3.2 2A8A4A
+    repeat 3 0 0 2.2
+    box 1.5 0.7 -2.2 0.4 0.03 0.4 F2C21E
+    repeat 3 0 0 2.2
+    tube 1.5 0 -2.2 1.5 0.7 -2.2 0.03 3 F2C21E
+    repeat 3 0 0 2.2
+    box 1.0 0.45 -2.2 0.2 0.03 0.2 F2C21E
+    repeat 3 0 0 2.2
+    box 2.0 0.45 -2.2 0.2 0.03 0.2 F2C21E
+    repeat 2 0 0 0.6
+    box 0.6 0.25 2.8 0.25 0.25 0.3 C82A2A
+
+shape COCONUT_STAND
+    home BRAZIL, CUBA, DOMINICAN REPUBLIC, JAMAICA, COLOMBIA, VENEZUELA, COSTA RICA, PANAMA, BELIZE, HAITI, BARBADOS, TRINIDAD AND TOBAGO, GRENADA, SAINT LUCIA, SAINT VINCENT, ANTIGUA AND BARBUDA, SAINT KITTS AND NEVIS, DOMINICA, BAHAMAS | 0.006 3 20 | coast
+    # A coconut stand on the beach road: green coconuts heaped on a cart, a machete, a big umbrella.
+    box 0 0.7 0 0.5 0.1 1 8A6A48
+    mirrorx
+    tube 0.5 0.3 0 0.6 0.3 0 0.3 10 1E1E1E
+    repeat 5 0 0 0.4
+    blob 0 0.95 -0.8 0.18 0.2 0.18 6A9A3A
+    repeat 4 0 0 0.4
+    blob 0 1.25 -0.6 0.18 0.2 0.18 7AAA44
+    tube -0.6 0 0 -0.6 2.4 0 0.03 4 D0D0D0
+    dome -0.6 2.2 0 1.3 0.4 F2C21E
+
+shape AMAZON_STILT_HOUSE
+    home BRAZIL:AMAZONAS, BRAZIL:PARA, BRAZIL:AMAPA, BRAZIL:RORAIMA, BRAZIL:RONDONIA, PERU:AMAZONAS, COLOMBIA:META, BOLIVIA, SURINAME, GUYANA | 0.008 6 60 | country
+    # A palafita of the Amazon: a painted wooden house on tall stilts above the flood line, a canoe tied below.
+    box 0 0.02 0 4 0.02 5 5A5A3A water
+    repeat 3 0 0 2.4
+    mirrorx
+    tube 2.2 -0.5 -2.4 2.2 2.4 -2.4 0.12 4 5A4A3A
+    box 0 2.45 0 2.4 0.08 3 6A5A48
+    box 0 3.4 0 2.2 0.9 2.8 3A8AA8
+    windows 2.22 2.5 -2.5 0 1 5 1.8 0.4 1.6
+    gable 0 4.3 0 2.4 3 1.2 0.4 9AA0A8 3A8AA8
+    tbox 3.5 0 2 0.3 2 3.5 0.25 2 0.4 2.2 6A3A1E
+
+shape AMAZON_RIVERBOAT
+    home BRAZIL:AMAZONAS, BRAZIL:PARA, PERU:AMAZONAS | 0.006 8 50
+    # An Amazon riverboat: a white wooden two-decker moored at the bank, hammocks slung on its open decks.
+    box 0 0.02 0 4 0.02 9 5A5A3A water
+    tbox 0 0 0 1.6 7 0 0.9 0 1.9 7.5 F2F2F2
+    box 0 1.7 0 1.85 0.06 7 F2F2F2
+    repeat 6 0 0 2.6
+    mirrorx
+    tube 1.8 0.9 -6.5 1.8 3.2 -6.5 0.05 4 F2F2F2
+    box 0 3.2 0 1.85 0.06 7 F2F2F2
+    box 0 4.4 -2 1.4 1.2 3 F2F2F2
+    repeat 8 0 0 1.4
+    blob 0 1.3 -5 0.5 0.12 0.25 E83A3A
+    repeat 6 0 0 1.4
+    blob 0 2.7 -4 0.5 0.12 0.25 3A8AC8
+    box 0 3.0 7.4 0.1 0.6 0.4 2A6AC8
+
+shape JANGADA
+    home BRAZIL:CEARA, BRAZIL:RIO GRANDE DO NORTE, BRAZIL:PERNAMBUCO, BRAZIL:ALAGOAS, BRAZIL:PARAIBA, BRAZIL:SERGIPE, BRAZIL:PIAUI | 0.006 6 40 | coast
+    # A jangada pulled up on the beach: a flat log raft with a tall triangular sail, the fishermen's bench at its stern.
+    box 0 0.25 0 0.9 0.2 3.5 B8986A
+    tube 0 0.4 1 0 6.5 1 0.08 4 8A6A48
+    tri 0 0.8 1.1 0 6.4 1.1 0 0.8 -2.8 F2EEE2
+    box 0 0.6 -2.8 0.6 0.04 0.3 8A6A48
+
+shape ESTANCIA_HOUSE
+    home ARGENTINA, URUGUAY, BRAZIL:RIO GRANDE DO SUL, PARAGUAY | 0.006 10 80 | country
+    # An estancia house: long and white under a red tile roof, a deep galeria on columns, a windmill and eucalyptus behind.
+    box 0 2 0 4 2 8 F2F2EE
+    hip 0 4 0 4.3 8.3 1.4 0.3 B8502A
+    quad 4 3.8 -8 4 3.8 8 6 3.1 8 6 3.1 -8 B8502A
+    repeat 6 0 0 3.2
+    tube 5.9 0 -8 5.9 3.1 -8 0.15 6 F2F2EE
+    windows 4.02 0.2 -7.5 0 1 15 3.4 0.4 2.6
+    tube -6 0 -6 -6 8 -6 0.12 4 9A9A9A
+    box -6 8 -6 0.3 0.3 0.3 9A9A9A
+    tube -9 0 4 -9 10 4 0.35 6 C8C0B0
+    blob -9 12 4 2.5 3 2.5 6A8A6A 0.3
+
+shape CAPYBARA_FAMILY
+    home BRAZIL, ARGENTINA, URUGUAY, PARAGUAY, VENEZUELA, COLOMBIA, BOLIVIA | 0.006 4 40 | country
+    # Capybaras by a pond: big barrel-shaped rodents with blunt heads, a few young ones among the grown.
+    box 0 0.02 2 1.5 0.02 2 4A6A5A water
+    blob 0 0.45 0 0.35 0.35 0.65 8A6A48
+    blob 0 0.5 0.65 0.22 0.25 0.25 8A6A48
+    blob 1.2 0.4 -1 0.3 0.3 0.55 7A5A3A
+    blob 1.2 0.45 -0.45 0.2 0.22 0.22 7A5A3A
+    blob -0.8 0.25 -0.5 0.18 0.18 0.3 8A6A48
+    blob 0.4 0.25 1.4 0.18 0.18 0.3 8A6A48
+
+shape MACAWS_TREE
+    home BRAZIL:AMAZONAS, BRAZIL:PARA, BRAZIL:MATO GROSSO, PERU:AMAZONAS, COLOMBIA, VENEZUELA, BOLIVIA, COSTA RICA | 0.004 6 50 | country
+    # A dead tree full of macaws: scarlet, blue and yellow parrots perched on its bare branches.
+    tube 0 0 0 0 6 0 0.3 6 9A8A70
+    tube 0 4 0 1.8 6 0 0.12 4 9A8A70
+    tube 0 4.5 0 -1.6 6.3 0.4 0.12 4 9A8A70
+    tube 0 5.5 0 0.4 7.4 -0.8 0.1 4 9A8A70
+    blob 1.8 6.2 0 0.15 0.25 0.12 D82A1E
+    blob 1.4 5.8 0 0.15 0.25 0.12 2A6AD8
+    blob -1.6 6.5 0.4 0.15 0.25 0.12 F2C21E
+    blob 0.4 7.6 -0.8 0.15 0.25 0.12 D82A1E
+    blob -1.2 6.1 0.3 0.15 0.25 0.12 2A6AD8
+
+shape DIRT_FOOTBALL_PITCH
+    home BRAZIL, ARGENTINA, URUGUAY, PARAGUAY, COLOMBIA, PERU, BOLIVIA, ECUADOR, VENEZUELA, CHILE, MEXICO, GUATEMALA, HONDURAS, EL SALVADOR, NICARAGUA | 0.004 10 60 | country
+    # A village football pitch of red dirt, two white goals without nets, a ball forgotten in the middle.
+    box 0 0.02 0 8 0.02 12 B8704A
+    mirror
+    tube 0 0 10 0 2.2 10 0.07 4 F2F2F2
+    mirror
+    tube 0 2.2 10 0 2.2 12.2 0.07 4 F2F2F2
+    mirror
+    tube 0 0 12.2 0 2.2 12.2 0.07 4 F2F2F2
+    blob 1 0.12 1 0.12 0.12 0.12 F2F2F2
+
+shape MINAS_BAROQUE_CHURCH
+    home BRAZIL:MINAS GERAIS, BRAZIL:BAHIA, BRAZIL:GOIAS, BRAZIL:RIO DE JANEIRO, BRAZIL:PERNAMBUCO | 0.004 10 80
+    # A baroque church of Minas Gerais: whitewashed with soapstone trims, round bell towers, a curving gable over the door.
+    box 0 4 0 3.5 4 6 F2F2EE
+    gable 0 8 0 3.5 6 2 0.3 A8502A F2F2EE
+    mirror
+    cyl 3 0 5 1.3 1.3 9 10 F2F2EE
+    mirror
+    dome 3 9 5 1.3 1.6 3A6AC8
+    blob 3.52 8.5 0 0.1 1 2.2 F2F2EE
+    box 3.52 2 0 0.04 2 1 3A6AC8
+    box 3.53 2 0 0.03 1.8 0.8 6A4A2A
+    blob 3.55 6 0 0.02 0.6 0.6 8A8070
+
+shape JABIRU_STORKS
+    home BRAZIL:MATO GROSSO, BRAZIL:MATO GROSSO DO SUL, PARAGUAY, BOLIVIA, ARGENTINA:CORRIENTES, ARGENTINA:CHACO | 0.004 6 50 | country
+    # Jabiru storks on their huge nest in a lone tree of the Pantanal: white bodies, black bare heads, red throats.
+    tube 0 0 0 0 5 0 0.25 6 6A5A48
+    blob 0 6 0 1.6 0.8 1.6 4A7A2E 0.4
+    cyl 0 6.6 0 0.9 1.1 0.5 10 6A5A3A
+    blob 0.3 7.4 0 0.25 0.3 0.4 F2F2F2
+    tube 0.3 7.6 0.3 0.3 8.2 0.4 0.08 4 1E1E1E
+    blob 0.3 8.25 0.42 0.1 0.12 0.15 1E1E1E
+    box 0.3 7.85 0.33 0.07 0.1 0.05 C82A2A
+    tube 0.3 8.2 0.55 0.3 8.0 1.0 0.04 3 1E1E1E
+
+shape GAUCHITO_GIL_SHRINE
+    home ARGENTINA, PARAGUAY | 0.008 3 20 | country
+    # A shrine of Gauchito Gil: a little red chapel at the roadside, red flags on poles all around, candles and ribbons.
+    box 0 0.7 0 0.7 0.7 0.6 C82A2A
+    gable 0 1.4 0 0.75 0.65 0.5 0.1 A82A22 C82A2A
+    box 0.71 0.8 0 0.02 0.4 0.3 1E1E1E
+    repeat 5 0 0 0.9
+    tube -1 0 -1.8 -1 3 -1.8 0.03 3 8A6A48
+    repeat 5 0 0 0.9
+    tri -1 3 -1.8 -1 2.4 -1.8 -1 2.7 -1.1 D82A2A
+    tube 1.5 0 1 1.5 2.4 1 0.03 3 8A6A48
+    tri 1.5 2.4 1 1.5 1.9 1 1.5 2.15 1.6 D82A2A
+
+shape DIFUNTA_CORREA_SHRINE
+    home ARGENTINA:SAN JUAN, ARGENTINA:LA RIOJA, ARGENTINA:CATAMARCA, ARGENTINA:MENDOZA, ARGENTINA:SAN LUIS, ARGENTINA:CORDOBA | 0.006 3 20 | country
+    # A shrine of the Difunta Correa: a little chapel heaped all round with plastic bottles of water left for her thirst.
+    box 0 0.6 0 0.6 0.6 0.5 F2F2EE
+    gable 0 1.2 0 0.65 0.55 0.4 0.1 6A9AC8 F2F2EE
+    box 0.61 0.6 0 0.02 0.35 0.25 1E1E1E
+    blob 0.6 0.25 1.2 0.6 0.3 0.6 A8C8E8 0.6
+    blob 0.4 0.3 -1.3 0.7 0.35 0.6 A8C8E8 0.6
+    blob 1.2 0.2 0 0.4 0.2 0.8 B8D8E8 0.6
+
+shape PARRILLA_GRILL
+    home ARGENTINA, URUGUAY, PARAGUAY, BRAZIL:RIO GRANDE DO SUL, CHILE | 0.004 4 25
+    # A roadside parrilla: a brick grill under a tin roof, a whole lamb splayed on its iron cross over the embers.
+    box 0 0.5 0 0.6 0.5 1.4 A8503A
+    box 0 1.02 0 0.55 0.02 1.3 3A3A3A
+    blob 0 1.02 0 0.4 0.03 1.0 E8602A glow
+    tube 1.4 0 1 1.4 2.2 1 0.05 3 3A3A3A
+    tube 1.4 1.6 0.5 1.4 1.6 1.5 0.04 3 3A3A3A
+    blob 1.4 1.4 1 0.1 0.6 0.4 A8502A
+    quad -1 2.6 -2 -1 2.6 2 2 2.3 2 2 2.3 -2 9AA0A8
+    mirror
+    mirrorx
+    tube 1.9 0 1.9 1.9 2.3 1.9 0.05 4 6A5A48
+
+shape PATAGONIAN_TIN_HOUSE
+    home ARGENTINA:SANTA CRUZ, ARGENTINA:CHUBUT, ARGENTINA:TIERRA DEL FUEGO, CHILE:MAGALLANES, CHILE:AYSEN | 0.008 6 60 | pastel
+    # A Patagonian house of corrugated iron painted in a bright colour against the grey sky, a white trim, a windbreak of poplars.
+    box 0 1.6 0 3 1.6 4 A
+    repeat 12 0 0 0.66
+    box 3.01 1.6 -3.6 0.01 1.6 0.03 F2F2F2
+    windows 3.02 0.2 -3.5 0 1 7 2.6 0.4 2.4
+    gable 0 3.2 0 3.2 4.2 1.8 0.3 C83A2A A
+    repeat 5 0 0 2
+    blob -5 4 -4 0.6 4 0.6 4A7A3A 0.2
+
+shape GUANACOS
+    home ARGENTINA:SANTA CRUZ, ARGENTINA:CHUBUT, ARGENTINA:NEUQUEN, ARGENTINA:RIO NEGRO, ARGENTINA:MENDOZA, ARGENTINA:TIERRA DEL FUEGO, ARGENTINA:LA PAMPA, CHILE:MAGALLANES, CHILE:AYSEN, PERU:AREQUIPA | 0.006 10 80 | country
+    # Guanacos on the steppe: tawny wild camels with white bellies and long necks, watching the road.
+    blob 0 1.2 0 0.3 0.35 0.7 C8884A
+    blob 0 1.0 0 0.29 0.2 0.65 F2EEE2
+    tube 0 1.4 0.55 0 2.2 0.75 0.1 4 C8884A
+    blob 0 2.3 0.85 0.1 0.12 0.2 8A8478
+    mirror
+    mirrorx
+    tube 0.14 0.9 0.5 0.14 0 0.5 0.05 4 C8884A
+    blob 2.5 1.1 2 0.28 0.32 0.65 C8884A
+    tube 2.5 1.3 2.5 2.5 2.0 2.7 0.1 4 C8884A
+
+shape RHEA_BIRDS
+    home ARGENTINA, URUGUAY, BRAZIL:RIO GRANDE DO SUL, PARAGUAY, BOLIVIA, CHILE:MAGALLANES | 0.005 8 70 | country
+    # Rheas running over the pampa: big grey-brown flightless birds with long necks and legs.
+    blob 0 1.1 0 0.4 0.35 0.5 8A8070
+    tube 0 1.3 0.4 0 2.0 0.55 0.06 4 8A8070
+    blob 0 2.05 0.6 0.07 0.07 0.12 8A8070
+    tube 0.12 0.9 0 0.12 0 0.2 0.03 3 9A8A70
+    tube -0.12 0.9 0 -0.12 0 -0.2 0.03 3 9A8A70
+    blob 2 1.0 -1.5 0.35 0.3 0.45 7A7060
+    tube 2 1.2 -1.15 2 1.8 -1.0 0.06 4 7A7060
+
+shape VINEYARD_POPLARS
+    home ARGENTINA:MENDOZA, ARGENTINA:SAN JUAN, ARGENTINA:SALTA, CHILE:SANTIAGO, CHILE:VALPARAISO, CHILE:COQUIMBO | 0.006 8 70 | country
+    # Vines in long rows behind a windbreak of tall slender poplars, an irrigation channel at their foot.
+    repeat 6 0 0 1.8
+    box 4 0.6 -4.5 3 0.55 0.2 5A8A2E
+    repeat 8 0 0 1.6
+    blob 0 4.5 -5.6 0.6 4.5 0.6 5A8A3A 0.2
+    box 1.2 0.05 0 0.3 0.05 6 4A7A8A water
+
+shape ADOBE_CHAPEL_ANDES
+    home ARGENTINA:SALTA, ARGENTINA:JUJUY, ARGENTINA:CATAMARCA, ARGENTINA:LA RIOJA, ARGENTINA:TUCUMAN, CHILE:ANTOFAGASTA, BOLIVIA, PERU:AREQUIPA, PERU:PUNO | 0.004 8 60 | country
+    # An adobe chapel of the high valleys: whitewashed mud walls, a bell tower with an open arch, a door of cactus wood.
+    box 0 2 0 2.5 2 4.5 F2EEE2
+    gable 0 4 0 2.6 4.6 1.2 0.2 9A8A58 F2EEE2
+    box 0 3 5.6 1.2 3 1.2 F2EEE2
+    box 0 6.6 5.6 1.0 0.6 1.0 F2EEE2
+    blob 1.01 6.6 5.6 0.03 0.4 0.35 2A2A2A
+    cyl 1.05 6.5 5.6 0.2 0.1 0.35 8 B8902A
+    hip 0 7.2 5.6 1.1 1.1 0.6 0.1 F2EEE2
+    box 2.52 1.0 0 0.03 1.0 0.5 B8986A
+    box -4 0.6 0 0.2 0.6 6 F2EEE2
+
+shape CHILOE_PALAFITO
+    home CHILE:LOS LAGOS | 0.01 6 50
+    # Palafitos of Chiloe: shingled wooden houses in bright colours on stilts over the tidal water.
+    box 0 0.02 0 4 0.02 8 4A6A6A water
+    box 0 2.5 -4 2 1.3 1.6 E8C21E
+    box 0 2.5 0 2 1.3 1.6 C83A6A
+    box 0 2.5 4 2 1.3 1.6 3A8AC8
+    gable 0 3.8 -4 2.1 1.7 1 0.2 4A4A50 E8C21E
+    gable 0 3.8 0 2.1 1.7 1 0.2 4A4A50 C83A6A
+    gable 0 3.8 4 2.1 1.7 1 0.2 4A4A50 3A8AC8
+    repeat 6 0 0 2.6
+    mirrorx
+    tube 1.8 -0.5 -6.5 1.8 1.2 -6.5 0.1 4 5A4A3A
+    windows 2.02 1.5 -5.5 0 1 11 2.2 0.4 2
+
+shape CHILOE_CHURCH
+    home CHILE:LOS LAGOS | 0.006 10 80
+    # A wooden church of Chiloe: walls of painted shingles, a porch of arches, a tall tower stepping up over the front.
+    box 0 3 0 3.5 3 7 E8E2D0
+    gable 0 6 0 3.6 7.1 2 0.3 6A6A70 E8E2D0
+    repeat 5 0 0 1.4
+    arch 3.6 0 1.4 1.2 2 0.12 6 3A6AC8
+    box 0 7 6 1.6 1 1.6 E8E2D0
+    box 0 9 6 1.2 1 1.2 E8E2D0
+    spire 0 10 6 1.4 4 8 6A6A70
+    box 3.52 1.4 0 0.03 1.4 0.6 3A6AC8
+
+shape VALPARAISO_HOUSES
+    home CHILE:VALPARAISO | 0.01 4 50 | town
+    # Houses of Valparaiso's hills: corrugated iron fronts in every colour, stacked up the slope, a funicular rail beside them.
+    blob -6 0 0 7 5 9 6A6A50 0.3
+    box 0 2 -4 2.5 2 2.5 E8C21E
+    box -2 5 0 2.5 2 2.5 3A8AC8
+    box 0 2 3.5 2.5 2 2 E83A3A
+    box -4 7.5 -3 2.5 2 2.5 6AC86A
+    windows 2.52 0.5 -6 0 1 4 3 0.4 2
+    windows 0.52 3.5 -2 0 1 4 3 0.4 2
+    tube 3 0 6 -6 9 6 0.08 3 3A3A3A
+
+shape COPPER_HAUL_TRUCK
+    home CHILE:ANTOFAGASTA, PERU:AREQUIPA | 0.004 15 80 | country
+    # A mining haul truck as big as a house, yellow, its tyres taller than a man, parked by the road to the pit.
+    box 0 3.2 -1 3 1.5 4 F2C21E
+    box 0 4.8 3.5 2.6 0.8 1.2 F2C21E
+    box 0 5.6 3 0.9 0.5 0.6 2A3A4A glass
+    mirror
+    mirrorx
+    tube 2.2 1.8 3.5 3.4 1.8 3.5 1.8 12 1E1E1E
+    box 0 2.2 3.8 2.8 0.6 0.8 3A3A3A
+
+shape MONKEY_PUZZLE_TREE
+    home CHILE:LOS LAGOS, CHILE:AYSEN, ARGENTINA:NEUQUEN, ARGENTINA:RIO NEGRO | 0.006 10 80 | country
+    # An araucaria: a tall straight trunk, its branches in tiers like an umbrella of spiky ropes at the top.
+    tube 0 0 0 0 12 0 0.4 8 7A6A58
+    ring 8 0
+    tube 0 10 0 2.6 9.4 0 0.12 4 3A5A2E
+    ring 6 0 30
+    tube 0 11.4 0 1.8 11 0 0.12 4 3A5A2E
+    dome 0 11 0 2.4 1.8 3A5A2E
+
+shape ANIMITA
+    home CHILE | 0.01 3 15 | country
+    # An animita: a little shrine house at the roadside where someone died, painted bright, full of candles, plastic flowers and toys.
+    box 0 0.4 0 0.4 0.4 0.4 9A9488
+    box 0 1.1 0 0.45 0.35 0.45 F2F2F2
+    gable 0 1.45 0 0.5 0.5 0.4 0.08 3A6AC8 F2F2F2
+    box 0.46 1.1 0 0.02 0.25 0.3 B8CCD8 glass
+    blob 0.4 1.05 0 0.05 0.12 0.18 E83A6A
+    blob 0.45 0.1 0.3 0.12 0.1 0.12 F2C21E 0.4
+
+shape PUCARA_BULLS_ROOF
+    home PERU:PUNO, PERU:CUSCO, PERU:AREQUIPA | 0.008 6 50
+    # An adobe house with a pair of ceramic bulls and a little cross on its roof ridge, to bless and protect it.
+    box 0 1.5 0 3 1.5 4 B8885A
+    gable 0 3 0 3.2 4.2 1.6 0.3 B8603A B8885A
+    box 0 4.6 0 0.6 0.02 0.4 B8603A
+    blob 0 4.85 -0.25 0.08 0.12 0.18 B8603A
+    blob 0 4.85 0.25 0.08 0.12 0.18 B8603A
+    tube 0 4.6 0 0 5.4 0 0.03 3 E8E2D0
+    tube 0 5.2 -0.15 0 5.2 0.15 0.03 3 E8E2D0
+    box 3.02 0.9 0 0.03 0.9 0.45 3A6AC8
+
+shape ALPACA_HERD
+    home PERU, BOLIVIA, ECUADOR:COTOPAXI, CHILE:ANTOFAGASTA, ARGENTINA:JUJUY, ARGENTINA:SALTA | 0.008 6 70 | country
+    # Alpacas grazing in a woolly bunch, white, brown and black, colourful tassels in their ears.
+    blob 0 0.9 0 0.35 0.4 0.55 F2EEE2 0.3
+    tube 0 1.1 0.4 0 1.7 0.55 0.13 5 F2EEE2
+    blob 0 1.8 0.6 0.14 0.16 0.18 F2EEE2
+    mirrorx
+    blob 0.08 1.95 0.55 0.03 0.07 0.03 E83A6A
+    mirror
+    mirrorx
+    tube 0.15 0.6 0.35 0.15 0 0.35 0.06 4 E8E2D2
+    blob 1.5 0.85 1.5 0.33 0.38 0.5 8A5A30 0.3
+    tube 1.5 1.05 1.9 1.5 1.6 2.05 0.12 5 8A5A30
+    blob 1.5 1.7 2.1 0.13 0.15 0.17 8A5A30
+    blob -1.2 0.85 -1.4 0.33 0.38 0.5 2A2420 0.3
+    tube -1.2 1.05 -1.0 -1.2 1.6 -0.85 0.12 5 2A2420
+    blob -1.2 1.7 -0.8 0.13 0.15 0.17 2A2420
+
+shape TOTORA_REED_BOAT
+    home PERU:PUNO, BOLIVIA:LA PAZ | 0.008 6 40
+    # A totora reed boat at the lake shore: bundles of reeds lashed into a curved hull, its prow carved as a puma's head.
+    box 0 0.02 0 2 0.02 5 3A6A8A water
+    tube 0 0.4 -2.5 0 0.4 2.5 0.45 10 C8B060
+    tube 0 0.4 2.5 0 1.4 3.5 0.3 8 C8B060
+    tube 0 0.4 -2.5 0 1.1 -3.3 0.3 8 C8B060
+    blob 0 1.6 3.6 0.25 0.3 0.3 C8A050
+    box -2.5 0.1 0 1 0.1 3 C8B060
+
+shape INCA_STONE_WALL
+    home PERU:CUSCO | 0.01 3 25 | country
+    # An Inca wall: big polygonal stones fitted together without mortar, leaning slightly inward, a trapezoid doorway.
+    box 0 1.5 0 0.6 1.5 5 9A9488
+    blob 0.6 0.6 -3.5 0.05 0.55 0.8 8A8478 0.2
+    blob 0.6 0.5 -1.6 0.05 0.5 0.9 A8A498 0.2
+    blob 0.6 1.6 -2.5 0.05 0.5 0.7 8A8478 0.2
+    blob 0.6 2.4 -3.8 0.05 0.5 0.8 A09C90 0.2
+    blob 0.6 0.7 3.4 0.05 0.6 0.9 A09C90 0.2
+    blob 0.6 2.0 3.0 0.05 0.6 0.9 8A8478 0.2
+    tbox 0.61 0 1.0 0.02 0.5 0.61 2.3 1.0 0.02 0.35 2A2420
+
+shape CHIVA_BUS
+    home COLOMBIA, ECUADOR | 0.008 4 30 | country
+    # A chiva: a rural bus with a wooden body painted in stripes of every colour, open sides, luggage piled on the roof.
+    box 0 1.4 0 1.2 1.0 4 F2C21E
+    repeat 4 0 0.4 0
+    box 1.21 0.8 0 0.01 0.1 4 C82A2A
+    repeat 5 0 0 1.6
+    box 1.21 1.8 -3.2 0.01 0.4 0.6 1E1E1E
+    box 0 2.5 0 1.25 0.1 4.1 2A6AC8
+    blob 0 2.8 -1 0.9 0.3 2 8A6A48 0.5
+    box 0 1.2 4.4 1.0 0.5 0.6 2A6AC8
+    mirror
+    mirrorx
+    tube 1.0 0.45 3.5 1.25 0.45 3.5 0.45 10 1E1E1E
+
+shape COFFEE_FINCA
+    home COLOMBIA:QUINDIO, COLOMBIA:ANTIOQUIA, COSTA RICA, GUATEMALA, HONDURAS, EL SALVADOR, NICARAGUA | 0.006 8 70 | country
+    # A coffee farmhouse: whitewashed walls, a long wooden balcony painted in two bright colours, coffee bushes in rows on the slope.
+    box 0 2.6 0 3.5 2.6 6 F2F2EE
+    box 4.1 2.6 0 0.6 0.06 5.5 C83A2A
+    box 4.68 2.95 0 0.03 0.35 5.5 2A8A4A
+    repeat 5 0 0 2.6
+    tube 4.68 2.6 -5.2 4.68 5 -5.2 0.06 4 C83A2A
+    windows 3.52 0.3 -5.5 0 1 11 4.6 0.4 2.6
+    gable 0 5.2 0 3.7 6.2 1.6 0.6 B8502A F2F2EE
+    repeat 5 0 0 1.6
+    box -6 0.6 -4 2 0.6 0.5 2E5A2E
+
+shape CARTAGENA_BALCONY_HOUSE
+    home COLOMBIA:BOLIVAR, COLOMBIA:MAGDALENA, PANAMA, CUBA | 0.008 4 30 | town pastel
+    # A colonial house of Cartagena: pastel walls, a long wooden balcony draped in bougainvillea, a big door with a knocker.
+    box 0 3.5 0 3.5 3.5 4.5 A
+    box 4.1 3.8 0 0.6 0.06 4 7A4A2A
+    box 4.68 4.2 0 0.03 0.4 4 7A4A2A
+    quad 3.5 6.2 -4.2 3.5 6.2 4.2 4.8 5.8 4.2 4.8 5.8 -4.2 B8502A
+    blob 4.7 5 -2.5 0.3 0.8 1.5 E83A8A 0.4
+    windows 3.52 0.4 -4 0 1 8 6.2 0.4 3.2
+    box 3.53 1.4 2.5 0.03 1.4 0.9 6A3A1E
+    box 0 7.1 0 3.6 0.1 4.6 E8E2D8
+
+shape WILLYS_JEEP
+    home COLOMBIA:QUINDIO, COLOMBIA:ANTIOQUIA | 0.008 4 25 | pastel
+    # An old army jeep painted bright, the work horse of the coffee country, loaded high with sacks and bunches of bananas.
+    box 0 0.8 0 0.75 0.3 1.6 A
+    box 0 1.3 0.6 0.72 0.05 0.04 2A3A4A glass
+    mirror
+    mirrorx
+    tube 0.7 0.38 1.0 0.85 0.38 1.0 0.38 10 1E1E1E
+    blob 0 1.4 -0.6 0.6 0.4 0.8 C8B080 0.5
+    blob 0.3 1.9 -0.4 0.3 0.35 0.3 6A9A3A 0.4
+    mirrorx
+    blob 0.45 0.9 1.6 0.1 0.1 0.03 F2F2DA
+
+shape STRAW_HAT_STALL
+    home ECUADOR | 0.01 3 20
+    # A stall of woven toquilla straw hats, stacked in towers and hung on a rack by the road.
+    box 0 0.7 0 0.5 0.05 1.2 8A6A48
+    repeat 4 0 0 0.6
+    cyl 0 0.75 -0.9 0.3 0.3 0.05 12 E8DCB0
+    repeat 4 0 0 0.6
+    cyl 0 0.8 -0.9 0.18 0.16 0.35 10 E8DCB0
+    repeat 4 0 0 0.6
+    cyl 0 0.95 -0.9 0.19 0.19 0.04 10 1E1E1E
+    box -0.8 1.2 0 0.04 1.2 1.2 8A6A48
+
+shape SURINAME_WOODEN_HOUSE
+    home SURINAME, GUYANA | 0.01 6 60
+    # A colonial wooden house of Paramaribo: white boards on a red brick foot, green shutters, a steep roof with dormers.
+    box 0 0.5 0 3.5 0.5 5 A84A3A
+    box 0 2.8 0 3.5 1.8 5 F6F6F2
+    windows 3.52 1 -4.5 0 1 9 3.6 0.4 2.6
+    repeat 3 0 0 3
+    box 3.53 2.4 -3.85 0.02 0.7 0.17 2E6A3A
+    gable 0 4.6 0 3.7 5.2 3 0.4 3A3A40 F6F6F2
+    box 2.4 5.6 0 0.6 0.6 0.6 F6F6F2
+
+shape GUATEMALAN_TEXTILE_STALL
+    home GUATEMALA, HONDURAS, MEXICO:CHIAPAS, MEXICO:OAXACA | 0.008 3 20
+    # A stall hung with hand-woven textiles: blankets and huipiles in red, purple and turquoise stripes.
+    mirror
+    tube 0 0 2 0 2.4 2 0.05 4 8A6A48
+    tube 0 2.3 -2 0 2.3 2 0.04 3 8A6A48
+    box 0 1.5 -1.3 0.02 0.8 0.6 C82A3A
+    repeat 4 0 0.3 0
+    box 0.02 0.85 -1.3 0.01 0.06 0.6 2AB8B8
+    box 0 1.5 0 0.02 0.8 0.6 6A2A8A
+    repeat 4 0 0.3 0
+    box 0.02 0.85 0 0.01 0.06 0.6 F2C21E
+    box 0 1.5 1.3 0.02 0.8 0.6 2A6AC8
+    repeat 4 0 0.3 0
+    box 0.02 0.85 1.3 0.01 0.06 0.6 E83A6A
+
+shape MAYA_STELA
+    home GUATEMALA, HONDURAS, BELIZE, MEXICO:CHIAPAS, MEXICO:YUCATAN, MEXICO:CAMPECHE, MEXICO:QUINTANA ROO | 0.004 6 40 | country
+    # A Maya stela: a tall carved stone slab with a ruler's figure and glyphs, a round altar stone before it.
+    box 0 1.8 0 0.35 1.8 0.8 B8B0A0
+    blob 0.36 2.2 0 0.02 1.2 0.5 9A9488
+    repeat 4 0 0.4 0
+    box 0.37 0.5 -0.5 0.02 0.12 0.12 8A8478
+    cyl 1.5 0 0 0.8 0.8 0.5 10 B8B0A0
+    blob 0 0.1 0 1.5 0.2 1.5 4A7A3A 0.4
+
+shape OXCART_PAINTED
+    home COSTA RICA, NICARAGUA | 0.01 4 30
+    # A Costa Rican oxcart: its big wooden wheels and box painted all over in bright geometric suns and flowers.
+    box 0 1.2 0 0.7 0.4 1.2 C82A2A
+    blob 0.71 1.2 0 0.02 0.3 0.9 F2C21E
+    mirrorx
+    hoop 0.82 0.8 0 0.75 0.1 16 E8702A
+    mirrorx
+    blob 0.83 0.8 0 0.02 0.65 0.65 F2C21E
+    mirrorx
+    blob 0.84 0.8 0 0.02 0.35 0.35 2A6AC8
+    tube 0 1.0 1.2 0 1.0 3 0.06 4 C82A2A
+
+shape SLOTH_TREE
+    home COSTA RICA, PANAMA, NICARAGUA, HONDURAS, COLOMBIA, VENEZUELA, BRAZIL:AMAZONAS | 0.004 4 40 | country
+    # A sloth hanging from a branch of a cecropia tree over the road, slow and shaggy.
+    tube 0 0 0 0 6 0 0.25 6 B8B0A0
+    tube 0 4.5 0 1.8 5.6 0 0.1 4 B8B0A0
+    blob 0 6.6 0 1.6 0.9 1.6 4A7A3A 0.4
+    blob 1.2 4.8 0 0.25 0.35 0.2 8A7A5A 0.3
+    tube 1.1 5.0 0.15 1.2 5.3 0.05 0.05 3 8A7A5A
+    tube 1.3 5.0 -0.15 1.4 5.38 -0.05 0.05 3 8A7A5A
+
+shape YELLOW_CHURCH_CENTRAL
+    home GUATEMALA, EL SALVADOR, HONDURAS, NICARAGUA, BELIZE | 0.004 10 80
+    # A village church of Central America: a facade painted yellow and white, a scrolled gable, two stubby bell towers.
+    box 0 4 0 4 4 6 F2EEE2
+    box 4.02 4 0 0.05 4 4.5 E8C040
+    blob 4.08 8.2 0 0.05 1.4 2.4 E8C040
+    mirror
+    box 4.08 5 3.5 0.3 5 0.8 F2EEE2
+    mirror
+    dome 4.08 10 3.5 0.7 0.7 F2EEE2
+    box 4.1 1.6 0 0.03 1.6 0.8 6A3A1E
+    repeat 3 0 0 1.4
+    blob 4.1 5.6 -1.4 0.03 0.4 0.3 3A3A40
+    gable 0 8 0 4 6 1.6 0.3 B8502A F2EEE2
+
+shape CHATTEL_HOUSE
+    home BARBADOS, ANTIGUA AND BARBUDA, SAINT LUCIA, SAINT VINCENT, GRENADA, SAINT KITTS AND NEVIS, DOMINICA, TRINIDAD AND TOBAGO, BAHAMAS | 0.012 4 40 | pastel
+    # A chattel house: a little wooden house in a bright colour, white trim and fretwork, jalousie windows, on coral-stone blocks.
+    mirror
+    mirrorx
+    box 1.8 0.25 2.5 0.25 0.25 0.25 D8D0C0
+    box 0 1.6 0 2 1.1 2.8 A
+    box 2.01 1.6 -1.5 0.02 0.55 0.45 F2F2F2
+    box 2.01 1.6 1.5 0.02 0.55 0.45 F2F2F2
+    box 2.02 1.4 0 0.03 0.9 0.4 6A4A2A
+    gable 0 2.7 0 2.1 2.9 1.5 0.2 A82A22 A
+    repeat 12 0 0 0.5
+    tri 2.15 2.7 -2.9 2.15 2.7 -2.4 2.15 2.45 -2.65 F2F2F2
+
+shape GINGERBREAD_HOUSE
+    home HAITI, DOMINICAN REPUBLIC, CUBA | 0.008 6 50 | pastel
+    # A gingerbread house: a tall wooden house with steep roofs and turrets, its porches dripping with carved fretwork.
+    box 0 3 0 3.5 3 4 A
+    gable 0 6 0 3.7 4.2 3 0.3 6A3A2A A
+    box 2.5 5 3.4 0.8 5 0.8 A
+    spire 2.5 10 3.4 1 2.4 4 6A3A2A
+    quad 3.5 3 -4 3.5 3 4 5 2.7 4 5 2.7 -4 6A3A2A
+    repeat 4 0 0 2.6
+    tube 4.9 0 -3.9 4.9 2.7 -3.9 0.07 4 F2F2F2
+    repeat 16 0 0 0.5
+    tri 5 2.7 -3.9 5 2.7 -3.4 5 2.4 -3.65 F2F2F2
+    windows 3.52 0.4 -3.5 0 1 7 5.6 0.4 2.8
+
+shape TAP_TAP_BUS
+    home HAITI | 0.012 4 30
+    # A tap-tap: a pickup turned into a bus, its wooden cabin painted with saints, mottos and flowers in every colour.
+    box 0 0.9 2 0.9 0.5 0.9 2A6AC8
+    box 0 1.5 1.5 0.85 0.3 0.4 2A3A4A glass
+    box 0 1.6 -1.2 1.0 0.9 2.0 E83A3A
+    box 1.01 1.8 -1.2 0.01 0.5 1.7 F2C21E
+    blob 1.02 1.8 -1.2 0.01 0.4 0.6 2A8A4A
+    box 0 2.55 -1.2 1.05 0.05 2.05 F2C21E
+    mirror
+    mirrorx
+    tube 0.8 0.4 2.2 1.0 0.4 2.2 0.4 10 1E1E1E
+
+shape CUBAN_CLASSIC_CAR
+    home CUBA | 0.012 3 25 | pastel
+    # An old American car of the fifties still running in Cuba: big rounded body, chrome grille and bumpers, a white roof.
+    box 0 0.7 0 0.95 0.35 2.6 A
+    box 0 1.2 -0.4 0.88 0.3 1.2 F2F2F2
+    box 0 1.2 -0.4 0.89 0.22 1.1 2A3A4A glass
+    blob 0 0.9 1.9 0.9 0.25 0.8 A
+    box 0 0.55 2.62 0.9 0.15 0.04 C8C8C8 shiny
+    box 0 0.4 -2.62 0.9 0.1 0.04 C8C8C8 shiny
+    mirror
+    mirrorx
+    tube 0.85 0.35 1.6 1.0 0.35 1.6 0.35 10 1E1E1E
+    mirrorx
+    blob 0.6 0.85 2.62 0.12 0.12 0.04 F2F2DA
+
+shape CUBAN_COLONIAL_HOUSE
+    home CUBA | 0.012 4 40 | town pastel
+    # A colonial house of Havana: a pastel front behind a row of columns, tall shuttered windows, a little wrought-iron balcony.
+    box 0 3.5 0 4 3.5 5 A
+    windows 4.02 0.4 -4.5 0 1 9 6.4 0.4 3.2
+    repeat 5 0 0 2.2
+    tube 5 0 -4.4 5 3 -4.4 0.18 8 F2F2F2
+    box 4.5 3.1 0 0.6 0.1 5 F2F2F2
+    box 4.8 3.6 0 0.02 0.4 3 1E1E1E
+    box 0 7.1 0 4.05 0.1 5.05 F2F2F2
+
+shape JERK_DRUM_GRILL
+    home JAMAICA | 0.012 3 20
+    # A jerk stand: oil drums cut in half and hinged as grills, smoke pouring out, a little shack painted red, gold and green.
+    tube -0.5 0.9 -1.2 -0.5 0.9 0 0.4 10 1E1E1E
+    tube -0.5 0.9 0.4 -0.5 0.9 1.6 0.4 10 1E1E1E
+    mirror
+    mirrorx
+    tube 0.3 0 1.4 0.3 0.7 1.4 0.03 3 3A3A3A
+    blob -0.5 1.8 -0.6 0.4 0.6 0.4 B8B8B8 0.3
+    box -3 1.2 0 1 1.2 2 2A8A4A
+    box -1.99 1.6 0 0.02 0.3 1.8 F2C21E
+    box -1.98 1.9 0 0.02 0.12 1.8 C82A2A
+
+shape STEELPAN_RACK
+    home TRINIDAD AND TOBAGO | 0.012 4 25
+    # Steel pans on their stands under a tent: shining drums cut from oil barrels, waiting for the band.
+    quad -2 2.6 -3 -2 2.6 3 2 2.6 3 2 2.6 -3 F2F2F2
+    mirror
+    mirrorx
+    tube 2 0 3 2 2.6 3 0.05 4 9A9A9A
+    repeat 4 0 0 1.4
+    tube 0 0 -2.1 0 0.8 -2.1 0.03 3 3A3A3A
+    repeat 4 0 0 1.4
+    cyl 0 0.8 -2.1 0.3 0.3 0.25 12 C8C8C8 shiny
+    repeat 3 0 0 1.4
+    cyl -1 0.8 -1.4 0.3 0.3 0.25 12 C83A2A
+
+shape CONCH_SHELL_PILE
+    home BAHAMAS, BELIZE | 0.012 4 30 | coast
+    # A pile of pink conch shells by the fish shack, the rest of the day's catch.
+    blob 0 0.4 0 1.4 0.4 1.6 E8B8A0 0.6
+    repeat 6 0 0 0.5
+    blob 1.2 0.2 -1.3 0.2 0.15 0.25 E8A898
+    box -2.5 1.2 0 1.2 1.2 1.5 3AB8C8
+    gable -2.5 2.4 0 1.3 1.6 0.6 0.2 F2F2F2 3AB8C8
+
+shape COLMADO_SHOP
+    home DOMINICAN REPUBLIC | 0.012 3 20 | town
+    # A colmado: the corner shop painted in a beer brand's colours, plastic chairs out front and music playing.
+    box -1 1.6 0 1 1.6 3 F2C21E
+    box 0.02 1.2 0 0.02 1.0 2.4 3A3A3A
+    box 0.03 2.6 0 0.02 0.3 2.8 2A6AC8
+    repeat 4 0 0 1.4
+    box 1.4 0.45 -2.1 0.22 0.03 0.22 F2F2F2
+    repeat 4 0 0 1.4
+    box 1.6 0.75 -2.1 0.02 0.3 0.22 F2F2F2
+    box 1.2 0.4 2.5 0.3 0.4 0.3 C82A2A

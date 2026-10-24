@@ -285,7 +285,7 @@ shape SHADUF
     box 0 0.02 2.5 0.5 0.02 2 4A6A6A water
 
 shape DONKEY_CART
-    home EGYPT, SUDAN, MOROCCO, ETHIOPIA, MALI, NIGER, CHAD, MAURITANIA | 0.005 4 30 | country
+    home EGYPT, SUDAN, MOROCCO, ETHIOPIA, MALI, NIGER, CHAD, MAURITANIA, HAITI, HAITI | 0.005 4 30 | country
     # A donkey cart: a flat wooden bed on two car tyres, the grey donkey between the shafts, sacks and crates aboard.
     box 0 0.8 0 0.75 0.06 1.2 8A6A48
     mirrorx
