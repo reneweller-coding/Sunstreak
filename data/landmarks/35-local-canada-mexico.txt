@@ -1,0 +1,753 @@
+# More local things of Canada and Mexico.
+
+shape RED_MUSKOKA_CHAIRS
+    home CANADA:ONTARIO, CANADA:QUEBEC, CANADA:BRITISH COLUMBIA, CANADA:ALBERTA, CANADA:NOVA SCOTIA, CANADA:NEW BRUNSWICK, CANADA:NEWFOUNDLAND AND LABRADOR, CANADA:PRINCE EDWARD ISLAND, CANADA:MANITOBA | 0.005 6 40 | country
+    # Two red slat chairs set out at a lookout over the lake: wide armrests, the backs leaning far back, a granite knoll behind.
+    box -7 0.02 0 4 0.02 6 3A5A6A water
+    blob -2.4 0.3 0 1.4 0.6 2 9A9690 0.4
+    repeat 2 0 0 1.6
+    box 0 0.35 -0.8 0.3 0.03 0.28 C82A2A
+    repeat 2 0 0 1.6
+    quad -0.3 0.35 -1.1 -0.3 0.35 -0.5 -0.65 1.15 -0.5 -0.65 1.15 -1.1 C82A2A
+    repeat 2 0 0 1.6
+    box 0.05 0.6 -1.12 0.4 0.03 0.07 C82A2A
+    repeat 2 0 0 1.6
+    box 0.05 0.6 -0.48 0.4 0.03 0.07 C82A2A
+    repeat 2 0 0 1.6
+    box 0.3 0.3 -1.12 0.04 0.3 0.04 C82A2A
+    repeat 2 0 0 1.6
+    box 0.3 0.3 -0.48 0.04 0.3 0.04 C82A2A
+
+shape GRANITE_COVE_LIGHTHOUSE
+    home CANADA:NOVA SCOTIA, CANADA:NEW BRUNSWICK, CANADA:NEWFOUNDLAND AND LABRADOR, CANADA:PRINCE EDWARD ISLAND, CANADA:QUEBEC | 0.002 15 90 | coast
+    # A lighthouse on bare granite: a white octagonal tower with a red lantern, the smooth grey rock rolling down to the sea.
+    blob 0 0 0 7 1.5 6 B8B0A8 0.4
+    blob 3 0 -4 4 1 3 A8A098 0.4
+    blob -3 0 4 3 0.8 3 B0A8A0 0.4
+    cyl 0 1 0 1.6 1.2 10 8 F6F6F2
+    cyl 0 11 0 1.5 1.5 0.2 8 C82A2A
+    halo 0 11.7 0 1.45 0.04 8 C82A2A
+    cyl 0 11.2 0 0.8 0.8 1.4 8 F2E8B0 lit
+    spire 0 12.6 0 1.0 1.0 8 C82A2A
+
+shape MOUNTIE_ON_HORSE
+    home CANADA:ALBERTA, CANADA:SASKATCHEWAN, CANADA:MANITOBA, CANADA:ONTARIO, CANADA:BRITISH COLUMBIA | 0.002 4 30
+    # A mounted police officer in red serge on a black horse, the broad flat-brimmed hat, beside a white rail fence.
+    blob 0 1.35 0 0.32 0.42 0.9 1E1A18
+    mirror
+    mirrorx
+    tube 0.18 1.1 0.6 0.18 0 0.6 0.07 4 1E1A18
+    tube 0 1.6 0.7 0 2.2 1.05 0.14 5 1E1A18
+    blob 0 2.15 1.3 0.13 0.15 0.32 1E1A18
+    tube 0 1.5 -0.85 0 0.8 -1.0 0.06 3 1E1A18
+    mirrorx
+    tube 0.2 1.75 0 0.38 1.05 0.15 0.07 4 1E1E3A
+    mirrorx
+    box 0.38 0.95 0.18 0.06 0.12 0.12 1E1A18
+    box 0 2.15 0 0.22 0.4 0.15 C82A2A
+    mirrorx
+    tube 0.24 2.45 0 0.28 2.0 0.25 0.05 4 C82A2A
+    blob 0 2.7 0.02 0.11 0.13 0.11 E0B090
+    cyl 0 2.8 0 0.3 0.3 0.03 10 6A4A2A
+    cyl 0 2.83 0 0.12 0.1 0.16 8 6A4A2A
+    box 1.6 0.9 0 0.04 0.04 3 F2F2F2
+    box 1.6 0.5 0 0.04 0.04 3 F2F2F2
+    mirror
+    box 1.6 0.5 2.8 0.05 0.5 0.05 F2F2F2
+
+shape OUTDOOR_RINK
+    home CANADA, USA:MINNESOTA, USA:MICHIGAN, USA:WISCONSIN, USA:NORTH DAKOTA, USA:MAINE, USA:NEW HAMPSHIRE | 0.004 6 50 | cold
+    # An outdoor hockey rink in the village: white plank boards round the ice, two red nets, floodlights on poles.
+    box 0 0.02 0 7 0.02 14 D8E8F0 shiny
+    box 7 0.5 0 0.08 0.5 14 F2F2F2
+    box -7 0.5 0 0.08 0.5 14 F2F2F2
+    mirror
+    box 0 0.5 14 7 0.5 0.08 F2F2F2
+    box 0 0.04 0 7 0.01 0.15 C82A2A
+    mirror
+    box 0 0.04 4.5 7 0.01 0.15 2A4AC8
+    mirror
+    box 0 0.6 11.5 0.9 0.6 0.4 C82A2A
+    mirror
+    mirrorx
+    tube 8 0 9 8 8 9 0.1 4 8A8A8A
+    mirror
+    mirrorx
+    box 7.6 8 9 0.3 0.2 0.5 F2F2E8 glow
+
+shape SAP_BUCKET_MAPLES
+    home CANADA:QUEBEC, CANADA:ONTARIO, CANADA:NEW BRUNSWICK, CANADA:NOVA SCOTIA, USA:NEW HAMPSHIRE, USA:MAINE, USA:NEW YORK | 0.006 6 40 | country
+    # Sugar maples tapped in early spring: bare grey trunks, a tin sap bucket hung on each one.
+    repeat 4 0 0 3.5
+    tube 0 0 -5 0 6 -5 0.28 6 6A6058
+    repeat 4 0 0 3.5
+    tube 0 4 -5 1.5 7 -4.5 0.1 4 6A6058
+    repeat 4 0 0 3.5
+    tube 0 4.5 -5 -1.4 7.5 -5.6 0.1 4 6A6058
+    repeat 4 0 0 3.5
+    cyl 0.38 0.9 -5 0.16 0.18 0.3 8 B8B8B8 shiny
+    repeat 3 0 0 3.5
+    tube -3 0 -3.2 -3 5.5 -3.2 0.25 6 6A6058
+    repeat 3 0 0 3.5
+    tube -3 3.8 -3.2 -1.8 6.5 -2.6 0.09 4 6A6058
+    repeat 3 0 0 3.5
+    cyl -2.65 0.9 -3.2 0.16 0.18 0.3 8 B8B8B8 shiny
+
+shape CANADA_GEESE
+    home CANADA, USA:MINNESOTA, USA:MICHIGAN, USA:WISCONSIN, USA:NEW YORK, USA:MASSACHUSETTS, USA:OHIO, USA:PENNSYLVANIA | 0.006 4 40 | country
+    # A flock of Canada geese on the grass: brown bodies, long black necks, a white chin strap, some grazing.
+    repeat 4 1.0 0 1.1
+    blob -1.5 0.35 -2 0.18 0.18 0.32 7A6A58
+    repeat 4 1.0 0 1.1
+    tube -1.5 0.4 -1.8 -1.5 0.8 -1.7 0.04 4 1E1E1E
+    repeat 4 1.0 0 1.1
+    blob -1.5 0.82 -1.64 0.05 0.06 0.1 1E1E1E
+    repeat 4 1.0 0 1.1
+    blob -1.5 0.8 -1.67 0.055 0.03 0.06 F2F2F2
+    repeat 4 1.0 0 1.1
+    tube -1.5 0.25 -2 -1.5 0 -1.98 0.015 3 1E1E1E
+    repeat 3 -1.2 0 1.4
+    blob 0.5 0.35 1 0.18 0.18 0.32 7A6A58
+    repeat 3 -1.2 0 1.4
+    tube 0.5 0.4 1.2 0.5 0.15 1.45 0.04 4 1E1E1E
+    repeat 3 -1.2 0 1.4
+    blob 0.5 0.12 1.52 0.05 0.06 0.1 1E1E1E
+    repeat 3 -1.2 0 1.4
+    tube 0.5 0.25 1 0.5 0 1.02 0.015 3 1E1E1E
+
+shape BEAVER_POND
+    home CANADA, USA:MINNESOTA, USA:MICHIGAN, USA:WISCONSIN, USA:MAINE, USA:NEW YORK, USA:ALASKA, USA:MONTANA | 0.005 8 60 | country
+    # A beaver pond: a dome of piled sticks and mud in the still water, a dam across the stream, gnawed stumps on the bank.
+    box 0 0.02 0 5 0.02 7 3A4A4A water
+    blob -0.5 0 0 1.8 1.2 2.0 6A5A48 0.5
+    tube -0.5 1.0 -1 0.6 0.4 -1.8 0.05 3 7A6A58
+    tube -1.2 0.9 0.5 -2.3 0.3 1.6 0.05 3 7A6A58
+    tube 0 1.1 0.4 1.2 0.4 1.4 0.05 3 7A6A58
+    box 0 0.3 -7.3 5 0.3 0.4 5A4A38
+    repeat 6 0 0 1.6
+    blob 6 0 -2 0.2 0.4 0.2 8A7A60
+    repeat 6 0 0 1.6
+    spire 6 0.4 -2 0.15 0.3 6 C8B890
+    blob 1.5 0.08 3 0.15 0.1 0.3 5A3A22
+    quad 1.4 0.02 2.7 1.6 0.02 2.7 1.6 0.02 2.4 1.4 0.02 2.4 2A1E18
+
+shape CURLING_RINK
+    home CANADA:SASKATCHEWAN, CANADA:MANITOBA, CANADA:ALBERTA, CANADA:ONTARIO, CANADA:NEWFOUNDLAND AND LABRADOR, SCOTLAND | 0.003 8 50 | town
+    # A small-town curling rink: a long low hall under a shallow barrel roof, the target rings painted on its side.
+    box 0 2 0 6 2 15 C8C0B0
+    tube 0 -1.5 -15 0 -1.5 15 6.5 16 7A8088
+    windows 6.02 0.4 -6 0 1 12 2.6 0.3 3
+    hoop 6.05 2 10 1.2 0.14 16 C82A2A
+    hoop 6.06 2 10 0.6 0.14 16 2A4AC8
+    box 6.02 1.1 -10 0.02 1.1 0.9 6A4A2A
+    box 6.03 3.4 0 0.02 0.4 3 2A4A8A
+
+shape CANOLA_FIELD
+    home CANADA:ALBERTA, CANADA:SASKATCHEWAN, CANADA:MANITOBA, USA:NORTH DAKOTA, GERMANY, POLAND, CZECHIA, ENGLAND, DENMARK, SWEDEN, LITHUANIA, LATVIA | 0.006 8 70 | country
+    # A field of canola in bloom: a sea of bright yellow to the horizon, a farm track running through it.
+    box 0 0.5 -6 6 0.5 5 B8B030
+    box 0 0.5 6 6 0.5 5 B8B030
+    repeat 5 0 0 2
+    blob 0 1.05 -10 5.9 0.12 0.9 F2E040 0.5
+    repeat 5 0 0 2
+    blob 0 1.05 2 5.9 0.12 0.9 F2E040 0.5
+
+shape NORTHERN_POST_HOUSE
+    home CANADA:NUNAVUT, CANADA:YUKON, CANADA:NEWFOUNDLAND AND LABRADOR, CANADA:MANITOBA, CANADA:QUEBEC | 0.004 6 50
+    # An old fur trade post: white clapboard walls with red trim, a red roof, a flagpole by the door.
+    box 0 1.8 0 3 1.8 5 F6F6F2
+    gable 0 3.6 0 3.2 5.2 1.6 0.3 B82A22 F6F6F2
+    windows 3.02 0.4 -4 0 1 8 2.8 0.4 3
+    box 3.03 1.1 2.5 0.02 1.1 0.5 B82A22
+    mirror
+    mirrorx
+    box 3 1.8 5 0.08 1.8 0.08 B82A22
+    tube 5 0 -3 5 8 -3 0.06 4 E8E8E8
+    box 5 7.5 -2.4 0.02 0.4 0.6 C82A2A
+
+shape GIANT_PYSANKA
+    home CANADA:ALBERTA, CANADA:SASKATCHEWAN, CANADA:MANITOBA | 0.002 6 40
+    # A giant painted Easter egg on its pedestal in a prairie town: deep blue with bands of gold and bronze.
+    cyl 0 0 0 1.2 0.8 2.5 8 8A8680
+    blob 0 6 0 2.5 3.5 2.5 2A2A6A
+    halo 0 4.5 0 2.27 0.15 16 C8A040
+    halo 0 6 0 2.5 0.18 16 C8A040
+    halo 0 7.5 0 2.27 0.15 16 C8A040
+    halo 0 5.25 0 2.43 0.08 16 A86A2A
+    halo 0 6.75 0 2.43 0.08 16 A86A2A
+
+shape SEALSKIN_FRAMES
+    home CANADA:NUNAVUT, CANADA:NEWFOUNDLAND AND LABRADOR | 0.006 4 30
+    # Sealskins stretched on wooden frames to dry in the wind beside a house of the far north.
+    repeat 4 0 0 1.8
+    blob 0 1.0 -2.7 0.03 0.75 0.5 C8B8A0
+    repeat 4 0 0 1.8
+    tube 0 0 -3.3 0 1.9 -3.3 0.04 3 6A5A48
+    repeat 4 0 0 1.8
+    tube 0 0 -2.1 0 1.9 -2.1 0.04 3 6A5A48
+    repeat 4 0 0 1.8
+    tube 0 1.85 -3.35 0 1.85 -2.05 0.03 3 6A5A48
+    repeat 4 0 0 1.8
+    tube 0 0.15 -3.35 0 0.15 -2.05 0.03 3 6A5A48
+
+shape PERMAFROST_HOUSES
+    home CANADA:NUNAVUT, CANADA:YUKON, USA:ALASKA, RUSSIA:FAR EAST, NORWAY:SVALBARD | 0.008 6 40 | pastel
+    # Houses of the far north raised on steel piles above the permafrost: bright siding, small windows, an oil tank by the door.
+    repeat 3 0 0 2.4
+    tube 2 0 -6.4 2 1.2 -6.4 0.1 4 6A6A6A
+    repeat 3 0 0 2.4
+    tube -2 0 -6.4 -2 1.2 -6.4 0.1 4 6A6A6A
+    repeat 3 0 0 2.4
+    tube 2 0 1.6 2 1.2 1.6 0.1 4 6A6A6A
+    repeat 3 0 0 2.4
+    tube -2 0 1.6 -2 1.2 1.6 0.1 4 6A6A6A
+    box 0 2.4 -4 2.2 1.2 2.6 A
+    box 0 2.4 4 2.2 1.2 2.6 2A6A9A
+    gable 0 3.6 -4 2.2 2.6 0.9 0.2 4A4A50 A
+    gable 0 3.6 4 2.2 2.6 0.9 0.2 4A4A50 2A6A9A
+    windows 2.22 1.6 -6 0 1 4 1.6 0.4 2
+    windows 2.22 1.6 2 0 1 4 1.6 0.4 2
+    tbox 3.4 0 -3 0.6 0.4 2.4 1.2 -3 0.1 0.4 7A7A70
+    tube 3 0.8 -6.2 3 0.8 -5 0.4 8 C8C8C0
+    tbox 3.4 0 5 0.6 0.4 2.4 1.2 5 0.1 0.4 7A7A70
+
+shape MUSKOXEN
+    home CANADA:NUNAVUT, CANADA:YUKON, USA:ALASKA, NORWAY | 0.004 8 60 | cold
+    # Muskoxen on the tundra: humped and shaggy, their long dark coats nearly brushing the ground, horns curving down.
+    repeat 2 2 0 -2.5
+    blob 0 1.0 0 0.55 0.7 1.0 3A2E26 0.3
+    repeat 2 2 0 -2.5
+    blob 0 0.55 0 0.6 0.4 0.95 3A2E26 0.5
+    repeat 2 2 0 -2.5
+    blob 0 1.55 0.3 0.4 0.3 0.5 4A3A2E
+    repeat 2 2 0 -2.5
+    blob 0 0.95 1.05 0.25 0.3 0.3 3A2E26
+    repeat 2 2 0 -2.5
+    tube 0.05 1.2 1.0 0.35 1.1 1.0 0.07 4 C8B8A0
+    repeat 2 2 0 -2.5
+    tube -0.05 1.2 1.0 -0.35 1.1 1.0 0.07 4 C8B8A0
+    repeat 2 2 0 -2.5
+    tube 0.35 1.1 1.0 0.4 0.8 1.15 0.05 4 C8B8A0
+    repeat 2 2 0 -2.5
+    tube -0.35 1.1 1.0 -0.4 0.8 1.15 0.05 4 C8B8A0
+    repeat 2 2 0 -2.5
+    tube 0.3 0.3 0.6 0.3 0 0.6 0.09 4 B8A890
+    repeat 2 2 0 -2.5
+    tube -0.3 0.3 0.6 -0.3 0 0.6 0.09 4 B8A890
+    repeat 2 2 0 -2.5
+    tube 0.3 0.3 -0.6 0.3 0 -0.6 0.09 4 B8A890
+    repeat 2 2 0 -2.5
+    tube -0.3 0.3 -0.6 -0.3 0 -0.6 0.09 4 B8A890
+
+shape MOUNTAIN_GOATS
+    home CANADA:BRITISH COLUMBIA, CANADA:ALBERTA, CANADA:YUKON, USA:MONTANA, USA:WASHINGTON, USA:IDAHO, USA:ALASKA, USA:COLORADO | 0.004 8 60 | country
+    # Mountain goats on a rocky outcrop: shaggy white coats, little black horns, sure-footed on the ledges.
+    blob 0 0.8 0 2.5 1.6 3 8A8680 0.5
+    blob -1 2 1 1.4 1.2 1.4 9A9690 0.5
+    blob -1 3.55 1 0.18 0.25 0.45 F2F2EE
+    tube -0.9 3.35 1.3 -0.9 3.05 1.3 0.05 4 F2F2EE
+    tube -1.1 3.35 1.3 -1.1 3.05 1.3 0.05 4 F2F2EE
+    tube -0.9 3.35 0.7 -0.9 3.05 0.7 0.05 4 F2F2EE
+    tube -1.1 3.35 0.7 -1.1 3.05 0.7 0.05 4 F2F2EE
+    blob -1 3.8 1.45 0.1 0.12 0.18 F2F2EE
+    tube -0.95 3.9 1.4 -0.95 4.1 1.3 0.02 3 1E1E1E
+    tube -1.05 3.9 1.4 -1.05 4.1 1.3 0.02 3 1E1E1E
+    blob 0.8 2.65 -1.2 0.18 0.25 0.45 F2F2EE
+    tube 0.9 2.45 -0.9 0.9 2.15 -0.9 0.05 4 F2F2EE
+    tube 0.7 2.45 -0.9 0.7 2.15 -0.9 0.05 4 F2F2EE
+    tube 0.9 2.45 -1.5 0.9 2.15 -1.5 0.05 4 F2F2EE
+    tube 0.7 2.45 -1.5 0.7 2.15 -1.5 0.05 4 F2F2EE
+    blob 0.8 2.6 -0.72 0.1 0.12 0.18 F2F2EE
+
+shape BIGHORN_RAM
+    home CANADA:ALBERTA, CANADA:BRITISH COLUMBIA, USA:WYOMING, USA:MONTANA, USA:COLORADO, USA:IDAHO, USA:NEVADA, USA:UTAH, USA:ARIZONA | 0.004 6 50 | country
+    # A bighorn ram by the road cut: brown with a white rump, massive horns curled round his ears.
+    blob -2.5 1.5 0 1.5 1.5 3 A89070 0.5
+    blob 0 0.9 0 0.25 0.3 0.6 8A6A4A
+    blob 0 0.95 -0.55 0.2 0.22 0.1 F2EEE2
+    mirror
+    mirrorx
+    tube 0.13 0.7 0.4 0.13 0 0.4 0.05 4 8A6A4A
+    tube 0 1.05 0.45 0 1.35 0.65 0.11 5 8A6A4A
+    blob 0 1.35 0.8 0.11 0.13 0.2 8A6A4A
+    mirrorx
+    hoop 0.15 1.38 0.7 0.13 0.06 8 B8A080
+
+shape QUEBEC_BELLCAST_HOUSE
+    home CANADA:QUEBEC | 0.01 4 40 | country
+    # A Quebec farmhouse: fieldstone walls, a steep tin roof flaring out at the eaves like a bell over the long gallery, dormers.
+    box 0 1.6 0 3.5 1.6 5 B8B0A0
+    windows 3.52 0.3 -4.5 0 1 9 2.6 0.4 3
+    mirrorx
+    quad 2.6 3.6 -5.2 2.6 3.6 5.2 0 7.6 5.2 0 7.6 -5.2 9AA0A8
+    quad 5.6 2.7 -5.2 5.6 2.7 5.2 2.6 3.6 5.2 2.6 3.6 -5.2 9AA0A8
+    quad -4.3 3.0 -5.2 -4.3 3.0 5.2 -2.6 3.6 5.2 -2.6 3.6 -5.2 9AA0A8
+    mirror
+    quad -3.5 3.2 5 3.5 3.2 5 2.6 3.55 5 -2.6 3.55 5 B8B0A0
+    mirror
+    tri -2.6 3.55 5 2.6 3.55 5 0 7.55 5 B8B0A0
+    repeat 3 0 0 3
+    box 1.8 4.9 -3 0.7 0.6 0.5 F2F2F2
+    repeat 3 0 0 3
+    box 2.52 4.9 -3 0.02 0.35 0.3 2A3A4A glass
+    repeat 3 0 0 3
+    hip 1.8 5.5 -3 0.75 0.55 0.4 0.05 9AA0A8
+    mirror
+    box 0 7.6 4.6 0.4 0.6 0.3 8A8478
+    box 4.5 0.5 0 1 0.05 4.8 B8A890
+    repeat 4 0 0 3
+    tube 5.4 0.5 -4.5 5.4 2.75 -4.5 0.06 4 F2F2F2
+
+shape STREET_LETTER_BOX
+    home CANADA | 0.004 2 10 | town
+    # A red street letter box on the corner: a tall steel box with a rounded top, a slot and a white emblem.
+    box 0 0.7 0 0.3 0.7 0.3 C82A2A
+    tube 0 1.4 -0.3 0 1.4 0.3 0.3 10 C82A2A
+    box 0.31 1.15 0 0.01 0.03 0.18 1E1E1E
+    box 0.31 0.7 0 0.01 0.12 0.12 F2F2F2
+    box 0 0.03 0 0.35 0.03 0.35 6A6A6A
+
+shape CEDAR_PLANK_HOUSE
+    home CANADA:BRITISH COLUMBIA, USA:WASHINGTON, USA:ALASKA | 0.003 8 60 | coast
+    # A cedar plank big house by the shore: a wide low gabled front of weathered planks with a great painted design, carved posts at the door.
+    box 0 2.2 0 7 2.2 5 8A6A50
+    mirror
+    quad 7.3 4.4 -5.3 7.3 5.8 0 -7.3 5.8 0 -7.3 4.4 -5.3 6A5A48
+    mirrorx
+    tri 7 4.4 -5 7 4.4 5 7 5.8 0 8A6A50
+    hoop 7.02 2.6 0 1.6 0.12 16 1E1E1E
+    hoop 7.03 2.6 0 0.8 0.1 12 A82A22
+    mirror
+    box 7.03 3.3 -2.7 0.01 0.45 0.9 1E1E1E
+    mirror
+    blob 7.04 3.3 -2.7 0.01 0.22 0.4 F2EEE0
+    box 7.02 0.8 0 0.02 0.8 0.5 2A1E18
+    mirror
+    tube 7.4 0 2 7.4 4.8 2 0.3 8 8A6A50
+    mirror
+    blob 7.65 3.8 2 0.1 0.35 0.28 A82A22
+
+shape WIGWAM_BURNER
+    home CANADA:BRITISH COLUMBIA, USA:OREGON, USA:IDAHO, USA:MONTANA, USA:WASHINGTON | 0.003 10 70 | country
+    # A rusty old wigwam burner at a closed sawmill: a tall steel cone with a mesh dome on top, the mill shed beside it.
+    cyl 0 0 0 5 2 14 14 8A4A2A
+    dome 0 14 0 2 1.4 3A3A3A
+    halo 0 14.05 0 2 0.06 14 5A3A2A
+    box -10 2.5 0 4 2.5 8 7A7A70
+    gable -10 5 0 4.2 8.2 1.5 0.2 6A6A68 7A7A70
+    tube -7 4 0 -3.5 9 0 0.3 4 6A4A30
+    blob 6 0 4 3 1.5 3 A89070 0.4
+
+shape SNOW_PLOW_TRUCK
+    home CANADA, USA:MINNESOTA, USA:MICHIGAN, USA:WISCONSIN, USA:MAINE, USA:NEW HAMPSHIRE, USA:NEW YORK, USA:NORTH DAKOTA, USA:ALASKA, USA:COLORADO, USA:WYOMING, USA:MONTANA | 0.003 4 30
+    # A snowplough truck parked at the town garage: orange cab, a big angled blade in front, a salt hopper behind.
+    box 0 1.9 2.2 1.2 0.9 1.0 E8701E
+    box 0 2.3 3.21 1.05 0.4 0.01 2A3A4A glass
+    box 0 1.4 3.9 1.1 0.5 0.8 E8701E
+    box 0 1.0 0 1.0 0.15 5 2A2A2A
+    tbox 0 1.2 -2 0.6 2.2 0 3.0 -2 1.25 2.6 8A8A88
+    quad -1.4 0.1 5.6 1.6 0.1 4.6 1.6 1.3 4.8 -1.4 1.3 5.8 F2C21E
+    mirrorx
+    tube 1.0 0.55 3.5 1.25 0.55 3.5 0.55 10 1E1E1E
+    mirrorx
+    tube 1.0 0.55 -1.5 1.25 0.55 -1.5 0.55 10 1E1E1E
+    mirrorx
+    tube 1.0 0.55 -2.8 1.25 0.55 -2.8 0.55 10 1E1E1E
+    box 0 2.85 2.2 0.6 0.06 0.15 F2A21E glow
+
+shape PRAIRIE_STATION
+    home CANADA:SASKATCHEWAN, CANADA:MANITOBA, CANADA:ALBERTA, CANADA:ONTARIO, USA:NORTH DAKOTA, USA:MONTANA, USA:MINNESOTA | 0.003 8 60 | country
+    # A little wooden railway station on the prairie: ox-blood red with cream trim, a wide hipped roof over the platform.
+    box 0 1.8 0 2.5 1.8 6 8A2A1E
+    hip 0 3.6 0 3.6 7 1.6 0.2 4A4A4A
+    windows 2.52 0.4 -5 0 1 10 2.6 0.3 3
+    box 2.53 0.5 0 0.02 0.5 6 E8D8B0
+    box 2.54 3.0 0 0.02 0.12 6 E8D8B0
+    box 5 0.25 0 2 0.25 8 8A8478
+    box 6.5 2.4 -7.5 0.05 0.3 1.2 F2F2F2
+    tube 6.5 0 -8.5 6.5 2.2 -8.5 0.05 4 6A6A6A
+    tube 6.5 0 -6.5 6.5 2.2 -6.5 0.05 4 6A6A6A
+    box 8 0.15 0 0.8 0.15 12 6A6058
+    mirror
+    box 8 0.32 0 0.05 0.05 12 8A8A8A
+
+shape COD_FLAKES
+    home CANADA:NEWFOUNDLAND AND LABRADOR, CANADA:NOVA SCOTIA | 0.006 6 40 | coast
+    # Cod flakes by the harbour: low platforms of spruce poles on stilts, split salt cod spread out on them to dry.
+    repeat 4 0 0 2.5
+    box 0 1.0 -3.75 1.8 0.04 1.2 8A7A60
+    repeat 4 0 0 2.5
+    mirror
+    mirrorx
+    tube 1.6 0 -3.75 1.6 1.0 -3.75 0.06 3 6A5A48
+    repeat 4 0 0 2.5
+    blob 0.6 1.06 -4.2 0.25 0.02 0.18 E8E0C8
+    repeat 4 0 0 2.5
+    blob -0.6 1.06 -3.4 0.25 0.02 0.18 E8E0C8
+    repeat 4 0 0 2.5
+    blob 0.4 1.06 -3.2 0.25 0.02 0.18 E8E0C8
+    repeat 4 0 0 2.5
+    blob -0.8 1.06 -4.3 0.25 0.02 0.18 E8E0C8
+
+shape PUFFINS_ON_ROCK
+    home CANADA:NEWFOUNDLAND AND LABRADOR, ICELAND, NORWAY, SCOTLAND, WALES, IRELAND | 0.004 8 50 | coast
+    # Puffins on a grassy sea rock: black backs, white fronts, big striped orange beaks.
+    blob 0 0.8 0 2.4 1.0 3 7A7068 0.5
+    blob 0 1.6 0 2 0.4 2.6 6A8A4A 0.4
+    repeat 5 0.3 0 1
+    blob -1 2.1 -2 0.12 0.18 0.12 1E1E1E
+    repeat 5 0.3 0 1
+    blob -0.93 2.05 -2 0.06 0.13 0.09 F2F2F2
+    repeat 5 0.3 0 1
+    blob -1 2.33 -2 0.09 0.09 0.09 1E1E1E
+    repeat 5 0.3 0 1
+    blob -0.88 2.31 -2 0.07 0.05 0.035 E8701E
+
+shape LOG_DECK
+    home CANADA:BRITISH COLUMBIA, CANADA:ONTARIO, CANADA:QUEBEC, CANADA:NEW BRUNSWICK, USA:OREGON, USA:WASHINGTON, USA:MAINE, USA:IDAHO, SWEDEN, FINLAND, NORWAY | 0.006 6 50 | country
+    # A log deck at the landing: long stacked logs with pale cut ends to the road, waiting for the truck.
+    repeat 8 0 0 0.62
+    tube 0 0.3 -2.2 -8 0.3 -2.2 0.3 8 7A6A50
+    repeat 7 0 0 0.62
+    tube 0 0.84 -1.9 -8 0.84 -1.9 0.3 8 6A5A48
+    repeat 5 0 0 0.62
+    tube 0 1.38 -1.28 -8 1.38 -1.28 0.3 8 7A6A50
+    repeat 8 0 0 0.62
+    hoop 0.01 0.3 -2.2 0.22 0.1 8 D8C8A0
+    repeat 7 0 0 0.62
+    hoop 0.01 0.84 -1.9 0.22 0.1 8 D8C8A0
+    repeat 5 0 0 0.62
+    hoop 0.01 1.38 -1.28 0.22 0.1 8 D8C8A0
+
+shape BLUE_AGAVE_FIELD
+    home MEXICO:JALISCO, MEXICO:GUANAJUATO, MEXICO:NAYARIT, MEXICO:MICHOACAN, MEXICO:TAMAULIPAS | 0.01 6 70 | country
+    # A field of blue agave: rows of spiky silver-blue rosettes on red earth, running away from the road.
+    box -5 0.02 0 6 0.02 6 9A4A2A
+    repeat 6 0 0 2
+    tube 0 0.3 -5 0.9 1.2 -5 0.07 3 7A9AA8
+    repeat 6 0 0 2
+    tube 0 0.3 -5 -0.9 1.2 -5 0.07 3 7A9AA8
+    repeat 6 0 0 2
+    tube 0 0.3 -5 0.45 1.2 -4.22 0.07 3 7A9AA8
+    repeat 6 0 0 2
+    tube 0 0.3 -5 -0.45 1.2 -4.22 0.07 3 7A9AA8
+    repeat 6 0 0 2
+    tube 0 0.3 -5 0.45 1.2 -5.78 0.07 3 7A9AA8
+    repeat 6 0 0 2
+    tube 0 0.3 -5 -0.45 1.2 -5.78 0.07 3 7A9AA8
+    repeat 6 0 0 2
+    tube -2.5 0.3 -5 -1.6 1.2 -5 0.07 3 7A9AA8
+    repeat 6 0 0 2
+    tube -2.5 0.3 -5 -3.4 1.2 -5 0.07 3 7A9AA8
+    repeat 6 0 0 2
+    tube -2.5 0.3 -5 -2.05 1.2 -4.22 0.07 3 7A9AA8
+    repeat 6 0 0 2
+    tube -2.5 0.3 -5 -2.95 1.2 -4.22 0.07 3 7A9AA8
+    repeat 6 0 0 2
+    tube -2.5 0.3 -5 -2.05 1.2 -5.78 0.07 3 7A9AA8
+    repeat 6 0 0 2
+    tube -2.5 0.3 -5 -2.95 1.2 -5.78 0.07 3 7A9AA8
+    repeat 6 0 0 2
+    blob 0 0.3 -5 0.4 0.3 0.4 6A8A98
+    repeat 6 0 0 2
+    blob -2.5 0.3 -5 0.4 0.3 0.4 6A8A98
+
+shape PAINTED_TOMBS
+    home MEXICO, GUATEMALA, BOLIVIA, HONDURAS, EL SALVADOR | 0.004 4 30 | country
+    # A village graveyard of little painted tombs: houses and chapels for the dead in pink, turquoise and yellow.
+    repeat 4 0 0 1.8
+    box 0 0.6 -2.7 0.5 0.6 0.7 E87AA8
+    repeat 4 0 0 1.8
+    gable 0 1.2 -2.7 0.5 0.7 0.4 0.05 E8E8E8 E87AA8
+    repeat 3 0 0 1.8
+    box -2 0.7 -1.8 0.5 0.7 0.7 3AB8B0
+    repeat 3 0 0 1.8
+    box -2 1.45 -1.8 0.3 0.05 0.05 F2F2F2
+    repeat 3 0 0 1.8
+    box -2 1.6 -1.8 0.05 0.25 0.05 F2F2F2
+    box -4 0.9 0 0.8 0.9 1 F2C21E
+    dome -4 1.8 0 0.7 0.5 F2C21E
+    repeat 6 0 0 1.2
+    blob 0.6 0.15 -3 0.15 0.15 0.15 F2A21E 0.4
+
+shape FRUIT_CUP_CART
+    home MEXICO, GUATEMALA, EL SALVADOR, HONDURAS, NICARAGUA, COSTA RICA, PANAMA | 0.004 2 15 | town
+    # A fruit cart on the street corner: a glass case full of mango, melon and papaya, a big striped beach umbrella over it.
+    box 0 0.9 0 0.5 0.3 0.9 F2F2F2
+    box 0 1.35 0 0.48 0.15 0.88 C8E0E8 glass
+    box 0 1.3 -0.5 0.4 0.08 0.3 F2A21E
+    box 0 1.3 0.1 0.4 0.08 0.25 E8604A
+    box 0 1.3 0.6 0.4 0.08 0.2 F2D040
+    mirror
+    mirrorx
+    hoop 0.52 0.3 0.7 0.3 0.04 10 3A3A3A
+    tube 0 1.5 0 0 2.6 0 0.03 4 E8E8E8
+    spire 0 2.3 0 1.3 0.5 8 E83A2A
+
+shape CENOTE
+    home MEXICO:YUCATAN, MEXICO:QUINTANA ROO, MEXICO:CAMPECHE | 0.004 8 60 | country
+    # A cenote: a round sinkhole in the limestone, its turquoise water far below a ring of rock, roots and vines hanging down.
+    halo 0 0.3 0 4 0.5 14 C8C0A8
+    cyl 0 0.15 0 3.6 3.6 0.05 14 2AB8C8 water
+    ring 7 4.6
+    blob 0 0.3 0 0.8 0.5 0.8 A8A090 0.4
+    repeat 5 0 0 1.4
+    tube -3 0.6 -2.8 -2.5 -0.2 -2.4 0.05 3 6A5A48
+    tube 3 0 3 3 3 3 0.2 5 6A5A48
+    blob 3 4 3 1.8 1.3 1.8 3A7A3A 0.4
+    tube -4 0 -3 -4 2.5 -3 0.18 5 6A5A48
+    blob -4 3.3 -3 1.5 1.1 1.5 4A8A3A 0.4
+
+shape TOPES_SIGN
+    home MEXICO, GUATEMALA, BELIZE, HONDURAS | 0.006 1 4 | town
+    # A speed bump warning at the village entrance: a yellow diamond sign with the bumps drawn on it, the hump painted in stripes.
+    tube 0 0 0 0 2.2 0 0.04 4 9A9A9A
+    box 0.05 2.2 0 0.02 0.42 0.42 F2C21E
+    box 0.07 2.15 0 0.01 0.06 0.3 1E1E1E
+    box 0.07 2.3 0 0.01 0.04 0.2 1E1E1E
+
+shape NOPAL_ROWS
+    home MEXICO:MEXICO CITY, MEXICO:MEXICO STATE, MEXICO:HIDALGO, MEXICO:ZACATECAS, MEXICO:SAN LUIS POTOSI, MEXICO:AGUASCALIENTES, MEXICO:PUEBLA, MEXICO:TLAXCALA | 0.008 6 60 | country
+    # A nopal plantation: rows of paddle cactus grown for the kitchen, fat green pads stacked on each other.
+    repeat 5 0 0 2
+    blob 0 0.5 -4 0.08 0.5 0.4 5A8A4A
+    repeat 5 0 0 2
+    blob 0 1.2 -4.3 0.08 0.4 0.32 6A9A50
+    repeat 5 0 0 2
+    blob 0 1.2 -3.7 0.08 0.38 0.3 5A8A4A
+    repeat 5 0 0 2
+    blob -2 0.5 -4 0.08 0.5 0.4 5A8A4A
+    repeat 5 0 0 2
+    blob -2 1.2 -3.7 0.08 0.4 0.32 6A9A50
+    repeat 5 0 0 2
+    blob -4 0.5 -4 0.08 0.5 0.4 5A8A4A
+    repeat 5 0 0 2
+    blob -4 1.15 -4.3 0.08 0.36 0.3 6A9A50
+
+shape LIENZO_CHARRO
+    home MEXICO:JALISCO, MEXICO:ZACATECAS, MEXICO:AGUASCALIENTES, MEXICO:GUANAJUATO, MEXICO:MICHOACAN, MEXICO:DURANGO, MEXICO:CHIHUAHUA, MEXICO:SONORA, MEXICO:HIDALGO | 0.003 10 70 | country
+    # A charro arena: a long chute opening into a round ring, whitewashed walls, a few tiers of seats and a painted gate.
+    halo 0 1 0 10 0.6 20 F2EEE2
+    box 0 0.02 0 9.5 0.02 9.5 C8A070
+    box 0 1 -20 3.5 1 0.3 F2EEE2
+    box 3.5 1 -14.8 0.3 1 5 F2EEE2
+    box -3.5 1 -14.8 0.3 1 5 F2EEE2
+    tbox -11 0 0 0.5 6 -12 2.2 0 0.5 6 B8B0A0
+    box 3.82 1 -12 0.02 0.8 1.2 C82A2A
+
+shape VOLADORES_POLE
+    home MEXICO:VERACRUZ, MEXICO:PUEBLA, MEXICO:MEXICO CITY | 0.002 6 40
+    # A flyers' pole in the plaza: a tall pole with the little square frame at its top, the ropes wound round it.
+    tube 0 0 0 0 24 0 0.3 8 8A6A48
+    box 0 24.2 0 0.7 0.1 0.7 8A6A48
+    cyl 0 24.3 0 0.25 0.25 0.4 6 8A6A48
+    repeat 6 0 1.5 0
+    halo 0 14 0 0.33 0.04 8 C8B890
+    mirror
+    mirrorx
+    tube 0.6 24.1 0.6 1.4 18 1.4 0.02 3 C8B890
+    mirror
+    mirrorx
+    blob 1.4 17.6 1.4 0.15 0.3 0.15 C82A2A
+
+shape TILED_FOUNTAIN
+    home MEXICO:PUEBLA, MEXICO:GUANAJUATO, MEXICO:JALISCO, MEXICO:OAXACA, MEXICO:QUERETARO, MEXICO:MEXICO CITY, MEXICO:TLAXCALA | 0.003 4 30 | town
+    # A tiled fountain in the square: an octagonal basin dressed in blue and white tiles, a stone bowl and jet in its middle.
+    cyl 0 0 0 2.2 2.2 0.55 8 2A4A9A
+    cyl 0 0.55 0 2.0 2.0 0.04 8 4A9AC8 water
+    halo 0 0.65 0 2.1 0.12 8 F2F2F2
+    cyl 0 0 0 0.25 0.2 1.5 8 C8C0A8
+    cyl 0 1.5 0 0.3 0.8 0.3 8 C8C0A8
+    tube 0 1.8 0 0 2.6 0 0.06 4 C8E8F0 glass
+
+shape TRICYCLE_TAXI
+    home MEXICO:YUCATAN, MEXICO:QUINTANA ROO, MEXICO:CAMPECHE, MEXICO:TABASCO, MEXICO:CHIAPAS, MEXICO:VERACRUZ | 0.004 2 15 | town
+    # A pedal taxi of the Yucatan: a bench for two in front of the rider, a little striped canopy over them.
+    box 0 0.65 0.7 0.6 0.1 0.35 2A6AC8
+    box 0 0.95 0.45 0.6 0.25 0.08 2A6AC8
+    mirrorx
+    hoop 0.65 0.32 0.7 0.32 0.03 10 2A2A2A
+    hoop 0 0.32 -0.9 0.32 0.03 10 2A2A2A
+    tube 0 0.6 0.35 0 0.9 -0.7 0.04 4 3A3A3A
+    mirrorx
+    tube 0.6 0.7 1.0 0.6 1.9 1.0 0.02 3 E8E8E8
+    quad -0.7 1.9 0.4 0.7 1.9 0.4 0.7 1.95 1.15 -0.7 1.95 1.15 E8D040
+    blob 0 1.3 -0.6 0.18 0.25 0.15 E0B090
+    blob 0 1.65 -0.6 0.1 0.12 0.1 8A6A48
+
+shape CITY_MICROBUS
+    home MEXICO:MEXICO CITY, MEXICO:MEXICO STATE, MEXICO:PUEBLA, MEXICO:JALISCO, MEXICO:NUEVO LEON | 0.004 3 20 | town
+    # A city microbus: a boxy green and white minibus, the route painted across its windscreen.
+    box 0 1.3 0 1.0 0.85 3 F2F2EE
+    box 0 0.75 0 1.01 0.25 3 3A9A4A
+    box 1.01 1.55 -0.2 0.01 0.35 2.5 2A3A4A glass
+    box 0 1.55 3.01 0.9 0.4 0.01 2A3A4A glass
+    box 0 2.05 3.02 0.6 0.08 0.01 F2D040
+    mirrorx
+    tube 0.85 0.4 2.0 1.02 0.4 2.0 0.4 10 1E1E1E
+    mirrorx
+    tube 0.85 0.4 -2.0 1.02 0.4 -2.0 0.4 10 1E1E1E
+
+shape JACARANDA_TREES
+    home MEXICO:MEXICO CITY, MEXICO:JALISCO, MEXICO:PUEBLA, MEXICO:MORELOS, SOUTH AFRICA, ZIMBABWE, AUSTRALIA, ARGENTINA, PORTUGAL | 0.006 6 50
+    # Jacarandas in bloom: spreading crowns of lavender blue over the avenue, the fallen petals on the ground.
+    tube 0 0 -3 0 3 -3 0.25 6 5A4A40
+    tube 0 2.6 -3 1.5 4.2 -2.5 0.12 4 5A4A40
+    tube 0 2.6 -3 -1.2 4.4 -3.6 0.12 4 5A4A40
+    blob 0 5 -3 3 1.6 3 8A6AC8 0.4
+    tube 0 0 4 0 2.8 4 0.22 6 5A4A40
+    blob 0 4.6 4 2.6 1.4 2.6 9A7AD0 0.4
+    box 0 0.02 0.5 3 0.02 7 9A7AC8
+
+shape FLAME_TREE
+    home MEXICO:YUCATAN, MEXICO:QUINTANA ROO, MEXICO:VERACRUZ, MEXICO:GUERRERO, MEXICO:OAXACA, MEXICO:COLIMA, CUBA, JAMAICA, DOMINICAN REPUBLIC, BAHAMAS, MADAGASCAR, INDIA, AUSTRALIA, MAURITIUS | 0.004 6 50 | tropical
+    # A flame tree: a wide flat umbrella of a crown ablaze with scarlet flowers over a short grey trunk.
+    tube 0 0 0 0 2.5 0 0.35 6 8A8478
+    tube 0 2.3 0 2 3.6 0.5 0.15 4 8A8478
+    tube 0 2.3 0 -2 3.7 -0.6 0.15 4 8A8478
+    tube 0 2.3 0 0.4 3.7 2 0.15 4 8A8478
+    blob 0 4.1 0 4.5 1.0 4.2 D8301E 0.4
+    blob 0.5 3.8 0.5 3.6 0.6 3.4 4A7A2A 0.4
+
+shape BOUGAINVILLEA_WALL
+    home MEXICO, CUBA, DOMINICAN REPUBLIC, SPAIN:ANDALUSIA, GREECE, CYPRUS, MALTA, MOROCCO, BRAZIL, PHILIPPINES | 0.006 3 25 | town
+    # A whitewashed garden wall spilling over with bougainvillea in magenta, a little wooden door set into it.
+    box 0 1.2 0 0.25 1.2 5 F2EEE2
+    box 0.26 0.9 1.5 0.02 0.9 0.6 6A3A22
+    blob 0.2 2.4 -2.5 0.6 0.7 2.2 D82A8A 0.5
+    blob 0.4 1.6 -3.5 0.4 0.9 1 C81E7A 0.5
+    blob 0.2 2.5 3.4 0.5 0.6 1.4 D82A8A 0.5
+    blob -0.6 2.8 0 0.8 0.6 2 4A7A3A 0.5
+
+shape PANGA_BOAT
+    home MEXICO:BAJA CALIFORNIA, MEXICO:BAJA CALIFORNIA SUR, MEXICO:SONORA, MEXICO:SINALOA, MEXICO:NAYARIT, MEXICO:GUERRERO, MEXICO:OAXACA, MEXICO:YUCATAN, MEXICO:QUINTANA ROO, BELIZE, HONDURAS, NICARAGUA, COSTA RICA, PANAMA | 0.004 25 100 | water
+    # A panga: a long open fibreglass fishing boat with a high bow, an outboard on the stern, a blue stripe on white.
+    tbox 0 -0.3 0 0.5 3 0 0.6 0.4 0.95 3.8 F2F2EE
+    tbox 0 0.4 3.8 0.95 0.01 0 0.9 4.6 0.3 0.01 F2F2EE
+    box 0 0.45 0 0.96 0.06 3.8 2A6AC8
+    box 0 0.8 -3.9 0.18 0.4 0.15 2A2A2A
+    repeat 2 0 0 1.6
+    box 0 0.45 -0.8 0.9 0.04 0.15 C8C0A8
+
+shape MONARCH_FIRS
+    home MEXICO:MICHOACAN, MEXICO:MEXICO STATE | 0.006 6 50 | country
+    # The monarch butterflies' winter firs: tall dark firs whose branches hang heavy with orange clusters of resting butterflies.
+    repeat 3 0 0 4
+    tube 0 0 -4 0 9 -4 0.3 6 4A3A30
+    repeat 3 0 0 4
+    spire 0 3 -4 2.4 8 8 2A4A30
+    repeat 3 0 0 4
+    blob 1.3 5 -4 0.5 0.9 0.6 E8701E 0.5
+    repeat 3 0 0 4
+    blob -1 6.5 -3.5 0.4 0.8 0.5 D8601E 0.5
+    repeat 3 0 0 4
+    blob 0.4 8 -4.4 0.3 0.6 0.4 E8701E 0.5
+
+shape BULLRING
+    home MEXICO, SPAIN:ANDALUSIA, SPAIN:MADRID, SPAIN:CASTILE AND LEON, PORTUGAL, COLOMBIA, PERU, ECUADOR, VENEZUELA, FRANCE:OCCITANIE | 0.002 15 100 | town
+    # An old bullring: a round whitewashed wall with arched openings and ochre trim, the flag above its gate.
+    cyl 0 0 0 12 12 8 24 F2EEE2
+    halo 0 8.1 0 12.05 0.3 24 C8984A
+    cyl 0 3 0 12.05 12.05 0.3 24 C8984A
+    ring 16 11.85
+    blob 0 5.4 0 0.45 1.1 0.45 6A4A30
+    box 12.1 2 0 0.2 2 1.4 6A3A22
+    tube 12.4 8 0 12.4 12 0 0.06 4 E8E8E8
+    box 12.4 11.5 0.6 0.02 0.4 0.6 E8C21E
+
+shape IGUANA_ON_WALL
+    home MEXICO:YUCATAN, MEXICO:QUINTANA ROO, MEXICO:CAMPECHE, MEXICO:OAXACA, MEXICO:GUERRERO, MEXICO:COLIMA, MEXICO:JALISCO, MEXICO:NAYARIT, BELIZE, GUATEMALA, HONDURAS, COSTA RICA, NICARAGUA, PANAMA | 0.006 3 25 | country
+    # Iguanas sunning on an old stone wall: grey-green and spiny-backed, their long striped tails hanging down.
+    repeat 8 0 0 1
+    blob 0 0.5 -3.5 0.4 0.5 0.55 B8B0A0 0.5
+    blob 0 1.1 -1.5 0.15 0.12 0.45 7A8A6A
+    blob 0 1.18 -0.95 0.1 0.1 0.16 7A8A6A
+    tube 0 1.05 -1.95 0.3 0.4 -2.5 0.05 4 6A7A5A
+    repeat 5 0 0 0.15
+    spire 0 1.2 -1.75 0.03 0.12 3 6A7A5A
+    blob 0 1.1 1.5 0.15 0.12 0.45 8A8A6A
+    blob 0 1.18 2.05 0.1 0.1 0.16 8A8A6A
+    tube 0 1.05 1.05 -0.3 0.4 0.4 0.05 4 6A7A5A
+
+shape CARDON_CACTUS
+    home MEXICO:BAJA CALIFORNIA, MEXICO:BAJA CALIFORNIA SUR, MEXICO:SONORA | 0.008 8 70 | country
+    # A cardon: the giant cactus of Baja, many thick ribbed arms rising from a short trunk like a candelabra.
+    cyl 0 0 0 0.6 0.55 2.5 10 6A8A5A
+    cyl 0 2.5 0 0.5 0.45 9 10 6A8A5A
+    tube 0 2.2 0 1.6 2.6 0 0.4 8 6A8A5A
+    cyl 1.6 2.6 0 0.4 0.35 6.5 10 6A8A5A
+    tube 0 2.4 0 -1.4 2.9 0.5 0.4 8 6A8A5A
+    cyl -1.4 2.9 0.5 0.4 0.35 5.5 10 6A8A5A
+    tube 0 2.6 0 0.3 3 -1.5 0.38 8 6A8A5A
+    cyl 0.3 3 -1.5 0.38 0.33 4.5 10 6A8A5A
+
+shape BOOJUM_TREE
+    home MEXICO:BAJA CALIFORNIA | 0.008 6 60 | country
+    # Boojum trees: tall tapering grey columns like upside-down carrots, bristling with twigs, sometimes bent over in an arch.
+    cyl 0 0 0 0.6 0.1 11 8 B8B090
+    repeat 10 0 1 0
+    tube 0 1 0 0.5 1.4 0.2 0.03 3 7A7A5A
+    cyl 2 0 2 0.45 0.25 5 8 B8B090
+    tube 2 5 2 2.8 6.5 3 0.25 6 B8B090
+    tube 2.8 6.5 3 3.6 6 3.6 0.18 6 B8B090
+    cyl -2 0 -2 0.4 0.08 7 8 B8B090
+
+shape ADOBE_BRICK_YARD
+    home MEXICO, PERU, BOLIVIA, GUATEMALA, ECUADOR, MOROCCO, MALI, NIGER, AFGHANISTAN, IRAN | 0.004 4 40 | country
+    # Adobe bricks drying in the sun in long rows, the wooden moulds lying by the mud pit, a finished stack beside it.
+    repeat 8 0 0 0.8
+    box 0 0.06 -3 1.6 0.06 0.2 B8946A
+    repeat 8 0 0 0.8
+    box -3.6 0.06 -3 1.6 0.06 0.2 C8A07A
+    box 3 0.02 2 1.2 0.02 1 6A4A30
+    box 3 0.5 -2.5 0.6 0.5 0.8 B8946A
+    box 1.8 0.05 1.5 0.3 0.05 0.15 8A6A48
+
+shape WATER_JUG_TRUCK
+    home MEXICO, GUATEMALA, EL SALVADOR, HONDURAS, NICARAGUA | 0.004 2 20 | town
+    # A water delivery truck: a small flatbed piled high with big blue water jugs, the driver's cab painted white.
+    box 0 1.2 2.2 1.0 0.7 0.8 F2F2EE
+    box 0 1.5 3.01 0.9 0.3 0.01 2A3A4A glass
+    box 0 0.65 -0.8 1.0 0.1 2.2 6A6A6A
+    repeat 4 0 0 1
+    cyl 0.45 0.75 -2.3 0.25 0.25 0.5 8 3A8AC8 glass
+    repeat 4 0 0 1
+    cyl -0.45 0.75 -2.3 0.25 0.25 0.5 8 3A8AC8 glass
+    repeat 3 0 0 1
+    cyl 0 1.25 -1.8 0.25 0.25 0.5 8 3A8AC8 glass
+    mirrorx
+    tube 0.85 0.4 2.0 1.02 0.4 2.0 0.4 10 1E1E1E
+    mirrorx
+    tube 0.85 0.4 -1.8 1.02 0.4 -1.8 0.4 10 1E1E1E
+
+shape GIANT_MEXICAN_FLAG
+    home MEXICO | 0.002 10 80 | town
+    # A monumental flag: a huge green, white and red flag flying from a very tall steel mast over the city.
+    cyl 0 0 0 0.8 0.4 50 10 B8B8B8
+    box 0 47 1.33 0.05 2.3 1.33 2A7A3A
+    box 0 47 4 0.05 2.3 1.34 F2F2F2
+    box 0 47 6.67 0.05 2.3 1.33 C82A2A
+    blob 0 47 4 0.08 0.6 0.6 8A6A3A
+
+shape OX_PLOUGH
+    home MEXICO:OAXACA, MEXICO:CHIAPAS, MEXICO:GUERRERO, MEXICO:MICHOACAN, MEXICO:PUEBLA, GUATEMALA, PERU, BOLIVIA, ETHIOPIA, INDIA, NEPAL, MYANMAR | 0.004 6 50 | country
+    # A farmer ploughing behind a yoke of oxen: two pale oxen under a wooden yoke, the plough cutting the dark furrow.
+    box -2 0.02 0 3 0.02 4 5A4030
+    repeat 2 0.9 0 0
+    blob -0.45 1.0 0 0.32 0.42 0.85 D8D0C0
+    repeat 2 0.9 0 0
+    blob -0.45 1.1 0.95 0.18 0.2 0.3 D8D0C0
+    repeat 2 0.9 0 0
+    tube -0.3 0.7 0.5 -0.3 0 0.5 0.07 4 D8D0C0
+    repeat 2 0.9 0 0
+    tube -0.6 0.7 0.5 -0.6 0 0.5 0.07 4 D8D0C0
+    repeat 2 0.9 0 0
+    tube -0.3 0.7 -0.5 -0.3 0 -0.5 0.07 4 D8D0C0
+    repeat 2 0.9 0 0
+    tube -0.6 0.7 -0.5 -0.6 0 -0.5 0.07 4 D8D0C0
+    box 0 1.35 0.75 0.95 0.06 0.06 8A6A48
+    tube 0 1.2 0.7 0 0.3 -1.8 0.05 4 8A6A48
+    tube 0 0.3 -1.8 0 1.1 -2.4 0.04 4 8A6A48
+    blob 0 1.2 -2.8 0.18 0.35 0.15 F2F2EE
+    blob 0 1.7 -2.8 0.1 0.12 0.1 8A6A48
+    cyl 0 1.82 -2.8 0.25 0.22 0.06 10 D8C890
