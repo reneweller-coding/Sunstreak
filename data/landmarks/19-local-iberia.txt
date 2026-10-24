@@ -199,7 +199,7 @@ shape VALENCIAN_BARRACA
     tube -0.2 7.6 5.2 0.2 7.6 5.2 0.035 3 F2F2F2
 
 shape ORANGE_TREE_ROW
-    home SPAIN:VALENCIA, SPAIN:ANDALUSIA, SPAIN:MURCIA, PORTUGAL | 0.004 6 60 | country
+    home SPAIN:VALENCIA, SPAIN:ANDALUSIA, SPAIN:MURCIA, PORTUGAL, USA:FLORIDA, USA:CALIFORNIA | 0.004 6 60 | country
     # A row of orange trees, dark and round, the fruit glowing in the leaves.
     repeat 4 0 0 4
     tube 0 0 -6 0 1 -6 0.12 5 5A4A3A
