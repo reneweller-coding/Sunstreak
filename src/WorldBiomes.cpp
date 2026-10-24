@@ -151,6 +151,22 @@ std::string borderName( BiomeE dest, BiomeE from )
     return d.m_country ? d.m_country : d.m_name ? d.m_name : "";
 }
 
+void forkNames( BiomeE left, BiomeE right, BiomeE from, std::string &a, std::string &b )
+{
+    a = borderName( left, from );
+    b = borderName( right, from );
+    if( a != b ) return;
+    const BiomeDef &l = biomeDef( left ), &r = biomeDef( right );
+    if( l.m_region && r.m_region && std::strcmp( l.m_region, r.m_region ) != 0 )
+    {
+        a = l.m_region;
+        b = r.m_region;
+        return;
+    }
+    a = l.m_name ? l.m_name : a;
+    b = r.m_name ? r.m_name : b;
+}
+
 int countryCount()
 {
     static const int n = []

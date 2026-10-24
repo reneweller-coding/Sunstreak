@@ -1340,7 +1340,9 @@ void Game::timeAttackRules( float h )
         {
             const int side = m_car.m_x < 0.0f ? -1 : 1;
             m_track->choose( stage, side );
-            popup( "NEXT", borderName( side < 0 ? fork.m_left : fork.m_right, track.stageBiome( stage ) ), Accent, 1.0f, 2.6f );
+            std::string nameL, nameR;
+            forkNames( fork.m_left, fork.m_right, track.stageBiome( stage ), nameL, nameR );
+            popup( "NEXT", side < 0 ? nameL : nameR, Accent, 1.0f, 2.6f );
         }
     }
     const double ds = m_car.m_s - m_lastS;

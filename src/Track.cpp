@@ -159,7 +159,10 @@ bool Track::inForkZone( double s, double margin ) const
     if( !m_tour ) return false;
     const int stage = static_cast<int>( std::max( 0.0, s ) / StageLength );
     const Fork f = fork( stage );
-    return f.m_exists && s > f.m_at - ForkWiden - margin && s < f.m_at + ForkMedian + ForkPeel + margin;
+    if( !f.m_exists ) return false;
+    // Round the gore, and where the other carriageway peels away; in between the road is free to bend and climb.
+    const double u = s - f.m_at;
+    return ( u > -ForkWiden - margin && u < 250.0 + margin ) || ( u > ForkMedian - 150.0 - margin && u < ForkMedian + ForkPeel + 150.0 + margin );
 }
 
 float Track::difficulty( int stage )
@@ -473,11 +476,17 @@ void Track::appendSegment()
             seg.m_lanes = static_cast<uint8_t>( wide > 0.5f ? lanes * 2 : seg.m_lanes );
             if( wide > 0.02f && wide < 0.98f ) seg.m_flags |= SEG_NO_DASH;
             seg.m_flags |= SEG_FORK;
-            seg.m_flags &= static_cast<uint16_t>( ~( SEG_TUNNEL | SEG_BRIDGE | SEG_JUMP | SEG_ROADWORKS | SEG_PUDDLE | SEG_RAIL_L | SEG_RAIL_R |
-                                                     SEG_CHEVRON_L | SEG_CHEVRON_R ) );
+            if( inForkZone( s, 0.0 ) )
+            {
+                seg.m_flags &= static_cast<uint16_t>( ~( SEG_TUNNEL | SEG_BRIDGE | SEG_JUMP | SEG_ROADWORKS | SEG_PUDDLE | SEG_RAIL_L | SEG_RAIL_R |
+                                                         SEG_CHEVRON_L | SEG_CHEVRON_R ) );
+                seg.m_blockedLanes = 0;
+            }
+            seg.m_flags &= static_cast<uint16_t>( ~( SEG_ROADWORKS | SEG_PUDDLE ) );
             seg.m_blockedLanes = 0;
             if( u >= 0.0 && u < ForkMedian ) seg.m_flags |= SEG_MEDIAN;
-            seg.m_flat = smoothstepf( static_cast<float>( -ForkWiden - 200.0 ), static_cast<float>( -ForkWiden ), static_cast<float>( u ) ) *
+            // Flat land only where the other carriageway turns away into it.
+            seg.m_flat = smoothstepf( static_cast<float>( ForkMedian - 350.0 ), static_cast<float>( ForkMedian - 150.0 ), static_cast<float>( u ) ) *
                          ( 1.0f - smoothstepf( static_cast<float>( ForkMedian + ForkPeel ), static_cast<float>( ForkMedian + ForkPeel + 200.0 ), static_cast<float>( u ) ) );
         }
     }

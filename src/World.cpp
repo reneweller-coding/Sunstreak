@@ -899,9 +899,10 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             }
             if( ( u >= -285.0 && u < -285.0 + SegmentLength ) || ( u >= -780.0 && u < -780.0 + SegmentLength ) )
             {
-                const BiomeE from = track.stageBiome( seg.m_stage );
-                MeshBuilder  sign;
-                buildForkSign( sign, borderName( fork.m_left, from ), borderName( fork.m_right, from ), A.m_hw );
+                std::string left, right;
+                forkNames( fork.m_left, fork.m_right, track.stageBiome( seg.m_stage ), left, right );
+                MeshBuilder sign;
+                buildForkSign( sign, left, right, A.m_hw );
                 props.append( sign, at( A, 0.0f, 0.0f ), A.m_heading, 1.0f );
             }
             if( peeling )
@@ -978,13 +979,14 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 }
             }
 
-            if( rule.m_postSpacing > 0.0f && !railed && !tunnel && !bridge && !( seg.m_flags & SEG_FORK ) )
+            const bool forkClear = ( seg.m_flags & SEG_FORK ) && ( u < 250.0 || u > ForkMedian - 150.0 );   // the gore and the peel
+            if( rule.m_postSpacing > 0.0f && !railed && !tunnel && !bridge && !forkClear )
             {
                 const long k = std::max( 2L, static_cast<long>( rule.m_postSpacing / SegmentLength + 0.5f ) );
                 if( ( j + ( side < 0 ? k / 2 : 0 ) ) % k == 0 )
                     props.append( models.m_post, at( A, side * ( A.m_hw + RumbleWidth + 0.7f ), 0.0f ), A.m_heading, 1.0f );
             }
-            if( rule.m_lampSpacing > 0.0f && !tunnel && !bridge && !( seg.m_flags & SEG_FORK ) )
+            if( rule.m_lampSpacing > 0.0f && !tunnel && !bridge && !forkClear )
             {
                 const long k = std::max( 2L, static_cast<long>( rule.m_lampSpacing / SegmentLength + 0.5f ) );
                 if( j % k == ( side > 0 ? 0 : k / 2 ) )

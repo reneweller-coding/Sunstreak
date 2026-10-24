@@ -293,7 +293,24 @@ int main()
                 world.choose( stage, 1 );
                 const int after = biomeDef( world.stageBiome( stage + 1 ) ).m_underwater ? stage + 2 : stage + 1;
                 next = world.stageBiome( after ) == f.m_right && world.fork( stage ).m_chosen == 1;
+                std::string a, b;
+                forkNames( f.m_left, f.m_right, world.stageBiome( stage ), a, b );
+                next = next && !a.empty() && a != b;
             }
+            // Every fork's two signs read differently.
+            const auto &route = worldRoute();
+            int         named = 0, total = 0;
+            for( int pos = 0; pos < static_cast<int>( route.size() ); ++pos )
+            {
+                const RouteFork rf = routeFork( pos );
+                if( rf.m_other < 0 ) continue;
+                std::string a, b;
+                forkNames( route[static_cast<size_t>( rf.m_main )], route[static_cast<size_t>( rf.m_other )], route[static_cast<size_t>( pos )], a, b );
+                ++total;
+                named += !a.empty() && a != b ? 1 : 0;
+            }
+            std::printf( "      %d of %d forks round the world signed apart\n", named, total );
+            split = split && named == total;
             std::printf( "      %d forks in the first 40 stages from the white cliffs\n", forks );
             check( forks >= 3 && split && next, "forks at the borders" );
         }

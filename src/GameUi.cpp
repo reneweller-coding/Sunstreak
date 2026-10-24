@@ -1687,12 +1687,13 @@ void Game::drawHud()
         const Fork fork = m_track->fork( stage );
         if( fork.m_exists && fork.m_chosen == 0 && m_car.m_s > fork.m_at - 1100.0 )
         {
-            const BiomeE here = m_track->stageBiome( stage );
-            const bool   left = m_car.m_x < 0.0f;
-            const float  y = 150.0f * u, size = 18.0f * u;
+            std::string nameL, nameR;
+            forkNames( fork.m_left, fork.m_right, m_track->stageBiome( stage ), nameL, nameR );
+            const bool  left = m_car.m_x < 0.0f;
+            const float y = 150.0f * u, size = 18.0f * u;
             drawText( "THE ROAD FORKS", W * 0.5f, y - 26.0f * u, 12.0f * u, Dim, AlignE::CENTER );
-            drawTextFx( "< " + borderName( fork.m_left, here ), W * 0.5f - 24.0f * u, y, size, left ? Accent : Dim, AlignE::RIGHT, left ? 0.6f : 0.0f );
-            drawTextFx( borderName( fork.m_right, here ) + " >", W * 0.5f + 24.0f * u, y, size, left ? Dim : Accent, AlignE::LEFT, left ? 0.0f : 0.6f );
+            drawTextFx( "< " + nameL, W * 0.5f - 24.0f * u, y, size, left ? Accent : Dim, AlignE::RIGHT, left ? 0.6f : 0.0f );
+            drawTextFx( nameR + " >", W * 0.5f + 24.0f * u, y, size, left ? Dim : Accent, AlignE::LEFT, left ? 0.0f : 0.6f );
         }
     }
 

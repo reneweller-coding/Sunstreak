@@ -1024,6 +1024,17 @@ std::string placeName( BiomeE biome );
 std::string borderName( BiomeE dest, BiomeE from );
 
 /**
+ * @brief What a fork's signs call its two sides: their borderName(), or where that reads the same on both, their
+ *        states, or else the places themselves.
+ * @param[in]  left   where the left side leads
+ * @param[in]  right  where the right side leads
+ * @param[in]  from   where the road comes from
+ * @param[out] a      the left side's name
+ * @param[out] b      the right side's name
+ */
+void forkNames( BiomeE left, BiomeE right, BiomeE from, std::string &a, std::string &b );
+
+/**
  * @brief How many countries the world tour visits.
  * @return the number of different countries
  */
