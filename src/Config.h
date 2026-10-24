@@ -53,6 +53,7 @@ struct Settings
     int          m_timeOfDay = 0;                      ///< 0 as the place, 1 the tour clock (time zones), 2 dawn, 3 day, 4 dusk, 5 night
     int          m_weather = 0;                        ///< 0 weather fronts pass, 1 as the place
     int          m_seasons = 0;                        ///< 0 as today, 1 as the tour goes on, 2 off
+    bool         m_police = true;                      ///< patrol cars wait at the roadside and chase the car too fast past them
     int          m_steerAssist = 0;                    ///< 0 off, 1 light, 2 strong: helps keep the road and miss the traffic
     bool         m_brakeAssist = false;                ///< brakes for bends and obstacles taken too fast
     bool         m_colourBlind = false;                ///< the HUD's red and green become orange and blue

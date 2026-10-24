@@ -149,6 +149,7 @@ void Game::init()
         if( m_options.m_screen == "garage" ) m_state = StateE::GARAGE;
         if( m_options.m_screen == "rallies" ) m_state = StateE::RALLIES;
         if( m_options.m_screen == "passport" ) m_state = StateE::PASSPORT;
+        if( m_options.m_screen == "settings" ) m_state = StateE::SETTINGS;
         if( m_options.m_screen == "country" )
         {
             // Testing: the regions page with a country opened (--shape names it).
@@ -1655,7 +1656,7 @@ void Game::step( float h, const CarInput &in )
     {
         // The police: a patrol car of the country now and then; too fast past it, a chase until caught or away.
         PoliceEvents pe;
-        const bool   enabled = !m_demo && !m_setup.m_race && m_state == StateE::RACE && !m_timeUp;
+        const bool   enabled = m_settings.m_police && !m_demo && !m_setup.m_race && m_state == StateE::RACE && !m_timeUp;
         m_police.update( h, track, m_car.m_s, m_car.m_x, m_car.m_speed, m_car.m_spec.m_topSpeed, m_traffic, m_models, enabled, pe );
         if( pe.m_chase )
         {

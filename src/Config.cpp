@@ -99,6 +99,7 @@ bool loadSettings( Settings &settings )
             else if( key == "time_of_day" ) settings.m_timeOfDay = std::clamp( std::stoi( val ), 0, 5 );
             else if( key == "weather" ) settings.m_weather = std::clamp( std::stoi( val ), 0, 1 );
             else if( key == "seasons" ) settings.m_seasons = std::clamp( std::stoi( val ), 0, 2 );
+            else if( key == "police" ) settings.m_police = val == "1";
             else if( key == "steer_assist" ) settings.m_steerAssist = std::clamp( std::stoi( val ), 0, 2 );
             else if( key == "brake_assist" ) settings.m_brakeAssist = val == "1";
             else if( key == "colour_blind" ) settings.m_colourBlind = val == "1";
@@ -147,6 +148,7 @@ bool saveSettings( const Settings &settings )
     out << "time_of_day=" << settings.m_timeOfDay << "\n";
     out << "weather=" << settings.m_weather << "\n";
     out << "seasons=" << settings.m_seasons << "\n";
+    out << "police=" << ( settings.m_police ? 1 : 0 ) << "\n";
     out << "steer_assist=" << settings.m_steerAssist << "\n";
     out << "brake_assist=" << ( settings.m_brakeAssist ? 1 : 0 ) << "\n";
     out << "colour_blind=" << ( settings.m_colourBlind ? 1 : 0 ) << "\n";

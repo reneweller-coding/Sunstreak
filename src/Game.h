@@ -58,6 +58,7 @@ enum class SettingE
     TIME_OF_DAY,  ///< as the place, the tour clock, or a fixed hour
     WEATHER,      ///< weather fronts or the place's own weather
     SEASONS,      ///< as today, as the tour goes on, or none
+    POLICE,       ///< patrol cars that give chase
     STEER_ASSIST, ///< help with the steering
     BRAKE_ASSIST, ///< help with the brakes
     COLOUR_BLIND, ///< a palette for colour blindness

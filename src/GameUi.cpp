@@ -136,7 +136,7 @@ void ui::drawHint( std::string_view text, float x, float y, float size, Color co
 const char *Game::settingLabel( SettingE item ) const
 {
     static const char *labels[] = { "PROFILE",      "DISPLAY",      "3D RESOLUTION", "SHADOWS",      "VSYNC",     "FRAME LIMIT", "DIFFICULTY",
-                                    "SCENERY",      "TIME OF DAY",   "WEATHER",      "SEASONS",      "STEER ASSIST", "BRAKE ASSIST", "COLOUR BLIND",
+                                    "SCENERY",      "TIME OF DAY",   "WEATHER",      "SEASONS",      "POLICE",       "STEER ASSIST", "BRAKE ASSIST", "COLOUR BLIND",
                                     "TEXT SIZE",    "GEARS",         "SPEEDOMETER",  "CAMERA",    "SPEED BLUR",  "VIBRATION",
                                     "MUSIC",        "EFFECTS",       "RADIO",        "RESET SETTINGS", "ERASE PROGRESS", "BACK" };
     return labels[static_cast<int>( item )];
@@ -178,6 +178,7 @@ std::string Game::settingValue( SettingE item ) const
         static const char *seasons[] = { "AS TODAY", "AS YOU TRAVEL", "OFF" };
         return seasons[std::clamp( m_settings.m_seasons, 0, 2 )];
     }
+    case SettingE::POLICE: return m_settings.m_police ? "ON" : "OFF";
     case SettingE::STEER_ASSIST:
     {
         static const char *levels3[] = { "OFF", "LIGHT", "STRONG" };
@@ -267,6 +268,7 @@ void Game::changeSetting( SettingE item, int dir )
         m_world.clear();
         m_world.m_seasons = seasonClock();
         break;
+    case SettingE::POLICE: m_settings.m_police = !m_settings.m_police; break;
     case SettingE::STEER_ASSIST: m_settings.m_steerAssist = ( m_settings.m_steerAssist + 3 + dir ) % 3; break;
     case SettingE::BRAKE_ASSIST: m_settings.m_brakeAssist = !m_settings.m_brakeAssist; break;
     case SettingE::COLOUR_BLIND:
