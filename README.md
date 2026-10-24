@@ -45,6 +45,9 @@ VIBRATION; on the Deck through Steam Input).
 - **Endless run**: the clock, the checkpoints and the stages, on a fresh random track each time. On the world tour it
   continues where the last endless run stopped (left and right on the title: NEW TOUR). SAVE AND QUIT in the pause menu
   keeps the run as it stands, the place on the road, the clock and the score; RESUME on the title drives on from there.
+- **Achievements** (PASSPORT > AWARDS): 26 of them, from the first stamp to every country of Africa, Europe, the
+  Americas or Asia, getting away from the police of every livery, ten hitchhikers delivered, ten ambulances let through,
+  aquaplaning in a downpour, 50 postcards, 10000 km. They are announced when earned and kept with the records.
 - **Travel**: the world tour without a clock, on and on from where the last tour stopped, for the places, the passport and
   the postcards. Speed cameras and the police still fine you, in points.
 - **Championship**: five races on generated tracks against eleven rivals, from the back of the grid; points
@@ -308,7 +311,7 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
                                   the run or an ambulance or fire engine close by, after T seconds
     --resume                      continue the saved endless run
     --code XXXXX-XXXXX-XXXXX      drive a Track Lab code
-    --screen lab|records|code|garage|passport|stamps|regions|country|postcards|album|rallies|viewer|settings   open that screen
+    --screen lab|records|code|garage|passport|stamps|regions|country|postcards|album|awards|rallies|viewer|settings   open that screen
     --shape NAME                  the landmark the viewer opens on (with --screen country: the country)
     --shape-tour N                with --screen viewer: photograph N models from there on, one picture each, saved
                                   as the --screenshot prefix followed by the model's name

@@ -5,6 +5,7 @@
  */
 #include "Game.h"
 
+#include "Achievements.h"
 #include "UiCommon.h"
 #include "VectorFont.h"
 
@@ -2168,9 +2169,9 @@ void Game::drawPassport()
     const float x = W * 0.5f - w * 0.5f, y = 20.0f * u;
     panel( x, y, w, h );
     drawTextFx( "PASSPORT", x + 28.0f * u, y + 18.0f * u, 28.0f * u, Accent, AlignE::LEFT, 0.8f );
-    const char *tabs[5] = { "MAP", "STAMPS", "REGIONS", "POSTCARDS", "ALBUM" };
+    const char *tabs[6] = { "MAP", "STAMPS", "REGIONS", "POSTCARDS", "ALBUM", "AWARDS" };
     float       tx = x + w - 28.0f * u;
-    for( int i = 4; i >= 0; --i )
+    for( int i = 5; i >= 0; --i )
     {
         const float tw = textWidth( tabs[i], 15.0f * u );
         tx -= tw;
@@ -2189,6 +2190,7 @@ void Game::drawPassport()
     case PassportE::STAMPS: drawStamps( cx, cy, cw, ch ); break;
     case PassportE::REGIONS: drawRegions( cx, cy, cw, ch ); break;
     case PassportE::ALBUM: drawAlbum( cx, cy, cw, ch ); break;
+    case PassportE::AWARDS: drawAchievements( cx, cy, cw, ch ); break;
     default: drawPostcards( cx, cy, cw, ch ); break;
     }
     const bool  regions = m_passportPage == static_cast<int>( PassportE::REGIONS );
@@ -2199,6 +2201,32 @@ void Game::drawPassport()
         hint = m_input.m_gamepad ? "[DPAD] COUNTRY AND PAGE     [A] ITS REGIONS     [B] BACK"
                                  : "[UP] [DOWN] COUNTRY     [ENTER] ITS REGIONS     [LEFT] [RIGHT] PAGE     [ESC] BACK";
     drawHint( hint, W * 0.5f, y + h - 28.0f * u, 11.0f * u, Dim, AlignE::CENTER );
+}
+
+void Game::drawAchievements( float x, float y, float w, float h )
+{
+    // Two columns: a medal, the name, what earns it, how far along.
+    const float u = unit();
+    const auto &list = achievements();
+    const int   rows = static_cast<int>( ( list.size() + 1 ) / 2 );
+    const float cw = w * 0.5f, rh = std::min( 40.0f * u, h / static_cast<float>( rows ) );
+    int         earned = 0;
+    for( size_t i = 0; i < list.size(); ++i )
+    {
+        const AchievementProgress p = achievementProgress( m_records, i );
+        const bool done = std::find( m_records.m_achieved.begin(), m_records.m_achieved.end(), list[i].m_key ) != m_records.m_achieved.end();
+        earned += done ? 1 : 0;
+        const float cx = x + cw * static_cast<float>( i / static_cast<size_t>( rows ) ), cy = y + rh * static_cast<float>( i % static_cast<size_t>( rows ) );
+        const Vector2 medal = { cx + 14.0f * u, cy + rh * 0.5f };
+        DrawCircleV( medal, 10.0f * u, done ? Gold : Color{ 190, 196, 210, 40 } );
+        DrawCircleLinesV( medal, 10.0f * u, done ? Color{ 255, 240, 180, 255 } : Dim );
+        if( done ) DrawCircleV( medal, 4.0f * u, Color{ 255, 240, 200, 255 } );
+        drawText( list[i].m_title, cx + 32.0f * u, cy + rh * 0.5f - 15.0f * u, 13.0f * u, done ? Gold : Ink );
+        drawText( list[i].m_what, cx + 32.0f * u, cy + rh * 0.5f + 4.0f * u, 9.0f * u, Dim );
+        drawText( done ? std::string( "DONE" ) : format( "%d / %d", p.m_have, p.m_need ), cx + cw - 16.0f * u, cy + rh * 0.5f - 15.0f * u, 12.0f * u,
+                  done ? Gold : Dim, AlignE::RIGHT );
+    }
+    drawText( format( "%d OF %d EARNED", earned, static_cast<int>( list.size() ) ), x + w, y + h + 8.0f * u, 11.0f * u, Dim, AlignE::RIGHT );
 }
 
 void Game::drawRallies()

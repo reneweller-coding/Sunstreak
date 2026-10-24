@@ -335,6 +335,26 @@ void Records::load( const std::string &path )
                     if( !name.empty() ) m_journey.push_back( name );
             }
             else if( key == "cards3" ) readNames( val, m_postcards );
+            else if( key == "stats" )
+            {
+                std::stringstream ss( val );
+                std::string       v[5];
+                for( std::string &s : v ) std::getline( ss, s, '|' );
+                m_escapes = std::atoi( v[0].c_str() );
+                m_caught = std::atoi( v[1].c_str() );
+                m_delivered = std::atoi( v[2].c_str() );
+                m_gaveWay = std::atoi( v[3].c_str() );
+                m_aquaplanes = std::atoi( v[4].c_str() );
+            }
+            else if( key == "escaped" || key == "hitchfrom" || key == "achieved" )
+            {
+                std::vector<std::string> &list = key == "escaped" ? m_escapedFrom : key == "hitchfrom" ? m_hitchFrom : m_achieved;
+                std::stringstream         ss( val );
+                std::string               name;
+                list.clear();
+                while( std::getline( ss, name, ',' ) )
+                    if( !name.empty() ) list.push_back( name );
+            }
             else if( key == "points" ) m_points = std::max<int64_t>( 0, std::stoll( val ) );
             else if( key == "daily" )
             {
@@ -403,6 +423,13 @@ void Records::save( const std::string &path ) const
     out << "\n";
     out << "cards3=";
     writeNames( out, m_postcards );
+    out << "stats=" << m_escapes << "|" << m_caught << "|" << m_delivered << "|" << m_gaveWay << "|" << m_aquaplanes << "\n";
+    for( const auto &[name, list] : { std::pair{ "escaped", &m_escapedFrom }, std::pair{ "hitchfrom", &m_hitchFrom }, std::pair{ "achieved", &m_achieved } } )
+    {
+        out << name << "=";
+        for( size_t i = 0; i < list->size(); ++i ) out << ( i ? "," : "" ) << ( *list )[i];
+        out << "\n";
+    }
     for( const ScoreEntry &e : m_top ) out << "top=" << e.m_initials << "|" << e.m_score << "|" << e.m_distance << "|" << e.m_code << "\n";
 }
 

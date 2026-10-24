@@ -115,6 +115,7 @@ enum class PassportE
     REGIONS,    ///< the states and provinces of the big countries
     POSTCARDS,  ///< a picture per place
     ALBUM,      ///< a photo per landmark
+    AWARDS,     ///< the achievements
     COUNT       ///< number of pages
 };
 
@@ -549,6 +550,15 @@ private:
 
     /** @brief Starts the world tour without a clock, where the last tour stopped. */
     void startTravel();
+
+    /** @brief Announces the achievements just earned, and keeps them. */
+    void checkAchievements();
+
+    /**
+     * @brief The passport's page of achievements.
+     * @param[in] x,y,w,h  where
+     */
+    void drawAchievements( float x, float y, float w, float h );
 
     /** @brief The interior in the cockpit view: pillars, mirror, dashboard, dials, the wheel and the country's ornament. */
     void drawCockpit();

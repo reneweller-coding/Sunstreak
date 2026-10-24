@@ -5,6 +5,7 @@
  */
 #include "Game.h"
 
+#include "Achievements.h"
 #include "UiCommon.h"
 #include "VectorFont.h"
 
@@ -91,6 +92,7 @@ void Game::init()
     m_tuningBase = loadTuning( configDirectory() + "/tuning.ini" );
     tuning() = applyDifficulty( m_tuningBase, m_settings.m_difficulty );
     m_records.load( configDirectory() + "/records.txt" );
+    earnAchievements( m_records );   // what was earned before there were achievements, without a fuss
     {
         std::ifstream run( configDirectory() + "/run.txt" );
         std::string   line;
@@ -170,12 +172,14 @@ void Game::init()
             m_viewerIndex = std::max( 0, landmarkByName( m_options.m_shape ) );
             if( m_options.m_shapeTour > 0 ) m_viewerYaw = 0.9f;
         }
-        if( m_options.m_screen == "stamps" || m_options.m_screen == "regions" || m_options.m_screen == "postcards" || m_options.m_screen == "album" )
+        if( m_options.m_screen == "stamps" || m_options.m_screen == "regions" || m_options.m_screen == "postcards" || m_options.m_screen == "album" ||
+            m_options.m_screen == "awards" )
         {
             m_state = StateE::PASSPORT;
             m_passportPage = static_cast<int>( m_options.m_screen == "stamps"    ? PassportE::STAMPS
                                                : m_options.m_screen == "regions" ? PassportE::REGIONS
                                                : m_options.m_screen == "album"   ? PassportE::ALBUM
+                                               : m_options.m_screen == "awards"  ? PassportE::AWARDS
                                                                                  : PassportE::POSTCARDS );
         }
         if( m_options.m_screen == "code" )
@@ -871,6 +875,18 @@ bool Game::resumeRun()
     return true;
 }
 
+void Game::checkAchievements()
+{
+    if( m_demo ) return;
+    const std::vector<size_t> now = earnAchievements( m_records );
+    for( size_t i : now ) popup( "ACHIEVEMENT", achievements()[i].m_title, Gold, 1.0f, 3.6f, true );
+    if( !now.empty() )
+    {
+        m_audio.playOnBeat( SfxE::CHECKPOINT );
+        saveRecords();
+    }
+}
+
 void Game::startTravel()
 {
     TrackSetup s;
@@ -954,6 +970,7 @@ void Game::reloadGameData()
     m_models.reloadDataShapes();
     m_records = Records();
     m_records.load( configDirectory() + "/records.txt" );
+    earnAchievements( m_records );   // what was earned before there were achievements, without a fuss
     m_setup.m_startBiome = id( startKey, m_setup.m_startBiome );
     m_options.m_startBiome = id( optionKey, m_options.m_startBiome );
     m_setup.m_params.m_biome = id( sceneryKey, m_setup.m_params.m_biome );
@@ -1331,6 +1348,7 @@ void Game::progress( double ds )
         }
         if( !round && m_records.circumnavigated() ) popup( "ROUND THE WORLD", "NEW PAINT  GLOBETROTTER", Gold, 1.2f, 4.5f, true );
         if( !globe && m_records.decalUnlocked( DecalCount - 1 ) ) popup( "NEW DECAL", "GLOBE", Gold, 0.9f, 3.0f, true );
+        checkAchievements();
     }
     if( !m_records.m_postcards.test( bit ) && m_postcardWanted != static_cast<int>( here ) && mix.m_from == mix.m_to )
     {
@@ -1709,6 +1727,7 @@ void Game::step( float h, const CarInput &in )
         }
         if( pe.m_caught )
         {
+            ++m_records.m_caught;
             // The fine: seconds off the clock, or points where there is none.
             const bool travel = m_mode == ModeE::TRAVEL;
             if( travel ) m_score = std::max( 0.0, m_score - static_cast<double>( PoliceFine ) * 100.0 );
@@ -1720,10 +1739,16 @@ void Game::step( float h, const CarInput &in )
         }
         if( pe.m_escaped )
         {
+            ++m_records.m_escapes;
+            for( size_t i = 0; i < m_models.m_policeModel.size() && i < dataShapes().size(); ++i )
+                if( m_models.m_policeModel[i] == m_police.m_model && std::find( m_records.m_escapedFrom.begin(), m_records.m_escapedFrom.end(),
+                                                                                 dataShapes()[i].m_name ) == m_records.m_escapedFrom.end() )
+                    m_records.m_escapedFrom.push_back( dataShapes()[i].m_name );
             m_score += 2500.0;
             popup( "ESCAPED", "+2500", Green, 1.0f, 2.4f );
             m_audio.play( SfxE::NEAR_MISS );
         }
+        if( pe.m_caught || pe.m_escaped ) checkAchievements();
     }
     {
         // Hitchhikers: stop beside them, take them to the next place in time, and they thank you in their language.
@@ -1751,6 +1776,13 @@ void Game::step( float h, const CarInput &in )
             popup( "TOO LATE", "YOUR PASSENGER GOT OUT", Red, 0.9f, 2.6f );
             m_audio.play( SfxE::WARNING );
         }
+        if( pe.m_delivered )
+        {
+            ++m_records.m_delivered;
+            if( from && std::find( m_records.m_hitchFrom.begin(), m_records.m_hitchFrom.end(), from ) == m_records.m_hitchFrom.end() )
+                m_records.m_hitchFrom.push_back( from );
+        }
+        if( pe.m_delivered ) checkAchievements();
     }
     const bool racing = m_setup.m_race && !m_demo;
     if( racing ) m_race.update( h, m_raceTime, track, m_car, m_raceEv, m_state == StateE::RACE );
@@ -2091,6 +2123,8 @@ void Game::handleEvents()
     }
     if( m_ev.m_gaveWay > 0 && scoring )
     {
+        m_records.m_gaveWay += m_ev.m_gaveWay;
+        checkAchievements();
         m_score += 1000.0;
         popup( "GAVE WAY", "+1000", Green, 0.8f, 1.8f );
     }
@@ -2108,6 +2142,8 @@ void Game::handleEvents()
     if( m_ev.m_whoosh > 0.0f ) m_audio.play( SfxE::WHOOSH, m_ev.m_whoosh, m_ev.m_whooshPan );
     if( m_car.m_eventAquaplane && !m_demo && m_state == StateE::RACE )
     {
+        ++m_records.m_aquaplanes;
+        if( m_records.m_aquaplanes == 1 ) checkAchievements();
         if( m_time - m_aquaShown > 20.0f ) popup( "AQUAPLANING", "", Cyan, 0.7f, 1.4f, true );
         m_aquaShown = m_time;
         m_audio.play( SfxE::WHOOSH, 0.8f );

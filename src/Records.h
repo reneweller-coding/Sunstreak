@@ -73,6 +73,14 @@ struct Records
     std::string             m_tourAt;           ///< where the endless world tour stopped (an ID; empty: never driven)
     std::vector<std::string> m_album;           ///< the landmarks photographed, in the order they were (names)
     std::vector<double>     m_journeyBest;      ///< the best time per journey in seconds (0: not finished)
+    int                      m_escapes = 0;      ///< patrol cars got away from
+    int                      m_caught = 0;       ///< times caught by one
+    std::vector<std::string> m_escapedFrom;      ///< the police liveries got away from (shape names)
+    int                      m_delivered = 0;    ///< hitchhikers taken where they wanted to go
+    std::vector<std::string> m_hitchFrom;        ///< the countries they came from
+    int                      m_gaveWay = 0;      ///< ambulances and fire engines let through
+    int                      m_aquaplanes = 0;   ///< times the tyres floated
+    std::vector<std::string> m_achieved;         ///< the achievements earned (their keys, Achievements.h)
 
     /**
      * @brief Reads the records file.

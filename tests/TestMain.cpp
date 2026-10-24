@@ -4,6 +4,7 @@
  *        the track code.
  * @author reneweller
  */
+#include "Achievements.h"
 #include "Car.h"
 #include "Data.h"
 #include "Game.h"
@@ -452,6 +453,26 @@ int main()
                        std::abs( biomeDef( static_cast<BiomeE>( japan ) ).m_laneWidth - 3.0f ) < 0.01f && concrete > 10 && studs > 10 &&
                        countryInfo( "THAILAND" ).m_lines == 1 && countryInfo( "UAE" ).m_lines == 3,
                    "the roads of the countries" );
+        }
+        { // Achievements: none for a new driver, GETAWAY and MAKE WAY when earned, kept in the records file.
+            Records r;
+            const size_t fresh = earnAchievements( r ).size();
+            r.m_escapes = 1;
+            r.m_gaveWay = 10;
+            r.m_escapedFrom = { "POLICE_CAR_USA" };
+            const std::vector<size_t> now = earnAchievements( r );
+            const std::string         path = ( std::filesystem::temp_directory_path() / "sunstreak-achievements-test.txt" ).string();
+            r.save( path );
+            Records back;
+            back.load( path );
+            std::filesystem::remove( path );
+            const bool getaway = std::find( back.m_achieved.begin(), back.m_achieved.end(), "escape1" ) != back.m_achieved.end();
+            const bool makeway = std::find( back.m_achieved.begin(), back.m_achieved.end(), "makeway" ) != back.m_achieved.end();
+            std::printf( "      %d achievements; new driver %d, then %d earned; %d police liveries to escape\n", static_cast<int>( achievements().size() ),
+                         static_cast<int>( fresh ), static_cast<int>( now.size() ), policeLiveries() );
+            check( fresh == 0 && now.size() == 2 && getaway && makeway && back.m_escapes == 1 && back.m_gaveWay == 10 && back.m_escapedFrom.size() == 1 &&
+                       achievementProgress( back, 13 ).m_need == policeLiveries() && earnAchievements( back ).empty(),
+                   "achievements earned and kept" );
         }
         { // Hitchhikers: one stage in three; stopping beside one, they get in; at pace they get there, crawling they get out.
             TrackParams world;
