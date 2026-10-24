@@ -5,7 +5,7 @@
 # change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
-place KARAKORAM | KARAKORAM HIGHWAY | PAKISTAN | MORNING
+place KARAKORAM | KARAKORAM HIGHWAY | PAKISTAN | MORNING | GILGIT-BALTISTAN
     land 9A8A70 8E7E66 8A8070
     verge 8A7A66
     hills 50 40 0

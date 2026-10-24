@@ -1,0 +1,275 @@
+# Landmarks of the Middle East, Africa, Asia, South America and the north of Europe.
+
+shape HAGIA_SOPHIA
+    # Istanbul: the great dome on its half domes, four minarets.
+    box 0 14 0 30 14 34 D8A88A
+    dome 0 28 0 16 13 9A9AA0
+    mirror
+    dome 0 24 16 11 8 9A9AA0
+    cyl 0 28 0 16.5 16.5 2 20 D8A88A
+    mirror
+    mirrorx
+    cyl 26 0 30 1.4 1.2 54 10 E0C0A0
+    mirror
+    mirrorx
+    spire 26 54 30 1.5 8 10 7A7A80
+
+shape MACHU_PICCHU
+    # The Inca city on its saddle, Huayna Picchu rising behind.
+    blob 0 0 0 80 50 100 4E7A3E 0.3
+    repeat 6 -4 4 0
+    box 30 44 0 6 2 40 8A8476
+    repeat 8 0 0 9
+    box 10 54 -34 3 2.5 3.5 9A9486
+    repeat 8 0 0 9
+    tri 10 56.5 -37.5 10 56.5 -30.5 10 60 -34 9A8A60
+    tbox -60 0 30 50 40 -60 150 30 4 4 3E6A3A
+    blob -60 150 30 8 10 8 4A6A40 0.3
+
+shape PETRA_TREASURY
+    # Petra: the Treasury cut into the red rock.
+    blob -10 30 0 30 40 50 B86A50 0.3
+    box 6 22 0 3 22 22 C87A5A
+    repeat 6 0 0 6
+    cyl 9 0 -15 0.9 0.8 16 10 D08A6A
+    box 9 17 0 1.6 1 18 C87A5A
+    tri 10 18 -16 10 18 16 10 23 0 C87A5A
+    cyl 8 26 0 4 4 10 12 C87A5A
+    dome 8 36 0 4 2 C87A5A
+    box 10 6 0 0.2 5 2.4 3A2A20
+
+shape WAT_ARUN
+    # Bangkok's Temple of Dawn: a tall porcelain prang and four smaller ones.
+    tbox 0 0 0 14 14 0 20 0 9 9 E8E0D0
+    tbox 0 20 0 9 9 0 50 0 4 4 E0D8C8
+    spire 0 50 0 4 22 12 F0E8D8
+    mirror
+    mirrorx
+    tbox 14 0 14 4 4 14 18 14 2 2 E0D8C8
+    mirror
+    mirrorx
+    spire 14 18 14 2 10 8 F0E8D8
+    box 24 0.2 0 8 0.2 40 6A6A50 water
+
+shape LIBRARY_OF_CELSUS
+    # Ephesus: the two-storey front of the library of Celsus.
+    box 0 0.6 0 6 0.6 14 D8D0C0
+    box -2 9 0 1.5 9 12 D0C8B8
+    repeat 4 0 0 7
+    cyl 3 1.2 -10.5 0.6 0.55 7 10 E0D8C8
+    box 3 8.6 0 1 0.6 12 D8D0C0
+    repeat 4 0 0 7
+    cyl 3 9.2 -10.5 0.5 0.45 6 10 E0D8C8
+    box 3 15.6 0 1 0.6 12 D8D0C0
+    tri 3.5 16.2 -5 3.5 16.2 5 3.5 19 0 D8D0C0
+
+shape PERSEPOLIS
+    # Persepolis: the Gate of All Nations and the columns of the Apadana.
+    box 0 1.5 0 30 1.5 40 B8A888
+    mirror
+    box 0 10 6 4 8.5 2 A89878
+    mirror
+    blob 3 6 6 2 3 1 A89878 0.2
+    repeat 6 0 0 6
+    cyl -14 3 -15 0.8 0.7 18 10 B0A080
+    repeat 4 0 0 8
+    cyl -22 3 -12 0.8 0.7 16 10 B0A080
+
+shape AZADI_TOWER
+    # Tehran's Freedom Tower, an arch that grows into a tower.
+    mirror
+    tbox 0 0 14 6 6 0 30 4 3 3 E8E4D8
+    tbox 0 30 0 6 7 0 46 0 4 4 E8E4D8
+    box 0 47 0 5 1 5 E0D8C8
+    box 0 0.3 0 40 0.3 40 B8C8B0
+
+shape HEGRA_TOMB
+    # Hegra: a Nabataean tomb cut into a lone sandstone rock.
+    blob 0 14 0 18 18 20 C89060 0.35
+    box 14 10 0 1.2 9 6 D09A6A
+    box 15 8 0 0.2 4 2 3A2A20
+    repeat 4 0 0 2.4
+    box 15.3 19 -3.6 0.3 1.2 0.8 D09A6A
+
+shape ABU_SIMBEL
+    # Ramesses' four seated colossi before the temple in the cliff.
+    blob -20 12 0 26 24 40 C8A070 0.3
+    box 0 10 0 3 10 24 C8A070
+    repeat 4 0 0 11
+    box 4 4 -16.5 3 4 3.5 D0A878
+    repeat 4 0 0 11
+    tbox 4 8 -16.5 2.6 2.6 4 15 -16.5 2 2 D0A878
+    repeat 4 0 0 11
+    blob 4 17 -16.5 1.8 2.2 1.8 D0A878
+    repeat 4 0 0 11
+    tbox 4 18 -16.5 2 2 4 21 -16.5 0.6 1 E0B888
+    box 3.2 4 0 0.2 4 1.5 3A2A20
+    box 12 0.2 0 6 0.2 40 3A7A9A water
+
+shape LAS_LAJAS
+    # The gothic sanctuary of Las Lajas on its bridge over the gorge.
+    blob -20 0 0 30 40 60 5E7A4A 0.3
+    blob 20 0 0 26 40 60 5E7A4A 0.3
+    arch 0 0 0 40 30 3 10 C8C0B0
+    box 0 32 0 8 2 22 C8C0B0
+    box 0 42 0 8 8 10 D0C8B8
+    mirror
+    spire 0 50 6 2 16 8 C8B8A8
+    spire 0 50 0 2.4 22 8 C8B8A8
+
+shape LALIBELA
+    # Bete Giyorgis: a church in the shape of a cross, cut down into the rock.
+    box 0 -0.5 0 16 0.5 16 6A4A38
+    box 0 3 0 4 3 12 B8704A
+    box 0 3 0 12 3 4 B8704A
+    box 0 6.2 0 4 0.2 12 A8603A
+    box 0 6.2 0 12 0.2 4 A8603A
+    box 0 6.5 0 3 0.1 0.6 C8805A
+    box 0 6.5 0 0.6 0.1 3 C8805A
+
+shape DJENNE_MOSQUE
+    # The great mud mosque of Djenne with its wooden spikes.
+    box 0 1 0 22 1 40 B8865A
+    box 0 9 0 14 8 34 B8865A
+    mirror
+    tbox 10 0 14 4 4 10 22 14 2 2 B8865A
+    tbox 10 0 0 4 4 10 22 0 2 2 B8865A
+    repeat 12 0 0 6
+    tube 14 6 -33 15.5 6 -33 0.1 3 6A4A30
+    repeat 12 0 0 6
+    tube 14 12 -33 15.5 12 -33 0.1 3 6A4A30
+    repeat 12 0 0 6
+    spire 14 17 -33 0.8 3 4 B8865A
+
+shape SHWEDAGON
+    # Yangon's golden pagoda among its shrines.
+    box 0 3 0 30 3 30 E8E4D8
+    cyl 0 6 0 18 14 8 24 D8B040 shiny
+    dome 0 14 0 14 16 E0B848 shiny
+    cyl 0 30 0 6 2 16 16 E0B848 shiny
+    spire 0 46 0 2 22 12 E8C050 shiny
+    ring 12 24
+    spire 0 6 0 2 9 8 D8B040 shiny
+
+shape TURNING_TORSO
+    # Malmo's twisting tower.
+    box 0 10 0 7 10 7 E8ECEE
+    box 1.5 30 1 7 10 7 E4E8EA
+    box 3 50 3 7 10 7 E8ECEE
+    box 3.5 70 5.5 7 10 7 E4E8EA
+    box 3 90 8 7 10 7 E8ECEE
+    box 1.5 110 10 7 10 7 E4E8EA
+    box 0 130 11 7 10 7 E8ECEE
+    tube 6 0 -6 6 145 4 0.6 5 C0C4C8
+
+shape PREIKESTOLEN
+    # Pulpit Rock: a flat-topped cliff six hundred metres over the fjord.
+    tbox 0 0 0 60 80 0 190 0 30 40 6A6A68
+    box 26 190 0 14 4 18 7A7A76
+    box 40 0.2 0 30 0.2 120 2A5A6A water
+
+shape HELSINKI_CATHEDRAL
+    # Helsinki's white cathedral with its green domes, high on the steps.
+    box 0 3 0 22 3 26 E8E4DC
+    box 0 14 0 14 8 14 F4F2EA
+    cyl 0 22 0 6 6 6 16 F4F2EA
+    dome 0 28 0 6 7 4A8A6A
+    mirror
+    mirrorx
+    cyl 10 22 10 2 2 3 10 F4F2EA
+    mirror
+    mirrorx
+    dome 10 25 10 2 3 4A8A6A
+    repeat 6 0 0 3
+    cyl 15 6 -7.5 0.6 0.6 9 8 F4F2EA
+
+shape SKY_TOWER
+    # Auckland's Sky Tower.
+    cyl 0 0 0 7 5 180 12 D8DCE0
+    cyl 0 180 0 9 14 8 16 D0D4D8
+    cyl 0 188 0 14 14 10 16 4A5A6A glass
+    cyl 0 198 0 14 7 8 16 D0D4D8
+    tube 0 206 0 0 330 0 1.5 6 E0E0E0
+
+shape GOLDEN_BRIDGE_HANDS
+    # Ba Na Hills: a golden walkway held up by two giant stone hands.
+    blob -20 0 0 30 30 60 4E7A3E 0.3
+    arch 4 30 0 60 6 1.6 12 D8B040 shiny
+    mirror
+    blob 4 18 14 4 16 4 8A8A80 0.4
+    mirror
+    tube 4 32 14 4 34 18 1.2 6 8A8A80
+
+shape GENGHIS_STATUE
+    # The steel horseman of Tsonjin Boldog on his round hall.
+    cyl 0 0 0 18 18 10 24 E8E4D8
+    box 0 16 0 3 6 7 B8BCC0 shiny
+    mirror
+    box 0 12 4 1 4 1 B8BCC0 shiny
+    blob 0 24 4 2 3 4 B8BCC0 shiny
+    box 0 25 -2 2 4 2 B8BCC0 shiny
+    blob 0 30 -2 1.4 1.6 1.4 B8BCC0 shiny
+
+shape FAISAL_MOSQUE
+    # Islamabad's tent of a mosque and its four pencil minarets.
+    tbox 0 0 0 30 30 0 34 0 1 1 F2F0EA
+    mirror
+    mirrorx
+    cyl 34 0 34 1.6 1.4 80 10 F2F0EA
+    mirror
+    mirrorx
+    spire 34 80 34 1.6 8 10 E0DCD0
+    blob -60 30 0 40 40 80 4E7A3E 0.3
+
+shape BAMIYAN
+    # The empty niches of the Bamiyan Buddhas in the cliff.
+    blob -10 30 0 20 40 80 C8A880 0.25
+    box 9 26 -20 2 26 8 6A5040
+    box 9 18 30 2 18 6 6A5040
+    repeat 12 0 0 7
+    box 9.5 8 -40 0.6 1.6 1.2 5A4030
+
+shape HASSAN_II
+    # Casablanca's minaret over the Atlantic.
+    box 0 1 0 30 1 60 E8E0D0
+    box 0 14 -20 16 12 26 E8E0D0
+    hip 0 26 -20 16 26 4 0.3 3A8A6A
+    box 0 50 30 7 50 7 E8E0D0
+    box 7.2 50 30 0.1 40 5 3A8A6A
+    box 0 103 30 4 3 4 E8E0D0
+    dome 0 106 30 3 3 3A8A6A
+    box 34 0.2 0 8 0.2 60 2A6A8A water
+
+shape MAQAM_ECHAHID
+    # Algiers' Martyrs' Memorial: three palm leaves meeting high up.
+    ring 3 8
+    tbox 0 0 0 3 2 -6 80 0 1 1 E8E4D8
+    cyl 0 70 0 4 4 6 12 E0DCD0
+    blob 0 3 0 14 3 14 B8B0A0
+
+shape KINGDOM_CENTRE
+    # Riyadh's tower with the bridge across the opening at its top.
+    tbox 0 0 0 14 22 0 300 0 3 6 6A7A8A glass
+    box 0 240 0 2 2 18 D8DCE0
+    mirror
+    tbox 0 180 18 3 4 0 300 4 1 1 7A8A9A glass
+
+shape NEMRUT_HEADS
+    # Mount Nemrut: the fallen stone heads of gods before the burial mound.
+    tbox -30 0 0 50 50 -30 40 0 2 2 B8A890
+    repeat 5 0 0 8
+    blob 10 1.6 -16 1.4 1.8 1.4 C8B898 0.15
+    repeat 5 0 0 8
+    blob 10 3.2 -16 1.3 0.6 1.3 B8A888 0.3
+
+shape MALBORK
+    # The brick castle of the Teutonic Knights on the Nogat.
+    box 0 12 0 16 12 40 9A4A30
+    gable 0 24 0 16 40 8 0.3 6A3A28 9A4A30
+    repeat 4 0 0 26
+    cyl 16 0 -39 4 4 30 10 9A4A30
+    repeat 4 0 0 26
+    spire 16 30 -39 4.4 10 10 6A3A28
+    box 0 28 -24 6 16 6 9A4A30
+    spire 0 44 -24 5 10 4 6A3A28
+    box 26 0.2 0 8 0.2 50 4A6A7A water

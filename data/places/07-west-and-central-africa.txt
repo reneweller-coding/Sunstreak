@@ -5,7 +5,7 @@
 # change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
-place SAHEL | SAHEL | MALI | HAZE
+place SAHEL | SAHEL | MALI | HAZE | TIMBUKTU
     sky 8AA8C8 E0C8A0
     fog 0.0018 E0C8A0
     land C8A070 BC9468 B0A070
@@ -43,7 +43,7 @@ place GOLD_COAST | GOLD COAST | GHANA | TROPICAL
     p BROADLEAF 0.05 4 60
     c 3E7A34
 
-place CONGO_BASIN | CONGO BASIN | DR CONGO | HAZE
+place CONGO_BASIN | CONGO BASIN | DR CONGO | HAZE | TSHOPO
     rain 0.2
     road A85A36 A85A36
     kerbs 9A5236 A86040

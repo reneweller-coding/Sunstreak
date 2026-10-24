@@ -5,7 +5,7 @@
 # change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
-place BAZARUTO | BAZARUTO | MOZAMBIQUE | TROPICAL
+place BAZARUTO | BAZARUTO | MOZAMBIQUE | TROPICAL | INHAMBANE
     island BAZARUTO
     sea 1 1 -2
     water 30C0C8
@@ -173,7 +173,7 @@ place KRUGER | KRUGER | SOUTH AFRICA | GOLDEN | MPUMALANGA
     p WARNING_SIGN 0.004 1 1 1 1
     v 4
 
-place ETOSHA | ETOSHA | NAMIBIA | DESERT
+place ETOSHA | ETOSHA | NAMIBIA | DESERT | OSHIKOTO
     land E8E4D8 DCD8CC E0DCD0
     verge D8D2C4
     shine 0.15

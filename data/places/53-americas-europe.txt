@@ -1,0 +1,186 @@
+# More regions of the large countries of South America and the north and east of Europe.
+
+place LIMA | LIMA COAST | PERU | OVERCAST | LIMA
+    clouds 0.8
+    sea 1 0 -40
+    water 4A6A7A
+    land B8A888 AC9C80 A89A88
+    verge B0A090
+    hills 30 0 20
+    drive 3 1.1 0.98 15
+    bends 0.4 0.35 0.3
+    lamps 35
+    p FLAT_HOUSE 0.06 6 50
+    pastel
+    p GLASS_TOWER 0.02 40 200
+    c E8E4D8
+
+place HUACACHINA | HUACACHINA | PERU | DESERT | ICA
+    land F0C880 E4BC78 D8B078
+    verge E8C078
+    hills 20 10 10 0.15
+    water 3A8A7A
+    drive 2 0.2 0.95 15
+    bends 0.4 0.35 0.35
+    p DUNE 0.06 20 250 1.0 1.6
+    c F0C880
+    p PALM 0.06 3 40
+    p VINE_ROW 0.05 8 60 1 1
+
+place CHILOE | CHILOE | CHILE | RAIN | LOS LAGOS
+    island CHILOE
+    rain 0.3
+    sea 1 0 -3
+    water 4A6A7A
+    land 5E9A48 549040 5E8A50
+    hills 20 4 6
+    drive 2 0.3 0.92 15
+    bends 0.45 0.4 0.4
+    p COTTAGE 0.03 6 60
+    c E8C060 4A6A8A
+    pastel
+    p CHURCH 0.006 20 120
+    c E8D8B8 6A6A70
+    p HOUSEBOAT 0.01 10 60
+    floating
+
+place LAS_LAJAS | LAS LAJAS | COLOMBIA | MIST | NARINO
+    fog 0.003
+    land 5E9A48 549040 5E8A50
+    hills 50 30 -24
+    drive 2 0.3 0.95 15
+    bends 0.75 0.65 0.7
+    p BROADLEAF 0.2 4 150
+    c 3E7A32
+    p COTTAGE 0.01 8 60
+    c F2F0EA C86A3A
+    landmark LAS_LAJAS 60 100
+
+place CANO_CRISTALES | CANO CRISTALES | COLOMBIA | NOON | META
+    sea 0 1 -4
+    water C83A5A 0.9
+    land 9AA060 8E9458 A09A6A
+    verge 9A8A70
+    hills 14 4 4
+    drive 2 0.1 0.9 15
+    bends 0.4 0.35 0.3
+    p ROCK 0.1 3 80
+    c 8A7A6A
+    p SHRUB 0.15 2 60
+    c E04A6A
+    p WAX_PALM 0.02 6 100
+
+place LA_PAZ | LA PAZ | BOLIVIA | ALPINE | LA PAZ
+    land A89A70 9C8E68 9A9A80
+    ranges 8A8070 F4F6FA 14
+    hills 40 20 -20
+    drive 3 1.0 0.95 15
+    bends 0.6 0.55 0.6
+    lamps 40
+    p FLAT_HOUSE 0.1 4 80
+    c B8704A 8A6A50
+    p POWER_PYLON 0.02 20 120
+    p LLAMA 0.01 10 80
+
+place ANGEL_FALLS | ANGEL FALLS | VENEZUELA | MIST | BOLIVAR
+    fog 0.0024
+    land 4E8A3A 46803A 5E8A48
+    hills 20 6 6
+    drive 2 0.1 0.88 16
+    bends 0.45 0.4 0.4
+    p TEPUI 0.008 200 450 1.0 1.4
+    c 5A4A40 3E6A3A
+    p WATERFALL 0.006 60 200
+    v 1
+    p JUNGLE_TREE 0.2 6 150
+
+place CARPATHIANS_UA | CARPATHIANS | UKRAINE | MIST | ZAKARPATTIA
+    fog 0.0026
+    land 5E8A44 56803E 507A48
+    hills 34 12 12
+    drive 2 0.2 0.95 22
+    bends 0.65 0.55 0.6
+    p SPRUCE 0.35 4 150
+    p CHURCH 0.004 30 120
+    c 6A4A3A 4A6A5A
+    p HAYBALE 0.02 10 80
+    p SHEEP 0.02 10 100
+
+place KYIV | KYIV | UKRAINE | MORNING | KYIV
+    sea 0 1 -10
+    water 4A6A80
+    land 6A9A50 609048 6A8A58
+    drive 3 1.2 0.98 22
+    bends 0.3 0.3 0.15
+    lamps 35
+    bridges 0.3 ARCH E8E8E8
+    p PANEL_BLOCK 0.06 20 150
+    p ONION_CHURCH 0.006 30 150
+    c F2F0EA D8B040
+    p BROADLEAF 0.12 2 20
+    c 4E8A3E
+
+place MALBORK | MALBORK | POLAND | OVERCAST | POMERANIA
+    clouds 0.6
+    land 6AA048 609440 6A8A58
+    fields 0.5 D8C060 8AB050 C8A858
+    hills 4 1 1
+    drive 2 0.4 0.98 6
+    bends 0.3 0.3 0.15
+    p POPLAR 0.06 4 80
+    p COTTAGE 0.01 10 80
+    c C86A4A 6A4A3A
+    landmark MALBORK 70 120
+
+place LAPLAND_SE | KIRUNA | SWEDEN | ARCTIC | NORRBOTTEN
+    land E8ECF2 DCE2EA D0D8E4
+    verge D8DCE4
+    hills 14 4 4
+    drive 2 0.15 0.82 23
+    bends 0.35 0.3 0.3
+    p SNOW_PINE 0.25 4 150
+    p REINDEER 0.02 10 120
+    p COTTAGE 0.006 10 60
+    c 9A2A22 3A3A40
+    landmark ICE_CASTLE 50 90 0.6
+
+place STOCKHOLM | STOCKHOLM | SWEDEN | MORNING | STOCKHOLM
+    sea 1 1 -4
+    water 2A5A7A
+    land 6A9A50 609048 6A8A58
+    drive 3 1.1 0.98 23
+    bends 0.35 0.3 0.15
+    lamps 35
+    bridges 0.4 ARCH B8B0A0
+    p ROW_HOUSES 0.12 4 30
+    c E8B060 4A4A50
+    pastel
+    p CHURCH 0.004 30 120
+    c C86A3A 3A6A5A
+    p SAILBOAT 0.02 30 150
+    floating
+
+place PULPIT_ROCK | PREIKESTOLEN | NORWAY | MORNING | ROGALAND
+    sea 1 0 -20
+    water 1E4A6A
+    land 6A9A50 609048 5E8050
+    ranges 4A5664 C8D0DC 12
+    hills 40 0 40
+    drive 2 0.2 0.97 23
+    bends 0.6 0.5 0.5
+    p SPRUCE 0.2 4 150
+    p CABIN 0.02 0 12
+    landmark PREIKESTOLEN 250 400 0.8
+
+place HELSINKI | HELSINKI | FINLAND | MORNING | UUSIMAA
+    sea 1 0 -3
+    water 2A5A7A
+    land 6A9A50 609048 6A8A58
+    drive 3 1.1 0.98 23
+    bends 0.3 0.3 0.15
+    lamps 35
+    p ROW_HOUSES 0.1 5 30
+    c E8D8B8 4A4A50
+    pastel
+    p BIRCH 0.1 3 30
+    landmark HELSINKI_CATHEDRAL 50 90

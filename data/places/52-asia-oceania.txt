@@ -1,0 +1,157 @@
+# More regions of the large countries of Asia and Oceania.
+
+place TSONJIN_BOLDOG | TSONJIN BOLDOG | MONGOLIA | MORNING | TOV
+    land 8AB050 7EA448 8AA060
+    hills 14 3 3
+    drive 2 0.1 1.0 22
+    bends 0.25 0.25 0.2
+    p YURT 0.01 20 150
+    p HORSE 0.03 10 150
+    p STUPA 0.002 60 200
+    landmark GENGHIS_STATUE 60 100 1.2
+
+place ISLAMABAD | ISLAMABAD | PAKISTAN | MORNING | ISLAMABAD
+    land 6A9A48 609040 6A8A58
+    hills 20 6 6
+    drive 3 1.1 0.98 10
+    bends 0.3 0.3 0.15
+    lamps 40
+    p FLAT_HOUSE 0.04 6 50
+    c E8DCC0 6A6A70
+    p BROADLEAF 0.1 3 40
+    c 4E8A3E
+    landmark FAISAL_MOSQUE 120 200 0.8
+
+place BAMIYAN_VALLEY | BAMIYAN | AFGHANISTAN | GOLDEN | BAMIYAN
+    land A8A060 9C9458 A89A70
+    ranges 8A7A6A D8C8B8 10
+    hills 20 6 6
+    drive 2 0.1 0.95 22
+    bends 0.4 0.35 0.35
+    p POPLAR 0.06 4 80
+    p FLAT_HOUSE 0.012 10 60
+    c C8A880 8A7A60
+    landmark BAMIYAN 60 100
+
+place YANGON | YANGON | MYANMAR | GOLDEN | YANGON
+    land 6A9A48 609040 6A8A58
+    drive 3 1.0 0.95 20
+    bends 0.3 0.3 0.1
+    lamps 40
+    p FLAT_HOUSE 0.06 6 40
+    pastel
+    p PALM 0.1 2 30
+    p STUPA 0.006 30 150
+    landmark SHWEDAGON 120 200 0.9
+
+place INLE_LAKE | INLE LAKE | MYANMAR | MIST | SHAN
+    sea 1 0 -2
+    water 5A7A70
+    land 5E9A48 549040 5E8A50
+    hills 24 6 6
+    drive 2 0.2 0.92 20
+    bends 0.45 0.4 0.4
+    p HUT 0.03 10 100
+    floating
+    p BOAT 0.01 20 120
+    c 6A4A2A 6A4A2A
+    floating
+    p STUPA 0.006 30 150
+
+place AYUTTHAYA | AYUTTHAYA | THAILAND | GOLDEN | AYUTTHAYA
+    land 6A9A48 609040 6A8A58
+    hills 2 0 0 0.3
+    water 5A7A6A
+    drive 2 0.4 0.95 20
+    bends 0.25 0.25 0.1
+    p STUPA 0.02 20 150
+    c B88A6A
+    p RUIN 0.01 20 120
+    p PALM 0.08 3 60
+    p WAT 0.004 30 150
+
+place BA_NA_HILLS | BA NA HILLS | VIETNAM | MIST | DA NANG
+    fog 0.003
+    land 4E8A3A 46803A 5E8A48
+    hills 50 30 -20
+    drive 2 0.3 0.95 20
+    bends 0.75 0.65 0.7
+    p JUNGLE_TREE 0.25 4 150
+    p CHALET 0.006 20 80
+    landmark GOLDEN_BRIDGE_HANDS 40 70
+
+place MEKONG_DELTA | MEKONG DELTA | VIETNAM | TROPICAL | CAN THO
+    hills 2 0 0 0.7
+    water 7A6A4A 0.85
+    land 4E8A3A 46803A 5E8A48
+    drive 2 0.4 0.92 20
+    bends 0.3 0.3 0.1
+    bridges 0.3 BEAM
+    p PALM 0.2 2 50
+    p BOAT 0.02 10 80
+    c 6A4A2A 3A6A3A
+    floating
+    p HUT 0.02 8 60
+    floating
+
+place BANAUE | BANAUE | PHILIPPINES | MIST | IFUGAO
+    fog 0.003
+    land 5E9A48 549040 5E8A50
+    hills 40 20 20
+    drive 2 0.2 0.92 20
+    bends 0.75 0.65 0.7
+    p TERRACES 0.03 20 250
+    p HUT 0.012 10 80
+    c 6A4A2A 4A3A20
+    p JUNGLE_TREE 0.1 6 120
+
+place MAYON | MAYON VOLCANO | PHILIPPINES | TROPICAL | ALBAY
+    land 5E9A48 549040 5E8A50
+    fields 0.4 6AA040 8AB050 4E8A3A
+    drive 2 0.4 0.95 20
+    bends 0.35 0.3 0.25
+    p VOLCANO_CONE 0.006 300 600 1.6 2.0
+    c 5A5A50 7A8A6A
+    p PALM 0.15 2 60
+    p HUT 0.012 10 60
+
+place CAMERON_HIGHLANDS | CAMERON HIGHLANDS | MALAYSIA | MIST | PAHANG
+    fog 0.003
+    land 4E9A3A 46903A 5E8A48
+    hills 34 14 14
+    drive 2 0.4 0.95 20
+    bends 0.75 0.65 0.7
+    p TEA_ROW 0.45 4 100 1 1
+    p JUNGLE_TREE 0.08 6 120
+    p COTTAGE 0.006 10 60
+    c F2F0EA 3A3A40
+
+place AUCKLAND | AUCKLAND | NEW ZEALAND | MORNING | AUCKLAND
+    island NORTH ISLAND
+    sea 1 0 -4
+    water 2A6A8A
+    land 6AA048 609440 6A8A58
+    hills 14 4 4
+    drive 3 1.2 0.98 3
+    bends 0.35 0.3 0.25
+    lamps 35
+    bridges 0.3 TRUSS 8A9AA8
+    p GLASS_TOWER 0.04 30 200
+    c 8A9AA8
+    p HOUSE 0.04 6 40
+    pastel
+    p SAILBOAT 0.03 40 200
+    floating
+    landmark SKY_TOWER 180 260 0.6
+
+place HOBBITON | MATAMATA | NEW ZEALAND | GOLDEN | WAIKATO
+    island NORTH ISLAND
+    land 7AB04E 70A248 7AA05A
+    hills 18 4 4
+    drive 2 0.2 1.0 3
+    bends 0.45 0.4 0.4
+    p SHEEP 0.06 10 120
+    p HILLOCK 0.03 20 150
+    p BROADLEAF 0.06 4 80
+    c 4E8A3E
+    p HEDGE 0.2 3 3 1 1
