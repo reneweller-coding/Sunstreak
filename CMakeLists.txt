@@ -75,6 +75,10 @@ endif()
 
 add_executable( Sunstreak WIN32 src/main.cpp )
 target_link_libraries( Sunstreak PRIVATE sunstreak_core )
+if( WIN32 )
+    # The program's icon in Explorer and on the taskbar (tools/make_icon.py draws it).
+    target_sources( Sunstreak PRIVATE ${CMAKE_SOURCE_DIR}/res/sunstreak.rc )
+endif()
 if( MSVC )
     # A window program without a console that still starts in main().
     target_link_options( Sunstreak PRIVATE /ENTRY:mainCRTStartup )

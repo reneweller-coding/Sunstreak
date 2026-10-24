@@ -343,7 +343,9 @@ viewer, every landmark and creature alone under its first place's sky, to turn a
 - `festivals.txt`: the festivals, their dates and places and what they bring (bunting, lanterns, lights, lamps,
   stalls, tents, trees, confetti, fireworks, the aurora).
 - `roads.txt`: each country's road customs: miles per hour, speed limit boards, toll plazas, speed cameras, number
-  plates.
+  plates; and how its roads are built and kept: quality, lane width, shoulders, kerbs, road studs, concrete, gravel.
 - `journeys.txt`: the journeys, from a place of the route to another.
 - `world/countries.txt`, `world/provinces.txt`: the outlines for the passport's map, from Natural Earth (public domain),
   made by `tools/make_world_outlines.py` from its `ne_50m_admin_0_countries` and `ne_10m_admin_1_states_provinces`.
+
+The icon (`res/sunstreak.ico` for the Windows program, `src/IconPng.h` for the window) is drawn by `tools/make_icon.py`.

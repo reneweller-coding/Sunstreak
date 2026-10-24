@@ -10,35 +10,11 @@
  */
 #include "Config.h"
 #include "Game.h"
+#include "IconPng.h"
 
 #include <raylib.h>
 
 #include <algorithm>
-#include <cmath>
-
-namespace
-{
-
-/**
- * @brief Draws the window icon: a striped sunset sun.
- * @return the image (the caller unloads it)
- */
-Image makeIcon()
-{
-    Image img = GenImageColor( 64, 64, BLANK );
-    for( int y = 0; y < 64; ++y )
-    {
-        const float yc = static_cast<float>( y ) - 31.5f;
-        if( y > 34 && ( y / 4 ) % 2 == 1 ) continue;
-        const float hw = std::sqrt( std::max( 0.0f, 30.0f * 30.0f - yc * yc ) );
-        const float t = static_cast<float>( y ) / 63.0f;
-        const Color c = { 255, static_cast<unsigned char>( 214 - 170 * t ), static_cast<unsigned char>( 80 + 60 * t ), 255 };
-        ImageDrawRectangle( &img, static_cast<int>( 32.0f - hw ), y, static_cast<int>( hw * 2.0f ), 1, c );
-    }
-    return img;
-}
-
-} // namespace
 
 /**
  * @brief Starts the game.
@@ -93,8 +69,9 @@ int main( int argc, char **argv )
     if( mw > 0 ) SetWindowPosition( static_cast<int>( mpos.x ) + ( mw - w ) / 2, static_cast<int>( mpos.y ) + ( mh - h ) / 2 );
     SetWindowMinSize( 640, 360 );
     SetExitKey( KEY_NULL );
-    Image icon = makeIcon();
-    SetWindowIcon( icon );
+    // The icon: the road running into the setting sun (tools/make_icon.py draws it; the program file has it from res/).
+    Image icon = LoadImageFromMemory( ".png", IconPng, static_cast<int>( sizeof( IconPng ) ) );
+    if( icon.data ) SetWindowIcon( icon );
     UnloadImage( icon );
     if( settings.m_display == DisplayModeE::FULLSCREEN ) ToggleBorderlessWindowed();
     SetTargetFPS( settings.m_fpsLimit ? settings.m_fpsLimit : ( settings.m_vsync ? 0 : 240 ) );
