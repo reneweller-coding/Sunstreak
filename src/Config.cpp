@@ -87,7 +87,7 @@ bool loadSettings( Settings &settings )
             else if( key == "sfx_volume" ) settings.m_sfxVolume = std::clamp( std::stof( val ), 0.0f, 1.0f );
             else if( key == "units" ) settings.m_units = val == "mph" ? UnitsE::MPH : UnitsE::KMH;
             else if( key == "manual_gears" ) settings.m_manualGears = val == "1";
-            else if( key == "camera" ) settings.m_camera = std::clamp( std::stoi( val ), 0, 2 );
+            else if( key == "camera" ) settings.m_camera = std::clamp( std::stoi( val ), 0, 3 );
             else if( key == "speed_blur" ) settings.m_speedBlur = val == "1";
             else if( key == "radio" ) settings.m_station = std::clamp( std::stoi( val ), -1, 64 );
             else if( key == "stations" ) stations = std::stoi( val );
@@ -220,7 +220,7 @@ LaunchOptions parseCommandLine( int argc, char **argv )
             const std::string what = next();
             o.m_find = what == "tunnel" ? 1 : what == "bridge" ? 2 : what == "landmark" ? 3 : what == "landmark2" ? 4 : what == "fork" ? 5 : what == "sea" ? 6 : what == "seain" ? 7 : what == "seaout" ? 8 : what == "ferry" ? 9 : what == "jump" ? 10 : 0;
         }
-        else if( a == "--camera" ) o.m_camera = std::clamp( std::atoi( next().c_str() ), 0, 2 );
+        else if( a == "--camera" ) o.m_camera = std::clamp( std::atoi( next().c_str() ), 0, 3 );
         else if( a == "--code" ) o.m_code = next();
         else if( a == "--championship" ) o.m_championship = true;
         else if( a == "--screen" ) o.m_screen = next();

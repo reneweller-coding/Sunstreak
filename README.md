@@ -24,7 +24,7 @@ soundtrack.
 | Steer | Left Right / A D | left stick, d-pad |
 | Boost | Space / Shift | B |
 | Gear down / up (manual) | Q / E | LB / RB |
-| Camera (chase, far, bumper) | C | Y |
+| Camera (chase, far, bumper, cockpit) | C | Y |
 | Look back (hold) | B | right stick pressed in |
 | Radio station / next track | M / N | View |
 | Pause | Esc / P | Start |
@@ -130,6 +130,10 @@ in its own livery (a black-and-white cruiser in the United States, blue and yell
 car in Italy, green and white in Chile, a white jeep in India and some thirty more): past it too fast and it gives chase with its lights and siren
 (the long wail, or the two tones in Europe). Get 400 m ahead and you have escaped (+2500); let it pull up beside you
 and the fine is five seconds (POLICE in the settings turns them off); hold B (the right stick pressed in) to look back.
+The cockpit camera puts you in the driver's seat, on the left or, where they keep left, on the right (it slides over at
+the border), behind a turning wheel and live dials, with what the country's drivers hang from the mirror or stand on the
+dashboard: fuzzy dice in America, a nodding dog in Germany, a beckoning cat in Japan, marigolds in India, jasmine in
+Thailand, a red knot in China, pompoms in Mexico, a blue eye charm in Turkey, a dashcam in Russia, a koala in Australia.
 Every few kilometres an ambulance or a fire engine of the country comes along on a run, lights flashing and siren
 going: yellow and green checks in Britain, day-glo red stripes in Germany, the red crescent in the Gulf, a red pumper
 in the United States. The traffic ahead of it pulls over; keep out of its way when it overtakes and you earn +1000.
@@ -300,7 +304,7 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --shape NAME                  the landmark the viewer opens on (with --screen country: the country)
     --shape-tour N                with --screen viewer: photograph N models from there on, one picture each, saved
                                   as the --screenshot prefix followed by the model's name
-    --camera 0..2                 chase, far or bumper camera
+    --camera 0..3                 chase, far, bumper or cockpit camera
     --find tunnel|bridge|landmark|landmark2|fork|sea|seain|seaout|ferry|jump
                                  start just before the first tunnel, bridge, landmark (or the second), fork, undersea
                                  portal (or inside, or before its far portal), ferry or crest

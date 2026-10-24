@@ -151,7 +151,7 @@ std::string Game::settingValue( SettingE item ) const
         for( int i = 0; i < 10; ++i ) s += i < n ? '#' : '-';
         return s;
     };
-    static const char *cams[] = { "CHASE", "FAR CHASE", "BUMPER" };
+    static const char *cams[] = { "CHASE", "FAR CHASE", "BUMPER", "COCKPIT" };
     static const char *levels[] = { "EASY", "NORMAL", "HARD" };
     switch( item )
     {
@@ -281,7 +281,7 @@ void Game::changeSetting( SettingE item, int dir )
         break;
     case SettingE::GEARS: m_settings.m_manualGears = !m_settings.m_manualGears; break;
     case SettingE::UNITS: m_settings.m_units = m_settings.m_units == UnitsE::KMH ? UnitsE::MPH : UnitsE::KMH; break;
-    case SettingE::CAMERA: m_settings.m_camera = ( m_settings.m_camera + 3 + dir ) % 3; break;
+    case SettingE::CAMERA: m_settings.m_camera = ( m_settings.m_camera + 4 + dir ) % 4; break;
     case SettingE::BLUR: m_settings.m_speedBlur = !m_settings.m_speedBlur; break;
     case SettingE::VIBRATION: m_settings.m_vibration = !m_settings.m_vibration; break;
     case SettingE::MUSIC: m_settings.m_musicVolume = clampf( m_settings.m_musicVolume + 0.1f * dir, 0.0f, 1.0f ); break;
@@ -886,6 +886,7 @@ void Game::draw()
     in.m_traffic = &m_traffic;
     in.m_particles = &m_particles;
     in.m_env = sceneEnvironment( m_car.m_s + 30.0 );
+    m_lastEnv = in.m_env;
     in.m_surface = surfaceAt( *m_track, m_car.m_s + 30.0 );
     in.m_time = m_time;
     in.m_dt = m_state == StateE::PAUSED ? 0.0f : m_dt;
@@ -893,10 +894,10 @@ void Game::draw()
     in.m_speedBlur = m_blur;
     in.m_aberration = m_aberration;
     in.m_windStreaks = smoothstepf( 0.62f, 0.95f, m_car.m_speed / m_car.m_spec.m_topSpeed ) + ( m_car.m_boosting ? 0.5f : 0.0f );
-    in.m_drawPlayer = !( m_settings.m_camera == 2 && !m_demo && m_state != StateE::PHOTO && m_state != StateE::REPLAY );
+    in.m_drawPlayer = !( m_settings.m_camera >= 2 && !m_demo && m_state != StateE::PHOTO && m_state != StateE::REPLAY );
     if( m_lookingBack || m_state == StateE::REPLAY || m_state == StateE::PHOTO ) in.m_behind = 1.0e6f;
     in.m_shadows = m_settings.m_shadows;
-    in.m_lensRain = m_settings.m_camera == 2 && !m_demo ? in.m_env.m_rain : in.m_env.m_rain * 0.5f;
+    in.m_lensRain = m_settings.m_camera >= 2 && !m_demo ? in.m_env.m_rain : in.m_env.m_rain * 0.5f;
     for( const Rival &r : m_race.m_rivals )
     {
         const Driver &d = m_race.m_drivers[r.m_driver];
@@ -2285,10 +2286,260 @@ void Game::drawMinimap( float x, float y, float w, float h )
     EndScissorMode();
 }
 
+namespace
+{
+
+/** @brief What hangs from the mirror or stands on the dashboard. */
+enum class OrnamentE
+{
+    DICE,       ///< fuzzy dice (North America)
+    TREE,       ///< a tree-shaped air freshener (Britain, Europe)
+    DOG,        ///< a nodding dog on the dashboard (Germany, Austria, Switzerland)
+    CAT,        ///< a beckoning cat on the dashboard (Japan)
+    MARIGOLD,   ///< a garland of marigolds (South Asia)
+    JASMINE,    ///< a jasmine garland with a red tassel (Southeast Asia)
+    KNOT,       ///< a red knot with a tassel (East Asia)
+    POMPOMS,    ///< a fringe of pompoms along the top of the windscreen (Latin America)
+    BEADS,      ///< a string of coloured beads (Africa)
+    NAZAR,      ///< a blue eye charm (Turkey, Arabia)
+    DASHCAM,    ///< a dashcam on the windscreen (the east)
+    KOALA,      ///< a toy koala clinging to the mirror (Oceania)
+    HIBISCUS,   ///< a hibiscus flower on the dashboard (the islands)
+};
+
+/**
+ * @brief The ornament of a country's cars.
+ * @param[in] country  its name (nullptr: none)
+ * @return the ornament
+ */
+OrnamentE ornamentOf( const char *country )
+{
+    if( !country ) return OrnamentE::DICE;
+    const std::string_view c = country;
+    if( c == "JAPAN" ) return OrnamentE::CAT;
+    if( c == "GERMANY" || c == "AUSTRIA" || c == "SWITZERLAND" || c == "LIECHTENSTEIN" ) return OrnamentE::DOG;
+    if( c == "TURKEY" || c == "GREECE" || c == "CYPRUS" ) return OrnamentE::NAZAR;
+    switch( countryInfo( country ).m_fleet )
+    {
+    case FleetE::NORTH_AMERICA: return OrnamentE::DICE;
+    case FleetE::LATIN: return OrnamentE::POMPOMS;
+    case FleetE::SOUTH_ASIA: return OrnamentE::MARIGOLD;
+    case FleetE::SOUTHEAST_ASIA: return OrnamentE::JASMINE;
+    case FleetE::EAST_ASIA: return OrnamentE::KNOT;
+    case FleetE::OCEANIA: return OrnamentE::KOALA;
+    case FleetE::AFRICA: return OrnamentE::BEADS;
+    case FleetE::ARABIA: return OrnamentE::NAZAR;
+    case FleetE::EASTERN: return OrnamentE::DASHCAM;
+    case FleetE::ISLANDS: return OrnamentE::HIBISCUS;
+    default: return OrnamentE::TREE;
+    }
+}
+
+/**
+ * @brief A filled quadrilateral (either winding).
+ * @param[in] a,b,c,d  its corners in order round it
+ * @param[in] col      its colour
+ */
+void fillQuad( Vector2 a, Vector2 b, Vector2 c, Vector2 d, Color col )
+{
+    DrawTriangle( a, b, c, col );
+    DrawTriangle( a, c, b, col );
+    DrawTriangle( a, c, d, col );
+    DrawTriangle( a, d, c, col );
+}
+
+} // namespace
+
+void Game::drawCockpit()
+{
+    const float   W = static_cast<float>( GetScreenWidth() ), H = static_cast<float>( GetScreenHeight() );
+    const float   side = m_seat;                         // 1: the driver on the left, the car's middle to the right
+    const float   mid = W * 0.5f;                        // the wheel straight ahead of the driver
+    const Color   trim{ 26, 26, 32, 255 }, trimLight{ 58, 58, 68, 255 }, leather{ 38, 34, 36, 255 };
+    const BiomeDef &here = biomeDef( m_track->stageBiome( static_cast<int>( m_car.m_s / StageLength ) ) );
+    const float   sn = m_car.m_speed / m_car.m_spec.m_topSpeed;
+    auto          sx = [&]( float x ) { return mid + ( x - 0.5f ) * W * side; };   // a screen x mirrored for the side
+
+    // The roof's edge and the pillars: the near one wide at the driver's side, the far one slim and further in.
+    DrawRectangle( 0, 0, static_cast<int>( W ), static_cast<int>( H * 0.045f ), trim );
+    fillQuad( { sx( -0.02f ), 0.0f }, { sx( 0.075f ), 0.0f }, { sx( 0.0f ), H * 0.86f }, { sx( -0.02f ), H * 0.86f }, trim );
+    fillQuad( { sx( 0.92f ), 0.0f }, { sx( 1.02f ), 0.0f }, { sx( 1.02f ), H * 0.86f }, { sx( 0.975f ), H * 0.86f }, trim );
+    DrawLineEx( { sx( 0.075f ), 0.0f }, { sx( 0.0f ), H * 0.86f }, 2.0f, trimLight );
+    DrawLineEx( { sx( 0.92f ), 0.0f }, { sx( 0.975f ), H * 0.86f }, 2.0f, trimLight );
+
+    // The mirror over the car's middle, a strip of sky and road in it.
+    const float     mx = sx( 0.68f ), my = H * 0.075f, mw = W * 0.14f, mh = H * 0.055f;
+    const Environment &env = m_lastEnv;
+    DrawLineEx( { mx, H * 0.045f }, { mx, my - mh * 0.5f }, 5.0f, trim );
+    DrawRectangleRounded( { mx - mw * 0.5f - 4.0f, my - mh * 0.5f - 4.0f, mw + 8.0f, mh + 8.0f }, 0.4f, 6, trim );
+    DrawRectangleGradientV( static_cast<int>( mx - mw * 0.5f ), static_cast<int>( my - mh * 0.5f ), static_cast<int>( mw ), static_cast<int>( mh ),
+                            env.m_skyHorizon, Color{ 70, 70, 78, 255 } );
+
+    // The dashboard, the hood over the dials, the glovebox on the far side.
+    const float dashY = H * 0.86f;
+    DrawEllipse( static_cast<int>( mid ), static_cast<int>( dashY ), W * 0.13f, H * 0.1f, trim );
+    DrawRectangle( 0, static_cast<int>( dashY ), static_cast<int>( W ), static_cast<int>( H - dashY ), trim );
+    DrawLineEx( { 0.0f, dashY }, { W, dashY }, 3.0f, trimLight );
+    DrawLineEx( { sx( 0.66f ), dashY + H * 0.05f }, { sx( 0.9f ), dashY + H * 0.05f }, 2.0f, trimLight );
+    // The dials: revs and speed, their needles alive.
+    for( int k = 0; k < 2; ++k )
+    {
+        const Vector2 c = { mid + ( k == 0 ? -1.0f : 1.0f ) * W * 0.055f, H * 0.865f };
+        const float   r = H * 0.05f;
+        DrawCircleV( c, r + 3.0f, trimLight );
+        DrawCircleV( c, r, Color{ 12, 12, 16, 255 } );
+        DrawRing( c, r * 0.82f, r * 0.9f, 135.0f, 405.0f, 24, Color{ 200, 200, 210, 255 } );
+        if( k == 0 ) DrawRing( c, r * 0.82f, r * 0.9f, 340.0f, 405.0f, 8, Red );
+        const float v = k == 0 ? clampf( m_car.m_rpm / 1.15f, 0.0f, 1.0f ) : clampf( sn, 0.0f, 1.0f );
+        const float a = ( 135.0f + 270.0f * v ) * DEG2RAD;
+        DrawLineEx( c, { c.x + std::cos( a ) * r * 0.8f, c.y + std::sin( a ) * r * 0.8f }, 3.0f, Accent );
+        DrawCircleV( c, r * 0.12f, trimLight );
+    }
+
+    // The wheel, turning as the car steers.
+    const Vector2 hub = { mid, H * 1.1f };
+    const float   ro = H * 0.38f, ri = H * 0.335f;
+    const float   turn = m_car.m_steer * 100.0f;
+    DrawRing( hub, ri, ro, 180.0f + turn - 30.0f, 360.0f + turn + 30.0f, 48, leather );
+    DrawRing( hub, ri + ( ro - ri ) * 0.35f, ri + ( ro - ri ) * 0.5f, 180.0f + turn - 30.0f, 360.0f + turn + 30.0f, 48, Color{ 52, 48, 50, 255 } );
+    DrawRing( hub, ri, ro, 262.0f + turn, 278.0f + turn, 6, Accent );   // the stripe at the top
+    for( float spoke : { 180.0f, 360.0f } )
+    {
+        const float a = ( spoke + turn ) * DEG2RAD;
+        DrawLineEx( hub, { hub.x + std::cos( a ) * ri, hub.y + std::sin( a ) * ri }, H * 0.035f, Color{ 44, 42, 46, 255 } );
+    }
+    DrawCircleV( hub, H * 0.11f, Color{ 44, 42, 46, 255 } );
+
+    // The country's ornament.
+    const Vector2 anchor = { mx, my + mh * 0.5f + 4.0f };
+    const float   len = H * 0.1f;
+    const Vector2 end = { anchor.x + std::sin( m_swing ) * len, anchor.y + std::cos( m_swing ) * len };
+    auto          string = [&]( Vector2 to ) { DrawLineEx( anchor, to, 2.0f, Color{ 40, 36, 30, 255 } ); };
+    const float   t = m_time;
+    switch( ornamentOf( here.m_country ) )
+    {
+    case OrnamentE::DICE:
+        for( int k = 0; k < 2; ++k )
+        {
+            const Vector2 d = { end.x + ( k ? 1.0f : -1.0f ) * H * 0.018f, end.y + ( k ? H * 0.012f : 0.0f ) };
+            string( d );
+            DrawRectanglePro( { d.x, d.y, H * 0.03f, H * 0.03f }, { H * 0.015f, H * 0.015f }, m_swing * 40.0f + ( k ? 20.0f : -10.0f ), Color{ 236, 236, 230, 255 } );
+            DrawCircleV( d, H * 0.004f, Color{ 30, 30, 30, 255 } );
+        }
+        break;
+    case OrnamentE::TREE:
+        string( end );
+        DrawTriangle( { end.x, end.y }, { end.x - H * 0.025f, end.y + H * 0.05f }, { end.x + H * 0.025f, end.y + H * 0.05f }, Color{ 40, 150, 70, 255 } );
+        DrawTriangle( { end.x, end.y }, { end.x + H * 0.025f, end.y + H * 0.05f }, { end.x - H * 0.025f, end.y + H * 0.05f }, Color{ 40, 150, 70, 255 } );
+        DrawRectangle( static_cast<int>( end.x - H * 0.004f ), static_cast<int>( end.y + H * 0.05f ), static_cast<int>( H * 0.008f ), static_cast<int>( H * 0.012f ),
+                       Color{ 40, 150, 70, 255 } );
+        break;
+    case OrnamentE::MARIGOLD:
+    case OrnamentE::JASMINE:
+    case OrnamentE::BEADS:
+        // A garland: a loop of flowers or beads hanging from the mirror.
+        for( int k = 0; k <= 12; ++k )
+        {
+            const float   f = static_cast<float>( k ) / 12.0f, s = std::sin( f * PI );
+            const Vector2 p = { anchor.x + ( f - 0.5f ) * H * 0.07f + std::sin( m_swing ) * len * s, anchor.y + std::cos( m_swing ) * len * s };
+            Color         col = k % 2 ? Color{ 250, 160, 20, 255 } : Color{ 250, 200, 40, 255 };
+            if( ornamentOf( here.m_country ) == OrnamentE::JASMINE ) col = Color{ 245, 245, 235, 255 };
+            if( ornamentOf( here.m_country ) == OrnamentE::BEADS )
+            {
+                static const Color beads[4] = { { 220, 40, 40, 255 }, { 250, 200, 30, 255 }, { 40, 140, 70, 255 }, { 40, 90, 200, 255 } };
+                col = beads[k % 4];
+            }
+            DrawCircleV( p, H * ( ornamentOf( here.m_country ) == OrnamentE::BEADS ? 0.007f : 0.011f ), col );
+        }
+        if( ornamentOf( here.m_country ) == OrnamentE::JASMINE )
+            DrawRectangleV( { end.x - H * 0.005f, end.y }, { H * 0.01f, H * 0.04f }, Color{ 210, 30, 40, 255 } );
+        break;
+    case OrnamentE::KNOT:
+        string( end );
+        DrawPoly( end, 4, H * 0.022f, 45.0f + m_swing * 30.0f, Color{ 210, 30, 30, 255 } );
+        DrawRectangleV( { end.x - H * 0.006f, end.y + H * 0.02f }, { H * 0.012f, H * 0.045f }, Color{ 220, 40, 30, 255 } );
+        break;
+    case OrnamentE::NAZAR:
+        string( end );
+        DrawCircleV( end, H * 0.02f, Color{ 30, 70, 200, 255 } );
+        DrawCircleV( end, H * 0.013f, Color{ 245, 245, 245, 255 } );
+        DrawCircleV( end, H * 0.008f, Color{ 90, 170, 230, 255 } );
+        DrawCircleV( end, H * 0.004f, Color{ 10, 10, 20, 255 } );
+        break;
+    case OrnamentE::KOALA:
+    {
+        const Vector2 k = { anchor.x + std::sin( m_swing ) * len * 0.4f, anchor.y + std::cos( m_swing ) * len * 0.4f };
+        DrawCircleV( { k.x, k.y + H * 0.02f }, H * 0.022f, Color{ 150, 150, 156, 255 } );
+        DrawCircleV( k, H * 0.017f, Color{ 160, 160, 166, 255 } );
+        DrawCircleV( { k.x - H * 0.016f, k.y - H * 0.01f }, H * 0.009f, Color{ 190, 190, 196, 255 } );
+        DrawCircleV( { k.x + H * 0.016f, k.y - H * 0.01f }, H * 0.009f, Color{ 190, 190, 196, 255 } );
+        DrawCircleV( { k.x, k.y + H * 0.004f }, H * 0.005f, Color{ 30, 30, 34, 255 } );
+        break;
+    }
+    case OrnamentE::POMPOMS:
+        // Along the top of the windscreen, each swinging a little.
+        for( int k = 0; k < 16; ++k )
+        {
+            const float   x = sx( 0.1f + 0.05f * static_cast<float>( k ) );
+            const Vector2 p = { x + std::sin( m_swing + static_cast<float>( k ) ) * H * 0.006f, H * 0.06f };
+            static const Color tufts[4] = { { 230, 40, 60, 255 }, { 250, 200, 30, 255 }, { 40, 160, 80, 255 }, { 240, 240, 240, 255 } };
+            DrawLineEx( { x, H * 0.045f }, p, 2.0f, trim );
+            DrawCircleV( p, H * 0.011f, tufts[k % 4] );
+        }
+        break;
+    case OrnamentE::DOG:
+    {
+        // On the dashboard by the far pillar; its head nods with every bump.
+        const Vector2 b = { sx( 0.64f ), dashY - H * 0.02f };
+        const float   nod = std::sin( t * 9.0f ) * ( 0.15f + m_car.m_shake * 0.8f ) + m_swing * 0.4f;
+        DrawEllipse( static_cast<int>( b.x ), static_cast<int>( b.y ), H * 0.045f, H * 0.022f, Color{ 120, 70, 30, 255 } );
+        const Vector2 head = { b.x - side * H * 0.04f, b.y - H * 0.035f + nod * H * 0.015f };
+        DrawCircleV( head, H * 0.022f, Color{ 130, 76, 34, 255 } );
+        DrawEllipse( static_cast<int>( head.x - side * H * 0.016f ), static_cast<int>( head.y + H * 0.006f ), H * 0.012f, H * 0.008f, Color{ 150, 90, 40, 255 } );
+        DrawEllipse( static_cast<int>( head.x + side * H * 0.012f ), static_cast<int>( head.y + H * 0.012f ), H * 0.006f, H * 0.016f, Color{ 90, 50, 20, 255 } );
+        break;
+    }
+    case OrnamentE::CAT:
+    {
+        // A white beckoning cat, its paw going up and down.
+        const Vector2 b = { sx( 0.64f ), dashY - H * 0.03f };
+        DrawEllipse( static_cast<int>( b.x ), static_cast<int>( b.y ), H * 0.025f, H * 0.03f, Color{ 245, 245, 240, 255 } );
+        DrawCircleV( { b.x, b.y - H * 0.04f }, H * 0.022f, Color{ 245, 245, 240, 255 } );
+        DrawTriangle( { b.x - H * 0.02f, b.y - H * 0.055f }, { b.x - H * 0.012f, b.y - H * 0.07f }, { b.x - H * 0.005f, b.y - H * 0.058f }, Color{ 245, 245, 240, 255 } );
+        DrawTriangle( { b.x + H * 0.005f, b.y - H * 0.058f }, { b.x + H * 0.012f, b.y - H * 0.07f }, { b.x + H * 0.02f, b.y - H * 0.055f }, Color{ 245, 245, 240, 255 } );
+        DrawRectangleV( { b.x - H * 0.02f, b.y - H * 0.022f }, { H * 0.04f, H * 0.005f }, Color{ 210, 30, 40, 255 } );
+        DrawCircleV( { b.x, b.y - H * 0.015f }, H * 0.005f, Color{ 240, 200, 40, 255 } );
+        const float paw = 0.5f + 0.5f * std::sin( t * 4.0f );
+        DrawCircleV( { b.x + H * 0.03f, b.y - H * 0.03f - paw * H * 0.02f }, H * 0.009f, Color{ 245, 245, 240, 255 } );
+        break;
+    }
+    case OrnamentE::DASHCAM:
+    {
+        const Vector2 c = { mx - side * mw * 0.65f, my + H * 0.01f };
+        DrawRectangleRounded( { c.x - H * 0.025f, c.y - H * 0.015f, H * 0.05f, H * 0.03f }, 0.3f, 4, Color{ 20, 20, 24, 255 } );
+        DrawCircleV( { c.x, c.y }, H * 0.009f, Color{ 50, 60, 80, 255 } );
+        if( static_cast<int>( t * 2.0f ) & 1 ) DrawCircleV( { c.x + H * 0.018f, c.y - H * 0.009f }, H * 0.003f, Red );
+        break;
+    }
+    case OrnamentE::HIBISCUS:
+    {
+        const Vector2 b = { sx( 0.64f ), dashY - H * 0.012f };
+        for( int k = 0; k < 5; ++k )
+        {
+            const float a = static_cast<float>( k ) * Tau / 5.0f + 0.3f;
+            DrawCircleV( { b.x + std::cos( a ) * H * 0.016f, b.y + std::sin( a ) * H * 0.01f }, H * 0.013f, Color{ 230, 40, 70, 255 } );
+        }
+        DrawCircleV( b, H * 0.006f, Color{ 250, 220, 60, 255 } );
+        break;
+    }
+    }
+}
+
 void Game::drawHud()
 {
     const float W = static_cast<float>( GetScreenWidth() ), H = static_cast<float>( GetScreenHeight() );
     const float u = unit();
+    if( m_cockpit && !m_demo && !m_lookingBack ) drawCockpit();
     const bool  mph = m_settings.m_units == UnitsE::MPH;
     auto        txt = []( std::string_view t, float x, float y, float s, Color c, AlignE a = AlignE::LEFT ) { drawTextFx( t, x, y, s, c, a, 0.0f ); };
     const bool  racing = m_setup.m_race && !m_demo;

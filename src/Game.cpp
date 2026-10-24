@@ -1451,7 +1451,7 @@ void Game::frame( float dt )
     m_nowTimer += dt;
     if( m_input.m_camera && ( m_state == StateE::RACE || m_state == StateE::COUNTDOWN ) )
     {
-        m_settings.m_camera = ( m_settings.m_camera + 1 ) % 3;
+        m_settings.m_camera = ( m_settings.m_camera + 1 ) % 4;
         settingsChanged();
     }
     for( Popup &p : m_popups ) p.m_age += dt;
@@ -2217,13 +2217,30 @@ void Game::updateCamera( float dt )
     const Track &track = *m_track;
     const int    mode = m_demo ? 1 : m_settings.m_camera;
     const float  sn = m_car.m_speed / m_car.m_spec.m_topSpeed;
-    const float  fovTarget = ( mode == 2 ? 66.0f : 58.0f ) + 20.0f * std::pow( sn, 1.4f ) + ( m_car.m_boosting ? 9.0f : 0.0f );
+    const float  fovTarget = ( mode == 2 ? 66.0f : mode == 3 ? 62.0f : 58.0f ) + 20.0f * std::pow( sn, 1.4f ) + ( m_car.m_boosting ? 9.0f : 0.0f );
     m_fov = m_camInit ? approach( m_fov, fovTarget, 3.0f, dt ) : fovTarget;
     const TrackFrame f = track.frameAt( m_car.m_s );
     const double surfaceAtCar = track.surfaceHeight( m_car.m_s, m_car.m_x );
     const float  lift = static_cast<float>( m_car.m_y - surfaceAtCar );
 
-    if( mode == 2 )
+    // The driver sits on the side the country's cars have the wheel (on the right where they keep left).
+    const BiomeDef &here = biomeDef( track.stageBiome( static_cast<int>( m_car.m_s / StageLength ) ) );
+    const float     seatTarget = here.m_country && countryInfo( here.m_country ).m_left ? -1.0f : 1.0f;
+    m_seat = m_camInit ? approach( m_seat, seatTarget, 2.0f, dt ) : seatTarget;
+    // The ornament at the mirror swings out of the bends and jumps on the bumps.
+    const float swingTo = -m_car.m_steer * std::min( 1.0f, sn * 1.6f ) * 0.5f;
+    m_swingVel += ( ( swingTo - m_swing ) * 38.0f - m_swingVel * 2.2f ) * dt + ( m_car.m_shake > 0.2f ? std::sin( m_time * 53.0f ) * m_car.m_shake * 6.0f * dt : 0.0f );
+    m_swing = clampf( m_swing + m_swingVel * dt, -1.1f, 1.1f );
+    m_cockpit = mode == 3;
+    if( mode == 3 )
+    {
+        const Pose p = m_car.pose( track );
+        m_cam.m_pos = poseLocal( p, 0.36f * m_seat, 1.08f, -0.35f );
+        const Vector3 fwd = Vector3Normalize( Vector3Add( Vector3Scale( f.m_forward, 0.5f ), Vector3Scale( p.m_forward, 0.5f ) ) );
+        m_cam.m_forward = fwd;
+        m_cam.m_up = p.m_up;
+    }
+    else if( mode == 2 )
     {
         const Pose p = m_car.pose( track );
         m_cam.m_pos = poseLocal( p, 0.0f, 1.02f, 0.3f );
@@ -2257,7 +2274,8 @@ void Game::updateCamera( float dt )
     {
         const Pose p = m_car.pose( track );
         Vec3d      look;
-        if( mode == 2 )
+        m_cockpit = false;
+        if( mode >= 2 )
         {
             m_cam.m_pos = poseLocal( p, 0.0f, 1.05f, -0.4f );
             look = track.pointAt( m_car.m_s - 30.0, m_car.m_x, 1.0f );
@@ -2275,9 +2293,14 @@ void Game::updateCamera( float dt )
         m_blur = 0.0f;
         return;
     }
-    if( m_state == StateE::REPLAY && replayCamera() ) return;
+    if( m_state == StateE::REPLAY && replayCamera() )
+    {
+        m_cockpit = false;
+        return;
+    }
     if( m_state == StateE::GARAGE )
     { // The showroom: round and round the car.
+        m_cockpit = false;
         const Pose  p = m_car.pose( track );
         const float a = m_time * 0.3f;
         m_cam.m_pos = poseLocal( p, std::sin( a ) * 6.5f, 1.7f + 0.4f * std::sin( m_time * 0.21f ), std::cos( a ) * 6.5f );

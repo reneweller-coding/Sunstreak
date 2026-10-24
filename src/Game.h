@@ -544,6 +544,9 @@ private:
     /** @brief Draws the HUD of a run or a race. */
     void drawHud();
 
+    /** @brief The interior in the cockpit view: pillars, mirror, dashboard, dials, the wheel and the country's ornament. */
+    void drawCockpit();
+
     /**
      * @brief Draws the minimap of the road ahead.
      * @param[in] x  left
@@ -903,6 +906,11 @@ private:
     float      m_camX = 0.0f;         ///< smoothed lateral offset
     double     m_camY = 0.0;          ///< smoothed height
     bool       m_lookingBack = false; ///< the look-back key is held: the camera faces backwards
+    bool       m_cockpit = false;     ///< the camera sits in the driver's seat: the interior is drawn over the picture
+    float      m_seat = 1.0f;         ///< where the driver sits: 1 on the left, -1 on the right (the country's side; it slides over)
+    float      m_swing = 0.0f;        ///< the ornament at the mirror: its angle (radians, + to the right)
+    float      m_swingVel = 0.0f;     ///< and how fast it swings
+    Environment m_lastEnv{};          ///< the light of the last picture (the mirror shows its sky)
     float      m_fov = 60.0f;         ///< smoothed field of view
     bool       m_camInit = false;     ///< the camera has a position
     float      m_blur = 0.0f;         ///< smoothed speed blur

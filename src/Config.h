@@ -42,7 +42,7 @@ struct Settings
     float        m_sfxVolume = 0.8f;                   ///< 0..1
     UnitsE       m_units = UnitsE::KMH;                ///< speedometer unit
     bool         m_manualGears = false;                ///< shift by hand
-    int          m_camera = 0;                         ///< 0 chase, 1 far chase, 2 bumper
+    int          m_camera = 0;                         ///< 0 chase, 1 far chase, 2 bumper, 3 cockpit
     bool         m_speedBlur = true;                   ///< radial blur at speed
     int          m_station = -1;                       ///< radio: -1 automatic (by biome), else a station
     int          m_difficulty = 1;                     ///< 0 easy, 1 normal, 2 hard
