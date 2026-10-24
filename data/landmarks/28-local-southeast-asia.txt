@@ -1,0 +1,512 @@
+# Local things of Southeast Asia.
+
+shape SPIRIT_HOUSE
+    home THAILAND, LAOS, CAMBODIA, MYANMAR | 0.008 3 25
+    # A spirit house: a little gilded temple on a post, garlands of marigolds, offerings of drinks and fruit on its porch.
+    tube 0 0 0 0 1.2 0 0.12 6 F2EEE2
+    box 0 1.25 0 0.6 0.05 0.6 C83A2A
+    box 0 1.6 0 0.4 0.3 0.4 F2EEE2
+    gable 0 1.9 0 0.45 0.45 0.45 0.12 C83A2A D8B030
+    tri 0 2.35 0.5 0 2.35 -0.5 0 2.75 0 D8B030
+    spire 0 2.35 0 0.06 0.5 4 D8B030
+    blob 0.45 1.35 0 0.08 0.08 0.25 F2A01A
+    repeat 3 0 0 0.25
+    cyl 0.45 1.3 -0.25 0.04 0.04 0.12 6 E83A2A glass
+    blob 0.41 1.6 0 0.02 0.15 0.1 D8B030
+
+shape THAI_SALA
+    home THAILAND, LAOS, CAMBODIA | 0.004 6 40
+    # A sala: a roadside rest pavilion on posts, its steep Thai roof with upturned gable finials, a bench inside.
+    box 0 0.25 0 2 0.25 3 E8E2D8
+    mirror
+    mirrorx
+    tube 1.8 0.5 2.8 1.8 2.8 2.8 0.1 6 C83A2A
+    gable 0 2.8 0 2.2 3.2 2.4 0.4 C83A2A D8B030
+    mirror
+    tube 0 5.2 3.3 0 5.9 3.7 0.05 3 D8B030
+    box -1 0.7 0 0.3 0.04 2.5 8A6A48
+
+shape NAGA_STAIRS
+    home THAILAND, LAOS, CAMBODIA | 0.003 6 40
+    # Temple stairs guarded by two great nagas, their scaly bodies forming the handrails, their many heads rearing at the bottom.
+    repeat 6 -0.6 0.3 0
+    box 0 0.15 0 0.6 0.15 1.5 E8E2D8
+    mirror
+    tube 0.6 0.5 1.7 -3 2.3 1.7 0.25 8 2A8A4A
+    mirror
+    blob 1.2 1.1 1.7 0.3 0.6 0.35 2A8A4A
+    mirror
+    blob 1.4 1.6 1.7 0.25 0.25 0.3 D8B030
+
+shape LONGTAIL_BOAT
+    home THAILAND, MYANMAR, CAMBODIA, LAOS | 0.006 30 110 | water
+    # A longtail boat: a narrow wooden hull with garlands on its raised prow, a car engine on a long shaft at the stern.
+    tbox 0 -0.3 0 0.4 4.5 0 0.4 0 0.8 5 8A5A30
+    tube 0 0.4 5 0 1.8 5.8 0.12 4 8A5A30
+    blob 0 1.6 5.7 0.15 0.2 0.15 E83A8A
+    box 0 0.8 -4.6 0.35 0.3 0.4 4A4A4A
+    tube 0 0.8 -4.8 0 0.1 -7.5 0.05 3 9A9A9A
+    box 0 0.8 0 0.7 0.04 1.2 3A6AC8
+
+shape STREET_FOOD_CART
+    home THAILAND, VIETNAM, MALAYSIA, CAMBODIA, LAOS, INDONESIA, PHILIPPINES, SINGAPORE | 0.006 3 15 | town
+    # A street food cart: a glass case of noodles and skewers, a steaming pot, a big umbrella, plastic stools around.
+    box 0 0.8 0 0.5 0.4 1 B8B8C0 shiny
+    box 0 1.4 0 0.45 0.2 0.9 C8E0E8 glass
+    cyl 0 1.2 -0.6 0.25 0.25 0.3 10 9A9A9A shiny
+    mirrorx
+    tube 0.55 0.3 0.6 0.6 0.3 0.6 0.3 10 1E1E1E
+    tube -0.4 0 0.8 -0.4 2.6 0.8 0.03 4 D0D0D0
+    dome -0.4 2.4 0.8 1.4 0.4 C83A2A
+    repeat 3 0 0 0.8
+    cyl 1.4 0 -0.8 0.18 0.15 0.45 8 3A7AC8
+    repeat 2 0 0 1.2
+    cyl 2.3 0 -0.6 0.18 0.15 0.45 8 E83A3A
+
+shape VIET_TUBE_HOUSE
+    home VIETNAM | 0.008 4 40 | town pastel
+    # A tube house: a narrow tall town house painted in a bright colour, a balcony on every floor, a little roof garden.
+    box 0 6 0 6 6 2.2 A
+    windows 6.02 0.4 -2 0 1 4 11.4 0.4 3
+    repeat 3 0 3 0
+    box 6.4 3 0 0.4 0.05 2 F2F2F2
+    repeat 3 0 3 0
+    box 6.78 3.35 0 0.02 0.35 2 2A2A2A
+    box 6.03 1.2 0 0.03 1.2 1.6 6A6A70
+    blob 4 12.4 1 0.8 0.5 0.6 3E7A2E 0.4
+    box 0 12.05 0 6.02 0.05 2.22 C8C2B8
+
+shape BASKET_BOAT
+    home VIETNAM | 0.006 10 60 | coast
+    # Round basket boats of woven bamboo pulled up on the beach, tarred dark, oars laid inside.
+    cyl 0 0 0 1.1 1.2 0.5 14 4A3A2A
+    cyl 2.6 0 1 1.0 1.1 0.5 14 4A3A2A
+    cyl -0.5 0 2.8 1.0 1.1 0.5 14 3A2E22
+    tube -0.8 0.3 0 0.8 0.5 0.2 0.04 3 8A6A48
+
+shape HOI_AN_HOUSE
+    home VIETNAM:QUANG NAM, VIETNAM | 0.006 4 30 | town
+    # An old house of Hoi An: ochre yellow walls, a wooden front, a mossy tiled roof and silk lanterns hung along the eaves.
+    box 0 2.2 0 3.5 2.2 3 E8C048
+    box 3.52 1.4 0 0.03 1.3 2.6 6A3A1A
+    gable 0 4.4 0 3.8 3.2 1.4 0.6 6A5A48 E8C048
+    repeat 4 0 0 1.6
+    blob 4.4 3.2 -2.4 0.25 0.3 0.25 E83A2A lit
+    repeat 3 0 0 1.6
+    blob 4.4 3.0 -1.6 0.25 0.3 0.25 F2C21E lit
+    tube 4.4 3.6 -3 4.4 3.6 3 0.01 3 2A2A2A
+
+shape HMONG_HOUSE
+    home VIETNAM:LAO CAI, VIETNAM:HA GIANG, LAOS | 0.006 6 60 | country
+    # A Hmong house of the mountains: plank walls on a stone foot, a roof of grey shingles, maize hung up to dry.
+    box 0 0.3 0 3.6 0.3 4.6 8A8478
+    box 0 1.6 0 3.5 1.0 4.5 7A6A58
+    gable 0 2.6 0 3.7 4.7 1.6 0.4 6A6A68 7A6A58
+    box 3.52 1.4 0 0.03 0.9 0.5 4A3A2A
+    repeat 6 0 0 0.5
+    blob 3.8 2.3 -3 0.1 0.35 0.1 E8B820
+
+shape VIET_FLAG_POLE
+    home VIETNAM | 0.006 4 30
+    # A red flag with its yellow star, flying in front of every village hall.
+    tube 0 0 0 0 7 0 0.05 6 E8E8E8
+    box 0 6.4 0.8 0.02 0.55 0.8 D8202A
+    blob 0.03 6.4 0.8 0.01 0.25 0.25 F2D21E
+
+shape PLASTIC_STOOL_STALL
+    home VIETNAM, CAMBODIA, LAOS | 0.006 3 15 | town
+    # A noodle stall on the pavement: low plastic stools in red and blue, a tiny table, a pot over a charcoal stove.
+    repeat 3 0 0 1.2
+    box 0.8 0.3 -1.2 0.3 0.02 0.3 B8B0A0
+    repeat 3 0 0 1.2
+    cyl 0.2 0 -1.2 0.15 0.13 0.25 8 E83A3A
+    repeat 3 0 0 1.2
+    cyl 1.4 0 -1.2 0.15 0.13 0.25 8 3A7AC8
+    cyl -0.6 0 0 0.25 0.25 0.3 8 4A4A4A
+    cyl -0.6 0.3 0 0.3 0.3 0.35 10 9A9A9A shiny
+    box -1.2 1 0 0.04 1 2 F2EEE2
+
+shape KHMER_STILT_HOUSE
+    home CAMBODIA, LAOS, THAILAND | 0.008 6 60 | country
+    # A Khmer house on tall stilts: wooden walls and shutters, a palm-leaf or tin roof, a hammock strung between the posts below.
+    repeat 3 0 0 2.8
+    mirrorx
+    tube 2.5 0 -2.8 2.5 2.5 -2.8 0.12 6 6A5A48
+    box 0 2.55 0 2.8 0.08 3.2 6A5A48
+    box 0 3.6 0 2.6 1 3 8A6A48
+    windows 2.62 2.6 -2.5 0 1 5 1.8 0.3 1.6
+    gable 0 4.6 0 2.9 3.3 1.6 0.4 8A9AA8 8A6A48
+    tube 2.5 1.2 -2 2.5 1.0 0.8 0.15 6 C83A2A
+
+shape SUGAR_PALM
+    home CAMBODIA, THAILAND | 0.006 8 70 | country
+    # Sugar palms over the rice fields: tall straight trunks, round heads of fan leaves, a bamboo ladder lashed to one.
+    tube 0 0 0 0 11 0 0.25 6 6A5A48
+    blob 0 11.6 0 1.8 1.4 1.8 4A7A3A 0.3
+    tube 3 0 2 3 9 2 0.25 6 6A5A48
+    blob 3 9.6 2 1.7 1.3 1.7 4A7A3A 0.3
+    tube 0.3 0 0 0.3 10 0 0.04 3 B8A060
+
+shape LAO_THAT_STUPA
+    home LAOS | 0.004 8 60
+    # A Lao that: a golden stupa with a square base and a tall curved spire like a lotus bud.
+    box 0 0.6 0 2.2 0.6 2.2 E8D8B0
+    box 0 1.6 0 1.6 0.4 1.6 D8B030
+    tbox 0 2 0 1.4 1.4 0 4 0 0.9 0.9 D8B030
+    spire 0 4 0 0.9 4 8 D8B030
+    blob 0 8.1 0 0.15 0.15 0.15 D8B030
+
+shape GOLDEN_ZEDI
+    home MYANMAR | 0.006 10 90
+    # A golden zedi on a hill: a bell-shaped stupa on terraces, its spire topped with a little parasol of bells.
+    box 0 0.5 0 3 0.5 3 F2EEE2
+    box 0 1.2 0 2.4 0.2 2.4 F2EEE2
+    blob 0 2.8 0 1.8 1.6 1.8 D8B030 shiny
+    spire 0 4.2 0 0.9 4 10 D8B030 shiny
+    halo 0 7.6 0 0.4 0.05 8 D8B030
+    mirror
+    mirrorx
+    spire 2.6 1.4 2.6 0.3 1.2 6 D8B030
+
+shape INLE_STILT_HOUSE
+    home MYANMAR:SHAN | 0.008 6 60
+    # A house on the lake: woven bamboo on teak stilts above the water, a canoe tied below, floating gardens beside it.
+    box 0 0.02 0 6 0.02 6 4A6A6A water
+    mirror
+    mirrorx
+    tube 2 -0.5 2.5 2 1.6 2.5 0.1 4 5A4A3A
+    box 0 1.65 0 2.2 0.06 2.7 6A5A48
+    box 0 2.5 0 2 0.8 2.5 B8A070
+    gable 0 3.3 0 2.2 2.7 1.4 0.3 6A6A60 B8A070
+    tbox 3 0 0 0.3 2 3 0.2 0 0.35 2.2 4A3A2A
+    box -4 0.06 0 1 0.05 4 4A8A2E
+
+shape BULLOCK_CART_MYANMAR
+    home MYANMAR, CAMBODIA, LAOS | 0.005 4 30 | country
+    # A bullock cart: two white humped oxen under a yoke, a cart with big solid wooden wheels and a curved hood.
+    box 0 1.0 0 0.75 0.08 1.4 8A6A48
+    tube 0 1.5 -0.6 0 1.5 0.8 0.7 10 B8A070
+    mirrorx
+    hoop 0.82 0.7 0 0.7 0.12 14 6A4A2A
+    tube 0 0.9 1.4 0 0.9 3 0.05 4 8A6A48
+    mirrorx
+    blob 0.45 1.1 3.4 0.3 0.4 0.7 E8E2D8
+    mirrorx
+    blob 0.45 1.5 3.6 0.18 0.2 0.2 D8D2C8
+    mirrorx
+    blob 0.45 1.2 4.15 0.14 0.22 0.25 E8E2D8
+    mirrorx
+    tube 0.35 0.75 3.1 0.35 0 3.1 0.06 4 E8E2D8
+    mirrorx
+    tube 0.35 0.75 3.7 0.35 0 3.7 0.06 4 E8E2D8
+
+shape MALAY_KAMPUNG_HOUSE
+    home MALAYSIA, BRUNEI, INDONESIA:NORTH SUMATRA | 0.008 6 60 | pastel
+    # A kampung house: painted timber raised on posts, a steep roof with carved gable boards, louvred windows, steps to the veranda.
+    mirror
+    mirrorx
+    tube 2.6 0 2.8 2.6 1.4 2.8 0.1 4 6A5A48
+    box 0 2.4 0 2.8 1 3 A
+    windows 2.82 1.6 -2.5 0 1 5 1.8 0.3 1.6
+    gable 0 3.4 0 3 3.2 2.4 0.4 8A3A2A A
+    box 3.6 1.4 0 0.8 0.05 1.4 8A6A48
+    tbox 4.8 0 0 0.4 0.6 4.8 1.4 0 0.4 0.1 8A6A48
+    tri 0 3.4 3.25 0 5.8 3.25 0 3.4 3.25 F2F2F2
+
+shape BORNEO_LONGHOUSE
+    home MALAYSIA:SABAH, INDONESIA:EAST KALIMANTAN, BRUNEI | 0.004 10 80 | country
+    # A Dayak longhouse: one long building on stilts for a whole village, a covered gallery along its front, many doors.
+    repeat 8 0 0 4
+    mirrorx
+    tube 3 0 -14 3 2 -14 0.15 5 5A4A3A
+    box 0 2.05 0 3.5 0.08 15 6A5A48
+    box -1 3 0 2.4 0.9 14.5 8A6A48
+    repeat 8 0 0 3.6
+    box 1.42 2.9 -12.6 0.03 0.7 0.4 3A2A1A
+    gable 0 3.9 0 3.5 15 2 0.4 8A8A80 8A6A48
+    tbox 4 0 0 0.3 0.8 4 2 0 0.3 0.1 6A5A48
+
+shape SHOPHOUSE_ROW
+    home MALAYSIA, SINGAPORE, INDONESIA:JAKARTA, BRUNEI, THAILAND:BANGKOK | 0.008 3 30 | town pastel
+    # A row of shophouses: two storeys of painted plaster, shuttered windows above, the covered five-foot way below.
+    box 0 3.5 0 4 3.5 6 A
+    box 4.6 3 0 0.6 0.15 6 E8E2D8
+    repeat 4 0 0 4
+    tube 5.1 0 -6 5.1 3 -6 0.15 6 E8E2D8
+    repeat 4 0 0 3
+    box 4.02 4.8 -4.5 0.03 0.8 0.6 3E7A5A
+    repeat 4 0 0 3
+    box 4.03 1.4 -4.5 0.03 1.3 1.0 3A3A3A
+    gable 0 7 0 4 6 1.4 0.4 A8502A A
+    box 4.04 2.8 0 0.02 0.25 5 C83A2A
+
+shape ORANGUTAN
+    home MALAYSIA:SABAH, INDONESIA:EAST KALIMANTAN, INDONESIA:NORTH SUMATRA | 0.004 6 40 | country
+    # An orangutan in a tree: shaggy orange-red hair, long arms hanging from a branch.
+    tube 0 0 0 0 7 0 0.3 6 5A4A3A
+    tube 0 5 0 2 6 0 0.12 4 5A4A3A
+    blob 0 7.5 0 2 1.5 2 3E6A2E 0.3
+    blob 1.6 4.8 0 0.3 0.45 0.3 C8602A 0.3
+    blob 1.6 5.4 0 0.2 0.2 0.2 B8582A
+    tube 1.6 5.2 0.2 1.8 6.0 0 0.08 4 C8602A
+    tube 1.6 4.5 -0.2 1.4 3.6 -0.3 0.08 4 C8602A
+
+shape RAFFLESIA
+    home MALAYSIA:SABAH, INDONESIA:NORTH SUMATRA | 0.003 3 20 | country
+    # A rafflesia: the biggest flower of all, five red warty petals around a deep cup, on the forest floor.
+    ring 5 0.5
+    blob 0 0.1 0 0.45 0.08 0.35 B83A2A 0.3
+    cyl 0 0 0 0.35 0.4 0.3 10 A83020
+    cyl 0 0.29 0 0.25 0.25 0.02 10 3A1A10
+
+shape HDB_BLOCK
+    home SINGAPORE | 0.01 6 60 | town
+    # A public housing block: a long slab of flats in white and pastel bands, laundry poles sticking out of every window.
+    box 0 15 0 4 15 14 F2EEE2
+    windows 4.02 0.5 -13.5 0 1 27 29 0.6 3
+    repeat 10 0 3 0
+    box 4.01 1.4 0 0.01 0.25 14 6AB0C8
+    repeat 9 0 3 0
+    tube 4 3.2 -10 5.2 3.2 -10 0.02 3 C8C8C8
+    repeat 9 0 3 0
+    tube 4 3.2 4 5.2 3.2 4 0.02 3 C8C8C8
+    box 0 30.2 0 4.02 0.2 14.02 D8D2C4
+
+shape TONGKONAN
+    home INDONESIA:SOUTH SULAWESI | 0.01 6 70
+    # A tongkonan of the Toraja: a house on stilts under a huge saddle roof curving up at both ends like a boat, carved and painted.
+    mirror
+    mirrorx
+    tube 1.6 0 2.5 1.6 2 2.5 0.15 5 3A2A1A
+    box 0 2.8 0 1.8 0.8 2.8 8A2A1E
+    box 1.82 2.8 0 0.02 0.6 2.4 C8A040
+    quad -2.2 4.5 -2.6 2.2 4.5 -2.6 2.2 6 -6 -2.2 6 -6 3A3A30
+    quad -2.2 4.5 2.6 2.2 4.5 2.6 2.2 6 6 -2.2 6 6 3A3A30
+    quad -2.2 4.5 -2.6 2.2 4.5 -2.6 2.2 4.5 2.6 -2.2 4.5 2.6 3A3A30
+    quad 0 3.6 -2.8 0 3.6 2.8 0 6.0 6 0 6.0 -6 3A3A30
+    tube 0 3.6 -2.8 0 6.0 -6 0.12 4 8A2A1E
+    tube 0 3.6 2.8 0 6.0 6 0.12 4 8A2A1E
+    blob 1.83 2.0 0 0.03 0.4 0.25 F2EEE2
+
+shape BATAK_HOUSE
+    home INDONESIA:NORTH SUMATRA | 0.008 6 60 | country
+    # A Batak house: a carved wooden body on piles, a towering saddle roof of palm fibre with pointed gables front and back.
+    mirror
+    mirrorx
+    tube 2 0 2.5 2 1.6 2.5 0.18 5 3A2A1A
+    box 0 2.4 0 2.2 0.8 3 6A3A22
+    box 2.22 2.4 0 0.02 0.6 2.6 C8302A
+    blob 2.23 2.4 0 0.02 0.4 1.0 F2EEE2
+    quad -2.4 3.2 0 2.4 3.2 0 2.4 7.5 -4.5 -2.4 7.5 -4.5 2A2A28
+    quad -2.4 3.2 0 2.4 3.2 0 2.4 7.5 4.5 -2.4 7.5 4.5 2A2A28
+    tri 2.4 3.2 0 2.4 7.5 -4.5 2.4 7.5 4.5 2A2A28
+
+shape BALINESE_SHRINE
+    home INDONESIA:BALI | 0.01 3 25
+    # A Balinese house shrine: carved stone and red brick under a thatched roof, a chequered cloth and an umbrella, offerings at its foot.
+    box 0 0.5 0 0.6 0.5 0.6 C8A880
+    box 0 1.3 0 0.45 0.3 0.45 B8603A
+    hip 0 1.6 0 0.65 0.65 0.8 0.15 3A3A30
+    box 0.46 1.3 0 0.01 0.25 0.3 1E1E1E
+    box 0.47 1.3 0 0.01 0.25 0.08 F2F2F2
+    tube 0.8 0 0.6 0.8 2.4 0.6 0.03 3 C8A060
+    dome 0.8 2.2 0.6 0.4 0.3 F2C21E
+    repeat 3 0 0 0.3
+    box 0.7 0.05 -0.3 0.1 0.03 0.1 E8C060
+
+shape PENJOR_POLES
+    home INDONESIA:BALI | 0.01 2 15
+    # Penjor: tall bamboo poles curving over the road, hung with woven palm-leaf decorations, one at every gate.
+    repeat 4 0 0 3
+    tube 0 0 -4.5 0 4 -4.5 0.07 4 C8A860
+    repeat 4 0 0 3
+    tube 0 4 -4.5 1.5 6.5 -4.5 0.05 4 C8A860
+    repeat 4 0 0 3
+    tube 1.5 6.5 -4.5 2.6 5.8 -4.5 0.04 3 C8A860
+    repeat 4 0 0 3
+    blob 2.6 5.4 -4.5 0.12 0.45 0.12 E8D890
+    repeat 4 0 0 3
+    blob 0.2 2.5 -4.5 0.15 0.4 0.15 F2C21E
+
+shape JOGLO_PAVILION
+    home INDONESIA:CENTRAL JAVA, INDONESIA:YOGYAKARTA, INDONESIA:EAST JAVA | 0.005 8 60
+    # A joglo: an open Javanese pavilion of teak, its roof stepping up steeply in the middle on four great pillars.
+    box 0 0.3 0 4 0.3 4 C8A880
+    mirror
+    mirrorx
+    tube 3.5 0.6 3.5 3.5 2.5 3.5 0.1 6 6A4A2A
+    mirror
+    mirrorx
+    tube 1.2 0.6 1.2 1.2 4 1.2 0.14 6 6A4A2A
+    hip 0 2.5 0 4.5 4.5 1 0.3 8A3A2A
+    hip 0 4 0 1.8 1.8 2.4 0.3 8A3A2A
+
+shape BECAK
+    home INDONESIA:YOGYAKARTA, INDONESIA:CENTRAL JAVA, INDONESIA:JAKARTA, INDONESIA:EAST JAVA | 0.006 3 20 | town
+    # A becak: a cycle rickshaw with the passenger seat in front under a folding hood, the rider pedalling behind.
+    mirrorx
+    hoop 0.5 0.3 0.6 0.3 0.025 12 2A2A2A
+    box 0 0.7 0.6 0.5 0.15 0.35 C83A2A
+    box 0 1.0 0.35 0.5 0.3 0.05 C83A2A
+    blob 0 1.4 0.5 0.55 0.35 0.4 2A6AC8
+    tube 0 0.6 0.3 0 1.0 -0.8 0.03 3 2A2A2A
+    hoop 0 0.3 -1.0 0.3 0.025 12 2A2A2A
+    box 0 1.05 -0.85 0.08 0.03 0.12 1E1E1E
+
+shape SASAK_RICE_BARN
+    home INDONESIA:WEST NUSA TENGGARA | 0.008 6 50 | country
+    # A Sasak lumbung: a rice barn on four posts with wooden discs, its high hood-shaped thatch reaching almost to the ground.
+    mirror
+    mirrorx
+    tube 1 0 1 1 1.4 1 0.1 4 6A5A48
+    mirror
+    mirrorx
+    cyl 1 1.4 1 0.35 0.35 0.06 8 8A6A48
+    box 0 1.6 0 1.3 0.1 1.3 8A6A48
+    blob 0 3.4 0 1.5 2.2 1.4 9A8A58 0.2
+    box 1.3 3.5 0 0.08 0.4 0.3 3A2A1A
+
+shape PHINISI_SCHOONER
+    home INDONESIA | 0.004 40 120 | water
+    # A phinisi: a Bugis wooden schooner, its high stern and long bowsprit, two masts with their gaff sails.
+    tbox 0 -0.8 0 1.6 8 0 1 0 2.4 10 6A3A1E
+    tbox 0 1 -8.5 2.2 1.6 0 2.6 -9 2.2 1.2 6A3A1E
+    box 0 1.02 0 2.3 0.04 9.8 A88050
+    tube 0 1 3 0 13 3 0.12 4 5A3A1E
+    tube 0 1 -3 0 12 -3 0.12 4 5A3A1E
+    tube 0 1.2 10 0 2.6 14 0.08 4 5A3A1E
+    quad 0 2 3.2 0 12 3.2 0 11 7 0 2 7 F2EEE2
+    quad 0 2 -2.8 0 11 -2.8 0 10 1 0 2 1 F2EEE2
+
+shape HONAI_HUT
+    home INDONESIA:HIGHLAND PAPUA, INDONESIA:WEST PAPUA, PAPUA NEW GUINEA | 0.008 6 60 | country
+    # A honai: the round hut of the Dani in the Baliem valley, wooden walls under a domed roof of thatch.
+    cyl 0 0 0 2.4 2.4 1.5 12 6A5A48
+    dome 0 1.5 0 2.6 2.2 8A7A50
+    box 2.35 0.6 0 0.1 0.6 0.35 2A1A10
+    cyl 4 0 2 2 2 1.4 12 6A5A48
+    dome 4 1.4 2 2.2 1.9 8A7A50
+
+shape KOMODO_DRAGON
+    home INDONESIA:EAST NUSA TENGGARA | 0.008 6 50 | country
+    # A Komodo dragon: a huge grey-brown lizard, its forked tongue out, sprawled on the dry ground.
+    blob 0 0.35 0 0.45 0.3 1.1 6A6250
+    blob 0 0.3 1.2 0.25 0.2 0.45 6A6250
+    tube 0 0.3 -1 0 0.15 -2.6 0.15 6 6A6250
+    mirror
+    mirrorx
+    tube 0.35 0.3 0.6 0.7 0 0.8 0.08 4 6A6250
+    tube 0 0.25 1.6 0 0.2 1.95 0.02 3 E8B820
+
+shape INDONESIAN_MOSQUE
+    home INDONESIA, MALAYSIA, BRUNEI | 0.004 8 70
+    # A village mosque of the archipelago: a square hall under a stacked tiered roof, a slim minaret with a green cap.
+    box 0 2 0 4 2 4 F2EEE2
+    hip 0 4 0 4.6 4.6 1.4 0.4 2E8A4A
+    box 0 5.6 0 2.4 0.3 2.4 F2EEE2
+    hip 0 5.9 0 2.8 2.8 1.2 0.3 2E8A4A
+    box 0 7.3 0 1.2 0.2 1.2 F2EEE2
+    hip 0 7.5 0 1.4 1.4 1.2 0.2 2E8A4A
+    tube 0 8.7 0 0 9.4 0 0.04 3 D8B030
+    cyl 5.5 0 3.5 0.6 0.6 10 8 F2EEE2
+    spire 5.5 10 3.5 0.8 2 8 2E8A4A
+    box 4.02 1.2 0 0.03 1.2 0.7 4A3A2A
+
+shape NIPA_HUT
+    home PHILIPPINES, EAST TIMOR | 0.01 6 60 | country
+    # A bahay kubo: a little house of bamboo and nipa palm raised on stilts, a steep thatched roof, a ladder to the door.
+    mirror
+    mirrorx
+    tube 1.8 0 1.8 1.8 1.4 1.8 0.1 4 B8A060
+    box 0 1.45 0 2 0.06 2 B8A060
+    box 0 2.3 0 1.8 0.8 1.8 C8B070
+    hip 0 3.1 0 2.4 2.4 2.4 0.3 8A7A48
+    box 1.82 2.2 0 0.03 0.6 0.4 6A5A3A
+    tube 2.8 0 0 2 1.4 0 0.04 3 8A7A48
+
+shape IFUGAO_HOUSE
+    home PHILIPPINES:IFUGAO | 0.01 6 60 | country
+    # An Ifugao house: a single room raised on four posts with round rat guards, under a tall pyramid of thatch.
+    mirror
+    mirrorx
+    tube 1.2 0 1.2 1.2 1.6 1.2 0.15 5 4A3A2A
+    mirror
+    mirrorx
+    cyl 1.2 1.3 1.2 0.4 0.4 0.08 10 6A5040
+    box 0 2.1 0 1.5 0.5 1.5 5A4030
+    spire 0 2.4 0 2.6 4 4 8A7A48
+    tbox 2.4 0 0 0.3 0.4 2.4 1.6 0 0.3 0.1 6A5040
+
+shape PHILIPPINE_BAROQUE_CHURCH
+    home PHILIPPINES | 0.004 10 80
+    # An earthquake baroque church: thick coral-stone walls with heavy buttresses, a squat bell tower beside the facade.
+    box 0 4 0 4 4 8 C8B898
+    repeat 4 0 0 4.8
+    tbox 4.5 0 -7.2 0.8 0.6 4.5 5 -7.2 0.3 0.4 B8A888
+    tri 4.02 8 -4 4.02 8 4 4.02 11 0 C8B898
+    gable 0 8 0 4 8 2.5 0.3 8A3A2A C8B898
+    box 0 6 10 2.2 6 2.2 C8B898
+    box 0 12.6 10 1.6 0.6 1.6 C8B898
+    dome 0 13.2 10 1.4 1.2 B8A888
+    box 4.02 1.8 0 0.03 1.8 1.0 4A3A2A
+
+shape PHILIPPINE_TRICYCLE
+    home PHILIPPINES | 0.008 3 20
+    # A tricycle: a motorbike with a covered sidecar, painted with the name of its route.
+    box 0 0.55 0.5 0.2 0.2 0.6 2A2A2A
+    hoop 0 0.3 1.0 0.3 0.04 12 1E1E1E
+    hoop 0 0.3 0 0.3 0.04 12 1E1E1E
+    tube 0 0.6 0.8 0 1.0 1.0 0.03 3 9A9A9A
+    box 0.9 0.9 0.2 0.6 0.6 0.9 2A8AC8
+    box 0.9 1.6 0.2 0.65 0.05 0.95 E8E8E8
+    hoop 1.4 0.3 0.2 0.3 0.04 12 1E1E1E
+    box 1.51 1.0 0.2 0.01 0.15 0.6 F2C21E
+
+shape BANCA_OUTRIGGER
+    home PHILIPPINES, INDONESIA, EAST TIMOR | 0.006 30 110 | water
+    # A banca: a narrow painted boat with bamboo outriggers on both sides, a little roof over the middle.
+    tbox 0 -0.3 0 0.4 4 0 0.4 0 0.6 4.5 F2F2EE
+    box 0.61 0.3 0 0.01 0.08 4.3 2A8AC8
+    tube 0 0.5 4.4 0 1.1 5 0.08 4 F2F2EE
+    mirror
+    tube -3 0.5 2 3 0.5 2 0.06 4 B8A060
+    mirrorx
+    tube 3 0.1 -3.5 3 0.1 3.5 0.12 6 B8A060
+    box 0 1.5 -0.5 0.6 0.04 1.2 2A8AC8
+    mirror
+    mirrorx
+    tube 0.5 0.4 0.6 0.5 1.5 0.6 0.03 3 8A6A48
+
+shape SARI_SARI_STORE
+    home PHILIPPINES | 0.01 3 20 | town
+    # A sari-sari store: a corner shop in a house front, a barred window full of sachets, painted ads on its sides.
+    box 0 1.5 0 2 1.5 2.5 E8E2D8
+    box 2.01 1.3 0 0.02 0.6 1.5 E8C21E
+    repeat 8 0 0 0.4
+    tube 2.04 0.7 -1.4 2.04 1.9 -1.4 0.02 3 3A3A3A
+    box 2.02 2.4 0 0.02 0.3 2 C82A2A
+    box 0 3.05 0 2.1 0.05 2.6 8A9AA8
+    box 2.6 0.45 1.5 0.2 0.04 0.8 8A6A48
+
+shape TIMOR_SACRED_HOUSE
+    home EAST TIMOR | 0.01 6 60 | country
+    # An uma lulik: a sacred house of Timor on piles, its tall thatched roof rising steep and narrow like a hat.
+    mirror
+    mirrorx
+    tube 1.4 0 1.4 1.4 1.6 1.4 0.15 5 5A4030
+    box 0 2.3 0 1.6 0.7 1.6 6A5040
+    spire 0 3 0 2.2 6 4 8A7A48
+    box 1.62 2.3 0 0.02 0.5 0.4 C8A040
+
+shape WATER_VILLAGE
+    home BRUNEI, MALAYSIA:SABAH | 0.008 10 70 | pastel
+    # A water village: houses on stilts over the river, joined by plank walkways, boats tied below.
+    box 0 0.02 0 7 0.02 10 4A6A6A water
+    repeat 3 0 0 6
+    box -2 2.6 -6 2 1.2 2 A
+    repeat 3 0 0 6
+    gable -2 3.8 -6 2.2 2.2 1 0.3 8A9AA8 A
+    repeat 6 0 0 3
+    tube -2 -0.5 -7.5 -2 1.4 -7.5 0.08 4 5A4A3A
+    box 1 1.4 0 0.6 0.04 9 8A6A48
+    tbox 3 0 3 0.3 1.5 3 0.2 3 0.35 1.7 3A6AC8
