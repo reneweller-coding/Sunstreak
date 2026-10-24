@@ -1,0 +1,384 @@
+# More local things of Southeast Asia.
+
+shape JEEPNEY
+    home PHILIPPINES | 0.008 2 20 | town pastel
+    # A jeepney: a stretched army jeep turned bus, chrome horses on the bonnet, painted all over, its name across the top of the windscreen.
+    box 0 1.0 3.0 0.8 0.35 0.9 D8D8D8 shiny
+    box 0 0.9 3.91 0.6 0.3 0.01 C8C8C8 shiny
+    blob 0 1.5 3.4 0.05 0.15 0.15 D8D8D8 shiny
+    blob 0 1.5 3.0 0.05 0.13 0.13 D8D8D8 shiny
+    box 0 1.6 2.1 0.8 0.3 0.02 2A3A4A glass
+    box 0 1.5 -1 0.95 0.8 3.1 A
+    box 0 2.35 -0.8 1.05 0.05 3.4 D8D8D8 shiny
+    box 0.96 1.4 -1 0.01 0.12 3 F2C21E
+    box 0.96 1.1 -1 0.01 0.08 3 C82A2A
+    box 0.96 1.85 -1 0.01 0.25 2.8 2A2A2A
+    box 0 2.2 2.1 0.7 0.12 0.01 F2F2F2
+    tube 0.9 2.4 2.0 0.9 3.0 2.0 0.01 3 C8C8C8
+    mirrorx
+    tube 0.75 0.42 2.9 0.97 0.42 2.9 0.42 10 1E1E1E
+    mirrorx
+    tube 0.75 0.42 -2.6 0.97 0.42 -2.6 0.42 10 1E1E1E
+
+shape THAI_TUK_TUK
+    home THAILAND, LAOS, CAMBODIA | 0.008 1 12 | town
+    # A tuk-tuk: a three-wheeled taxi with a bench under a bright canopy with a yellow fringe, chrome rails, the driver perched in front.
+    tube -0.05 0.25 1.2 0.05 0.25 1.2 0.25 10 1E1E1E
+    box 0 0.6 0.9 0.3 0.25 0.35 2A6AC8
+    box 0 1.3 1.05 0.35 0.3 0.02 2A3A4A glass
+    blob 0 1.2 0.8 0.15 0.22 0.12 E8E0D0
+    box 0 0.4 -0.3 0.75 0.06 0.8 2A6AC8
+    box 0 0.7 -0.5 0.7 0.12 0.5 C82A2A
+    box 0 1.0 -0.95 0.7 0.3 0.05 C82A2A
+    box 0 1.85 0 0.8 0.06 1.2 2A6AC8
+    box 0.81 1.75 0 0.01 0.1 1.2 F2C21E
+    mirror
+    mirrorx
+    tube 0.75 0.4 0.8 0.75 1.85 0.8 0.02 3 C8C8C8
+    mirrorx
+    tube 0.65 0.25 -0.5 0.75 0.25 -0.5 0.25 10 1E1E1E
+
+shape SONGTHAEW
+    home THAILAND, LAOS | 0.006 2 20 | town
+    # A songthaew: a red pickup with a roof over its bed and two benches facing each other, a shared taxi waiting for passengers.
+    box 0 1.15 1.8 0.9 0.55 0.9 C82A2A
+    box 0 0.85 3.0 0.85 0.25 0.5 C82A2A
+    box 0 1.4 2.71 0.8 0.25 0.01 2A3A4A glass
+    box 0 0.6 -1.1 0.9 0.05 1.8 3A3A3A
+    mirrorx
+    box 0.9 0.85 -1.1 0.04 0.25 1.8 C82A2A
+    mirrorx
+    box 0.6 0.95 -1.1 0.25 0.05 1.7 3A3A3A
+    box 0 2.2 -1.1 0.95 0.06 1.9 C82A2A
+    mirrorx
+    tube 0.9 1.1 0.7 0.9 2.2 0.7 0.03 3 C8C8C8
+    mirrorx
+    tube 0.9 1.1 -2.9 0.9 2.2 -2.9 0.03 3 C8C8C8
+    box 0 0.35 -3.0 0.5 0.04 0.2 8A8A8A
+    mirrorx
+    tube 0.75 0.4 2.6 0.92 0.4 2.6 0.4 10 1E1E1E
+    mirrorx
+    tube 0.75 0.4 -2.0 0.92 0.4 -2.0 0.4 10 1E1E1E
+
+shape NON_LA_FARMERS
+    home VIETNAM, CAMBODIA, LAOS | 0.008 6 40 | country
+    # Farmers planting rice in the flooded paddy: bent over the water in their conical palm-leaf hats, bundles of seedlings beside them.
+    box 0 0.02 0 4 0.02 5 5A7A6A water
+    repeat 5 0 0 1
+    box -2 0.15 -4.5 1.8 0.13 0.1 6AAA3A
+    repeat 3 1.2 0 1.5
+    tube 0.55 0.5 -1.6 0.55 0 -1.6 0.04 3 3A3A3A
+    repeat 3 1.2 0 1.5
+    tube 0.45 0.5 -1.6 0.45 0 -1.6 0.04 3 3A3A3A
+    repeat 3 1.2 0 1.5
+    tube 0.5 0.6 -1.6 0.5 0.95 -1.25 0.13 5 3A5A8A
+    repeat 3 1.2 0 1.5
+    blob 0.5 1.0 -1.08 0.08 0.08 0.08 B8885A
+    repeat 3 1.2 0 1.5
+    spire 0.5 1.03 -1.05 0.32 0.22 10 E8D8A0
+    repeat 3 1.2 0 1.5
+    blob 1.0 0.1 -0.8 0.15 0.1 0.15 6AAA3A
+
+shape FLOATING_MARKET
+    home THAILAND, VIETNAM:CAN THO, INDONESIA:EAST KALIMANTAN | 0.006 20 90 | water
+    # A floating market: narrow wooden boats laden with fruit and vegetables, their paddlers in wide hats, one boat cooking noodles.
+    tbox 0 -0.15 -4 0.4 2.5 0 0.3 -4 0.6 3 5A3A22
+    blob 0 0.45 -4.5 0.4 0.2 0.8 F2C21E 0.6
+    blob 0 0.45 -3.2 0.35 0.2 0.5 6AAA3A 0.6
+    blob 0 0.55 -6.2 0.12 0.25 0.12 3A5A8A
+    spire 0 0.85 -6.2 0.4 0.15 10 E8D8A0
+    tbox 1.5 -0.15 0 0.4 2.5 1.5 0.3 0 0.6 3 4A3A28
+    blob 1.5 0.45 0.5 0.4 0.2 0.9 E8501E 0.6
+    blob 1.5 0.55 -2.2 0.12 0.25 0.12 8A3A5A
+    spire 1.5 0.85 -2.2 0.4 0.15 10 E8D8A0
+    tbox -1 -0.15 4 0.4 2.5 -1 0.3 4 0.6 3 5A3A22
+    cyl -1 0.3 4.5 0.25 0.25 0.3 8 8A8A8A shiny
+    blob -1 0.9 4.5 0.25 0.3 0.25 E8EEF0 glass
+    blob -1 0.55 2.2 0.12 0.25 0.12 3A6A4A
+    spire -1 0.85 2.2 0.4 0.15 10 E8D8A0
+
+shape DURIAN_STALL
+    home MALAYSIA, THAILAND, INDONESIA, SINGAPORE, VIETNAM, PHILIPPINES | 0.006 1 15 | town
+    # A roadside durian stall: spiky green fruit heaped on a table and hanging in bunches, a tarp roof on poles, plastic stools for tasting.
+    box 0 0.75 0 0.6 0.05 1.5 8A6A48
+    mirror
+    mirrorx
+    tube 0.5 0 1.4 0.5 0.75 1.4 0.04 3 6A5A48
+    repeat 6 0 0 0.5
+    blob 0.2 0.97 -1.25 0.18 0.2 0.18 8A9A3A 0.7
+    repeat 5 0 0 0.5
+    blob -0.2 0.97 -1.0 0.18 0.2 0.18 7A8A30 0.7
+    repeat 4 0 0 0.6
+    blob 0.9 1.6 -1.0 0.15 0.18 0.15 8A9A3A 0.7
+    tube 0.9 2.1 -1.6 0.9 2.1 1.6 0.03 3 6A5A48
+    quad -0.8 2.3 -2 -0.8 2.3 2 1.2 2.0 2 1.2 2.0 -2 2A6AC8
+    mirror
+    tube 1.1 0 1.9 1.1 2.0 1.9 0.04 3 8A8A8A
+    repeat 3 0 0 0.8
+    cyl 2 0 -0.8 0.18 0.16 0.45 8 C82A2A
+
+shape RUBBER_PLANTATION
+    home MALAYSIA, THAILAND, INDONESIA, VIETNAM, CAMBODIA, MYANMAR, SRI LANKA, INDIA:KERALA | 0.008 6 60 | country
+    # A rubber plantation: straight slim grey trunks in endless rows, each with a spiral cut and a little cup catching the white latex.
+    repeat 5 0 0 3
+    tube 0 0 -6 0 6 -6 0.15 6 9A9488
+    repeat 5 0 0 3
+    blob 0 8 -6 1.6 2 1.6 3A6A2A 0.3
+    repeat 5 0 0 3
+    cyl 0.17 1.0 -6 0.07 0.08 0.1 6 F2F2F2
+    repeat 5 0 0 3
+    tube 0.15 1.3 -6.12 0.15 1.6 -5.88 0.012 3 6A5A48
+    repeat 5 0 0 3
+    tube -3 0 -4.5 -3 6 -4.5 0.15 6 9A9488
+    repeat 5 0 0 3
+    blob -3 8 -4.5 1.6 2 1.6 3A6A2A 0.3
+    repeat 5 0 0 3
+    cyl -2.83 1.0 -4.5 0.07 0.08 0.1 6 F2F2F2
+
+shape OIL_PALM_PLANTATION
+    home MALAYSIA, INDONESIA, THAILAND, PHILIPPINES, COLOMBIA, ECUADOR, NIGERIA, GHANA, IVORY COAST, CAMEROON, HONDURAS, GUATEMALA, COSTA RICA, PAPUA NEW GUINEA | 0.008 6 60 | country
+    # An oil palm plantation: rows of stout palms with rough trunks of old frond bases and heavy crowns, a harvested bunch of red fruit by the track.
+    repeat 4 0 0 4
+    tube 0 0 -6 0 4 -6 0.4 6 6A5A40
+    repeat 4 0 0 4
+    blob 0 3.6 -6 0.5 0.6 0.5 5A4A30 0.6
+    repeat 4 0 0 4
+    fronds 0 4 -6 14 3.5 0.6 3E6A2A
+    repeat 4 0 0 4
+    tube -4 0 -4 -4 3.5 -4 0.4 6 6A5A40
+    repeat 4 0 0 4
+    fronds -4 3.5 -4 14 3.5 0.6 3E6A2A
+    blob 2 0.25 1 0.3 0.25 0.3 C83A1E 0.6
+
+shape PROBOSCIS_MONKEYS
+    home MALAYSIA:SABAH, INDONESIA:EAST KALIMANTAN, BRUNEI | 0.004 6 40 | country
+    # Proboscis monkeys in a riverside tree: orange-brown with pale limbs, the males with long drooping noses and pot bellies.
+    box 4 0.02 0 2 0.02 6 4A5A4A water
+    tube 0 0 0 0 6 0 0.35 6 6A5A48
+    tube 0 4.5 0 2.4 6 0.8 0.15 5 6A5A48
+    tube 0 4.8 0 -2 6.4 -1.2 0.15 5 6A5A48
+    blob 0 8.5 0 3.5 2 3.5 3A6A2A 0.3
+    blob 2 5.8 0.8 0.25 0.35 0.22 C8784A
+    blob 2.05 6.25 0.85 0.13 0.13 0.13 C8784A
+    blob 2.18 6.2 0.85 0.06 0.1 0.05 E8A07A
+    tube 2 5.5 0.8 2.1 5.0 0.9 0.05 4 F2E8D8
+    tube 2 5.5 0.8 1.9 4.3 0.8 0.04 3 C8A078
+    blob -1.6 6.2 -1.0 0.22 0.3 0.2 C8784A
+    blob -1.55 6.6 -0.95 0.12 0.12 0.12 C8784A
+    tube -1.6 5.95 -1.0 -1.7 5.3 -1.1 0.04 3 C8A078
+
+shape HORNBILLS
+    home MALAYSIA, INDONESIA, THAILAND, MYANMAR, INDIA:KERALA, INDIA:ASSAM, INDIA:NAGALAND, PHILIPPINES, BRUNEI | 0.004 4 30 | country
+    # A pair of hornbills on a dead branch: black and white, with great curved yellow bills topped by an orange casque.
+    tube 0 0 0 0 5 0 0.25 6 8A7A68
+    tube 0 4 0 0 4.6 2 0.08 4 8A7A68
+    repeat 2 0 0.15 0.9
+    blob 0 4.45 0.8 0.15 0.22 0.18 1E1E1E
+    repeat 2 0 0.15 0.9
+    tube 0 4.3 0.75 0 3.9 0.65 0.06 4 F2F2F2
+    repeat 2 0 0.15 0.9
+    blob 0.08 4.7 0.82 0.08 0.08 0.08 1E1E1E
+    repeat 2 0 0.15 0.9
+    tube 0.12 4.7 0.82 0.4 4.6 0.82 0.05 4 F2C21E
+    repeat 2 0 0.15 0.9
+    blob 0.2 4.78 0.82 0.12 0.05 0.04 E8701E
+
+shape DRAGON_FRUIT_POSTS
+    home VIETNAM, THAILAND, CAMBODIA, MALAYSIA, INDONESIA, PHILIPPINES, ECUADOR, COLOMBIA, MEXICO:YUCATAN | 0.008 4 50 | country
+    # A dragon fruit farm: rows of concrete posts each topped with a sprawling crown of green cactus stems hung with pink fruit.
+    repeat 5 0 0 2
+    cyl 0 0 -4 0.08 0.08 1.6 4 B8B8B0
+    repeat 5 0 0 2
+    blob 0 1.7 -4 0.7 0.35 0.7 6AAA4A 0.6
+    repeat 5 0 0 2
+    tube 0 1.6 -4 0.6 1.0 -3.6 0.06 4 6AAA4A
+    repeat 5 0 0 2
+    tube 0 1.6 -4 -0.5 1.05 -4.4 0.06 4 6AAA4A
+    repeat 5 0 0 2
+    blob 0.5 1.2 -3.7 0.1 0.12 0.1 E83A8A
+    repeat 5 0 0 2
+    cyl -2.5 0 -3 0.08 0.08 1.6 4 B8B8B0
+    repeat 5 0 0 2
+    blob -2.5 1.7 -3 0.7 0.35 0.7 6AAA4A 0.6
+    repeat 5 0 0 2
+    blob -2.1 1.25 -2.7 0.1 0.12 0.1 E83A8A
+
+shape SAFFRON_MONKS
+    home THAILAND, LAOS, MYANMAR, CAMBODIA, SRI LANKA | 0.004 2 15 | town
+    # Monks on the morning alms round: a line of barefoot figures in saffron robes, each carrying a covered bowl.
+    repeat 5 0 0 1.1
+    tbox 0 0 -2.2 0.2 0.2 0 1.25 -2.2 0.18 0.14 E8902A
+    repeat 5 0 0 1.1
+    blob 0 1.3 -2.2 0.18 0.12 0.15 E8902A
+    repeat 5 0 0 1.1
+    blob 0 1.55 -2.2 0.1 0.12 0.1 B8885A
+    repeat 5 0 0 1.1
+    blob 0.18 1.0 -2.1 0.1 0.08 0.1 2A2A2A
+
+shape BRICK_STUPA_FIELD
+    home MYANMAR:MANDALAY | 0.008 10 120 | country
+    # A plain of old brick stupas: red-brown temples and bell-shaped spires rising out of the scrubby fields.
+    cyl 0 0 0 1.6 1.6 1.2 12 A8603A
+    blob 0 2.2 0 1.3 1.2 1.3 A8603A
+    spire 0 3.2 0 0.4 2.2 8 A8603A
+    cyl -6 0 -8 1.2 1.2 0.9 12 9A5A38
+    blob -6 1.7 -8 1 0.9 1 9A5A38
+    spire -6 2.5 -8 0.3 1.7 8 9A5A38
+    box -10 1.5 6 3 1.5 3 A8603A
+    tbox -10 3 6 2.4 2.4 -10 4.2 6 1.6 1.6 A8603A
+    tbox -10 4.2 6 1.4 1.4 -10 5 6 0.9 0.9 9A5A38
+    spire -10 5 6 0.8 3 4 A8603A
+    cyl 5 0 9 0.9 0.9 0.7 10 A8603A
+    blob 5 1.3 9 0.75 0.7 0.75 A8603A
+    spire 5 1.9 9 0.25 1.3 8 A8603A
+    cyl -14 0 -2 2 2 1.4 12 9A5A38
+    blob -14 2.6 -2 1.6 1.5 1.6 9A5A38
+    spire -14 3.8 -2 0.5 3 8 D8A830
+
+shape BAMBOO_SCAFFOLDING
+    home CHINA:HONG KONG, CHINA:MACAU, CHINA:GUANGDONG, MYANMAR, VIETNAM | 0.004 3 25 | town
+    # A building under repair wrapped in bamboo scaffolding: a lattice of poles lashed together, green safety netting over part of it.
+    box -1 6 0 2 6 5 C8C0B0
+    windows 1.02 0.5 -4.5 0 1 9 11 0.3 3
+    repeat 6 0 0 2
+    tube 1.3 0 -5 1.3 12.5 -5 0.05 4 C8B070
+    repeat 6 0 0 2
+    tube 1.8 0 -5 1.8 12.5 -5 0.05 4 C8B070
+    repeat 7 0 2 0
+    tube 1.3 1 -5.2 1.3 1 5.2 0.04 3 C8B070
+    repeat 7 0 2 0
+    tube 1.8 1 -5.2 1.8 1 5.2 0.04 3 C8B070
+    quad 1.85 0 0.5 1.85 12 0.5 1.85 12 5.2 1.85 0 5.2 2A7A4A
+
+shape BALINESE_SPLIT_GATE
+    home INDONESIA:BALI | 0.006 4 30 | town
+    # A Balinese split gate: two stepped towers of red brick and grey carved stone like one tower cut in half, a stair rising between them.
+    mirror
+    box 0 1 1.9 1.2 1 1.0 A8503A
+    mirror
+    box 0 2.6 1.75 1.0 0.6 0.85 A8503A
+    mirror
+    box 0 3.6 1.6 0.8 0.4 0.7 9A9690
+    mirror
+    box 0 4.4 1.5 0.6 0.4 0.6 A8503A
+    mirror
+    box 0 5.1 1.35 0.45 0.3 0.45 9A9690
+    mirror
+    spire 0 5.4 1.35 0.35 0.8 4 9A9690
+    tbox 1 0 0 1.5 0.9 0 0.8 0 0.5 0.9 9A9690
+    mirror
+    box 0 0.9 5 0.35 0.9 2 A8503A
+
+shape SATAY_CART
+    home INDONESIA, MALAYSIA, SINGAPORE, THAILAND | 0.006 1 12 | town
+    # A satay seller's cart: a long charcoal grill smoking with skewers, a glass case of rice cakes, a lantern on a pole.
+    box 0 0.8 0 0.5 0.3 1.0 2A8A6A
+    mirrorx
+    hoop 0.55 0.35 -0.6 0.35 0.04 10 3A3A3A
+    box 0.6 1.0 0 0.15 0.15 0.8 3A3A3A
+    box 0.6 1.16 0 0.12 0.01 0.75 E8501E glow
+    repeat 10 0 0 0.15
+    tube 0.45 1.2 -0.7 0.75 1.2 -0.7 0.01 3 C8784A
+    blob 0.6 1.8 0 0.3 0.5 0.6 D8D8D8 glass
+    box 0 1.3 0.6 0.4 0.2 0.3 C8E0E8 glass
+    tube -0.4 1.1 -0.9 -0.4 2.4 -0.9 0.03 3 8A6A48
+    blob -0.4 2.4 -0.9 0.1 0.15 0.1 F2E89A lit
+
+shape BAHAY_NA_BATO
+    home PHILIPPINES | 0.006 3 30 | town
+    # A colonial stone-and-wood house: a ground floor of stone, the wide upper floor of dark timber overhanging it with rows of sliding shell-pane windows.
+    box 0 1.5 0 3 1.5 5 B8B0A0
+    box 0.3 4.2 0 3.4 1.2 5.3 6A4A30
+    box 3.71 4.3 0 0.01 0.6 4.8 F2EEDA
+    repeat 10 0 0 1
+    box 3.72 4.3 -4.5 0.01 0.6 0.03 6A4A30
+    box 3.71 3.3 0 0.01 0.15 4.8 3A2A1E
+    hip 0.3 5.4 0 3.6 5.5 1.8 0.4 8A3A22
+    box 3.01 1.1 0 0.02 1.1 0.8 5A3A22
+
+shape HAWKER_CENTRE
+    home SINGAPORE, MALAYSIA | 0.006 3 30 | town
+    # A hawker centre: an open-sided hall under a pitched roof, a row of stall fronts with lit signboards, round tables and stools beneath.
+    repeat 5 0 0 5
+    mirrorx
+    tube 4.8 0 -10 4.8 4.5 -10 0.15 6 C8C8C0
+    gable 0 4.5 0 5 10 1.8 0.6 C85A3A E8E0D0
+    box -4 1.5 0 0.8 1.5 9.5 E8E0D0
+    repeat 8 0 0 2.4
+    box -3.19 2.6 -8.4 0.02 0.3 1.0 F2E8A0 glow
+    repeat 4 0 0 4
+    cyl 1.5 0 -6 0.5 0.5 0.75 10 F2F2F2
+    repeat 4 0 0 4
+    cyl 2.4 0 -6 0.2 0.2 0.45 8 2A6AC8
+    repeat 4 0 0 4
+    cyl 0.6 0 -6 0.2 0.2 0.45 8 2A6AC8
+
+shape MUAY_THAI_RING
+    home THAILAND | 0.004 3 30 | town
+    # An outdoor boxing ring at the temple fair: a raised canvas square with red, white and blue ropes, padded corner posts, lights strung above.
+    box 0 0.6 0 2.5 0.6 2.5 2A4AA8
+    box 0 1.21 0 2.4 0.01 2.4 E8E8E8
+    mirror
+    mirrorx
+    tube 2.4 1.2 2.4 2.4 2.6 2.4 0.07 6 F2F2F2
+    mirrorx
+    tube 2.4 1.7 -2.4 2.4 1.7 2.4 0.02 3 C82A2A
+    mirrorx
+    tube 2.4 2.1 -2.4 2.4 2.1 2.4 0.02 3 F2F2F2
+    mirrorx
+    tube 2.4 2.5 -2.4 2.4 2.5 2.4 0.02 3 2A4AC8
+    mirror
+    tube -2.4 1.7 2.4 2.4 1.7 2.4 0.02 3 C82A2A
+    mirror
+    tube -2.4 2.1 2.4 2.4 2.1 2.4 0.02 3 F2F2F2
+    mirror
+    tube -2.4 2.5 2.4 2.4 2.5 2.4 0.02 3 2A4AC8
+    mirror
+    mirrorx
+    tube 3.2 0 3.2 3.2 4.5 3.2 0.05 4 8A8A8A
+    tube -3.2 4.5 -3.2 3.2 4.5 3.2 0.01 3 3A3A3A
+    repeat 8 0.8 0 0.8
+    blob -2.8 4.4 -2.8 0.07 0.07 0.07 F2E89A lit
+
+shape HAMMOCK_CAFE
+    home VIETNAM, CAMBODIA, LAOS | 0.006 2 20 | country
+    # A roadside hammock cafe: a tin roof on poles shading a row of hammocks for tired drivers, iced coffee in glasses on a low table.
+    repeat 4 0 0 2.4
+    mirrorx
+    tube 2 0 -3.6 2 2.6 -3.6 0.05 4 8A6A48
+    repeat 4 0 0 2.4
+    tube -2 2.4 -3.6 2 2.4 -3.6 0.04 3 8A6A48
+    quad -2.2 2.7 -4 -2.2 2.7 4 2.2 2.5 4 2.2 2.5 -4 9AA0A8
+    repeat 3 0 0 2.4
+    arch 1.5 1.4 -2.4 2.4 -0.5 0.15 6 2A6AC8
+    repeat 3 0 0 2.4
+    arch -1.5 1.4 -2.4 2.4 -0.5 0.15 6 C82A2A
+    box 0 0.4 0 0.4 0.03 0.6 8A6A48
+    repeat 3 0 0 0.3
+    cyl 0 0.43 -0.3 0.04 0.04 0.12 6 6A4A30 glass
+
+shape FLOATING_FISH_CAGES
+    home VIETNAM, THAILAND, INDONESIA, PHILIPPINES, MALAYSIA, CAMBODIA | 0.004 25 100 | water
+    # Floating fish farms: square cages framed in wooden walkways on blue drums, a little hut on the raft.
+    repeat 4 3 0 0
+    box -4.5 0.15 0 0.3 0.08 4.5 8A6A48
+    repeat 4 0 0 3
+    box 0 0.15 -4.5 4.8 0.08 0.3 8A6A48
+    repeat 4 3 0 0
+    cyl -4.5 -0.2 -3 0.3 0.3 0.35 8 2A6AC8
+    repeat 4 3 0 0
+    cyl -4.5 -0.2 3 0.3 0.3 0.35 8 2A6AC8
+    box 3 1.2 1.5 1.2 1.0 1.2 9A9488
+    quad 1.6 2.4 0 1.6 2.4 3 4.4 2.2 3 4.4 2.2 0 9AA0A8
+
+shape BAMBOO_BRIDGE
+    home CAMBODIA, LAOS, VIETNAM, MYANMAR | 0.004 6 40 | country
+    # A bamboo bridge over the river: a long low deck of woven bamboo on rows of thin poles, wide enough for a motorbike.
+    box 0 0.02 0 5 0.02 3 4A6A5A water
+    box 0 1.2 0 1.2 0.06 4.5 C8B070
+    repeat 12 0 0 0.8
+    tube 1.1 0 -4.4 1.1 1.2 -4.4 0.04 3 B8A060
+    repeat 12 0 0 0.8
+    tube -1.1 0 -4.4 -1.1 1.2 -4.4 0.04 3 B8A060
+    mirror
+    tbox 0 0 5.5 1.2 1 0 1.2 4.5 1.2 0.05 C8B070

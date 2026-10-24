@@ -499,7 +499,7 @@ shape TIMOR_SACRED_HOUSE
     box 1.62 2.3 0 0.02 0.5 0.4 C8A040
 
 shape WATER_VILLAGE
-    home BRUNEI, MALAYSIA:SABAH | 0.008 10 70 | pastel
+    home BRUNEI, MALAYSIA:SABAH, CAMBODIA | 0.008 10 70 | pastel
     # A water village: houses on stilts over the river, joined by plank walkways, boats tied below.
     box 0 0.02 0 7 0.02 10 4A6A6A water
     repeat 3 0 0 6

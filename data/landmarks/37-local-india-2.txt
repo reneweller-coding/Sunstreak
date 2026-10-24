@@ -1,7 +1,7 @@
 # More local things of India and its neighbours.
 
 shape AUTO_RICKSHAW
-    home INDIA, PAKISTAN, BANGLADESH, SRI LANKA, NEPAL | 0.008 1 12 | town
+    home INDIA, PAKISTAN, BANGLADESH, SRI LANKA, NEPAL, INDONESIA:JAKARTA | 0.008 1 12 | town
     # An auto rickshaw: a three-wheeled scooter cab, green below with a yellow canopy, the driver up front.
     tbox 0 0.35 0 0.65 1.0 0 1.1 0 0.62 0.9 3A8A3A
     blob 0 1.45 -0.1 0.68 0.6 1.0 F2C21E

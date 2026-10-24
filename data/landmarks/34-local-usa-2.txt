@@ -433,7 +433,7 @@ shape ONE_ROOM_SCHOOLHOUSE
     box 0 1.1 4.52 0.5 1.1 0.03 6A4A2A
 
 shape DRIVEWAY_HOOP
-    home USA | 0.006 4 30 | town
+    home USA, PHILIPPINES | 0.006 4 30 | town
     # A basketball hoop over a suburban driveway: a white backboard on a pole, a ball lying on the concrete.
     box 2 0.02 0 2 0.02 1.5 B8B8B0
     tube 0 0 0 0 3.2 0 0.07 6 3A3A3A
