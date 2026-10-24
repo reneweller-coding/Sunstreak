@@ -1,0 +1,432 @@
+# More local things of Japan, Korea, Taiwan and Mongolia.
+
+shape KEI_TRUCK
+    home JAPAN | 0.008 2 20
+    # A kei truck: a tiny white pickup with a flat cab-over front, its little dropside bed loaded with vegetable crates.
+    box 0 1.05 1.2 0.7 0.65 0.5 F2F2F2
+    box 0 1.3 1.71 0.6 0.3 0.01 2A3A4A glass
+    box 0.71 1.3 1.2 0.01 0.25 0.35 2A3A4A glass
+    box 0 0.6 -0.6 0.7 0.05 1.2 F2F2F2
+    mirrorx
+    box 0.7 0.75 -0.6 0.02 0.15 1.2 F2F2F2
+    box 0 0.75 -1.8 0.7 0.15 0.02 F2F2F2
+    mirror
+    mirrorx
+    tube 0.55 0.28 1.0 0.72 0.28 1.0 0.28 10 1E1E1E
+    repeat 3 0 0 0.6
+    box 0.3 0.8 -1.2 0.25 0.15 0.25 4A8AC8
+    repeat 2 0 0 0.8
+    blob -0.3 0.85 -1.1 0.22 0.2 0.22 8AB860
+
+shape KARESANSUI
+    home JAPAN:KANSAI, JAPAN:KANTO, JAPAN:CHUBU, JAPAN:CHUGOKU | 0.004 4 30 | town
+    # A dry stone garden: raked white gravel in parallel lines, a few moss-ringed rocks, an earthen wall with a tiled coping behind.
+    box 0 0.03 0 4 0.03 6 E8E8E0
+    repeat 12 0 0 1
+    box 0 0.065 -5.5 3.9 0.005 0.03 C8C8C0
+    blob -1 0.08 -2 1.0 0.05 0.8 5A7A3A
+    blob -1 0.4 -2 0.7 0.5 0.5 6A6A68 0.4
+    blob 1.5 0.06 1 0.7 0.04 0.6 5A7A3A
+    blob 1.5 0.3 1 0.5 0.4 0.4 7A7A78 0.4
+    blob -0.5 0.5 3 0.6 0.6 0.5 6A6A68 0.4
+    box -4.3 1.1 0 0.25 1.1 6 C8A878
+    gable -4.3 2.2 0 0.4 6.2 0.3 0.1 3A3A3A C8A878
+
+shape KOI_POND
+    home JAPAN | 0.004 4 30 | town
+    # A garden koi pond: dark water edged with stones, orange and white carp just under the surface, a red arched bridge and a stone lantern.
+    box 0 0.02 0 4 0.02 2.5 2A3A3A water
+    repeat 8 1.1 0 0
+    blob -3.85 0.15 2.6 0.3 0.2 0.35 8A8680 0.4
+    repeat 8 1.1 0 0
+    blob -3.85 0.15 -2.6 0.3 0.2 0.35 8A8680 0.4
+    blob 1.5 0.05 -1 0.25 0.03 0.08 E8701E
+    blob -1.2 0.05 1 0.25 0.03 0.08 F2F2F2
+    blob 2.5 0.05 1.4 0.25 0.03 0.08 E8501E
+    repeat 5 0.2 0 0
+    arch -0.4 0 0 5.4 0.8 0.12 8 8A6A48
+    mirrorx
+    arch 0.45 0.5 0 5.4 0.8 0.04 8 A82A22
+    cyl 3 0 3.4 0.15 0.15 0.8 6 9A9690
+    box 3 0.95 3.4 0.3 0.15 0.3 9A9690
+    spire 3 1.1 3.4 0.5 0.4 6 8A8680
+
+shape WASABI_FIELD
+    home JAPAN:CHUBU, JAPAN:KANTO | 0.006 6 40 | country
+    # A wasabi farm: shallow gravel beds of cold spring water with rows of bright green plants, black shade cloth stretched above on poles.
+    repeat 3 0 0 3.5
+    box 0 0.05 -3.5 2.5 0.05 1.5 9AA8A8
+    repeat 3 0 0 3.5
+    box 0 0.11 -3.5 2.4 0.01 1.4 7AA0A8 water
+    repeat 3 0 0 3.5
+    blob 0 0.25 -4.2 2.3 0.12 0.15 4AAA3A 0.5
+    repeat 3 0 0 3.5
+    blob 0 0.25 -3.5 2.3 0.12 0.15 4AAA3A 0.5
+    repeat 3 0 0 3.5
+    blob 0 0.25 -2.8 2.3 0.12 0.15 4AAA3A 0.5
+    repeat 4 0 0 3.5
+    mirrorx
+    tube 2.7 0 -5.25 2.7 2.2 -5.25 0.05 4 6A6A6A
+    quad -2.8 2.2 -5.5 -2.8 2.2 5.5 2.8 2.2 5.5 2.8 2.2 -5.5 1E1E1E
+
+shape SNOW_ARROW_POLES
+    home JAPAN:HOKKAIDO, JAPAN:TOHOKU | 0.008 0 3 | cold
+    # Snow arrows along the road: tall red and white poles with a yellow arrow at the top pointing down at the road's edge.
+    repeat 3 0 0 20
+    tube 0 0 -20 0 5 -20 0.04 4 F2F2F2
+    repeat 3 0 0 20
+    cyl 0 3.5 -20 0.05 0.05 0.5 6 C82A2A
+    repeat 3 0 0 20
+    cyl 0 2.5 -20 0.05 0.05 0.5 6 C82A2A
+    repeat 3 0 0 20
+    cyl 0 1.5 -20 0.05 0.05 0.5 6 C82A2A
+    repeat 3 0 0 20
+    box 0.5 5.0 -20 0.5 0.06 0.06 F2C21E
+    repeat 3 0 0 20
+    tri 0.75 5.0 -20 1.15 5.0 -20 0.95 4.6 -20 F2C21E
+
+shape PACHINKO_HALL
+    home JAPAN | 0.004 4 30 | town
+    # A pachinko parlour: a big windowless box clad in garish colour, a huge glowing sign on the roof, rows of lights along the front.
+    box 0 4 0 6 4 10 E8E0E8
+    box 6.02 6.5 0 0.02 1.2 9.8 C82A8A
+    box 0 9.5 0 0.4 1.5 6 F2C21E glow
+    box 0.42 9.5 0 0.02 1.1 5.4 C82A2A glow
+    box 6.03 1.5 0 0.02 1.5 2.5 2A3A4A glass
+    repeat 10 0 0 2
+    blob 6.05 7.9 -9 0.12 0.12 0.12 F2F2E8 glow
+    repeat 6 0 0 3
+    box 9.5 0.02 -7.5 2.5 0.01 0.05 F2F2F2
+
+shape COIN_PARKING
+    home JAPAN | 0.006 1 10 | town
+    # A coin parking lot squeezed between buildings: a few spaces with lock plates, a yellow sign with a big P on a pole, the pay machine.
+    box 0 0.02 0 3 0.02 5 3A3A3A
+    repeat 4 0 0 2.5
+    box 0 0.03 -3.75 3 0.005 0.05 F2F2F2
+    repeat 3 0 0 2.5
+    box 0.8 0.1 -2.5 0.3 0.1 0.3 F2C21E
+    tube 3.2 0 4.5 3.2 4 4.5 0.08 4 9A9A9A
+    box 3.2 4.3 4.5 0.1 0.6 0.6 F2C21E
+    box 3.31 4.3 4.5 0.01 0.4 0.1 C82A2A
+    box 3 0.7 3.5 0.25 0.7 0.3 C8C8C8
+    box -1 0.6 0 0.8 0.35 1.6 E8E8E8
+    box -1 1.2 0 0.7 0.35 1.0 2A3A4A glass
+
+shape GIANT_MANEKI_NEKO
+    home JAPAN:KANTO, JAPAN:KANSAI, JAPAN:CHUBU | 0.002 3 20 | town
+    # A giant beckoning cat outside a shop: white with a red collar and a golden bell, one paw raised to wave the customers in.
+    blob 0 1.2 0 0.8 1.2 0.9 F2F2F2
+    blob 0.1 2.8 0 0.7 0.7 0.8 F2F2F2
+    mirror
+    tri 0.1 3.3 0.3 0.1 3.3 0.75 0.1 3.8 0.6 F2F2F2
+    mirror
+    blob 0.75 2.9 0.25 0.04 0.08 0.06 1E1E1E
+    blob 0.8 2.7 0 0.06 0.05 0.06 E88A8A
+    halo 0.1 2.15 0 0.6 0.08 12 C82A2A
+    blob 0.75 2.05 0 0.12 0.12 0.12 D8A830 shiny
+    tube 0.4 2 0.6 0.5 3.1 0.75 0.22 6 F2F2F2
+    blob 0.5 3.25 0.75 0.2 0.2 0.2 F2F2F2
+    blob 0.5 1.5 -0.5 0.3 0.4 0.3 E8902A
+    box 0 0.15 0 1 0.15 1 C82A2A
+
+shape YATAI_CART
+    home JAPAN:KYUSHU, JAPAN:KANTO, JAPAN:KANSAI | 0.006 2 15 | town
+    # A street food stall: a wooden cart with a short indigo curtain across its front, red paper lanterns, stools for the customers.
+    box 0 0.9 0 0.6 0.9 1.4 6A4A30
+    box 0.75 0.95 0 0.15 0.05 1.4 8A6A48
+    box 0 2.3 0 0.9 0.06 1.6 4A4A4A
+    mirror
+    mirrorx
+    tube 0.55 1.8 1.35 0.55 2.3 1.35 0.04 3 6A4A30
+    repeat 4 0 0 0.7
+    box 0.95 2.05 -1.05 0.01 0.2 0.32 2A3A5A
+    blob 1.0 2.0 -1.55 0.15 0.22 0.15 E83A2A lit
+    blob 1.0 2.0 1.55 0.15 0.22 0.15 E83A2A lit
+    repeat 4 0 0 0.7
+    cyl 1.5 0 -1.05 0.15 0.15 0.5 8 C82A2A
+    mirrorx
+    hoop 0.62 0.35 0.9 0.35 0.05 10 6A4A30
+
+shape SNOW_MONKEYS
+    home JAPAN:CHUBU, JAPAN:TOHOKU | 0.004 6 40 | country
+    # Snow monkeys in a hot spring among the rocks: grey-brown macaques with red faces sitting up to their shoulders in the steaming water.
+    ring 10 2.4
+    blob 0 0.3 0 0.5 0.35 0.5 7A7670 0.4
+    cyl 0 0.1 0 2.2 2.2 0.05 12 6A8A8A water
+    blob 0.5 1.4 0.5 0.5 0.6 0.5 E8EEF0 glass
+    repeat 3 -0.8 0 0.7
+    blob 0.8 0.35 -0.5 0.25 0.25 0.22 8A7A68
+    repeat 3 -0.8 0 0.7
+    blob 0.8 0.68 -0.5 0.15 0.15 0.15 8A7A68
+    repeat 3 -0.8 0 0.7
+    blob 0.93 0.66 -0.5 0.05 0.08 0.08 E88A8A
+    blob -2.4 0.95 0.5 0.22 0.25 0.2 8A7A68
+    blob -2.4 1.3 0.5 0.14 0.14 0.14 8A7A68
+    blob -2.28 1.28 0.5 0.05 0.08 0.08 E88A8A
+
+shape SIKA_DEER
+    home JAPAN:KANSAI, JAPAN:CHUGOKU, JAPAN:HOKKAIDO, JAPAN:KYUSHU | 0.006 3 30 | country
+    # Sika deer by the roadside, unafraid: chestnut coats with white spots, a stag with branching antlers, a hind bowing her head.
+    blob 0 0.95 0 0.2 0.25 0.55 8A5A3A
+    blob 0.18 1.05 -0.2 0.03 0.04 0.04 F2EEE0
+    blob 0.18 1.0 0.1 0.03 0.04 0.04 F2EEE0
+    blob -0.18 1.05 -0.1 0.03 0.04 0.04 F2EEE0
+    blob 0 1.0 -0.52 0.12 0.15 0.06 F2F2F2
+    tube 0 1.05 0.45 0 1.45 0.65 0.07 4 8A5A3A
+    blob 0 1.47 0.78 0.08 0.1 0.17 8A5A3A
+    mirrorx
+    tube 0.05 1.55 0.72 0.25 1.95 0.65 0.02 3 C8B8A0
+    mirrorx
+    tube 0.17 1.8 0.68 0.32 1.9 0.85 0.015 3 C8B8A0
+    mirror
+    mirrorx
+    tube 0.1 0.72 0.4 0.1 0 0.4 0.035 3 8A5A3A
+    blob 1.4 0.9 1.6 0.18 0.22 0.5 9A6A42
+    tube 1.4 0.95 2.05 1.4 0.75 2.45 0.06 4 9A6A42
+    blob 1.4 0.7 2.6 0.07 0.09 0.15 9A6A42
+    tube 1.5 0.7 1.95 1.5 0 1.95 0.03 3 9A6A42
+    tube 1.3 0.7 1.95 1.3 0 1.95 0.03 3 9A6A42
+    tube 1.5 0.7 1.25 1.5 0 1.25 0.03 3 9A6A42
+    tube 1.3 0.7 1.25 1.3 0 1.25 0.03 3 9A6A42
+
+shape VERMILION_BRIDGE
+    home JAPAN:KANSAI, JAPAN:KANTO, JAPAN:CHUBU, JAPAN:CHUGOKU, JAPAN:TOHOKU | 0.003 6 40 | country
+    # A vermilion arched bridge over a stream: a lacquered wooden deck rising in a curve, railings with bronze-capped posts.
+    box 0 0.02 0 6 0.02 2.2 4A6A6A water
+    repeat 7 0.25 0 0
+    arch -0.75 0.3 0 8 1.2 0.12 8 8A5A3A
+    mirrorx
+    arch 0.85 0.95 0 8 1.2 0.05 8 C83A1E
+    mirrorx
+    tube 0.85 0.3 -4 0.85 1.0 -4 0.05 4 C83A1E
+    mirrorx
+    tube 0.85 1.2 -2 0.85 1.9 -2 0.05 4 C83A1E
+    mirrorx
+    tube 0.85 1.5 0 0.85 2.2 0 0.05 4 C83A1E
+    mirrorx
+    tube 0.85 1.2 2 0.85 1.9 2 0.05 4 C83A1E
+    mirrorx
+    tube 0.85 0.3 4 0.85 1.0 4 0.05 4 C83A1E
+    mirrorx
+    blob 0.85 1.05 -4 0.07 0.07 0.07 B8903A shiny
+    mirrorx
+    blob 0.85 1.05 4 0.07 0.07 0.07 B8903A shiny
+    mirror
+    box 0 0.25 4.4 1.1 0.25 0.5 9A9690
+
+shape LAVENDER_ROWS
+    home JAPAN:HOKKAIDO, FRANCE:PROVENCE, FRANCE:OCCITANIE, SPAIN:CASTILE-LA MANCHA, ENGLAND:EAST OF ENGLAND, BULGARIA | 0.008 6 60 | country
+    # A lavender field in high summer: long rows of purple domes on pale earth running away from the road.
+    box -3 0.02 0 5 0.02 8 C8B898
+    repeat 8 0 0 2
+    blob -3 0.35 -7 4.6 0.35 0.55 7A5AA8 0.4
+    repeat 8 0 0 2
+    blob -3 0.65 -7 4.5 0.12 0.45 9A7AD0 0.5
+
+shape UTILITY_POLES_JP
+    home JAPAN, TAIWAN, SOUTH KOREA | 0.008 0 4 | town
+    # Concrete utility poles along the lane, hung with transformers, crossarms and a tangle of black wires.
+    repeat 3 0 0 15
+    tube 0 0 -15 0 10 -15 0.15 6 B8B8B0
+    repeat 3 0 0 15
+    box 0 9 -15 0.8 0.05 0.05 6A6A6A
+    repeat 3 0 0 15
+    box 0 8 -15 0.6 0.05 0.05 6A6A6A
+    repeat 3 0 0 15
+    cyl 0.3 6.5 -15 0.25 0.25 0.8 8 9A9A9A
+    repeat 3 0 0 15
+    box 0.16 1.2 -15 0.01 1.2 0.1 F2C21E
+    repeat 2 0 0 15
+    arch 0.7 9.05 -7.5 15 -0.5 0.012 6 1E1E1E
+    repeat 2 0 0 15
+    arch -0.7 9.05 -7.5 15 -0.5 0.012 6 1E1E1E
+    repeat 2 0 0 15
+    arch 0.5 8.05 -7.5 15 -0.6 0.012 6 1E1E1E
+    repeat 2 0 0 15
+    arch -0.5 8.05 -7.5 15 -0.6 0.012 6 1E1E1E
+    repeat 2 0 0 15
+    arch 0 7 -7.5 15 -0.8 0.02 6 1E1E1E
+
+shape HAENYEO_BUOYS
+    home place:JEJU | 0.01 20 80 | water
+    # Women divers at work off the rocks: orange floats bobbing on the swell with their nets hanging below, a diver surfacing beside one.
+    blob 0 0.1 0 0.3 0.25 0.3 F2701E
+    blob 0 -0.15 0 0.25 0.3 0.25 3A6A5A 0.6
+    blob 3 0.1 -4 0.3 0.25 0.3 F2701E
+    blob 3 -0.15 -4 0.25 0.3 0.25 3A6A5A 0.6
+    blob -2 0.1 3 0.3 0.25 0.3 F2701E
+    blob -2 -0.15 3 0.25 0.3 0.25 3A6A5A 0.6
+    blob 1.5 0.1 5 0.3 0.25 0.3 F2701E
+    blob 0.5 0.15 0.3 0.12 0.12 0.12 1E1E1E
+    blob 0.6 0.17 0.3 0.04 0.05 0.08 8AB8C8 glass
+    blob -2.5 0.15 2.8 0.12 0.12 0.12 1E1E1E
+
+shape NUMBERED_APARTMENT_BLOCK
+    home SOUTH KOREA | 0.006 15 100 | town
+    # A Korean apartment tower: a tall slab of identical balconies, the complex's name along the top and a huge block number on the end wall.
+    box 0 22 0 4 22 12 E8E4DC
+    windows 4.02 1 -11.5 0 1 23 42 0.4 2.8
+    box 0 40 12.01 2.6 1.6 0.01 2A6AC8
+    box -1.2 40 12.02 0.25 1.4 0.01 F2F2F2
+    box 0 40 12.02 0.6 0.18 0.01 F2F2F2
+    box 0.9 40 12.02 0.25 1.4 0.01 F2F2F2
+    box 4.02 43 0 0.02 0.7 6 2A6AC8
+    box 0 44.5 0 2 0.5 4 C8C8C0
+
+shape SOTDAE_POLES
+    home SOUTH KOREA | 0.004 3 25 | country
+    # Village guardian poles: tall thin wooden poles each topped with a carved wooden bird, at the edge of the village.
+    repeat 5 0 0 0.9
+    tube 0 0 -1.8 0 5 -1.8 0.05 4 8A7A60
+    repeat 5 0 0 0.9
+    blob 0 5.1 -1.8 0.08 0.08 0.25 9A8A70
+    repeat 5 0 0 0.9
+    blob 0 5.2 -1.6 0.05 0.05 0.08 9A8A70
+    tube 0.6 0 2.5 0.6 2.5 2.5 0.25 6 8A7A60
+    blob 0.85 2.1 2.5 0.05 0.25 0.2 C82A2A
+
+shape STONE_PAGODA_KOREA
+    home SOUTH KOREA | 0.003 6 40 | country
+    # A granite pagoda of three storeys in a temple yard: stacked roof stones with upturned corners on a two-tier base.
+    box 0 0.3 0 1.6 0.3 1.6 9A9690
+    box 0 0.9 0 1.3 0.3 1.3 A09A90
+    box 0 1.6 0 0.6 0.4 0.6 A8A298
+    box 0 2.1 0 1.1 0.1 1.1 9A9690
+    box 0 2.7 0 0.5 0.3 0.5 A8A298
+    box 0 3.1 0 0.95 0.1 0.95 9A9690
+    box 0 3.55 0 0.42 0.25 0.42 A8A298
+    box 0 3.9 0 0.8 0.08 0.8 9A9690
+    cyl 0 4 0 0.08 0.05 1 6 6A6A68
+    mirror
+    mirrorx
+    tube 1.0 2.15 1.0 1.15 2.35 1.15 0.04 3 9A9690
+    mirror
+    mirrorx
+    tube 0.85 3.15 0.85 1.0 3.32 1.0 0.04 3 9A9690
+
+shape NIGHT_MARKET_ROW
+    home TAIWAN, CHINA:HONG KONG, MALAYSIA, THAILAND, SINGAPORE | 0.006 2 15 | town
+    # A night market: a row of food stalls under bare bulbs and lit signs, red and yellow boards, steaming pots on the counters.
+    repeat 4 0 0 2.5
+    box 0 0.5 -3.75 0.6 0.5 1.1 F2F2F2
+    repeat 2 0 0 5
+    box 0 2.4 -3.75 0.05 0.35 1.1 C82A2A glow
+    repeat 2 0 0 5
+    box 0 2.4 -1.25 0.05 0.35 1.1 F2C21E glow
+    quad -0.8 2.2 -5 -0.8 2.2 5 1 2.0 5 1 2.0 -5 3A3A3A
+    repeat 8 0 0 1.25
+    blob 0.9 1.9 -4.4 0.07 0.07 0.07 F2E89A lit
+    repeat 4 0 0 2.5
+    cyl 0 1.0 -3.75 0.2 0.2 0.2 8 8A8A8A shiny
+    repeat 4 0 0 2.5
+    blob 0 1.5 -3.75 0.2 0.3 0.2 E8EEF0 glass
+
+shape SCOOTER_ROW
+    home TAIWAN, VIETNAM, INDONESIA, THAILAND, MALAYSIA, PHILIPPINES, CAMBODIA, LAOS | 0.008 1 10 | town
+    # A row of scooters parked tight at the kerb, mirrors and baskets jostling, a helmet left on every seat.
+    repeat 10 0 0 0.6
+    tube 0.6 0.25 -3.03 0.6 0.25 -2.97 0.25 8 1E1E1E
+    repeat 10 0 0 0.6
+    tube -0.6 0.25 -3.03 -0.6 0.25 -2.97 0.25 8 1E1E1E
+    repeat 5 0 0 1.2
+    box 0 0.45 -3 0.6 0.18 0.15 C82A2A
+    repeat 5 0 0 1.2
+    box 0 0.45 -2.4 0.6 0.18 0.15 2A6AC8
+    repeat 10 0 0 0.6
+    box -0.2 0.68 -3 0.35 0.06 0.13 1E1E1E
+    repeat 10 0 0 0.6
+    tube 0.55 0.3 -3 0.45 1.0 -3 0.08 4 C8C8C8
+    repeat 10 0 0 0.6
+    tube 0.45 1.05 -3.2 0.45 1.05 -2.8 0.02 3 3A3A3A
+    repeat 5 0 0 1.2
+    blob -0.2 0.85 -3 0.13 0.11 0.13 F2F2F2
+    repeat 5 0 0 1.2
+    blob -0.2 0.85 -2.4 0.13 0.11 0.13 F2C21E
+
+shape EAGLE_HUNTER
+    home MONGOLIA, KAZAKHSTAN, KYRGYZSTAN | 0.002 4 30 | country
+    # An eagle hunter on horseback: a fur hat and a long embroidered coat, a golden eagle perched on the heavy glove of his raised arm.
+    blob 0 1.35 0 0.32 0.42 0.9 6A4A30
+    mirror
+    mirrorx
+    tube 0.18 1.1 0.6 0.18 0 0.6 0.07 4 6A4A30
+    tube 0 1.6 0.7 0 2.2 1.05 0.14 5 6A4A30
+    blob 0 2.15 1.3 0.13 0.15 0.32 6A4A30
+    tube 0 1.5 -0.85 0 0.8 -1.0 0.06 3 2A1E18
+    mirrorx
+    tube 0.2 1.75 0 0.38 1.05 0.15 0.08 4 2A2A2A
+    tbox 0 1.7 0 0.35 0.25 0 2.55 0 0.24 0.18 6A3A2A
+    blob 0 2.72 0.02 0.11 0.13 0.11 B8885A
+    blob 0 2.85 0 0.17 0.14 0.17 C8A878
+    tube 0.24 2.4 0.1 0.45 2.6 0.5 0.06 4 6A3A2A
+    blob 0.45 2.62 0.55 0.08 0.06 0.08 8A6A48
+    blob 0.45 2.85 0.55 0.12 0.2 0.12 4A3A28
+    blob 0.45 3.08 0.62 0.06 0.06 0.06 C8A060
+    quad 0.45 2.95 0.5 0.95 2.75 0.3 0.95 2.6 0.45 0.45 2.8 0.6 4A3A28
+    quad 0.45 2.95 0.5 -0.05 2.75 0.3 -0.05 2.6 0.45 0.45 2.8 0.6 4A3A28
+
+shape EMA_RACK
+    home JAPAN | 0.004 2 15 | town
+    # A rack of votive tablets at a shrine: rows of small wooden plaques written with wishes, hung on pegs under a little roof.
+    mirror
+    tube 0 0 1.2 0 1.8 1.2 0.05 4 8A6A48
+    repeat 3 0 0.4 0
+    tube 0 0.7 -1.2 0 0.7 1.2 0.02 3 8A6A48
+    repeat 10 0 0 0.24
+    box 0.05 0.58 -1.08 0.01 0.1 0.09 D8C098
+    repeat 10 0 0 0.24
+    box 0.05 0.98 -1.08 0.01 0.1 0.09 D8C098
+    repeat 10 0 0 0.24
+    box 0.05 1.38 -1.08 0.01 0.1 0.09 D8C098
+    gable 0 1.8 0 0.3 1.4 0.25 0.1 3A3A3A 8A6A48
+
+shape FIRE_BELL_TOWER
+    home JAPAN | 0.003 3 25 | town
+    # A fire watch tower in the village: a slender red steel ladder tower with a small platform, a bell under a tiny peaked roof.
+    mirror
+    mirrorx
+    tube 0.8 0 0.8 0.3 10 0.3 0.05 3 8A2A1E
+    mirror
+    mirrorx
+    tube 0.8 0 0.8 0.55 5 -0.55 0.025 3 8A2A1E
+    mirror
+    mirrorx
+    tube 0.55 5 0.55 0.3 10 -0.3 0.025 3 8A2A1E
+    box 0 10 0 0.5 0.05 0.5 8A2A1E
+    blob 0 10.5 0 0.18 0.25 0.18 6A5A40
+    spire 0 11 0 0.6 0.5 4 3A3A3A
+
+shape DAIKON_DRYING_RACK
+    home JAPAN:KYUSHU, JAPAN:SHIKOKU, JAPAN:CHUGOKU, JAPAN:KANTO, SOUTH KOREA | 0.006 3 25 | country
+    # White radishes drying in the winter sun: a long rack of bamboo poles hung with row on row of daikon.
+    repeat 5 0 0 2.5
+    tube 0 0 -5 0 3 -5 0.06 4 C8B870
+    repeat 3 0 0.8 0
+    tube 0 1.2 -5 0 1.2 5 0.03 3 C8B870
+    repeat 20 0 0 0.5
+    tube 0 1.18 -4.75 0 0.7 -4.75 0.05 4 F2F2EE
+    repeat 20 0 0 0.5
+    tube 0 1.98 -4.75 0 1.5 -4.75 0.05 4 F2F2EE
+    repeat 20 0 0 0.5
+    tube 0 2.78 -4.75 0 2.3 -4.75 0.05 4 F2F2EE
+
+shape TETRAPODS
+    home JAPAN, SOUTH KOREA, TAIWAN | 0.006 6 40 | coast
+    # Concrete tetrapods heaped along the shore as a breakwater: four-legged grey shapes piled up against the waves.
+    repeat 6 0 0 1.6
+    tube 0 0.8 -4 0 0 -4 0.35 6 A8A8A0
+    repeat 6 0 0 1.6
+    tube 0 0.8 -4 0.8 1.2 -4 0.35 6 A8A8A0
+    repeat 6 0 0 1.6
+    tube 0 0.8 -4 -0.4 1.2 -3.3 0.35 6 A8A8A0
+    repeat 6 0 0 1.6
+    tube 0 0.8 -4 -0.4 1.2 -4.7 0.35 6 A8A8A0
+    repeat 5 0 0 1.6
+    tube -1.2 1.4 -3.2 -1.2 0.6 -3.2 0.35 6 9A9A92
+    repeat 5 0 0 1.6
+    tube -1.2 1.4 -3.2 -0.5 1.9 -3.2 0.35 6 9A9A92
+    repeat 5 0 0 1.6
+    tube -1.2 1.4 -3.2 -1.6 1.9 -2.5 0.35 6 9A9A92
+    repeat 5 0 0 1.6
+    tube -1.2 1.4 -3.2 -1.6 1.9 -3.9 0.35 6 9A9A92

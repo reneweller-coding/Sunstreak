@@ -1,7 +1,7 @@
 # More local things of China.
 
 shape STREET_MAHJONG
-    home CHINA | 0.006 2 20 | town
+    home CHINA, TAIWAN | 0.006 2 20 | town
     # A game of mahjong under a plane tree: a square green table, four players on red stools, the tile walls built up between them.
     box 0 0.75 0 0.45 0.03 0.45 2A7A4A
     mirror
@@ -63,7 +63,7 @@ shape SHARED_BIKES
     box 0.62 0.9 -2.44 0.12 0.08 0.14 F2C21E
 
 shape DELIVERY_SCOOTERS
-    home CHINA | 0.006 1 12 | town
+    home CHINA, TAIWAN | 0.006 1 12 | town
     # Delivery riders waiting at the kerb: electric scooters with big insulated boxes on the back, riders in yellow jackets and helmets.
     repeat 3 0 0 1.8
     tube -0.05 0.25 -1.2 0.05 0.25 -1.2 0.25 8 2A2A2A
@@ -184,7 +184,7 @@ shape PERSIMMON_CURTAIN
     blob 3.0 1.4 -3.9 0.07 0.07 0.07 E8701E
 
 shape CHILI_DRYING_YARD
-    home CHINA:SICHUAN, CHINA:GUIZHOU, CHINA:HUNAN, CHINA:CHONGQING, CHINA:YUNNAN, CHINA:SHAANXI, CHINA:XINJIANG, INDIA:ANDHRA PRADESH, INDIA:RAJASTHAN | 0.006 4 30 | country
+    home CHINA:SICHUAN, CHINA:GUIZHOU, CHINA:HUNAN, CHINA:CHONGQING, CHINA:YUNNAN, CHINA:SHAANXI, CHINA:XINJIANG, INDIA:ANDHRA PRADESH, INDIA:RAJASTHAN, SOUTH KOREA | 0.006 4 30 | country
     # Chillies drying in the sun: a courtyard floor and a flat roof carpeted bright red, strings of chillies hung on the wall.
     box 0 0.02 0 3 0.02 4 C8C0B0
     box 0 0.05 0 2.6 0.02 3.6 C82A1E
@@ -194,7 +194,7 @@ shape CHILI_DRYING_YARD
     blob -2.95 2.0 -2.5 0.05 0.6 0.1 B82A1E
 
 shape BULLET_TRAIN_VIADUCT
-    home CHINA:HEBEI, CHINA:HENAN, CHINA:SHANDONG, CHINA:JIANGSU, CHINA:ANHUI, CHINA:HUBEI, CHINA:HUNAN, CHINA:GUANGDONG, CHINA:ZHEJIANG, CHINA:JIANGXI, CHINA:FUJIAN, CHINA:SHAANXI, CHINA:SHANXI, CHINA:SICHUAN, CHINA:GUIZHOU, CHINA:GUANGXI, CHINA:TIANJIN, CHINA:BEIJING, CHINA:LIAONING, CHINA:JILIN, CHINA:HEILONGJIANG | 0.003 20 90 | country
+    home CHINA:HEBEI, CHINA:HENAN, CHINA:SHANDONG, CHINA:JIANGSU, CHINA:ANHUI, CHINA:HUBEI, CHINA:HUNAN, CHINA:GUANGDONG, CHINA:ZHEJIANG, CHINA:JIANGXI, CHINA:FUJIAN, CHINA:SHAANXI, CHINA:SHANXI, CHINA:SICHUAN, CHINA:GUIZHOU, CHINA:GUANGXI, CHINA:TIANJIN, CHINA:BEIJING, CHINA:LIAONING, CHINA:JILIN, CHINA:HEILONGJIANG, JAPAN:KANTO, JAPAN:CHUBU, JAPAN:KANSAI, JAPAN:CHUGOKU, JAPAN:KYUSHU, JAPAN:TOHOKU, TAIWAN | 0.003 20 90 | country
     # A high-speed line on its endless viaduct across the fields: concrete piers and a box girder, a white streamlined train gliding past.
     box 0 9 0 2.4 0.7 60 B8B8B0
     repeat 5 0 0 30
@@ -381,7 +381,7 @@ shape HONEYCOMB_COAL_STACK
     blob 0.6 0.7 1.2 0.12 0.1 0.12 C8C8C8 shiny
 
 shape LOTUS_POND
-    home CHINA:HUBEI, CHINA:HUNAN, CHINA:JIANGSU, CHINA:ZHEJIANG, CHINA:JIANGXI, CHINA:ANHUI, CHINA:GUANGDONG, CHINA:BEIJING, VIETNAM, CAMBODIA, THAILAND, INDIA, SRI LANKA, JAPAN | 0.006 6 50 | country
+    home CHINA:HUBEI, CHINA:HUNAN, CHINA:JIANGSU, CHINA:ZHEJIANG, CHINA:JIANGXI, CHINA:ANHUI, CHINA:GUANGDONG, CHINA:BEIJING, VIETNAM, CAMBODIA, THAILAND, INDIA, SRI LANKA, JAPAN, SOUTH KOREA, TAIWAN | 0.006 6 50 | country
     # A lotus pond in summer: big round leaves held up above the water on their stalks, pink flowers opening among them.
     box 0 0.02 0 4 0.02 6 3A5A4A water
     repeat 5 1.2 0.1 2.1
