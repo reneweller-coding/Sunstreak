@@ -348,7 +348,7 @@ shape NITRATE_WORKS_RUIN
     box 2 0.2 6 3 0.2 0.3 6A3A22
 
 shape CALETA_BOATS
-    home CHILE, PERU:LIMA, PERU:ICA, ECUADOR, URUGUAY | 0.006 6 40 | coast
+    home CHILE, PERU:LIMA, PERU:ICA, ECUADOR, URUGUAY, BARBADOS, GRENADA, SAINT LUCIA, DOMINICA, JAMAICA, HAITI, DOMINICAN REPUBLIC | 0.006 6 40 | coast
     # A fishermen's cove: wooden boats in bright colours pulled up on the sand, nets heaped beside them.
     tbox 0 0 -6 2.2 0.4 0 0.8 -6 2.8 0.9 2A6AC8
     box 0 0.7 -6 2.8 0.06 0.91 F2F2F2

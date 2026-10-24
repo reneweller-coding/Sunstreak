@@ -116,7 +116,7 @@ shape CANADA_GEESE
     tube 0.5 0.25 1 0.5 0 1.02 0.015 3 1E1E1E
 
 shape BEAVER_POND
-    home CANADA, USA:MINNESOTA, USA:MICHIGAN, USA:WISCONSIN, USA:MAINE, USA:NEW YORK, USA:ALASKA, USA:MONTANA | 0.005 8 60 | country
+    home CANADA, USA:MINNESOTA, USA:MICHIGAN, USA:WISCONSIN, USA:MAINE, USA:NEW YORK, USA:ALASKA, USA:MONTANA, ARGENTINA:TIERRA DEL FUEGO, CHILE:MAGALLANES | 0.005 8 60 | country
     # A beaver pond: a dome of piled sticks and mud in the still water, a dam across the stream, gnawed stumps on the bank.
     box 0 0.02 0 5 0.02 7 3A4A4A water
     blob -0.5 0 0 1.8 1.2 2.0 6A5A48 0.5
@@ -730,7 +730,7 @@ shape GIANT_MEXICAN_FLAG
     blob 0 47 4 0.08 0.6 0.6 8A6A3A
 
 shape OX_PLOUGH
-    home MEXICO:OAXACA, MEXICO:CHIAPAS, MEXICO:GUERRERO, MEXICO:MICHOACAN, MEXICO:PUEBLA, GUATEMALA, PERU, BOLIVIA, ETHIOPIA, INDIA, NEPAL, MYANMAR | 0.004 6 50 | country
+    home MEXICO:OAXACA, MEXICO:CHIAPAS, MEXICO:GUERRERO, MEXICO:MICHOACAN, MEXICO:PUEBLA, GUATEMALA, PERU, BOLIVIA, ETHIOPIA, INDIA, NEPAL, MYANMAR, CUBA | 0.004 6 50 | country
     # A farmer ploughing behind a yoke of oxen: two pale oxen under a wooden yoke, the plough cutting the dark furrow.
     box -2 0.02 0 3 0.02 4 5A4030
     repeat 2 0.9 0 0

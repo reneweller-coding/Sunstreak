@@ -168,7 +168,7 @@ shape HAYSTACK_POLE
     blob 3 1.0 2 1.25 1.0 1.25 A89858 0.3
 
 shape HORSE_CART
-    home ROMANIA, MOLDOVA, UKRAINE:ZAKARPATTIA, SERBIA, ALBANIA, CUBA | 0.004 4 30 | country
+    home ROMANIA, MOLDOVA, UKRAINE:ZAKARPATTIA, SERBIA, ALBANIA, CUBA, SENEGAL, MALI, NIGER, BURKINA FASO | 0.004 4 30 | country
     # A horse and cart loaded with hay, a red tassel on the bridle.
     box 0 1.0 0 0.75 0.3 1.4 8A6A48
     blob 0 1.6 -0.1 0.8 0.6 1.4 C8B068 0.4

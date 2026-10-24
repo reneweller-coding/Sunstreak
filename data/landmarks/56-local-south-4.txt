@@ -1,0 +1,192 @@
+# Yet more local things of South America and Africa.
+
+shape OLD_VAN_FRUIT_SELLER
+    home BRAZIL, MEXICO, PERU, BOLIVIA, PARAGUAY, ECUADOR, COLOMBIA | 0.006 1 15 | town pastel
+    # An old van turned fruit stall: its side door open, crates of mangoes, papayas and pineapples stacked out on the pavement.
+    box 0 1.1 0 0.9 0.75 2.1 A
+    box 0 1.85 0 0.85 0.05 2 F2F2F2
+    box 0.91 1.35 0.6 0.01 0.25 1.2 2A3A4A glass
+    box 0 1.35 2.11 0.75 0.3 0.01 2A3A4A glass
+    mirror
+    mirrorx
+    tube 0.75 0.35 1.4 0.92 0.35 1.4 0.35 10 1E1E1E
+    repeat 4 0 0 0.8
+    box 1.6 0.3 -1.2 0.35 0.3 0.35 8A6A48
+    repeat 4 0 0 0.8
+    blob 1.6 0.65 -1.2 0.3 0.12 0.3 E8A02A 0.6
+    blob 1.6 0.8 0.4 0.15 0.25 0.15 C8A040
+
+shape CASHEW_TREE
+    home BRAZIL:CEARA, BRAZIL:PIAUI, BRAZIL:RIO GRANDE DO NORTE, INDIA:GOA, INDIA:KERALA, VIETNAM, IVORY COAST, MOZAMBIQUE, TANZANIA, BENIN, GUINEA-BISSAU | 0.006 6 50 | country
+    # A cashew tree: low and sprawling with big leathery leaves, the red and yellow cashew apples hanging with the nut beneath each one.
+    tube 0 0 0 0.6 1.4 0.4 0.3 5 6A5A48
+    tube 0.6 1.4 0.4 2.5 2 1 0.15 4 6A5A48
+    tube 0.6 1.4 0.4 -1.5 2.2 -0.6 0.15 4 6A5A48
+    blob 0.4 2.6 0.2 3.2 1.2 2.8 3A6A2A 0.4
+    blob 2 1.9 1.4 0.1 0.15 0.1 E83A2A
+    blob 1.4 1.8 -1 0.1 0.15 0.1 F2C21E
+    blob -1 2 0.8 0.1 0.15 0.1 E83A2A
+
+shape RIVER_DOLPHINS
+    home BRAZIL:AMAZONAS, BRAZIL:PARA, PERU:AMAZONAS, BOLIVIA, COLOMBIA | 0.004 6 40 | country
+    # Pink river dolphins surfacing in the brown water: rounded pink backs and a long beak breaking the surface.
+    box 0 0.02 0 4 0.02 8 6A5A40 water
+    blob 1 0.1 -2 0.3 0.25 1 E8A0A8
+    tube 1 0.15 -1 1 0.25 -0.4 0.08 4 E8A0A8
+    blob -1 0.08 2.5 0.3 0.2 0.9 D8909A
+    blob 2 0.12 4 0.05 0.15 0.15 E8A0A8
+
+shape POLO_FIELD
+    home ARGENTINA:BUENOS AIRES, URUGUAY, ENGLAND:SOUTH WEST, INDIA:RAJASTHAN, PAKISTAN | 0.002 10 80 | country
+    # A polo ground: a vast flat lawn with tall goal posts at each end, riders on ponies swinging their mallets, a pavilion on the side.
+    box -12 0.02 0 10 0.02 30 5A9A3A
+    mirror
+    tube -10 0 29 -10 3 29 0.12 6 F2F2F2
+    mirror
+    tube -14 0 29 -14 3 29 0.12 6 F2F2F2
+    repeat 3 -4 0 4
+    blob -6 1.3 -4 0.3 0.4 0.8 6A3A22
+    repeat 3 -4 0 4
+    box -6 2.0 -4 0.15 0.3 0.12 F2F2F2
+    repeat 3 -4 0 4
+    blob -6 2.45 -4 0.11 0.12 0.11 1E1E1E
+    repeat 3 -4 0 4
+    tube -6 1.3 -3.4 -6 2 -3.0 0.1 4 6A3A22
+    repeat 3 -4 0 4
+    tube -5.8 2.0 -4 -5.5 0.3 -2.8 0.02 3 C8A060
+    box 2 1.5 0 1.5 1.5 4 F2F2EE
+    quad 0.3 3.2 -4.5 0.3 3.2 4.5 3.7 3 4.5 3.7 3 -4.5 2A5A3A
+
+shape CHICHA_FLAG_HOUSE
+    home PERU, BOLIVIA | 0.006 2 20 | town
+    # An adobe house selling home-brewed corn beer: a long pole by the door with a red cloth tied at its tip, the sign that chicha is ready.
+    box -1 1.3 0 1.5 1.3 2.5 B8946A
+    gable -1 2.6 0 1.7 2.7 0.8 0.2 B8603A B8946A
+    box 0.52 1 0.5 0.02 1 0.5 4A2A1A
+    tube 1 0.8 -1 2.5 4 -1 0.04 3 8A6A48
+    blob 2.5 4 -1 0.15 0.25 0.15 C82A2A
+    box 1 0.4 1.6 0.2 0.04 0.6 8A6A48
+
+shape PALETA_CART
+    home MEXICO | 0.006 1 12 | town
+    # An ice lolly cart: a little white push cart with bells and painted fruit on its sides, the seller under a sun umbrella.
+    box 0 0.7 0 0.4 0.4 0.6 F2F2F2
+    box 0.41 0.75 0 0.01 0.2 0.4 E85A6A
+    blob 0.42 0.75 -0.2 0.01 0.1 0.1 6AC85A
+    mirror
+    hoop 0.45 0.2 0.5 0.2 0.03 10 3A3A3A
+    tube 0 1.1 -0.6 0 1.3 -0.9 0.03 3 9A9A9A
+    tube 0 1.1 0 0 2.3 0 0.03 3 9A9A9A
+    spire 0 2.1 0 1 0.3 8 F2C21E
+    blob -0.6 0.9 -0.9 0.15 0.3 0.13 F2F2F2
+    blob -0.6 1.32 -0.9 0.1 0.11 0.1 8A6048
+
+shape STONE_CORRALS
+    home PERU:PUNO, PERU:CUSCO, PERU:AREQUIPA, BOLIVIA, ECUADOR:COTOPAXI, ARGENTINA:JUJUY, CHILE:ANTOFAGASTA | 0.006 6 60 | country
+    # Dry-stone corrals on the high plain: round walls of piled stones for the llamas, a little stone hut with a thatched roof beside them.
+    ring 16 3
+    blob 0 0.4 0 0.5 0.4 0.45 8A7A68 0.6
+    at -6 0 3
+    ring 12 2
+    blob 0 0.35 0 0.45 0.35 0.4 7A6A58 0.6
+    at 0 0 0
+    box 3 0.8 -5 1.2 0.8 1.5 8A7A68
+    hip 3 1.6 -5 1.4 1.7 1 0.2 B8A060
+    blob -1 0.9 -0.5 0.2 0.3 0.45 F2EEE2
+    blob -1 1.35 -0.05 0.08 0.15 0.08 F2EEE2
+
+shape CAPUCHIN_MONKEYS
+    home BRAZIL, COSTA RICA, PANAMA, COLOMBIA, PERU:AMAZONAS, VENEZUELA, ECUADOR, BOLIVIA, PARAGUAY, ARGENTINA:MISIONES, HONDURAS, NICARAGUA | 0.004 3 30 | country
+    # Capuchin monkeys in a roadside tree: small dark monkeys with pale faces and shoulders, one sitting on the fence with a fruit.
+    tube 0 0 0 0 4 0 0.25 5 6A5A48
+    tube 0 3.5 0 2 4.5 0.5 0.12 4 6A5A48
+    blob 0 5.5 0 2.5 1.5 2.5 3A6A2A 0.4
+    blob 1.6 4.65 0.4 0.15 0.2 0.12 3A2A1E
+    blob 1.65 4.95 0.42 0.1 0.1 0.1 E8D8C0
+    tube 1.6 4.5 0.4 1.5 3.9 0.3 0.03 3 3A2A1E
+    box 1.5 0.5 3 0.05 0.5 1.5 8A7A60
+    blob 1.5 1.15 3 0.13 0.18 0.11 3A2A1E
+    blob 1.5 1.42 3.02 0.09 0.09 0.09 E8D8C0
+    blob 1.6 1.2 3.15 0.05 0.05 0.05 E8902A
+
+shape COATIS
+    home BRAZIL:PARANA, ARGENTINA:MISIONES, MEXICO:YUCATAN, MEXICO:QUINTANA ROO, COSTA RICA, BELIZE, GUATEMALA, PANAMA, PARAGUAY | 0.004 1 20 | country
+    # A band of coatis crossing the road: brown ringed tails held straight up, long pointed snouts sniffing along the kerb.
+    repeat 5 0.4 0 0.9
+    blob -1 0.25 -2 0.13 0.13 0.3 8A6A48
+    repeat 5 0.4 0 0.9
+    tube -1 0.25 -1.75 -1 0.18 -1.45 0.05 4 8A6A48
+    repeat 5 0.4 0 0.9
+    tube -1 0.3 -2.25 -1 0.9 -2.4 0.04 4 6A4A30
+    repeat 5 0.4 0 0.9
+    tube -1 0.15 -1.85 -1 0 -1.85 0.025 3 3A2A1E
+    repeat 5 0.4 0 0.9
+    tube -1 0.15 -2.15 -1 0 -2.15 0.025 3 3A2A1E
+
+shape SCARLET_IBISES
+    home TRINIDAD AND TOBAGO, VENEZUELA, BRAZIL:AMAPA, BRAZIL:MARANHAO, COLOMBIA, GUYANA, SURINAME | 0.004 6 50 | coast
+    # Scarlet ibises in the mangroves: brilliant red birds with long curved bills settling into the dark green trees at dusk.
+    blob 0 1.5 0 2.5 1.2 3 2A4A2A 0.4
+    blob -2 1.3 4 2 1 2 2A4A2A 0.4
+    repeat 6 0.3 0.15 0.9
+    blob -0.8 2.6 -2.5 0.1 0.12 0.18 E8302A
+    repeat 6 0.3 0.15 0.9
+    tube -0.8 2.68 -2.33 -0.8 2.55 -2.1 0.015 3 C8402A
+    repeat 4 0.5 0 1
+    blob -2.5 2.3 3 0.1 0.12 0.18 E8302A
+
+shape ACAI_PALMS
+    home BRAZIL:PARA, BRAZIL:AMAPA, BRAZIL:AMAZONAS, BRAZIL:MARANHAO | 0.006 4 40 | country
+    # A clump of acai palms on the river bank: many slender curving trunks from one root, feathery crowns and hanging purple fruit bunches.
+    tube 0 0 0 0.8 10 0.4 0.08 5 8A8070
+    fronds 0.8 10 0.4 9 2 0.4 4A7A3A
+    tube 0 0 0 -0.6 9 -0.5 0.08 5 8A8070
+    fronds -0.6 9 -0.5 9 2 0.4 4A7A3A
+    tube 0 0 0 0.2 11 -0.8 0.08 5 8A8070
+    fronds 0.2 11 -0.8 9 2 0.4 4A7A3A
+    tube 0 0 0 -0.4 8 0.8 0.08 5 8A8070
+    fronds -0.4 8 0.8 9 2 0.4 4A7A3A
+    blob 0.7 9.4 0.4 0.2 0.35 0.2 4A2A4A 0.5
+    blob -0.5 8.4 -0.45 0.2 0.35 0.2 4A2A4A 0.5
+
+shape LOG_BEEHIVES
+    home ETHIOPIA, KENYA, TANZANIA, ZAMBIA, UGANDA, MALAWI | 0.004 3 30 | country
+    # Traditional beehives in an acacia: hollow logs and bark cylinders hung up in the branches, out of reach of honey badgers.
+    tube 0 0 0 0.2 3 0 0.25 5 7A6A58
+    tube 0.2 3 0 2.5 4.5 0.5 0.12 4 7A6A58
+    tube 0.2 3 0 -2.2 4.3 -0.6 0.12 4 7A6A58
+    blob 0 5 0 3.5 0.8 3 6A8A3A 0.4
+    tube 1.2 3.9 -0.2 1.2 3.9 1.0 0.25 8 8A6A48
+    tube -1.4 3.75 -1.2 -1.4 3.75 0 0.25 8 8A6A48
+    tube 2.2 4.2 0.8 2.2 4.2 1.9 0.22 8 9A7A58
+
+shape CONGO_RIVER_BARGE
+    home DR CONGO, CONGO, CENTRAL AFRICAN REPUBLIC | 0.004 10 80 | country
+    # A crowded river barge on the great river: a long steel hull piled with sacks, bicycles and people, makeshift shelters of tarpaulin on top.
+    box 4 0.02 0 4 0.02 14 5A5A40 water
+    box 4 0.4 0 2 0.5 10 6A6A6A
+    blob 4 1.3 -4 1.6 0.6 3 B8A070 0.5
+    quad 2.5 2.4 -1 2.5 2.4 4 5.5 2.2 4 5.5 2.2 -1 2A6AC8
+    mirror
+    mirrorx
+    tube 2.5 1 4 2.5 2.4 4 0.04 3 8A6A48
+    repeat 6 0.5 0 1.2
+    blob 2.8 1.3 5 0.12 0.35 0.12 E8C02A
+    box 4 1.6 8 1.2 0.7 1.5 E8E8E8
+
+shape SEAWEED_FARM
+    home TANZANIA:ZANZIBAR, INDONESIA, PHILIPPINES, KENYA | 0.006 8 50 | coast
+    # A seaweed farm in the shallow lagoon: rows of sticks with lines strung between them, women in bright wraps tending the crop at low tide.
+    box 0 0.02 0 5 0.02 8 4AB8B0 water
+    repeat 6 0 0 2.6
+    tube -3 0 -6.5 -3 0.6 -6.5 0.03 3 8A6A48
+    repeat 6 0 0 2.6
+    tube 3 0 -6.5 3 0.6 -6.5 0.03 3 8A6A48
+    repeat 6 0 0 2.6
+    tube -3 0.3 -6.5 3 0.3 -6.5 0.01 3 C8C8A0
+    repeat 6 0 0 2.6
+    blob 0 0.3 -6.5 2.8 0.08 0.12 6A8A3A 0.6
+    blob 1 0.5 -2 0.15 0.5 0.15 E83A6A
+    blob 1 1.1 -2 0.09 0.1 0.09 3A2A1E
+    blob -1.5 0.5 3 0.15 0.5 0.15 F2C21E
+    blob -1.5 1.1 3 0.09 0.1 0.09 3A2A1E

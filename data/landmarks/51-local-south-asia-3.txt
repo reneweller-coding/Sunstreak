@@ -13,7 +13,7 @@ shape SNAKE_BOAT
     box 0 0.4 -15 0.5 0.03 0.1 8A6A48
 
 shape TEA_PLUCKERS
-    home INDIA:ASSAM, INDIA:WEST BENGAL, INDIA:KERALA, INDIA:TAMIL NADU, SRI LANKA, KENYA, NEPAL, BANGLADESH | 0.006 4 40 | country
+    home INDIA:ASSAM, INDIA:WEST BENGAL, INDIA:KERALA, INDIA:TAMIL NADU, SRI LANKA, KENYA, NEPAL, BANGLADESH, TURKEY:BLACK SEA, GEORGIA | 0.006 4 40 | country
     # Tea pluckers in the garden: women in bright saris moving along the flat-topped bushes, big baskets on their backs, shade trees above.
     repeat 6 0 0 1.4
     box -2 0.5 -4 2.5 0.5 0.55 3A6A2A
