@@ -1,0 +1,391 @@
+# More local things of the Middle East, Iran, Turkey and North Africa.
+
+shape CAMEL_RACE
+    home UAE, QATAR, SAUDI ARABIA, OMAN, KUWAIT, BAHRAIN | 0.004 8 60 | arid
+    # A camel race track in the desert: white rails along the sand, racing camels in a line with little robot jockeys on their backs.
+    box 0 0.6 0 0.05 0.05 14 F2F2F2
+    repeat 8 0 0 4
+    tube 0 0 -14 0 0.6 -14 0.04 3 F2F2F2
+    box -6 0.6 0 0.05 0.05 14 F2F2F2
+    repeat 4 -1.2 0 1.5
+    blob -1 1.6 -3 0.3 0.4 0.8 C8A070
+    repeat 4 -1.2 0 1.5
+    blob -1 2.05 -3.1 0.2 0.18 0.25 C8A070
+    repeat 4 -1.2 0 1.5
+    tube -1 1.8 -2.3 -1 2.4 -2 0.1 4 C8A070
+    repeat 4 -1.2 0 1.5
+    blob -1 2.4 -1.85 0.08 0.1 0.18 C8A070
+    repeat 4 -1.2 0 1.5
+    tube -0.85 1.3 -2.6 -0.85 0 -2.5 0.06 4 C8A070
+    repeat 4 -1.2 0 1.5
+    tube -1.15 1.3 -2.6 -1.15 0 -2.7 0.06 4 C8A070
+    repeat 4 -1.2 0 1.5
+    tube -0.85 1.3 -3.5 -0.85 0 -3.3 0.06 4 C8A070
+    repeat 4 -1.2 0 1.5
+    tube -1.15 1.3 -3.5 -1.15 0 -3.7 0.06 4 C8A070
+    repeat 4 -1.2 0 1.5
+    box -1 2.4 -3.3 0.08 0.18 0.06 C82A2A
+
+shape FALCON_PERCHES
+    home UAE, QATAR, SAUDI ARABIA, OMAN, KUWAIT, BAHRAIN | 0.004 3 20 | town
+    # Falcons on their perches outside the falconry souq: hooded birds on padded stands set out in a row on the sand.
+    repeat 5 0 0 1.2
+    cyl 0 0 -2.4 0.25 0.2 0.08 8 3A3A3A
+    repeat 5 0 0 1.2
+    tube 0 0 -2.4 0 0.7 -2.4 0.03 3 6A6A6A
+    repeat 5 0 0 1.2
+    cyl 0 0.7 -2.4 0.12 0.12 0.08 8 2A6AC8
+    repeat 5 0 0 1.2
+    blob 0 1.0 -2.4 0.12 0.22 0.12 9A7A58
+    repeat 5 0 0 1.2
+    blob 0 1.25 -2.37 0.07 0.08 0.07 6A3A22
+    box -2 1.2 0 0.8 1.2 3 E8D8B8
+
+shape DATE_HARVEST
+    home SAUDI ARABIA, UAE, OMAN, IRAQ, IRAN, EGYPT, ALGERIA, TUNISIA, MOROCCO:DRAA-TAFILALET, LIBYA, SUDAN | 0.006 6 60 | arid
+    # Date palms at harvest: heavy orange bunches hanging under the fronds, a climber in his harness up one trunk, crates below.
+    repeat 3 0 0 4
+    tube 0 0 -4 0 9 -4 0.3 6 8A6A48
+    repeat 3 0 0 4
+    fronds 0 9 -4 16 3.2 0.6 5A7A4A
+    repeat 3 0 0 4
+    blob 0.4 8.2 -4 0.25 0.5 0.25 E8902A 0.5
+    repeat 3 0 0 4
+    blob -0.4 8.3 -3.7 0.25 0.5 0.25 D8701E 0.5
+    blob 0.35 5.5 0 0.15 0.25 0.12 F2F2F2
+    blob 0.35 5.85 0 0.09 0.1 0.09 8A6048
+    halo 0 5.4 0 0.4 0.03 8 8A6A48
+    repeat 4 0 0 0.6
+    box 1.5 0.2 -1 0.25 0.2 0.25 C8A060
+
+shape DALLAH_MONUMENT
+    home SAUDI ARABIA, UAE, QATAR, KUWAIT, BAHRAIN, OMAN | 0.002 6 40 | town
+    # A giant coffee pot on a roundabout: a shining golden dallah with its long beak spout, set up on a stepped plinth among palms.
+    cyl 0 0 0 3 3 0.6 16 C8C0B0
+    cyl 0 0.6 0 2.2 2.2 0.6 16 B8B0A0
+    cyl 0 1.2 0 1.5 1.1 2.2 16 D8A830 shiny
+    blob 0 3.4 0 1.1 0.5 1.1 D8A830 shiny
+    cyl 0 3.8 0 0.7 0.35 1.2 16 D8A830 shiny
+    dome 0 5 0 0.35 0.4 D8A830 shiny
+    spire 0 5.4 0 0.12 0.5 8 D8A830 shiny
+    tube 0.9 2.2 0 2.3 4.5 0 0.18 8 D8A830 shiny
+    tube -1.1 2 0 -1.4 3.6 0 0.08 6 D8A830 shiny
+    mirror
+    tube 3 0 3 3 6 3 0.25 6 8A6A48
+    mirror
+    fronds 3 6 3 12 2.4 0.5 5A7A4A
+
+shape DESERT_PICKUP
+    home SAUDI ARABIA, UAE, OMAN, QATAR, KUWAIT, JORDAN, YEMEN, SUDAN, LIBYA, MAURITANIA | 0.006 2 25 | arid
+    # A white pickup in the desert: a big square truck with a water tank and a goat tethered in the bed, dust on its flanks.
+    box 0 0.95 1.5 0.95 0.45 1.4 F2F2EE
+    box 0 1.65 0.6 0.9 0.35 0.8 F2F2EE
+    box 0 1.7 1.41 0.8 0.25 0.01 2A3A4A glass
+    box 0 0.85 -1.6 0.95 0.35 1.3 F2F2EE
+    box 0 1.2 -1.6 0.9 0.04 1.25 4A4A4A
+    cyl 0 1.25 -1.9 0.6 0.6 0.9 12 3A3A3A
+    blob 0.4 1.5 -0.7 0.12 0.18 0.25 F2F2F2
+    blob 0.4 1.65 -0.45 0.08 0.1 0.12 F2F2F2
+    mirror
+    mirrorx
+    tube 0.75 0.42 1.8 0.97 0.42 1.8 0.42 10 1E1E1E
+
+shape ABRA_BOAT
+    home UAE, QATAR, BAHRAIN, KUWAIT, OMAN | 0.004 25 100 | water
+    # An abra: an old wooden water taxi with a flat canopy, passengers sitting back to back on the long central bench.
+    tbox 0 -0.3 0 0.7 3.5 0 0.5 0 1.3 4.2 8A5A3A
+    box 0 0.7 0 0.25 0.2 3 6A4A30
+    repeat 4 0 0 1.4
+    tube 1.1 0.5 -2.1 1.1 2.0 -2.1 0.04 3 8A5A3A
+    repeat 4 0 0 1.4
+    tube -1.1 0.5 -2.1 -1.1 2.0 -2.1 0.04 3 8A5A3A
+    box 0 2.05 0 1.3 0.05 2.6 C8B8A0
+    repeat 4 0 0 1.3
+    blob 0.35 1.05 -2 0.13 0.25 0.12 F2F2F2
+    repeat 3 0 0 1.3
+    blob -0.35 1.05 -1.35 0.13 0.25 0.12 3A3A6A
+
+shape SAFFRON_HARVEST
+    home IRAN, AFGHANISTAN, SPAIN:CASTILE-LA MANCHA, GREECE | 0.006 4 40 | country
+    # A saffron field in autumn: low rows of purple crocus flowers on bare earth, baskets of picked blooms at the end of the rows.
+    box -3 0.02 0 4 0.02 5 B89A78
+    repeat 9 0 0 1.1
+    blob -3 0.15 -4.4 3.8 0.12 0.18 8A5AB8 0.6
+    repeat 3 0 0 1.5
+    cyl 1.4 0 -1.5 0.25 0.3 0.35 8 C8A060
+    repeat 3 0 0 1.5
+    blob 1.4 0.38 -1.5 0.25 0.08 0.25 9A6AC8
+
+shape PERSIAN_GARDEN
+    home IRAN:ISFAHAN, IRAN:FARS, IRAN:YAZD, IRAN:TEHRAN, AFGHANISTAN | 0.004 8 60 | town
+    # A Persian garden: a long straight pool with jets lined with tall dark cypresses, a tiled pavilion at its head.
+    box 0 0.15 0 1.2 0.15 12 2A8AA8 water
+    box 0 0.15 0 1.5 0.12 12.3 C8B8A0
+    repeat 6 0 0 4
+    tube 0 0.3 -10 0 1.2 -10 0.04 3 C8E8F0 glass
+    repeat 7 0 0 4
+    mirrorx
+    cyl 3 0 -12 0.5 0.1 7 8 2A4A2A
+    box 0 3 -15 3 3 2 E8D8B8
+    box 0 3 -12.98 2 2.5 0.02 2A6AA8
+    box 0 2 -12.97 1 2 0.02 1E2A3A
+    dome 0 6 -15 1.5 1.4 2A8AC8
+
+shape POMEGRANATE_STALL
+    home IRAN, AFGHANISTAN, AZERBAIJAN, TURKEY, ARMENIA, GEORGIA, UZBEKISTAN, TAJIKISTAN | 0.006 1 12 | town
+    # A pomegranate stall: pyramids of deep red fruit on a cart, a hand press for juice and a row of glasses of ruby juice.
+    box 0 0.8 0 0.6 0.08 1.2 8A6A48
+    mirrorx
+    hoop 0.65 0.35 -0.6 0.35 0.04 10 3A3A3A
+    blob 0 1.1 -0.5 0.5 0.3 0.6 A8202A 0.6
+    blob 0 1.35 -0.5 0.3 0.15 0.35 B8282A 0.6
+    cyl 0 0.88 0.6 0.15 0.15 0.5 8 B8B8B8 shiny
+    tube 0 1.38 0.6 0.3 1.55 0.6 0.03 3 B8B8B8
+    repeat 4 0 0 0.15
+    cyl 0.4 0.88 0.3 0.04 0.04 0.12 6 A8202A glass
+
+shape MARSH_MUDHIF
+    home IRAQ | 0.006 6 50 | country
+    # A reed guesthouse of the marshes: a long tunnel of woven reed mats over great arched bundles, standing at the water's edge.
+    box 4 0.02 0 2.5 0.02 8 4A6A6A water
+    tube 0 0 -6 0 0 6 3 14 C8B070
+    repeat 7 0 0 2
+    hoop 0 0 -6 3.05 0.2 14 B8A060
+    repeat 2 0 0 12.4
+    cyl 0 0 -6.2 0.4 0.3 3.6 8 B8A060
+    blob 0 1.2 6.02 1 1.2 0.02 2A2018
+    tbox 6 -0.3 4 0.3 3 6 0.3 4 0.6 3.5 4A3A28
+
+shape PRICKLY_PEAR_HEDGE
+    home ISRAEL, PALESTINE, LEBANON, JORDAN, SYRIA, MOROCCO, TUNISIA, ALGERIA, MALTA, ITALY:SICILY, SPAIN:ANDALUSIA, SPAIN:CANARY ISLANDS, ERITREA, ETHIOPIA | 0.008 2 25 | country
+    # A hedge of prickly pear along the field: a wall of fat spiny pads, crowned with red and yellow fruit in late summer.
+    repeat 10 0 0 1
+    blob 0 0.5 -4.5 0.12 0.5 0.4 6A9A5A
+    repeat 10 0 0 1
+    blob 0.05 1.25 -4.2 0.12 0.42 0.35 7AAA60
+    repeat 10 0 0 1
+    blob -0.05 1.2 -4.8 0.12 0.4 0.32 6A9A5A
+    repeat 10 0 0 1
+    blob 0 1.95 -4.4 0.11 0.35 0.3 7AAA60
+    repeat 10 0 0 1
+    blob 0.1 2.3 -4.3 0.06 0.07 0.05 E85A2A
+    repeat 10 0 0 1
+    blob 0.1 2.25 -4.6 0.06 0.07 0.05 E8B02A
+
+shape SABIL_WATER_JARS
+    home EGYPT, SUDAN | 0.006 1 10 | town
+    # Clay water jars for passers-by: big round pots set in a little wooden stand by a wall, a tin cup on a chain, shade overhead.
+    box -0.5 1.2 0 0.2 1.2 1.6 C8B898
+    box 0 0.5 0 0.35 0.05 1.2 8A6A48
+    mirror
+    mirrorx
+    tube 0.3 0 1.1 0.3 0.5 1.1 0.03 3 8A6A48
+    repeat 3 0 0 0.8
+    blob 0 0.85 -0.8 0.28 0.35 0.28 B8603A
+    repeat 3 0 0 0.8
+    cyl 0 1.15 -0.8 0.12 0.12 0.08 8 A8503A
+    quad -0.5 2.2 -1.4 -0.5 2.2 1.4 0.6 1.9 1.4 0.6 1.9 -1.4 6A6A60
+
+shape STEEP_PYRAMIDS
+    home SUDAN | 0.008 10 100 | arid
+    # The steep pyramids of the old kingdom: a row of slim pointed sandstone pyramids on the dunes, each with a little temple at its foot.
+    tbox 0 0 0 3 3 0 9 0 0.3 0.3 B8885A
+    box 3.3 0.9 0 0.4 0.9 0.8 B8885A
+    tbox -3 0 -8 2.5 2.5 -3 7.5 -8 0.25 0.25 A8784A
+    box -0.2 0.8 -8 0.4 0.8 0.7 A8784A
+    tbox -2 0 8 2.2 2.2 -2 6.5 8 0.25 0.25 B8885A
+    tbox -6 0 2 2 2 -6 4 2 1 1 A8784A
+    blob 0 0 0 8 0.4 14 D8B888 0.4
+
+shape OLIVE_HARVEST
+    home TUNISIA, MOROCCO, SPAIN:ANDALUSIA, SPAIN:CATALONIA, ITALY:APULIA, ITALY:TUSCANY, ITALY:CALABRIA, GREECE, TURKEY:AEGEAN, PALESTINE, ISRAEL, SYRIA, LEBANON, CYPRUS, CROATIA, PORTUGAL | 0.006 6 50 | country
+    # Olive harvest: gnarled silver-green trees with nets spread on the ground beneath them, ladders and crates of black olives.
+    repeat 3 0 0 5
+    tube 0 0 -5 0.3 2 -5 0.35 6 7A7060
+    repeat 3 0 0 5
+    blob 0.2 3 -5 2.2 1.4 2.2 8A9A70 0.4
+    repeat 3 0 0 5
+    box 0 0.02 -5 2.4 0.01 2.4 2A8A4A
+    tube 1.5 0 -3.5 1.0 3 -4.2 0.04 3 8A6A48
+    tube 1.9 0 -3.5 1.4 3 -4.2 0.04 3 8A6A48
+    repeat 3 0 0 0.6
+    box 3 0.2 1 0.25 0.2 0.25 3A6A9A
+    repeat 3 0 0 0.6
+    blob 3 0.38 1 0.2 0.05 0.2 2A2A3A 0.6
+
+shape TANNERY_VATS
+    home MOROCCO | 0.004 6 40 | town
+    # A tannery yard: a honeycomb of round stone vats filled with dye in ochre, red, white and indigo, hides drying on the walls around.
+    box 0 0.3 0 4 0.3 5 C8B8A0
+    repeat 4 0 0 2.2
+    cyl 2 0.6 -3.3 0.8 0.8 0.02 10 C8A040
+    repeat 4 0 0 2.2
+    cyl 0 0.6 -3.3 0.8 0.8 0.02 10 A83A2A
+    repeat 4 0 0 2.2
+    cyl -2 0.6 -3.3 0.8 0.8 0.02 10 E8E4D8
+    repeat 4 0 0 2.2
+    halo 2 0.6 -3.3 0.85 0.12 10 B8A890
+    repeat 4 0 0 2.2
+    halo 0 0.6 -3.3 0.85 0.12 10 B8A890
+    repeat 4 0 0 2.2
+    halo -2 0.6 -3.3 0.85 0.12 10 B8A890
+    box -4.5 2 0 0.3 2 5 D8C8A8
+    repeat 6 0 0 1.5
+    box -4.18 2.4 -3.8 0.02 0.5 0.6 C89A6A
+
+shape GULF_WALLED_VILLA
+    home UAE, QATAR, KUWAIT, BAHRAIN, SAUDI ARABIA, OMAN | 0.008 4 40 | town
+    # A Gulf villa behind its high wall: a sand-coloured house with arched windows peeking over the wall, an ornate metal gate and a palm.
+    box 0 1.5 0 0.2 1.5 9 E8D8B8
+    box 0 1.4 2 0.22 1.4 1.4 B8903A
+    box -5 3.5 -1 3.5 3.5 6 E8D8B8
+    repeat 4 0 0 3
+    box -1.48 5 -5.5 0.02 0.9 0.6 2A3A4A glass
+    box -5 7.2 -1 3.6 0.2 6.1 D8C8A8
+    dome -5 7.4 3 1.2 1 E8E8E0
+    tube -1 0 -6 -1 6 -6 0.2 6 8A6A48
+    fronds -1 6 -6 12 2.4 0.5 5A7A4A
+
+shape GAS_FLARE
+    home IRAQ, KUWAIT, SAUDI ARABIA:EASTERN PROVINCE, IRAN, ALGERIA, LIBYA, NIGERIA, OMAN | 0.003 20 120 | arid
+    # A gas flare stack in the oilfield: a tall steel chimney on guy wires with a roaring orange flame at the top.
+    cyl 0 0 0 0.6 0.4 30 8 9A9A9A
+    blob 0 31.5 0 0.9 2 0.9 F2902A glow
+    blob 0 33 0 0.6 1.4 0.6 F2D02A glow
+    tube 0 20 0 10 0 0 0.03 3 6A6A6A
+    tube 0 20 0 -5 0 8.7 0.03 3 6A6A6A
+    tube 0 20 0 -5 0 -8.7 0.03 3 6A6A6A
+    tube 0 0.6 0 -8 0.6 0 0.4 8 9A9A9A
+
+shape CAMEL_CARAVAN
+    home MOROCCO, ALGERIA, MALI, NIGER, MAURITANIA, LIBYA, CHAD, SUDAN, EGYPT, SAUDI ARABIA, OMAN | 0.004 10 80 | arid
+    # A camel caravan crossing the dunes: a line of laden dromedaries roped nose to tail, led by a man in a blue turban.
+    repeat 5 0 0 2.6
+    blob 0 1.6 -5.2 0.3 0.42 0.85 C8A070
+    repeat 5 0 0 2.6
+    blob 0 2.1 -5.3 0.22 0.25 0.3 C8A070
+    repeat 5 0 0 2.6
+    tube 0 1.8 -4.5 0 2.4 -4.2 0.1 4 C8A070
+    repeat 5 0 0 2.6
+    blob 0 2.4 -4.05 0.08 0.1 0.18 C8A070
+    repeat 5 0 0 2.6
+    tube 0.15 1.3 -4.7 0.15 0 -4.6 0.06 4 C8A070
+    repeat 5 0 0 2.6
+    tube -0.15 1.3 -4.7 -0.15 0 -4.8 0.06 4 C8A070
+    repeat 5 0 0 2.6
+    tube 0.15 1.3 -5.6 0.15 0 -5.5 0.06 4 C8A070
+    repeat 5 0 0 2.6
+    tube -0.15 1.3 -5.6 -0.15 0 -5.7 0.06 4 C8A070
+    repeat 5 0 0 2.6
+    blob 0 2.35 -5.2 0.42 0.25 0.45 8A4A2A 0.4
+    blob 0.3 0.8 8.2 0.15 0.5 0.15 2A3A8A
+    blob 0.3 1.45 8.2 0.12 0.13 0.12 2A3A8A
+
+shape ORYX_HERD
+    home OMAN, UAE, SAUDI ARABIA, JORDAN, QATAR, NAMIBIA, BOTSWANA, SOUTH AFRICA:NORTHERN CAPE | 0.004 8 60 | arid
+    # Oryx in the desert: white antelopes with dark markings on their faces and legs, their long straight horns like spears.
+    repeat 3 1.4 0 1.6
+    blob -1 1.0 -2 0.22 0.28 0.6 F2EEE8
+    repeat 3 1.4 0 1.6
+    tube -1 1.15 -1.5 -1 1.45 -1.25 0.09 4 F2EEE8
+    repeat 3 1.4 0 1.6
+    blob -1 1.48 -1.1 0.08 0.1 0.18 F2EEE8
+    repeat 3 1.4 0 1.6
+    blob -0.93 1.48 -1.05 0.03 0.06 0.1 2A2A2A
+    repeat 3 1.4 0 1.6
+    tube -0.97 1.58 -1.15 -0.97 2.4 -1.6 0.02 3 3A3A3A
+    repeat 3 1.4 0 1.6
+    tube -1.03 1.58 -1.15 -1.03 2.4 -1.6 0.02 3 3A3A3A
+    repeat 3 1.4 0 1.6
+    tube -0.88 0.8 -1.55 -0.88 0 -1.55 0.04 3 6A6A6A
+    repeat 3 1.4 0 1.6
+    tube -1.12 0.8 -1.55 -1.12 0 -1.55 0.04 3 6A6A6A
+    repeat 3 1.4 0 1.6
+    tube -0.88 0.8 -2.45 -0.88 0 -2.45 0.04 3 6A6A6A
+    repeat 3 1.4 0 1.6
+    tube -1.12 0.8 -2.45 -1.12 0 -2.45 0.04 3 6A6A6A
+
+shape PALM_FROND_SAND_FENCE
+    home ALGERIA, TUNISIA, LIBYA, MOROCCO:DRAA-TAFILALET, MAURITANIA, EGYPT:NEW VALLEY, SAUDI ARABIA, UAE | 0.008 6 50 | arid
+    # A sand fence of dry palm fronds stuck upright in the dunes, a long ragged brown line holding back the drifting sand.
+    repeat 30 0 0 0.8
+    tube 0 0 -12 0.1 1.6 -12 0.12 3 8A7050
+    repeat 30 0 0 0.8
+    tube 0 0 -11.6 -0.1 1.4 -11.6 0.1 3 9A8060
+    blob 0.8 0.3 0 1 0.35 12 D8B888 0.4
+
+shape SHISHA_CAFE
+    home EGYPT, JORDAN, LEBANON, SYRIA, IRAQ, UAE, QATAR, KUWAIT, BAHRAIN, SAUDI ARABIA, OMAN | 0.006 2 20 | town
+    # A pavement cafe: low tables and wicker chairs on the street, tall water pipes standing by them, a big television on the wall.
+    box -1.5 1.5 0 0.3 1.5 3 C8B898
+    box -1.18 2.2 1.5 0.02 0.4 0.7 1E1E1E
+    repeat 3 0 0 2
+    cyl 0.5 0 -2 0.35 0.35 0.5 8 8A6A48
+    repeat 3 0 0 2
+    box 1.2 0.4 -2 0.25 0.4 0.25 C8A060
+    repeat 3 0 0 2
+    box -0.2 0.4 -2 0.25 0.4 0.25 C8A060
+    repeat 3 0 0 2
+    cyl 0.5 0.5 -1.75 0.1 0.08 0.25 8 2A8AC8 glass
+    repeat 3 0 0 2
+    tube 0.5 0.75 -1.75 0.5 1.3 -1.75 0.02 3 C8A040
+    repeat 3 0 0 2
+    blob 0.5 1.35 -1.75 0.05 0.05 0.05 C8A040
+
+shape HAZELNUT_DRYING
+    home TURKEY:BLACK SEA | 0.008 2 20 | country
+    # Hazelnuts drying in the sun on a concrete yard beside the house, spread in a brown carpet and raked into rows.
+    box 0 0.02 0 2.5 0.02 4 C8C0B0
+    box 0 0.05 0 2.3 0.02 3.8 8A5A2A
+    repeat 5 0 0 1.5
+    box 0 0.08 -3 2.2 0.03 0.1 7A4A1E
+    box -4.5 2.5 0 2 2.5 3.5 E8E4DC
+    gable -4.5 5 0 2.2 3.7 1.2 0.4 B85A3A E8E4DC
+    tube 1.5 0 3.6 1.5 1.5 3.6 0.03 3 8A6A48
+
+shape DOLMUS
+    home TURKEY | 0.006 2 20 | town
+    # A dolmus minibus: a white and yellow share taxi van with its destination board in the windscreen, waiting to fill up.
+    box 0 1.2 0 1.0 0.8 2.6 F2F2EE
+    box 0 0.65 0 1.01 0.25 2.6 E8C02A
+    box 1.01 1.5 -0.2 0.01 0.3 2.2 2A3A4A glass
+    tbox 0 0.6 2.6 1 0.6 0 1.9 2.75 0.95 0.3 F2F2EE
+    box 0 1.65 2.85 0.85 0.25 0.01 2A3A4A glass
+    box 0 1.4 2.86 0.4 0.08 0.01 F2F2F2
+    mirrorx
+    tube 0.85 0.38 2.0 1.02 0.38 2.0 0.38 10 1E1E1E
+    mirrorx
+    tube 0.85 0.38 -1.8 1.02 0.38 -1.8 0.38 10 1E1E1E
+
+shape SATELLITE_DISH_ROOFS
+    home EGYPT, MOROCCO, ALGERIA, TUNISIA, JORDAN, SYRIA, IRAQ, LEBANON, PALESTINE, TURKEY | 0.006 4 40 | town
+    # Flat roofs crowded with satellite dishes: a forest of white dishes pointing the same way, water tanks and washing lines among them.
+    box 0 4.5 0 3 4.5 5 D8C8A8
+    windows 3.02 0.5 -4.5 0 1 9 8 0.3 3
+    repeat 5 0 0 2
+    tube 1 9 -4 1 9.6 -4 0.03 3 9A9A9A
+    repeat 5 0 0 2
+    blob 1.2 9.8 -4 0.06 0.35 0.35 E8E8E8
+    repeat 4 0 0 2
+    blob -1 9.8 -3 0.06 0.3 0.3 E8E8E8
+    repeat 4 0 0 2
+    tube -1.2 9 -3 -1.2 9.6 -3 0.03 3 9A9A9A
+    cyl -2 9 3.5 0.4 0.4 0.9 10 2A2A2A
+    tube -2.6 9.8 -4.5 -2.6 9.8 4.5 0.01 3 C8C8C8
+
+shape REBAR_TOP_HOUSE
+    home EGYPT, MOROCCO, TUNISIA, ALGERIA, JORDAN, TURKEY, ALBANIA, KOSOVO, NORTH MACEDONIA, IRAQ, PALESTINE | 0.008 3 30 | town
+    # A house built storey by storey: two finished floors of brick and concrete with the steel rods of the next floor sticking up from the roof.
+    box 0 3 0 3 3 4 C8A078
+    box 3.01 3 0 0.02 0.15 4 B8B0A0
+    windows 3.02 0.5 -3.5 0 1 7 5 0.3 3
+    repeat 3 0 0 3.6
+    box 3 3 -3.6 0.2 3 0.2 B8B0A0
+    repeat 3 0 0 3.6
+    tube 3 6 -3.6 3 7.5 -3.6 0.03 3 6A4A30
+    repeat 3 0 0 3.6
+    tube -3 6 -3.6 -3 7.5 -3.6 0.03 3 6A4A30
+    repeat 3 0 0 3.6
+    tube 0 6 -3.6 0 7.5 -3.6 0.03 3 6A4A30
+    box 0 6.05 0 3 0.05 4 9A9690
+    box -2 6.5 2.5 0.5 0.4 0.5 2A2A2A
