@@ -236,7 +236,7 @@ shape BRICK_STUPA_FIELD
     spire -14 3.8 -2 0.5 3 8 D8A830
 
 shape BAMBOO_SCAFFOLDING
-    home CHINA:HONG KONG, CHINA:MACAU, CHINA:GUANGDONG, MYANMAR, VIETNAM | 0.004 3 25 | town
+    home CHINA:HONG KONG, CHINA:MACAU, CHINA:GUANGDONG, MYANMAR, VIETNAM, CHINA:GUANGXI, CHINA:FUJIAN | 0.004 3 25 | town
     # A building under repair wrapped in bamboo scaffolding: a lattice of poles lashed together, green safety netting over part of it.
     box -1 6 0 2 6 5 C8C0B0
     windows 1.02 0.5 -4.5 0 1 9 11 0.3 3

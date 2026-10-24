@@ -238,7 +238,7 @@ shape STRAW_STACKS
     box 3 0.02 0 2 0.02 2 B89870
 
 shape DUNG_CAKE_STACK
-    home INDIA:UTTAR PRADESH, INDIA:BIHAR, INDIA:PUNJAB, INDIA:HARYANA, INDIA:RAJASTHAN, INDIA:MADHYA PRADESH, PAKISTAN, NEPAL | 0.008 3 30 | country
+    home INDIA:UTTAR PRADESH, INDIA:BIHAR, INDIA:PUNJAB, INDIA:HARYANA, INDIA:RAJASTHAN, INDIA:MADHYA PRADESH, PAKISTAN, NEPAL, CHINA:TIBET | 0.008 3 30 | country
     # Cow dung cakes drying in the sun: round patties pressed in rows on a mud wall, and a tall store of them plastered and decorated.
     box 0 0.8 0 0.2 0.8 3 B89870
     repeat 8 0 0 0.7

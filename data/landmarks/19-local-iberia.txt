@@ -277,7 +277,7 @@ shape ADOBE_DOVECOTE
     box 5 0.9 0 0.05 0.9 0.5 4A3A2A
 
 shape HILL_WINE_CELLARS
-    home SPAIN:CASTILE AND LEON, SPAIN:LA RIOJA | 0.003 10 60 | country
+    home SPAIN:CASTILE AND LEON, SPAIN:LA RIOJA, HUNGARY, CZECHIA, AUSTRIA | 0.003 10 60 | country
     # Bodegas dug into a grassy hill: stone doorways in a row, chimney vents poking up out of the turf.
     blob 0 0 0 8 4 12 7A8A4A 0.2
     repeat 3 0 0 5

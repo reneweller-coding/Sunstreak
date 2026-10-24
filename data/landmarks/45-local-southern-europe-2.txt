@@ -1,7 +1,7 @@
 # More local things of France, Iberia, Italy, Greece and the Balkans.
 
 shape CANAL_LOCK_PLANES
-    home FRANCE:OCCITANIE, FRANCE:BOURGOGNE-FRANCHE-COMTE, FRANCE:CENTRE-VAL DE LOIRE, FRANCE:GRAND EST, FRANCE:HAUTS-DE-FRANCE | 0.004 8 50 | country
+    home FRANCE:OCCITANIE, FRANCE:BOURGOGNE-FRANCHE-COMTE, FRANCE:CENTRE-VAL DE LOIRE, FRANCE:GRAND EST, FRANCE:HAUTS-DE-FRANCE, ENGLAND:WEST MIDLANDS, ENGLAND:NORTH WEST, ENGLAND:EAST MIDLANDS | 0.004 8 50 | country
     # A canal lock under plane trees: stone lock walls with black and white gates, the keeper's cottage, a barge waiting to go through.
     box -3 0.02 0 1.5 0.02 14 4A6A5A water
     box -1.3 0.4 0 0.2 0.4 14 B8B0A0
