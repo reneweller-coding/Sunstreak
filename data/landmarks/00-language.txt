@@ -1,0 +1,36 @@
+# The landmarks of the data files. Each starts with "shape NAME"; the places put it beside the road with
+# "landmark NAME nearest farthest [scale]" (and may paint its key colours with "c A B C" right after).
+# The variants are numbered after the compiled landmarks, in the order of the files.
+#
+# Model space: metres, y up, the ground at y = 0; +x faces the road (the driver passes along z). A long front should run
+# along z, so the driver sees it face on. Keep it within about 120 m of the origin along z: the road bends.
+#
+# Primitives (positions x y z, half sizes h.., radii r..):
+#   box x y z hx hy hz COLOUR                          an axis-aligned box around its centre
+#   tbox x y z hx hz  x2 y2 z2 hx2 hz2 COLOUR          a tapered box from a bottom face to a top face
+#   cyl x y z rbottom rtop height sides COLOUR         a column, a drum or a cone standing on x y z
+#   spire x y z r height sides COLOUR                  a cone
+#   tube x y z x2 y2 z2 r sides COLOUR                 a rod between two points (cables, legs, booms)
+#   blob x y z rx ry rz COLOUR [lumpy]                 a ball; lumpy 0..1 makes it a rock
+#   dome x y z r [height] COLOUR                       a half sphere standing on its rim
+#   quad x y z x2 y2 z2 x3 y3 z3 x4 y4 z4 COLOUR       a flat face; tri with three corners
+#   gable x y z hx hz rise overhang ROOF WALL          a gable roof, its ridge along z, on walls of hx, hz
+#   hip x y z hx hz rise overhang ROOF                 a hip roof
+#   windows x y z ax az width height [lit] [storey]    rows of windows on a face running along (ax, 0, az)
+#   boxwindows x y z hx hz height [lit] [storey]       windows round a box standing on x y z
+#   arch x y z span rise r segments COLOUR             a parabolic arch of rods, its legs along z (rise < 0: a cable's sag)
+#   fronds x y z count length droop COLOUR             a palm's crown
+#   merlons x y z x2 y2 z2 halfwidth COLOUR            battlements along a wall's top
+#   hoop x y z r thickness segments COLOUR             a circle standing up, facing the road (a wheel's rim)
+#   halo x y z r thickness segments COLOUR             a circle lying flat (a railing round a tower)
+#
+# COLOUR is RRGGBB, or A, B, C for the key colours (C is the windows' light); ":0.8" darkens either.
+# A primitive may end with a material: glow, lit, glass, shiny or water.
+#
+# Modifiers for the next primitive line only:
+#   repeat n dx dy dz      n copies, each moved by dx dy dz
+#   ring n r [phase]       n copies, each pushed out by r along x and turned about the vertical axis through the
+#                          origin (columns round a drum; with r 0 and a tube from the centre out: spokes)
+#   vring n r [phase]      the same pushed up by r and turned about the x axis (a wheel's gondolas and spokes)
+#   mirror / mirrorx       also its mirror image across z = 0 / x = 0
+# and "at x y z" moves the origin of every line after it (until the next "at").

@@ -30,21 +30,40 @@ void addWorldBiomes( std::vector<BiomeDef> &b )
         BiomeE      m_biome;
         const char *m_country;
         ClimateE    m_climate;
+        const char *m_region = nullptr;
     };
     const Placed places[] = {
-        { BE::MEADOW, "GERMANY", C::TEMPERATE },     { BE::FOREST, "SWITZERLAND", C::TEMPERATE }, { BE::DESERT, "USA", C::ARID },
-        { BE::SNOW, "CANADA", C::COLD },             { BE::COAST, "USA", C::TEMPERATE },          { BE::AUTUMN, "USA", C::TEMPERATE },
-        { BE::SAKURA, "JAPAN", C::TEMPERATE },       { BE::JUNGLE, "BRAZIL", C::TROPICAL },        { BE::SAVANNA, "KENYA", C::ARID },
-        { BE::VOLCANO, "HAWAII", C::TROPICAL },      { BE::AURORA, "FINLAND", C::COLD },           { BE::LAVENDER, "FRANCE", C::TEMPERATE },
-        { BE::TULIPS, "NETHERLANDS", C::TEMPERATE }, { BE::HIGHLANDS, "SCOTLAND", C::TEMPERATE },  { BE::FJORD, "NORWAY", C::TEMPERATE },
-        { BE::RICE, "VIETNAM", C::TROPICAL },        { BE::SALT_FLATS, "BOLIVIA", C::ARID },       { BE::MESA_SUNSET, "USA", C::ARID },
-        { BE::SUBURB, "USA", C::TEMPERATE },         { BE::HARBOR, "NETHERLANDS", C::TEMPERATE },  { BE::ICEBERGS, "GREENLAND", C::COLD },
-        { BE::BAYOU, "USA", C::TROPICAL },           { BE::WHEAT, "USA", C::TEMPERATE },           { BE::CLIFFS, "ENGLAND", C::TEMPERATE },
-        { BE::WINTER_VILLAGE, "AUSTRIA", C::COLD },  { BE::RAINBOW, "IRELAND", C::TEMPERATE } };
+        { BE::MEADOW, "GERMANY", C::TEMPERATE, "HESSE" },
+        { BE::FOREST, "SWITZERLAND", C::TEMPERATE },
+        { BE::DESERT, "USA", C::ARID, "ARIZONA" },
+        { BE::SNOW, "CANADA", C::COLD },
+        { BE::COAST, "USA", C::TEMPERATE, "CALIFORNIA" },
+        { BE::AUTUMN, "USA", C::TEMPERATE, "VERMONT" },
+        { BE::SAKURA, "JAPAN", C::TEMPERATE },
+        { BE::JUNGLE, "BRAZIL", C::TROPICAL },
+        { BE::SAVANNA, "KENYA", C::ARID },
+        { BE::VOLCANO, "USA", C::TROPICAL, "HAWAII" },
+        { BE::AURORA, "FINLAND", C::COLD },
+        { BE::LAVENDER, "FRANCE", C::TEMPERATE },
+        { BE::TULIPS, "NETHERLANDS", C::TEMPERATE },
+        { BE::HIGHLANDS, "SCOTLAND", C::TEMPERATE },
+        { BE::FJORD, "NORWAY", C::TEMPERATE },
+        { BE::RICE, "VIETNAM", C::TROPICAL },
+        { BE::SALT_FLATS, "BOLIVIA", C::ARID },
+        { BE::MESA_SUNSET, "USA", C::ARID, "UTAH" },
+        { BE::SUBURB, "USA", C::TEMPERATE, "NEW JERSEY" },
+        { BE::HARBOR, "NETHERLANDS", C::TEMPERATE },
+        { BE::ICEBERGS, "GREENLAND", C::COLD },
+        { BE::BAYOU, "USA", C::TROPICAL, "LOUISIANA" },
+        { BE::WHEAT, "USA", C::TEMPERATE, "KANSAS" },
+        { BE::CLIFFS, "ENGLAND", C::TEMPERATE },
+        { BE::WINTER_VILLAGE, "AUSTRIA", C::COLD },
+        { BE::RAINBOW, "IRELAND", C::TEMPERATE } };
     for( const Placed &p : places )
     {
         b[static_cast<size_t>( p.m_biome )].m_country = p.m_country;
         b[static_cast<size_t>( p.m_biome )].m_climate = p.m_climate;
+        b[static_cast<size_t>( p.m_biome )].m_region = p.m_region;
     }
 
     addDataPlaces( b );
@@ -118,6 +137,7 @@ std::string placeName( BiomeE biome )
 {
     const BiomeDef &d = biomeDef( biome );
     std::string     s = d.m_name;
+    if( d.m_region && s != d.m_region ) s += std::string( "  -  " ) + d.m_region;
     if( d.m_country && s != d.m_country ) s += std::string( "  -  " ) + d.m_country;
     return s;
 }

@@ -1,0 +1,147 @@
+# Landmarks of Germany.
+
+shape COLOGNE_CATHEDRAL
+    # Two open spires over the Rhine, the dark gothic nave.
+    box 0 22 10 18 22 50 4A4440
+    gable 0 44 10 18 50 18 0.5 3A3A40 4A4440
+    mirrorx
+    box 8 40 -48 7 40 7 4E4842
+    mirrorx
+    spire 8 80 -48 6.5 74 8 4E4842
+    mirrorx
+    blob 8 155 -48 1 2 1 4E4842
+    repeat 10 0 0 9
+    spire 18 44 -30 0.8 8 4 4E4842
+    windows 18 4 -38 0 1 90 34 0.15 10
+    windows 15 6 -55 0 1 14 60 0.1 8
+
+shape ELBPHILHARMONIE
+    # Hamburg: a glass wave on a brick warehouse at the water.
+    box 0 15 0 22 15 50 8A4A3A
+    windows 22 0 -50 0 1 100 30 0.2 3
+    box 0 45 0 22 15 50 B8CCD8 glass
+    windows 22 30 -50 0 1 100 30 0.6 3
+    tbox 0 60 -40 22 10 0 68 -40 18 3 E8EEF2
+    tbox 0 60 -20 22 10 0 64 -20 18 3 E8EEF2
+    tbox 0 60 0 22 10 0 74 0 18 3 E8EEF2
+    tbox 0 60 20 22 10 0 63 20 18 3 E8EEF2
+    tbox 0 60 40 22 10 0 67 40 18 3 E8EEF2
+    box 26 -0.5 0 4 0.5 60 3A5A6A water
+
+shape HOLSTEN_GATE
+    # Lubeck's city gate: brick, two round towers with green copper cones.
+    box 0 11 0 8 11 9 9A3A2A
+    gable 0 22 0 8 9 7 0.3 4A4A50 9A3A2A
+    mirror
+    cyl 0 0 13 8 8 26 16 9A3A2A
+    mirror
+    spire 0 26 13 8.4 14 16 3E6A5A
+    box 8.1 4 0 0.2 4 3 2A2420
+    windows 8 8 -8 0 1 16 14 0.2 3.5
+
+shape BREMEN_ROLAND
+    # The town hall with its arcade and the stone knight in front.
+    box -8 9 0 8 9 22 C8B08A
+    gable -8 18 0 8 22 8 0.3 3E6A5A C8B08A
+    repeat 7 0 0 7
+    cyl 0 0 -21 0.6 0.6 8 8 D8C8A8
+    box 0 8.5 0 0.6 0.6 22 C8B08A
+    windows 0 9 -22 0 1 44 9 0.3 4
+    box 10 1.5 0 2 1.5 2 B8B0A0
+    box 10 6.5 0 0.8 3.5 1 C8C0B0
+    blob 10 10.5 0 0.6 0.7 0.6 C8C0B0
+    box 10.9 7 0 0.15 1.8 1.1 B0B8C0
+    tube 10.4 4 -0.9 10.4 11 -0.9 0.1 4 D0D0D0
+
+shape CHALK_CLIFFS
+    # Rugen's white cliffs under beech woods.
+    blob 0 20 0 40 60 70 F2F0EA 0.35
+    blob 0 20 -60 34 50 40 ECEAE2 0.4
+    blob 0 20 60 30 46 40 EEECE4 0.4
+    blob -30 70 0 40 14 80 3E7A3A 0.3
+    blob -20 62 -50 30 14 40 3A7236 0.3
+    blob 30 0 0 24 6 90 E8E4D8 0.5
+
+shape WARTBURG
+    # The castle on its wooded hill above Eisenach.
+    blob 0 0 0 70 50 80 5E7A44 0.25
+    box 0 52 0 10 8 40 D8CCB0
+    gable 0 60 0 10 40 7 0.3 8A3A2A D8CCB0
+    box 0 62 -30 5 18 5 D8CCB0
+    hip 0 80 -30 5 5 6 0.3 8A3A2A
+    box 2 58 20 6 6 10 C8A878
+    gable 2 64 20 6 10 5 0.3 8A3A2A C8A878
+    windows 10 46 -40 0 1 80 12 0.3 4
+
+shape FRAUENKIRCHE
+    # Dresden: the stone bell of a dome over a square church, corner towers.
+    box 0 15 0 22 15 22 E2D8C2
+    ring 4 22 45
+    cyl 0 0 0 3.6 3.6 38 12 E2D8C2
+    ring 4 22 45
+    spire 0 38 0 3.8 7 12 D8CCB2
+    cyl 0 30 0 18 15 14 20 E2D8C2
+    dome 0 44 0 15 22 D6CCB6
+    cyl 0 66 0 3.5 3 10 12 E2D8C2
+    spire 0 76 0 3 9 12 E2D8C2
+    blob 0 86 0 0.8 1.2 0.8 D8B040 shiny
+    windows 22 3 -22 0 1 44 26 0.25 6
+
+shape BASTEI
+    # Saxon Switzerland: sandstone needles, a bridge across them, pines on top.
+    repeat 5 0 0 18
+    cyl 0 0 -40 7 5 60 7 B8AA92
+    repeat 5 0 0 18
+    blob 0 60 -40 6 4 6 4E7A3A 0.4
+    box 2 48 -14 1.6 0.8 40 C8BCA4
+    repeat 3 0 0 16
+    arch 2 34 -30 14 13 1.2 6 C8BCA4
+    blob -20 25 0 30 30 60 A89A84 0.4
+
+shape IRONWORKS
+    # Volklingen: blast furnaces, stoves, pipes and a chimney.
+    repeat 3 0 0 24
+    cyl 0 0 -24 6 5 40 12 5A4A42
+    repeat 3 0 0 24
+    cyl 0 40 -24 3 2 12 10 4A3A32
+    repeat 4 0 0 16
+    cyl -14 0 -24 3.5 3.5 30 10 6A5A50
+    box 6 8 0 6 8 46 4E4440
+    tube 0 46 -24 0 46 24 1.2 6 6A5A50
+    tube 0 46 -24 -14 30 -24 1 6 6A5A50
+    cyl 18 0 -30 2 1.6 70 10 7A6A60
+
+shape TV_SPHERE
+    # Berlin's television tower: a sphere on a slender shaft.
+    cyl 0 0 0 9 4.5 196 16 D8D8D4
+    cyl 0 196 0 6 13 6 20 C0C6CC shiny
+    cyl 0 202 0 13 16 8 20 C0C6CC shiny
+    cyl 0 210 0 16 13 8 20 C0C6CC shiny
+    cyl 0 218 0 13 6 6 20 C0C6CC shiny
+    cyl 0 207 0 16.2 16.2 2 20 2A2A30 glass
+    cyl 0 224 0 3 2 30 10 E0E0E0
+    cyl 0 254 0 1.2 0.6 24 8 D03030
+
+shape HEIDELBERG_CASTLE
+    # A red sandstone ruin on the hill above the Neckar.
+    blob -10 0 0 60 34 80 4E7A3E 0.3
+    box 0 42 0 9 12 34 A8584A
+    windows 9 32 -34 0 1 68 18 0.05 5
+    cyl 0 30 -40 9 9 30 12 A8584A
+    cyl 0 60 -40 9.2 9.2 1 12 9A4A3E
+    box 0 50 30 6 20 6 A8584A
+    gable 0 70 30 6 6 6 0.3 4A4A50 A8584A
+    repeat 4 0 0 16
+    tbox 9 54 -24 0.6 3 9 60 -24 0.6 0.2 A8584A
+
+shape HOHENZOLLERN
+    # A castle of many towers on a lone cone of a hill.
+    cyl 0 0 0 90 30 70 12 4E7A3E
+    box 0 82 0 22 12 26 B8B0A0
+    ring 6 24 30
+    cyl 0 70 0 4 4 34 10 B8B0A0
+    ring 6 24 30
+    spire 0 104 0 4.4 10 10 4A5060
+    box 0 98 0 6 16 6 B8B0A0
+    spire 0 114 0 6.4 14 8 4A5060
+    windows 22 74 -26 0 1 52 18 0.3 5

@@ -115,4 +115,20 @@ std::vector<std::string> splitLine( const std::string &line, char sep )
     return parts;
 }
 
+const std::vector<DataShape> &dataShapes()
+{
+    static const std::vector<DataShape> shapes = []
+    {
+        std::vector<DataShape> out;
+        for( const std::string &file : dataNames( "landmarks/" ) )
+            for( const std::string &line : dataLines( dataText( file ) ) )
+            {
+                if( line.rfind( "shape ", 0 ) == 0 ) out.push_back( DataShape{ trim( line.substr( 6 ) ), {} } );
+                else if( !out.empty() ) out.back().m_lines.push_back( line );
+            }
+        return out;
+    }();
+    return shapes;
+}
+
 } // namespace sunstreak

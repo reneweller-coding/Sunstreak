@@ -704,7 +704,7 @@ struct PropRule
     Color     m_b{};             ///< keyed colour two
     Color     m_c{};             ///< keyed colour three (windows: dark by day, warm at night)
     bool      m_pastel = false;  ///< colour one changes per object (painted rows of houses)
-    int8_t    m_variant = -1;    ///< one of the kind's variants (-1: any)
+    int16_t   m_variant = -1;    ///< one of the kind's variants (-1: any)
     uint8_t   m_perStage = 0;    ///< placed this many times per stage at fixed spots instead of by chance (landmarks)
 };
 
@@ -929,6 +929,12 @@ void addDataPlaces( std::vector<BiomeDef> &table );
  * @return the count
  */
 int dataErrors();
+
+/**
+ * @brief How many landmarks are compiled (ModelsWorld.cpp); those of data/landmarks follow them.
+ * @return the number
+ */
+int compiledLandmarks();
 
 /**
  * @brief The definition of a biome.

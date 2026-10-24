@@ -5,7 +5,7 @@
 # change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
-place RHINE_VALLEY | RHINE VALLEY | GERMANY | MORNING
+place RHINE_VALLEY | RHINE VALLEY | GERMANY | MORNING | RHINELAND-PALATINATE
     sea 0 1 -6
     water 4A7090
     land 6E9E4A 64904A 7A8E60
@@ -25,7 +25,7 @@ place RHINE_VALLEY | RHINE VALLEY | GERMANY | MORNING
     c 2A4A7A F0F0F0
     floating
 
-place BLACK_FOREST | BLACK FOREST | GERMANY | MIST
+place BLACK_FOREST | BLACK FOREST | GERMANY | MIST | BADEN-WURTTEMBERG
     land 4E8040 46763A 3E6A40
     hills 36 12 10
     drive 2 0.5 0.97 1
@@ -40,7 +40,7 @@ place BLACK_FOREST | BLACK FOREST | GERMANY | MIST
     p WAYSIDE_CROSS 0.006 3 10
     v 0
 
-place AUTOBAHN | AUTOBAHN | GERMANY | MORNING
+place AUTOBAHN | AUTOBAHN | GERMANY | MORNING | BADEN-WURTTEMBERG
     land 6A9A48 5E8E42 5A8048
     drive 4 1.5 1.0 1
     bends 0.3 0.2 0.3
@@ -52,7 +52,7 @@ place AUTOBAHN | AUTOBAHN | GERMANY | MORNING
     p WINDMILL 0.012 60 300
     p POWER_PYLON 0.008 40 150
 
-place BAVARIA | BAVARIA | GERMANY | MORNING
+place BAVARIA | BAVARIA | GERMANY | MORNING | BAVARIA
     land 76B04C 6AA244 7EA25A
     ranges 7A8CA0 C8D4E4 9
     drive 2 0.6 1.0 6

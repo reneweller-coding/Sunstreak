@@ -838,8 +838,19 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 const BiomeDef    &place = biomeDef( track.stageBiome( static_cast<int>( stage ) ) );
                 const CountryInfo &nation = countryInfo( place.m_country );
                 const float        driver = nation.m_left ? -1.0f : 1.0f;
-                const char        *before = stage > 0 ? biomeDef( track.stageBiome( static_cast<int>( stage - 1 ) ) ).m_country : nullptr;
+                const BiomeDef    *last = stage > 0 ? &biomeDef( track.stageBiome( static_cast<int>( stage - 1 ) ) ) : nullptr;
+                const char        *before = last ? last->m_country : nullptr;
                 const bool border = place.m_country && before && std::strcmp( place.m_country, before ) != 0;
+                // A state or province line inside a country: its name on a board.
+                const bool regionBorder = !border && place.m_region && last &&
+                                          ( !last->m_region || std::strcmp( place.m_region, last->m_region ) != 0 );
+                if( regionBorder && local == 5 && side == driver )
+                {
+                    MeshBuilder sign;
+                    buildPlaceSign( sign, place.m_region, 4, 0.5f, 2.0f );
+                    props.append( sign, at( A, side * ( A.m_edge + 3.0f ), 0.0f ), A.m_heading, 1.0f );
+                    c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, side * ( A.m_edge + 3.0f ), 0.6f } );
+                }
                 if( local == 7 && side == driver && place.m_name )
                 {
                     MeshBuilder sign;

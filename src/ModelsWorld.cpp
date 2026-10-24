@@ -10,10 +10,15 @@
  */
 #include "Models.h"
 
+#include "Data.h"
+
 #include "MathUtil.h"
 #include "Rng.h"
 
+#include <algorithm>
 #include <cmath>
+#include <cstdlib>
+#include <string>
 #include <utility>
 
 namespace sunstreak
@@ -223,6 +228,238 @@ Vector3 beast( MeshBuilder &m, const Beast &b )
                 0.04f, 4, b.m_legsCol );
     return body;
 }
+
+
+/**
+ * @brief A colour of the shape language: RRGGBB, or A, B, C for the key colours, each with an optional ":shade".
+ * @param[in]  word  the word
+ * @param[out] ok    false if it is no colour
+ * @return the colour
+ */
+Color shapeColor( const std::string &word, bool &ok )
+{
+    const size_t colon = word.find( ':' );
+    const std::string base = word.substr( 0, colon );
+    const float shade = colon == std::string::npos ? 1.0f : std::strtof( word.c_str() + colon + 1, nullptr );
+    ok = true;
+    if( base == "A" ) return keyA( std::clamp( shade, 0.01f, 1.0f ) );
+    if( base == "B" ) return keyB( std::clamp( shade, 0.01f, 1.0f ) );
+    if( base == "C" ) return keyC( std::clamp( shade, 0.01f, 1.0f ) );
+    char *end = nullptr;
+    const unsigned long v = std::strtoul( base.c_str(), &end, 16 );
+    ok = base.size() == 6 && end && *end == 0;
+    const Color c = rgb( static_cast<int>( v >> 16 ) & 255, static_cast<int>( v >> 8 ) & 255, static_cast<int>( v ) & 255 );
+    return shade == 1.0f ? c : scaleColor( c, shade );
+}
+
+/**
+ * @brief A material of the shape language.
+ * @param[in]  word  glow, lit, glass, shiny or water
+ * @param[out] mat   the material
+ * @return false if it is none of them
+ */
+bool shapeMat( const std::string &word, Mat &mat )
+{
+    const std::pair<const char *, Mat> mats[] = { { "glow", Glow }, { "lit", Lit }, { "glass", Glass }, { "shiny", Shiny }, { "water", Water } };
+    for( const auto &[name, m] : mats )
+        if( word == name )
+        {
+            mat = m;
+            return true;
+        }
+    return false;
+}
+
+/**
+ * @brief A dome: a half sphere of stacked rings.
+ * @param[out] m      where the triangles go
+ * @param[in]  base   centre of its rim
+ * @param[in]  r      radius
+ * @param[in]  h      height
+ * @param[in]  col    colour
+ * @param[in]  mat    material
+ */
+void dome( MeshBuilder &m, Vector3 base, float r, float h, Color col, Mat mat )
+{
+    const int rings = 5;
+    for( int i = 0; i < rings; ++i )
+    {
+        const float a0 = 0.25f * Tau * static_cast<float>( i ) / rings, a1 = 0.25f * Tau * static_cast<float>( i + 1 ) / rings;
+        const float y0 = std::sin( a0 ) * h, y1 = std::sin( a1 ) * h;
+        m.cylinder( Vector3{ base.x, base.y + y0, base.z }, std::cos( a0 ) * r, std::cos( a1 ) * r, y1 - y0, 16, i % 2 ? scaleColor( col, 0.97f ) : col, mat );
+    }
+}
+
+} // namespace
+
+int buildDataShape( MeshBuilder &m, const DataShape &shape )
+{
+    int      errors = 0;
+    Vector3  origin = { 0, 0, 0 };
+    int      repeat = 1, ring = 0, ringAxis = 0;   // ringAxis 1: about y (ring), 2: about x (vring)
+    Vector3  step = { 0, 0, 0 };
+    float    ringRadius = 0.0f, ringPhase = 0.0f;
+    bool     mirrorZ = false, mirrorX = false;
+    uint64_t seed = 0;
+    for( char ch : shape.m_name ) seed = hash64( seed * 131 + static_cast<unsigned char>( ch ) );
+    for( const std::string &line : shape.m_lines )
+    {
+        std::vector<std::string> w = splitLine( line, ' ' );
+        const std::string        op = w.front();
+        // Numbers first, then a colour or two, then a material.
+        Mat mat{};
+        if( w.size() > 1 && shapeMat( w.back(), mat ) ) w.pop_back();
+        auto f = [&]( size_t i ) { return i < w.size() ? std::strtof( w[i].c_str(), nullptr ) : 0.0f; };
+        auto need = [&]( size_t n )
+        {
+            if( w.size() >= n ) return true;
+            ++errors;
+            return false;
+        };
+        auto col = [&]( size_t i )
+        {
+            bool        ok = false;
+            const Color c = i < w.size() ? shapeColor( w[i], ok ) : rgb( 255, 0, 255 );
+            if( !ok ) ++errors;
+            return c;
+        };
+        if( op == "at" && need( 4 ) )
+        {
+            origin = { f( 1 ), f( 2 ), f( 3 ) };
+            continue;
+        }
+        if( op == "repeat" && need( 5 ) )
+        {
+            repeat = std::max( 1, static_cast<int>( f( 1 ) ) );
+            step = { f( 2 ), f( 3 ), f( 4 ) };
+            continue;
+        }
+        if( ( op == "ring" || op == "vring" ) && need( 3 ) )
+        {
+            ring = std::max( 1, static_cast<int>( f( 1 ) ) );
+            ringAxis = op == "ring" ? 1 : 2;
+            ringRadius = f( 2 );
+            ringPhase = f( 3 ) * Tau / 360.0f;
+            continue;
+        }
+        if( op == "mirror" || op == "mirrorx" )
+        {
+            ( op == "mirror" ? mirrorZ : mirrorX ) = true;
+            continue;
+        }
+        if( op == "at" || op == "repeat" || op == "ring" || op == "vring" ) continue;
+
+        // The copies this line makes: repeated, turned round a ring (its points pushed out by the radius, then turned
+        // about the origin), mirrored.
+        struct Copy
+        {
+            Vector3 m_off;      ///< repeat offset
+            float   m_angle;    ///< ring angle
+            int     m_mirror;   ///< 1 z, 2 x, 3 both
+        };
+        std::vector<Copy> copies;
+        const int         n = ring > 0 ? ring : repeat;
+        for( int k = 0; k < n; ++k )
+        {
+            const float   a = ringPhase + Tau * static_cast<float>( k ) / static_cast<float>( std::max( 1, ring ) );
+            const Vector3 off = ring > 0 ? Vector3{ 0, 0, 0 } : Vector3Scale( step, static_cast<float>( k ) );
+            copies.push_back( { off, a, 0 } );
+            if( mirrorZ ) copies.push_back( { off, a, 1 } );
+            if( mirrorX ) copies.push_back( { off, a, 2 } );
+            if( mirrorZ && mirrorX ) copies.push_back( { off, a, 3 } );
+        }
+        const int axis = ring > 0 ? ringAxis : 0;
+        const float radius = ringRadius;
+        repeat = 1;
+        ring = 0;
+        mirrorZ = mirrorX = false;
+        for( const Copy &copy : copies )
+        {
+            const Vector3 off = copy.m_off;
+            const int     mirror = copy.m_mirror;
+            auto          p = [&]( size_t i )
+            {
+                Vector3 v = { f( i ), f( i + 1 ), f( i + 2 ) };
+                const float cs = std::cos( copy.m_angle ), sn = std::sin( copy.m_angle );
+                if( axis == 1 )
+                {
+                    v.x += radius;
+                    v = Vector3{ v.x * cs - v.z * sn, v.y, v.x * sn + v.z * cs };
+                }
+                else if( axis == 2 )
+                {
+                    v.y += radius;
+                    v = Vector3{ v.x, v.y * cs - v.z * sn, v.y * sn + v.z * cs };
+                }
+                v = Vector3Add( Vector3Add( v, origin ), off );
+                if( mirror & 1 ) v.z = -v.z;
+                if( mirror & 2 ) v.x = -v.x;
+                return v;
+            };
+            ++seed;
+            if( op == "box" && need( 8 ) ) m.box( p( 1 ), Vector3{ f( 4 ), f( 5 ), f( 6 ) }, col( 7 ), mat );
+            else if( op == "tbox" && need( 12 ) ) m.taperedBox( p( 1 ), Vector2{ f( 4 ), f( 5 ) }, p( 6 ), Vector2{ f( 9 ), f( 10 ) }, col( 11 ), mat );
+            else if( op == "cyl" && need( 9 ) ) m.cylinder( p( 1 ), f( 4 ), f( 5 ), f( 6 ), std::max( 3, static_cast<int>( f( 7 ) ) ), col( 8 ), mat );
+            else if( op == "spire" && need( 8 ) ) m.cylinder( p( 1 ), f( 4 ), 0.0f, f( 5 ), std::max( 3, static_cast<int>( f( 6 ) ) ), col( 7 ), mat );
+            else if( op == "tube" && need( 10 ) ) m.tube( p( 1 ), p( 4 ), f( 7 ), std::max( 3, static_cast<int>( f( 8 ) ) ), col( 9 ), mat, true );
+            else if( op == "blob" && need( 8 ) ) m.blob( p( 1 ), Vector3{ f( 4 ), f( 5 ), f( 6 ) }, col( 7 ), static_cast<unsigned>( seed ), w.size() > 8 ? f( 8 ) : 0.0f, mat );
+            else if( op == "dome" && need( 6 ) ) dome( m, p( 1 ), f( 4 ), w.size() > 6 ? f( 5 ) : f( 4 ), col( w.size() > 6 ? 6 : 5 ), mat );
+            else if( op == "quad" && need( 14 ) ) m.quad( p( 1 ), p( 4 ), p( 7 ), p( 10 ), col( 13 ), mat );
+            else if( op == "tri" && need( 11 ) ) m.tri( p( 1 ), p( 4 ), p( 7 ), col( 10 ), mat );
+            else if( op == "gable" && need( 10 ) ) gable( m, p( 1 ), f( 4 ), f( 5 ), f( 6 ), f( 7 ), col( 8 ), col( 9 ) );
+            else if( op == "hip" && need( 9 ) ) hip( m, p( 1 ), f( 4 ), f( 5 ), f( 6 ), f( 7 ), col( 8 ) );
+            else if( op == "fronds" && need( 8 ) ) fronds( m, p( 1 ), static_cast<int>( f( 4 ) ), f( 5 ), f( 6 ), col( 7 ), 0.3f * static_cast<float>( seed % 7 ) );
+            else if( op == "merlons" && need( 9 ) ) merlons( m, p( 1 ), p( 4 ), f( 7 ), col( 8 ) );
+            else if( op == "windows" && need( 8 ) )
+            { // windows x y z ax az width height [lit] [storey]: a facade's windows, facing away from the axis's left
+                Vector3 across = Vector3Normalize( Vector3{ f( 4 ), 0, f( 5 ) } );
+                Vector3 out = { across.z, 0, -across.x };
+                if( mirror & 1 ) across.z = -across.z, out.z = -out.z;
+                if( mirror & 2 ) across.x = -across.x, out.x = -out.x;
+                panes( m, p( 1 ), across, out, f( 6 ), f( 7 ), seed, w.size() > 8 ? f( 8 ) : 0.4f, w.size() > 9 ? f( 9 ) : 3.0f, 1.0f );
+            }
+            else if( op == "boxwindows" && need( 7 ) ) boxPanes( m, p( 1 ), f( 4 ), f( 5 ), f( 6 ), seed, w.size() > 7 ? f( 7 ) : 0.4f, w.size() > 8 ? f( 8 ) : 3.0f );
+            else if( op == "arch" && need( 9 ) )
+            { // arch x y z span rise radius segments COLOUR: legs along z, its face to the road
+                const Vector3 c = p( 1 );
+                const float   span = f( 4 ), rise = f( 5 ), r = f( 6 );
+                const int     segs = std::max( 2, static_cast<int>( f( 7 ) ) );
+                const Color   k = col( 8 );
+                for( int i = 0; i < segs; ++i )
+                {
+                    auto at = [&]( int j )
+                    {
+                        const float t = static_cast<float>( j ) / static_cast<float>( segs ), u = 2.0f * t - 1.0f;
+                        return Vector3{ c.x, c.y + rise * ( 1.0f - u * u ), c.z + span * 0.5f * u };
+                    };
+                    m.tube( at( i ), at( i + 1 ), r * ( 1.0f - 0.35f * ( 1.0f - std::abs( 2.0f * ( i + 0.5f ) / segs - 1.0f ) ) ), 6, k, mat, true );
+                }
+            }
+            else if( ( op == "hoop" || op == "halo" ) && need( 8 ) )
+            { // hoop x y z r thickness segments COLOUR: a circle facing the road (a wheel); halo: lying flat
+                const Vector3 c = p( 1 );
+                const float   r = f( 4 ), th = f( 5 );
+                const int     segs = std::max( 6, static_cast<int>( f( 6 ) ) );
+                const Color   k = col( 7 );
+                auto          at = [&]( int j )
+                {
+                    const float t = Tau * static_cast<float>( j ) / static_cast<float>( segs );
+                    return op == "hoop" ? Vector3{ c.x, c.y + r * std::sin( t ), c.z + r * std::cos( t ) }
+                                        : Vector3{ c.x + r * std::cos( t ), c.y, c.z + r * std::sin( t ) };
+                };
+                for( int i = 0; i < segs; ++i ) m.tube( at( i ), at( i + 1 ), th, 5, k, mat, false );
+            }
+            else if( op != "box" && op != "tbox" && op != "cyl" && op != "spire" && op != "tube" && op != "blob" && op != "dome" &&
+                     op != "quad" && op != "tri" && op != "gable" && op != "hip" && op != "fronds" && op != "merlons" && op != "windows" &&
+                     op != "boxwindows" && op != "arch" && op != "hoop" && op != "halo" )
+                ++errors;
+        }
+    }
+    return errors;
+}
+
+namespace
+{
 
 } // namespace
 
@@ -2238,6 +2475,17 @@ void Models::buildWorldProps()
         m.box( Vector3{ 2.25f, 0.9f, -3.5f }, Vector3{ 0.05f, 0.9f, 0.45f }, rgb( 60, 90, 120 ) );
     }
     m_keys[static_cast<size_t>( PropKindE::LANDMARK )] = { rgb( 226, 214, 186 ), rgb( 120, 136, 150 ), rgb( 34, 40, 54 ) };
+
+    // ---- The landmarks of data/landmarks, numbered after the compiled ones ------------------------------------------
+    if( static_cast<int>( m_props[static_cast<size_t>( PropKindE::LANDMARK )].size() ) != compiledLandmarks() )
+        TraceLog( LOG_WARNING, "SUNSTREAK: %d compiled landmarks, the loader expects %d", static_cast<int>( m_props[static_cast<size_t>( PropKindE::LANDMARK )].size() ),
+                  compiledLandmarks() );
+    for( const DataShape &shape : dataShapes() )
+    {
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const int    errors = buildDataShape( m, shape );
+        if( errors ) TraceLog( LOG_WARNING, "SUNSTREAK: landmark %s: %d broken lines", shape.m_name.c_str(), errors );
+    }
 
     // The wind in the new plants.
     const std::pair<PropKindE, float> sway[] = { { PropKindE::OLIVE, 0.3f },       { PropKindE::POPLAR, 0.7f },     { PropKindE::UMBRELLA_PINE, 0.35f },

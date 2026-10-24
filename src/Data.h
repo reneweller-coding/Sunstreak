@@ -56,4 +56,17 @@ std::vector<std::string> dataLines( const std::string &text );
  */
 std::vector<std::string> splitLine( const std::string &line, char sep );
 
+/** @brief A landmark's shape from data/landmarks/: its name and the lines that build it (ModelsWorld.cpp reads them). */
+struct DataShape
+{
+    std::string              m_name;    ///< what the places call it ("landmark NAME ...")
+    std::vector<std::string> m_lines;   ///< one primitive or modifier per line
+};
+
+/**
+ * @brief The landmarks of the data files, read once, in the files' order (their variants follow the compiled ones).
+ * @return them
+ */
+const std::vector<DataShape> &dataShapes();
+
 } // namespace sunstreak

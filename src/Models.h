@@ -127,6 +127,16 @@ struct VehicleModel
 void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float cap = 0.42f, float lift = 1.4f );
 
 /** @brief All models. */
+struct DataShape;
+
+/**
+ * @brief Builds a landmark of data/landmarks from its lines (ModelsWorld.cpp; the language is described there).
+ * @param[out] m      where the triangles go
+ * @param[in]  shape  the shape
+ * @return how many lines it got wrong
+ */
+int buildDataShape( MeshBuilder &m, const DataShape &shape );
+
 class Models
 {
 public:

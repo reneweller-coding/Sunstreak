@@ -5,6 +5,7 @@
  * @author reneweller
  */
 #include "Car.h"
+#include "Data.h"
 #include "Game.h"
 #include "Race.h"
 #include "Records.h"
@@ -269,6 +270,17 @@ int main()
         check( dataErrors() == 0 && biomeCount() >= static_cast<int>( BiomeE::COUNT ) && biomeId( "TUSCANY" ) == static_cast<int>( BiomeE::TUSCANY ) &&
                    biomeKey( BiomeE::PARIS ) == "PARIS",
                "the data files read cleanly" );
+        int shapeErrors = 0;
+        bool shapesBuilt = true;
+        for( const DataShape &shape : dataShapes() )
+        {
+            MeshBuilder m;
+            shapeErrors += buildDataShape( m, shape );
+            shapesBuilt = shapesBuilt && m.triangleCount() > 0;
+            if( m.triangleCount() == 0 ) std::printf( "      empty landmark %s\n", shape.m_name.c_str() );
+        }
+        std::printf( "      %d landmarks from the data, %d broken lines\n", static_cast<int>( dataShapes().size() ), shapeErrors );
+        check( shapeErrors == 0 && shapesBuilt, "the landmarks of the data build" );
     }
     check( trackTitle( 42 ) == trackTitle( 42 ) && trackTitle( 42 ).size() > 6, "track titles" );
 

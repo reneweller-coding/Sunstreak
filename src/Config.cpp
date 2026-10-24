@@ -5,6 +5,10 @@
  */
 #include "Config.h"
 
+#include "Biome.h"
+
+#include <algorithm>
+#include <cctype>
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
@@ -164,7 +168,9 @@ LaunchOptions parseCommandLine( int argc, char **argv )
         else if( a == "--scenery" )
         {
             const std::string what = next();
-            o.m_scenery = what == "world" ? -2 : what == "mixed" ? -1 : std::max( 0, std::atoi( what.c_str() ) );
+            // A number, or a place's ID from the data files.
+            const bool number = !what.empty() && std::isdigit( static_cast<unsigned char>( what[0] ) );
+            o.m_scenery = what == "world" ? -2 : what == "mixed" ? -1 : number ? std::max( 0, std::atoi( what.c_str() ) ) : std::max( 0, biomeId( what ) );
         }
         else if( a == "--weather" )
         {
@@ -194,7 +200,7 @@ LaunchOptions parseCommandLine( int argc, char **argv )
         else if( a == "--find" )
         {
             const std::string what = next();
-            o.m_find = what == "tunnel" ? 1 : what == "bridge" ? 2 : what == "landmark" ? 3 : 0;
+            o.m_find = what == "tunnel" ? 1 : what == "bridge" ? 2 : what == "landmark" ? 3 : what == "landmark2" ? 4 : 0;
         }
         else if( a == "--camera" ) o.m_camera = std::clamp( std::atoi( next().c_str() ), 0, 2 );
         else if( a == "--code" ) o.m_code = next();

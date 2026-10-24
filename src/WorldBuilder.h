@@ -12,6 +12,7 @@
 
 #include "MathUtil.h"
 
+#include <algorithm>
 #include <cstdint>
 
 namespace sunstreak
@@ -679,7 +680,7 @@ public:
      */
     W &v( int n )
     {
-        m_d.m_props.back().m_variant = static_cast<int8_t>( n );
+        m_d.m_props.back().m_variant = static_cast<int16_t>( n );
         return *this;
     }
 
@@ -705,6 +706,44 @@ public:
     W &landmark( int variant, float nearest, float farthest, float scale = 1.0f )
     {
         return p( PropKindE::LANDMARK, 0.0f, nearest, farthest, scale, scale ).v( variant ).once();
+    }
+
+    /**
+     * @brief Starts from another place or template: everything but the name, the country and the region.
+     * @param[in] src        the model
+     * @param[in] keepLight  take its light and weather too (else this place's sky stays)
+     * @return this
+     */
+    W &from( const BiomeDef &src, bool keepLight )
+    {
+        const char       *name = m_d.m_name, *country = m_d.m_country, *region = m_d.m_region;
+        const Environment env = m_d.m_env;
+        const ClimateE    climate = m_d.m_climate;
+        m_d = src;
+        m_d.m_name = name;
+        m_d.m_country = country;
+        m_d.m_region = region;
+        if( !keepLight )
+        {
+            m_d.m_env = env;
+            m_d.m_climate = climate;
+        }
+        return *this;
+    }
+
+    /**
+     * @brief Removes scatter rules (a template's landmark that belongs elsewhere).
+     * @param[in] kind     what
+     * @param[in] variant  only this variant (-1: all)
+     * @return this
+     */
+    W &drop( PropKindE kind, int variant = -1 )
+    {
+        auto &rules = m_d.m_props;
+        rules.erase( std::remove_if( rules.begin(), rules.end(),
+                                     [&]( const PropRule &r ) { return r.m_kind == kind && ( variant < 0 || r.m_variant == variant ); } ),
+                     rules.end() );
+        return *this;
     }
 
     /**

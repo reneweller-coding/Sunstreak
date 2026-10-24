@@ -1,0 +1,203 @@
+# Germany, Land by Land: the Lander the first tour had left out.
+
+place COLOGNE | COLOGNE | GERMANY | OVERCAST | NORTH RHINE-WESTPHALIA
+    sea 1 0 -5
+    water 4A6A7A
+    land 6E8A58 668250 707E68
+    road 666870
+    drive 3 1.2 0.98 1
+    bends 0.3 0.3 0.05
+    lamps 30
+    posts 0
+    bridges 0.3 TRUSS 5A6A5A
+    p ROW_HOUSES 0.12 5 30
+    c E0D4BE 5A5A60
+    pastel
+    p PANEL_BLOCK 0.03 20 120
+    c C8C0B0
+    p CHIMNEY 0.004 80 300
+    p BROADLEAF 0.12 2 10
+    c 5A8A40
+    landmark COLOGNE_CATHEDRAL 90 140 0.8
+
+place SAAR_LOOP | SAAR LOOP | GERMANY | MIST | SAARLAND
+    fog 0.0024 C8D0D4
+    sea 0 1 -30
+    water 3A5A5A
+    hills 40 20 -20
+    land 4E8040 46763A 3E6A40
+    drive 2 0.3 0.97 6
+    bends 0.7 0.6 0.5
+    p BROADLEAF 0.35 4 150
+    c 4A7A3A
+    p SPRUCE 0.1 4 150
+    p HALF_TIMBER 0.006 10 60
+    landmark IRONWORKS 160 240 0.8
+
+place BREMEN | BREMEN | GERMANY | OVERCAST | BREMEN
+    sea 0 1 -4
+    water 4A6A7A
+    land 6E8A58 668250 707E68
+    drive 3 1.1 0.98 1
+    bends 0.3 0.3 0.05
+    lamps 30
+    posts 0
+    p ROW_HOUSES 0.14 5 30
+    c A85A3A 5A5A60
+    p CRANE 0.006 60 200
+    p CONTAINERS 0.01 60 200
+    p BROADLEAF 0.1 2 10
+    c 5A8A40
+    landmark BREMEN_ROLAND 30 50
+
+place LUNEBURG_HEATH | LUNEBURG HEATH | GERMANY | GOLDEN | LOWER SAXONY
+    land 8A6A8A 7E6080 8A8A6A
+    fields 0.5 9A5A9A 8A4A8A 6A8A4A
+    hills 6 2 2
+    drive 2 0.3 1.0 6
+    bends 0.35 0.3 0.2
+    p BIRCH 0.12 3 100
+    p PINE 0.1 4 150
+    p SHEEP 0.04 10 120
+    p HALF_TIMBER 0.008 10 80
+    c E8E0D0 6A4A3A
+    p DUTCH_MILL 0.003 40 200
+
+place HAMBURG | HAMBURG | GERMANY | RAIN | HAMBURG
+    rain 0.2
+    sea 1 0 -4
+    water 3A5A6A
+    land 6E8A58 668250 707E68
+    drive 3 1.2 0.98 1
+    bends 0.3 0.3 0.05
+    lamps 30
+    posts 0
+    bridges 0.3 TRUSS 3A5A4A
+    p ROW_HOUSES 0.12 5 30
+    c 9A4A3A 4A4A50
+    p CRANE 0.02 40 200
+    p CONTAINERS 0.03 40 200
+    p SHIP 0.006 40 150
+    floating
+    landmark ELBPHILHARMONIE 70 110 0.8
+
+place NORTH_FRISIA | NORTH FRISIA | GERMANY | OVERCAST | SCHLESWIG-HOLSTEIN
+    clouds 0.7
+    sea 1 0 -3
+    water 5A7A8A
+    land 7AAA50 70A048 7A9A5A
+    hills 0 3 0
+    drive 2 0.3 1.0 6
+    bends 0.2 0.2 0.05
+    p SHEEP 0.06 3 80
+    p WINDMILL 0.03 60 300
+    p COTTAGE 0.01 10 80
+    c F2F0EA 8A7A5A
+    p REEDS 0.1 3 30
+    landmark STRIPED_LIGHTHOUSE 60 120
+    c F2F0EA C83A2A
+    landmark HOLSTEN_GATE 40 60 0.8
+
+place RUGEN | RUGEN | GERMANY | MORNING | MECKLENBURG-VORPOMMERN
+    sea 1 0 -30
+    water 2A6A8A
+    land 6A9A48 609040 5E8A48
+    hills 12 0 6
+    drive 2 0.4 1.0 6
+    bends 0.45 0.4 0.3
+    p BROADLEAF 0.3 4 150
+    c 4E8A3E
+    p COTTAGE 0.01 8 60
+    c F2F0EA 8A7A5A
+    p SAILBOAT 0.01 60 250
+    floating
+    landmark CHALK_CLIFFS 120 200
+
+place SPREEWALD | SPREEWALD | GERMANY | MIST | BRANDENBURG
+    fog 0.0026 C8D4D0
+    hills 2 0 0 0.6
+    water 3A5A4A
+    land 5E8A44 56803E 507A48
+    drive 2 0.3 1.0 6
+    bends 0.4 0.35 0.1
+    bridges 0.3 ARCH 8A6A4A
+    p BROADLEAF 0.3 4 150
+    c 4A7A3A
+    p POPLAR 0.08 4 80
+    p COTTAGE 0.012 6 50
+    c 6A4A3A 4A4A40
+    p BOAT 0.01 15 60
+    c 6A4A30 4A3A2A
+    floating
+
+place SAXON_SWITZERLAND | SAXON SWITZERLAND | GERMANY | MIST | SAXONY
+    fog 0.0022 C8D0D8
+    sea 0 1 -20
+    water 4A6A6A
+    hills 40 24 -20
+    land 4E8040 46763A 3E6A40
+    verge B8AA92
+    drive 2 0.3 0.97 6
+    bends 0.7 0.6 0.5
+    tunnels 0.08
+    p PILLAR 0.02 20 200
+    c B8AA92
+    p SPRUCE 0.3 4 150
+    p BROADLEAF 0.1 4 100
+    c 4A7A3A
+    landmark BASTEI 120 200
+    landmark FRAUENKIRCHE 200 300 0.7
+
+place HARZ | HARZ | GERMANY | MIST | SAXONY-ANHALT
+    fog 0.0026 C0C8D0
+    land 4E7A40 46703A 3E6440
+    hills 34 12 12
+    drive 2 0.3 0.97 6
+    bends 0.7 0.6 0.6
+    p SPRUCE 0.45 4 150
+    p DEAD_TREE 0.04 4 100
+    p ROCK 0.06 3 60
+    p HALF_TIMBER 0.006 10 60
+    c E8E0D0 6A4A3A
+    p TV_TOWER 0.002 300 500
+
+place THURINGIAN_FOREST | THURINGIAN FOREST | GERMANY | MORNING | THURINGIA
+    land 5E8A44 56803E 507A48
+    hills 30 10 10
+    drive 2 0.3 0.98 6
+    bends 0.6 0.5 0.5
+    p SPRUCE 0.35 4 150
+    p BROADLEAF 0.1 4 100
+    c 4A7A3A
+    p HALF_TIMBER 0.012 8 60
+    c E8E0D0 6A4A3A
+    landmark WARTBURG 200 280 0.8
+
+place NECKAR_VALLEY | NECKAR VALLEY | GERMANY | GOLDEN | BADEN-WURTTEMBERG
+    sea 0 1 -8
+    water 4A7080
+    hills 30 18 0
+    land 6E9E4A 64904A 7A8E60
+    drive 2 0.6 0.98 6
+    bends 0.5 0.45 0.3
+    bridges 0.3 ARCH B0605A
+    p VINE_ROW 0.2 6 60
+    p HALF_TIMBER 0.02 6 60
+    c E8E0D0 6A4A3A
+    p BROADLEAF 0.15 4 120
+    c 4E8A3E
+    landmark HEIDELBERG_CASTLE 150 230
+
+place SWABIAN_ALB | SWABIAN ALB | GERMANY | MORNING | BADEN-WURTTEMBERG
+    land 7AAA4E 70A048 82A05A
+    fields 0.4 D8C060 8AB050 C8A858
+    hills 24 6 6
+    drive 2 0.4 1.0 6
+    bends 0.5 0.45 0.45
+    p BROADLEAF 0.15 4 120
+    c 4E8A3E
+    p CHALK_ROCK 0.01 20 120
+    p HALF_TIMBER 0.008 10 80
+    c E8E0D0 6A4A3A
+    p SHEEP 0.02 10 100
+    landmark HOHENZOLLERN 250 350

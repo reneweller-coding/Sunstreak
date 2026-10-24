@@ -195,6 +195,16 @@ std::vector<std::string> &keys()
     return k;
 }
 
+/**
+ * @brief The number of every place by its ID.
+ * @return the index
+ */
+std::unordered_map<std::string, int> &keyIndex()
+{
+    static std::unordered_map<std::string, int> k;
+    return k;
+}
+
 /** @brief The words after a step's name. */
 struct Args
 {
@@ -232,6 +242,21 @@ struct Args
 };
 
 using Step = std::function<void( W &, const Args & )>;
+
+/**
+ * @brief A landmark's variant by name: the compiled ones first, then those of data/landmarks.
+ * @param[in] name  e.g. "BIG_BEN"
+ * @return the variant, or -1
+ */
+int landmarkVariant( const std::string &name )
+{
+    const int compiled = indexOf( LandmarkNames, std::size( LandmarkNames ), name );
+    if( compiled >= 0 ) return compiled;
+    const auto &shapes = dataShapes();
+    for( size_t i = 0; i < shapes.size(); ++i )
+        if( shapes[i].m_name == name ) return static_cast<int>( std::size( LandmarkNames ) + i );
+    return -1;
+}
 
 /**
  * @brief The builder's steps by name.
@@ -299,7 +324,7 @@ const std::unordered_map<std::string, Step> &steps()
         { "landmark",
           []( W &w, const Args &a )
           {
-              const int lm = indexOf( LandmarkNames, std::size( LandmarkNames ), a.s( 0 ) );
+              const int lm = landmarkVariant( a.s( 0 ) );
               if( lm < 0 )
               {
                   ++g_errors;
@@ -307,18 +332,32 @@ const std::unordered_map<std::string, Step> &steps()
               }
               w.landmark( lm, a.f( 1 ), a.f( 2 ), a.f( 3, 1.0f ) );
           } },
+        { "drop",
+          []( W &w, const Args &a )
+          {
+              const int kind = indexOf( PropNames, std::size( PropNames ), a.s( 0 ) );
+              if( kind < 0 )
+              {
+                  ++g_errors;
+                  return;
+              }
+              int variant = -1;
+              if( a.m_w.size() > 1 ) variant = static_cast<PropKindE>( kind ) == PropKindE::LANDMARK ? landmarkVariant( a.s( 1 ) ) : static_cast<int>( a.f( 1 ) );
+              w.drop( static_cast<PropKindE>( kind ), variant );
+          } },
     };
     return table;
 }
 
-/** @brief A place's header in a file. */
+/** @brief A place's (or a template's) header in a file. */
 struct Header
 {
-    std::string m_key;       ///< its ID
-    std::string m_name;      ///< on screen
-    std::string m_country;   ///< its country
-    std::string m_region;    ///< its state or province (may be empty)
-    int         m_sky = 0;   ///< SkyE
+    std::string m_key;                ///< its ID
+    std::string m_name;               ///< on screen
+    std::string m_country;            ///< its country
+    std::string m_region;             ///< its state or province (may be empty)
+    int         m_sky = -1;           ///< SkyE (-1: "-", the light of the place it is like)
+    bool        m_template = false;   ///< a model for places, not a place
     std::vector<std::pair<std::string, Args>> m_steps;   ///< the builder steps
 };
 
@@ -332,25 +371,32 @@ std::vector<Header> readPlaces()
     for( const std::string &file : dataNames( "places/" ) )
         for( const std::string &line : dataLines( dataText( file ) ) )
         {
-            if( line.rfind( "place ", 0 ) == 0 )
+            const bool place = line.rfind( "place ", 0 ) == 0, model = line.rfind( "template ", 0 ) == 0;
+            if( place || model )
             {
-                const std::vector<std::string> parts = splitLine( line.substr( 6 ), '|' );
-                if( parts.size() < 4 )
+                // place ID | NAME | COUNTRY | SKY [| REGION]   or   template ID | SKY
+                const std::vector<std::string> parts = splitLine( line.substr( place ? 6 : 9 ), '|' );
+                if( parts.size() < ( place ? 4u : 2u ) )
                 {
                     ++g_errors;
                     continue;
                 }
                 Header h;
                 h.m_key = parts[0];
-                h.m_name = parts[1];
-                h.m_country = parts[2];
-                h.m_sky = indexOf( SkyNames, std::size( SkyNames ), parts[3] );
-                if( h.m_sky < 0 )
+                h.m_template = model;
+                if( place )
+                {
+                    h.m_name = parts[1];
+                    h.m_country = parts[2];
+                    if( parts.size() > 4 ) h.m_region = parts[4];
+                }
+                const std::string &sky = parts[place ? 3 : 1];
+                h.m_sky = sky == "-" ? -1 : indexOf( SkyNames, std::size( SkyNames ), sky );
+                if( h.m_sky < 0 && sky != "-" )
                 {
                     ++g_errors;
                     h.m_sky = 0;
                 }
-                if( parts.size() > 4 ) h.m_region = parts[4];
                 places.push_back( std::move( h ) );
                 continue;
             }
@@ -451,7 +497,8 @@ const RouteData &routeData()
 
 void addDataPlaces( std::vector<BiomeDef> &table )
 {
-    std::vector<Header> places = readPlaces();
+    std::vector<Header> all = readPlaces(), places, models;
+    for( Header &h : all ) ( h.m_template ? models : places ).push_back( std::move( h ) );
     // Numbers: a compiled biome's, or the next free one.
     keys().assign( std::begin( BiomeNames ), std::end( BiomeNames ) );
     std::vector<int> ids;
@@ -472,20 +519,65 @@ void addDataPlaces( std::vector<BiomeDef> &table )
     }
     if( keys().size() > static_cast<size_t>( MaxBiomes ) ) keys().resize( static_cast<size_t>( MaxBiomes ) );
     table.resize( std::max( table.size(), keys().size() ) );
-    const auto &named = steps();
-    for( size_t i = 0; i < places.size(); ++i )
+    keyIndex().clear();
+    for( size_t i = 0; i < keys().size(); ++i ) keyIndex().emplace( keys()[i], static_cast<int>( i ) );
+
+    // Templates are built into a table of their own, places into the biome table; "like" may name either, and a place
+    // it names is built first wherever it stands in the files.
+    std::vector<BiomeDef>                models_( models.size() );
+    std::unordered_map<std::string, int> modelIndex, placeIndex;
+    for( size_t i = 0; i < models.size(); ++i ) modelIndex.emplace( models[i].m_key, static_cast<int>( i ) );
+    for( size_t i = 0; i < places.size(); ++i ) placeIndex.emplace( places[i].m_key, static_cast<int>( i ) );
+    std::vector<uint8_t> modelState( models.size(), 0 ), placeState( places.size(), 0 );   // 0 to do, 1 building, 2 done
+    const auto          &named = steps();
+    std::function<void( bool, size_t )> build = [&]( bool model, size_t i )
     {
-        const Header &h = places[i];
-        if( ids[i] >= MaxBiomes ) continue;
-        W w( table.data(), static_cast<BiomeE>( ids[i] ), keep( h.m_name ), keep( h.m_country ), static_cast<SkyE>( h.m_sky ) );
-        if( !h.m_region.empty() ) table[static_cast<size_t>( ids[i] )].m_region = keep( h.m_region );
+        std::vector<uint8_t> &state = model ? modelState : placeState;
+        if( state[i] ) return;   // done, or a loop of "like"s (left as far as it got)
+        state[i] = 1;
+        const Header   &h = model ? models[i] : places[i];
+        const bool      dark = h.m_sky < 0;
+        BiomeDef       *target = model ? models_.data() : table.data();
+        const size_t    slot = model ? i : static_cast<size_t>( ids[i] );
+        W               w( target, static_cast<BiomeE>( slot ), keep( model ? h.m_key : h.m_name ), model ? nullptr : keep( h.m_country ),
+                           static_cast<SkyE>( dark ? 0 : h.m_sky ) );
+        if( !h.m_region.empty() ) target[slot].m_region = keep( h.m_region );
         for( const auto &[name, args] : h.m_steps )
         {
+            if( name == "like" )
+            {
+                const std::string &src = args.s( 0 );
+                const auto         m = modelIndex.find( src );
+                const auto         p = placeIndex.find( src );
+                if( m != modelIndex.end() )
+                {
+                    build( true, static_cast<size_t>( m->second ) );
+                    w.from( models_[static_cast<size_t>( m->second )], dark );
+                }
+                else if( p != placeIndex.end() )
+                {
+                    build( false, static_cast<size_t>( p->second ) );
+                    w.from( table[static_cast<size_t>( ids[static_cast<size_t>( p->second )] )], dark );
+                }
+                else if( indexOf( BiomeNames, std::size( BiomeNames ), src ) >= 0 )
+                    w.from( table[static_cast<size_t>( indexOf( BiomeNames, std::size( BiomeNames ), src ) )], dark );   // a compiled biome
+                else ++g_errors;
+                continue;
+            }
             const auto step = named.find( name );
             if( step == named.end() ) ++g_errors;
             else step->second( w, args );
         }
-    }
+        state[i] = 2;
+    };
+    for( size_t i = 0; i < models.size(); ++i ) build( true, i );
+    for( size_t i = 0; i < places.size(); ++i )
+        if( ids[i] < MaxBiomes ) build( false, i );
+}
+
+int compiledLandmarks()
+{
+    return static_cast<int>( std::size( LandmarkNames ) );
 }
 
 int dataErrors()
@@ -499,9 +591,8 @@ int dataErrors()
 int biomeId( std::string_view key )
 {
     biomeCount();
-    for( size_t i = 0; i < keys().size(); ++i )
-        if( keys()[i] == key ) return static_cast<int>( i );
-    return -1;
+    const auto it = keyIndex().find( std::string( key ) );
+    return it != keyIndex().end() ? it->second : -1;
 }
 
 const std::string &biomeKey( BiomeE biome )

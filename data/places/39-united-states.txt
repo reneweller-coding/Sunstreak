@@ -1,0 +1,489 @@
+# The United States, state by state: the states the first tour had left out. A place may start "like" another place
+# (or a template) and change what differs; the fifth field of the header is its state.
+
+place CRATER_LAKE | CRATER LAKE | USA | ALPINE | OREGON
+    sea 1 0 -60
+    water 1A3A8C 0.98
+    hills 40 0 24
+    land 6A8A5A 607E50 5A7A50
+    ranges 5A6A7A D8DCE4 9
+    drive 2 0.3 0.97 6
+    bends 0.6 0.5 0.5
+    p SNOW_PINE 0.25 4 120
+    p SPRUCE 0.2 4 150
+    p ROCK 0.08 3 60
+    p PEAK 0.003 300 600 1.4 1.8
+    c 6A7480 F0F2F6
+
+place SAWTOOTH | SAWTOOTH MOUNTAINS | USA | ALPINE | IDAHO
+    land 7A9A58 6E8E50 6A8A58
+    ranges 5A6470 E0E4EC 11
+    hills 30 8 8 0.2
+    water 3A6A8A
+    drive 2 0.2 0.98 6
+    bends 0.55 0.45 0.45
+    fields 0.15 8A7A5A 9A9A60 7A8A4A
+    p PINE 0.3 4 150
+    p PEAK 0.006 200 450 1.2 1.6
+    c 7A7E86 EEF0F4
+    p RANCH_FENCE 0.2 4 4 1 1
+    p HORSE 0.01 10 80
+    p CABIN 0.008 10 60
+
+place BEAR_LODGE | DEVILS TOWER | USA | GOLDEN | WYOMING
+    land 9AA060 8E9458 A0A070
+    hills 14 3 3
+    drive 2 0.2 1.0 6
+    bends 0.4 0.4 0.3
+    p PINE 0.15 4 150
+    p GRASS_TUFT 0.3 1 30
+    p BISON 0.01 10 120
+    p RANCH_FENCE 0.2 4 4 1 1
+    landmark DEVILS_TOWER 200 280 0.8
+
+place BLACK_CANYON | HOOVER DAM | USA | DESERT | NEVADA
+    land C09A70 B48E66 A88A6A
+    verge B0805A
+    hills 40 24 24
+    drive 2 0.5 1.0 7
+    bends 0.6 0.55 0.4
+    tunnels 0.15
+    bridges 0.2 ARCH D8D4CC
+    p ROCK 0.1 3 60
+    c A87A5A
+    p BUTTE 0.006 150 400
+    c B0805A
+    p POWER_PYLON 0.02 30 120
+    landmark HOOVER_DAM 90 140 0.9
+
+place SANTA_FE | SANTA FE | USA | GOLDEN | NEW MEXICO
+    land C8A078 BC9670 B09A7A
+    ranges 8A7A8A C8B0B8 6
+    drive 2 0.5 1.0 7
+    bends 0.35 0.3 0.3
+    p ADOBE 0.05 6 60
+    c D0A070
+    p SHRUB 0.2 2 60
+    c 6A7A50
+    p MESA 0.004 200 400
+    c B07A5A
+    p WATER_TOWER 0.002 40 120
+    landmark RADIO_DISHES 150 250
+
+place PLATTE_RIVER | CHIMNEY ROCK | USA | GOLDEN | NEBRASKA
+    like WHEAT
+    sea 0 1 -3
+    water 6A8A8A
+    landmark CHIMNEY_ROCK 160 260
+    landmark CARHENGE 40 70
+
+place ENCHANTED_HIGHWAY | ENCHANTED HIGHWAY | USA | GOLDEN | NORTH DAKOTA
+    land B8A868 AC9C60 A89C70
+    fields 0.6 D8C060 B8A050 8AA04A
+    hills 8 2 2
+    drive 2 0.2 1.0 6
+    bends 0.15 0.2 0.15
+    p GRAIN_ELEVATOR 0.003 40 200
+    p PUMPJACK 0.01 20 150
+    p SILO 0.006 20 150
+    p BARN 0.006 20 150
+    c A83A2A
+    p BADLAND 0.004 150 400
+    p BISON 0.006 20 150
+    p POLE 0.15 6 6 1 1
+
+place NORTH_WOODS | NORTH WOODS | USA | MORNING | MINNESOTA
+    hills 10 3 3 0.5
+    water 2A4A6A
+    land 5E8A44 56803E 4E7A48
+    drive 2 0.3 1.0 6
+    bends 0.45 0.4 0.3
+    p PINE 0.35 4 150
+    p BIRCH 0.15 3 80
+    p CABIN 0.01 10 60
+    p BOAT 0.01 30 150
+    c E8E8E8 3A6A9A
+    floating
+    p MOOSE 0.004 15 100
+    landmark PAUL_BUNYAN 20 30
+
+place DAIRYLAND | DAIRYLAND | USA | MORNING | WISCONSIN
+    land 6AA048 609440 6E9658
+    fields 0.5 8AB050 D8C060 6A9A40
+    hills 12 3 3 0.1
+    drive 2 0.4 1.0 6
+    bends 0.4 0.35 0.35
+    p BARN 0.02 15 150
+    c B03A2A
+    p SILO 0.02 15 150
+    p COW 0.04 10 120
+    p BROADLEAF 0.08 4 100
+    c 5A8A40
+    p RANCH_FENCE 0.2 4 4 1 1
+    p HOUSE 0.01 10 80
+
+place MACKINAC | STRAITS OF MACKINAC | USA | MORNING | MICHIGAN
+    sea 1 1 -6
+    water 2A6A8A
+    land 6A9A50 609048 5E8A50
+    drive 2 0.4 1.0 6
+    bends 0.3 0.3 0.2
+    bridges 0.3 SUSPENSION E2DCC0
+    p PINE 0.2 4 100
+    p BIRCH 0.1 3 60
+    p LIGHTHOUSE 0.003 20 100
+    p SAILBOAT 0.01 40 200
+    floating
+    landmark SUSPENSION_BRIDGE 150 230 0.9
+    c E2DCC0
+
+place PARKE_COUNTY | COVERED BRIDGES | USA | GOLDEN | INDIANA
+    land 7AAA4E 70A048 82A05A
+    fields 0.6 D8C060 8AB050 C8A858
+    hills 6 2 2
+    drive 2 0.4 1.0 6
+    bends 0.35 0.3 0.25
+    bridges 0.45 COVERED A83A2A
+    p GRAIN_ELEVATOR 0.003 40 200
+    p BARN 0.012 15 150
+    c A83A2A
+    p SILO 0.01 15 150
+    p BROADLEAF 0.1 4 100
+    c 5A8A40
+    p WATER_TOWER 0.002 40 150
+
+place CORN_BELT | CORN BELT | USA | NOON | IOWA
+    land 7AAA4E 70A048 82A05A
+    fields 0.8 6A9A3A 7AAA44 C8B050
+    hills 6 2 2
+    drive 2 0.3 1.0 6
+    bends 0.15 0.15 0.15
+    p WINDMILL 0.02 60 300
+    p SILO 0.015 20 150
+    p BARN 0.01 20 150
+    c E8E8E8
+    p GRAIN_ELEVATOR 0.003 40 200
+    p HOUSE 0.006 15 100
+    p POLE 0.15 6 6 1 1
+
+place ST_LOUIS | ST LOUIS | USA | HAZE | MISSOURI
+    sea 1 0 -6
+    water 7A6A4A 0.85
+    land 6A8A58 628050 6A7A62
+    drive 3 1.1 0.98 1
+    bends 0.25 0.3 0.1
+    lamps 35
+    posts 0
+    bridges 0.3 TRUSS 6A7A8A
+    p ROW_HOUSES 0.08 6 30
+    c A85A3A 4A4A50
+    p GLASS_TOWER 0.04 40 200
+    c 8A9AA8
+    p BROADLEAF 0.08 3 30
+    c 5A8A40
+    landmark GATEWAY_ARCH 120 180 0.8
+    landmark PADDLE_STEAMER 30 60
+    floating
+
+place OKLAHOMA_PLAINS | RED DIRT PLAINS | USA | GOLDEN | OKLAHOMA
+    land B86A48 AC6040 A87A5A
+    verge A85A3A
+    fields 0.4 C8A860 8AA050 B86A48
+    hills 8 2 2
+    drive 2 0.3 1.0 7
+    bends 0.15 0.2 0.15
+    p PUMPJACK 0.02 15 150
+    p WIND_PUMP 0.008 20 120
+    p COW 0.03 15 150
+    c 6A3A2A E8E0D8
+    p RANCH_FENCE 0.2 4 4 1 1
+    p GRAIN_ELEVATOR 0.002 40 200
+    p WINDMILL 0.01 80 300
+
+place HILL_COUNTRY | HILL COUNTRY | USA | GOLDEN | TEXAS
+    land 8A9A58 7E8E50 9A9A68
+    fields 0.35 4A6AC8 E8D860 C84A3A
+    hills 16 4 4 0.1
+    drive 2 0.4 1.0 7
+    bends 0.5 0.45 0.4
+    p OAK 0.12 4 120
+    p LUPIN 0.25 1 30
+    c 3A5AC8
+    p RANCH_FENCE 0.2 4 4 1 1
+    p WIND_PUMP 0.006 20 120
+    p COW 0.02 15 150
+    c B8703A E8E0D8
+    landmark ALAMO 35 60
+
+place OZARKS | OZARKS | USA | MIST | ARKANSAS
+    fog 0.0024 B8C8D0
+    land 5E8A44 56803E 507A48
+    hills 34 12 12 0.2
+    water 3A6A6A
+    drive 2 0.3 0.97 6
+    bends 0.75 0.6 0.65
+    bridges 0.15 TRUSS 5A6A7A
+    p BROADLEAF 0.35 4 150
+    c 4A7A3A
+    p PINE 0.15 4 150
+    p CABIN 0.01 10 60
+    p WATERFALL 0.002 30 80
+
+place MS_DELTA | MISSISSIPPI DELTA | USA | HAZE | MISSISSIPPI
+    sea 0 1 -3
+    water 6A6A4A 0.85
+    land 7A9A50 709048 8A9A60
+    fields 0.6 F2F0E8 E8E4DC 8AA050
+    hills 2 0 0 0.2
+    drive 2 0.3 1.0 6
+    bends 0.2 0.2 0.1
+    p CYPRESS 0.06 4 60
+    p MOSS_TREE 0.04 4 80
+    p BARN 0.006 20 150
+    c 8A7A6A
+    p COLUMNS 0.002 30 80
+    landmark PADDLE_STEAMER 30 60
+    floating
+
+place ROCKET_CITY | ROCKET CITY | USA | MORNING | ALABAMA
+    land 6A9A48 609040 6E8A50
+    hills 12 3 3
+    drive 3 0.8 1.0 6
+    bends 0.3 0.3 0.2
+    lamps 40
+    p PINE 0.2 4 150
+    p BROADLEAF 0.1 4 100
+    c 5A8A40
+    p HOUSE 0.02 10 60
+    pastel
+    p WATER_TOWER 0.003 40 150
+    landmark ROCKET 90 150
+
+place SPACE_COAST | SPACE COAST | USA | TROPICAL | FLORIDA
+    sea 1 1 -2
+    water 3A9AB0
+    land C8C098 BCB48E 6A9A5A
+    hills 0 0 0 0.2
+    drive 2 0.4 1.0 0
+    bends 0.15 0.15 0.05
+    bridges 0.3 BEAM
+    p PALM 0.2 2 20
+    p MANGROVE 0.06 4 40
+    p REEDS 0.1 3 40
+    landmark ROCKET 200 300 1.2
+
+place SAVANNAH | SAVANNAH | USA | HAZE | GEORGIA
+    land 6A9A50 609048 6E8A58
+    drive 2 0.6 1.0 6
+    bends 0.25 0.25 0.1
+    lamps 40
+    p MOSS_TREE 0.2 3 60
+    p ROW_HOUSES 0.08 6 30
+    c D8B898 4A4A50
+    pastel
+    p COLUMNS 0.004 15 60
+    p GRANITE_DOME 0.002 300 500 0.6 0.8
+
+place CHARLESTON | CHARLESTON | USA | MORNING | SOUTH CAROLINA
+    sea 1 0 -3
+    water 3A7A8A
+    land 6A9A50 609048 6E8A58
+    drive 2 0.6 1.0 6
+    bends 0.25 0.25 0.05
+    p ROW_HOUSES 0.12 4 30
+    c F0C8B0 4A4A50
+    pastel
+    p PALM 0.15 2 20
+    p MOSS_TREE 0.05 4 60
+    p CHURCH 0.006 15 80
+    c F2F0EA 4A4A50
+    landmark STRIPED_LIGHTHOUSE 80 140
+    c F2F0EA 1A1A1A
+
+place OUTER_BANKS | OUTER BANKS | USA | MORNING | NORTH CAROLINA
+    sea 1 1 -2
+    water 2A7AA0
+    land E0D8B8 D4CCAC 9AAA70
+    verge D8D0B0
+    hills 0 0 0
+    drive 2 0.3 1.0 6
+    bends 0.15 0.15 0.05
+    bridges 0.25 BEAM
+    p DUNE 0.04 10 120
+    c E8DCB8
+    p GRASS_TUFT 0.3 1 30
+    p COTTAGE 0.01 10 60
+    c B0A890 5A5A60
+    pastel
+    p HORSE 0.008 15 100
+    landmark STRIPED_LIGHTHOUSE 60 120
+    c F2F2F0 1A1A1A
+
+place BLUEGRASS | BLUEGRASS COUNTRY | USA | MORNING | KENTUCKY
+    land 6AA850 609A48 6E9A58
+    hills 12 3 3
+    drive 2 0.4 1.0 6
+    bends 0.45 0.4 0.4
+    p RANCH_FENCE 0.4 4 4 1 1
+    c 2A2A2A
+    p HORSE 0.05 10 120
+    p BARN 0.012 20 150
+    c 2A2A2E
+    p BROADLEAF 0.08 4 120
+    c 4E8A3E
+    p HOUSE 0.004 30 120
+
+place AMISH_COUNTRY | AMISH COUNTRY | USA | MORNING | OHIO
+    land 7AA84E 70A048 82A05A
+    fields 0.6 D8C060 8AB050 C8A858
+    hills 14 4 4
+    drive 2 0.3 1.0 6
+    bends 0.45 0.4 0.4
+    p BARN 0.02 15 150
+    c F0F0EA
+    p SILO 0.012 15 150
+    p HORSE 0.02 10 100
+    p HAYBALE 0.03 10 100
+    p WIND_PUMP 0.006 20 120
+    p BROADLEAF 0.06 4 100
+    c 5A8A40
+
+place NEW_RIVER_GORGE | NEW RIVER GORGE | USA | MIST | WEST VIRGINIA
+    land 4E7E3E 46743A 3E6A40
+    hills 40 20 -20
+    drive 2 0.3 0.97 6
+    bends 0.8 0.65 0.7
+    tunnels 0.12
+    bridges 0.25 TRUSS 8A4A2A
+    p BROADLEAF 0.4 4 150
+    c 4A7A3A
+    p PINE 0.1 4 150
+    p ROCK 0.05 3 40
+    landmark STEEL_ARCH_BRIDGE 120 200 0.9
+    c 8A4A2A
+
+place CHESAPEAKE | CHESAPEAKE BAY | USA | MORNING | MARYLAND
+    sea 1 0 -2
+    water 4A7A8A
+    land 6A9A50 609048 6E8A58
+    hills 2 0 0 0.3
+    drive 2 0.5 1.0 6
+    bends 0.25 0.25 0.05
+    bridges 0.3 BEAM
+    p REEDS 0.15 3 40
+    p LIGHTHOUSE 0.003 30 150
+    floating
+    p SAILBOAT 0.02 40 200
+    floating
+    p HUT 0.01 8 40
+    c E8E0D0
+    p BROADLEAF 0.08 4 100
+    c 5A8A40
+
+place DELAWARE_COAST | DELAWARE COAST | USA | MORNING | DELAWARE
+    sea 1 0 -2
+    water 3A7A9A
+    land D8D0B0 CCC4A4 8AA060
+    verge D0C8A8
+    hills 0 0 0
+    drive 2 0.5 1.0 6
+    bends 0.2 0.2 0.05
+    p DUNE 0.03 10 100
+    c E0D4B0
+    p COTTAGE 0.02 10 60
+    pastel
+    p PARASOL 0.03 3 20
+    pastel
+    p GRASS_TUFT 0.2 1 30
+
+place PHILADELPHIA | PHILADELPHIA | USA | MORNING | PENNSYLVANIA
+    land 6A8A58 628050 6A7A62
+    drive 3 1.2 0.98 1
+    bends 0.25 0.3 0.1
+    lamps 30
+    posts 0
+    bridges 0.2 SUSPENSION 3A6AA8
+    p ROW_HOUSES 0.16 5 30
+    c A04A3A 4A4A50
+    p GLASS_TOWER 0.04 40 200
+    c 7A8A9A
+    p BROADLEAF 0.08 2 20
+    c 5A8A40
+    landmark INDEPENDENCE_HALL 40 70
+
+place JERSEY_SHORE | JERSEY SHORE | USA | MORNING | NEW JERSEY
+    sea 1 0 -2
+    water 3A7A9A
+    land D8D0B0 CCC4A4 8A9A70
+    hills 0 0 0
+    drive 2 0.8 1.0 0
+    bends 0.15 0.15 0.05
+    lamps 40
+    p FLAT_HOUSE 0.06 4 30
+    pastel
+    p PARASOL 0.05 3 20
+    pastel
+    p MOTEL_SIGN 0.01 6 20
+    p CASINO 0.006 30 150
+    landmark FERRIS_WHEEL 50 80
+    c E04A4A
+
+place MYSTIC | MYSTIC SEAPORT | USA | MORNING | CONNECTICUT
+    sea 1 0 -3
+    water 2A5A7A
+    land 5E8A44 56803E 5E7A4E
+    hills 12 4 4
+    drive 2 0.5 1.0 6
+    bends 0.45 0.4 0.3
+    bridges 0.2 BEAM
+    p HOUSE 0.03 6 50
+    c F2F0EA 2A3A4A
+    p CHURCH 0.006 20 100
+    c F2F0EA 4A4A50
+    p SHIP 0.004 40 150
+    floating
+    p BROADLEAF 0.1 4 80
+    c 4E8A3E
+    p STONE_WALL 0.2 3 3 1 1
+
+place NEWPORT | NEWPORT | USA | MORNING | RHODE ISLAND
+    sea 1 0 -12
+    water 2A5A7A
+    land 6A9A50 609048 5E8A50
+    hills 10 0 6
+    drive 2 0.5 1.0 6
+    bends 0.4 0.35 0.3
+    bridges 0.3 SUSPENSION 4A6A5A
+    p COLUMNS 0.006 30 100
+    p HOUSE 0.02 10 60
+    c E8E0D0 3A3A40
+    p HEDGE 0.2 3 3 1 1
+    p SAILBOAT 0.03 40 250
+    floating
+    p LIGHTHOUSE 0.002 30 120
+
+place CAPE_COD | CAPE COD | USA | MORNING | MASSACHUSETTS
+    sea 1 0 -4
+    water 2A6A8A
+    land D8D0B0 CCC4A4 7A9A5A
+    verge D0C8A8
+    fields 0.2 A82A2A 8A2A2A 6A8A4A
+    hills 4 1 1 0.2
+    drive 2 0.4 1.0 6
+    bends 0.3 0.3 0.15
+    p COTTAGE 0.03 6 50
+    c 9A9488 E8E8E8
+    p DUNE 0.02 10 100
+    c E0D4B0
+    p PINE 0.08 4 80
+    p GRASS_TUFT 0.2 1 30
+    landmark STRIPED_LIGHTHOUSE 50 100
+    c F2F2F0 C83A2A
+
+place WHITE_MOUNTAINS | WHITE MOUNTAINS | USA | MORNING | NEW HAMPSHIRE
+    like AUTUMN
+    hills 36 10 10
+    ranges 6A6A70 C8CCD4 10
+    bridges 0.2 COVERED A83A2A
+    p PEAK 0.004 250 500 1.2 1.6
+    c 7A7E86 EEF0F4

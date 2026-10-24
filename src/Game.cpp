@@ -629,17 +629,18 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
         startS = m_options.m_startDistance;
         m_options.m_startDistance = 0.0f;
     }
-    if( m_options.m_find == 3 )
+    if( m_options.m_find >= 3 )
     {
-        // Testing: start shortly before the first stage's first landmark.
+        // Testing: start shortly before the first stage's first (or second) landmark.
         Track           probe( setup.m_seed, params, m_options.m_startBiome );
         const BiomeDef &def = biomeDef( probe.stageBiome( 0 ) );
+        int             skip = m_options.m_find - 3;
         for( size_t r = 0; r < def.m_props.size(); ++r )
-            if( def.m_props[r].m_perStage > 0 )
+            if( def.m_props[r].m_perStage > 0 && skip-- == 0 )
             {
                 bool       right = false;
                 const long local = landmarkSpot( setup.m_seed, r, 0, 0, right );
-                startS = std::max( params.m_startLine - 9.0, static_cast<double>( local ) * SegmentLength - 260.0 );
+                startS = std::max( params.m_startLine - 9.0, static_cast<double>( local ) * SegmentLength - 260.0 - def.m_props[r].m_farthest );
                 break;
             }
         m_options.m_find = 0;
