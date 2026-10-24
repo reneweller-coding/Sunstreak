@@ -79,7 +79,7 @@ shape ORGAN_PIPE_CACTUS
     tube -0.2 0.5 -0.2 -0.3 4.4 -0.6 0.16 8 4A7A3A
 
 shape PAINTED_WALL_ADS
-    home MEXICO, GUATEMALA, HONDURAS, EL SALVADOR, NICARAGUA, NIGERIA, GHANA, KENYA, TANZANIA, UGANDA, ZAMBIA, MALAWI, MOZAMBIQUE, CAMEROON, IVORY COAST | 0.006 3 25 | town
+    home MEXICO, GUATEMALA, HONDURAS, EL SALVADOR, NICARAGUA, NIGERIA, GHANA, KENYA, TANZANIA, UGANDA, ZAMBIA, MALAWI, MOZAMBIQUE, CAMEROON, IVORY COAST, PERU, BOLIVIA, ECUADOR | 0.006 3 25 | town
     # A wall painted with hand-lettered adverts for beer, cement and a dance, in big bold letters and colours.
     box 0 1.6 0 0.25 1.6 4 F2F2EE
     box 0.26 2.2 -2 0.01 0.9 1.8 F2C21E
@@ -194,7 +194,7 @@ shape COCONUT_STAND
     dome -0.6 2.2 0 1.3 0.4 F2C21E
 
 shape AMAZON_STILT_HOUSE
-    home BRAZIL:AMAZONAS, BRAZIL:PARA, BRAZIL:AMAPA, BRAZIL:RORAIMA, BRAZIL:RONDONIA, PERU:AMAZONAS, COLOMBIA:META, BOLIVIA, SURINAME, GUYANA | 0.008 6 60 | country
+    home BRAZIL:AMAZONAS, BRAZIL:PARA, BRAZIL:AMAPA, BRAZIL:RORAIMA, BRAZIL:RONDONIA, PERU:AMAZONAS, COLOMBIA:META, BOLIVIA, SURINAME, GUYANA, BELIZE | 0.008 6 60 | country
     # A palafita of the Amazon: a painted wooden house on tall stilts above the flood line, a canoe tied below.
     box 0 0.02 0 4 0.02 5 5A5A3A water
     repeat 3 0 0 2.4
@@ -705,7 +705,7 @@ shape TAP_TAP_BUS
     tube 0.8 0.4 2.2 1.0 0.4 2.2 0.4 10 1E1E1E
 
 shape CUBAN_CLASSIC_CAR
-    home CUBA | 0.012 3 25 | pastel
+    home CUBA, URUGUAY | 0.012 3 25 | pastel
     # An old American car of the fifties still running in Cuba: big rounded body, chrome grille and bumpers, a white roof.
     box 0 0.7 0 0.95 0.35 2.6 A
     box 0 1.2 -0.4 0.88 0.3 1.2 F2F2F2

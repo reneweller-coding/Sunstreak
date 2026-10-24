@@ -341,7 +341,7 @@ shape MUAY_THAI_RING
     blob -2.8 4.4 -2.8 0.07 0.07 0.07 F2E89A lit
 
 shape HAMMOCK_CAFE
-    home VIETNAM, CAMBODIA, LAOS | 0.006 2 20 | country
+    home VIETNAM, CAMBODIA, LAOS, MEXICO:YUCATAN, BRAZIL:CEARA, BRAZIL:AMAZONAS, NICARAGUA, EL SALVADOR, COLOMBIA | 0.006 2 20 | country
     # A roadside hammock cafe: a tin roof on poles shading a row of hammocks for tired drivers, iced coffee in glasses on a low table.
     repeat 4 0 0 2.4
     mirrorx
