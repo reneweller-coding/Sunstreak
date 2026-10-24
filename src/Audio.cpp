@@ -63,6 +63,8 @@ struct Synth
     std::atomic<float> m_tension{ 0.0f }, m_drive{ 0.0f };   ///< the game's mood
     std::atomic<float> m_aSurf{ 0 }, m_aSurfPan{ 0 }, m_aWind{ 0 }, m_aJungle{ 0 }, m_aCity{ 0 }, m_aRain{ 0 }, m_aTunnel{ 0 }, m_aBridge{ 0 };
     std::atomic<float> m_aUnder{ 0 };
+    std::atomic<float> m_aSiren{ 0 }, m_aSirenPan{ 0 };
+    std::atomic<int>   m_aSirenKind{ 0 };
 
     std::array<Event, 64>  m_queue;          ///< effects posted by the game
     std::atomic<uint32_t>  m_head{ 0 };      ///< written by the game thread
@@ -83,6 +85,7 @@ struct Synth
     float  a_joint = 0, a_thump = 0, a_thump2 = 0, a_thumpDelay = -1, a_horn = 0, a_hornF = 420, a_hornIn = 6, a_bird = 0, a_birdF = 3000,
            a_birdIn = 2, a_birdPh = 0, a_insectPh = 0, a_amPh = 0, a_droplet = 0;
     float  a_under = 0, a_whale = 0, a_whaleIn = 4, a_whaleDur = 1, a_whalePh = 0, a_whaleF0 = 200, a_whaleF1 = 300;
+    float  a_siren = 0, a_sirenPan = 0, a_sirenT = 0, a_sirenPh = 0;
     int    a_coef = 0;
     Svf    a_surfLo, a_surfHi, a_windBp, a_rainHp, a_cityLo, a_hornLo, a_thumpLo, a_seaLo, a_mufL, a_mufR;
     Noise  a_n;
@@ -241,6 +244,24 @@ struct Synth
                 mono += whale;
             }
         }
+        // A police siren: the long wail of the Americas and Asia, the two tones of Europe; louder as it nears.
+        a_siren += ( m_aSiren.load( std::memory_order_relaxed ) - a_siren ) * 0.0005f;
+        a_sirenPan += ( m_aSirenPan.load( std::memory_order_relaxed ) - a_sirenPan ) * 0.0005f;
+        float siren = 0.0f;
+        if( a_siren > 0.001f )
+        {
+            a_sirenT += dt;
+            if( a_sirenT > 360.0f ) a_sirenT -= 360.0f;
+            const float f = m_aSirenKind.load( std::memory_order_relaxed ) == 1 ? ( std::fmod( a_sirenT, 1.2f ) < 0.6f ? 440.0f : 587.0f )
+                                                                                 : 700.0f + 650.0f * ( 0.5f - 0.5f * std::cos( Pi2 * a_sirenT / 3.6f ) );
+            a_sirenPh += f * dt;
+            if( a_sirenPh >= 1.0f ) a_sirenPh -= 1.0f;
+            siren = ( std::sin( Pi2 * a_sirenPh ) + 0.4f * std::sin( 2.0f * Pi2 * a_sirenPh ) + 0.2f * std::sin( 3.0f * Pi2 * a_sirenPh ) ) * a_siren * 0.2f;
+        }
+        else
+        {
+            a_sirenT = 0.0f;
+        }
         ++a_coef;
 
         // The tunnel: the engine thrown back by the walls (and a whale's call by the sea).
@@ -265,8 +286,9 @@ struct Synth
         ++a_combPos;
         if( a_combPos >= 3559 * 3307 ) a_combPos = 0;
         const float pan = clampPan( a_pan );
-        l += ( mono + side * ( 1.0f - pan ) * 0.7f ) * gain + echo * 0.9f;
-        r += ( mono + side * ( 1.0f + pan ) * 0.7f ) * gain + echo * 1.0f;
+        const float sp = clampPan( a_sirenPan );
+        l += ( mono + side * ( 1.0f - pan ) * 0.7f + siren * ( 1.0f - 0.6f * sp ) ) * gain + echo * 0.9f;
+        r += ( mono + side * ( 1.0f + pan ) * 0.7f + siren * ( 1.0f + 0.6f * sp ) ) * gain + echo * 1.0f;
     }
 
     /**
@@ -857,6 +879,9 @@ void Audio::setAmbience( const Ambience &a )
     g_synth->m_aTunnel.store( a.m_tunnel, std::memory_order_relaxed );
     g_synth->m_aBridge.store( a.m_bridge, std::memory_order_relaxed );
     g_synth->m_aUnder.store( a.m_underwater, std::memory_order_relaxed );
+    g_synth->m_aSiren.store( a.m_siren, std::memory_order_relaxed );
+    g_synth->m_aSirenPan.store( a.m_sirenPan, std::memory_order_relaxed );
+    g_synth->m_aSirenKind.store( a.m_sirenKind, std::memory_order_relaxed );
 }
 
 void Audio::play( SfxE type, float strength, float pan )

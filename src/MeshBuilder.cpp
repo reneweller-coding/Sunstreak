@@ -299,6 +299,22 @@ Vector3 MeshBuilder::extent() const
     return e;
 }
 
+bool MeshBuilder::centreOf( bool ( *match )( Color ), Vector3 &at ) const
+{
+    Vector3 sum = { 0, 0, 0 };
+    float   n = 0.0f;
+    for( size_t v = 0; v * 3 + 2 < m_pos.size() && v * 4 + 3 < m_col.size(); ++v )
+    {
+        const Color c = { m_col[v * 4], m_col[v * 4 + 1], m_col[v * 4 + 2], m_col[v * 4 + 3] };
+        if( !match( c ) ) continue;
+        sum = Vector3{ sum.x + m_pos[v * 3], sum.y + m_pos[v * 3 + 1], sum.z + m_pos[v * 3 + 2] };
+        n += 1.0f;
+    }
+    if( n <= 0.0f ) return false;
+    at = Vector3{ sum.x / n, sum.y / n, sum.z / n };
+    return true;
+}
+
 void MeshBuilder::applySway( float amount )
 {
     float top = 0.1f;

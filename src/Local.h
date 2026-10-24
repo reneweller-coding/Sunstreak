@@ -49,6 +49,7 @@ struct RoadCustoms
 constexpr double CameraAt = 650.0;   ///< where in its stage a speed camera stands (or the first clear spot after)
 constexpr double LimitAt = 300.0;    ///< and the speed limit before it
 constexpr double TollAt = 1300.0;    ///< where in its stage a toll plaza stands (or the first clear spot after)
+constexpr double PoliceAt = 2500.0;  ///< a stage's patrol car waits somewhere from here on (if it has one)
 
 /**
  * @brief A country's road customs.
@@ -90,6 +91,24 @@ bool stageCamera( const Track &track, int stage, double &s, int &limit, bool &mp
  * @return true if the stage has one
  */
 bool stageToll( const Track &track, int stage, double &s );
+
+/**
+ * @brief Where a stage's patrol car would wait, before the spot is checked (that needs the road laid there).
+ * @param[in] track  the road
+ * @param[in] stage  the stage
+ * @return the distance, or -1 if the stage has none (three stages in five do, in a country)
+ */
+double policeBase( const Track &track, int stage );
+
+/**
+ * @brief The patrol car of a stage: the first clear spot from policeBase on (no tunnel, bridge, fork, gravel).
+ * @param[in]  track  the road (laid to 500 m past policeBase)
+ * @param[in]  stage  the stage
+ * @param[out] s      where it waits
+ * @param[out] side   on which verge (1 right, -1 left: the driver's side of the road)
+ * @return true if it has one
+ */
+bool stagePolice( const Track &track, int stage, double &s, float &side );
 
 /**
  * @brief Gives the places the roads of their countries: the lane width, how worn, gravel stretches, concrete slabs,

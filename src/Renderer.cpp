@@ -426,6 +426,9 @@ void Renderer::drawShadows( const SceneInput &in, const CameraView &cam, const V
                 p.m_pos.m_y += static_cast<double>( t.m_lift );
                 DrawMesh( in.m_models->m_traffic[t.m_model].m_mesh, m_depthMaterial, poseMatrix( p, origin ) );
             }
+    for( const PoliceDraw &c : in.m_police )
+        if( std::abs( c.m_s - playerS ) < ShadowExtent )
+            DrawMesh( in.m_models->m_traffic[static_cast<size_t>( c.m_model )].m_mesh, m_depthMaterial, poseMatrix( roadPose( track, c.m_s, c.m_x, c.m_yaw ), origin ) );
     for( const CarDraw &c : in.m_cars )
         if( c.m_alpha >= 1.0f && std::abs( c.m_s - playerS ) < ShadowExtent )
             DrawMesh( in.m_models->m_playerCars[c.m_car][c.m_paint], m_depthMaterial, poseMatrix( roadPose( track, c.m_s, c.m_x, c.m_yaw ), origin ) );
@@ -602,6 +605,19 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
                 DrawMesh( mesh, m_material, poseMatrix( roadPose( track, o.m_s, o.m_x, 0.0f ), origin ) );
             }
         }
+    }
+    for( const PoliceDraw &c : in.m_police )
+    {
+        if( c.m_s - playerS > ViewDistance || c.m_model < 0 || c.m_model >= static_cast<int>( models.m_traffic.size() ) ) continue;
+        const VehicleModel &vm = models.m_traffic[static_cast<size_t>( c.m_model )];
+        const Pose          p = roadPose( track, c.m_s, c.m_x, c.m_yaw );
+        const Matrix        m = poseMatrix( p, origin );
+        setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, c.m_s ) );
+        DrawMesh( vm.m_mesh, m_material, m );
+        if( c.m_flash >= 0 )
+            DrawMesh( models.m_policeFlash[static_cast<size_t>( c.m_flash & 1 )], m_material,
+                      MatrixMultiply( MatrixTranslate( vm.m_light.x, vm.m_light.y, vm.m_light.z ), m ) );
+        shadows.push_back( { p, vm.m_width, vm.m_length } );
     }
     for( const CarDraw &c : in.m_cars )
     {

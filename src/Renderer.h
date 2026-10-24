@@ -44,6 +44,16 @@ struct CarDraw
     float  m_alpha = 1.0f; ///< below 1: a see-through ghost without a shadow
 };
 
+/** @brief A patrol car of the police, its light bar flashing or dark. */
+struct PoliceDraw
+{
+    double m_s = 0;       ///< distance along the road
+    float  m_x = 0;       ///< lateral offset
+    float  m_yaw = 0;     ///< yaw against the road
+    int    m_model = 0;   ///< index into Models::m_traffic
+    int    m_flash = -1;  ///< -1 dark, 0 the red half lit, 1 the blue half
+};
+
 /** @brief A lone model in the scene (the landmark viewer, a crossing). */
 struct ScenePiece
 {
@@ -73,6 +83,7 @@ struct SceneInput
     float            m_windStreaks = 0.0f;    ///< 0..1 air streaks at speed
     bool             m_drawPlayer = true;     ///< false in the bumper view
     std::vector<CarDraw> m_cars;              ///< rivals and the ghost
+    std::vector<PoliceDraw> m_police;         ///< the police
     bool             m_shadows = true;        ///< real-time sun shadows
     float            m_lensRain = 0.0f;       ///< 0..1 drops on the lens
     bool             m_showcase = false;      ///< lone models instead of the world (the landmark viewer, a crossing)

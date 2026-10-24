@@ -2117,6 +2117,35 @@ void Models::buildCreatures()
         m_creatureModel[i] = static_cast<int>( m_traffic.size() );
         m_traffic.push_back( vm );
     }
+
+    // ---- The patrol cars of the world tour's police: the POLICE_CAR shapes, their light bars found by colour -----
+    m_policeModel.assign( dataShapes().size(), -1 );
+    for( size_t i = 0; i < dataShapes().size(); ++i )
+    {
+        if( dataShapes()[i].m_name.rfind( "POLICE_CAR", 0 ) != 0 ) continue;
+        MeshBuilder shape;
+        buildDataShape( shape, dataShapes()[i] );
+        const Vector3 e = shape.extent();
+        VehicleModel  vm;
+        vm.m_length = std::max( 1.0f, e.z * 2.0f );
+        vm.m_width = std::max( 1.0f, e.x * 2.0f );
+        vm.m_police = true;
+        Vector3 light{};
+        auto    lamp = []( Color c ) { return ( c.r > 200 && c.g < 80 && c.b < 80 ) || ( c.r < 80 && c.g < 120 && c.b > 200 ); };
+        vm.m_light = shape.centreOf( lamp, light ) ? Vector3{ 0.0f, light.y, light.z } : Vector3{ 0.0f, e.y, -0.2f };
+        vm.m_mesh = shape.upload();
+        m_policeModel[i] = static_cast<int>( m_traffic.size() );
+        m_traffic.push_back( vm );
+    }
+    for( int k = 0; k < 2; ++k )
+    {
+        if( m_policeFlash[static_cast<size_t>( k )].vaoId ) UnloadMesh( m_policeFlash[static_cast<size_t>( k )] );
+        MeshBuilder flash;
+        const float side = k == 0 ? 0.25f : -0.25f;
+        flash.box( Vector3{ side, 0.05f, 0.0f }, Vector3{ 0.26f, 0.09f, 0.16f }, k == 0 ? rgb( 255, 40, 30 ) : rgb( 40, 90, 255 ), Mat{ 1.0f, 0.4f } );
+        flash.blob( Vector3{ side, 0.08f, 0.0f }, Vector3{ 0.34f, 0.17f, 0.3f }, k == 0 ? rgb( 255, 60, 40 ) : rgb( 60, 110, 255 ), 1u, 0.0f, Mat{ 0.8f, 0.0f } );
+        m_policeFlash[static_cast<size_t>( k )] = flash.upload();
+    }
 }
 
 void Models::build()
@@ -2137,6 +2166,9 @@ void Models::unload()
     UnloadMesh( m_cone );
     for( auto &m : m_arrowBoard ) UnloadMesh( m );
     UnloadMesh( m_shadow );
+    for( auto &m : m_policeFlash )
+        if( m.vaoId ) UnloadMesh( m );
+    m_policeFlash = {};
 }
 
 } // namespace sunstreak

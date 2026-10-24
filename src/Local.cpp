@@ -182,6 +182,28 @@ bool stageToll( const Track &track, int stage, double &s )
     return false;
 }
 
+double policeBase( const Track &track, int stage )
+{
+    const BiomeDef &place = biomeDef( track.stageBiome( stage ) );
+    if( stage < 0 || !place.m_country || place.m_underwater || place.m_surface.m_lineGlow > 0.0f ) return -1.0;
+    const uint64_t h = hash64( track.seed() * 1013 + static_cast<uint64_t>( stage ) * 7 + 5 );
+    if( h % 5 < 2 ) return -1.0;
+    return static_cast<double>( stage ) * StageLength + PoliceAt + static_cast<double>( ( h >> 8 ) % 7000 );
+}
+
+bool stagePolice( const Track &track, int stage, double &s, float &side )
+{
+    const double base = policeBase( track, stage );
+    if( base < 0.0 ) return false;
+    side = countryInfo( biomeDef( track.stageBiome( stage ) ).m_country ).m_left ? -1.0f : 1.0f;
+    for( int k = 0; k < 6; ++k )
+    {
+        s = base + 100.0 * k;
+        if( clearAt( track, s ) && clearAt( track, s + 60.0 ) && gravelAt( track, s ) <= 0.0f ) return true;
+    }
+    return false;
+}
+
 void applyRoadCustoms( std::vector<BiomeDef> &table )
 {
     for( BiomeDef &d : table )

@@ -115,6 +115,8 @@ struct VehicleModel
     uint8_t   m_where = 0;                  ///< 0 anywhere, 1 in cities, 2 in the country
     float     m_pace = 1.0f;                ///< its speed against an ordinary car
     PropKindE m_animal = PropKindE::COUNT;  ///< an animal crossing the road (COUNT: a vehicle)
+    bool      m_police = false;             ///< a patrol car (never spawned as traffic)
+    Vector3   m_light{};                    ///< the middle of its light bar
 };
 
 /**
@@ -217,6 +219,8 @@ public:
     std::vector<VehicleModel>                          m_traffic;        ///< traffic, paints included
     std::vector<int>                                   m_creatureModel;  ///< per data shape: its traffic model if it swims (-1: none)
     size_t                                             m_creatureFirst = 0;   ///< the first creature in m_traffic (they come last)
+    std::vector<int>                                   m_policeModel;    ///< per data shape: its traffic model if it is a patrol car (-1: none)
+    std::array<Mesh, 2>                                m_policeFlash{};  ///< a flash of the light bar: red, blue
     Mesh                                               m_cone{};         ///< traffic cone
     std::array<Mesh, 2>                                m_arrowBoard{};   ///< roadworks board, arrow left / right
     Mesh                                               m_shadow{};       ///< unit blob shadow

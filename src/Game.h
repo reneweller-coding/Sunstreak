@@ -30,6 +30,7 @@
 #include "Records.h"
 #include "Renderer.h"
 #include "Track.h"
+#include "Police.h"
 #include "Traffic.h"
 #include "World.h"
 
@@ -786,6 +787,7 @@ private:
     std::unique_ptr<Track> m_track;        ///< the road
     PlayerCar              m_car;          ///< the player
     Traffic                m_traffic;      ///< the others
+    Police                 m_police;       ///< the patrol car of the world tour
     Race                   m_race;         ///< rivals and the championship
     Particles              m_particles;    ///< effects
     Audio                  m_audio;        ///< sound

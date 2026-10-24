@@ -747,6 +747,7 @@ void Game::finishCrossing()
     const float density = m_traffic.m_density;
     m_traffic.reset( m_seed ^ static_cast<uint64_t>( s ), s );
     m_traffic.m_density = density;
+    m_police.reset();
     m_particles.clear();
     for( Rival &r : m_race.m_rivals )
         if( r.m_s < xc.m_land ) r.m_s += xc.m_land - xc.m_board;
@@ -959,6 +960,7 @@ void Game::setupTrack( uint64_t seed, double startS, const TrackParams &params, 
     m_car.reset( carSpec( m_carIndex ), startS, laneCenter( keepLeft ? ( seg.m_lanes - 1 ) / 2 : seg.m_lanes / 2, seg.m_lanes, seg.m_halfWidth ), *m_track );
     m_traffic.reset( seed, startS );
     m_traffic.m_density = params.m_traffic < 0 ? 1.0f : static_cast<float>( params.m_traffic ) / 4.5f;
+    m_police.reset();
     m_race.m_rivals.clear();
     m_particles.clear();
     m_world.update( *m_track, startS, 1000 );
@@ -1650,6 +1652,30 @@ void Game::step( float h, const CarInput &in )
         m_landImpact = std::max( m_landImpact, m_car.m_landImpact );
     }
     m_traffic.update( h, track, m_car, m_models, m_ev );
+    {
+        // The police: a patrol car of the country now and then; too fast past it, a chase until caught or away.
+        PoliceEvents pe;
+        const bool   enabled = !m_demo && !m_setup.m_race && m_state == StateE::RACE && !m_timeUp;
+        m_police.update( h, track, m_car.m_s, m_car.m_x, m_car.m_speed, m_car.m_spec.m_topSpeed, m_traffic, m_models, enabled, pe );
+        if( pe.m_chase )
+        {
+            popup( "POLICE", "PULL OVER!", Red, 1.0f, 2.4f );
+            m_audio.play( SfxE::WARNING );
+        }
+        if( pe.m_caught )
+        {
+            m_timeLeft = std::max( 0.0f, m_timeLeft - PoliceFine );
+            m_car.m_speed *= 0.5f;
+            popup( "CAUGHT", format( "-%d SEC  FINE", static_cast<int>( PoliceFine ) ), Red, 1.0f, 2.8f );
+            m_audio.play( SfxE::BUMP, 0.6f );
+        }
+        if( pe.m_escaped )
+        {
+            m_score += 2500.0;
+            popup( "ESCAPED", "+2500", Green, 1.0f, 2.4f );
+            m_audio.play( SfxE::NEAR_MISS );
+        }
+    }
     const bool racing = m_setup.m_race && !m_demo;
     if( racing ) m_race.update( h, m_raceTime, track, m_car, m_raceEv, m_state == StateE::RACE );
 
@@ -2302,6 +2328,13 @@ void Game::updateAudio()
             a.m_tunnel = 0.35f;
             a.m_underwater = 1.0f;
         }
+    }
+    if( !m_demo && m_police.m_state == PoliceStateE::CHASE )
+    {
+        // The siren of the patrol car behind, louder as it nears.
+        a.m_siren = clampf( 1.0f - static_cast<float>( std::abs( m_police.gap( m_car.m_s ) ) ) / 600.0f, 0.0f, 1.0f );
+        a.m_sirenPan = clampf( ( m_police.m_x - m_car.m_x ) / 6.0f, -1.0f, 1.0f );
+        a.m_sirenKind = m_police.m_siren;
     }
     m_audio.setAmbience( a );
 

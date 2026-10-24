@@ -78,6 +78,9 @@ struct Ambience
     float m_tunnel = 0.0f;    ///< 0..1 inside a tunnel: the engine echoes
     float m_bridge = 0.0f;    ///< 0..1 on a bridge: the expansion joints thump
     float m_underwater = 0.0f;   ///< 0..1 in a glass tunnel under the sea: muffled, a hum, whales
+    float m_siren = 0.0f;        ///< 0..1 a police siren, louder as it nears
+    float m_sirenPan = 0.0f;     ///< -1 left .. 1 right: where it is
+    int   m_sirenKind = 0;       ///< 0 the long wail, 1 the two tones of Europe
 };
 
 /** @brief The sound system. */

@@ -900,6 +900,9 @@ void Game::draw()
         const float   wobble = r.m_hitTimer > 0.0f ? std::sin( r.m_hitTimer * 25.0f ) * 0.08f * r.m_hitTimer : 0.0f;
         in.m_cars.push_back( { r.m_s, r.m_x, r.m_yaw + wobble, d.m_car, d.m_paint, 1.0f } );
     }
+    if( m_police.m_state != PoliceStateE::NONE && m_police.m_model >= 0 )
+        in.m_police.push_back( { m_police.m_s, m_police.m_x, m_police.m_yaw, m_police.m_model,
+                                 m_police.m_state == PoliceStateE::CHASE ? static_cast<int>( m_time * 6.0f ) & 1 : -1 } );
     if( !m_demo && ( m_state == StateE::RACE || m_state == StateE::COUNTDOWN || m_state == StateE::PAUSED ) )
     {
         double gs = 0.0;
@@ -1808,6 +1811,7 @@ void Game::viewerScene( SceneInput &in, CameraView &cam )
     in.m_traffic = nullptr;
     in.m_particles = nullptr;
     in.m_cars.clear();
+    in.m_police.clear();
     in.m_env = place.m_env;
     in.m_env.m_underwater = place.m_underwater ? 1.0f : 0.0f;
     in.m_surface = place.m_surface;
@@ -1940,6 +1944,7 @@ void Game::crossingScene( SceneInput &in, CameraView &cam )
     in.m_traffic = nullptr;
     in.m_particles = nullptr;
     in.m_cars.clear();
+    in.m_police.clear();
     in.m_speedBlur = 0.0f;
     in.m_aberration = 0.0f;
     in.m_windStreaks = 0.0f;
@@ -2330,6 +2335,24 @@ void Game::drawHud()
              Dim, AlignE::RIGHT );
         txt( format( "OVERTAKES %d", m_overtakes ), W - 28.0f * u, 38.0f * u, 13.0f * u, Ink, AlignE::RIGHT );
         if( m_combo > 1 ) drawTextFx( format( "COMBO X%d", m_combo ), W - 28.0f * u, 62.0f * u, 20.0f * u, Cyan, AlignE::RIGHT, 0.8f );
+        if( m_police.m_state == PoliceStateE::CHASE )
+        {
+            // Close behind, its lights flash red and blue at the edges of the picture.
+            const float close = 1.0f - smoothstepf( 20.0f, 160.0f, static_cast<float>( m_police.gap( m_car.m_s ) ) );
+            if( close > 0.0f )
+            {
+                const bool          redLeft = ( static_cast<int>( m_time * 6.0f ) & 1 ) != 0;
+                const unsigned char a = static_cast<unsigned char>( 110.0f * close );
+                const Color         red = { 255, 40, 30, a }, blue = { 40, 90, 255, a }, clear = { 0, 0, 0, 0 };
+                const float         w = W * 0.12f;
+                DrawRectangleGradientH( 0, 0, static_cast<int>( w ), static_cast<int>( H ), redLeft ? red : blue, clear );
+                DrawRectangleGradientH( static_cast<int>( W - w ), 0, static_cast<int>( w ), static_cast<int>( H ), clear, redLeft ? blue : red );
+            }
+            // The chase: how far the car is ahead, and how far it must get.
+            const bool blink = ( static_cast<int>( m_time * 4.0f ) & 1 ) != 0;
+            drawTextFx( format( "POLICE  %d / %d M", static_cast<int>( std::max( 0.0, m_police.gap( m_car.m_s ) ) ), static_cast<int>( PoliceEscape ) ), W * 0.5f,
+                        H - 70.0f * u, 22.0f * u, blink ? Red : Color{ 90, 140, 255, 255 }, AlignE::CENTER, 0.6f );
+        }
     }
 
     // Speed, revs, gear, boost.

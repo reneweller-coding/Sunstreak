@@ -218,6 +218,14 @@ public:
     Vector3 extent() const;
 
     /**
+     * @brief The mean position of the vertices of some colours (to find a part of a model, such as a light bar).
+     * @param[in]  match  whether a vertex's colour is wanted
+     * @param[out] at     their mean position
+     * @return true if any vertex matched
+     */
+    bool centreOf( bool ( *match )( Color ), Vector3 &at ) const;
+
+    /**
      * @brief Sets the shade of the triangles that follow (and of appended ones).
      * @param[in] shade  1 open sky, 0 deep in a tunnel
      */

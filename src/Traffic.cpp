@@ -252,7 +252,7 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
         for( size_t i = 0; i < models.m_traffic.size(); ++i )
         {
             const VehicleModel &vm = models.m_traffic[i];
-            if( vm.m_animal != PropKindE::COUNT ) continue;
+            if( vm.m_animal != PropKindE::COUNT || vm.m_police ) continue;
             if( vm.m_fleets == 0 ) ( vm.m_truck ? trucks : cars ).push_back( static_cast<int>( i ) );
             else if( ( vm.m_fleets & fleetBit ) && spawnPlace.m_country && ( vm.m_where == 0 || ( vm.m_where == 1 ) == city ) )
                 local.push_back( static_cast<int>( i ) );
