@@ -1,0 +1,190 @@
+# Argentina, province by province: the ones the first tour had left out.
+
+place TIERRA_DEL_FUEGO | USHUAIA | ARGENTINA | OVERCAST | TIERRA DEL FUEGO
+    island TIERRA DEL FUEGO
+    clouds 0.7
+    sea 1 0 -6
+    water 2A4A5A
+    land 6A8A50 607E48 5A6A58
+    ranges 4A5058 E8ECF2 10
+    hills 20 6 6
+    drive 2 0.2 0.95 14
+    bends 0.45 0.4 0.4
+    p SPRUCE 0.15 4 120
+    p COTTAGE 0.01 10 60
+    c C83A2A 3A3A40
+    pastel
+    p DEAD_TREE 0.04 4 80
+    landmark STRIPED_LIGHTHOUSE 80 140
+    c F2F0EA C83A2A
+
+place RIO_NEGRO | BARILOCHE | ARGENTINA | ALPINE | RIO NEGRO
+    sea 1 0 -8
+    water 2A5A8A
+    land 5E9A48 549040 5E8A50
+    ranges 4A5A6A E8ECF2 12
+    hills 40 10 20
+    drive 2 0.4 0.97 14
+    bends 0.6 0.5 0.5
+    p SPRUCE 0.25 4 150
+    p CHALET 0.015 10 80
+    c E8E0D0 6A4A3A
+    p PEAK 0.005 200 450 1.2 1.6
+    c 7A7E86 EEF0F4
+
+place NEUQUEN | LANIN | ARGENTINA | MORNING | NEUQUEN
+    land 8AA058 7E9450 8A9A68
+    hills 24 8 8
+    drive 2 0.2 0.98 14
+    bends 0.5 0.45 0.45
+    p CEDAR 0.08 4 120
+    p VOLCANO_CONE 0.003 300 600 1.4 1.8
+    c 5A5A5E F2F4F8
+    p HORSE 0.01 10 100
+
+place SAN_JUAN_AR | VALLE DE LA LUNA | ARGENTINA | DESERT | SAN JUAN
+    land C8B898 BCAC8C B8A888
+    verge C0A880
+    hills 14 6 6
+    drive 2 0.1 0.98 14
+    bends 0.4 0.35 0.3
+    p BADLAND 0.02 30 250
+    c C8A890
+
+place TALAMPAYA | TALAMPAYA | ARGENTINA | DESERT | LA RIOJA
+    land C87048 BC6840 B87A58
+    verge C06A40
+    hills 16 10 10
+    drive 2 0.1 0.98 14
+    bends 0.35 0.3 0.25
+    p BUTTE 0.02 40 250
+    c B85A38
+    p CACTUS 0.03 4 80
+
+place CATAMARCA | CATAMARCA PUNA | ARGENTINA | ALPINE | CATAMARCA
+    land B8A888 AC9C80 B0A090
+    ranges 8A7A6A D8C8B8 10
+    hills 30 10 10
+    drive 2 0.1 0.95 15
+    bends 0.5 0.45 0.45
+    p VOLCANO_CONE 0.004 300 600 1.2 1.6
+    c 7A6A5A E8E8EC
+    p LLAMA 0.02 10 100
+    p DUNE 0.006 60 250
+    c E8D8C0
+
+place TUCUMAN | TUCUMAN | ARGENTINA | MIST | TUCUMAN
+    fog 0.0024
+    land 4E8A3A 46803A 5E8A48
+    fields 0.4 6AA04A 8AB050 D8C060
+    hills 30 10 10
+    drive 2 0.4 0.97 14
+    bends 0.55 0.45 0.5
+    p JUNGLE_TREE 0.15 6 150
+    p FLAT_HOUSE 0.01 10 60
+    pastel
+
+place SANTIAGO_DEL_ESTERO | SANTIAGO DEL ESTERO | ARGENTINA | HAZE | SANTIAGO DEL ESTERO
+    land A8A060 9C9458 A89A6A
+    hills 4 1 1
+    drive 2 0.2 1.0 14
+    bends 0.15 0.2 0.1
+    p ACACIA 0.06 6 150
+    p SHRUB 0.15 2 80
+    c 7A8A50
+    p COW 0.02 10 120
+    c 8A5A3A F2EEE0
+
+place CORDOBA_AR | SIERRAS DE CORDOBA | ARGENTINA | MORNING | CORDOBA
+    land 8AA058 7E9450 8A9A68
+    hills 26 8 8
+    drive 2 0.4 0.98 14
+    bends 0.55 0.45 0.5
+    p SHRUB 0.15 2 80
+    c 7A8A50
+    p CHURCH 0.004 40 150
+    c F2F0EA C86A3A
+    p COTTAGE 0.012 10 80
+    c F2F0EA C86A3A
+    p HORSE 0.01 10 100
+
+place SAN_LUIS_AR | SAN LUIS | ARGENTINA | GOLDEN | SAN LUIS
+    land A8A060 9C9458 A89A6A
+    hills 14 4 4
+    drive 2 0.2 1.0 14
+    bends 0.3 0.3 0.25
+    p GRANITE_DOME 0.004 100 300 0.6 0.9
+    c 9A8A7A
+    p SHRUB 0.15 2 80
+    c 7A8A50
+    p HORSE 0.008 10 100
+
+place LA_PAMPA | LA PAMPA | ARGENTINA | GOLDEN | LA PAMPA
+    land B8A868 AC9C60 B8A870
+    fields 0.4 D8C060 B8A050 8AA04A
+    hills 3 1 1
+    drive 2 0.15 1.0 14
+    bends 0.08 0.12 0.05
+    p WIND_PUMP 0.01 30 150
+    p COW 0.02 15 150
+    c 2A2A2A 2A2A2A
+    p RANCH_FENCE 0.25 4 4 1 1
+    p GRAIN_ELEVATOR 0.002 40 200
+
+place SANTA_FE_AR | ROSARIO | ARGENTINA | MORNING | SANTA FE
+    sea 1 0 -6
+    water 7A6A4A 0.85
+    land 8AA058 7E9450 8A9A68
+    drive 3 1.0 0.98 14
+    bends 0.25 0.25 0.1
+    lamps 40
+    bridges 0.25 CABLE_STAYED E8E8E8
+    p ROW_HOUSES 0.08 6 30
+    c D8C8B0 6A5A50
+    p GLASS_TOWER 0.03 40 200
+    c 8A9AA8
+    landmark OBELISK 40 70 0.25
+
+place ENTRE_RIOS | ENTRE RIOS | ARGENTINA | MORNING | ENTRE RIOS
+    hills 4 1 1 0.4
+    water 6A7A6A
+    land 6AA048 609440 6A8A58
+    drive 2 0.3 1.0 14
+    bends 0.25 0.25 0.1
+    p PALM 0.06 4 100
+    p COW 0.02 10 120
+    c 8A5A3A F2EEE0
+    p BROADLEAF 0.08 4 80
+    c 4E8A3E
+
+place CORRIENTES | ESTEROS DEL IBERA | ARGENTINA | HAZE | CORRIENTES
+    hills 2 0 0 0.7
+    water 4A6A5A
+    land 6A9A48 609040 6A8A58
+    road A85A36 A85A36
+    drive 2 0.15 0.88 14
+    bends 0.3 0.3 0.1
+    p REEDS 0.2 3 60
+    p PALM 0.05 4 100
+    p FLAMINGO 0.01 10 80
+    p HORSE 0.01 10 100
+
+place CHACO_PROVINCE | IMPENETRABLE | ARGENTINA | HAZE | CHACO
+    land 8A9A58 7E8E50 8A8A60
+    road A86A40 A86A40
+    drive 2 0.15 0.88 14
+    bends 0.25 0.25 0.1
+    p ACACIA 0.1 6 150
+    p CACTUS 0.03 4 80
+    p SHRUB 0.2 2 80
+    c 6A7A48
+
+place FORMOSA | FORMOSA | ARGENTINA | TROPICAL | FORMOSA
+    hills 2 0 0 0.5
+    water 5A7A6A
+    land 5E9A48 549040 5E8A50
+    drive 2 0.2 0.95 14
+    bends 0.25 0.25 0.1
+    p PALM 0.12 4 120
+    p JUNGLE_TREE 0.06 6 120
+    p REEDS 0.1 3 50

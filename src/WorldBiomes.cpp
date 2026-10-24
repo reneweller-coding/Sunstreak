@@ -40,7 +40,7 @@ void addWorldBiomes( std::vector<BiomeDef> &b )
         { BE::COAST, "USA", C::TEMPERATE, "CALIFORNIA" },
         { BE::AUTUMN, "USA", C::TEMPERATE, "VERMONT" },
         { BE::SAKURA, "JAPAN", C::TEMPERATE },
-        { BE::JUNGLE, "BRAZIL", C::TROPICAL },
+        { BE::JUNGLE, "BRAZIL", C::TROPICAL, "ACRE" },
         { BE::SAVANNA, "KENYA", C::ARID },
         { BE::VOLCANO, "USA", C::TROPICAL, "HAWAII" },
         { BE::AURORA, "FINLAND", C::COLD },

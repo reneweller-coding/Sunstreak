@@ -1,0 +1,250 @@
+# Brazil, state by state: the ones the first tour had left out.
+
+place SERRA_GAUCHA | SERRA GAUCHA | BRAZIL | MIST | RIO GRANDE DO SUL
+    fog 0.0024
+    land 6AA048 609440 6A8A58
+    hills 24 6 6
+    drive 2 0.4 0.98 13
+    bends 0.55 0.45 0.5
+    p VINE_ROW 0.25 6 70 1 1
+    p HALF_TIMBER 0.01 10 80
+    c E8E0D0 6A4A3A
+    p PINE 0.12 4 120
+    p HORSE 0.02 10 100
+    p RANCH_FENCE 0.2 4 4 1 1
+
+place VILA_VELHA | CURITIBA | BRAZIL | MORNING | PARANA
+    land 6AA048 609440 6A8A58
+    hills 16 4 4
+    drive 3 0.9 0.98 13
+    bends 0.35 0.3 0.25
+    lamps 40
+    p PINE 0.2 4 120
+    p PILLAR 0.01 40 200
+    c A89070
+    p FLAT_HOUSE 0.02 8 60
+    pastel
+    landmark CURITIBA_GREENHOUSE 40 70
+
+place AMAPA | MARCO ZERO | BRAZIL | TROPICAL | AMAPA
+    rain 0.1
+    sea 1 0 -3
+    water 7A6A48 0.85
+    land 3E8A32 38802C 3E7A3A
+    road A86A40 A86A40
+    drive 2 0.2 0.85 13
+    bends 0.3 0.3 0.2
+    p JUNGLE_TREE 0.3 4 150
+    p PALM 0.1 3 60
+    p HUT 0.01 8 60
+    landmark OBELISK 30 50 0.2
+
+place RORAIMA | MOUNT RORAIMA | BRAZIL | MIST | RORAIMA
+    fog 0.0024 B8C8C0
+    land 6A9A48 609040 5E8A48
+    hills 16 4 4
+    drive 2 0.1 0.9 13
+    bends 0.45 0.4 0.4
+    p TEPUI 0.004 250 500 0.9 1.3
+    c 5A4A40 3E6A3A
+    p GRASS_TUFT 0.3 1 40
+    p JUNGLE_TREE 0.06 6 120
+    p WATERFALL 0.002 60 200
+
+place RONDONIA | MADEIRA RIVER | BRAZIL | HAZE | RONDONIA
+    sea 0 1 -6
+    water 8A6A40 0.8
+    land 4E8A3A 46803A 5E8A48
+    road A85A36 A85A36
+    drive 2 0.3 0.85 13
+    bends 0.35 0.3 0.2
+    p JUNGLE_TREE 0.25 6 150
+    p COW 0.02 10 120
+    c F2EEE0 F2EEE0
+    p BARN 0.004 20 120
+    p BOAT 0.005 20 100
+    floating
+
+place MATO_GROSSO | CHAPADA DOS GUIMARAES | BRAZIL | GOLDEN | MATO GROSSO
+    land 9AA050 8E9448 A89A60
+    fields 0.5 8AB04A D8C060 6A9A3A
+    hills 20 6 20
+    drive 2 0.3 1.0 13
+    bends 0.4 0.35 0.35
+    p BUTTE 0.006 150 400
+    c A8603A
+    p ACACIA 0.04 6 150
+    p SILO 0.005 30 150
+    p WATERFALL 0.002 60 200
+
+place VEADEIROS | CHAPADA DOS VEADEIROS | BRAZIL | GOLDEN | GOIAS
+    land A8A060 9C9458 A89A6A
+    hills 22 8 8
+    drive 2 0.2 0.98 13
+    bends 0.45 0.4 0.4
+    p SHRUB 0.2 2 80
+    c 7A8A50
+    p WAX_PALM 0.03 6 100
+    p ROCK 0.08 3 80
+    p WATERFALL 0.003 40 160
+    p CRYSTAL 0.002 20 80
+
+place BRASILIA | BRASILIA | BRAZIL | NOON | FEDERAL DISTRICT
+    land 8AA058 7E9450 9A9A68
+    road 6A6A70
+    drive 4 1.2 1.0 13
+    bends 0.15 0.2 0.05
+    lamps 40
+    posts 0
+    gantries 700
+    p PANEL_BLOCK 0.04 30 150
+    c F2F2EE
+    p ACACIA 0.03 6 80
+    landmark BRASILIA_CONGRESS 120 200 0.8
+
+place JALAPAO | JALAPAO | BRAZIL | DESERT | TOCANTINS
+    land E0B068 D4A460 C8A868
+    verge D8A868
+    road B8703E B8703E
+    sand
+    hills 10 3 3
+    drive 2 0.1 0.88 13
+    bends 0.35 0.3 0.3
+    p DUNE 0.03 20 200
+    c F0B060
+    p WAX_PALM 0.03 6 100
+    p GRASS_TUFT 0.2 1 40
+    p BUTTE 0.003 200 400
+    c C8703A
+
+place OURO_PRETO | OURO PRETO | BRAZIL | MIST | MINAS GERAIS
+    land 6A9A48 609040 6A8A58
+    hills 36 12 12
+    drive 2 0.5 0.95 13
+    bends 0.7 0.6 0.7
+    lamps 40
+    p ROW_HOUSES 0.1 4 30
+    c F2F0EA 2A5A8A
+    pastel
+    p CHURCH 0.01 20 150
+    c F4F2EA 6A8A9A
+    p BROADLEAF 0.1 4 100
+    c 4E8A3E
+
+place ESPIRITO_SANTO | PEDRA AZUL | BRAZIL | MORNING | ESPIRITO SANTO
+    land 5EA048 549440 5E8A50
+    hills 30 10 10
+    drive 2 0.3 0.97 13
+    bends 0.6 0.5 0.55
+    p GRANITE_DOME 0.006 120 300 0.7 1.0
+    c 6A7A8A
+    p BANANA 0.1 4 80
+    p COTTAGE 0.01 10 60
+    c F2F0EA C86A3A
+
+place SALVADOR | SALVADOR | BRAZIL | TROPICAL | BAHIA
+    sea 1 0 -30
+    water 1E8AB0
+    land 4E8A3A 46803A 5E8A48
+    drive 3 0.9 0.95 13
+    bends 0.45 0.4 0.4
+    lamps 40
+    p ROW_HOUSES 0.14 4 30
+    c F0C060 4A4A50
+    pastel
+    p PALM 0.12 2 30
+    p CHURCH 0.006 20 120
+    c F4F2EA 3A6A9A
+    landmark ELEVADOR_LACERDA 30 50
+
+place SAO_FRANCISCO_RIVER | SAO FRANCISCO RIVER | BRAZIL | NOON | SERGIPE
+    sea 0 1 -6
+    water 4A7A8A
+    land 9AA860 8E9C58 A8A070
+    drive 2 0.3 0.98 13
+    bends 0.3 0.3 0.2
+    p PALM 0.12 3 60
+    p FLAT_HOUSE 0.02 8 60
+    pastel
+    p BOAT 0.01 20 120
+    c F2F0EA C83A2A
+    floating
+
+place MARAGOGI | MARAGOGI | BRAZIL | TROPICAL | ALAGOAS
+    sea 1 0 -2
+    water 3ACCD8
+    land E8DCC0 DCD0B4 6A9A5A
+    drive 2 0.4 1.0 13
+    bends 0.3 0.3 0.1
+    p PALM 0.3 2 40
+    p WATER_VILLA 0.004 30 120
+    floating
+    p PARASOL 0.04 3 20
+    pastel
+
+place OLINDA | OLINDA | BRAZIL | TROPICAL | PERNAMBUCO
+    sea 1 0 -4
+    water 2A9AC0
+    land 4E8A3A 46803A 5E8A48
+    drive 2 0.7 0.95 13
+    bends 0.45 0.4 0.4
+    lamps 40
+    p ROW_HOUSES 0.14 4 30
+    c 6AC8A8 4A4A50
+    pastel
+    p CHURCH 0.008 20 120
+    c F4F2EA 6A6A70
+    p PALM 0.12 2 30
+
+place CABO_BRANCO | CABO BRANCO | BRAZIL | TROPICAL | PARAIBA
+    sea 1 0 -20
+    water 2AA0C8
+    land 5E9A48 549040 6A8A50
+    hills 14 0 6
+    drive 2 0.4 0.98 13
+    bends 0.4 0.35 0.3
+    p PALM 0.2 2 40
+    p FLAT_HOUSE 0.02 8 60
+    pastel
+    landmark STRIPED_LIGHTHOUSE 40 70
+    c F2F0EA F2F0EA
+
+place NATAL_DUNES | GENIPABU DUNES | BRAZIL | NOON | RIO GRANDE DO NORTE
+    sea 1 0 -3
+    water 2AA8C8
+    land F0DCA8 E4D09C D8C490
+    verge E8D4A0
+    road C8A870 C8A870
+    sand
+    drive 2 0.2 0.88 13
+    bends 0.45 0.4 0.4
+    p DUNE 0.06 10 200
+    c F4E0A8
+    p PALM 0.08 3 60
+    p CAMEL 0.004 20 120
+
+place JERICOACOARA | JERICOACOARA | BRAZIL | GOLDEN | CEARA
+    sea 1 0 -3
+    water 2AB0C8
+    land F0DCA8 E4D09C D8C490
+    road C8A870 C8A870
+    sand
+    drive 2 0.2 0.88 13
+    bends 0.4 0.35 0.3
+    p DUNE 0.05 10 200
+    c F4E0A8
+    p PALM 0.1 3 60
+    p ARCH 0.003 30 80
+    c 6A5A4A
+
+place CAPIVARA | SERRA DA CAPIVARA | BRAZIL | DESERT | PIAUI
+    land B8A070 AC9468 A89A70
+    verge B8803E
+    hills 20 10 10
+    drive 2 0.15 0.97 13
+    bends 0.45 0.4 0.35
+    p BUTTE 0.012 60 300
+    c C87A4A
+    p SHRUB 0.2 2 80
+    c 7A8050
+    p CACTUS 0.03 4 80
