@@ -227,6 +227,12 @@ int main()
         check( career.rimsUnlocked( 3 ) && !career.rimsUnlocked( 4 ) && career.paintUnlocked( 6 ) && !career.paintUnlocked( 8 ) &&
                    !career.decalUnlocked( DecalCount - 1 ) && !career.paintUnlocked( PaintCount - 1 ) && Records::pointsText( 25000 ) == "25 000 POINTS",
                "garage unlocks" );
+        // The tour clock: noon is bright and starless, midnight dark with stars, whatever the place wrote.
+        const Environment &paris = biomeDef( BiomeE::PARIS ).m_env;
+        const Environment  noon = environmentAtHour( paris, 12.5f ), midnight = environmentAtHour( paris, 0.5f );
+        check( noon.m_sunIntensity > midnight.m_sunIntensity && midnight.m_stars > 0.3f && noon.m_stars < 0.05f &&
+                   midnight.m_headlights > 0.8f && noon.m_rain == paris.m_rain,
+               "the hour sets the light" );
         Track t( 31337 );
         bool  seen[static_cast<int>( BiomeE::COUNT )] = {};
         for( int s = 0; s < static_cast<int>( BiomeE::COUNT ); ++s ) seen[static_cast<int>( t.stageBiome( s ) )] = true;

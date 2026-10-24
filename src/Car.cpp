@@ -204,7 +204,7 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
     const float ax = std::abs( m_x );
     m_rumble = ( ax > f.m_halfWidth - 0.6f && ax < f.m_halfWidth + RumbleWidth + 0.4f && !m_airborne ) ? 1.0f : 0.0f;
     m_offroad = m_airborne ? 0.0f : smoothstepf( f.m_halfWidth + RumbleWidth, f.m_halfWidth + RumbleWidth + 1.5f, ax );
-    float grip = biome.m_grip;
+    float grip = biome.m_grip * m_weatherGrip;
     const long segIndex = static_cast<long>( m_s / SegmentLength );
     if( ( seg.m_flags & SEG_PUDDLE ) && std::abs( m_x - puddleLateral( track, segIndex ) ) < 1.8f ) grip *= 0.3f;
     m_wetGrip = grip;

@@ -78,6 +78,7 @@ Game::Game( Settings &settings, const LaunchOptions &options ) : m_settings( set
 void Game::init()
 {
     if( m_options.m_camera >= 0 ) m_settings.m_camera = m_options.m_camera;
+    if( m_options.m_timeOfDay >= 0 ) m_settings.m_timeOfDay = m_options.m_timeOfDay;
     m_tuningBase = loadTuning( configDirectory() + "/tuning.ini" );
     tuning() = applyDifficulty( m_tuningBase, m_settings.m_difficulty );
     m_records.load( configDirectory() + "/records.txt" );
@@ -150,6 +151,116 @@ void Game::shutdown()
 void Game::saveRecords() const
 {
     m_records.save( configDirectory() + "/records.txt" );
+}
+
+float Game::frontAt( double s, WeatherE &type ) const
+{
+    type = WeatherE::NONE;
+    if( m_options.m_weather >= 0 )
+    {
+        type = static_cast<WeatherE>( m_options.m_weather );
+        return type == WeatherE::NONE ? 0.0f : 1.0f;
+    }
+    if( m_settings.m_weather != 0 || !m_track ) return 0.0f;
+    const long stage = static_cast<long>( s / StageLength );
+    float      best = 0.0f;
+    for( long st = std::max( 0L, stage - 1 ); st <= stage + 1; ++st )
+    {
+        const uint64_t h = hash64( m_seed * 977 + static_cast<uint64_t>( st ) * 131 + 17 );
+        if( h % 100 >= 34 ) continue;
+        const ClimateE climate = biomeDef( m_track->stageBiome( static_cast<int>( st ) ) ).m_climate;
+        if( climate == ClimateE::NONE ) continue;
+        const double centre = ( static_cast<double>( st ) + 0.25 + 0.5 * static_cast<double>( ( h >> 8 ) % 1000 ) / 1000.0 ) * StageLength;
+        const double half = 700.0 + static_cast<double>( ( h >> 20 ) % 900 );
+        const float  k = 1.0f - smoothstepf( static_cast<float>( half * 0.5 ), static_cast<float>( half ), static_cast<float>( std::abs( s - centre ) ) );
+        if( k <= best ) continue;
+        best = k;
+        static const WeatherE temperate[4] = { WeatherE::RAIN, WeatherE::RAIN, WeatherE::FOG, WeatherE::STORM };
+        switch( climate )
+        {
+        case ClimateE::ARID: type = WeatherE::SANDSTORM; break;
+        case ClimateE::COLD: type = WeatherE::SNOW; break;
+        case ClimateE::TROPICAL: type = ( h >> 32 ) % 3 == 0 ? WeatherE::RAIN : WeatherE::STORM; break;
+        default: type = temperate[( h >> 32 ) % 4]; break;
+        }
+    }
+    return best;
+}
+
+float Game::wantedHour() const
+{
+    static const float fixed[4] = { 6.6f, 12.5f, 19.6f, 23.0f };
+    if( m_settings.m_timeOfDay >= 2 ) return fixed[std::clamp( m_settings.m_timeOfDay - 2, 0, 3 )];
+    if( m_settings.m_timeOfDay != 1 || !m_track ) return -1.0f;
+    // Local solar time: the universal hour (an hour per ten kilometres) plus the place's longitude.
+    GeoPoint where;
+    if( !placeLocation( m_track->biomeMix( m_car.m_s ).m_from, where ) ) return -1.0f;
+    const double utc = m_clockStart + ( m_car.m_s - m_startS ) / 10000.0;
+    return static_cast<float>( std::fmod( utc + where.m_lon / 15.0 + 48.0, 24.0 ) );
+}
+
+Environment Game::sceneEnvironment( double s ) const
+{
+    Environment e = environmentAt( *m_track, s );
+    if( m_hour >= 0.0f ) e = environmentAtHour( e, m_hour );
+    WeatherE    type = WeatherE::NONE;
+    const float k = frontAt( s, type );
+    if( k <= 0.0f ) return e;
+    auto toward = [k]( Color a, Color b, float amount ) { return lerpColor( a, b, k * amount ); };
+    switch( type )
+    {
+    case WeatherE::RAIN:
+    case WeatherE::STORM:
+    {
+        const bool storm = type == WeatherE::STORM;
+        e.m_rain = std::max( e.m_rain, k * ( storm ? 0.95f : 0.7f ) );
+        e.m_lightning = std::max( e.m_lightning, storm ? k * 0.6f : 0.0f );
+        e.m_cloudAmount = std::max( e.m_cloudAmount, 0.6f + 0.4f * k );
+        e.m_cloudColor = toward( e.m_cloudColor, Color{ 110, 116, 126, 255 }, storm ? 0.9f : 0.6f );
+        e.m_sunIntensity *= 1.0f - 0.45f * k;
+        e.m_skyZenith = toward( e.m_skyZenith, Color{ 96, 104, 116, 255 }, storm ? 0.8f : 0.55f );
+        e.m_skyHorizon = toward( e.m_skyHorizon, Color{ 150, 156, 164, 255 }, 0.6f );
+        e.m_fogColor = toward( e.m_fogColor, Color{ 150, 156, 164, 255 }, 0.6f );
+        e.m_fogDensity *= 1.0f + 0.9f * k;
+        e.m_headlights = std::max( e.m_headlights, 0.35f * k );
+        e.m_saturation = lerpf( e.m_saturation, 0.9f, k );
+        break;
+    }
+    case WeatherE::FOG:
+        e.m_fogColor = toward( e.m_fogColor, Color{ 206, 212, 218, 255 }, 0.8f );
+        e.m_skyHorizon = toward( e.m_skyHorizon, Color{ 206, 212, 218, 255 }, 0.8f );
+        e.m_fogDensity = lerpf( e.m_fogDensity, 0.009f, k );
+        e.m_sunIntensity *= 1.0f - 0.35f * k;
+        e.m_headlights = std::max( e.m_headlights, 0.5f * k );
+        break;
+    case WeatherE::SNOW:
+        e.m_snow = std::max( e.m_snow, 0.85f * k );
+        e.m_cloudAmount = std::max( e.m_cloudAmount, 0.7f + 0.3f * k );
+        e.m_cloudColor = toward( e.m_cloudColor, Color{ 214, 218, 226, 255 }, 0.8f );
+        e.m_skyZenith = toward( e.m_skyZenith, Color{ 170, 178, 192, 255 }, 0.7f );
+        e.m_skyHorizon = toward( e.m_skyHorizon, Color{ 214, 220, 230, 255 }, 0.7f );
+        e.m_fogColor = toward( e.m_fogColor, Color{ 214, 220, 230, 255 }, 0.7f );
+        e.m_fogDensity *= 1.0f + 1.6f * k;
+        e.m_sunIntensity *= 1.0f - 0.4f * k;
+        break;
+    case WeatherE::SANDSTORM:
+    {
+        const Color sand = { 206, 160, 104, 255 };
+        e.m_dust = std::max( e.m_dust, k );
+        e.m_fogColor = toward( e.m_fogColor, sand, 0.9f );
+        e.m_skyHorizon = toward( e.m_skyHorizon, sand, 0.9f );
+        e.m_skyZenith = toward( e.m_skyZenith, Color{ 170, 140, 104, 255 }, 0.7f );
+        e.m_ambientTop = toward( e.m_ambientTop, sand, 0.5f );
+        e.m_sunColor = toward( e.m_sunColor, Color{ 255, 190, 120, 255 }, 0.6f );
+        e.m_fogDensity = lerpf( e.m_fogDensity, 0.0075f, k );
+        e.m_sunIntensity *= 1.0f - 0.5f * k;
+        e.m_cloudAmount *= 1.0f - 0.7f * k;
+        e.m_headlights = std::max( e.m_headlights, 0.45f * k );
+        break;
+    }
+    default: break;
+    }
+    return e;
 }
 
 void Game::applyLivery()
@@ -379,6 +490,13 @@ void Game::beginCountdown()
     m_ghost.startRecording();
     m_earned = 0;
     m_postcardWanted = -1;
+    m_frontShown = -1;
+    // The tour clock: the morning, give or take, wherever the run starts.
+    GeoPoint where;
+    m_clockStart = placeLocation( m_track->biomeMix( m_car.m_s ).m_from, where )
+                       ? 7.5 + static_cast<double>( hash64( m_seed + 3 ) % 40 ) * 0.1 - static_cast<double>( where.m_lon ) / 15.0
+                       : 9.0;
+    m_hour = -1.0f;
     m_state = StateE::COUNTDOWN;
     m_stateTime = 0.0f;
     m_musicStage = m_stage;
@@ -674,7 +792,30 @@ void Game::simulate( float dt, bool autopilotOn )
     m_particles.update( dt );
     updateCamera( dt );
 
-    const Environment env = environmentAt( track, m_car.m_s + 30.0 );
+    // The hour the sky shows follows the time zones smoothly; fronts are announced as they come.
+    const float hour = wantedHour();
+    if( hour < 0.0f ) m_hour = -1.0f;
+    else if( m_hour < 0.0f ) m_hour = hour;
+    else
+    {
+        const float d = std::remainder( hour - m_hour, 24.0f );
+        m_hour = std::fmod( m_hour + d * std::min( 1.0f, dt * 0.25f ) + 24.0f, 24.0f );
+    }
+    WeatherE    front = WeatherE::NONE;
+    const float frontAhead = frontAt( m_car.m_s + 450.0, front );
+    const long  frontStage = static_cast<long>( ( m_car.m_s + 450.0 ) / StageLength );
+    if( !m_demo && frontAhead > 0.3f && frontStage != m_frontShown && m_state == StateE::RACE )
+    {
+        m_frontShown = frontStage;
+        static const char *names[] = { "", "RAIN AHEAD", "THUNDERSTORM", "FOG BANK", "SNOW SHOWERS", "SANDSTORM" };
+        popup( names[static_cast<int>( front )], "", Cyan, 0.7f, 2.2f );
+    }
+    WeatherE    here = WeatherE::NONE;
+    const float wet = frontAt( m_car.m_s, here );
+    const float lose = here == WeatherE::SNOW ? 0.22f : here == WeatherE::SANDSTORM ? 0.08f : here == WeatherE::FOG || here == WeatherE::NONE ? 0.0f : 0.12f;
+    m_car.m_weatherGrip = 1.0f - lose * wet;
+
+    const Environment env = sceneEnvironment( m_car.m_s + 30.0 );
     Rng              &r = m_particles.m_rng;
     if( env.m_lightning > 0.05f && r.uniform() < dt * 0.12f * env.m_lightning )
     {
@@ -1029,7 +1170,7 @@ void Game::emitParticles( float dt )
     const Track      &track = *m_track;
     const Pose        pose = m_car.pose( track );
     Rng              &r = m_particles.m_rng;
-    const Environment env = environmentAt( track, m_car.m_s );
+    const Environment env = sceneEnvironment( m_car.m_s );
     const Surface     surf = surfaceAt( track, m_car.m_s );
     const Vector3     carVel = Vector3Scale( pose.m_forward, m_car.m_speed );
     const float       rearZ = -m_car.m_spec.m_length * 0.3f;
@@ -1201,6 +1342,29 @@ void Game::updateAudio()
     s.m_redline = m_car.m_spec.m_redline;
     s.m_bright = m_car.m_spec.m_bright;
     m_audio.setEngine( s );
+
+    // The place's own sounds: the sea, the wind, the jungle, the city, rain, bridges and tunnels.
+    Ambience a;
+    if( !m_demo && ( m_state == StateE::RACE || m_state == StateE::COUNTDOWN ) )
+    {
+        const BiomeMix  mix = m_track->biomeMix( m_car.m_s );
+        const BiomeDef &def = biomeDef( mix.m_t < 0.5f ? mix.m_from : mix.m_to );
+        const Terrain  &land = def.m_terrain;
+        const uint16_t  flags = m_track->segment( static_cast<long>( m_car.m_s / SegmentLength ) ).m_flags;
+        const bool      city = def.m_lanes >= 3;
+        WeatherE        front = WeatherE::NONE;
+        const float     k = frontAt( m_car.m_s, front );
+        a.m_surf = std::max( land.m_waterLeft, land.m_waterRight ) > 0.5f ? ( land.m_seaLevel > -12.0f ? 1.0f : 0.55f ) : 0.0f;
+        a.m_surfPan = clampf( land.m_waterRight - land.m_waterLeft, -1.0f, 1.0f );
+        a.m_city = city ? 0.85f : def.m_lampSpacing > 0.0f ? 0.3f : 0.0f;
+        a.m_jungle = city ? 0.0f : def.m_climate == ClimateE::TROPICAL ? 0.8f : def.m_climate == ClimateE::TEMPERATE ? 0.2f : 0.0f;
+        a.m_wind = ( def.m_climate == ClimateE::ARID ? 0.7f : def.m_climate == ClimateE::COLD ? 0.55f : 0.22f ) +
+                   ( front == WeatherE::SANDSTORM || front == WeatherE::SNOW || front == WeatherE::STORM ? 0.6f * k : 0.0f );
+        a.m_rain = sceneEnvironment( m_car.m_s ).m_rain;
+        a.m_bridge = flags & SEG_BRIDGE ? 1.0f : 0.0f;
+        if( flags & SEG_TUNNEL ) a = Ambience{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f };
+    }
+    m_audio.setAmbience( a );
 
     // The soundtrack's mood: tension when time runs short or the finish nears, drive with the speed.
     float tension = 0.0f;

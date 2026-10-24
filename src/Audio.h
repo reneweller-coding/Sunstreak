@@ -65,6 +65,19 @@ struct EngineState
     float m_bright = 1.0f;     ///< tone brightness
 };
 
+/** @brief The sounds of the place around the car (set once per frame; the synthesis glides between them). */
+struct Ambience
+{
+    float m_surf = 0.0f;      ///< 0..1 waves on a shore
+    float m_surfPan = 0.0f;   ///< -1 left .. 1 right: where the water is
+    float m_wind = 0.0f;      ///< 0..1 wind over open land
+    float m_jungle = 0.0f;    ///< 0..1 insects and birds
+    float m_city = 0.0f;      ///< 0..1 traffic hum and distant horns
+    float m_rain = 0.0f;      ///< 0..1 rain on the car
+    float m_tunnel = 0.0f;    ///< 0..1 inside a tunnel: the engine echoes
+    float m_bridge = 0.0f;    ///< 0..1 on a bridge: the expansion joints thump
+};
+
 /** @brief The sound system. */
 class Audio
 {
@@ -84,6 +97,12 @@ public:
      * @param[in] s  the state
      */
     void setEngine( const EngineState &s );
+
+    /**
+     * @brief Sets the sounds of the place (once per frame).
+     * @param[in] a  the ambience
+     */
+    void setAmbience( const Ambience &a );
 
     /**
      * @brief Plays an effect.
@@ -141,7 +160,8 @@ public:
      *        checked there, never through the speakers.
      * @param[in] path     the WAV file
      * @param[in] seconds  its length
-     * @param[in] station  -1 the scripted drive with music, else that station's music alone
+     * @param[in] station  -1 the scripted drive with music, -2 the ambiences one after the other, else that station's music
+     *                     alone
      * @return true if written
      */
     static bool renderTest( const std::string &path, float seconds, int station = -1 );

@@ -88,6 +88,8 @@ bool loadSettings( Settings &settings )
             else if( key == "fps_limit" ) settings.m_fpsLimit = std::clamp( std::stoi( val ), 0, 240 );
             else if( key == "vibration" ) settings.m_vibration = val == "1";
             else if( key == "scenery" ) settings.m_scenery = std::clamp( std::stoi( val ), 0, 1 );
+            else if( key == "time_of_day" ) settings.m_timeOfDay = std::clamp( std::stoi( val ), 0, 5 );
+            else if( key == "weather" ) settings.m_weather = std::clamp( std::stoi( val ), 0, 1 );
             else if( key == "car" ) settings.m_car = std::max( 0, std::stoi( val ) );
             else if( key == "paint" ) settings.m_paint = std::max( 0, std::stoi( val ) );
             else if( key == "rims" ) settings.m_rims = std::max( 0, std::stoi( val ) );
@@ -126,6 +128,8 @@ bool saveSettings( const Settings &settings )
     out << "fps_limit=" << settings.m_fpsLimit << "\n";
     out << "vibration=" << ( settings.m_vibration ? 1 : 0 ) << "\n";
     out << "scenery=" << settings.m_scenery << "\n";
+    out << "time_of_day=" << settings.m_timeOfDay << "\n";
+    out << "weather=" << settings.m_weather << "\n";
     out << "car=" << settings.m_car << "\n";
     out << "paint=" << settings.m_paint << "\n";
     out << "rims=" << settings.m_rims << "\n";
@@ -151,6 +155,20 @@ LaunchOptions parseCommandLine( int argc, char **argv )
         {
             const std::string what = next();
             o.m_scenery = what == "world" ? -2 : what == "mixed" ? -1 : std::max( 0, std::atoi( what.c_str() ) );
+        }
+        else if( a == "--weather" )
+        {
+            static const char *kinds[] = { "clear", "rain", "storm", "fog", "snow", "sand" };
+            const std::string  what = next();
+            for( int k = 0; k < 6; ++k )
+                if( what == kinds[k] ) o.m_weather = k;
+        }
+        else if( a == "--time" )
+        {
+            static const char *times[] = { "place", "clock", "dawn", "day", "dusk", "night" };
+            const std::string  what = next();
+            for( int k = 0; k < 6; ++k )
+                if( what == times[k] ) o.m_timeOfDay = k;
         }
         else if( a == "--autopilot" ) o.m_autopilot = true;
         else if( a == "--play" ) o.m_skipMenu = true;

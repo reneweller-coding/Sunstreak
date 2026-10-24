@@ -57,6 +57,7 @@ int main( int argc, char **argv )
         const auto stem = options.m_audioTest.substr( 0, dot );
         for( int s = 0; s < StationCount; ++s ) ok = Audio::renderTest( stem + "-station" + std::to_string( s ) + ".wav", 50.0f, s ) && ok;
         ok = Audio::renderTest( stem + "-adaptive.wav", 40.0f, StationCount ) && ok;
+        ok = Audio::renderTest( stem + "-ambience.wav", 35.0f, -2 ) && ok;
         return ok ? 0 : 1;
     }
     Settings            settings;

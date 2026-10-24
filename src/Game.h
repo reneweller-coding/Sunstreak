@@ -48,6 +48,8 @@ enum class SettingE
     FRAME_LIMIT,  ///< frame rate cap
     DIFFICULTY,   ///< easy, normal, hard
     SCENERY,      ///< endless runs: the world tour or all mixed
+    TIME_OF_DAY,  ///< as the place, the tour clock, or a fixed hour
+    WEATHER,      ///< weather fronts or the place's own weather
     GEARS,        ///< automatic or manual
     UNITS,        ///< km/h or mph
     CAMERA,       ///< chase, far, bumper
@@ -137,6 +139,17 @@ enum class ModeE
     ENDLESS,       ///< the endless time attack
     CHAMPIONSHIP,  ///< five races against rivals
     CUSTOM,        ///< a Track Lab track (time attack or a single race)
+};
+
+/** @brief A weather front passing over the road. */
+enum class WeatherE
+{
+    NONE,        ///< clear
+    RAIN,        ///< a shower
+    STORM,       ///< a thunderstorm
+    FOG,         ///< a fog bank
+    SNOW,        ///< a snow shower
+    SANDSTORM,   ///< blowing sand
 };
 
 /** @brief A message in the middle of the screen. */
@@ -303,6 +316,28 @@ private:
 
     /** @brief Saves the records. */
     void saveRecords() const;
+
+    /**
+     * @brief The weather front over a point of the road: a few per hundred kilometres, of the kind the place's climate
+     *        brings, rising and falling over a kilometre or two.
+     * @param[in]  s     distance along the road
+     * @param[out] type  the front's kind
+     * @return its strength 0..1
+     */
+    float frontAt( double s, WeatherE &type ) const;
+
+    /**
+     * @brief The local hour the sky shows (the tour clock: the time zone of the place; or the fixed hour chosen).
+     * @return 0..24, or -1 for the place's own light
+     */
+    float wantedHour() const;
+
+    /**
+     * @brief The air and light at a point of the road: the place, blended between stages, at the hour, in the weather.
+     * @param[in] s  distance along the road
+     * @return the environment
+     */
+    Environment sceneEnvironment( double s ) const;
 
     /** @brief Dresses the player's car as the garage says and keeps the choice. */
     void applyLivery();
@@ -584,6 +619,11 @@ private:
     bool       m_camInit = false;     ///< the camera has a position
     float      m_blur = 0.0f;         ///< smoothed speed blur
     float      m_aberration = 0.0f;   ///< smoothed boost fringes
+
+    // Time of day and weather.
+    double m_clockStart = 9.0;        ///< tour clock: the universal hour at the run's start
+    float  m_hour = -1.0f;            ///< the local hour the sky shows (smoothed, -1: the place's own)
+    long   m_frontShown = -1;         ///< the stage whose front was announced
 
     // Weather and effects.
     float m_flash = 0.0f;             ///< lightning brightness

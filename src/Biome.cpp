@@ -1158,6 +1158,7 @@ Environment blendEnvironment( const Environment &a, const Environment &b, float 
     e.m_aurora = lerpf( a.m_aurora, b.m_aurora, t );
     e.m_rainbow = lerpf( a.m_rainbow, b.m_rainbow, t );
     e.m_eclipse = lerpf( a.m_eclipse, b.m_eclipse, t );
+    e.m_dust = lerpf( a.m_dust, b.m_dust, t );
     // A planet fades by size; its place and colour jump to whichever biome has one.
     e.m_planetSize = lerpf( a.m_planetSize, b.m_planetSize, t );
     const Environment &p = b.m_planetSize > 0.0f && ( t > 0.5f || a.m_planetSize <= 0.0f ) ? b : a;

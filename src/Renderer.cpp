@@ -250,7 +250,12 @@ void Renderer::render( const SceneInput &in, const CameraView &cam, float render
     {
         Vector3 &d = m_drops[i];
         d = Vector3Subtract( d, delta );
-        if( in.m_env.m_snow > in.m_env.m_rain )
+        if( in.m_env.m_dust > std::max( in.m_env.m_rain, in.m_env.m_snow ) )
+        { // Sand driven across the road by the wind.
+            d.x += ( 13.0f + 4.0f * std::sin( in.m_time * 0.7f + static_cast<float>( i ) * 0.3f ) ) * in.m_dt;
+            d.y += std::sin( in.m_time * 2.1f + static_cast<float>( i ) ) * 0.8f * in.m_dt;
+        }
+        else if( in.m_env.m_snow > in.m_env.m_rain )
         {
             d.y -= 1.6f * in.m_dt;
             d.x += std::sin( in.m_time * 1.3f + static_cast<float>( i ) ) * 0.5f * in.m_dt;
@@ -263,6 +268,7 @@ void Renderer::render( const SceneInput &in, const CameraView &cam, float render
         if( rel.x > 30 ) d.x -= 60; else if( rel.x < -30 ) d.x += 60;
         if( rel.z > 30 ) d.z -= 60; else if( rel.z < -30 ) d.z += 60;
         if( d.y < -6 ) d.y += 22; else if( d.y > 16 ) d.y -= 22;
+        if( in.m_env.m_dust > 0.02f && d.y > 7.0f ) d.y -= 13.0f;   // blowing sand stays low
     }
     const Vector3 streakCenter = Vector3Scale( flatFwd, 22.0f );
     for( Vector3 &d : m_streaks )
@@ -630,9 +636,24 @@ void Renderer::drawParticles( const SceneInput &in, const CameraView &cam, const
     rlDrawRenderBatchActive();
     EndBlendMode();
 
-    // Rain and snow, and air streaks at speed.
+    // Rain, snow or blowing sand, and air streaks at speed.
     const float rain = e.m_rain, snow = e.m_snow;
-    if( rain > 0.02f || snow > 0.02f )
+    if( e.m_dust > std::max( 0.02f, std::max( rain, snow ) ) )
+    {
+        setF( s, "intensity", 1.1f );
+        setF( s, "roundSprite", 0.0f );
+        rlBegin( RL_QUADS );
+        const int     n = static_cast<int>( static_cast<float>( m_drops.size() ) * e.m_dust );
+        const Vector3 blow = Vector3Subtract( Vector3{ 14.0f, 0.0f, 0.0f }, m_camVel );
+        for( int i = 0; i < n; ++i )
+        {
+            const Vector3 p = m_drops[static_cast<size_t>( i )];
+            ribbon( p, Vector3Subtract( p, Vector3Scale( blow, 0.035f ) ), 0.04f, Color{ 222, 178, 120, 120 } );
+        }
+        rlEnd();
+        rlDrawRenderBatchActive();
+    }
+    else if( rain > 0.02f || snow > 0.02f )
     {
         const bool snowing = snow > rain;
         setF( s, "intensity", snowing ? 1.4f : 1.2f );

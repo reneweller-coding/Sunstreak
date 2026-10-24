@@ -50,6 +50,8 @@ struct Settings
     int          m_fpsLimit = 0;                       ///< frame rate cap (0: none beyond vsync)
     bool         m_vibration = true;                   ///< gamepad rumble
     int          m_scenery = 0;                        ///< endless runs: 0 the world tour, 1 every biome mixed
+    int          m_timeOfDay = 0;                      ///< 0 as the place, 1 the tour clock (time zones), 2 dawn, 3 day, 4 dusk, 5 night
+    int          m_weather = 0;                        ///< 0 weather fronts pass, 1 as the place
     int          m_car = 0;                            ///< the chosen car
     int          m_paint = 0;                          ///< its paint
     int          m_rims = 0;                           ///< its rims
@@ -76,6 +78,8 @@ struct LaunchOptions
     bool        m_mute = false;        ///< no sound at all (test runs)
     std::string m_audioTest;           ///< render a test drive's sound to this WAV and quit
     int         m_find = 0;            ///< start before the first 1 tunnel, 2 bridge, 3 landmark (testing)
+    int         m_weather = -1;        ///< a weather front all the way (WeatherE, testing; -1: as it comes)
+    int         m_timeOfDay = -1;      ///< the time of day for this start (Settings::m_timeOfDay; -1: the settings')
     int         m_camera = -1;         ///< a camera for this run only (-1: the settings')
     std::string m_code;                ///< start this track code at once
     bool        m_championship = false;///< start a championship at once

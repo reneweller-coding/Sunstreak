@@ -755,6 +755,17 @@ struct Environment
     float m_planetElevation;    ///< its height (degrees)
     float m_planetAzimuth;      ///< its direction (degrees)
     Color m_planetColor;        ///< its colour
+    float m_dust;               ///< 0..1 blowing sand (a sandstorm)
+};
+
+/** @brief What weather a place gets when a front passes. */
+enum class ClimateE : uint8_t
+{
+    NONE,        ///< none (the fantasy biomes)
+    TEMPERATE,   ///< rain, fog, now and then a thunderstorm
+    TROPICAL,    ///< downpours and thunderstorms
+    ARID,        ///< sandstorms
+    COLD,        ///< snow showers
 };
 
 /** @brief Colours of the road and the ground. */
@@ -820,6 +831,7 @@ struct BiomeDef
     const char           *m_country = nullptr;  ///< where on the world tour (none: off the map)
     BridgeE               m_bridge = BridgeE::BEAM;               ///< how its bridges are built
     Color                 m_bridgeColor = { 150, 150, 154, 255 }; ///< their paint or stone
+    ClimateE              m_climate = ClimateE::NONE;             ///< the weather fronts it gets
 };
 
 /**
@@ -890,6 +902,15 @@ bool placeLocation( BiomeE biome, GeoPoint &where );
  * @return 0..LongitudeSectors-1, eastward from the date line
  */
 int longitudeSector( float lon );
+
+/**
+ * @brief A place's light at another hour (the tour clock, or a fixed time of day): the sky of the hour, the place's own
+ *        air, ranges, rain and snow kept (WorldBiomes.cpp).
+ * @param[in] place  the place's environment as written
+ * @param[in] hour   local time, 0..24
+ * @return the environment
+ */
+Environment environmentAtHour( const Environment &place, float hour );
 
 /**
  * @brief Blends two environments.

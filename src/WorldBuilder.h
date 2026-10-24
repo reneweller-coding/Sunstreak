@@ -242,6 +242,27 @@ public:
             m_windows = hx( 0xFFD696 );
             m_d.m_lampSpacing = 35.0f;
         }
+        switch( sky )
+        {
+        case SkyE::DESERT: m_d.m_climate = ClimateE::ARID; break;
+        case SkyE::ARCTIC:
+        case SkyE::WINTER:
+        case SkyE::ALPINE: m_d.m_climate = ClimateE::COLD; break;
+        case SkyE::TROPICAL:
+        case SkyE::HAZE: m_d.m_climate = ClimateE::TROPICAL; break;
+        default: m_d.m_climate = ClimateE::TEMPERATE; break;
+        }
+    }
+
+    /**
+     * @brief Sets the weather fronts the place gets (the sky preset decides otherwise).
+     * @param[in] c  the climate
+     * @return this
+     */
+    W &climate( ClimateE c )
+    {
+        m_d.m_climate = c;
+        return *this;
     }
 
     // ---- Light and air.

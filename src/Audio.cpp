@@ -61,6 +61,7 @@ struct Synth
     std::atomic<uint64_t> m_musicSeed{ 1 };    ///< the track to start
     std::atomic<int>   m_musicStation{ 0 };  ///< its station
     std::atomic<float> m_tension{ 0.0f }, m_drive{ 0.0f };   ///< the game's mood
+    std::atomic<float> m_aSurf{ 0 }, m_aSurfPan{ 0 }, m_aWind{ 0 }, m_aJungle{ 0 }, m_aCity{ 0 }, m_aRain{ 0 }, m_aTunnel{ 0 }, m_aBridge{ 0 };
 
     std::array<Event, 64>  m_queue;          ///< effects posted by the game
     std::atomic<uint32_t>  m_head{ 0 };      ///< written by the game thread
@@ -76,6 +77,174 @@ struct Synth
     Noise  e_n;
     float  e_width[64] = {};
     int    e_wi = 0;
+    // The ambience (audio thread).
+    float  a_surf = 0, a_pan = 0, a_wind = 0, a_jungle = 0, a_city = 0, a_rain = 0, a_tunnel = 0, a_bridge = 0, a_time = 0;
+    float  a_joint = 0, a_thump = 0, a_thump2 = 0, a_thumpDelay = -1, a_horn = 0, a_hornF = 420, a_hornIn = 6, a_bird = 0, a_birdF = 3000,
+           a_birdIn = 2, a_birdPh = 0, a_insectPh = 0, a_amPh = 0, a_droplet = 0;
+    int    a_coef = 0;
+    Svf    a_surfLo, a_surfHi, a_windBp, a_rainHp, a_cityLo, a_hornLo, a_thumpLo;
+    Noise  a_n;
+    std::array<std::array<float, 3600>, 4> a_comb{};   ///< tunnel echo: four combs
+    std::array<float, 4>                   a_combDamp{};
+    int                                    a_combPos = 0;
+
+    /**
+     * @brief Renders the place's sounds and the tunnel's echo of the engine.
+     * @param[in]  engine  the dry engine and tyres
+     * @param[in]  gain    the effects volume
+     * @param[out] l       left
+     * @param[out] r       right
+     */
+    void renderAmbience( float engine, float gain, float &l, float &r )
+    {
+        const float glide = 0.00004f;
+        a_surf += ( m_aSurf.load( std::memory_order_relaxed ) - a_surf ) * glide;
+        a_pan += ( m_aSurfPan.load( std::memory_order_relaxed ) - a_pan ) * glide;
+        a_wind += ( m_aWind.load( std::memory_order_relaxed ) - a_wind ) * glide;
+        a_jungle += ( m_aJungle.load( std::memory_order_relaxed ) - a_jungle ) * glide;
+        a_city += ( m_aCity.load( std::memory_order_relaxed ) - a_city ) * glide;
+        a_rain += ( m_aRain.load( std::memory_order_relaxed ) - a_rain ) * glide;
+        a_tunnel += ( m_aTunnel.load( std::memory_order_relaxed ) - a_tunnel ) * 0.0002f;
+        a_bridge += ( m_aBridge.load( std::memory_order_relaxed ) - a_bridge ) * 0.0004f;
+        a_time += 1.0f / SampleRate;
+        if( a_time > 3600.0f ) a_time -= 3600.0f;
+        const float dt = 1.0f / SampleRate;
+        float       mono = 0.0f, side = 0.0f;
+
+        // Surf: swells every seven seconds, a rush and a hiss as they break.
+        if( a_surf > 0.001f )
+        {
+            const float swell = 0.5f - 0.5f * std::cos( Pi2 * a_time / 7.3f ), crash = swell * swell * swell;
+            if( ( a_coef & 31 ) == 0 )
+            {
+                a_surfLo.set( 280.0f + 900.0f * crash, 0.7f );
+                a_surfHi.set( 2600.0f, 0.8f );
+            }
+            const float wave = a_surfLo.low( a_n.next() ) * ( 0.3f + 0.9f * crash ) + a_surfHi.band( a_n.next() ) * crash * 0.35f;
+            side += wave * a_surf * 0.8f;
+        }
+        // Wind: a band of noise that gusts.
+        if( a_wind > 0.001f )
+        {
+            const float gust = 0.55f + 0.3f * std::sin( Pi2 * a_time / 5.1f ) + 0.15f * std::sin( Pi2 * a_time / 1.7f );
+            if( ( a_coef & 31 ) == 0 ) a_windBp.set( 380.0f + 420.0f * gust, 1.6f );
+            mono += a_windBp.band( a_n.next() ) * gust * a_wind * 0.6f;
+        }
+        // Rain: a hiss and drops.
+        if( a_rain > 0.001f )
+        {
+            if( ( a_coef & 31 ) == 0 ) a_rainHp.set( 4200.0f, 0.6f );
+            if( a_n.unit() < 0.0016f * a_rain ) a_droplet = 1.0f;
+            a_droplet *= 0.993f;
+            mono += ( a_rainHp.band( a_n.next() ) * 0.5f + a_n.next() * a_droplet * 0.25f ) * a_rain * 0.6f;
+        }
+        // The city: a low rumble and now and then a horn far off.
+        if( a_city > 0.001f )
+        {
+            if( ( a_coef & 31 ) == 0 )
+            {
+                a_cityLo.set( 160.0f, 0.7f );
+                a_hornLo.set( 1300.0f, 0.7f );
+            }
+            float y = a_cityLo.low( a_n.next() ) * 0.9f;
+            a_hornIn -= dt;
+            if( a_hornIn <= 0.0f )
+            {
+                a_horn = 0.35f + 0.25f * a_n.unit();
+                a_hornF = 380.0f + 160.0f * a_n.unit();
+                a_hornIn = 4.0f + 9.0f * a_n.unit();
+            }
+            if( a_horn > 0.0f )
+            {
+                a_horn -= dt;
+                const float sq = std::sin( Pi2 * a_hornF * a_time ) + std::sin( Pi2 * a_hornF * 1.26f * a_time );
+                y += a_hornLo.low( sq ) * 0.18f * std::min( 1.0f, a_horn * 8.0f );
+            }
+            mono += y * a_city * 1.1f;
+        }
+        // The jungle: a chorus of insects and birdsong.
+        if( a_jungle > 0.001f )
+        {
+            a_insectPh += 4700.0f * dt;
+            if( a_insectPh >= 1.0f ) a_insectPh -= 1.0f;
+            a_amPh += 38.0f * dt;
+            if( a_amPh >= 1.0f ) a_amPh -= 1.0f;
+            const float chorus = std::max( 0.0f, std::sin( Pi2 * a_time / 3.7f ) ) * 0.7f + 0.3f;
+            float       y = std::sin( Pi2 * a_insectPh ) * ( a_amPh < 0.35f ? 1.0f : 0.0f ) * chorus * 0.12f;
+            a_birdIn -= dt;
+            if( a_birdIn <= 0.0f )
+            {
+                a_bird = 0.42f;
+                a_birdF = 2200.0f + 1800.0f * a_n.unit();
+                a_birdIn = 1.2f + 3.5f * a_n.unit();
+            }
+            if( a_bird > 0.0f )
+            {
+                a_bird -= dt;
+                const float chirp = std::fmod( 0.42f - a_bird, 0.14f ) / 0.14f;   // three falling chirps
+                a_birdPh += ( a_birdF * ( 1.3f - 0.5f * chirp ) ) * dt;
+                if( a_birdPh >= 1.0f ) a_birdPh -= 1.0f;
+                y += std::sin( Pi2 * a_birdPh ) * std::sin( 3.14159f * chirp ) * 0.3f;
+            }
+            side -= y * a_jungle * 1.4f;   // the far side from the sea
+        }
+        // A bridge: the joints, front and rear axle.
+        if( a_bridge > 0.01f )
+        {
+            const float speed = m_speed.load( std::memory_order_relaxed );
+            a_joint += speed / 16.0f * dt;
+            if( a_joint >= 1.0f )
+            {
+                a_joint -= 1.0f;
+                a_thump = 1.0f;
+                a_thumpDelay = speed > 1.0f ? 2.7f / speed : -1.0f;
+            }
+            if( a_thumpDelay > 0.0f )
+            {
+                a_thumpDelay -= dt;
+                if( a_thumpDelay <= 0.0f ) a_thump2 = 0.8f;
+            }
+            if( ( a_coef & 31 ) == 0 ) a_thumpLo.set( 140.0f, 0.9f );
+            const float hit = a_thump + a_thump2;
+            mono += a_thumpLo.low( a_n.next() * hit * 4.0f ) * a_bridge * 0.8f;
+            a_thump *= 0.9985f;
+            a_thump2 *= 0.9985f;
+        }
+        ++a_coef;
+
+        // The tunnel: the engine thrown back by the walls.
+        float echo = 0.0f;
+        if( a_tunnel > 0.001f )
+        {
+            static const int lengths[4] = { 2711, 3049, 3307, 3559 };
+            for( size_t k = 0; k < 4; ++k )
+            {
+                float      &slot = a_comb[k][static_cast<size_t>( a_combPos % lengths[k] )];
+                const float out = slot;
+                a_combDamp[k] += ( out - a_combDamp[k] ) * 0.35f;
+                slot = engine + a_combDamp[k] * 0.74f;
+                echo += out;
+            }
+            echo *= 0.25f * a_tunnel * 0.9f;
+        }
+        else if( a_combPos % 4096 == 0 )
+        {
+            for( auto &c : a_comb ) c.fill( 0.0f );
+        }
+        ++a_combPos;
+        if( a_combPos >= 3559 * 3307 ) a_combPos = 0;
+        const float pan = clampPan( a_pan );
+        l += ( mono + side * ( 1.0f - pan ) * 0.7f ) * gain + echo * 0.9f;
+        r += ( mono + side * ( 1.0f + pan ) * 0.7f ) * gain + echo * 1.0f;
+    }
+
+    /**
+     * @brief Clamps a pan position.
+     * @param[in] p  the position
+     * @return -1..1
+     */
+    static float clampPan( float p ) { return std::min( 1.0f, std::max( -1.0f, p ) ); }
+
     std::array<Voice, VoiceCount> m_voices;
     std::array<Event, 8>          m_onBeat{};     ///< cues waiting for the beat
     int                           m_onBeatCount = 0;   ///< how many
@@ -363,6 +532,7 @@ struct Synth
             ++e_wi;
             float l = engine * 0.9f + delayed * 0.1f;
             float r = engine * 0.75f + delayed * 0.25f;
+            renderAmbience( engine, sfx, l, r );
             for( Voice &v : m_voices )
             {
                 if( !v.m_on ) continue;
@@ -422,7 +592,8 @@ bool Audio::renderTest( const std::string &path, float seconds, int station )
     const bool adaptive = station >= StationCount;
     const int  style = std::max( 0, station ) % StationCount;
     synth->m_music.request( 4711 + static_cast<uint64_t>( style ), style );
-    const bool drive = station < 0;
+    const bool drive = station == -1;
+    const bool ambience = station == -2;
     bool       cued[2] = {};
     // Gear by gear: seconds per gear while the revs climb from 0.45 to 0.97.
     static const float gearTime[6] = { 1.4f, 1.8f, 2.2f, 2.6f, 3.0f, 3.4f };
@@ -466,6 +637,28 @@ bool Audio::renderTest( const std::string &path, float seconds, int station )
             rpm = std::max( 0.5f, 0.97f - ( t - 16.0f ) * 0.08f );
             thr = t > 18.5f ? 0.6f : 0.0f;
             speed = 75.0f;
+        }
+        if( ambience )
+        { // Five seconds of each: surf, wind, jungle, city, rain, a bridge, a tunnel with the engine.
+            const int k = static_cast<int>( t / 5.0f );
+            synth->m_aSurf = k == 0 ? 1.0f : 0.0f;
+            synth->m_aSurfPan = 0.8f;
+            synth->m_aWind = k == 1 ? 1.0f : 0.0f;
+            synth->m_aJungle = k == 2 ? 1.0f : 0.0f;
+            synth->m_aCity = k == 3 ? 1.0f : 0.0f;
+            synth->m_aRain = k == 4 ? 1.0f : 0.0f;
+            synth->m_aBridge = k == 5 ? 1.0f : 0.0f;
+            synth->m_aTunnel = k == 6 ? 1.0f : 0.0f;
+            if( k >= 5 )
+            {
+                synth->m_active = true;
+                synth->m_rpm = 0.7f;
+                synth->m_throttle = 0.8f;
+                synth->m_speed = 45.0f;
+            }
+            synth->m_musicVol = 0.0f;
+            synth->render( buf.data() + static_cast<size_t>( f ) * 2, std::min( block, frames - f ) );
+            continue;
         }
         synth->m_active = drive;
         synth->m_rpm = rpm;
@@ -584,6 +777,19 @@ void Audio::setEngine( const EngineState &s )
     g_synth->m_idle = s.m_idle;
     g_synth->m_redline = s.m_redline;
     g_synth->m_bright = s.m_bright;
+}
+
+void Audio::setAmbience( const Ambience &a )
+{
+    if( !g_synth ) return;
+    g_synth->m_aSurf.store( a.m_surf, std::memory_order_relaxed );
+    g_synth->m_aSurfPan.store( a.m_surfPan, std::memory_order_relaxed );
+    g_synth->m_aWind.store( a.m_wind, std::memory_order_relaxed );
+    g_synth->m_aJungle.store( a.m_jungle, std::memory_order_relaxed );
+    g_synth->m_aCity.store( a.m_city, std::memory_order_relaxed );
+    g_synth->m_aRain.store( a.m_rain, std::memory_order_relaxed );
+    g_synth->m_aTunnel.store( a.m_tunnel, std::memory_order_relaxed );
+    g_synth->m_aBridge.store( a.m_bridge, std::memory_order_relaxed );
 }
 
 void Audio::play( SfxE type, float strength, float pan )

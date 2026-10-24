@@ -74,6 +74,15 @@ Bled's island church and the torii of Miyajima in the sea. ALL MIXED shuffles ev
 the map included: Night Metro, Storm Marsh, Neon Horizon, Neon Rain, Dawn Expressway, Lunar Highway (low gravity),
 Red Planet, Crystal Desert, Fungal Glade, Cloud Highway, Pumpkin Hollow and Total Eclipse.
 
+Weather fronts pass over the tour (Settings > WEATHER): showers, fog banks and thunderstorms in temperate places,
+downpours in the tropics, snow showers in the cold and the mountains, sandstorms in the deserts. They are announced a
+little ahead, last a kilometre or two, and wet, snowy or sandy roads hold less. TIME OF DAY keeps each place's own light
+by default; TOUR CLOCK lets the sun follow the time zones (morning wherever the run starts, an hour more every ten
+kilometres, and the longitude of each place on top: east of you it is already evening); DAWN, DAY, DUSK and NIGHT fix
+the hour. Every place sounds like itself: the surf on the shore it lies on, wind over deserts and mountains, insects
+and birds in the tropics, the hum and horns of a city, rain on the car, the joints of a bridge and the engine echoing
+in a tunnel.
+
 Bridges are built the way the region builds them: concrete beams, tall viaducts over Alpine gorges, stone arches in
 Europe, steel trusses in North America, suspension bridges over the Bosphorus and in New York, cable-stayed spans in
 Dubai, Shanghai and Lofoten, covered wooden bridges in the Black Forest and Bhutan, and long low causeways over the
@@ -138,6 +147,8 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --screen lab|records|code     open that screen
     --camera 0..2                 chase, far or bumper camera
     --find tunnel|bridge|landmark start just before the first tunnel, bridge or landmark
+    --weather clear|rain|storm|fog|snow|sand   that weather all the way (testing)
+    --time place|clock|dawn|day|dusk|night     the time of day for this start
     --autopilot                   the car drives itself
     --distance M                  start M metres down the road
     --size WxH                    window size for this start

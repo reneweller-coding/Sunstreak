@@ -183,6 +183,7 @@ public:
     float   m_crashTimer = 0.0f;  ///< seconds of crash left
     float   m_shake = 0.0f;       ///< camera shake 0..1
     float   m_wetGrip = 1.0f;     ///< grip of the surface under the car
+    float   m_weatherGrip = 1.0f; ///< what the weather leaves of the grip (rain, snow, sand on the road)
     bool    m_frozen = false;     ///< held at the start (the engine still revs)
     bool    m_coasting = false;   ///< time is up: no throttle any more
 
