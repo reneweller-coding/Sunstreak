@@ -6,6 +6,7 @@
 #include "Config.h"
 
 #include "Biome.h"
+#include "Festival.h"
 
 #include <algorithm>
 #include <cctype>
@@ -214,6 +215,7 @@ LaunchOptions parseCommandLine( int argc, char **argv )
         else if( a == "--championship" ) o.m_championship = true;
         else if( a == "--screen" ) o.m_screen = next();
         else if( a == "--shape" ) o.m_shape = next();
+        else if( a == "--date" ) o.m_season = dateFromText( next() );
         else if( a == "--season" )
         {
             const std::string what = next();

@@ -235,6 +235,18 @@ Environment Game::sceneEnvironment( double s ) const
     e.m_snow = std::max( e.m_snow, lerpf( la.m_winter, lb.m_winter, mix.m_t ) * ( cold ? 0.55f : 0.3f ) );
     e.m_leaves = lerpf( la.m_autumn, lb.m_autumn, mix.m_t ) * 0.5f;
     e.m_petals = lerpf( la.m_spring, lb.m_spring, mix.m_t ) * 0.4f;
+    // A festival: colour in the air, the northern lights once it is dark.
+    const int fest = festivalAt( mix.m_t < 0.5f ? mix.m_from : mix.m_to, seasonClock().dateAt( s ) );
+    if( fest >= 0 )
+    {
+        const Festival &f = festivals()[static_cast<size_t>( fest )];
+        if( !f.m_confetti.empty() )
+        {
+            e.m_confetti = 0.6f;
+            e.m_festival = fest;
+        }
+        if( f.m_aurora ) e.m_aurora = std::max( e.m_aurora, smoothstepf( 0.2f, 0.6f, e.m_stars ) );
+    }
     WeatherE    type = WeatherE::NONE;
     const float k = frontAt( s, type );
     if( k <= 0.0f ) return e;
@@ -589,6 +601,38 @@ SeasonClock Game::seasonClock() const
     c.m_mode = m_settings.m_seasons;
     c.m_today = m_options.m_season >= 0.0f ? m_options.m_season : todayPhase();
     return c;
+}
+
+void Game::fireworks( float dt )
+{
+    const double    s = m_car.m_s + 250.0;
+    const BiomeMix  mix = m_track->biomeMix( s );
+    const int       fest = festivalAt( mix.m_t < 0.5f ? mix.m_from : mix.m_to, seasonClock().dateAt( s ) );
+    if( fest < 0 || festivals()[static_cast<size_t>( fest )].m_fireworks.empty() || sceneEnvironment( s ).m_stars < 0.3f ) return;
+    m_fireworkIn -= dt;
+    if( m_fireworkIn > 0.0f ) return;
+    Rng &r = m_particles.m_rng;
+    m_fireworkIn = r.range( 0.4f, 1.8f );
+    // A burst high over the land ahead, to one side or the other.
+    const auto &palette = festivals()[static_cast<size_t>( fest )].m_fireworks;
+    const Color col = palette[static_cast<size_t>( r.rangeInt( 0, static_cast<int>( palette.size() ) - 1 ) )];
+    const float side = r.chance( 0.5f ) ? 1.0f : -1.0f;
+    Pose        at = roadPose( *m_track, m_car.m_s + r.range( 180.0f, 330.0f ), side * r.range( 40.0f, 160.0f ), 0.0f );
+    at.m_pos.m_y += r.range( 55.0f, 110.0f );
+    for( int i = 0; i < 80; ++i )
+    {
+        const float a = r.range( 0.0f, Tau ), z = r.range( -1.0f, 1.0f ), q = std::sqrt( 1.0f - z * z ), v = r.range( 15.0f, 21.0f );
+        Particle    p;
+        p.m_pos = at.m_pos;
+        p.m_vel = Vector3{ std::cos( a ) * q * v, z * v, std::sin( a ) * q * v };
+        p.m_maxLife = r.range( 1.3f, 2.1f );
+        p.m_size = 1.4f;
+        p.m_color = col;
+        p.m_glow = 5.0f;
+        p.m_gravity = 5.0f;
+        p.m_drag = 0.9f;
+        m_particles.emit( p );
+    }
 }
 
 void Game::startCrossing( const Crossing &xc )
@@ -1254,6 +1298,7 @@ void Game::simulate( float dt, bool autopilotOn )
         if( m_settings.m_station < 0 && wantedStation() != m_playingStation ) playMusic( hash64( m_seed * 31 + musicStage ), wantedStation() );
     }
     emitParticles( dt );
+    fireworks( dt );
     m_particles.update( dt );
     updateCamera( dt );
 
@@ -1469,6 +1514,8 @@ void Game::timeAttackRules( float h )
     {
         m_stage = stage;
         popup( format( "STAGE %d", stage + 1 ), placeName( track.stageBiome( stage ) ), Accent, 1.2f, 3.2f );
+        const int fest = festivalAt( track.stageBiome( stage ), seasonClock().dateAt( m_car.m_s ) );
+        if( fest >= 0 ) popup( festivals()[static_cast<size_t>( fest )].m_name, festivals()[static_cast<size_t>( fest )].m_what, Gold, 0.9f, 3.4f );
         m_audio.playOnBeat( SfxE::STAGE );
     }
     {

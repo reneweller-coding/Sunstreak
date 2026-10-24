@@ -1,0 +1,50 @@
+# Festivals: they come on their dates (month-day, the first and the last; a span may run over the new year) to the
+# places named after them: countries, COUNTRY/REGION, "north 60" (every place that far north) or * (everywhere).
+#
+#   festival NAME | A LINE ABOUT IT | MM-DD MM-DD | WHERE, WHERE, ...
+#
+# and bring, one per line, with their colours (RRGGBB):
+#   bunting C C ...      strings of flags across the road
+#   lanterns C C ...     strings of glowing lanterns across the road
+#   lights C             strings of fairy lights across the road
+#   lamps C              little lamps all along both edges of the road
+#   stalls ROOF WALL     market stalls beside the road (data/landmarks MARKET_STALL)
+#   tents ROOF STRIPE    beer tents beside the road (BEER_TENT)
+#   trees                Christmas trees with their lights (CHRISTMAS_TREE)
+#   confetti C C ...     colour in the air
+#   fireworks C C ...    fireworks at night
+#   aurora               the northern lights at night
+# The first festival on a place's date wins.
+
+festival HOLI | THE FESTIVAL OF COLOURS | 03-01 03-20 | INDIA, NEPAL
+    bunting FF3A8A FFD020 3AA0FF 30D060 C040FF
+    confetti FF3A8A FFD020 3AA0FF 30D060 C040FF
+
+festival CARNIVAL | SAMBA IN THE STREETS | 02-06 03-04 | BRAZIL
+    bunting 20A040 FFD020 2050C0 FF3A8A
+    confetti FFD020 20A040 FF3A8A 3AA0FF
+    fireworks FFD020 20A040 FFFFFF
+
+festival LUNAR NEW YEAR | RED LANTERNS FOR THE NEW YEAR | 01-21 02-20 | CHINA, TAIWAN, VIETNAM, SINGAPORE, MALAYSIA, SOUTH KOREA
+    lanterns D82020 E83030 FFC040
+    fireworks D82020 FFC040 FFFFFF
+
+festival DIWALI | THE FESTIVAL OF LIGHTS | 10-20 11-15 | INDIA, NEPAL, SRI LANKA
+    lamps FFB040
+    lights FFB040
+    fireworks FFB040 FF6020 FFFFFF 40C0FF
+
+festival CHRISTMAS MARKET | MULLED WINE AND FAIRY LIGHTS | 11-24 12-26 | GERMANY, AUSTRIA, SWITZERLAND, CZECHIA, FRANCE/GRAND EST
+    stalls B02020 F2EEE4
+    lights FFE0A0
+    trees
+
+festival OKTOBERFEST | BEER TENTS AND BLUE AND WHITE | 09-17 10-04 | GERMANY/BAVARIA
+    bunting 2060C0 F2F2F2
+    tents 2060C0 F2F2F2
+
+festival NEW YEAR | HAPPY NEW YEAR | 12-31 01-01 | *
+    fireworks FFD040 FF4060 40C0FF FFFFFF 60FF90
+
+festival NORTHERN LIGHTS | THE AURORA IS OUT | 09-15 04-01 | north 60
+    aurora

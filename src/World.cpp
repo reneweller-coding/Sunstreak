@@ -5,6 +5,8 @@
  */
 #include "World.h"
 
+#include "Festival.h"
+
 #include "Noise.h"
 
 #include <algorithm>
@@ -1001,6 +1003,60 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 ground.quad( at( B, -1500.0f, -6.0f ), at( B, 1500.0f, -6.0f ), at( B, 1500.0f, 0.0f ), at( B, -1500.0f, 0.0f ), Color{ 150, 150, 146, 255 } );
             if( ferry && after >= 0.0 && after < SegmentLength )
                 ground.quad( at( A, -1500.0f, -6.0f ), at( A, 1500.0f, -6.0f ), at( A, 1500.0f, 0.0f ), at( A, -1500.0f, 0.0f ), Color{ 150, 150, 146, 255 } );
+        }
+
+        // A festival: strings of flags, lanterns or lights across the road, little lamps along it, stalls, tents and
+        // Christmas trees beside it.
+        const int fest = tunnel || bridge || fork.m_exists || xc.m_type != CrossingE::NONE
+                             ? -1
+                             : festivalAt( static_cast<BiomeE>( seg.m_blend < 0.5f ? seg.m_biome : seg.m_biomeTo ), m_seasons.dateAt( sj ) );
+        if( fest >= 0 )
+        {
+            const Festival           &f = festivals()[static_cast<size_t>( fest )];
+            const std::vector<Color> &string = !f.m_lanterns.empty() ? f.m_lanterns : !f.m_bunting.empty() ? f.m_bunting : f.m_lights;
+            if( !string.empty() && j % 14 == 0 )
+            {
+                const float w = A.m_edge + 1.5f;
+                for( float side : { -1.0f, 1.0f } ) props.cylinder( at( A, side * w, 0.0f ), 0.09f, 0.07f, 7.0f, 5, Color{ 92, 92, 98, 255 } );
+                const int n = 26;
+                Vector3   last = at( A, -w, 6.8f );
+                for( int k = 1; k <= n; ++k )
+                {
+                    const float   x = -w + 2.0f * w * static_cast<float>( k ) / static_cast<float>( n ), t = x / w;
+                    const Vector3 p = at( A, x, 6.8f - 1.5f * ( 1.0f - t * t ) );
+                    const Color   col = string[static_cast<size_t>( k ) % string.size()];
+                    props.tube( last, p, 0.025f, 3, Color{ 40, 40, 44, 255 } );
+                    if( !f.m_lanterns.empty() )
+                        props.blob( Vector3{ p.x, p.y - 0.5f, p.z }, Vector3{ 0.28f, 0.36f, 0.28f }, col, static_cast<unsigned>( k ), 0.0f, Mat{ 0.8f, 0.0f } );
+                    else if( !f.m_bunting.empty() )
+                        props.tri( last, p, Vector3{ ( p.x + last.x ) * 0.5f, ( p.y + last.y ) * 0.5f - 0.6f, ( p.z + last.z ) * 0.5f }, col );
+                    else
+                        props.blob( Vector3{ p.x, p.y - 0.12f, p.z }, Vector3{ 0.08f, 0.08f, 0.08f }, col, static_cast<unsigned>( k ), 0.0f, Mat{ 1.0f, 0.0f } );
+                    last = p;
+                }
+            }
+            if( !f.m_lamps.empty() && j % 2 == 0 )
+                for( float side : { -1.0f, 1.0f } )
+                    props.blob( at( A, side * ( A.m_edge + 0.4f ), 0.12f ), Vector3{ 0.13f, 0.1f, 0.13f }, f.m_lamps[0], static_cast<unsigned>( j ), 0.0f,
+                                Mat{ 1.0f, 0.0f } );
+            // Beside the road, facing it, on alternate sides.
+            auto beside = [&]( const char *shape, const std::vector<Color> &paint, long every, float away, float radius )
+            {
+                const int v = landmarkByName( shape );
+                if( v < 0 || j % every != 0 ) return;
+                const float side = ( j / every ) % 2 ? 1.0f : -1.0f, l = side * ( A.m_edge + away );
+                const Color keys[3] = { paint.size() > 0 ? paint[0] : Color{ 176, 32, 32, 255 }, paint.size() > 1 ? paint[1] : Color{ 242, 238, 228, 255 },
+                                        !f.m_lights.empty() ? f.m_lights[0] : Color{ 255, 224, 160, 255 } };
+                const float h = terrainHeight( track, j, l, A.m_terrain, A.m_edge );
+                SeasonLook  snow = A.m_season;
+                snow.m_autumn = snow.m_bare = snow.m_spring = 0.0f;
+                props.append( models.prop( PropKindE::LANDMARK, static_cast<uint64_t>( v ) ), at( A, l, h ), A.m_heading + ( side > 0.0f ? 0.0f : Tau * 0.5f ), 1.0f,
+                              1.0f, keys, &snow );
+                c.m_colliders.push_back( { sj, l, radius } );
+            };
+            if( !f.m_stalls.empty() ) beside( "MARKET_STALL", f.m_stalls, 7, 5.0f, 2.0f );
+            if( !f.m_tents.empty() ) beside( "BEER_TENT", f.m_tents, 31, 16.0f, 8.0f );
+            if( f.m_trees ) beside( "CHRISTMAS_TREE", {}, 23, 9.0f, 1.5f );
         }
 
         // The fork: a barrier between the carriageways, a cushion at its nose, the gantry with both places; after it

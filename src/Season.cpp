@@ -41,6 +41,11 @@ float SeasonClock::phaseAt( double s ) const
     return static_cast<float>( p < 0.0 ? p + 1.0 : p );
 }
 
+float SeasonClock::dateAt( double s ) const
+{
+    return m_mode == 2 ? m_today : phaseAt( s );
+}
+
 float todayPhase()
 {
     const std::time_t now = std::time( nullptr );

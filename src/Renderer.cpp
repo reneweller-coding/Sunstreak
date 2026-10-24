@@ -5,6 +5,8 @@
  */
 #include "Renderer.h"
 
+#include "Festival.h"
+
 #include "Shaders.h"
 
 #include <rlgl.h>
@@ -291,7 +293,7 @@ void Renderer::render( const SceneInput &in, const CameraView &cam, float render
                 d.x += std::sin( in.m_time * 0.6f + fi * 0.7f ) * 0.3f * in.m_dt;
             }
         }
-        else if( std::max( in.m_env.m_leaves, in.m_env.m_petals ) > std::max( in.m_env.m_rain, in.m_env.m_snow ) )
+        else if( std::max( { in.m_env.m_leaves, in.m_env.m_petals, in.m_env.m_confetti } ) > std::max( in.m_env.m_rain, in.m_env.m_snow ) )
         { // Leaves and petals: drifting down, swaying.
             const float fi = static_cast<float>( i );
             d.y -= ( 0.9f + 0.4f * std::sin( fi * 2.3f ) ) * in.m_dt;
@@ -766,16 +768,22 @@ void Renderer::drawParticles( const SceneInput &in, const CameraView &cam, const
         rlEnd();
         rlDrawRenderBatchActive();
     }
-    else if( std::max( e.m_leaves, e.m_petals ) > std::max( 0.02f, std::max( rain, snow ) ) )
+    else if( std::max( { e.m_leaves, e.m_petals, e.m_confetti } ) > std::max( 0.02f, std::max( rain, snow ) ) )
     {
-        // Autumn leaves in their colours, or blossom petals.
+        // Autumn leaves in their colours, blossom petals, or a festival's confetti.
         const bool  leaves = e.m_leaves >= e.m_petals;
-        const Color colors[4] = { leaves ? Color{ 214, 120, 40, 230 } : Color{ 250, 196, 214, 220 }, leaves ? Color{ 190, 62, 40, 230 } : Color{ 250, 244, 240, 220 },
+        Color       colors[4] = { leaves ? Color{ 214, 120, 40, 230 } : Color{ 250, 196, 214, 220 }, leaves ? Color{ 190, 62, 40, 230 } : Color{ 250, 244, 240, 220 },
                                   leaves ? Color{ 226, 182, 60, 230 } : Color{ 244, 176, 200, 220 }, leaves ? Color{ 150, 100, 52, 230 } : Color{ 252, 210, 224, 220 } };
+        const bool  confetti = e.m_confetti > std::max( e.m_leaves, e.m_petals ) && e.m_festival >= 0 && e.m_festival < static_cast<int>( festivals().size() );
+        if( confetti )
+        {
+            const auto &palette = festivals()[static_cast<size_t>( e.m_festival )].m_confetti;
+            for( size_t k = 0; k < 4 && !palette.empty(); ++k ) colors[k] = palette[k % palette.size()];
+        }
         setF( s, "intensity", 1.2f );
         setF( s, "roundSprite", leaves ? 0.0f : 1.0f );
         rlBegin( RL_QUADS );
-        const int n = static_cast<int>( static_cast<float>( m_drops.size() ) * 0.35f * std::max( e.m_leaves, e.m_petals ) );
+        const int n = static_cast<int>( static_cast<float>( m_drops.size() ) * 0.35f * std::max( { e.m_leaves, e.m_petals, e.m_confetti } ) );
         for( int i = 0; i < n; ++i ) billboard( m_drops[static_cast<size_t>( i )], leaves ? 0.07f : 0.05f, colors[i & 3] );
         rlEnd();
         rlDrawRenderBatchActive();

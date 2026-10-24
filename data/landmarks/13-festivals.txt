@@ -1,0 +1,40 @@
+# What the festivals bring beside the road (data/festivals.txt): +x faces the road. A is the roof, B the walls or the
+# stripes, C the lights.
+
+shape MARKET_STALL
+    # A market stall: a counter under a gabled roof, a string of lights along its eave.
+    box 0 0.55 0 1.1 0.55 2.0 8A6A4A
+    box 0.95 1.12 0 0.2 0.04 2.0 B:0.9
+    box -1.0 1.6 0 0.1 1.6 2.0 B
+    mirror
+    box 0 1.6 1.95 1.1 1.6 0.06 B
+    gable 0 3.2 0 1.2 2.1 0.9 0.35 A B
+    repeat 7 0 0 0.62
+    blob 1.3 3.05 -1.85 0.07 0.07 0.07 C glow
+    box 0.4 1.3 -0.8 0.3 0.18 0.5 C8A060
+    box 0.4 1.3 0.8 0.3 0.18 0.5 A06040
+
+shape BEER_TENT
+    # A beer tent: a long hall under a gabled roof in the colours, its doors towards the road.
+    box 0 2.2 0 8 2.2 16 F2F2EE
+    gable 0 4.4 0 8 16 3.2 0.6 A B
+    repeat 4 0 0 10
+    box 8.03 1.4 -15 0.04 1.4 1.6 6A4A2A
+    repeat 6 0 0 6
+    box 8.04 3.4 -15 0.03 0.4 1.4 A
+    tube 9 0 -18 9 11 -18 0.12 5 C8C8C8
+    box 9 10 -17 0.04 0.7 1.0 A
+
+shape CHRISTMAS_TREE
+    # A Christmas tree on a square: its lights, a star on top.
+    cyl 0 0 0 0.3 0.25 1.2 6 5A3A24
+    spire 0 1.0 0 3.2 4.6 9 1E5A2E
+    spire 0 3.6 0 2.4 3.6 9 22663A
+    spire 0 5.8 0 1.6 3.0 9 267040
+    blob 0 8.9 0 0.4 0.4 0.14 FFD040 glow
+    ring 12 2.6 0
+    blob 0 2.4 0 0.1 0.1 0.1 FFE0A0 glow
+    ring 9 1.9 0.3
+    blob 0 4.8 0 0.1 0.1 0.1 FF4040 glow
+    ring 7 1.2 0.6
+    blob 0 6.9 0 0.1 0.1 0.1 FFE0A0 glow

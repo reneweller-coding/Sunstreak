@@ -367,6 +367,17 @@ int main()
         }
         std::printf( "      %d landmarks from the data, %d broken lines\n", static_cast<int>( dataShapes().size() ), shapeErrors );
         check( shapeErrors == 0 && shapesBuilt, "the landmarks of the data build" );
+        { // Festivals on their dates: Diwali in India in early November, the Christmas markets in Germany, none in summer.
+            const int diwali = festivalAt( static_cast<BiomeE>( biomeId( "AGRA" ) ), dateFromText( "11-02" ) );
+            const int market = festivalAt( BiomeE::BAVARIA, dateFromText( "12-10" ) );
+            const int wiesn = festivalAt( BiomeE::BAVARIA, dateFromText( "09-25" ) );
+            const int none = festivalAt( BiomeE::BAVARIA, dateFromText( "07-10" ) );
+            std::printf( "      %d festivals, %d broken lines\n", static_cast<int>( festivals().size() ), festivalErrors() );
+            check( festivalErrors() == 0 && diwali >= 0 && festivals()[static_cast<size_t>( diwali )].m_name == "DIWALI" && market >= 0 &&
+                       festivals()[static_cast<size_t>( market )].m_name == "CHRISTMAS MARKET" && wiesn >= 0 &&
+                       festivals()[static_cast<size_t>( wiesn )].m_name == "OKTOBERFEST" && none < 0,
+                   "festivals on their dates" );
+        }
         { // F5: the files read again give the same places, the same route and the same shapes.
             const int         places = biomeCount(), shapes = static_cast<int>( dataShapes().size() ), route = static_cast<int>( worldRoute().size() );
             const std::string from = reloadData( "" );

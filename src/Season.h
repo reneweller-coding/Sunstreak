@@ -24,6 +24,13 @@ struct SeasonClock
      * @return 0..1 (0: 1 January), or -1 without seasons
      */
     float phaseAt( double s ) const;
+
+    /**
+     * @brief The date at a distance, for the festivals: as phaseAt(), but today's when the seasons are off.
+     * @param[in] s  distance along the road
+     * @return 0..1 (0: 1 January)
+     */
+    float dateAt( double s ) const;
 };
 
 /**

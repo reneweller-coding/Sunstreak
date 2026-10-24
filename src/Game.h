@@ -20,6 +20,7 @@
 #include "Car.h"
 #include "Config.h"
 #include "Data.h"
+#include "Festival.h"
 #include "Input.h"
 #include "Models.h"
 #include "Particles.h"
@@ -678,6 +679,12 @@ private:
     void drawCrossing();
 
     /**
+     * @brief Fireworks over the land ahead, at night while a festival brings them.
+     * @param[in] dt  seconds
+     */
+    void fireworks( float dt );
+
+    /**
      * @brief A garage item's value as text.
      * @param[in] item  the item
      * @return the value, with (LOCKED) where it is
@@ -750,6 +757,7 @@ private:
     Mesh        m_crossCoastA{};               ///< the coast left behind
     Mesh        m_crossCoastB{};               ///< the coast ahead
     Mesh        m_crossGull{};                 ///< a gull
+    float       m_fireworkIn = 0.0f;           ///< seconds to the next firework
 
     // The track being driven.
     TrackSetup  m_setup;              ///< its setup
