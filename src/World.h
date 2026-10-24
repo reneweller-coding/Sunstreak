@@ -45,6 +45,7 @@ struct Chunk
     Vec3d                 m_origin;      ///< world position of the first segment's centre
     Mesh                  m_ground{};    ///< road and land
     Mesh                  m_props{};     ///< everything standing
+    Mesh                  m_glass{};     ///< see-through panes (undersea tunnels), drawn after everything solid
     std::vector<Collider> m_colliders;   ///< solid props near the road
 };
 
@@ -55,6 +56,7 @@ struct BakedChunk
     Vec3d                 m_origin;      ///< world position of the first segment's centre
     MeshBuilder           m_ground;      ///< road and land
     MeshBuilder           m_props;       ///< everything standing
+    MeshBuilder           m_glass;       ///< see-through panes
     std::vector<Collider> m_colliders;   ///< solid props near the road
     float                 m_ms = 0.0f;   ///< how long the baking took
 };

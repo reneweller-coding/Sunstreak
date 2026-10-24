@@ -36,6 +36,7 @@ constexpr Color rgb( int r, int g, int b )
 }
 
 constexpr Mat Glow{ 1.0f, 0.0f };      ///< fully self-lit
+constexpr float CreatureScale = 1.35f;   ///< what swims round the undersea tunnels, larger than life
 constexpr Mat Paint{ 0.0f, 0.55f };    ///< car paint
 constexpr Mat Glass{ 0.0f, 0.95f };    ///< windows
 constexpr Mat Chrome{ 0.0f, 0.75f };   ///< rims, rails
@@ -1956,8 +1957,9 @@ void Models::buildVehicles()
     for( size_t i = 0; i < dataShapes().size(); ++i )
     {
         if( !dataShapes()[i].m_creature ) continue;
-        MeshBuilder mb;
-        buildDataShape( mb, dataShapes()[i] );
+        MeshBuilder shape, mb;
+        buildDataShape( shape, dataShapes()[i] );
+        mb.append( shape, Vector3{ 0.0f, 0.0f, 0.0f }, 0.0f, CreatureScale );   // a little larger than life: seen through glass
         const Vector3 e = mb.extent();
         VehicleModel  vm;
         vm.m_mesh = mb.upload();

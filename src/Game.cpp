@@ -217,14 +217,12 @@ float Game::wantedHour() const
 
 Environment Game::sceneEnvironment( double s ) const
 {
-    Environment e = environmentAt( *m_track, s );
-    if( m_hour >= 0.0f )
-    {
-        // On the sea floor the hour does not reach: the sea keeps its own light.
-        const BiomeMix mix = m_track->biomeMix( s );
-        const float    under = ( biomeDef( mix.m_from ).m_underwater ? 1.0f - mix.m_t : 0.0f ) + ( biomeDef( mix.m_to ).m_underwater ? mix.m_t : 0.0f );
-        e = blendEnvironment( environmentAtHour( e, m_hour ), e, under );
-    }
+    Environment    e = environmentAt( *m_track, s );
+    const BiomeMix mix = m_track->biomeMix( s );
+    const float    under = ( biomeDef( mix.m_from ).m_underwater ? 1.0f - mix.m_t : 0.0f ) + ( biomeDef( mix.m_to ).m_underwater ? mix.m_t : 0.0f );
+    // On the sea floor the hour does not reach: the sea keeps its own light.
+    if( m_hour >= 0.0f ) e = blendEnvironment( environmentAtHour( e, m_hour ), e, under );
+    e.m_underwater = smoothstepf( 0.35f, 0.65f, under );
     WeatherE    type = WeatherE::NONE;
     const float k = frontAt( s, type );
     if( k <= 0.0f ) return e;
@@ -649,6 +647,19 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
             if( probe.fork( st ).m_exists )
             {
                 startS = probe.fork( st ).m_at - 700.0;
+                break;
+            }
+        m_options.m_find = 0;
+    }
+    if( m_options.m_find >= 6 && m_options.m_find <= 8 )
+    {
+        // Testing: start before the first undersea tunnel's portal, inside it, or before its far portal.
+        Track probe( setup.m_seed, params, m_options.m_startBiome );
+        for( int st = 1; st < 80; ++st )
+            if( biomeDef( probe.stageBiome( st ) ).m_underwater )
+            {
+                const double portal = static_cast<double>( st ) * StageLength;
+                startS = m_options.m_find == 6 ? portal - SeaRamp - 120.0 : m_options.m_find == 7 ? portal + 300.0 : portal + StageLength - 260.0;
                 break;
             }
         m_options.m_find = 0;
@@ -1788,6 +1799,14 @@ void Game::updateAudio()
         a.m_rain = sceneEnvironment( m_car.m_s ).m_rain;
         a.m_bridge = flags & SEG_BRIDGE ? 1.0f : 0.0f;
         if( flags & SEG_TUNNEL ) a = Ambience{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f };
+        // Under the sea: the world muffled behind glass and water, the tube's echo, whales.
+        const float under = ( biomeDef( mix.m_from ).m_underwater ? 1.0f - mix.m_t : 0.0f ) + ( biomeDef( mix.m_to ).m_underwater ? mix.m_t : 0.0f );
+        if( under > 0.5f )
+        {
+            a = Ambience{};
+            a.m_tunnel = 0.35f;
+            a.m_underwater = 1.0f;
+        }
     }
     m_audio.setAmbience( a );
 

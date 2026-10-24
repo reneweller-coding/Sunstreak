@@ -1,0 +1,29 @@
+# Under the sea: the station that keeps the glass tunnels.
+
+shape SEA_STATION
+    # A research station on the sea floor: a domed hub, two wings on tubes, a mast with a beacon, a yellow submarine.
+    blob 0 0 0 26 3 34 5A6A6A 0.3
+    cyl 0 0 0 10 10 3.2 18 D8DCDC
+    halo 0 2.0 0 10.1 0.35 24 FFD890 glow
+    dome 0 3.2 0 10 7 9CD8E8 glass
+    halo 0 3.4 0 10.2 0.4 24 C8CCCC
+    mirror
+    cyl 0 0 27 6.5 6.5 2.6 14 D8DCDC
+    mirror
+    halo 0 1.6 27 6.6 0.3 18 FFD890 glow
+    mirror
+    dome 0 2.6 27 6.5 4.8 9CD8E8 glass
+    mirror
+    tube 0 1.8 9 0 1.8 21 1.7 8 C0C4C4
+    mirror
+    hoop 0 1.8 15 1.9 0.25 12 FFD890 glow
+    cyl -14 0 0 1.3 0.9 24 8 C0C4C4
+    halo -14 12 0 1.6 0.2 10 C0C4C4
+    blob -14 24.6 0 1.0 1.0 1.0 FF5A3A glow
+    tube -14 20 0 -4 9 0 0.25 4 A0A4A4
+    ring 6 13 0.3
+    box 0 0.6 0 0.7 0.6 0.7 6A6E70
+    blob 15 7 -12 2.2 2.2 6.0 F2C21A shiny
+    box 15 9.6 -12 0.9 1.2 1.8 F2C21A shiny
+    box 15 7 -18.6 0.15 2.4 0.9 D0A010
+    blob 16.9 7 -9 0.5 0.5 0.5 FFF0C0 glow

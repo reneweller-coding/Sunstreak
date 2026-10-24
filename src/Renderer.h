@@ -186,6 +186,7 @@ private:
 
     std::vector<Vector3> m_drops;           ///< rain or snow, relative to the camera
     std::vector<Vector3> m_streaks;         ///< air streaks, relative to the camera
+    std::vector<Vector3> m_shafts;          ///< light shafts under the sea (their feet), relative to the camera
     Vec3d                m_lastCam;         ///< the camera last frame
     Vector3              m_camVel{};        ///< camera velocity (m/s)
     bool                 m_haveLastCam = false;   ///< m_lastCam is valid

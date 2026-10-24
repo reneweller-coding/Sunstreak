@@ -18,6 +18,7 @@ namespace
 constexpr float Bend = 2.2e-5f;            ///< how fast the ground drops with distance (1/m)
 constexpr int   DropCount = 1600;          ///< rain drops or snowflakes around the camera
 constexpr int   StreakCount = 90;          ///< air streaks around the camera
+constexpr int   ShaftCount = 16;           ///< light shafts round the camera under the sea
 constexpr float NearPlane = 0.3f;          ///< near clip (m)
 constexpr float FarPlane = 2600.0f;        ///< far clip (m)
 constexpr int   ShadowSize = 2048;         ///< shadow map resolution
@@ -140,6 +141,30 @@ void quad( Vector3 a, Vector3 b, Vector3 c, Vector3 d, Color col )
 }
 
 /**
+ * @brief Draws a quad whose first two corners have one colour and the last two another (a gradient along it).
+ * @param[in] a     first corner
+ * @param[in] b     second corner
+ * @param[in] c     third corner
+ * @param[in] d     fourth corner
+ * @param[in] colA  colour at a and b
+ * @param[in] colC  colour at c and d
+ */
+void quad2( Vector3 a, Vector3 b, Vector3 c, Vector3 d, Color colA, Color colC )
+{
+    rlCheckRenderBatchLimit( 4 );
+    rlColor4ub( colA.r, colA.g, colA.b, colA.a );
+    rlTexCoord2f( 0.0f, 0.0f );
+    rlVertex3f( a.x, a.y, a.z );
+    rlTexCoord2f( 0.0f, 1.0f );
+    rlVertex3f( b.x, b.y, b.z );
+    rlColor4ub( colC.r, colC.g, colC.b, colC.a );
+    rlTexCoord2f( 1.0f, 1.0f );
+    rlVertex3f( c.x, c.y, c.z );
+    rlTexCoord2f( 1.0f, 0.0f );
+    rlVertex3f( d.x, d.y, d.z );
+}
+
+/**
  * @brief Whether a distance lies in a tunnel.
  * @param[in] track  the road
  * @param[in] s      the distance
@@ -183,6 +208,8 @@ void Renderer::init()
     for( Vector3 &d : m_drops ) d = Vector3{ r.range( -30, 30 ), r.range( -6, 16 ), r.range( -12, 48 ) };
     m_streaks.resize( StreakCount );
     for( Vector3 &d : m_streaks ) d = Vector3{ r.range( -12, 12 ), r.range( -1.5f, 4.0f ), r.range( -20, 60 ) };
+    m_shafts.resize( ShaftCount );
+    for( Vector3 &d : m_shafts ) d = Vector3{ r.range( -45, 45 ), -3.0f, r.range( -40, 100 ) };
 }
 
 void Renderer::unloadTargets()
@@ -250,7 +277,21 @@ void Renderer::render( const SceneInput &in, const CameraView &cam, float render
     {
         Vector3 &d = m_drops[i];
         d = Vector3Subtract( d, delta );
-        if( in.m_env.m_dust > std::max( in.m_env.m_rain, in.m_env.m_snow ) )
+        if( in.m_env.m_underwater > 0.3f )
+        { // Under the sea: every fourth a bubble rising, the rest the sea's snow drifting down.
+            const float fi = static_cast<float>( i );
+            if( i % 4 == 0 )
+            {
+                d.y += ( 1.3f + 0.5f * std::sin( fi * 1.7f ) ) * in.m_dt;
+                d.x += std::sin( in.m_time * 3.0f + fi ) * 0.35f * in.m_dt;
+            }
+            else
+            {
+                d.y -= 0.25f * in.m_dt;
+                d.x += std::sin( in.m_time * 0.6f + fi * 0.7f ) * 0.3f * in.m_dt;
+            }
+        }
+        else if( in.m_env.m_dust > std::max( in.m_env.m_rain, in.m_env.m_snow ) )
         { // Sand driven across the road by the wind.
             d.x += ( 13.0f + 4.0f * std::sin( in.m_time * 0.7f + static_cast<float>( i ) * 0.3f ) ) * in.m_dt;
             d.y += std::sin( in.m_time * 2.1f + static_cast<float>( i ) ) * 0.8f * in.m_dt;
@@ -269,6 +310,15 @@ void Renderer::render( const SceneInput &in, const CameraView &cam, float render
         if( rel.z > 30 ) d.z -= 60; else if( rel.z < -30 ) d.z += 60;
         if( d.y < -6 ) d.y += 22; else if( d.y > 16 ) d.y -= 22;
         if( in.m_env.m_dust > 0.02f && d.y > 7.0f ) d.y -= 13.0f;   // blowing sand stays low
+    }
+    const Vector3 shaftCenter = Vector3Scale( flatFwd, 30.0f );
+    for( Vector3 &d : m_shafts )
+    {
+        d = Vector3Subtract( d, delta );
+        d.y = -3.0f;
+        Vector3 rel = Vector3Subtract( d, shaftCenter );
+        if( rel.x > 45 ) d.x -= 90; else if( rel.x < -45 ) d.x += 90;
+        if( rel.z > 70 ) d.z -= 140; else if( rel.z < -70 ) d.z += 140;
     }
     const Vector3 streakCenter = Vector3Scale( flatFwd, 22.0f );
     for( Vector3 &d : m_streaks )
@@ -558,6 +608,15 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
         setF( s, "objectShade", 1.0f );
         DrawMesh( models.m_playerCars[c.m_car][c.m_paint], m_material, poseMatrix( roadPose( track, c.m_s, c.m_x, c.m_yaw ), origin ) );
     }
+    // The glass of undersea tunnels: tinted panes, shiny, seen through.
+    setF( s, "objectAlpha", 0.24f );
+    setF( s, "objectShade", 1.0f );
+    for( const Chunk &c : in.m_world->chunks() )
+    {
+        if( !c.m_glass.vertexCount ) continue;
+        const Vector3 o = relativeTo( c.m_origin, origin );
+        DrawMesh( c.m_glass, m_material, MatrixTranslate( o.x, o.y, o.z ) );
+    }
     setF( s, "objectAlpha", 1.0f );
     rlEnableDepthMask();
 
@@ -641,9 +700,49 @@ void Renderer::drawParticles( const SceneInput &in, const CameraView &cam, const
     rlDrawRenderBatchActive();
     EndBlendMode();
 
-    // Rain, snow or blowing sand, and air streaks at speed.
+    // Rain, snow or blowing sand, and air streaks at speed; under the sea shafts of light, its snow and bubbles.
     const float rain = e.m_rain, snow = e.m_snow;
-    if( e.m_dust > std::max( 0.02f, std::max( rain, snow ) ) )
+    if( e.m_underwater > 0.3f )
+    {
+        // Shafts from the surface, a little slanted, brightest above, flickering with the waves.
+        BeginBlendMode( BLEND_ADDITIVE );
+        setF( s, "intensity", 1.0f );
+        setF( s, "roundSprite", 1.0f );
+        rlBegin( RL_QUADS );
+        const Vector3 slant = Vector3Normalize( Vector3{ 0.3f, -1.0f, 0.15f } );
+        for( size_t i = 0; i < m_shafts.size(); ++i )
+        {
+            const float   fi = static_cast<float>( i );
+            const float   flicker = 0.55f + 0.45f * std::sin( in.m_time * ( 0.5f + 0.07f * fi ) + fi * 1.7f );
+            const float   a = 60.0f * e.m_underwater * flicker;
+            const Vector3 foot = m_shafts[i], top = Vector3Subtract( foot, Vector3Scale( slant, 40.0f ) );
+            const Vector3 dir = Vector3Subtract( foot, top );
+            Vector3       side = Vector3CrossProduct( dir, top );
+            const float   len = Vector3Length( side );
+            if( len < 1e-6f ) continue;
+            side = Vector3Scale( side, ( 2.0f + 1.3f * static_cast<float>( i % 4 ) ) / len );
+            quad2( Vector3Add( top, side ), Vector3Subtract( top, side ), Vector3Subtract( foot, side ), Vector3Add( foot, side ),
+                   Color{ 190, 236, 255, static_cast<unsigned char>( a ) }, Color{ 150, 220, 240, static_cast<unsigned char>( a * 0.35f ) } );
+        }
+        rlEnd();
+        rlDrawRenderBatchActive();
+        EndBlendMode();
+        // Bubbles and the sea's snow, outside the tube only.
+        setF( s, "intensity", 1.2f );
+        rlBegin( RL_QUADS );
+        const Vector3 across = Vector3Normalize( Vector3CrossProduct( fwd, Vector3{ 0, 1, 0 } ) );
+        const int     n = static_cast<int>( static_cast<float>( m_drops.size() ) * 0.7f * e.m_underwater );
+        for( int i = 0; i < n; ++i )
+        {
+            const Vector3 p = m_drops[static_cast<size_t>( i )];
+            if( std::abs( Vector3DotProduct( p, across ) ) < 8.5f && p.y < 7.0f ) continue;
+            if( i % 4 == 0 ) billboard( p, 0.05f + 0.03f * static_cast<float>( i % 3 ), Color{ 215, 245, 255, 160 } );
+            else billboard( p, 0.03f, Color{ 190, 214, 220, 100 } );
+        }
+        rlEnd();
+        rlDrawRenderBatchActive();
+    }
+    else if( e.m_dust > std::max( 0.02f, std::max( rain, snow ) ) )
     {
         setF( s, "intensity", 1.1f );
         setF( s, "roundSprite", 0.0f );

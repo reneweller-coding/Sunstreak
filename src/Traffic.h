@@ -41,6 +41,10 @@ struct TrafficCar
     bool   m_gone = false;     ///< took the other carriageway of a fork and has left the road
     bool   m_swim = false;     ///< swims round an undersea tunnel (never touches the road)
     float  m_lift = 0.0f;      ///< height above the road
+    float  m_orbit = 0.0f;     ///< radius of its circle over the road (0: swims straight)
+    float  m_orbitA = 0.0f;    ///< where on the circle (radians)
+    float  m_orbitW = 0.0f;    ///< how fast round it (radians per second, the sign its sense)
+    double m_orbitS = 0.0;     ///< the circle's centre along the road
 };
 
 /** @brief A cone or an arrow board. */

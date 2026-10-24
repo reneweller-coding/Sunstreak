@@ -60,6 +60,9 @@ constexpr double ForkWiden = 300.0;     ///< the road widens to two carriageways
 constexpr double ForkMedian = 1300.0;   ///< then they run side by side, beyond the sight of the choice
 constexpr double ForkPeel = 300.0;      ///< then the other one turns away and the road narrows again
 
+constexpr float  SeaDipDepth = 12.0f;   ///< how far the road sinks below the land to an undersea tunnel
+constexpr double SeaRamp = 320.0;       ///< the ramp down to an undersea tunnel's portal, and up from the other
+
 /** @brief A fork of the world tour: the road splits, each carriageway towards another country or state. */
 struct Fork
 {
@@ -105,6 +108,7 @@ struct Segment
     uint16_t m_flags = 0;         ///< SegmentFlagE
     int      m_stage = 0;         ///< the stage this segment belongs to
     float    m_flat = 0.0f;       ///< 0..1 how flat the land beside it lies (a fork's surroundings)
+    float    m_trench = 0.0f;     ///< metres the land stands over the road in the cutting to an undersea tunnel
 };
 
 /** @brief The road at a point: position and orientation, interpolated. */
@@ -239,6 +243,14 @@ public:
     bool inForkZone( double s, double margin ) const;
 
     /**
+     * @brief How far the road has sunk below its own line for an undersea tunnel.
+     * @param[in]  s       distance along the road
+     * @param[out] trench  the part of it in a cutting on land (0 on the sea floor)
+     * @return metres (0..SeaDipDepth)
+     */
+    float seaDip( double s, float *trench = nullptr ) const;
+
+    /**
      * @brief The choices made at the world tour's forks so far.
      * @return per stage after the detour: -1 left, +1 right, 0 none
      */
@@ -264,6 +276,14 @@ public:
     static float difficulty( int stage );
 
 private:
+    /**
+     * @brief Whether a distance lies on or near the ramps of an undersea tunnel (no tunnels, bridges or jumps there).
+     * @param[in] s       distance along the road
+     * @param[in] margin  metres to keep clear beyond the ramps
+     * @return true near a portal
+     */
+    bool nearSeaPortal( double s, double margin ) const;
+
     /** @brief Plans the next feature into the pending queues: its shape, then tunnels and bridges. */
     void planFeature();
 

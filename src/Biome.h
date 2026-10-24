@@ -757,6 +757,7 @@ struct Environment
     float m_planetAzimuth;      ///< its direction (degrees)
     Color m_planetColor;        ///< its colour
     float m_dust;               ///< 0..1 blowing sand (a sandstorm)
+    float m_underwater = 0.0f;  ///< 0..1 in a glass tunnel on the sea floor (light shafts, bubbles)
 };
 
 /** @brief The vehicles a region adds to the everyday traffic. */
@@ -874,6 +875,7 @@ struct SwimRule
     float m_liftMax = 10.0f;  ///< highest
     int   m_countMin = 1;     ///< a group of at least
     int   m_countMax = 1;     ///< and at most
+    bool  m_circle = false;   ///< circles over the tunnel (sharks)
 };
 
 /** @brief A biome: its look and the style of its roads. */

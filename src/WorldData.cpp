@@ -352,8 +352,15 @@ const std::unordered_map<std::string, Step> &steps()
         { "swim",
           []( W &w, const Args &a )
           {
-              // swim NAME weight liftMin liftMax [countMin countMax]
+              // swim NAME weight liftMin liftMax [countMin countMax] [circle]
               SwimRule r;
+              Args     b = a;
+              const auto circle = std::find( b.m_w.begin(), b.m_w.end(), std::string( "circle" ) );
+              if( circle != b.m_w.end() )
+              {
+                  r.m_circle = true;
+                  b.m_w.erase( circle );
+              }
               const auto &shapes = dataShapes();
               for( size_t i = 0; i < shapes.size(); ++i )
                   if( shapes[i].m_name == a.s( 0 ) && shapes[i].m_creature ) r.m_shape = static_cast<int>( i );
@@ -362,11 +369,11 @@ const std::unordered_map<std::string, Step> &steps()
                   ++g_errors;
                   return;
               }
-              r.m_weight = a.f( 1, 1.0f );
-              r.m_liftMin = a.f( 2, 2.0f );
-              r.m_liftMax = a.f( 3, 10.0f );
-              r.m_countMin = static_cast<int>( a.f( 4, 1.0f ) );
-              r.m_countMax = std::max( r.m_countMin, static_cast<int>( a.f( 5, static_cast<float>( r.m_countMin ) ) ) );
+              r.m_weight = b.f( 1, 1.0f );
+              r.m_liftMin = b.f( 2, 2.0f );
+              r.m_liftMax = b.f( 3, 10.0f );
+              r.m_countMin = static_cast<int>( b.f( 4, 1.0f ) );
+              r.m_countMax = std::max( r.m_countMin, static_cast<int>( b.f( 5, static_cast<float>( r.m_countMin ) ) ) );
               w.swim( r );
           } },
         { "drop",

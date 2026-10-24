@@ -76,6 +76,7 @@ struct Ambience
     float m_rain = 0.0f;      ///< 0..1 rain on the car
     float m_tunnel = 0.0f;    ///< 0..1 inside a tunnel: the engine echoes
     float m_bridge = 0.0f;    ///< 0..1 on a bridge: the expansion joints thump
+    float m_underwater = 0.0f;   ///< 0..1 in a glass tunnel under the sea: muffled, a hum, whales
 };
 
 /** @brief The sound system. */

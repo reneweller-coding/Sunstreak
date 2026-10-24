@@ -62,6 +62,7 @@ struct Synth
     std::atomic<int>   m_musicStation{ 0 };  ///< its station
     std::atomic<float> m_tension{ 0.0f }, m_drive{ 0.0f };   ///< the game's mood
     std::atomic<float> m_aSurf{ 0 }, m_aSurfPan{ 0 }, m_aWind{ 0 }, m_aJungle{ 0 }, m_aCity{ 0 }, m_aRain{ 0 }, m_aTunnel{ 0 }, m_aBridge{ 0 };
+    std::atomic<float> m_aUnder{ 0 };
 
     std::array<Event, 64>  m_queue;          ///< effects posted by the game
     std::atomic<uint32_t>  m_head{ 0 };      ///< written by the game thread
@@ -81,8 +82,9 @@ struct Synth
     float  a_surf = 0, a_pan = 0, a_wind = 0, a_jungle = 0, a_city = 0, a_rain = 0, a_tunnel = 0, a_bridge = 0, a_time = 0;
     float  a_joint = 0, a_thump = 0, a_thump2 = 0, a_thumpDelay = -1, a_horn = 0, a_hornF = 420, a_hornIn = 6, a_bird = 0, a_birdF = 3000,
            a_birdIn = 2, a_birdPh = 0, a_insectPh = 0, a_amPh = 0, a_droplet = 0;
+    float  a_under = 0, a_whale = 0, a_whaleIn = 4, a_whaleDur = 1, a_whalePh = 0, a_whaleF0 = 200, a_whaleF1 = 300;
     int    a_coef = 0;
-    Svf    a_surfLo, a_surfHi, a_windBp, a_rainHp, a_cityLo, a_hornLo, a_thumpLo;
+    Svf    a_surfLo, a_surfHi, a_windBp, a_rainHp, a_cityLo, a_hornLo, a_thumpLo, a_seaLo, a_mufL, a_mufR;
     Noise  a_n;
     std::array<std::array<float, 3600>, 4> a_comb{};   ///< tunnel echo: four combs
     std::array<float, 4>                   a_combDamp{};
@@ -106,6 +108,7 @@ struct Synth
         a_rain += ( m_aRain.load( std::memory_order_relaxed ) - a_rain ) * glide;
         a_tunnel += ( m_aTunnel.load( std::memory_order_relaxed ) - a_tunnel ) * 0.0002f;
         a_bridge += ( m_aBridge.load( std::memory_order_relaxed ) - a_bridge ) * 0.0004f;
+        a_under += ( m_aUnder.load( std::memory_order_relaxed ) - a_under ) * 0.0002f;
         a_time += 1.0f / SampleRate;
         if( a_time > 3600.0f ) a_time -= 3600.0f;
         const float dt = 1.0f / SampleRate;
@@ -210,9 +213,37 @@ struct Synth
             a_thump *= 0.9985f;
             a_thump2 *= 0.9985f;
         }
+        // Under the sea: a deep hum, and now and then a whale far off, calling in a long glide.
+        float whale = 0.0f;
+        if( a_under > 0.001f )
+        {
+            if( ( a_coef & 31 ) == 0 ) a_seaLo.set( 70.0f, 0.8f );
+            mono += a_seaLo.low( a_n.next() ) * a_under * 0.45f;
+            a_whaleIn -= dt;
+            if( a_whaleIn <= 0.0f && a_whale <= 0.0f )
+            {
+                a_whaleDur = 2.2f + 2.5f * a_n.unit();
+                a_whale = a_whaleDur;
+                a_whaleF0 = 130.0f + 170.0f * a_n.unit();
+                a_whaleF1 = a_whaleF0 * ( 0.6f + 1.1f * a_n.unit() );
+                a_whaleIn = 6.0f + 12.0f * a_n.unit();
+            }
+            if( a_whale > 0.0f )
+            {
+                a_whale -= dt;
+                const float t = 1.0f - a_whale / a_whaleDur;
+                const float f = a_whaleF0 + ( a_whaleF1 - a_whaleF0 ) * ( 0.5f - 0.5f * std::cos( 3.14159f * t ) ) + 14.0f * std::sin( Pi2 * 5.0f * a_time );
+                a_whalePh += f * dt;
+                if( a_whalePh >= 1.0f ) a_whalePh -= 1.0f;
+                const float env = std::sin( 3.14159f * t );
+                whale = ( std::sin( Pi2 * a_whalePh ) + 0.35f * std::sin( 2.0f * Pi2 * a_whalePh ) + 0.15f * std::sin( 3.0f * Pi2 * a_whalePh ) ) *
+                        env * env * a_under * 0.16f;
+                mono += whale;
+            }
+        }
         ++a_coef;
 
-        // The tunnel: the engine thrown back by the walls.
+        // The tunnel: the engine thrown back by the walls (and a whale's call by the sea).
         float echo = 0.0f;
         if( a_tunnel > 0.001f )
         {
@@ -222,7 +253,7 @@ struct Synth
                 float      &slot = a_comb[k][static_cast<size_t>( a_combPos % lengths[k] )];
                 const float out = slot;
                 a_combDamp[k] += ( out - a_combDamp[k] ) * 0.35f;
-                slot = engine + a_combDamp[k] * 0.74f;
+                slot = engine + whale * 2.0f + a_combDamp[k] * 0.74f;
                 echo += out;
             }
             echo *= 0.25f * a_tunnel * 0.9f;
@@ -540,6 +571,18 @@ struct Synth
                 l += s * std::min( 1.0f, 1.0f - v.m_pan );
                 r += s * std::min( 1.0f, 1.0f + v.m_pan );
             }
+            // Under the sea everything but the music comes through glass and water.
+            if( a_under > 0.01f )
+            {
+                if( ( e_wi & 31 ) == 0 )
+                {
+                    const float fc = 18000.0f * std::pow( 650.0f / 18000.0f, a_under );
+                    a_mufL.set( fc, 0.6f );
+                    a_mufR.set( fc, 0.6f );
+                }
+                l = a_mufL.low( l ) * ( 1.0f + 0.3f * a_under );
+                r = a_mufR.low( r ) * ( 1.0f + 0.3f * a_under );
+            }
             float ml, mr;
             m_music.tick( ml, mr );
             if( m_onBeatCount > 0 )
@@ -790,6 +833,7 @@ void Audio::setAmbience( const Ambience &a )
     g_synth->m_aRain.store( a.m_rain, std::memory_order_relaxed );
     g_synth->m_aTunnel.store( a.m_tunnel, std::memory_order_relaxed );
     g_synth->m_aBridge.store( a.m_bridge, std::memory_order_relaxed );
+    g_synth->m_aUnder.store( a.m_underwater, std::memory_order_relaxed );
 }
 
 void Audio::play( SfxE type, float strength, float pan )

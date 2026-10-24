@@ -200,6 +200,8 @@ float World::terrainHeight( const Track &track, long index, float lateral, const
         const bool under = track.segment( index ).m_flags & SEG_BRIDGE;
         h -= metres * valley * ( under ? 1.0f : smoothstepf( 0.0f, 12.0f, a ) ) * ( 1.0f - smoothstepf( 80.0f, 200.0f, a ) );
     }
+    // The cutting to an undersea tunnel: the land stays up behind its walls while the road sinks.
+    h += track.segment( index ).m_trench * smoothstepf( 2.0f, 3.0f, a );
     return h;
 }
 
@@ -238,6 +240,7 @@ void World::clear()
     {
         UnloadMesh( c.m_ground );
         UnloadMesh( c.m_props );
+        UnloadMesh( c.m_glass );
     }
     m_chunks.clear();
 }
@@ -276,6 +279,7 @@ void World::upload( BakedChunk &baked )
     c.m_origin = baked.m_origin;
     c.m_ground = baked.m_ground.upload();
     c.m_props = baked.m_props.upload();
+    c.m_glass = baked.m_glass.upload();
     c.m_colliders = std::move( baked.m_colliders );
     m_chunks.push_back( std::move( c ) );
     m_buildMaxMs = std::max( m_buildMaxMs, baked.m_ms );
@@ -292,6 +296,7 @@ void World::update( Track &track, double s, int maxBuilds )
     {
         UnloadMesh( m_chunks.front().m_ground );
         UnloadMesh( m_chunks.front().m_props );
+        UnloadMesh( m_chunks.front().m_glass );
         m_chunks.pop_front();
     }
     long next = m_chunks.empty() ? firstWanted : m_chunks.back().m_index + 1;
@@ -398,6 +403,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
 
     MeshBuilder ground;
     MeshBuilder props;
+    MeshBuilder glass;
 
     // Light pools of the street lamps: lamps stand every k segments, right side at j % k == 0, left at k/2.
     auto lampLight = [&]( long j, float l, float t )
@@ -603,8 +609,8 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             if( w <= 0.05f ) continue;
             const float la0 = side * ( A.m_edge + 14.0f ), la1 = side * ( A.m_edge + 1200.0f );
             const float lb0 = side * ( B.m_edge + 14.0f ), lb1 = side * ( B.m_edge + 1200.0f );
-            const float y = A.m_terrain.m_seaLevel - ( 1.0f - w ) * 20.0f;
-            ground.quad( at( A, la0, y ), at( A, la1, y ), at( B, lb1, y ), at( B, lb0, y ), sf.m_water,
+            const float y = A.m_terrain.m_seaLevel - ( 1.0f - w ) * 20.0f, ya = y + A.m_seg->m_trench, yb = y + B.m_seg->m_trench;
+            ground.quad( at( A, la0, ya ), at( A, la1, ya ), at( B, lb1, yb ), at( B, lb0, yb ), sf.m_water,
                          Mat{ sf.m_waterGlow, sf.m_waterGloss } );
         }
 
@@ -868,12 +874,45 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                     props.box( Vector3{ top.x, top.y - 0.25f, top.z }, Vector3{ 0.35f, 0.08f, 0.35f }, Color{ 200, 240, 255, 255 }, Mat{ 1.0f, 0.0f } );
                 }
                 for( int k : { 1, 3, 5, 7, 9 } ) props.tube( arc( A, k ), arc( B, k ), 0.06f, 3, rail );
+                // Tinted glass between the ribs, drawn see-through after everything solid.
+                const Color tint = { 46, 110, 124, 255 };
+                for( int k = 0; k < n; ++k ) glass.quad( arc( A, k ), arc( B, k ), arc( B, k + 1 ), arc( A, k + 1 ), tint, Mat{ 0.0f, 0.9f } );
                 if( !before || !after )
                 {
-                    // The portal: a thick concrete ring.
+                    // The portal: a thick concrete ring, set in a wall up to the land above the cutting.
                     const Color concrete = { 168, 170, 168, 255 };
                     const Cross &P = before ? B : A;
                     for( int k = 0; k < n; ++k ) props.tube( arc( P, k ), arc( P, k + 1 ), 0.9f, 5, concrete );
+                    const float top = SeaDipDepth + 1.5f, wide = radius + 7.0f;
+                    auto        outer = [&]( int k )
+                    {
+                        const float th = Tau * 0.5f * static_cast<float>( k ) / static_cast<float>( n );
+                        return at( P, -std::cos( th ) * wide, 0.2f + std::sin( th ) * top );
+                    };
+                    for( int k = 0; k < n; ++k )
+                    {
+                        props.quad( arc( P, k ), outer( k ), outer( k + 1 ), arc( P, k + 1 ), scaleColor( concrete, 0.9f ) );
+                        props.quad( arc( P, k + 1 ), outer( k + 1 ), outer( k ), arc( P, k ), scaleColor( concrete, 0.9f ) );
+                    }
+                }
+            }
+        }
+
+        // The cutting down to an undersea tunnel: concrete walls hold the land back.
+        {
+            const float ta = A.m_seg->m_trench, tb = B.m_seg->m_trench;
+            if( ta > 0.05f || tb > 0.05f )
+            {
+                const Color wall = { 172, 172, 166, 255 };
+                for( float side : { -1.0f, 1.0f } )
+                {
+                    const float   la = side * ( A.m_edge + 2.5f ), lb = side * ( B.m_edge + 2.5f );
+                    const Vector3 a0 = at( A, la, -0.5f ), a1 = at( A, la, ta + 0.7f ), b0 = at( B, lb, -0.5f ), b1 = at( B, lb, tb + 0.7f );
+                    const Vector3 a2 = at( A, la + side * 0.6f, ta + 0.7f ), b2 = at( B, lb + side * 0.6f, tb + 0.7f );
+                    props.quad( a0, b0, b1, a1, wall );
+                    props.quad( a1, b1, b0, a0, wall );
+                    props.quad( a1, b1, b2, a2, scaleColor( wall, 1.1f ) );
+                    props.quad( a2, b2, b1, a1, scaleColor( wall, 1.1f ) );
                 }
             }
         }
@@ -1058,7 +1097,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                         if( std::abs( lateral - bx ) < carriage + 14.0f || std::abs( lateral ) < std::abs( bx ) + 14.0f ) continue;
                     }
                 }
-                const float  ht = pr.m_onWater ? A.m_terrain.m_seaLevel : terrainHeight( track, j, lateral, A.m_terrain, A.m_edge );
+                const float  ht = pr.m_onWater ? A.m_terrain.m_seaLevel + A.m_seg->m_trench : terrainHeight( track, j, lateral, A.m_terrain, A.m_edge );
                 // Place along the chord inside the segment.
                 Vector3 pos = at( A, lateral, ht );
                 pos = Vector3Add( pos, Vector3Scale( A.m_forward, h2 * SegmentLength ) );
@@ -1212,6 +1251,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
 
     c.m_ground = std::move( ground );
     c.m_props = std::move( props );
+    c.m_glass = std::move( glass );
 }
 
 } // namespace sunstreak

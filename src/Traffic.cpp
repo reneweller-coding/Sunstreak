@@ -166,15 +166,45 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
                 pick -= r.m_weight;
             }
             const int model = rule->m_shape >= 0 && rule->m_shape < static_cast<int>( models.m_creatureModel.size() ) ? models.m_creatureModel[static_cast<size_t>( rule->m_shape )] : -1;
-            if( model >= 0 )
+            if( model >= 0 && rule->m_circle )
             {
-                // A group beside the tunnel or over it, along the road or across it.
-                const int   count = m_rng.rangeInt( rule->m_countMin, rule->m_countMax );
-                const float side = m_rng.chance( 0.5f ) ? 1.0f : -1.0f;
-                const float lift = m_rng.range( rule->m_liftMin, rule->m_liftMax );
-                const bool  across = lift > 9.0f && m_rng.chance( 0.5f );
-                const float along = m_rng.range( -6.0f, 14.0f ), vx = across ? -side * m_rng.range( 1.5f, 4.0f ) : 0.0f;
-                const float x0 = across ? side * m_rng.range( 30.0f, 50.0f ) : side * m_rng.range( 9.0f, 30.0f );
+                // Sharks round the tube: circling over it a little ahead, the car passing under them.
+                const int     count = m_rng.rangeInt( rule->m_countMin, std::max( 2, rule->m_countMax ) );
+                const Segment &seaSeg = track.segment( static_cast<long>( m_swimS / SegmentLength ) );
+                const float   top = ( seaSeg.m_halfWidth + RumbleWidth + 2.6f ) * 0.82f + 0.2f;
+                const float   radius = m_rng.range( 12.0f, 18.0f ), speed = m_rng.range( 4.0f, 6.5f ) * ( m_rng.chance( 0.5f ) ? 1.0f : -1.0f );
+                const float   lift = std::max( top + 2.5f, m_rng.range( rule->m_liftMin, rule->m_liftMax ) );
+                for( int k = 0; k < count; ++k )
+                {
+                    TrafficCar a;
+                    a.m_swim = true;
+                    a.m_animal = true;
+                    a.m_passed = true;
+                    a.m_lane = -1;
+                    a.m_model = model;
+                    a.m_orbit = radius + m_rng.range( -2.0f, 2.0f );
+                    a.m_orbitS = m_swimS + 40.0;
+                    a.m_orbitA = Tau * static_cast<float>( k ) / static_cast<float>( count ) + m_rng.range( -0.3f, 0.3f );
+                    a.m_orbitW = speed / a.m_orbit;
+                    a.m_s = a.m_orbitS + static_cast<double>( a.m_orbit * std::cos( a.m_orbitA ) );
+                    a.m_x = a.m_orbit * std::sin( a.m_orbitA );
+                    a.m_lift = lift + m_rng.range( -1.0f, 1.5f );
+                    a.m_length = models.m_traffic[static_cast<size_t>( model )].m_length;
+                    a.m_width = models.m_traffic[static_cast<size_t>( model )].m_width;
+                    m_cars.push_back( a );
+                }
+            }
+            else if( model >= 0 )
+            {
+                // A group beside the tunnel, close to the glass, or over it, along the road or across it.
+                const int      count = m_rng.rangeInt( rule->m_countMin, rule->m_countMax );
+                const float    side = m_rng.chance( 0.5f ) ? 1.0f : -1.0f;
+                const float    lift = m_rng.range( rule->m_liftMin, rule->m_liftMax );
+                const bool     across = lift > 9.0f && m_rng.chance( 0.5f );
+                const float    along = m_rng.range( -6.0f, 14.0f ), vx = across ? -side * m_rng.range( 1.5f, 4.0f ) : 0.0f;
+                const Segment &seaSeg = track.segment( static_cast<long>( m_swimS / SegmentLength ) );
+                const float    clear = seaSeg.m_halfWidth + RumbleWidth + 2.6f + 1.5f + 0.5f * models.m_traffic[static_cast<size_t>( model )].m_width;
+                const float    x0 = across ? side * m_rng.range( 30.0f, 50.0f ) : side * m_rng.range( clear, clear + 14.0f );
                 for( int k = 0; k < count; ++k )
                 {
                     TrafficCar a;
@@ -185,6 +215,7 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
                     a.m_model = model;
                     a.m_s = m_swimS + static_cast<double>( m_rng.range( -8.0f, 8.0f ) );
                     a.m_x = x0 + m_rng.range( -4.0f, 4.0f );
+                    if( !across ) a.m_x = side * std::max( clear, std::abs( a.m_x ) );
                     a.m_lift = std::max( 0.0f, lift + ( count > 1 ? m_rng.range( -2.0f, 2.0f ) : 0.0f ) );
                     a.m_speed = along;
                     a.m_cruise = along;
@@ -195,7 +226,7 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
                     m_cars.push_back( a );
                 }
             }
-            m_swimS += m_rng.range( 25.0f, 90.0f );
+            m_swimS += m_rng.range( 10.0f, 36.0f );
         }
     }
     while( m_density > 0.0f && m_spawnS < player.m_s + 1050.0 )
@@ -238,6 +269,15 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
     // Drive.
     for( TrafficCar &c : m_cars )
     {
+        if( c.m_swim && c.m_orbit > 0.0f )
+        {
+            // Round the circle, heading along it.
+            c.m_orbitA += c.m_orbitW * dt;
+            c.m_s = c.m_orbitS + static_cast<double>( c.m_orbit * std::cos( c.m_orbitA ) );
+            c.m_x = c.m_orbit * std::sin( c.m_orbitA );
+            c.m_yaw = std::atan2( std::cos( c.m_orbitA ) * c.m_orbitW, -std::sin( c.m_orbitA ) * c.m_orbitW );
+            continue;
+        }
         if( c.m_swim )
         {
             c.m_s += static_cast<double>( c.m_speed ) * dt;

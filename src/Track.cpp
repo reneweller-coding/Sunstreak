@@ -170,6 +170,33 @@ void Track::setTourChoices( const std::vector<int8_t> &choices )
     m_tour->m_sea.resize( 1 );
 }
 
+float Track::seaDip( double s, float *trench ) const
+{
+    if( trench ) *trench = 0.0f;
+    if( !m_tour || s < 0.0 ) return 0.0f;
+    auto        sea = [this]( int stage ) { return stage >= 0 && biomeDef( stageBiome( stage ) ).m_underwater; };
+    const int   stage = static_cast<int>( s / StageLength );
+    if( sea( stage ) ) return SeaDipDepth;
+    // Down the ramp to the next stage's portal, up the ramp from the last one's. The next stage is asked only on the
+    // ramp: it is known for sure once the fork before it is behind.
+    const double b0 = static_cast<double>( stage ) * StageLength, b1 = b0 + StageLength;
+    float        dip = 0.0f;
+    if( s > b1 - SeaRamp && sea( stage + 1 ) )
+        dip = SeaDipDepth * smoothstepf( static_cast<float>( -SeaRamp ), 0.0f, static_cast<float>( s - b1 ) );
+    if( s < b0 + SeaRamp && sea( stage - 1 ) )
+        dip = std::max( dip, SeaDipDepth * ( 1.0f - smoothstepf( 0.0f, static_cast<float>( SeaRamp ), static_cast<float>( s - b0 ) ) ) );
+    if( trench ) *trench = dip;
+    return dip;
+}
+
+bool Track::nearSeaPortal( double s, double margin ) const
+{
+    if( !m_tour ) return false;
+    const double k = std::floor( s / StageLength + 0.5 ), boundary = k * StageLength;
+    if( k < 1.0 || std::abs( s - boundary ) > SeaRamp + margin ) return false;
+    return biomeDef( stageBiome( static_cast<int>( k ) - 1 ) ).m_underwater != biomeDef( stageBiome( static_cast<int>( k ) ) ).m_underwater;
+}
+
 bool Track::inForkZone( double s, double margin ) const
 {
     if( !m_tour ) return false;
@@ -243,6 +270,7 @@ void Track::decorate( size_t from )
     const double s = static_cast<double>( first ) * SegmentLength;
     if( s < m_params.m_startLine + 600.0 || n < 16 || first - m_lastSpecial < 80 ) return;
     if( inForkZone( s, 150.0 ) || inForkZone( s + static_cast<double>( n ) * SegmentLength, 150.0 ) ) return;
+    if( nearSeaPortal( s, 150.0 ) || nearSeaPortal( s + static_cast<double>( n ) * SegmentLength, 150.0 ) ) return;
     float maxCurve = 0.0f;
     for( size_t i = from; i < from + n; ++i )
     {
@@ -302,6 +330,7 @@ void Track::planShape()
     {
         const int n = std::max( 2, static_cast<int>( length / SegmentLength ) );
         if( inForkZone( s, 100.0 ) || inForkZone( s + static_cast<double>( n ) * SegmentLength, 100.0 ) ) allowSpecials = false;
+        if( nearSeaPortal( s, 100.0 ) || nearSeaPortal( s + static_cast<double>( n ) * SegmentLength, 100.0 ) ) allowSpecials = false;
         // A crest that throws the car, in hilly country, now and then.
         int jumpAt = -1;
         if( allowSpecials && n >= 40 && hilly > 0.45f && startIndex - m_lastJump > 300 && m_rng.chance( 0.25f * hilly ) )
@@ -457,6 +486,14 @@ void Track::appendSegment()
     const float pull = clampf( static_cast<float>( m_genPos.m_y ) / 2500.0f, -0.03f, 0.03f );
     seg.m_grade = hillGrade( s, hilly ) + extraGrade - pull;
     if( s < m_params.m_startLine + 60.0 ) seg.m_grade *= static_cast<float>( s / ( m_params.m_startLine + 60.0 ) );
+    if( m_tour )
+    {
+        // Down into an undersea tunnel's portal and up out of the other one; the land beside stays where it was.
+        float       trench = 0.0f;
+        const float dip = seaDip( s, &trench ), next = seaDip( s + SegmentLength );
+        seg.m_grade -= ( next - dip ) / SegmentLength;
+        seg.m_trench = trench;
+    }
 
     const BiomeMix  mix = biomeMix( s );
     const BiomeDef &a = biomeDef( mix.m_from );
