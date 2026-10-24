@@ -406,6 +406,29 @@ struct Synth
             y = std::tanh( std::sin( Pi2 * mtof( notes[i] ) * t ) * 2.0f ) * std::exp( -( t - 0.22f * i ) * 4.0f ) * 0.22f;
             break;
         }
+        case SfxE::JINGLE:
+        {
+            // Three sung notes, an "ah" through two formants with a little vibrato, a bell on the last.
+            dur = 1.6f;
+            static const float tunes[4][3] = { { 67, 72, 76 }, { 72, 67, 79 }, { 64, 67, 72 }, { 69, 72, 76 } };
+            const int   which = static_cast<int>( v.m_strength * 10.0f + 0.5f ) & 3;
+            const int   i = std::min( 2, static_cast<int>( t / 0.2f ) );
+            const float lt = t - 0.2f * static_cast<float>( i );
+            const float f = mtof( tunes[which][i] ) * ( 1.0f + 0.012f * std::sin( Pi2 * 5.5f * t ) );
+            v.m_phase += f / SampleRate;
+            if( v.m_phase >= 1.0f ) v.m_phase -= 1.0f;
+            float sung = 0.0f;
+            for( int k = 1; k <= 8; ++k )
+            {
+                const float h = f * static_cast<float>( k );
+                const float w = std::exp( -std::pow( ( h - 750.0f ) / 380.0f, 2.0f ) ) + 0.6f * std::exp( -std::pow( ( h - 1150.0f ) / 420.0f, 2.0f ) ) +
+                                0.15f / static_cast<float>( k );
+                sung += std::sin( Pi2 * v.m_phase * static_cast<float>( k ) ) * w;
+            }
+            const float bell = i == 2 ? std::sin( Pi2 * f * 2.0f * t ) * std::exp( -lt * 3.0f ) * 0.4f : 0.0f;
+            y = ( sung * 0.35f + bell ) * std::min( 1.0f, lt * 25.0f ) * std::exp( -lt * ( i == 2 ? 2.2f : 7.0f ) ) * 0.2f;
+            break;
+        }
         case SfxE::VICTORY:
         {
             // A rising arpeggio into a held major chord, slightly overdriven like brass.

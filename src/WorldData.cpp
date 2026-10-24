@@ -151,7 +151,8 @@ const std::pair<const char *, int> StationNames[] = {
     { "AFRO", StationAfro },       { "SAMBA", StationSamba },   { "TANGO", StationTango },         { "ANDES", StationAndes },
     { "CARIBBEAN", StationCaribbean }, { "MARIACHI", StationMariachi }, { "CELTIC", StationCeltic }, { "BALKAN", StationBalkan },
     { "GAMELAN", StationGamelan }, { "OUTBACK", StationOutback }, { "STEPPE", StationSteppe },     { "NORDIC", StationNordic },
-    { "ROUTE66", StationRoute66 }, { "LOFI", StationLofi } };
+    { "ROUTE66", StationRoute66 }, { "LOFI", StationLofi },     { "KPOP", StationKpop },           { "FADO", StationFado },
+    { "SCHLAGER", StationSchlager }, { "POLKA", StationPolka }, { "AFROBEAT", StationAfrobeat } };
 
 /**
  * @brief Keeps a string for good: names and countries the tables point to (one copy of each).

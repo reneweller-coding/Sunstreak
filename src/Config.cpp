@@ -7,6 +7,7 @@
 
 #include "Biome.h"
 #include "Festival.h"
+#include "Music.h"
 
 #include <algorithm>
 #include <cctype>
@@ -68,6 +69,7 @@ bool loadSettings( Settings &settings )
     std::ifstream in( settingsPath() );
     if( !in ) return false;
     std::string line;
+    int         stations = 26;   // files from before the count was saved had 26
     while( std::getline( in, line ) )
     {
         const auto eq = line.find( '=' );
@@ -88,6 +90,7 @@ bool loadSettings( Settings &settings )
             else if( key == "camera" ) settings.m_camera = std::clamp( std::stoi( val ), 0, 2 );
             else if( key == "speed_blur" ) settings.m_speedBlur = val == "1";
             else if( key == "radio" ) settings.m_station = std::clamp( std::stoi( val ), -1, 64 );
+            else if( key == "stations" ) stations = std::stoi( val );
             else if( key == "difficulty" ) settings.m_difficulty = std::clamp( std::stoi( val ), 0, 2 );
             else if( key == "shadows" ) settings.m_shadows = val == "1";
             else if( key == "fps_limit" ) settings.m_fpsLimit = std::clamp( std::stoi( val ), 0, 240 );
@@ -114,6 +117,7 @@ bool loadSettings( Settings &settings )
             // A broken value keeps its default.
         }
     }
+    if( stations != StationCount && settings.m_station >= stations ) settings.m_station = StationCount;   // my music stays my music
     return true;
 }
 
@@ -134,6 +138,7 @@ bool saveSettings( const Settings &settings )
     out << "camera=" << settings.m_camera << "\n";
     out << "speed_blur=" << ( settings.m_speedBlur ? 1 : 0 ) << "\n";
     out << "radio=" << settings.m_station << "\n";
+    out << "stations=" << StationCount << "\n";
     out << "difficulty=" << settings.m_difficulty << "\n";
     out << "shadows=" << ( settings.m_shadows ? 1 : 0 ) << "\n";
     out << "fps_limit=" << settings.m_fpsLimit << "\n";

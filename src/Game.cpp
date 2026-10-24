@@ -1514,6 +1514,17 @@ void Game::timeAttackRules( float h )
     {
         m_stage = stage;
         popup( format( "STAGE %d", stage + 1 ), placeName( track.stageBiome( stage ) ), Accent, 1.2f, 3.2f );
+        // A new region or country: the radio's jingle, and where it plays from.
+        const BiomeDef &now = biomeDef( track.stageBiome( stage ) );
+        const BiomeDef &was = biomeDef( track.stageBiome( std::max( 0, stage - 1 ) ) );
+        auto            differ = []( const char *a, const char *b ) { return ( a == nullptr ) != ( b == nullptr ) || ( a && b && std::strcmp( a, b ) != 0 ); };
+        if( stage > 0 && now.m_country && !m_demo && ( differ( now.m_country, was.m_country ) || differ( now.m_region, was.m_region ) ) )
+        {
+            const int station = wantedStation();
+            m_audio.play( SfxE::JINGLE, 0.8f + 0.1f * static_cast<float>( std::max( 0, station ) % 4 ) );
+            m_nowTimer = 0.0f;
+            m_nowPlaying = std::string( "LIVE FROM " ) + ( now.m_region ? now.m_region : now.m_name ? now.m_name : "" ) + ",  " + now.m_country;
+        }
         const int fest = festivalAt( track.stageBiome( stage ), seasonClock().dateAt( m_car.m_s ) );
         if( fest >= 0 ) popup( festivals()[static_cast<size_t>( fest )].m_name, festivals()[static_cast<size_t>( fest )].m_what, Gold, 0.9f, 3.4f );
         m_audio.playOnBeat( SfxE::STAGE );

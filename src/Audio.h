@@ -43,6 +43,7 @@ enum class SfxE : uint8_t
     STAGE,        ///< a new stage
     GAMEOVER,     ///< time is up
     VICTORY,      ///< a podium finish
+    JINGLE,       ///< a station's ident (the strength picks its tune)
     COUNT         ///< number of effects
 };
 

@@ -491,6 +491,32 @@ std::array<Style, StationCount> buildStyles()
     s->m_chordInst = EPIANO, s->m_sevenths = 1.0f, s->m_rhythms = RSlow | RSwing, s->m_arrangement = 3, s->m_swing = 0.14f;
     s->m_sidechain = 0.15f, s->m_reverb = 0.35f, s->m_echo = 0.3f, s->m_kick = 0.8f, s->m_snare = 0.5f, s->m_hat = 0.08f;
     s->m_percLevel = 0.15f, s->m_chordLevel = 0.06f;
+
+    s = &( st[26] = style( "K-POP NEON", 120, 128, DrumsE::FOUR, PercE::SHAKER, BassE::OFFBEAT, ChordE::GATED, { SUPERSAW, PLUCK, SQUARE },
+                           { S::MINOR, S::DORIAN, S::MAJOR } ) );
+    s->m_arp = ArpE::UP, s->m_modal = 0.1f, s->m_rhythms = RPop | RFast, s->m_sidechain = 0.5f, s->m_reverb = 0.3f, s->m_echo = 0.3f;
+    s->m_kick = 1.0f, s->m_snare = 0.7f, s->m_hat = 0.13f, s->m_percLevel = 0.15f, s->m_leadLevel = 0.08f, s->m_chordLevel = 0.05f;
+
+    s = &( st[27] = style( "FADO NOITE", 62, 76, DrumsE::HALFTIME, PercE::NONE, BassE::SUB, ChordE::STRUM, { CHARANGO, FIDDLE, GUITAR },
+                           { S::HARMONIC, S::MINOR } ) );
+    s->m_chordInst = GUITAR, s->m_counter = CHARANGO, s->m_modal = 0.1f, s->m_rhythms = RSlow, s->m_arrangement = 3, s->m_swing = 0.05f;
+    s->m_sidechain = 0.0f, s->m_reverb = 0.45f, s->m_echo = 0.2f, s->m_kick = 0.15f, s->m_snare = 0.0f, s->m_hat = 0.03f;
+    s->m_leadLevel = 0.1f, s->m_chordLevel = 0.08f, s->m_bassLevel = 0.3f;
+
+    s = &( st[28] = style( "SCHLAGER EXPRESS", 120, 132, DrumsE::DISCO, PercE::NONE, BassE::OCTAVE, ChordE::STABS, { SUPERSAW, ACCORDION, BRASS },
+                           { S::MAJOR, S::MIXOLYDIAN } ) );
+    s->m_counter = ACCORDION, s->m_modal = 0.05f, s->m_rhythms = RPop, s->m_sidechain = 0.3f, s->m_reverb = 0.3f, s->m_kick = 0.95f;
+    s->m_snare = 0.6f, s->m_hat = 0.12f, s->m_leadLevel = 0.08f, s->m_chordLevel = 0.07f;
+
+    s = &( st[29] = style( "POLKA PARADE", 120, 144, DrumsE::POLKA, PercE::NONE, BassE::POLKA, ChordE::STRUM, { ACCORDION, CLARINET, TRUMPET },
+                           { S::MAJOR, S::MIXOLYDIAN } ) );
+    s->m_chordInst = ACCORDION, s->m_counter = CLARINET, s->m_rhythms = RFast | RPop, s->m_sidechain = 0.0f, s->m_reverb = 0.25f;
+    s->m_kick = 0.8f, s->m_snare = 0.5f, s->m_chordLevel = 0.06f;
+
+    s = &( st[30] = style( "AFROBEAT LAGOS", 100, 112, DrumsE::FUNK, PercE::AFRO, BassE::FUNKY, ChordE::STABS, { TRUMPET, ORGAN, DIST_GUITAR },
+                           { S::DORIAN, S::MINOR, S::MIXOLYDIAN } ) );
+    s->m_chordInst = BRASS, s->m_counter = ORGAN, s->m_modal = 0.7f, s->m_rhythms = RLatin | RPop, s->m_swing = 0.05f, s->m_sidechain = 0.1f;
+    s->m_reverb = 0.25f, s->m_kick = 0.85f, s->m_percLevel = 0.4f, s->m_bassLevel = 0.42f, s->m_chordLevel = 0.07f;
     return st;
 }
 

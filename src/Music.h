@@ -1,6 +1,6 @@
 /**
  * @file Music.h
- * @brief The generative soundtrack: twenty-six radio stations, each a style, each track composed from a seed.
+ * @brief The generative soundtrack: thirty-one radio stations, each a style, each track composed from a seed.
  *
  * Eight genre stations (synthwave, house, acid techno, trance, drum and bass, chiptune, funk fusion, big beat), sixteen
  * that carry a region's colours (city pop, koto, Bollywood, desert maqam, afrobeat, samba, tango, the Andes, Caribbean
@@ -26,7 +26,7 @@
 namespace sunstreak
 {
 
-constexpr int StationCount = 26;   ///< generated stations
+constexpr int StationCount = 31;   ///< generated stations
 
 /** @name Stations with a region (the biomes' AUTO choice) */
 ///@{
@@ -48,6 +48,11 @@ constexpr int StationSteppe = 22;      ///< Central Asia, Mongolia: gallop, fidd
 constexpr int StationNordic = 23;      ///< Scandinavia, the Baltic, Iceland: fiddle, frame drum, wide pads
 constexpr int StationRoute66 = 24;     ///< North America on the open road: twang, harmonica, train beat
 constexpr int StationLofi = 25;        ///< lo-fi beats
+constexpr int StationKpop = 26;        ///< Korea: K-pop, punchy and bright
+constexpr int StationFado = 27;        ///< Portugal: fado, guitars, no drums to speak of
+constexpr int StationSchlager = 28;    ///< the German-speaking countries: Schlager, disco fox
+constexpr int StationPolka = 29;       ///< Central Europe: polka, accordion, oom-pah
+constexpr int StationAfrobeat = 30;    ///< West Africa: Afrobeat, horns, organ, a long groove
 ///@}
 
 /**
