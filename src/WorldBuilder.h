@@ -716,13 +716,14 @@ public:
      */
     W &from( const BiomeDef &src, bool keepLight )
     {
-        const char       *name = m_d.m_name, *country = m_d.m_country, *region = m_d.m_region;
+        const char       *name = m_d.m_name, *country = m_d.m_country, *region = m_d.m_region, *island = m_d.m_island;
         const Environment env = m_d.m_env;
         const ClimateE    climate = m_d.m_climate;
         m_d = src;
         m_d.m_name = name;
         m_d.m_country = country;
         m_d.m_region = region;
+        m_d.m_island = island;
         if( !keepLight )
         {
             m_d.m_env = env;
@@ -743,6 +744,68 @@ public:
         rules.erase( std::remove_if( rules.begin(), rules.end(),
                                      [&]( const PropRule &r ) { return r.m_kind == kind && ( variant < 0 || r.m_variant == variant ); } ),
                      rules.end() );
+        return *this;
+    }
+
+    /**
+     * @brief Puts the road in a glass tunnel on the sea floor.
+     * @return this
+     */
+    W &underwater()
+    {
+        m_d.m_underwater = true;
+        m_d.m_climate = ClimateE::NONE;
+        // The surface's glow overhead, no clouds, stars, rain or wonders; the light comes from above.
+        Environment &e = m_d.m_env;
+        e.m_sunSize = 0.7f;
+        e.m_sunElevation = 72.0f;
+        e.m_sunStripes = 0.0f;
+        e.m_cloudAmount = 0.0f;
+        e.m_stars = 0.0f;
+        e.m_rain = 0.0f;
+        e.m_lightning = 0.0f;
+        e.m_aurora = 0.0f;
+        e.m_rainbow = 0.0f;
+        e.m_eclipse = 0.0f;
+        e.m_planetSize = 0.0f;
+        e.m_dust = 0.0f;
+        return *this;
+    }
+
+    /**
+     * @brief Sets an island of its own (a sea lies between it and its country's mainland).
+     * @param[in] name  the island
+     * @return this
+     */
+    W &island( const char *name )
+    {
+        m_d.m_island = name;
+        return *this;
+    }
+
+    /**
+     * @brief Adds a creature that swims round the tunnel.
+     * @param[in] rule  what, how often, how high, how many
+     * @return this
+     */
+    W &swim( const SwimRule &rule )
+    {
+        m_d.m_swim.push_back( rule );
+        return *this;
+    }
+
+    /**
+     * @brief Sets the light: the sun's (or the surface's) strength, the headlights, the exposure.
+     * @param[in] sun         the sun's intensity
+     * @param[in] headlights  0..1
+     * @param[in] exposure    brightness
+     * @return this
+     */
+    W &light( float sun, float headlights, float exposure )
+    {
+        m_d.m_env.m_sunIntensity = sun;
+        m_d.m_env.m_headlights = headlights;
+        m_d.m_env.m_exposure = exposure;
         return *this;
     }
 

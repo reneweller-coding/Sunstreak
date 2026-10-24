@@ -415,6 +415,7 @@ place NAZCA | NAZCA DESERT | PERU | DESERT
     c 7A8A48
 
 place GALAPAGOS | GALAPAGOS | ECUADOR | NOON
+    island GALAPAGOS
     sea 0 1 -3
     water 1E7AA0
     land 6A6A50 60604A 4A4A44

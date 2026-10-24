@@ -58,6 +58,7 @@ place ISTANBUL | ISTANBUL | TURKEY | GOLDEN
     floating
 
 place SANTORINI | SANTORINI | GREECE | NOON
+    island SANTORINI
     sea 1 0 -30
     water 1A5AA0
     land A08A70 947E66 8A7A68

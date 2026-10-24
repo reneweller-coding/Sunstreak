@@ -206,6 +206,7 @@ public:
     Mesh                                               m_livery{};       ///< the player's own car, dressed in the garage
     Livery                                             m_liveryOf{};     ///< what m_livery shows
     std::vector<VehicleModel>                          m_traffic;        ///< traffic, paints included
+    std::vector<int>                                   m_creatureModel;  ///< per data shape: its traffic model if it swims (-1: none)
     Mesh                                               m_cone{};         ///< traffic cone
     std::array<Mesh, 2>                                m_arrowBoard{};   ///< roadworks board, arrow left / right
     Mesh                                               m_shadow{};       ///< unit blob shadow

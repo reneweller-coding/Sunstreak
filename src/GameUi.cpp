@@ -1577,7 +1577,7 @@ void Game::drawMinimap( float x, float y, float w, float h )
     }
     for( const TrafficCar &t : m_traffic.m_cars )
     {
-        if( t.m_s - m_car.m_s > 1250.0 ) continue;
+        if( t.m_s - m_car.m_s > 1250.0 || t.m_swim ) continue;
         DrawCircleV( map( track.pointAt( t.m_s, t.m_x, 0.0f ) ), 2.6f * u, Color{ 255, 200, 80, 255 } );
     }
     for( const Rival &r : m_race.m_rivals )

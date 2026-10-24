@@ -65,6 +65,7 @@ void addWorldBiomes( std::vector<BiomeDef> &b )
         b[static_cast<size_t>( p.m_biome )].m_climate = p.m_climate;
         b[static_cast<size_t>( p.m_biome )].m_region = p.m_region;
     }
+    b[static_cast<size_t>( BE::VOLCANO )].m_island = "HAWAII";
 
     addDataPlaces( b );
 

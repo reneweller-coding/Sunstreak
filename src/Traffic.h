@@ -39,6 +39,8 @@ struct TrafficCar
     float  m_wait = 0.0f;      ///< seconds it stands still in the road
     bool   m_waited = false;   ///< it has stood already
     bool   m_gone = false;     ///< took the other carriageway of a fork and has left the road
+    bool   m_swim = false;     ///< swims round an undersea tunnel (never touches the road)
+    float  m_lift = 0.0f;      ///< height above the road
 };
 
 /** @brief A cone or an arrow board. */
@@ -114,6 +116,7 @@ private:
     Rng    m_rng;               ///< spawning
     double m_spawnS = 0.0;      ///< the next spawn point
     double m_animalS = 0.0;     ///< where the next animals may cross
+    double m_swimS = 0.0;       ///< where the next creatures swim by
     long   m_scanned = 0;       ///< segments checked for roadworks
 };
 

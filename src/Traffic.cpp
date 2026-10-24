@@ -114,7 +114,7 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
         if( spawnPlace.m_lanes <= 2 && spawnPlace.m_country )
             for( const PropRule &r : spawnPlace.m_props )
                 for( size_t i = 0; i < models.m_traffic.size(); ++i )
-                    if( models.m_traffic[i].m_animal == r.m_kind ) fauna.push_back( static_cast<int>( i ) );
+                    if( r.m_kind != PropKindE::LANDMARK && models.m_traffic[i].m_animal == r.m_kind ) fauna.push_back( static_cast<int>( i ) );
         const Segment &seg = track.segment( static_cast<long>( m_animalS / SegmentLength ) );
         if( !fauna.empty() && !( seg.m_flags & ( SEG_TUNNEL | SEG_BRIDGE ) ) && m_animalS > StartLine + 300.0 )
         {
@@ -145,6 +145,58 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
             ev.m_animal = static_cast<int>( kind );
         }
         m_animalS += m_rng.range( 900.0f, 2400.0f );
+    }
+    // Under the sea: shoals, sharks, rays, whales and crabs round the glass tunnel.
+    {
+        const BiomeDef &sea = biomeDef( track.stageBiome( static_cast<int>( ( player.m_s + 500.0 ) / StageLength ) ) );
+        if( m_swimS < player.m_s + 200.0 ) m_swimS = player.m_s + 200.0 + m_rng.range( 0.0f, 80.0f );
+        if( !sea.m_swim.empty() && player.m_s + 460.0 > m_swimS )
+        {
+            float total = 0.0f;
+            for( const SwimRule &r : sea.m_swim ) total += r.m_weight;
+            float           pick = m_rng.range( 0.0f, total );
+            const SwimRule *rule = &sea.m_swim.front();
+            for( const SwimRule &r : sea.m_swim )
+            {
+                if( pick < r.m_weight )
+                {
+                    rule = &r;
+                    break;
+                }
+                pick -= r.m_weight;
+            }
+            const int model = rule->m_shape >= 0 && rule->m_shape < static_cast<int>( models.m_creatureModel.size() ) ? models.m_creatureModel[static_cast<size_t>( rule->m_shape )] : -1;
+            if( model >= 0 )
+            {
+                // A group beside the tunnel or over it, along the road or across it.
+                const int   count = m_rng.rangeInt( rule->m_countMin, rule->m_countMax );
+                const float side = m_rng.chance( 0.5f ) ? 1.0f : -1.0f;
+                const float lift = m_rng.range( rule->m_liftMin, rule->m_liftMax );
+                const bool  across = lift > 9.0f && m_rng.chance( 0.5f );
+                const float along = m_rng.range( -6.0f, 14.0f ), vx = across ? -side * m_rng.range( 1.5f, 4.0f ) : 0.0f;
+                const float x0 = across ? side * m_rng.range( 30.0f, 50.0f ) : side * m_rng.range( 9.0f, 30.0f );
+                for( int k = 0; k < count; ++k )
+                {
+                    TrafficCar a;
+                    a.m_swim = true;
+                    a.m_animal = true;
+                    a.m_passed = true;
+                    a.m_lane = -1;
+                    a.m_model = model;
+                    a.m_s = m_swimS + static_cast<double>( m_rng.range( -8.0f, 8.0f ) );
+                    a.m_x = x0 + m_rng.range( -4.0f, 4.0f );
+                    a.m_lift = std::max( 0.0f, lift + ( count > 1 ? m_rng.range( -2.0f, 2.0f ) : 0.0f ) );
+                    a.m_speed = along;
+                    a.m_cruise = along;
+                    a.m_vx = vx;
+                    a.m_yaw = std::atan2( vx, std::abs( along ) > 0.5f ? along : 0.5f ) + ( along < -0.5f ? Tau * 0.5f : 0.0f );
+                    a.m_length = models.m_traffic[static_cast<size_t>( model )].m_length;
+                    a.m_width = models.m_traffic[static_cast<size_t>( model )].m_width;
+                    m_cars.push_back( a );
+                }
+            }
+            m_swimS += m_rng.range( 25.0f, 90.0f );
+        }
     }
     while( m_density > 0.0f && m_spawnS < player.m_s + 1050.0 )
     {
@@ -186,6 +238,12 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
     // Drive.
     for( TrafficCar &c : m_cars )
     {
+        if( c.m_swim )
+        {
+            c.m_s += static_cast<double>( c.m_speed ) * dt;
+            c.m_x += c.m_vx * dt;
+            continue;
+        }
         const Segment &seg = track.segment( static_cast<long>( c.m_s / SegmentLength ) );
         const int      lanes = seg.m_lanes;
         if( c.m_animal )
@@ -265,6 +323,7 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
     const float pl = player.m_spec.m_length, pw = player.m_spec.m_width;
     for( TrafficCar &c : m_cars )
     {
+        if( c.m_swim ) continue;
         const double ds = player.m_s - c.m_s;
         const float  dx = player.m_x - c.m_x;
         const float  halfL = ( pl + c.m_length ) * 0.5f;
@@ -331,7 +390,7 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
                    [&]( const TrafficCar &c )
                    {
                        const bool across = c.m_animal && c.m_x * c.m_vx > 0.0f && std::abs( c.m_x ) > track.segment( static_cast<long>( c.m_s / SegmentLength ) ).m_halfWidth + 9.0f;
-                       return across || c.m_gone || c.m_s < player.m_s - 140.0 || c.m_s > player.m_s + 1700.0;
+                       return across || c.m_gone || ( c.m_swim && std::abs( c.m_x ) > 160.0f ) || c.m_s < player.m_s - 140.0 || c.m_s > player.m_s + 1700.0;
                    } );
 
     // Cones and boards.

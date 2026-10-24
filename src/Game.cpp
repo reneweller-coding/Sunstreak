@@ -216,7 +216,13 @@ float Game::wantedHour() const
 Environment Game::sceneEnvironment( double s ) const
 {
     Environment e = environmentAt( *m_track, s );
-    if( m_hour >= 0.0f ) e = environmentAtHour( e, m_hour );
+    if( m_hour >= 0.0f )
+    {
+        // On the sea floor the hour does not reach: the sea keeps its own light.
+        const BiomeMix mix = m_track->biomeMix( s );
+        const float    under = ( biomeDef( mix.m_from ).m_underwater ? 1.0f - mix.m_t : 0.0f ) + ( biomeDef( mix.m_to ).m_underwater ? mix.m_t : 0.0f );
+        e = blendEnvironment( environmentAtHour( e, m_hour ), e, under );
+    }
     WeatherE    type = WeatherE::NONE;
     const float k = frontAt( s, type );
     if( k <= 0.0f ) return e;
@@ -395,6 +401,8 @@ void Game::replayStep( float dt )
         c.m_model = o.m_model;
         c.m_length = m_models.m_traffic[static_cast<size_t>( o.m_model )].m_length;
         c.m_width = m_models.m_traffic[static_cast<size_t>( o.m_model )].m_width;
+        c.m_lift = o.m_lift;
+        c.m_swim = o.m_lift > 0.0f;
         m_traffic.m_cars.push_back( c );
     }
     for( size_t i = 0; i < a.m_rivals.size() && i < m_race.m_rivals.size() && i < b.m_rivals.size(); ++i )
@@ -1129,7 +1137,7 @@ void Game::simulate( float dt, bool autopilotOn )
         f.m_airborne = m_car.m_airborne;
         f.m_boost = m_car.m_boosting;
         for( const TrafficCar &c : m_traffic.m_cars )
-            if( std::abs( c.m_s - m_car.m_s ) < 400.0 ) f.m_traffic.push_back( { c.m_s, c.m_x, c.m_yaw, c.m_model } );
+            if( std::abs( c.m_s - m_car.m_s ) < 400.0 ) f.m_traffic.push_back( { c.m_s, c.m_x, c.m_yaw, c.m_model, c.m_lift } );
         for( const Rival &r : m_race.m_rivals ) f.m_rivals.push_back( { r.m_s, r.m_x, r.m_yaw, r.m_driver } );
         m_replay.push_back( std::move( f ) );
         while( m_replay.size() > 1200 ) m_replay.pop_front();
@@ -1369,7 +1377,7 @@ CarInput Game::autopilot() const
         for( const TrafficCar &c : m_traffic.m_cars )
         {
             const double gap = c.m_s - m_car.m_s;
-            if( gap < -6.0 || gap > 90.0 ) continue;
+            if( gap < -6.0 || gap > 90.0 || c.m_swim ) continue;
             if( laneOf( c.m_x, lanes, seg.m_halfWidth ) == lane ) cost += 120.0f * static_cast<float>( 1.0 - gap / 100.0 );
         }
         for( const Rival &r : m_race.m_rivals )
@@ -1400,7 +1408,7 @@ CarInput Game::autopilot() const
     for( const TrafficCar &c : m_traffic.m_cars )
     {
         const double gap = c.m_s - m_car.m_s - ( c.m_length + m_car.m_spec.m_length ) * 0.5;
-        if( gap < 0.0 || gap > 25.0 + m_car.m_speed * 1.2 ) continue;
+        if( gap < 0.0 || gap > 25.0 + m_car.m_speed * 1.2 || c.m_swim ) continue;
         const float dx = std::abs( c.m_x - m_car.m_x );
         const float tx = std::abs( c.m_x - targetX );
         if( dx < ( c.m_width + m_car.m_spec.m_width ) * 0.6f || tx < 1.5f )

@@ -6,6 +6,7 @@
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
 place SA_CALOBRA | SA CALOBRA | SPAIN | NOON
+    island MALLORCA
     land 8A9058 808650 9A9672
     verge D0C8B8
     sea 0 0.5 -90

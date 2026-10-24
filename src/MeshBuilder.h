@@ -201,6 +201,12 @@ public:
     void clear();
 
     /**
+     * @brief How far the triangles reach from the origin along each axis.
+     * @return the largest |x|, |y|, |z|
+     */
+    Vector3 extent() const;
+
+    /**
      * @brief Sets the shade of the triangles that follow (and of appended ones).
      * @param[in] shade  1 open sky, 0 deep in a tunnel
      */

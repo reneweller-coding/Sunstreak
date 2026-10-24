@@ -789,6 +789,7 @@ struct CountryInfo
     uint8_t     m_townSign;   ///< place signs: 0 white, 1 yellow, 2 white with a red border, 3 blue, 4 green
     const char *m_flag;       ///< the flag (data/countries.txt tells how it is written)
     int         m_station;    ///< the radio station its countryside plays in AUTO (-1: the genre stations)
+    const char *m_land;       ///< the landmass it lies on (between two the tour dives under the sea)
 };
 
 /**
@@ -864,6 +865,17 @@ struct Terrain
     float m_seaLevel = -4.5f;    ///< the sea's height below the road (m)
 };
 
+/** @brief Something that swims (or crawls) round an undersea tunnel: a creature of data/creatures. */
+struct SwimRule
+{
+    int   m_shape = -1;       ///< its data shape (dataShapes())
+    float m_weight = 1.0f;    ///< how often it comes, against the others
+    float m_liftMin = 2.0f;   ///< lowest above the road (m)
+    float m_liftMax = 10.0f;  ///< highest
+    int   m_countMin = 1;     ///< a group of at least
+    int   m_countMax = 1;     ///< and at most
+};
+
 /** @brief A biome: its look and the style of its roads. */
 struct BiomeDef
 {
@@ -894,7 +906,18 @@ struct BiomeDef
     ClimateE              m_climate = ClimateE::NONE;             ///< the weather fronts it gets
     uint8_t               m_unpaved = 0;                          ///< 0 asphalt, 1 gravel or dirt, 2 sand
     const char           *m_region = nullptr;                     ///< its state or province (none: the whole country)
+    const char           *m_island = nullptr;                     ///< an island of its own (none: the country's landmass)
+    bool                  m_underwater = false;                   ///< a glass tunnel on the sea floor
+    std::vector<SwimRule> m_swim;                                 ///< what swims round the tunnel
 };
+
+/**
+ * @brief Where the world tour crosses the sea between two places, the stage on the sea floor (data/seas.txt).
+ * @param[in] from  the place before
+ * @param[in] to    the place after
+ * @return the sea's biome, or -1 if they share a landmass
+ */
+int seaCrossing( BiomeE from, BiomeE to );
 
 constexpr int MaxBiomes = 4096;   ///< compiled biomes and places of the data files together (records and codes have room)
 

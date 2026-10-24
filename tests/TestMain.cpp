@@ -96,8 +96,14 @@ int main()
         const auto &route = worldRoute();
         const int   first = routeIndex( tour.stageBiome( 0 ) );
         bool        follows = first >= 0;
-        for( int s = 1; s < static_cast<int>( route.size() ) + 3; ++s )
-            follows = follows && tour.stageBiome( s ) == route[static_cast<size_t>( first + s ) % route.size()];
+        // Along the route where no fork is taken, a stage on the sea floor between landmasses.
+        for( int s = 1, k = 1; k < static_cast<int>( route.size() ) + 3; ++s )
+        {
+            const BiomeE b = tour.stageBiome( s );
+            if( biomeDef( b ).m_underwater ) continue;
+            follows = follows && b == route[static_cast<size_t>( first + k ) % route.size()];
+            ++k;
+        }
         check( follows, "the world tour follows the route" );
         Track paris( 1234, world, static_cast<int>( BiomeE::PARIS ) );
         check( paris.stageBiome( 0 ) == BiomeE::PARIS && paris.stageBiome( 1 ) == route[static_cast<size_t>( routeIndex( BiomeE::PARIS ) + 1 )],
@@ -285,10 +291,28 @@ int main()
                 const Segment &mid = world.segment( static_cast<long>( ( f.m_at + 100.0 ) / SegmentLength ) );
                 split = ( mid.m_flags & SEG_MEDIAN ) && mid.m_lanes >= 4 && f.m_left != f.m_right;
                 world.choose( stage, 1 );
-                next = world.stageBiome( stage + 1 ) == f.m_right && world.fork( stage ).m_chosen == 1;
+                const int after = biomeDef( world.stageBiome( stage + 1 ) ).m_underwater ? stage + 2 : stage + 1;
+                next = world.stageBiome( after ) == f.m_right && world.fork( stage ).m_chosen == 1;
             }
             std::printf( "      %d forks in the first 40 stages from the white cliffs\n", forks );
             check( forks >= 3 && split && next, "forks at the borders" );
+        }
+        { // Between landmasses the tour drives a stage on the sea floor: the white cliffs to Brittany under the Channel.
+            const auto &route = worldRoute();
+            int         crossings = 0, seas = 0;
+            for( size_t i = 0; i < route.size(); ++i )
+            {
+                const int sea = seaCrossing( route[i], route[( i + 1 ) % route.size()] );
+                crossings += sea >= 0 ? 1 : 0;
+                seas += sea >= 0 && biomeDef( static_cast<BiomeE>( sea ) ).m_underwater ? 1 : 0;
+            }
+            TrackParams tour;
+            tour.m_biome = SceneryWorld;
+            Track       world( 99, tour, static_cast<int>( BiomeE::CLIFFS ) );
+            const bool  channel = biomeDef( world.stageBiome( 1 ) ).m_underwater && world.stageBiome( 2 ) == route[static_cast<size_t>( routeIndex( BiomeE::CLIFFS ) + 1 )] &&
+                                 !world.fork( 1 ).m_exists;
+            std::printf( "      %d sea crossings round the world; stage 2 from the cliffs: %s\n", crossings, placeName( world.stageBiome( 1 ) ).c_str() );
+            check( crossings >= 20 && seas == crossings && channel, "under the sea between landmasses" );
         }
         std::printf( "      %d biomes, %d data errors\n", biomeCount(), dataErrors() );
         check( dataErrors() == 0 && biomeCount() >= static_cast<int>( BiomeE::COUNT ) && biomeId( "TUSCANY" ) == static_cast<int>( BiomeE::TUSCANY ) &&

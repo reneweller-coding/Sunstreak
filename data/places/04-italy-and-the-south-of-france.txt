@@ -85,6 +85,7 @@ place AMALFI | AMALFI COAST | ITALY | NOON
     floating
 
 place SICILY | SICILY | ITALY | NOON
+    island SICILY
     land B0A060 A4945A 9A8E62
     hills 24 6 6
     drive 2 0.5 0.98 6

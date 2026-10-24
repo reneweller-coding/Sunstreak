@@ -127,6 +127,7 @@ place COSTA_DEL_SOL | COSTA DEL SOL | SPAIN | NOON
     c D0307A
 
 place LANZAROTE | LANZAROTE | SPAIN | DESERT
+    island CANARY ISLANDS
     clouds 0.2
     sea 0 1 -10
     water 2A6A9A

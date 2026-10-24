@@ -164,6 +164,7 @@ struct ReplayFrame
         float  m_x;      ///< lateral offset
         float  m_yaw;    ///< drawn yaw
         int    m_model;  ///< traffic model, or the rival's driver
+        float  m_lift = 0.0f;   ///< height above the road (swimmers)
     };
     float              m_t = 0;          ///< race time
     double             m_s = 0;          ///< the player's distance

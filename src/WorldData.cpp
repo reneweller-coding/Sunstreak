@@ -185,6 +185,8 @@ int indexOf( const char *const *names, size_t n, const std::string &s )
 
 int g_errors = 0;   ///< steps and names the files got wrong
 
+const std::vector<std::pair<int, GeoPoint>> &seaAnchors();
+
 /**
  * @brief The ID of every place, by number.
  * @return them
@@ -332,6 +334,41 @@ const std::unordered_map<std::string, Step> &steps()
               }
               w.landmark( lm, a.f( 1 ), a.f( 2 ), a.f( 3, 1.0f ) );
           } },
+        { "underwater", []( W &w, const Args & ) { w.underwater(); } },
+        { "island", []( W &w, const Args &a ) { w.island( keep( a.s( 0 ) ) ); } },
+        { "light", []( W &w, const Args &a ) { w.light( a.f( 0 ), a.f( 1 ), a.f( 2, 1.0f ) ); } },
+        { "scatter",
+          []( W &w, const Args &a )
+          {
+              // A landmark shape strewn by chance (coral, kelp, anemones), not once per stage.
+              const int lm = landmarkVariant( a.s( 0 ) );
+              if( lm < 0 )
+              {
+                  ++g_errors;
+                  return;
+              }
+              w.p( PropKindE::LANDMARK, a.f( 1 ), a.f( 2 ), a.f( 3 ), a.f( 4, 0.8f ), a.f( 5, 1.2f ) ).v( lm );
+          } },
+        { "swim",
+          []( W &w, const Args &a )
+          {
+              // swim NAME weight liftMin liftMax [countMin countMax]
+              SwimRule r;
+              const auto &shapes = dataShapes();
+              for( size_t i = 0; i < shapes.size(); ++i )
+                  if( shapes[i].m_name == a.s( 0 ) && shapes[i].m_creature ) r.m_shape = static_cast<int>( i );
+              if( r.m_shape < 0 )
+              {
+                  ++g_errors;
+                  return;
+              }
+              r.m_weight = a.f( 1, 1.0f );
+              r.m_liftMin = a.f( 2, 2.0f );
+              r.m_liftMax = a.f( 3, 10.0f );
+              r.m_countMin = static_cast<int>( a.f( 4, 1.0f ) );
+              r.m_countMax = std::max( r.m_countMin, static_cast<int>( a.f( 5, static_cast<float>( r.m_countMin ) ) ) );
+              w.swim( r );
+          } },
         { "drop",
           []( W &w, const Args &a )
           {
@@ -447,6 +484,7 @@ const std::vector<CountryInfo> &countries()
             for( const auto &[name, station] : StationNames )
                 if( p[7] == name ) c.m_station = station;
             c.m_flag = keep( p[8] );
+            c.m_land = keep( p.size() > 9 && !p[9].empty() ? p[9] : p[0] );
             if( fleet < 0 ) ++g_errors;
             out.push_back( c );
         }
@@ -619,7 +657,8 @@ void addDataPlaces( std::vector<BiomeDef> &table )
         const bool      dark = h.m_sky < 0;
         BiomeDef       *target = model ? models_.data() : table.data();
         const size_t    slot = model ? i : static_cast<size_t>( ids[i] );
-        W               w( target, static_cast<BiomeE>( slot ), keep( model ? h.m_key : h.m_name ), model ? nullptr : keep( h.m_country ),
+        W               w( target, static_cast<BiomeE>( slot ), keep( model ? h.m_key : h.m_name ),
+                           model || h.m_country == "-" ? nullptr : keep( h.m_country ),
                            static_cast<SkyE>( dark ? 0 : h.m_sky ) );
         if( !h.m_region.empty() ) target[slot].m_region = keep( h.m_region );
         for( const auto &[name, args] : h.m_steps )
@@ -665,6 +704,7 @@ int dataErrors()
     biomeCount();
     worldRoute();
     countries();
+    seaAnchors();
     return g_errors;
 }
 
@@ -685,7 +725,7 @@ const std::string &biomeKey( BiomeE biome )
 
 const CountryInfo &countryInfo( const char *country )
 {
-    static const CountryInfo fallback = { "", false, FleetE::EUROPE, 0, 0, 0, 0, "H FFFFFF", -1 };
+    static const CountryInfo fallback = { "", false, FleetE::EUROPE, 0, 0, 0, 0, "H FFFFFF", -1, nullptr };
     if( !country ) return fallback;
     for( const CountryInfo &c : countries() )
         if( std::strcmp( c.m_name, country ) == 0 ) return c;
@@ -721,6 +761,76 @@ RouteFork routeFork( int pos )
     const auto &forks = routeData().m_forks;
     if( forks.empty() ) return {};
     return forks[static_cast<size_t>( ( pos % static_cast<int>( forks.size() ) + static_cast<int>( forks.size() ) ) % static_cast<int>( forks.size() ) )];
+}
+
+namespace
+{
+
+/**
+ * @brief The seas a crossing may lie in, by where they are (data/seas.txt).
+ * @return sea biome and a point in it
+ */
+const std::vector<std::pair<int, GeoPoint>> &seaAnchors()
+{
+    static const std::vector<std::pair<int, GeoPoint>> list = []
+    {
+        std::vector<std::pair<int, GeoPoint>> out;
+        for( const std::string &line : dataLines( dataText( "seas.txt" ) ) )
+        {
+            const std::vector<std::string> p = splitLine( line, ' ' );
+            const int                      id = p.empty() ? -1 : biomeId( p[0] );
+            if( id < 0 || p.size() < 3 )
+            {
+                ++g_errors;
+                continue;
+            }
+            out.push_back( { id, GeoPoint{ std::strtof( p[1].c_str(), nullptr ), std::strtof( p[2].c_str(), nullptr ) } } );
+        }
+        return out;
+    }();
+    return list;
+}
+
+/**
+ * @brief The landmass a place lies on.
+ * @param[in] biome  the place
+ * @return its island, or its country's landmass (empty off the map)
+ */
+std::string landmassOf( BiomeE biome )
+{
+    const BiomeDef &d = biomeDef( biome );
+    if( d.m_island ) return d.m_island;
+    if( !d.m_country ) return {};
+    return countryInfo( d.m_country ).m_land ? countryInfo( d.m_country ).m_land : d.m_country;
+}
+
+} // namespace
+
+int seaCrossing( BiomeE from, BiomeE to )
+{
+    const std::string a = landmassOf( from ), b = landmassOf( to );
+    if( a.empty() || b.empty() || a == b ) return -1;
+    GeoPoint pa, pb;
+    if( !placeLocation( from, pa ) || !placeLocation( to, pb ) ) return -1;
+    // The sea nearest the middle of the crossing (longitudes taken the short way round).
+    float dLon = pb.m_lon - pa.m_lon;
+    if( dLon > 180.0f ) dLon -= 360.0f;
+    if( dLon < -180.0f ) dLon += 360.0f;
+    GeoPoint mid{ ( pa.m_lat + pb.m_lat ) * 0.5f, pa.m_lon + dLon * 0.5f };
+    if( mid.m_lon > 180.0f ) mid.m_lon -= 360.0f;
+    if( mid.m_lon < -180.0f ) mid.m_lon += 360.0f;
+    int   best = -1;
+    float bestKm = 1e9f;
+    for( const auto &[sea, at] : seaAnchors() )
+    {
+        const float km = greatCircle( mid, at );
+        if( km < bestKm )
+        {
+            bestKm = km;
+            best = sea;
+        }
+    }
+    return best;
 }
 
 int routeIndex( BiomeE biome )

@@ -5,6 +5,8 @@
  */
 #include "Models.h"
 
+#include "Data.h"
+
 #include "MathUtil.h"
 #include "Rng.h"
 #include "VectorFont.h"
@@ -1946,6 +1948,23 @@ void Models::buildVehicles()
         vm.m_width = size.y;
         vm.m_animal = kind;
         vm.m_fleets = ~0u;
+        m_traffic.push_back( vm );
+    }
+
+    // ---- What swims round the undersea tunnels: the creatures of data/creatures ----------------------------------
+    m_creatureModel.assign( dataShapes().size(), -1 );
+    for( size_t i = 0; i < dataShapes().size(); ++i )
+    {
+        if( !dataShapes()[i].m_creature ) continue;
+        MeshBuilder mb;
+        buildDataShape( mb, dataShapes()[i] );
+        const Vector3 e = mb.extent();
+        VehicleModel  vm;
+        vm.m_mesh = mb.upload();
+        vm.m_length = std::max( 0.5f, e.z * 2.0f );
+        vm.m_width = std::max( 0.5f, e.x * 2.0f );
+        vm.m_animal = PropKindE::LANDMARK;   // not a vehicle, not a land animal: a swimmer
+        m_creatureModel[i] = static_cast<int>( m_traffic.size() );
         m_traffic.push_back( vm );
     }
 

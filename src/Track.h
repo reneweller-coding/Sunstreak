@@ -307,6 +307,7 @@ private:
     {
         std::mutex          m_mutex;    ///< the main thread chooses, the world's worker reads
         std::vector<int>    m_pos;      ///< route position per stage after the detour (as far as known)
+        std::vector<int>    m_sea;      ///< per stage: the sea crossed on the way to m_pos (-1: a place on land)
         std::vector<int8_t> m_choice;   ///< per stage: -1 left, +1 right, 0 not yet
     };
     std::shared_ptr<Tour> m_tour;       ///< the world tour's way (null in other modes)

@@ -354,7 +354,11 @@ void Renderer::drawShadows( const SceneInput &in, const CameraView &cam, const V
     if( in.m_traffic )
         for( const TrafficCar &t : in.m_traffic->m_cars )
             if( std::abs( t.m_s - playerS ) < ShadowExtent )
-                DrawMesh( in.m_models->m_traffic[t.m_model].m_mesh, m_depthMaterial, poseMatrix( roadPose( track, t.m_s, t.m_x, t.m_yaw ), origin ) );
+            {
+                Pose p = roadPose( track, t.m_s, t.m_x, t.m_yaw );
+                p.m_pos.m_y += static_cast<double>( t.m_lift );
+                DrawMesh( in.m_models->m_traffic[t.m_model].m_mesh, m_depthMaterial, poseMatrix( p, origin ) );
+            }
     for( const CarDraw &c : in.m_cars )
         if( c.m_alpha >= 1.0f && std::abs( c.m_s - playerS ) < ShadowExtent )
             DrawMesh( in.m_models->m_playerCars[c.m_car][c.m_paint], m_depthMaterial, poseMatrix( roadPose( track, c.m_s, c.m_x, c.m_yaw ), origin ) );
@@ -493,10 +497,11 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
         {
             if( c.m_s - playerS > ViewDistance ) continue;
             const float wobble = c.m_hitTimer > 0.0f ? std::sin( c.m_hitTimer * 25.0f ) * 0.08f * c.m_hitTimer : 0.0f;
-            const Pose  p = roadPose( track, c.m_s, c.m_x, c.m_yaw + wobble );
+            Pose        p = roadPose( track, c.m_s, c.m_x, c.m_yaw + wobble );
+            p.m_pos.m_y += static_cast<double>( c.m_lift );
             setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, c.m_s ) );
             DrawMesh( models.m_traffic[c.m_model].m_mesh, m_material, poseMatrix( p, origin ) );
-            shadows.push_back( { p, c.m_width, c.m_length } );
+            if( c.m_lift < 0.5f && !c.m_swim ) shadows.push_back( { p, c.m_width, c.m_length } );
         }
         for( const Obstacle &o : in.m_traffic->m_obstacles )
         {

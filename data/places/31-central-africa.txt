@@ -54,6 +54,7 @@ place CONGO_RAPIDS | CONGO RAPIDS | CONGO | HAZE
     c E8D8B8 8A8A8A
 
 place BIOKO | BIOKO | EQUATORIAL GUINEA | MIST
+    island BIOKO
     rain 0.3
     sea 0 1 -20
     water 1E5A7A

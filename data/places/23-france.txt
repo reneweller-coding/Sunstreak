@@ -92,6 +92,7 @@ place COL_DE_TURINI | COL DE TURINI | FRANCE | NIGHT
     p ROCK 0.08 3 40
 
 place CORSICA | CORSICA | FRANCE | NOON
+    island CORSICA
     sea 0 1 -24
     water 1E7A9E
     land 7E8E52 74844A 8A8A60

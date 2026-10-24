@@ -6,6 +6,7 @@
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
 place SOCOTRA | SOCOTRA | YEMEN | DESERT
+    island SOCOTRA
     land B8A890 AC9C88 A09484
     hills 40 12 12
     ranges 8A7A70 B0A8A0 8

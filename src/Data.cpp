@@ -120,11 +120,19 @@ const std::vector<DataShape> &dataShapes()
     static const std::vector<DataShape> shapes = []
     {
         std::vector<DataShape> out;
-        for( const std::string &file : dataNames( "landmarks/" ) )
-            for( const std::string &line : dataLines( dataText( file ) ) )
+        for( const char *folder : { "landmarks/", "creatures/" } )
+            for( const std::string &file : dataNames( folder ) )
             {
-                if( line.rfind( "shape ", 0 ) == 0 ) out.push_back( DataShape{ trim( line.substr( 6 ) ), {} } );
-                else if( !out.empty() ) out.back().m_lines.push_back( line );
+                bool open = false;   // lines before a file's first shape belong to none
+                for( const std::string &line : dataLines( dataText( file ) ) )
+                {
+                    if( line.rfind( "shape ", 0 ) == 0 )
+                    {
+                        out.push_back( DataShape{ trim( line.substr( 6 ) ), {}, std::string( folder ) == "creatures/" } );
+                        open = true;
+                    }
+                    else if( open ) out.back().m_lines.push_back( line );
+                }
             }
         return out;
     }();

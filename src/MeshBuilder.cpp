@@ -265,6 +265,18 @@ void MeshBuilder::clear()
     m_uv2.clear();
 }
 
+Vector3 MeshBuilder::extent() const
+{
+    Vector3 e = { 0, 0, 0 };
+    for( size_t i = 0; i + 2 < m_pos.size(); i += 3 )
+    {
+        e.x = std::max( e.x, std::abs( m_pos[i] ) );
+        e.y = std::max( e.y, std::abs( m_pos[i + 1] ) );
+        e.z = std::max( e.z, std::abs( m_pos[i + 2] ) );
+    }
+    return e;
+}
+
 void MeshBuilder::applySway( float amount )
 {
     float top = 0.1f;

@@ -6,6 +6,7 @@
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
 place BAZARUTO | BAZARUTO | MOZAMBIQUE | TROPICAL
+    island BAZARUTO
     sea 1 1 -2
     water 30C0C8
     land F0E8D8 E6DECE 7AA058

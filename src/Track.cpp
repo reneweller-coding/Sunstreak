@@ -31,6 +31,7 @@ Track::Track( uint64_t seed, const TrackParams &params, int startBiome )
         if( wanted && at < 0 ) m_stageBiomes.push_back( static_cast<uint16_t>( startBiome ) );
         m_tour = std::make_shared<Tour>();
         m_tour->m_pos.push_back( m_routeStart );
+        m_tour->m_sea.push_back( -1 );
     }
     else
     {
@@ -58,7 +59,15 @@ BiomeE Track::stageBiome( int stage ) const
         const auto &route = worldRoute();
         const int   detour = static_cast<int>( m_stageBiomes.size() );
         if( stage < detour ) return static_cast<BiomeE>( m_stageBiomes[static_cast<size_t>( std::max( 0, stage ) )] );
-        return route[static_cast<size_t>( tourPos( stage - detour ) ) % route.size()];
+        const int pos = tourPos( stage - detour );
+        int       sea = -1;
+        {
+            std::lock_guard<std::mutex> lock( m_tour->m_mutex );
+            const size_t                k = static_cast<size_t>( std::max( 0, stage - detour ) );
+            if( k < m_tour->m_sea.size() ) sea = m_tour->m_sea[k];
+        }
+        if( sea >= 0 ) return static_cast<BiomeE>( sea );
+        return route[static_cast<size_t>( pos ) % route.size()];
     }
     while( static_cast<int>( m_stageBiomes.size() ) <= stage )
     {
@@ -79,15 +88,27 @@ int Track::tourPos( int stage ) const
     if( !m_tour ) return m_routeStart + stage;
     std::lock_guard<std::mutex> lock( m_tour->m_mutex );
     std::vector<int>    &pos = m_tour->m_pos;
+    std::vector<int>    &sea = m_tour->m_sea;
     std::vector<int8_t> &choice = m_tour->m_choice;
     while( static_cast<int>( pos.size() ) <= stage )
     {
-        // The next stage: along the route, or where the other carriageway of the last fork led.
-        const size_t    last = pos.size() - 1;
+        // The next stage: along the route, or where the other carriageway of the last fork led; across the sea a
+        // stage on the sea floor comes first.
+        const size_t last = pos.size() - 1;
+        if( sea[last] >= 0 )
+        {
+            pos.push_back( pos[last] );
+            sea.push_back( -1 );
+            continue;
+        }
         const RouteFork f = routeFork( pos[last] );
         const int8_t    c = last < choice.size() ? choice[last] : 0;
         const bool      other = f.m_other >= 0 && c != 0 && ( c < 0 ) == f.m_otherLeft;
-        pos.push_back( other ? f.m_other : f.m_main );
+        const int       next = other ? f.m_other : f.m_main;
+        const auto     &route = worldRoute();
+        const int       crossing = seaCrossing( route[static_cast<size_t>( pos[last] ) % route.size()], route[static_cast<size_t>( next ) % route.size()] );
+        pos.push_back( next );
+        sea.push_back( crossing );
     }
     return pos[static_cast<size_t>( std::max( 0, stage ) )];
 }
@@ -98,6 +119,10 @@ Fork Track::fork( int stage ) const
     const int detour = static_cast<int>( m_stageBiomes.size() );
     if( !m_tour || stage < detour ) return f;
     const int       pos = tourPos( stage - detour );
+    {
+        std::lock_guard<std::mutex> lock( m_tour->m_mutex );
+        if( m_tour->m_sea[static_cast<size_t>( stage - detour )] >= 0 ) return f;   // no forks on the sea floor
+    }
     const RouteFork r = routeFork( pos );
     if( r.m_other < 0 ) return f;
     const auto &route = worldRoute();
@@ -122,7 +147,11 @@ void Track::choose( int stage, int side )
     if( m_tour->m_choice[k] != 0 ) return;
     m_tour->m_choice[k] = static_cast<int8_t>( side < 0 ? -1 : 1 );
     // The stages after this one were only guesses.
-    if( m_tour->m_pos.size() > k + 1 ) m_tour->m_pos.resize( k + 1 );
+    if( m_tour->m_pos.size() > k + 1 )
+    {
+        m_tour->m_pos.resize( k + 1 );
+        m_tour->m_sea.resize( k + 1 );
+    }
 }
 
 bool Track::inForkZone( double s, double margin ) const

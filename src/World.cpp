@@ -846,6 +846,38 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             props.box( Vector3{ base.x, base.y + 0.4f, base.z }, Vector3{ 0.07f, 0.4f, 0.07f }, Color{ 120, 124, 132, 255 } );
         }
 
+        // On the sea floor: steel ribs of a glass tube over the road, rails along it, a light in every crown, a portal
+        // where it begins and ends.
+        {
+            const bool under = ruling( seg, 0.5f ).m_underwater;
+            const bool before = ruling( track.segment( j - 1 ), 0.5f ).m_underwater, after = ruling( track.segment( j + 1 ), 0.5f ).m_underwater;
+            if( under )
+            {
+                const float   radius = A.m_hw + RumbleWidth + 2.6f;
+                const Color   steel = { 70, 86, 96, 255 }, rail = { 110, 128, 138, 255 };
+                const int     n = 10;
+                auto          arc = [&]( const Cross &x, int k )
+                {
+                    const float th = Tau * 0.5f * static_cast<float>( k ) / static_cast<float>( n );
+                    return at( x, -std::cos( th ) * radius, 0.2f + std::sin( th ) * radius * 0.82f );
+                };
+                if( j % 3 == 0 )
+                {
+                    for( int k = 0; k < n; ++k ) props.tube( arc( A, k ), arc( A, k + 1 ), 0.16f, 4, steel );
+                    const Vector3 top = arc( A, n / 2 );
+                    props.box( Vector3{ top.x, top.y - 0.25f, top.z }, Vector3{ 0.35f, 0.08f, 0.35f }, Color{ 200, 240, 255, 255 }, Mat{ 1.0f, 0.0f } );
+                }
+                for( int k : { 1, 3, 5, 7, 9 } ) props.tube( arc( A, k ), arc( B, k ), 0.06f, 3, rail );
+                if( !before || !after )
+                {
+                    // The portal: a thick concrete ring.
+                    const Color concrete = { 168, 170, 168, 255 };
+                    const Cross &P = before ? B : A;
+                    for( int k = 0; k < n; ++k ) props.tube( arc( P, k ), arc( P, k + 1 ), 0.9f, 5, concrete );
+                }
+            }
+        }
+
         // The fork: a barrier between the carriageways, a cushion at its nose, the gantry with both places; after it
         // the other carriageway turns away into the fields.
         if( fork.m_exists )

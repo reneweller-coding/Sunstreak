@@ -61,6 +61,7 @@ struct DataShape
 {
     std::string              m_name;    ///< what the places call it ("landmark NAME ...")
     std::vector<std::string> m_lines;   ///< one primitive or modifier per line
+    bool                     m_creature = false;   ///< from data/creatures: it swims (a traffic model too)
 };
 
 /**

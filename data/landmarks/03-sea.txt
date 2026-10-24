@@ -1,0 +1,304 @@
+# The sea floor round the undersea tunnels: reef pieces the seas strew ("scatter NAME chance nearest farthest"),
+# and the wrecks and wonders that stand once per stage ("landmark NAME nearest farthest").
+
+# ---- Reef and sea floor -----------------------------------------------------------------------------------------
+
+shape CORAL_BRANCH
+    # Staghorn coral (key A: its colour).
+    tube 0 0 0 0 1.2 0 0.12 4 A
+    tube 0 0.8 0 0.7 1.6 0.2 0.09 4 A
+    tube 0 0.8 0 -0.6 1.7 -0.1 0.09 4 A
+    tube 0 1.1 0 0.2 2.0 -0.5 0.08 4 A
+    tube 0.35 1.2 0.1 0.6 2.1 0.6 0.06 4 A:0.9
+    tube -0.3 1.25 0 -0.9 2.0 0.4 0.06 4 A:0.9
+    tube 0 0.5 0 0.5 1.0 -0.6 0.08 4 A
+    blob 0 0.1 0 0.5 0.25 0.5 A:0.7 0.3
+
+shape CORAL_BRAIN
+    # A brain coral boulder.
+    blob 0 0.3 0 0.9 0.7 0.9 A 0.2
+    blob 0.2 0.55 0.1 0.6 0.4 0.6 A:0.9 0.3
+
+shape CORAL_FAN
+    # A sea fan facing the current (key A).
+    tube 0 0 0 0 0.5 0 0.08 4 A:0.7
+    quad 0 0.4 -0.9 0 0.4 0.9 0 2.0 0.7 0 2.2 -0.6 A
+    tube 0 0.4 0 0 2.1 0 0.04 3 A:0.8
+
+shape CORAL_TABLE
+    # A table coral on a short stem.
+    cyl 0 0 0 0.25 0.2 0.6 6 A:0.8
+    cyl 0 0.6 0 0.4 1.4 0.2 10 A
+    cyl 0 0.8 0 1.4 1.3 0.08 10 A:0.9
+
+shape SPONGE
+    # Tube sponges (key A).
+    cyl 0 0 0 0.25 0.3 1.6 7 A
+    cyl 0.45 0 0.2 0.2 0.25 1.1 7 A:0.9
+    cyl -0.35 0 0.3 0.18 0.22 0.8 7 A:0.85
+    cyl 0 1.55 0 0.18 0.18 0.06 7 2A1A10
+
+shape ANEMONE
+    # An anemone waving its tentacles.
+    cyl 0 0 0 0.35 0.4 0.4 8 A:0.8
+    ring 10 0.25
+    tube 0 0.4 0 0.15 0.9 0 0.04 3 A
+    ring 6 0.1
+    tube 0 0.4 0 0.05 0.95 0 0.04 3 A:0.9
+
+shape SEAGRASS
+    # A tuft of seagrass that sways.
+    ring 7 0.25
+    quad 0 0 -0.05 0 0 0.05 0.1 1.4 0.05 0.1 1.4 -0.05 4E8A3E
+    ring 5 0.12 30
+    quad 0 0 -0.05 0 0 0.05 0.05 1.1 0.05 0.05 1.1 -0.05 5A9A48
+
+shape KELP
+    # A strand of giant kelp reaching for the light.
+    tube 0 0 0 0.3 6 0.2 0.06 3 6A5A20
+    tube 0.3 6 0.2 -0.2 12 0 0.05 3 6A5A20
+    tube -0.2 12 0 0.4 18 -0.2 0.04 3 7A6A28
+    repeat 8 0.02 2.1 0
+    blob 0.3 1.2 0.2 0.08 0.6 0.4 7A6A28
+    repeat 8 -0.02 2.1 0
+    blob -0.3 2.2 -0.2 0.08 0.6 0.4 8A7A30
+
+shape GIANT_CLAM
+    # A giant clam, its mantle bright.
+    blob 0 0.25 0 0.7 0.3 0.45 C8C0B0 0.2
+    box 0 0.45 0 0.55 0.06 0.3 3A6AD8 glow
+
+shape STARFISH
+    # A starfish on the sand.
+    ring 5 0
+    tube 0 0.05 0 0.45 0.05 0 0.09 4 E05A2A
+    blob 0 0.06 0 0.15 0.06 0.15 E86A3A
+
+shape AMPHORAE
+    # Roman wine jars spilled from a wreck.
+    blob 0 0.35 0 0.25 0.35 0.25 B8704A
+    tube 0 0.65 0 0 0.85 0 0.07 5 B8704A
+    blob 0.7 0.18 0.5 0.35 0.22 0.22 A8603A
+    blob -0.6 0.18 -0.4 0.22 0.22 0.35 B06840
+    blob 0.2 0.15 -0.9 0.3 0.18 0.2 A06038
+
+shape COLD_CORAL
+    # The white cold-water coral of the north.
+    tube 0 0 0 0 1.0 0 0.1 4 E8E4DA
+    tube 0 0.6 0 0.6 1.3 0.3 0.07 4 F0ECE2
+    tube 0 0.6 0 -0.5 1.4 -0.2 0.07 4 F0ECE2
+    tube 0 0.9 0 0.1 1.7 -0.5 0.06 4 E8E4DA
+    blob 0 0.1 0 0.5 0.2 0.5 D8D4CA 0.3
+
+shape SEA_ROCK
+    # A dark rock grown over with weed (key A: the weed).
+    blob 0 0.6 0 1.6 1.1 1.4 3A4248 0.4
+    blob 0.2 1.3 0.1 1.1 0.35 0.9 A:0.8 0.4
+
+# ---- Wrecks and wonders -------------------------------------------------------------------------------------------
+
+shape TITANIC
+    # The bow of the Titanic, upright on the bottom of the North Atlantic, rust hanging from her rails.
+    tbox 0 0 0 9 50 0 18 0 13 52 4A2E22
+    tbox 0 18 26 13 26 0 20 40 12 8 4A2E22
+    box 0 16 -10 13.5 1.2 40 5A3A2A
+    box 0 20 -10 10 3 26 6A4A36
+    windows 13.6 4 -48 0 1 60 10 0.05 3
+    repeat 3 0 0 -14
+    cyl 0 22 -8 2.2 2.2 14 12 3A2418
+    repeat 3 0 0 -14
+    cyl 0 36 -8 2.25 2.25 1.4 12 1A1210
+    tube 0 20 18 0 36 22 0.4 4 3A2418
+    tube 0 20 -40 0 30 -42 0.4 4 3A2418
+    box 0 0.6 -55 11 0.8 6 3A2A22
+    repeat 6 0 0 -8
+    blob 13 12 0 0.3 2.5 0.5 8A4A2A 0.3
+
+shape U_BOAT
+    # A U-boat lying on the sea bed.
+    blob 0 3 0 3 2.6 32 4A4E50 0.05
+    box 0 6 4 1.6 2.4 4 3E4246
+    tube 0 8.4 6 0 11 6 0.15 4 3E4246
+    tube 0 3 -31 0 3 -36 0.6 6 3E4246
+    mirrorx
+    tri 0 3 -33 2.6 3 -36 0 3 -36 3E4246
+    box 0 5.6 -10 0.8 0.3 18 3A3E42
+    blob 2.2 0.6 0 1.6 0.6 18 6A6A5A 0.4
+
+shape GALLEON
+    # A sunken galleon, heeled over, its masts broken.
+    tbox 0 0 0 3 16 1 9 0 7 20 5A4030
+    box 1 9.5 -15 6 3 5 5A4030
+    box 1 9.5 15 5 2 4 5A4030
+    windows 8 4 -18 0 1 36 4 0.0 2
+    tube 1 9 8 4 24 9 0.5 6 4A3424
+    tube 1 9 -4 -2 20 -6 0.5 6 4A3424
+    tube 4 24 9 9 22 10 0.25 4 4A3424
+    tube 1 12 -16 2 16 -18 0.3 4 4A3424
+    box 6 0.6 12 1.2 0.6 1 8A6A30
+    box 6.2 1.4 12 0.9 0.4 0.8 D8B040 shiny
+    blob 4 0.5 -6 2.5 0.4 3 6A5A40 0.4
+
+shape THISTLEGORM
+    # The Red Sea freighter: lorries and motorcycles still in her holds.
+    tbox 0 0 0 6 40 0 12 0 8 42 4A3A30
+    box 0 13 -26 7 3 9 5A4638
+    box 0 17 -26 4 2 5 5A4638
+    cyl 0 19 -24 1.2 1.2 5 10 3A2E24
+    repeat 4 0 0 9
+    box 0 12.5 -6 4 0.4 3 2A2420
+    repeat 3 0 0 10
+    box 3 14 -2 1.2 1.1 2.4 4A5A3A
+    repeat 3 0 0 10
+    box -3 14 2 1.2 1.1 2.4 4A5A3A
+    tube 0 12 30 0 22 32 0.3 4 4A3A30
+    repeat 8 0 0 9
+    blob 7 7 -34 1.2 1.6 1.2 E05A8A 0.3
+
+shape PLANE_WRECK
+    # A fighter plane of the last war on the sand.
+    blob 0 1.0 0 0.7 0.7 4.2 6A7058 0.05
+    mirrorx
+    quad 0.5 0.8 1.2 6 0.6 0.6 6 0.6 -0.6 0.5 0.8 -0.4 5A6048
+    mirrorx
+    quad 0.3 1.2 -3.6 2.2 1.1 -3.8 2.2 1.1 -4.4 0.3 1.2 -4.4 5A6048
+    tri 0 1.4 -3.5 0 3.0 -4.3 0 1.4 -4.4 5A6048
+    cyl 0 0.4 4.3 0.6 0.6 0.4 8 3A3A30
+    mirror
+    tube 0 1.0 4.6 0 2.4 4.6 0.1 3 3A3A30
+    dome 0 1.6 0.4 0.5 0.4 8AA0A8 glass
+    blob 0 0.4 0 2 0.3 3 7A6A4A 0.4
+
+shape WARSHIP_WRECK
+    # A destroyer of the Pacific war, sitting upright, guns still trained.
+    tbox 0 0 0 4 52 0 9 0 6 56 4A4E52
+    box 0 11 4 4 2 14 3E4246
+    box 0 14.5 6 2.5 1.5 6 3E4246
+    tube 0 16 6 0 26 6 0.25 4 3E4246
+    cyl 0 13 -12 1.4 1.2 4 10 3E4246
+    repeat 2 0 0 -24
+    box 0 10.6 30 2 1 2.4 3A3E42
+    repeat 2 0 0 -24
+    tube 0 11 31 0 11.4 37 0.25 5 3A3E42
+    repeat 8 0 0 -12
+    blob 6 6 44 1 1.5 1 C86A3A 0.3
+
+shape GHOST_FLEET
+    # Chuuk lagoon: a freighter on the bottom and a fighter on her deck, coral all over.
+    tbox 0 0 0 7 44 0 13 0 9 46 3E4644
+    box 0 14 -30 7 3 8 4A5450
+    cyl 0 18 -28 1.3 1.3 6 10 3A3E3C
+    box 0 13 10 8 0.5 22 3A4240
+    at 1 13.5 12
+    blob 0 1.0 0 0.6 0.6 3.6 6A7058 0.05
+    mirrorx
+    quad 0.5 0.8 1.0 5 0.6 0.5 5 0.6 -0.5 0.5 0.8 -0.4 5A6048
+    at 0 0 0
+    repeat 10 0 0 -9
+    blob 8 8 40 1.4 1.8 1.4 E06A8A 0.4
+    repeat 10 0 0 -9
+    blob -8 9 36 1.2 1.6 1.2 F0A040 0.4
+
+shape OIL_RIG
+    # The legs of an oil platform rising into the light.
+    mirror
+    mirrorx
+    cyl 10 0 14 2.4 2.0 90 10 9A8A6A
+    mirror
+    tube 10 10 14 -10 30 14 0.6 6 8A7A5A
+    mirror
+    tube -10 10 14 10 30 14 0.6 6 8A7A5A
+    mirrorx
+    tube 10 20 14 10 40 -14 0.6 6 8A7A5A
+    mirrorx
+    tube 10 20 -14 10 40 14 0.6 6 8A7A5A
+    repeat 5 0 16 0
+    mirror
+    blob 10 6 14 2.6 1.4 2.6 6A7A4A 0.4
+
+shape CHRIST_OF_THE_ABYSS
+    # The bronze Christ of the Abyss, arms raised to the light.
+    box 0 1 0 2 1 2 6A6A64
+    box 0 3 0 1.2 1 1.2 6A6A64
+    tbox 0 4 0 0.9 0.6 0 8.4 0 0.7 0.5 3E7A6A
+    blob 0 9.2 0 0.5 0.6 0.5 3E7A6A
+    mirror
+    tube 0 8 0.6 0.6 10.6 1.6 0.22 5 3E7A6A
+    mirror
+    blob 0.6 10.8 1.7 0.25 0.3 0.25 3E7A6A
+
+shape STATUE_GARDEN
+    # Figures cast in concrete on the sea floor, coral growing on them.
+    ring 9 9
+    box 0 0.9 0 0.3 0.9 0.35 9A9A8A
+    ring 9 9
+    blob 0 2.0 0 0.22 0.26 0.22 9A9A8A
+    ring 9 9
+    box 0 1.5 0 0.35 0.45 0.5 8A8A7A
+    ring 5 4 20
+    box 0 0.8 0 0.3 0.8 0.35 8A8A7A
+    ring 5 4 20
+    blob 0 1.85 0 0.22 0.26 0.22 8A8A7A
+    blob 0 0.3 0 3 0.4 3 9A9A8A 0.3
+
+shape SUNKEN_TEMPLE
+    # Columns of a drowned temple, some fallen.
+    box 0 0.5 0 6 0.5 14 B8B0A0
+    repeat 6 0 0 5
+    cyl 4.5 1 -12.5 0.6 0.55 8 10 C8C0B0
+    repeat 3 0 0 5
+    cyl -4.5 1 -12.5 0.6 0.55 8 10 C8C0B0
+    box 4.5 9.3 -2 0.8 0.4 11 C0B8A8
+    tube -4 1.2 3 -1 1.2 9 0.6 8 C8C0B0
+    tube -2 1.2 -3 2 1.2 -6 0.6 8 C8C0B0
+    blob 0 1.2 4 1.5 1 1.5 B8B0A0 0.4
+
+shape YONAGUNI
+    # The stepped stone terraces off Yonaguni: nature or the work of hands.
+    box 0 3 0 14 3 30 6A6458
+    box -2 8 -4 11 2 22 6E6858
+    box -4 12 -6 8 2 14 726C5C
+    box -5 15 -8 5 1 8 766E5E
+    box 6 6.5 10 4 0.5 6 6E6858
+    blob -10 2 18 6 4 6 5A5448 0.4
+
+shape WHALE_SKELETON
+    # The bones of a great whale on the sand.
+    blob 0 0.8 9 1.8 0.8 3 E8E4D8 0.2
+    repeat 14 0 0 -1.2
+    tube 0 1.1 6 0 1.1 4.8 0.25 5 E0DCD0
+    repeat 10 0 0 -1.3
+    hoop 0 1.6 5 1.8 0.12 10 E8E4D8
+    repeat 4 0 0 -1.5
+    tube 0 1.0 -11 0 0.9 -12.4 0.18 4 E0DCD0
+
+shape DHOW_WRECK
+    # An Arab dhow, broken on the sand.
+    tbox 0 0 0 2 8 0 3.5 0 4 11 7A5A3A
+    tube 0 3 2 1 12 4 0.25 5 6A4A2A
+    tube 1 12 4 -4 6 -6 0.12 4 6A4A2A
+    blob 2 0.3 -4 1.5 0.3 2 6A5A40 0.4
+
+shape JUNK_WRECK
+    # A Chinese junk lying on her side, battened sails rotting.
+    tbox 0 0 0 3 10 1 5 0 6 12 5A3A2A
+    tube 1 5 3 6 13 3 0.3 5 4A2A1A
+    quad 6.2 6 1 6.2 6 5 9 12 5 9 12 1 8A4A2A
+    blob -2 0.3 -6 2 0.4 2 6A5A40 0.4
+
+shape BLUE_HOLE
+    # The rim of a blue hole, dropping into darkness.
+    cyl 0 -0.5 0 30 22 1 24 0A1A2A
+    ring 16 28
+    blob 0 1 0 3 1.5 3 C8B898 0.4
+    ring 10 25 11
+    tube 0 0 0 0 2.2 0 0.15 4 E07050
+
+shape GIANT_ANCHOR
+    # An anchor as tall as a house, lost by some ship long ago.
+    tube 0 1 0 0 12 0 0.5 6 4A3A30
+    hoop 0 12.6 0 0.8 0.25 10 4A3A30
+    tube 0 11 -3 0 11 3 0.4 6 4A3A30
+    arch 0 3 0 8 -2 0.5 8 4A3A30
+    mirror
+    tri 0 1 4 0 3 3.6 0 1 3 4A3A30

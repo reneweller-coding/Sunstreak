@@ -165,6 +165,7 @@ place HANOK_VILLAGE | HANOK VILLAGE | SOUTH KOREA | GOLDEN
     p PINE 0.05 10 100
 
 place JEJU | JEJU | SOUTH KOREA | MORNING
+    island JEJU
     sea 1 0 -4
     water 2A7A9A
     land 6AA048 609440 4A4A46
@@ -237,6 +238,7 @@ place TOKYO | TOKYO | JAPAN | NIGHT
     p BILLBOARD 0.03 6 30
 
 place FURANO | FURANO FIELDS | JAPAN | MORNING
+    island HOKKAIDO
     land 7AAE50 70A048 86A860
     fields 0.8 9A6AC8 E84A6A F0D040
     hills 14 3 3
@@ -435,6 +437,7 @@ place MIYAJIMA | MIYAJIMA | JAPAN | MORNING
     v 4
 
 place OKINAWA | OKINAWA | JAPAN | TROPICAL
+    island OKINAWA
     sea 1 1 -2
     water 30C8D0
     land E8E0C8 DCD4BC 6A9A4A

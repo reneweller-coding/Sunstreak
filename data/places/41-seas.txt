@@ -1,0 +1,444 @@
+# The seas the world tour crosses on their floor, in a glass tunnel: between two places on different landmasses
+# (data/countries.txt, "island" in a place) the tour drives a stage under the sea nearest the middle of the crossing
+# (data/seas.txt). "underwater" makes the tunnel; "swim NAME weight liftMin liftMax [min max]" sends creatures of
+# data/creatures by; "scatter NAME chance nearest farthest [smin smax]" strews reef shapes of data/landmarks.
+
+template SEA_FLOOR | NOON
+    underwater
+    sky 58A8D0 0C3450
+    fog 0.0032 0E3A58
+    light 0.55 0.85 1.0
+    look 1.05
+    ranges 0A2A40 0E3A54 5
+    snow 0.1
+    land 5E767C 546C72 223E4A
+    verge 7A8E90
+    road 46525C D8E2EA
+    kerbs C8D0D8 5A6A76
+    hills 16 7 7
+    drive 2 0.45 1.0 25
+    bends 0.35 0.35 0.35
+    posts 0
+    lamps 0
+    p ROCK 0.04 3 60
+    c 4A5A60
+    scatter SEA_ROCK 0.05 6 90 0.8 2.2
+    c 4A7A5A
+    scatter SEAGRASS 0.04 3 50
+
+template COLD_SEA | NOON
+    like SEA_FLOOR
+    sky 4A7A90 08202E
+    fog 0.004 0A2834
+    light 0.45 1.0 1.0
+    look 0.9
+    land 4E5A5C 44504E 18242A
+    verge 5E6A6C
+    scatter COLD_CORAL 0.02 6 60
+    scatter KELP 0.05 6 70 0.6 1.0
+
+template REEF | NOON
+    like SEA_FLOOR
+    sky 6AD0E8 1270A0
+    fog 0.0024 1A88B0
+    light 0.7 0.6 1.08
+    look 1.2
+    land 8EAAA4 84A09A 1E6A90
+    verge 9AB4AE
+    scatter CORAL_BRANCH 0.1 4 60 0.8 1.6
+    c E86A8A
+    scatter CORAL_BRANCH 0.04 5 60 0.8 1.4
+    c F0B040
+    scatter CORAL_BRAIN 0.04 5 70
+    c C8A060
+    scatter CORAL_FAN 0.03 6 60
+    c 9A3AA8
+    scatter CORAL_TABLE 0.02 6 70
+    c 6AA8A0
+    scatter SPONGE 0.02 5 50
+    c E06A2A
+    scatter ANEMONE 0.03 4 40
+    c F08AB0
+    scatter GIANT_CLAM 0.01 4 30
+    scatter STARFISH 0.04 2 30
+
+place NORTH_ATLANTIC | NORTH ATLANTIC | - | -
+    like COLD_SEA
+    sky 3A6A88 06182A
+    fog 0.0062 081C2A
+    landmark TITANIC 70 120
+    landmark WHALE_SKELETON 30 60
+    swim HUMPBACK 1 14 26
+    swim COD_SHOAL 3 2 9 1 2
+    swim JELLYFISH 2 4 12 2 5
+    swim FISH_SHOAL 2 3 10 1 3
+
+place IRISH_SEA | IRISH SEA | - | -
+    like COLD_SEA
+    landmark GALLEON 50 90
+    swim SEAL 2 2 8 1 3
+    swim GREAT_WHITE 0.5 6 12
+    swim COD_SHOAL 3 2 9 1 2
+    swim JELLYFISH 1 4 10 2 4
+
+place ENGLISH_CHANNEL | ENGLISH CHANNEL | - | -
+    like COLD_SEA
+    sky 5A7A80 0E2428
+    fog 0.006 1A3236
+    land A8A090 9C9484 3A4A48
+    landmark U_BOAT 40 80
+    scatter SEA_ROCK 0.03 6 80
+    c E8E4D8
+    swim COD_SHOAL 3 2 9 1 2
+    swim SPIDER_CRAB 1 0 0 1 2
+    swim SEAL 1 2 8 1 2
+
+place NORTH_SEA | NORTH SEA | - | -
+    like COLD_SEA
+    sky 5A7A84 0C2228
+    landmark OIL_RIG 50 90
+    swim FISH_SHOAL 3 2 10 1 3
+    swim SEAL 2 2 8 1 3
+    swim COD_SHOAL 2 2 9 1 2
+
+place BALTIC_SEA | BALTIC SEA | - | -
+    like COLD_SEA
+    sky 5A7A60 0E221A
+    fog 0.0068 1A3428
+    land 8A8A70 7E7E64 2A3A30
+    landmark GALLEON 40 80
+    swim FISH_SHOAL 3 2 10 1 3
+    swim SEAL 1 2 8 1 2
+
+place NORWEGIAN_SEA | NORWEGIAN SEA | - | -
+    like COLD_SEA
+    sky 3A5A70 061420
+    fog 0.0065 081A26
+    scatter COLD_CORAL 0.05 5 60 0.8 1.5
+    landmark WHALE_SKELETON 30 60
+    swim ORCA 1 6 16 1 3
+    swim COD_SHOAL 3 2 9 1 2
+    swim HUMPBACK 0.5 16 26
+
+place DENMARK_STRAIT | DENMARK STRAIT | - | -
+    like COLD_SEA
+    sky 6A90A8 0A1E2E
+    fog 0.006 0C2432
+    land 7A8488 6E787C 1A2830
+    scatter COLD_CORAL 0.03 5 60
+    landmark GIANT_ANCHOR 30 60
+    swim NARWHAL 1 4 14 1 3
+    swim BELUGA 1 4 12 1 3
+    swim SEAL 1 2 8 1 2
+
+place CANARY_ISLANDS_SEA | CANARY ISLANDS | - | -
+    like SEA_FLOOR
+    land 3A3634 34302E 1E3A50
+    landmark STATUE_GARDEN 30 50
+    swim FISH_SHOAL 3 2 10 1 3
+    swim MANTA 1 4 12
+    swim TURTLE 1 2 8
+
+place GIBRALTAR | STRAIT OF GIBRALTAR | - | -
+    like SEA_FLOOR
+    sky 4A90B8 0A2E48
+    landmark GIANT_ANCHOR 30 60
+    swim DOLPHIN 2 4 12
+    swim ORCA 0.7 6 14 1 3
+    swim TUNA_SHOAL 2 3 12
+
+place BALEARIC_SEA | BALEARIC SEA | - | -
+    like SEA_FLOOR
+    sky 5ABAE0 0E4870
+    fog 0.0032 1A6A90
+    scatter SEAGRASS 0.12 2 60
+    scatter AMPHORAE 0.01 6 50
+    landmark GALLEON 50 90
+    swim FISH_SHOAL 3 2 10 1 3
+    swim OCTOPUS 1 0 1
+    swim DOLPHIN 1 4 12
+
+place LIGURIAN_SEA | LIGURIAN SEA | - | -
+    like SEA_FLOOR
+    sky 5ABAE0 0E4870
+    fog 0.0032 1A6A90
+    scatter SEAGRASS 0.1 2 60
+    scatter SEA_ROCK 0.03 6 80
+    c 8A3A6A
+    landmark CHRIST_OF_THE_ABYSS 14 22
+    swim OCTOPUS 1 0 1
+    swim DOLPHIN 1.5 4 12
+    swim FISH_SHOAL 3 2 10 1 3
+
+place TYRRHENIAN_SEA | TYRRHENIAN SEA | - | -
+    like SEA_FLOOR
+    sky 5ABAE0 0E4870
+    fog 0.0034 1A6A90
+    scatter SEAGRASS 0.08 2 60
+    scatter AMPHORAE 0.03 5 50
+    landmark SUNKEN_TEMPLE 20 40
+    swim FISH_SHOAL 3 2 10 1 3
+    swim TUNA_SHOAL 1 4 12
+    swim JELLYFISH 1 4 10 2 4
+
+place CENTRAL_MEDITERRANEAN | CENTRAL MEDITERRANEAN | - | -
+    like SEA_FLOOR
+    sky 5AC0E8 0E4C78
+    fog 0.003 1A70A0
+    scatter SEAGRASS 0.06 2 60
+    landmark PLANE_WRECK 15 40
+    landmark BLUE_HOLE 50 80
+    swim TUNA_SHOAL 2 4 12
+    swim FISH_SHOAL 3 2 10 1 3
+    swim TURTLE 1 2 8
+
+place AEGEAN_SEA | AEGEAN SEA | - | -
+    like SEA_FLOOR
+    sky 5AC0E8 0E4C78
+    fog 0.003 1A70A0
+    land 9A8A80 8E7E74 1A4A6A
+    scatter AMPHORAE 0.04 5 50
+    landmark SUNKEN_TEMPLE 20 40
+    swim SEAL 1 2 8
+    swim OCTOPUS 1 0 1
+    swim FISH_SHOAL 3 2 10 1 3
+
+place RED_SEA | RED SEA | - | -
+    like REEF
+    landmark THISTLEGORM 40 80
+    swim NAPOLEON_WRASSE 1 2 8
+    swim SHARK 1.5 4 12 1 3
+    swim YELLOW_SHOAL 3 2 8 1 3
+    swim BARRACUDA 1 4 12
+
+place ARABIAN_GULF | ARABIAN GULF | - | -
+    like REEF
+    sky 7AC8C8 1A6A80
+    land E0D4B0 D4C8A4 3A7A90
+    landmark DHOW_WRECK 20 40
+    swim DUGONG 1 1 4
+    swim YELLOW_SHOAL 2 2 8 1 3
+    swim TURTLE 1 2 8
+
+place ARABIAN_SEA | ARABIAN SEA | - | -
+    like SEA_FLOOR
+    sky 4AA0C8 0A3A5A
+    landmark DHOW_WRECK 20 40
+    swim WHALE_SHARK 1 6 14
+    swim TUNA_SHOAL 2 4 12
+    swim SARDINE_BALL 1 4 10
+
+place INDIAN_OCEAN | INDIAN OCEAN | - | -
+    like REEF
+    sky 5AD0F0 0A5A90
+    landmark BLUE_HOLE 50 80
+    swim MANTA 2 4 12 1 2
+    swim WHALE_SHARK 1 6 14
+    swim CLOWNFISH 2 0.5 3
+    swim YELLOW_SHOAL 2 2 8 1 3
+    swim TURTLE 1 2 8
+
+place MOZAMBIQUE_CHANNEL | MOZAMBIQUE CHANNEL | - | -
+    like REEF
+    sky 4AB8D8 0A4870
+    landmark WHALE_SKELETON 30 60
+    swim COELACANTH 1 1 5
+    swim HUMPBACK 0.7 14 26
+    swim WHALE_SHARK 1 6 14
+    swim YELLOW_SHOAL 2 2 8 1 3
+
+place GULF_OF_GUINEA | GULF OF GUINEA | - | -
+    like SEA_FLOOR
+    sky 4AA8C0 0A3A50
+    land 6A6A60 5E5E54 1E4A5A
+    landmark GALLEON 50 90
+    swim TURTLE 2 2 8
+    swim HUMPBACK 0.5 14 26
+    swim FISH_SHOAL 3 2 10 1 3
+
+place BAY_OF_BENGAL | BAY OF BENGAL | - | -
+    like REEF
+    sky 5AB8C8 0E5070
+    landmark SUNKEN_TEMPLE 20 40
+    swim TURTLE 2 2 8
+    swim SARDINE_BALL 1 4 10
+    swim YELLOW_SHOAL 2 2 8 1 3
+
+place ANDAMAN_SEA | ANDAMAN SEA | - | -
+    like REEF
+    landmark GIANT_ANCHOR 30 60
+    swim CLOWNFISH 2 0.5 3
+    swim SHARK 1 4 12
+    swim MANTA 1 4 12
+    swim YELLOW_SHOAL 2 2 8 1 3
+
+place SOUTH_CHINA_SEA | SOUTH CHINA SEA | - | -
+    like REEF
+    sky 5AC0D8 0E5070
+    landmark JUNK_WRECK 30 60
+    swim WHALE_SHARK 1 6 14
+    swim BARRACUDA 1 4 12
+    swim YELLOW_SHOAL 2 2 8 1 3
+
+place JAVA_SEA | JAVA SEA | - | -
+    like REEF
+    landmark WARSHIP_WRECK 50 90
+    swim MOLA 1 3 10
+    swim MANTA 1 4 12
+    swim CLOWNFISH 2 0.5 3
+    swim TURTLE 1 2 8
+
+place EAST_CHINA_SEA | EAST CHINA SEA | - | -
+    like SEA_FLOOR
+    sky 4AA8D0 0A3A5A
+    landmark YONAGUNI 40 70
+    swim HAMMERHEAD 2 6 16 2 5
+    swim FISH_SHOAL 3 2 10 1 3
+
+place SEA_OF_JAPAN | SEA OF JAPAN | - | -
+    like COLD_SEA
+    sky 4A7A98 08202E
+    landmark PLANE_WRECK 15 40
+    swim SPIDER_CRAB 2 0 0 1 3
+    swim SQUID 2 3 10
+    swim JELLYFISH 1 4 12 2 4
+
+place PHILIPPINE_SEA | PHILIPPINE SEA | - | -
+    like REEF
+    landmark BLUE_HOLE 50 80
+    swim GOLDEN_JELLY 2 3 10 1 3
+    swim SHARK 1 4 12 1 3
+    swim MANTA 1 4 12
+    swim YELLOW_SHOAL 2 2 8 1 3
+
+place CHUUK_LAGOON | CHUUK LAGOON | - | -
+    like REEF
+    sky 5ACAE8 0A5888
+    landmark GHOST_FLEET 40 80
+    landmark PLANE_WRECK 12 30
+    swim MANTA 1 4 12
+    swim BARRACUDA 1 4 12
+    swim YELLOW_SHOAL 2 2 8 1 3
+
+place IRON_BOTTOM_SOUND | IRON BOTTOM SOUND | - | -
+    like REEF
+    sky 4AB0D0 0A4870
+    landmark WARSHIP_WRECK 50 90
+    swim SHARK 1.5 4 12 1 3
+    swim TURTLE 1 2 8
+    swim YELLOW_SHOAL 2 2 8 1 3
+
+place GREAT_BARRIER_REEF | GREAT BARRIER REEF | - | -
+    like REEF
+    sky 6AD8F0 0E6898
+    scatter CORAL_BRANCH 0.05 4 60 0.8 1.4
+    c 8A6AE8
+    swim CLOWNFISH 3 0.5 3
+    swim TURTLE 2 2 8
+    swim SHARK 1 4 12
+    swim DUGONG 0.5 1 4
+    swim YELLOW_SHOAL 3 2 8 1 3
+
+place TASMAN_SEA | TASMAN SEA | - | -
+    like COLD_SEA
+    sky 4A8AA0 08283A
+    scatter KELP 0.08 6 70 0.7 1.1
+    landmark GALLEON 50 90
+    swim GREAT_WHITE 1 6 12
+    swim SEAL 2 2 8 1 3
+    swim FISH_SHOAL 2 2 10 1 3
+
+place SOUTH_PACIFIC | SOUTH PACIFIC | - | -
+    like REEF
+    sky 5AD8F8 0A5A98
+    landmark STATUE_GARDEN 30 50
+    swim HUMPBACK 1 14 26
+    swim MANTA 1.5 4 12
+    swim TURTLE 1 2 8
+    swim CLOWNFISH 2 0.5 3
+
+place NORTH_PACIFIC | NORTH PACIFIC | - | -
+    like SEA_FLOOR
+    sky 4AA8D8 0A3A60
+    land 3A3A3C 343436 1A3A5A
+    scatter KELP 0.07 6 70
+    landmark WHALE_SKELETON 30 60
+    swim HUMPBACK 1.5 14 26
+    swim TURTLE 1.5 2 8
+    swim DOLPHIN 1 4 12
+
+place GALAPAGOS_SEA | GALAPAGOS | - | -
+    like SEA_FLOOR
+    sky 4AA8C0 0A3A50
+    land 3A3A3C 343436 1A3A5A
+    swim HAMMERHEAD 2 6 16 2 5
+    swim SEA_LION 2 2 8 1 3
+    swim MARINE_IGUANA 1 0 1 1 3
+    swim PENGUIN 1 1 6
+    swim TURTLE 1 2 8
+
+place CARIBBEAN_SEA | CARIBBEAN SEA | - | -
+    like REEF
+    landmark GALLEON 40 80
+    swim TURTLE 2 2 8
+    swim SHARK 1 4 12
+    swim YELLOW_SHOAL 3 2 8 1 3
+    swim BARRACUDA 1 4 12
+
+place LESSER_ANTILLES | LESSER ANTILLES | - | -
+    like REEF
+    sky 5ACCE8 0A5A88
+    landmark GIANT_ANCHOR 30 60
+    swim TURTLE 2 2 8
+    swim YELLOW_SHOAL 3 2 8 1 3
+    swim DOLPHIN 1 4 12
+
+place MESOAMERICAN_REEF | MESOAMERICAN REEF | - | -
+    like REEF
+    landmark STATUE_GARDEN 30 50
+    swim WHALE_SHARK 1 6 14
+    swim TURTLE 1 2 8
+    swim YELLOW_SHOAL 3 2 8 1 3
+
+place BAHAMA_BANKS | BAHAMA BANKS | - | -
+    like REEF
+    sky 7AE0F0 1A88B8
+    land A8C4C0 9CB8B4 2A88A8
+    landmark BLUE_HOLE 50 80
+    swim SHARK 2 4 12 1 3
+    swim DOLPHIN 1.5 4 12
+    swim TURTLE 1 2 8
+
+place GULF_OF_MEXICO | GULF OF MEXICO | - | -
+    like SEA_FLOOR
+    sky 4AA0C0 0A3A50
+    landmark OIL_RIG 50 90
+    swim WHALE_SHARK 1 6 14
+    swim DOLPHIN 1 4 12
+    swim TUNA_SHOAL 2 4 12
+
+place GRAND_BANKS | GRAND BANKS | - | -
+    like COLD_SEA
+    landmark GALLEON 50 90
+    swim COD_SHOAL 3 2 9 1 2
+    swim HUMPBACK 1 14 26
+    swim SEAL 1 2 8 1 2
+
+place BERING_SEA | BERING SEA | - | -
+    like COLD_SEA
+    sky 5A7A90 06141E
+    fog 0.0062 081822
+    land 6A6A66 5E5E5A 1E2A30
+    landmark GIANT_ANCHOR 30 60
+    swim KING_CRAB 4 0 0 1 4
+    swim ORCA 1 6 16 1 3
+    swim WALRUS 1 1 6 1 2
+    swim COD_SHOAL 2 2 9 1 2
+
+place TIMOR_SEA | TIMOR SEA | - | -
+    like REEF
+    sky 5AC0D8 0E5070
+    landmark PLANE_WRECK 15 40
+    swim CROCODILE 1 0.5 3
+    swim DUGONG 1 1 4
+    swim YELLOW_SHOAL 2 2 8 1 3
