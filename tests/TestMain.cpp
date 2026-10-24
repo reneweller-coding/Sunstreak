@@ -378,6 +378,33 @@ int main()
                        festivals()[static_cast<size_t>( wiesn )].m_name == "OKTOBERFEST" && none < 0,
                    "festivals on their dates" );
         }
+        { // Road customs: miles and boards in the USA, cameras in Germany, EU plates in France, toll plazas in Italy.
+            const RoadCustoms &usa = roadCustoms( "USA" ), &germany = roadCustoms( "GERMANY" ), &france = roadCustoms( "FRANCE" );
+            int tolls = 0, cameras = 0;
+            for( uint64_t seed = 1; seed <= 8; ++seed )
+            {
+                TrackParams italy, bavaria;
+                italy.m_biome = biomeId( "TUSCANY" );
+                bavaria.m_biome = static_cast<int>( BiomeE::BAVARIA );
+                Track a( seed, italy ), b( seed, bavaria );
+                a.generateTo( 3000.0 );
+                b.generateTo( 3000.0 );
+                double s = 0.0;
+                int    limit = 0;
+                bool   mph = false;
+                tolls += stageToll( a, 0, s ) ? 1 : 0;
+                if( stageCamera( b, 0, s, limit, mph ) )
+                {
+                    ++cameras;
+                    if( cameras == 1 ) std::printf( "      the first speed camera: drive %d, %.0f m, %d km/h\n", static_cast<int>( seed ), s, limit );
+                }
+            }
+            std::printf( "      road customs: %d broken lines; of 8 drives %d with a toll plaza, %d with a speed camera\n", roadErrors(), tolls,
+                         cameras );
+            check( roadErrors() == 0 && tolls >= 3 && cameras >= 3 && usa.m_mph && usa.m_board && germany.m_cameras && !germany.m_mph && france.m_plate == PlateE::EU &&
+                       roadCustoms( "ITALY" ).m_tolls && !roadCustoms( nullptr ).m_tolls,
+                   "road customs by country" );
+        }
         { // F5: the files read again give the same places, the same route and the same shapes.
             const int         places = biomeCount(), shapes = static_cast<int>( dataShapes().size() ), route = static_cast<int>( worldRoute().size() );
             const std::string from = reloadData( "" );

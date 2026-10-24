@@ -924,6 +924,7 @@ struct BiomeDef
     bool                  m_underwater = false;                   ///< a glass tunnel on the sea floor
     std::vector<SwimRule> m_swim;                                 ///< what swims round the tunnel
     CrossingE             m_crossing = CrossingE::NONE;           ///< a sea crossed aboard a ferry or a car train instead
+    bool                  m_cobbles = false;                      ///< the road is cobbled (old towns)
 };
 
 /**

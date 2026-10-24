@@ -48,6 +48,7 @@ place ANDORRA | ANDORRA | ANDORRA | ALPINE
     p GAS_STATION 0.004 6 12
 
 place AMSTERDAM | AMSTERDAM | NETHERLANDS | OVERCAST
+    cobbles
     clouds 0.7
     sea 0.6 0.6 -2
     water 4A6A6A 0.85

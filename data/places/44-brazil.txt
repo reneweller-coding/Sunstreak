@@ -118,6 +118,7 @@ place JALAPAO | JALAPAO | BRAZIL | DESERT | TOCANTINS
     c C8703A
 
 place OURO_PRETO | OURO PRETO | BRAZIL | MIST | MINAS GERAIS
+    cobbles
     land 6A9A48 609040 6A8A58
     hills 36 12 12
     drive 2 0.5 0.95 13

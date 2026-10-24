@@ -9,6 +9,7 @@
  */
 #pragma once
 
+#include "Local.h"
 #include "Biome.h"
 #include "MeshBuilder.h"
 
@@ -135,6 +136,14 @@ void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float c
  */
 void buildForkSign( MeshBuilder &out, std::string_view left, std::string_view right, float halfWidth );
 
+/**
+ * @brief Builds a speed limit sign on its post, its face towards -z: a red ring, or a white board (North America).
+ * @param[out] out    where the triangles go
+ * @param[in]  limit  the number
+ * @param[in]  board  a white board with SPEED LIMIT over the number
+ */
+void buildSpeedSign( MeshBuilder &out, int limit, bool board );
+
 /** @brief All models. */
 struct DataShape;
 
@@ -211,6 +220,8 @@ public:
     Mesh                                               m_cone{};         ///< traffic cone
     std::array<Mesh, 2>                                m_arrowBoard{};   ///< roadworks board, arrow left / right
     Mesh                                               m_shadow{};       ///< unit blob shadow
+    std::array<Mesh, 7>                                m_plates{};       ///< number plates by style (PlateE), facing -z
+    MeshBuilder                                        m_camera;         ///< a speed camera on its post, facing -z
 
 private:
     /** @brief Builds the props. */

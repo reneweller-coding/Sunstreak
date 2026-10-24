@@ -576,6 +576,16 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
             p.m_pos.m_y += static_cast<double>( c.m_lift );
             setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, c.m_s ) );
             DrawMesh( models.m_traffic[c.m_model].m_mesh, m_material, poseMatrix( p, origin ) );
+            if( !c.m_animal && c.m_s > playerS - 10.0 && c.m_s - playerS < 90.0 && c.m_plate < models.m_plates.size() )
+            {
+                // Its number plate behind, in the country's style.
+                Pose plate = p;
+                const float back = c.m_length * 0.5f + 0.02f;
+                plate.m_pos.m_x -= static_cast<double>( p.m_forward.x * back - p.m_up.x * 0.5f );
+                plate.m_pos.m_y -= static_cast<double>( p.m_forward.y * back - p.m_up.y * 0.5f );
+                plate.m_pos.m_z -= static_cast<double>( p.m_forward.z * back - p.m_up.z * 0.5f );
+                DrawMesh( models.m_plates[c.m_plate], m_material, poseMatrix( plate, origin ) );
+            }
             if( c.m_lift < 0.5f && !c.m_swim ) shadows.push_back( { p, c.m_width, c.m_length } );
         }
         for( const Obstacle &o : in.m_traffic->m_obstacles )

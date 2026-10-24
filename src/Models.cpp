@@ -1572,6 +1572,53 @@ void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float c
     }
 }
 
+void buildSpeedSign( MeshBuilder &out, int limit, bool board )
+{
+    // Strokes of text centred at (0, y), facing -z, read by the driver (whose left is +x).
+    auto write = [&]( std::string_view text, float y, float cap, Color ink )
+    {
+        std::vector<std::pair<Vector2, Vector2>> lines;
+        const float                               w = textStrokes( text, lines ) * cap, thick = cap * 0.17f;
+        const Vector3                             origin = { w * 0.5f, y - cap * 0.5f, -0.045f };
+        for( const auto &[a, b] : lines )
+        {
+            const Vector3 p = { origin.x - a.x * cap, origin.y + a.y * cap, origin.z }, q = { origin.x - b.x * cap, origin.y + b.y * cap, origin.z };
+            Vector3       d = Vector3Subtract( q, p );
+            const float   len = Vector3Length( d );
+            d = len > 1e-4f ? Vector3Scale( d, 1.0f / len ) : Vector3{ 1, 0, 0 };
+            const Vector3 n = { -d.y * thick * 0.5f, d.x * thick * 0.5f, 0 };
+            const Vector3 p0 = Vector3Subtract( Vector3Subtract( p, n ), Vector3Scale( d, thick * 0.4f ) ), p1 = Vector3Add( Vector3Subtract( q, n ), Vector3Scale( d, thick * 0.4f ) );
+            const Vector3 p2 = Vector3Add( Vector3Add( q, n ), Vector3Scale( d, thick * 0.4f ) ), p3 = Vector3Subtract( Vector3Add( p, n ), Vector3Scale( d, thick * 0.4f ) );
+            out.quad( p0, p1, p2, p3, ink, Mat{ 0.2f, 0.0f } );
+            out.quad( p3, p2, p1, p0, ink, Mat{ 0.2f, 0.0f } );
+        }
+    };
+    const Color white = rgb( 246, 246, 242 ), black = rgb( 20, 20, 22 ), red = rgb( 214, 30, 36 ), grey = rgb( 140, 142, 148 );
+    const std::string number = std::to_string( limit );
+    if( board )
+    {
+        out.box( Vector3{ 0, 1.1f, 0.03f }, Vector3{ 0.05f, 1.1f, 0.05f }, grey );
+        out.box( Vector3{ 0, 2.6f, 0 }, Vector3{ 0.36f, 0.46f, 0.025f }, black, Mat{ 0.2f, 0.0f } );
+        out.box( Vector3{ 0, 2.6f, -0.005f }, Vector3{ 0.33f, 0.43f, 0.025f }, white, Mat{ 0.22f, 0.0f } );
+        write( "SPEED", 2.9f, 0.09f, black );
+        write( "LIMIT", 2.75f, 0.09f, black );
+        write( number, 2.42f, 0.26f, black );
+        return;
+    }
+    out.box( Vector3{ 0, 1.1f, 0.03f }, Vector3{ 0.05f, 1.1f, 0.05f }, grey );
+    const int   n = 20;
+    const float y = 2.45f;
+    for( int k = 0; k < n; ++k )
+    {
+        const float a0 = Tau * static_cast<float>( k ) / static_cast<float>( n ), a1 = Tau * static_cast<float>( k + 1 ) / static_cast<float>( n );
+        auto        at = [&]( float r, float a, float z ) { return Vector3{ std::cos( a ) * r, y + std::sin( a ) * r, z }; };
+        out.quad( at( 0.42f, a0, -0.03f ), at( 0.42f, a1, -0.03f ), at( 0.33f, a1, -0.03f ), at( 0.33f, a0, -0.03f ), red, Mat{ 0.2f, 0.0f } );
+        out.tri( Vector3{ 0, y, -0.03f }, at( 0.33f, a0, -0.03f ), at( 0.33f, a1, -0.03f ), white, Mat{ 0.22f, 0.0f } );
+        out.quad( at( 0.42f, a1, 0.0f ), at( 0.42f, a0, 0.0f ), Vector3{ 0, y, 0.0f }, Vector3{ 0, y, 0.0f }, grey );
+    }
+    write( number, y, number.size() > 2 ? 0.2f : 0.26f, black );
+}
+
 void buildForkSign( MeshBuilder &out, std::string_view left, std::string_view right, float halfWidth )
 {
     const Color steel = rgb( 140, 142, 148 );
@@ -1953,6 +2000,31 @@ void Models::buildVehicles()
     }
 
     buildCreatures();
+
+    // ---- Number plates and the speed camera ------------------------------------------------------------------
+    {
+        const Color white = rgb( 240, 240, 236 ), ink = rgb( 30, 30, 34 ), blue = rgb( 0, 51, 153 ), yellow = rgb( 250, 206, 30 );
+        for( int style = 0; style < static_cast<int>( m_plates.size() ); ++style )
+        {
+            MeshBuilder m;
+            const auto  s = static_cast<PlateE>( style );
+            const float hw = s == PlateE::US || s == PlateE::JP ? 0.17f : 0.26f, hh = s == PlateE::US || s == PlateE::JP ? 0.08f : 0.06f;
+            const Color face = s == PlateE::UK || s == PlateE::AMBER ? yellow : s == PlateE::DARK ? rgb( 20, 20, 22 ) : white;
+            const Color letters = s == PlateE::DARK ? white : s == PlateE::JP ? rgb( 20, 110, 60 ) : ink;
+            m.box( Vector3{ 0, 0, 0 }, Vector3{ hw, hh, 0.01f }, face, Mat{ 0.1f, 0.0f } );
+            if( s == PlateE::EU ) m.box( Vector3{ hw - 0.025f, 0, -0.012f }, Vector3{ 0.025f, hh, 0.002f }, blue );
+            if( s == PlateE::US ) m.box( Vector3{ 0, hh - 0.015f, -0.012f }, Vector3{ hw, 0.015f, 0.002f }, rgb( 180, 30, 40 ) );
+            for( int k = 0; k < 6; ++k )
+                m.box( Vector3{ hw * 0.62f - static_cast<float>( k ) * hw * 0.25f, -0.005f, -0.013f }, Vector3{ hw * 0.07f, hh * 0.5f, 0.002f }, letters );
+            m_plates[static_cast<size_t>( style )] = m.upload();
+        }
+        // The camera: a grey box on a post, its lens and flash towards the traffic.
+        MeshBuilder &m = m_camera;
+        m.box( Vector3{ 0, 1.3f, 0 }, Vector3{ 0.07f, 1.3f, 0.07f }, rgb( 120, 122, 128 ) );
+        m.box( Vector3{ 0, 2.9f, 0 }, Vector3{ 0.28f, 0.3f, 0.3f }, rgb( 150, 152, 156 ) );
+        m.box( Vector3{ 0.08f, 2.95f, -0.31f }, Vector3{ 0.08f, 0.08f, 0.02f }, rgb( 20, 22, 26 ), Mat{ 0.0f, 0.8f } );
+        m.box( Vector3{ -0.12f, 2.95f, -0.31f }, Vector3{ 0.06f, 0.1f, 0.02f }, rgb( 230, 230, 236 ), Mat{ 0.3f, 0.0f } );
+    }
 
     // ---- Flags and the border post -----------------------------------------------------------------------------
     buildFlags();

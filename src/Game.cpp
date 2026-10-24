@@ -1519,6 +1519,29 @@ void Game::timeAttackRules( float h )
         m_audio.playOnBeat( SfxE::STAGE );
     }
     {
+        // A speed camera: too fast past it, it flashes and costs time. A toll plaza: just passed.
+        const double before = m_lastS;
+        double       cs = 0.0, ts = 0.0;
+        int          limit = 0;
+        bool         mph = false;
+        if( !m_demo && stageCamera( track, stage, cs, limit, mph ) && before < cs && m_car.m_s >= cs )
+        {
+            const float allowed = static_cast<float>( limit ) * ( mph ? 0.44704f : 1.0f / 3.6f ) * 1.1f;
+            if( m_car.m_speed > allowed && !m_timeUp )
+            {
+                m_flash = 1.0f;
+                m_timeLeft = std::max( 0.0f, m_timeLeft - 2.0f );
+                popup( "SPEED CAMERA", format( "-2 SEC   %d %s", static_cast<int>( m_car.m_speed * ( mph ? 2.23694f : 3.6f ) ), mph ? "MPH" : "KM/H" ), Red, 1.0f, 2.6f );
+                m_audio.play( SfxE::WARNING );
+            }
+        }
+        if( !m_demo && stageToll( track, stage, ts ) && before < ts && m_car.m_s >= ts )
+        {
+            popup( "TOLL", "", Accent, 0.8f, 1.6f );
+            m_audio.play( SfxE::TICK );
+        }
+    }
+    {
         // A ferry or a car train: aboard, the crossing begins.
         const Crossing xc = track.crossingAt( m_car.m_s );
         if( xc.m_type != CrossingE::NONE && ( m_state == StateE::RACE || m_demo ) && m_car.m_s >= xc.m_board + 14.0 && m_car.m_s < xc.m_land - xc.m_length )

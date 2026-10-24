@@ -21,6 +21,7 @@
 #include "Config.h"
 #include "Data.h"
 #include "Festival.h"
+#include "Local.h"
 #include "Input.h"
 #include "Models.h"
 #include "Particles.h"

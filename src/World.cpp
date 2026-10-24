@@ -6,6 +6,7 @@
 #include "World.h"
 
 #include "Festival.h"
+#include "Local.h"
 
 #include "Noise.h"
 
@@ -562,6 +563,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             Color       base = roadCol;
             float       glow = 0.0f;
             float       gloss = 0.18f;
+            const bool  cobbled = here.m_cobbles && cols[k].m_kind != StripE::LINE;
             if( cols[k].m_kind == StripE::LINE || ( cols[k].m_kind == StripE::DASH && dashOn ) )
             {
                 base = cols[k].m_kind == StripE::LINE ? ( cols[k].m_frac < 0.0f ? lineL : lineR ) : sf.m_line;
@@ -575,7 +577,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             for( int v = 0; v < 4; ++v )
             {
                 col[v] = lerpColor( base, WarmLight, ls[v] * 0.5f );
-                mat[v] = Mat{ glow + ls[v] * 0.22f, gloss };
+                mat[v] = cobbled ? Mat{ -2.0f, 0.12f } : Mat{ glow + ls[v] * 0.22f, gloss };
             }
             ground.quadV( p, col, mat );
         }
@@ -1003,6 +1005,57 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 ground.quad( at( B, -1500.0f, -6.0f ), at( B, 1500.0f, -6.0f ), at( B, 1500.0f, 0.0f ), at( B, -1500.0f, 0.0f ), Color{ 150, 150, 146, 255 } );
             if( ferry && after >= 0.0 && after < SegmentLength )
                 ground.quad( at( A, -1500.0f, -6.0f ), at( A, 1500.0f, -6.0f ), at( A, 1500.0f, 0.0f ), at( A, -1500.0f, 0.0f ), Color{ 150, 150, 146, 255 } );
+        }
+
+        // The country's road customs: its speed limit after the place sign and before a speed camera, the camera, a
+        // toll plaza across the road.
+        {
+            const long         stageSegs = static_cast<long>( StageLength / SegmentLength ), local = j % stageSegs;
+            const int          stage = static_cast<int>( j / stageSegs );
+            const BiomeDef    &place = biomeDef( track.stageBiome( stage ) );
+            const RoadCustoms &roads = roadCustoms( place.m_country );
+            const float        driver = countryInfo( place.m_country ).m_left ? -1.0f : 1.0f;
+            double             cs = 0.0, ts = 0.0;
+            int                limit = 0;
+            bool               mph = false;
+            const bool         camera = local < stageSegs / 2 && stageCamera( track, stage, cs, limit, mph );
+            const bool         sign = ( local == 40 && place.m_country && !place.m_underwater && !tunnel && !bridge && xc.m_type == CrossingE::NONE ) ||
+                                     ( camera && j == static_cast<long>( ( cs - LimitAt ) / SegmentLength ) );
+            if( sign )
+            {
+                MeshBuilder m;
+                buildSpeedSign( m, camera && j == static_cast<long>( ( cs - LimitAt ) / SegmentLength ) ? limit : speedLimit( seg, roads.m_mph ), roads.m_board );
+                const float l = driver * ( A.m_edge + 1.6f );
+                props.append( m, at( A, l, 0.0f ), A.m_heading, 1.0f );
+                c.m_colliders.push_back( { sj, l, 0.3f } );
+            }
+            if( camera && j == static_cast<long>( cs / SegmentLength ) )
+            {
+                const float l = driver * ( A.m_edge + 1.8f );
+                props.append( models.m_camera, at( A, l, 0.0f ), A.m_heading, 1.0f );
+                c.m_colliders.push_back( { sj, l, 0.4f } );
+            }
+            if( local < stageSegs / 2 && stageToll( track, stage, ts ) && j == static_cast<long>( ts / SegmentLength ) )
+            {
+                // A canopy over the road, booths on islands between the lanes, their barriers up.
+                const Color white = { 236, 236, 230, 255 }, stripe = { 30, 90, 170, 255 }, concrete = { 176, 174, 166, 255 };
+                const Vector3 mid = at( A, 0.0f, 0.0f );
+                obox( props, Vector3{ mid.x, mid.y + 5.8f, mid.z }, A.m_right, A.m_forward, A.m_hw + 3.0f, 0.3f, 6.0f, white );
+                obox( props, Vector3{ mid.x, mid.y + 6.15f, mid.z }, A.m_right, A.m_forward, A.m_hw + 3.05f, 0.06f, 6.05f, stripe );
+                for( int k = 0; k <= lanes; ++k )
+                {
+                    const float   x = -A.m_hw + 2.0f * A.m_hw * static_cast<float>( k ) / static_cast<float>( lanes );
+                    const Vector3 p = at( A, x, 0.0f );
+                    obox( props, Vector3{ p.x, p.y + 0.12f, p.z }, A.m_right, A.m_forward, 0.45f, 0.12f, 4.5f, concrete );
+                    obox( props, Vector3{ p.x, p.y + 1.35f, p.z }, A.m_right, A.m_forward, 0.36f, 1.15f, 1.1f, white );
+                    obox( props, Vector3{ p.x, p.y + 3.6f, p.z + 0.0f }, A.m_right, A.m_forward, 0.1f, 2.2f, 0.1f, Color{ 150, 150, 156, 255 } );
+                    if( k < lanes ) props.tube( at( A, x + 0.4f, 1.1f ), at( A, x + 0.7f, 3.4f ), 0.05f, 4, Color{ 220, 40, 40, 255 } );
+                    c.m_colliders.push_back( { sj, x, 0.5f } );
+                }
+                MeshBuilder board;
+                buildPlaceSign( board, "TOLL", 3, 0.7f, 4.2f, false );
+                props.append( board, Vector3{ mid.x - A.m_forward.x * 6.1f, mid.y, mid.z - A.m_forward.z * 6.1f }, A.m_heading, 1.0f );
+            }
         }
 
         // A festival: strings of flags, lanterns or lights across the road, little lamps along it, stalls, tents and

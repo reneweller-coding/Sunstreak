@@ -748,6 +748,16 @@ public:
     }
 
     /**
+     * @brief Cobbles the road (an old town).
+     * @return this
+     */
+    W &cobbles()
+    {
+        m_d.m_cobbles = true;
+        return *this;
+    }
+
+    /**
      * @brief Crosses this sea aboard a ferry or a car train instead of under it.
      * @param[in] type  how
      * @return this

@@ -6,6 +6,7 @@
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
 place ROMANTIC_ROAD | ROMANTIC ROAD | GERMANY | MORNING | BAVARIA
+    cobbles
     land 76AC4C 6CA046 7E9E5A
     fields 0.45 D8C25A 8AB04A B8A860
     ranges 7A8CA2 C8D4E4 7

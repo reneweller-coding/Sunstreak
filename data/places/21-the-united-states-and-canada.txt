@@ -736,6 +736,7 @@ place TORONTO | TORONTO | CANADA | MORNING | ONTARIO
     landmark CN_TOWER 160 240 0.5
 
 place QUEBEC_CITY | QUEBEC CITY | CANADA | WINTER | QUEBEC
+    cobbles
     snow 0.4
     sea 0 1 -20
     water 5A6A7A

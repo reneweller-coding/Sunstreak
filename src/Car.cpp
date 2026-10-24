@@ -203,6 +203,7 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
     // Surface: kerb, verge, puddles.
     const float ax = std::abs( m_x );
     m_rumble = ( ax > f.m_halfWidth - 0.6f && ax < f.m_halfWidth + RumbleWidth + 0.4f && !m_airborne ) ? 1.0f : 0.0f;
+    if( biome.m_cobbles && ax < f.m_halfWidth && !m_airborne ) m_rumble = std::max( m_rumble, 0.35f );   // cobbles shake
     m_offroad = m_airborne ? 0.0f : smoothstepf( f.m_halfWidth + RumbleWidth, f.m_halfWidth + RumbleWidth + 1.5f, ax );
     // Gravel and sand hold less, except for a car built for them.
     m_unpaved = biome.m_unpaved;

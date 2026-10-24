@@ -109,7 +109,8 @@ void main()
     vec3 n = normalize(vNormal);
     if (!gl_FrontFacing) n = -n;
     vec3 base = pow(vColor.rgb, vec3(2.2));
-    float ground = step(vMat.x, -0.5);
+    float cobbles = step(vMat.x, -1.5);
+    float ground = step(vMat.x, -0.5) * (1.0 - cobbles);
     float emissive = max(vMat.x, 0.0);
     float gloss = vMat.y;
     vec3 toCam = camPos - vPos;
@@ -139,6 +140,19 @@ void main()
     col += vec3(1.0, 0.9, 0.75) * hl * g * 0.6;
     col += base * emissive * 3.5;
 
+    if (cobbles > 0.5)
+    {
+        // Cobblestones in staggered rows, their joints dark; repeating every 12 m like the grid's offset.
+        vec2 q = (vPos.xz + gridOffset) * vec2(2.5, 3.0);
+        q.x += mod(floor(q.y), 2.0) * 0.5;
+        vec2 f = fract(q) - 0.5;
+        vec2 w = fwidth(q);
+        float joint = smoothstep(0.34, 0.5, max(abs(f.x), abs(f.y)));
+        vec2 cell = mod(floor(q), vec2(30.0, 36.0));
+        float stone = fract(sin(dot(cell, vec2(12.9898, 78.233))) * 43758.5453);
+        float fade = 1.0 - smoothstep(0.25, 0.6, max(w.x, w.y));
+        col *= mix(1.0, (1.0 - 0.5 * joint) * (0.82 + 0.32 * stone), fade);
+    }
     if (gridGlow > 0.0 && ground > 0.5)
     {
         vec2 gp = (vPos.xz + gridOffset) / 12.0;

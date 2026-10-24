@@ -1,0 +1,19 @@
+# The customs of the roads, one per line: a keyword, then the countries (as data/countries.txt writes them).
+#   mph | ...            speed limits in miles per hour (else km/h)
+#   board | ...          speed limits on a white board (else in a red ring)
+#   tolls | ...          toll plazas across the roads
+#   cameras | ...        speed cameras: they flash, and cost time
+#   plates STYLE | ...   number plates: EU (white with a blue band), UK (yellow behind), US (white, a coloured top),
+#                        YELLOW, BLACK, JP (white with green letters); the rest white
+# Cobbled old towns say "cobbles" in data/places.
+
+mph | USA, ALASKA, HAWAII, ENGLAND, SCOTLAND, WALES, NORTHERN IRELAND, LIBERIA, BAHAMAS
+board | USA, ALASKA, HAWAII, CANADA, LIBERIA
+tolls | FRANCE, ITALY, SPAIN, PORTUGAL, GREECE, CROATIA, SERBIA, POLAND, TURKEY, JAPAN, CHINA, SOUTH KOREA, TAIWAN, INDIA, INDONESIA, MALAYSIA, PHILIPPINES, THAILAND, MEXICO, BRAZIL, ARGENTINA, CHILE, PERU, COLOMBIA, USA
+cameras | GERMANY, AUSTRIA, SWITZERLAND, FRANCE, BELGIUM, NETHERLANDS, ITALY, ENGLAND, SCOTLAND, WALES
+plates EU | GERMANY, AUSTRIA, FRANCE, BELGIUM, ITALY, SPAIN, PORTUGAL, IRELAND, POLAND, CZECHIA, SLOVAKIA, SLOVENIA, CROATIA, HUNGARY, ROMANIA, BULGARIA, GREECE, CYPRUS, MALTA, ESTONIA, LATVIA, LITHUANIA, FINLAND, SWEDEN, DENMARK
+plates UK | ENGLAND, SCOTLAND, WALES, NORTHERN IRELAND
+plates YELLOW | NETHERLANDS, LUXEMBOURG, ISRAEL, SURINAME
+plates US | USA, ALASKA, HAWAII, CANADA
+plates JP | JAPAN
+plates BLACK | MALAYSIA, BRUNEI

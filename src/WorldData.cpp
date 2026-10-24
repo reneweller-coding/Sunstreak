@@ -349,6 +349,7 @@ const std::unordered_map<std::string, Step> &steps()
               }
               w.p( PropKindE::LANDMARK, a.f( 1 ), a.f( 2 ), a.f( 3 ), a.f( 4, 0.8f ), a.f( 5, 1.2f ) ).v( lm );
           } },
+        { "cobbles", []( W &w, const Args & ) { w.cobbles(); } },
         { "crossing",
           []( W &w, const Args &a )
           {

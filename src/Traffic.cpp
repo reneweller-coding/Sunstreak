@@ -4,6 +4,7 @@
  * @author reneweller
  */
 #include "Traffic.h"
+#include "Local.h"
 
 #include <algorithm>
 
@@ -244,6 +245,7 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
         if( laneClosedAhead( track, c.m_s - 40.0, lane, 80.0 ) || !laneFree( lane, c.m_s, nullptr ) ) continue;
         c.m_lane = lane;
         c.m_x = laneCenter( lane, seg.m_lanes, seg.m_halfWidth );
+        c.m_plate = static_cast<uint8_t>( roadCustoms( spawnPlace.m_country ).m_plate );
         // Everyday cars and lorries, and now and then what the region drives: tuk-tuks, yellow cabs, road trains.
         const bool       city = seg.m_lanes >= 3;
         std::vector<int> cars, trucks, local;
