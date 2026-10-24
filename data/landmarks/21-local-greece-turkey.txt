@@ -1,0 +1,356 @@
+# Local things of Greece, Cyprus and Turkey.
+
+shape KANDYLAKI
+    home GREECE, CYPRUS | 0.006 2 10 | country
+    # A kandylaki: a little church on a post at the roadside, an oil lamp and an icon behind its glass door.
+    tube 0 0 0 0 1.0 0 0.06 4 C8C8C8
+    box 0 1.25 0 0.22 0.25 0.3 F2F2F2
+    tube 0 1.5 -0.3 0 1.5 0.3 0.24 8 2A6AC8
+    blob 0.2 1.25 0 0.02 0.15 0.12 B8CCD8 glass
+    cyl 0.18 1.05 0 0.04 0.04 0.08 6 E8A030 lit
+    tube 0 1.74 0.2 0 1.95 0.2 0.015 3 D8B030
+    tube 0 1.89 0.12 0 1.89 0.28 0.012 3 D8B030
+
+shape CYCLADIC_CHAPEL
+    home GREECE, CYPRUS | 0.004 10 70
+    # A Cycladic chapel: whitewashed cube, a blue dome, a bell wall with one bell over the door.
+    box 0 2 0 2.5 2 3 F6F6F2
+    cyl 0 4 0 1.6 1.6 0.6 12 F6F6F2
+    dome 0 4.6 0 1.6 1.4 2A6AC8
+    tube 0 6 0 0 6.6 0 0.03 3 F2F2F2
+    box 2.6 4.6 0 0.15 0.6 0.7 F6F6F2
+    box 2.62 4.5 0 0.17 0.25 0.3 2A2A2A
+    cyl 2.65 4.35 0 0.15 0.08 0.3 8 B8902A
+    box 2.52 1.1 0 0.03 1.1 0.5 2A6AC8
+
+shape BYZANTINE_CHAPEL
+    home GREECE, CYPRUS | 0.003 10 70 | country
+    # A Byzantine chapel: banded stone and brick, a cross plan under red tiles, a little drum and dome over the middle.
+    box 0 2.2 0 2.5 2.2 4 C8A880
+    box 0 2.2 0 4 2.2 2.5 C8A880
+    repeat 4 0 1 0
+    box 0 0.5 0 2.52 0.1 4.02 A8603A
+    repeat 4 0 1 0
+    box 0 0.5 0 4.02 0.1 2.52 A8603A
+    gable 0 4.4 0 2.5 4 1.2 0.2 B8603A C8A880
+    hip 0 4.4 0 4 2.5 1.0 0.2 B8603A
+    cyl 0 5.4 0 1.2 1.2 1.4 10 C8A880
+    dome 0 6.8 0 1.25 1.0 B8603A
+    box 4.02 1.2 0 0.03 1.2 0.5 4A3A2A
+
+shape PAINTED_BEEHIVES
+    home GREECE, CYPRUS, TURKEY, BULGARIA | 0.004 8 60 | country
+    # Box hives on a hillside, painted blue, green, yellow and white, each on its two stones.
+    repeat 4 0 0 1.2
+    box 0 0.55 -2 0.3 0.35 0.45 3A7AC8
+    repeat 3 0 0 1.2
+    box 1.3 0.55 -1.4 0.3 0.35 0.45 F2C21E
+    repeat 4 0 0 1.2
+    box -1.3 0.55 -2 0.3 0.35 0.45 4A9A5A
+    repeat 3 0 0 1.2
+    box 2.6 0.55 -1.4 0.3 0.35 0.45 F2F2F2
+    repeat 4 0 0 1.2
+    box 0 0.1 -2 0.35 0.1 0.5 8A8478
+    repeat 3 0 0 1.2
+    box 1.3 0.1 -1.4 0.35 0.1 0.5 8A8478
+
+shape GREEK_TAVERNA
+    home GREECE, CYPRUS | 0.004 4 25
+    # A taverna terrace under a vine pergola: white tables, blue chairs, a whitewashed wall behind.
+    box -1 1.6 0 0.3 1.6 5 F6F6F2
+    box -0.65 1.1 2 0.03 1.1 0.5 2A6AC8
+    mirror
+    mirrorx
+    tube 3 0 4.5 3 2.6 4.5 0.08 4 8A6A48
+    box 1 2.6 0 2 0.05 4.6 8A6A48
+    blob 1 2.75 0 2.2 0.25 4.8 4A7A2E 0.4
+    repeat 3 0 0 3
+    box 1.2 0.72 -3 0.4 0.03 0.4 F2F2F2
+    repeat 3 0 0 3
+    tube 1.2 0 -3 1.2 0.72 -3 0.04 3 F2F2F2
+    repeat 3 0 0 3
+    box 0.5 0.45 -3 0.2 0.02 0.2 2A6AC8
+    repeat 3 0 0 3
+    box 0.32 0.75 -3 0.02 0.3 0.2 2A6AC8
+    repeat 3 0 0 3
+    box 1.9 0.45 -3 0.2 0.02 0.2 2A6AC8
+    repeat 3 0 0 3
+    box 2.08 0.75 -3 0.02 0.3 0.2 2A6AC8
+
+shape GREEK_CAIQUE
+    home GREECE, CYPRUS | 0.005 30 110 | water
+    # A caique: a broad wooden fishing boat painted white, blue and red, a little wheelhouse, nets on deck.
+    tbox 0 -0.4 0 0.9 3.6 0 0.6 0 1.5 4.2 F2F2EE
+    mirrorx
+    box 1.51 0.45 0 0.01 0.1 4 2A6AC8
+    mirrorx
+    box 1.51 0.25 0 0.01 0.08 4 D82A2A
+    tube 0 0.6 4.1 0 1.4 4.6 0.15 4 F2F2EE
+    box 0 1.2 -1.5 0.8 0.6 0.8 F2F2EE
+    box 0 1.85 -1.5 0.85 0.05 0.85 2A6AC8
+    blob 0 0.75 1.5 0.8 0.2 0.9 C8603A 0.4
+    tube 0 0.6 0.8 0 4.5 0.8 0.06 4 8A6A48
+
+shape ORTHODOX_BELL_TOWER
+    home GREECE, CYPRUS | 0.002 8 50 | country
+    # A freestanding bell tower of a village church: white, two storeys of arches, bells hanging, a little cross.
+    box 0 2 0 1.2 2 1.2 F6F6F2
+    box 0 4.6 0 1.0 0.6 1.0 F6F6F2
+    box 1.01 4.6 0 0.02 0.45 0.4 2A2A2A
+    cyl 1.0 4.3 0 0.25 0.12 0.4 8 B8902A
+    box 0 5.6 0 0.8 0.4 0.8 F6F6F2
+    dome 0 6 0 0.8 0.6 2A6AC8
+    tube 0 6.6 0 0 7.2 0 0.03 3 D8B030
+    tube 0 7.0 -0.15 0 7.0 0.15 0.025 3 D8B030
+
+shape GOATS_ON_ROCKS
+    home GREECE, CYPRUS, TURKEY, ALBANIA, MONTENEGRO | 0.004 6 60 | country
+    # A few goats on a heap of rocks, brown, black and white.
+    blob 0 0.6 0 2 1.0 2 9A9488 0.4
+    blob 1.4 0.8 1.6 1.2 0.6 1.0 8A8478 0.4
+    blob 0.3 1.95 0.2 0.15 0.18 0.32 6A4A30
+    blob 0.3 2.15 0.55 0.08 0.1 0.12 6A4A30
+    tube 0.3 2.2 0.55 0.33 2.42 0.45 0.02 3 4A4A40
+    mirror
+    mirrorx
+    tube 0.4 1.85 0.2 0.4 1.6 0.2 0.03 3 6A4A30
+    blob -0.9 1.6 -0.6 0.15 0.18 0.32 1E1E1E
+    blob -0.9 1.8 -0.25 0.08 0.1 0.12 1E1E1E
+    blob 2 1.45 1.5 0.15 0.18 0.32 F2F2EE
+    blob 2 1.65 1.85 0.08 0.1 0.12 F2F2EE
+
+shape ROOFTOP_SOLAR_HEATERS
+    home GREECE, CYPRUS, TURKEY, ISRAEL, PALESTINE, JORDAN, LEBANON | 0.004 6 50 | town
+    # A flat-roofed house with its solar water heaters on top: tilted panels, white tanks lying behind them.
+    box 0 3 0 4 3 5 E8E2D4
+    windows 4.02 0.3 -4.5 0 1 9 5.6 0.4 2.8
+    box 0 6.15 0 4.02 0.15 5.02 D8D2C4
+    repeat 3 0 0 3
+    quad 1 6.4 -4 1 6.4 -2.4 0 7.4 -2.4 0 7.4 -4 2A3A5A shiny
+    repeat 3 0 0 3
+    tube -0.6 7.6 -4.1 -0.6 7.6 -2.3 0.3 10 F2F2F2
+    repeat 3 0 0 3
+    tube -0.6 6.3 -3.2 -0.6 7.3 -3.2 0.04 3 9A9A9A
+
+shape CYPRUS_STONE_HOUSE
+    home CYPRUS | 0.006 8 70
+    # A Cypriot village house of golden stone, an arcade of round arches before it, wooden doors painted blue.
+    box 0 2 0 3.5 2 6 D8B88A
+    box 4.5 2.3 0 1 0.15 6 D8B88A
+    repeat 4 0 0 4
+    box 5.2 1.1 -6 0.25 1.1 0.25 D8B88A
+    repeat 3 0 0 4
+    arch 5.2 1.6 -4 3.5 0.6 0.22 6 D8B88A
+    gable 0 4 0 3.5 6 1.2 0.4 B8603A D8B88A
+    box 3.52 1.1 0 0.03 1.1 0.6 3A6AB8
+    windows 3.52 0.3 -5.5 0 1 4 3 0.3 2.4
+
+shape CAROB_TREE
+    home CYPRUS, GREECE, MALTA | 0.004 8 60 | country
+    # A carob tree: a short gnarled trunk, a dense evergreen dome, dark pods hanging.
+    tube 0 0 0 0.3 1.6 0.2 0.35 6 5A4A3A
+    blob 0.2 3 0.1 2.6 1.8 2.6 2E4A2A 0.3
+    repeat 4 0 0 0.8
+    tube 1.9 2.0 -1.2 1.9 1.6 -1.2 0.04 3 3A2A1E
+
+shape TURKISH_TEA_GARDEN
+    home TURKEY | 0.006 4 30
+    # A tea garden: low stools and little tables under a plane tree, tulip glasses of tea, a samovar on the counter.
+    tube -2 0 0 -2 3 0 0.4 6 C8B8A0
+    blob -2 6 0 4 2.8 4 4A7A3A 0.3
+    repeat 3 0 0 2.4
+    cyl 1 0.5 -2.4 0.3 0.3 0.03 10 E8E2D8
+    repeat 3 0 0 2.4
+    tube 1 0 -2.4 1 0.5 -2.4 0.03 3 3A3A3A
+    repeat 3 0 0 2.4
+    box 0.4 0.3 -2.4 0.17 0.02 0.17 C8302A
+    repeat 3 0 0 2.4
+    box 1.6 0.3 -2.4 0.17 0.02 0.17 C8302A
+    repeat 3 0 0 2.4
+    cyl 1.05 0.53 -2.35 0.03 0.035 0.1 6 B8402A glass
+    box -4.5 0.5 3 0.3 0.5 1 8A6A48
+    cyl -4.5 1.0 3 0.15 0.12 0.4 8 C8C8C8 shiny
+
+shape SIMIT_CART
+    home TURKEY:MARMARA | 0.006 3 15 | town
+    # A simit seller's red cart: a glass case piled with sesame rings, three wheels, a little red roof.
+    box 0 0.9 0 0.45 0.12 0.7 C8302A
+    box 0 1.25 0 0.4 0.25 0.6 B8CCD8 glass
+    repeat 4 0 0 0.3
+    halo 0 1.15 -0.45 0.1 0.04 8 C8883A
+    box 0 1.6 0 0.48 0.06 0.75 C8302A
+    mirror
+    hoop 0.4 0.35 0.5 0.3 0.03 10 2A2A2A
+    hoop 0 0.25 -0.75 0.2 0.03 8 2A2A2A
+    mirror
+    tube 0.4 0.85 0.6 0.4 0.35 0.5 0.03 3 9A9A9A
+
+shape EVIL_EYE_SIGN
+    home TURKEY | 0.003 4 30
+    # A great evil eye at the roadside: blue glass rings round a black pupil, hung on a post against bad luck.
+    tube 0 0 0 0 2.2 0 0.07 4 9A9A9A
+    blob 0.08 3 0 0.04 0.9 0.9 1E4AA8 glass
+    blob 0.11 3 0 0.04 0.6 0.6 F2F2F2
+    blob 0.14 3 0 0.04 0.38 0.38 6AC8E8 glass
+    blob 0.17 3 0 0.04 0.18 0.18 1A1A1A
+
+shape OTTOMAN_KONAK
+    home TURKEY:BLACK SEA, TURKEY:MARMARA, TURKEY:CENTRAL ANATOLIA, BULGARIA, NORTH MACEDONIA, BOSNIA, KOSOVO, ALBANIA | 0.005 8 70
+    # An Ottoman konak: a stone ground floor, a white timber-framed upper storey jutting out on brackets, rows of windows, a wide roof.
+    box 0 1.6 0 4 1.6 6 B8A890
+    box 0.6 4.2 0 4.6 1.0 6.4 F2EEE4
+    repeat 8 0 0 1.8
+    box 5.21 4.2 -6.3 0.02 1.0 0.07 5A3A22
+    box 5.21 3.25 0 0.02 0.06 6.4 5A3A22
+    box 5.21 5.15 0 0.02 0.06 6.4 5A3A22
+    repeat 7 0 0 1.8
+    tube 4 2.6 -5.4 5.1 3.2 -5.4 0.08 4 5A3A22
+    windows 5.22 3.0 -6.2 0 1 12.4 2.2 0.4 2.2
+    hip 0.6 5.2 0 4.6 6.4 1.8 1.2 A8502A
+
+shape CAVE_HOTEL
+    home TURKEY:CENTRAL ANATOLIA | 0.004 10 70
+    # A cave house of Cappadocia: rooms cut into a soft rock cone, arched doors and windows, a terrace before them.
+    blob -3 4 0 6 8 7 E0C8A8 0.25
+    spire -3 9 0 3 6 8 E0C8A8
+    blob 2.2 1.2 -2 0.05 1.0 0.7 4A3A2A
+    blob 2.6 4 1 0.05 0.7 0.5 4A3A2A
+    blob 1.4 7 -1 0.05 0.6 0.45 4A3A2A
+    box 3 0.15 0 1.5 0.15 4 C8B090
+    blob 2.2 2.8 -2 0.05 0.3 0.3 E8A040 lit
+
+shape OTTOMAN_FOUNTAIN
+    home TURKEY | 0.004 3 20 | town
+    # A cesme: a marble wall fountain, its arch carved with an inscription, a brass tap over a stone trough.
+    box 0 1.4 0 0.4 1.4 1.4 E8E2D8
+    blob 0.41 2.2 0 0.02 0.7 0.8 D8D0C0
+    box 0.41 1.4 0 0.02 0.75 0.85 D8D0C0
+    box 0.43 2.4 0 0.02 0.12 0.6 3A5A6A
+    tube 0.42 1.3 0 0.62 1.25 0 0.03 4 C8A040 shiny
+    box 0.75 0.3 0 0.35 0.3 0.8 D8D0C0
+    box 0.75 0.61 0 0.3 0.02 0.75 4A7A8A water
+    box 0 2.9 0 0.5 0.1 1.5 D8D0C0
+
+shape CARPET_DISPLAY
+    home TURKEY, IRAN, MOROCCO, AFGHANISTAN | 0.003 4 25
+    # Carpets for sale hung over a line at the roadside: deep reds and blues with their borders.
+    mirror
+    tube 0 0 3.6 0 2.6 3.6 0.05 4 6A5A48
+    tube 0 2.6 -3.6 0 2.6 3.6 0.03 3 6A5A48
+    box 0 1.5 -2.4 0.02 1.0 0.9 A8202A
+    box 0.025 1.5 -2.4 0.01 0.85 0.75 2A3A7A
+    blob 0.03 1.5 -2.4 0.01 0.35 0.3 D8B040
+    box 0 1.5 0 0.02 1.0 0.9 2A3A7A
+    box 0.025 1.5 0 0.01 0.85 0.75 C8302A
+    blob 0.03 1.5 0 0.01 0.3 0.35 E8E2D0
+    box 0 1.6 2.4 0.02 0.9 0.9 C86A2A
+    box 0.025 1.6 2.4 0.01 0.75 0.75 6A2A2A
+
+shape TURKISH_FLAG_POLE
+    home TURKEY | 0.005 6 50
+    # A tall pole flying the red flag with the white crescent and star.
+    tube 0 0 0 0 12 0 0.08 6 E8E8E8
+    blob 0 12.05 0 0.12 0.12 0.12 D8B030
+    box 0 10.9 1.5 0.02 1.0 1.5 D8202A
+    blob 0.025 10.9 0.95 0.01 0.5 0.5 F2F2F2
+    blob 0.03 10.9 1.08 0.01 0.4 0.4 D8202A
+    blob 0.03 10.9 1.55 0.01 0.14 0.14 F2F2F2
+
+shape HARRAN_BEEHIVE_HOUSES
+    home TURKEY:SOUTHEASTERN ANATOLIA, SYRIA | 0.004 10 80
+    # The beehive houses of Harran: a cluster of tall mud-brick cones joined wall to wall.
+    repeat 4 0 0 3.2
+    box 0 1.2 -4.8 1.6 1.2 1.6 C8A070
+    repeat 4 0 0 3.2
+    spire 0 2.4 -4.8 1.6 3.6 10 C8A070
+    repeat 3 0 0 3.2
+    box -3.2 1.2 -3.2 1.6 1.2 1.6 C0986A
+    repeat 3 0 0 3.2
+    spire -3.2 2.4 -3.2 1.6 3.6 10 C0986A
+    box 1.62 0.8 -1.6 0.03 0.8 0.4 3A2A1E
+    box 1.62 2.6 1.6 0.03 0.25 0.25 3A2A1E
+
+shape MARDIN_STONE_HOUSE
+    home TURKEY:SOUTHEASTERN ANATOLIA, SYRIA, IRAQ | 0.005 8 60
+    # A house of Mardin: honey-coloured stone, pointed arches, carved window frames, a flat roof with a parapet.
+    box 0 3.5 0 4 3.5 5 D8B078
+    repeat 3 0 0 3
+    blob 4.02 4.8 -3 0.03 0.9 0.6 4A3A2A
+    repeat 3 0 0 3
+    box 4.02 4.0 -3 0.03 0.8 0.6 4A3A2A
+    repeat 3 0 0 3
+    box 4.03 3.15 -3 0.02 0.08 0.75 E8C890
+    blob 4.02 1.6 0 0.03 1.6 1.1 4A3A2A
+    box 0 7.15 0 4.05 0.15 5.05 E8C890
+
+shape T_PILLAR
+    home TURKEY:SOUTHEASTERN ANATOLIA | 0.002 10 60 | country
+    # T-shaped pillars of the first temple: tall limestone slabs with arms and animals carved in relief.
+    box 0 2 0 0.3 2 0.6 D8C8A8
+    box 0 4.3 0.3 0.35 0.5 1.1 D8C8A8
+    tube 0.31 2.6 -0.4 0.31 1.6 0.2 0.05 3 B8A888
+    blob 0.32 1.2 -0.1 0.02 0.25 0.35 B8A888
+    box -3 1.5 3 0.25 1.5 0.5 D0C0A0
+    box -3 3.3 3.25 0.3 0.4 0.95 D0C0A0
+    blob 0 0.1 0 3 0.2 3 C8B898 0.4
+
+shape LYCIAN_ROCK_TOMB
+    home TURKEY:MEDITERRANEAN, TURKEY:AEGEAN | 0.002 30 110
+    # Lycian rock tombs: temple fronts carved into a cliff face, columns and pediments in the stone.
+    blob -6 8 0 6 10 14 C8B898 0.25
+    box 0.2 6 -4 0.4 2.5 2 D8C8A8
+    tri 0.6 8.5 -6.2 0.6 8.5 -1.8 0.6 10 -4 D8C8A8
+    box 0.62 5.5 -4 0.02 1.6 0.8 3A3028
+    mirror
+    cyl 0.65 3.5 -5.6 0.15 0.15 5 6 D8C8A8
+    box 0.2 4 4 0.4 2 1.6 D8C8A8
+    tri 0.6 6 2.2 0.6 6 5.8 0.6 7.2 4 D8C8A8
+    box 0.62 3.6 4 0.02 1.2 0.7 3A3028
+
+shape GULET
+    home TURKEY, GREECE | 0.004 40 120 | water
+    # A gulet: a wooden two-masted yacht, its varnished hull, a canopy over the stern deck.
+    tbox 0 -0.8 0 1.6 9 0 0.7 0 2.4 11 8A5A30
+    box 0 0.75 0 2.3 0.05 10.5 C8A070
+    box 0 1.4 -2 1.4 0.6 3 E8E2D8
+    box 0 2.5 -7 2.2 0.04 3 F2F2EE
+    tube 0 0.7 3 0 14 3 0.12 4 6A4A2A
+    tube 0 0.7 -3.5 0 11 -3.5 0.1 4 6A4A2A
+    tube 0 0.8 11 0 2 13 0.08 4 6A4A2A
+
+shape BLACK_SEA_WOODEN_HOUSE
+    home TURKEY:BLACK SEA, GEORGIA | 0.005 8 70 | country
+    # A Black Sea highland house: dark wood on a stone foot, a balcony, a tin roof; tea bushes beside it.
+    box 0 1.2 0 3.5 1.2 4.5 8A8478
+    box 0 3.4 0 3.5 1.0 4.5 6A4A30
+    windows 3.52 2.4 -4 0 1 8 2.2 0.3 2
+    box 4.1 2.4 0 0.6 0.05 3.5 6A4A30
+    box 4.68 2.75 0 0.03 0.35 3.5 6A4A30
+    hip 0 4.4 0 3.5 4.5 2.2 0.6 8A9AA8 shiny
+    repeat 4 0 0 1.4
+    box 7 0.4 -2.1 0.6 0.4 0.6 2E6A2E
+
+shape DONER_STAND
+    home TURKEY | 0.003 3 15 | town
+    # A doner shop window on the street: the turning spit glowing behind glass, a red sign, two stools.
+    box -1 2 0 1 2 2.5 E8E2D8
+    box 0.02 1.3 0 0.02 0.8 1.8 B8CCD8 glass
+    tube -0.4 0.8 -0.6 -0.4 1.9 -0.6 0.25 10 A8602A
+    box -0.4 1.35 -0.2 0.05 0.6 0.25 E86A2A glow
+    box 0.03 2.6 0 0.02 0.35 2 C8302A
+    box 0.4 1.0 0 0.35 0.04 1.6 B8B8B8
+    repeat 2 0 0 1.2
+    tube 1.0 0 -0.6 1.0 0.7 -0.6 0.04 3 3A3A3A
+
+shape WATERMELON_STALL
+    home TURKEY, GREECE, BULGARIA, ROMANIA, SERBIA, NORTH MACEDONIA, ALBANIA | 0.004 3 20 | country
+    # A melon seller at the roadside: a heap of striped watermelons, a parasol, a scale on a crate.
+    blob 0 0.5 0 1.4 0.6 1.6 3A6A2A 0.3
+    repeat 5 0 0 0.6
+    blob 1.2 0.32 -1.2 0.3 0.25 0.38 4A7A3A
+    blob 1.3 0.25 1.0 0.25 0.2 0.32 4A7A3A
+    blob 1.4 0.3 1.6 0.12 0.2 0.3 D83A3A
+    tube -1.2 0 1.5 -1.2 2.4 1.5 0.03 4 D0D0D0
+    dome -1.2 2.2 1.5 1.5 0.5 E8C21E
+    box -0.5 0.3 2.4 0.3 0.3 0.3 C89A40
+    box -0.5 0.68 2.4 0.2 0.08 0.2 C8C8C8

@@ -1,0 +1,443 @@
+# Local things of Italy, San Marino, the Vatican and Malta.
+
+shape VESPA_SCOOTER
+    home ITALY, MALTA, SAN MARINO | 0.004 3 15 | town pastel
+    # A scooter parked on its stand: the round steel body, the little front shield, a round headlamp.
+    box 0 0.55 -0.35 0.22 0.25 0.45 A
+    blob 0 0.75 -0.4 0.24 0.18 0.5 A
+    box 0 0.55 0.45 0.2 0.35 0.06 A
+    tube 0 0.3 0.55 0 1.05 0.45 0.04 4 8A8A8A
+    tube -0.35 1.05 0.45 0.35 1.05 0.45 0.025 3 2A2A2A
+    blob 0 1.0 0.52 0.07 0.07 0.04 F2F2DA
+    box 0 0.98 -0.35 0.13 0.05 0.3 3A2A20
+    tube -0.05 0.2 0.62 0.05 0.2 0.62 0.2 10 1E1E1E
+    tube -0.05 0.2 -0.68 0.05 0.2 -0.68 0.2 10 1E1E1E
+
+shape BUBBLE_CAR
+    home ITALY, MALTA, SAN MARINO, VATICAN | 0.003 3 20 | pastel
+    # A tiny round Italian car of the fifties, its canvas roof rolled back.
+    box 0 0.5 0 0.65 0.24 1.4 A
+    blob 0 0.8 -0.15 0.63 0.42 1.0 A
+    box 0 0.95 -0.15 0.635 0.17 0.75 2A3A4A glass
+    box 0 1.2 -0.25 0.45 0.03 0.4 4A4A4A
+    mirror
+    mirrorx
+    tube 0.55 0.25 0.85 0.7 0.25 0.85 0.25 10 1E1E1E
+    mirrorx
+    blob 0.4 0.62 1.4 0.1 0.1 0.03 F2F2DA
+    mirror
+    box 0 0.33 1.42 0.6 0.03 0.03 C8C8C8
+
+shape EDICOLA_KIOSK
+    home ITALY, SAN MARINO, VATICAN | 0.003 3 15 | town
+    # An edicola: a green newspaper kiosk, magazines pegged on its open shutters, a bright sign on top.
+    box 0 1.3 0 1.2 1.3 1.6 3E6A4A
+    box 1.21 1.3 0 0.02 0.9 1.2 E8E2D8
+    repeat 4 0 0 0.55
+    box 1.24 1.6 -0.8 0.01 0.22 0.17 D84A3A
+    repeat 4 0 0 0.55
+    box 1.24 1.0 -0.8 0.01 0.22 0.17 3A7AC8
+    mirror
+    box 1.5 1.3 1.7 0.3 1.0 0.03 3E6A4A
+    box 0 2.75 0 1.3 0.15 1.7 3E6A4A
+    box 1.31 2.75 0 0.02 0.1 1.2 F2C21E
+
+shape ITALIAN_ROAD_SHRINE
+    home ITALY, MALTA, SAN MARINO | 0.003 3 25 | country
+    # An edicola votiva: a little niche on a stone pillar, the painted Madonna inside, flowers and a lamp before her.
+    box 0 0.8 0 0.3 0.8 0.4 D8C8A8
+    box 0 1.95 0 0.35 0.35 0.45 E8DCC0
+    box 0.36 1.95 0 0.02 0.26 0.3 3A6AB8
+    blob 0.37 1.95 0 0.01 0.18 0.12 F2E8D8
+    tri 0.36 2.3 -0.5 0.36 2.3 0.5 0.36 2.65 0 C86A3A
+    quad 0.4 2.3 -0.5 0.4 2.3 0.5 -0.4 2.3 0.5 -0.4 2.3 -0.5 C86A3A
+    blob 0.42 1.65 0.2 0.08 0.1 0.08 D82A3A 0.4
+    cyl 0.42 1.6 -0.2 0.04 0.04 0.1 6 D84A2A lit
+
+shape CAMPANILE
+    home ITALY | 0.002 15 100
+    # A Romanesque campanile: a square brick bell tower, arched openings at the top, a low pyramid roof.
+    box 0 9 0 2.2 9 2.2 B8603A
+    repeat 3 0 3 0
+    box 2.21 6 0 0.02 0.08 2.2 C8A880
+    box 2.21 15.6 -0.8 0.02 1.0 0.35 2A2A2A
+    box 2.21 15.6 0.8 0.02 1.0 0.35 2A2A2A
+    blob 2.21 16.6 -0.8 0.02 0.35 0.35 2A2A2A
+    blob 2.21 16.6 0.8 0.02 0.35 0.35 2A2A2A
+    cyl 2.0 15.1 0 0.4 0.15 0.6 8 B8902A
+    box 0 18.2 0 2.4 0.2 2.4 C8A880
+    hip 0 18.4 0 2.4 2.4 2.2 0.1 A8502A
+
+shape TUSCAN_FARMHOUSE
+    home ITALY:TUSCANY, ITALY:UMBRIA, ITALY:MARCHE, ITALY:EMILIA-ROMAGNA | 0.006 15 110 | country
+    # A casa colonica: honey stone walls, a dovecote tower in the middle, an outside stair, cypresses beside it.
+    box 0 3 0 4.5 3 8 D8B88A
+    windows 4.52 0.4 -7.5 0 1 15 5.6 0.3 2.8
+    hip 0 6 0 4.5 8 1.6 0.4 B8603A
+    box 0 7 0 2 3 2 D8B88A
+    hip 0 10 0 2.2 2.2 1.0 0.3 B8603A
+    tbox 6 0 4 0.8 3 6 3 6 0.8 0.3 D8B88A
+    box 5.3 3.1 6 0.9 0.1 1 D8B88A
+    repeat 3 0 0 2.2
+    blob 7 4 -9 0.6 4 0.6 2E4A2A 0.2
+
+shape MASSERIA
+    home ITALY:APULIA, ITALY:BASILICATA | 0.004 15 110 | country
+    # A masseria of Apulia: a white fortified farm, a tower with battlements, a walled yard and olive trees.
+    box 0 2.5 0 4 2.5 8 F2EEE4
+    box 0 5.2 0 4.02 0.2 8.02 E8E2D4
+    box 1 4.5 -6 2.5 4.5 2.5 F2EEE4
+    merlons 3.5 9 -8.5 3.5 9 -3.5 0.3 F2EEE4
+    windows 4.02 0.3 -7.5 0 1 15 4.6 0.3 2.6
+    box 8 1.2 2 0.2 1.2 6 F2EEE4
+    box 8.02 1.0 0 0.03 1.0 1.2 5A4030
+    tube 6 0 6 6 1.4 6 0.3 5 6A5A48
+    blob 6 2.4 6 1.8 1.2 1.8 6A7A4A 0.4
+
+shape SICILIAN_CART
+    home ITALY:SICILY | 0.003 4 25
+    # A Sicilian carretto: a two-wheeled cart painted all over with knights and flowers, its wheels yellow and red.
+    box 0 1.2 0 0.7 0.35 1.2 F2C21E
+    blob 0.71 1.25 0 0.02 0.25 0.9 D82A2A
+    blob 0.72 1.25 -0.4 0.02 0.15 0.25 3A6AC8
+    blob 0.72 1.25 0.45 0.02 0.15 0.25 3A8A4A
+    mirrorx
+    hoop 0.82 0.75 0 0.75 0.06 16 D82A2A
+    at 0.82 0.75 0
+    vring 10 0
+    tube 0 0 0 0 0.72 0 0.025 3 F2C21E
+    at 0 0 0
+    mirrorx
+    tube 0.4 1.1 1.2 0.4 0.9 2.6 0.04 4 F2C21E
+
+shape LEMON_PERGOLA
+    home ITALY:CAMPANIA, ITALY:SICILY, ITALY:CALABRIA | 0.004 6 50 | country
+    # Lemons under a pergola of chestnut poles, their dark leaves and yellow fruit, nets rolled at the edge.
+    repeat 3 0 0 3
+    mirrorx
+    tube 2 0 -3 2 3 -3 0.07 4 8A6A48
+    repeat 3 0 0 3
+    tube -2 3 -3 2 3 -3 0.05 4 8A6A48
+    tube 2 3 -3 2 3 3 0.05 4 8A6A48
+    tube -2 3 -3 -2 3 3 0.05 4 8A6A48
+    blob 0 2.6 0 2.2 0.6 3.3 2E5A2A 0.3
+    repeat 4 0 0 1.6
+    blob 1.4 2.1 -2.4 0.1 0.12 0.1 F2D81E
+    repeat 4 0 0 1.6
+    blob -0.8 2.0 -1.6 0.1 0.12 0.1 F2D81E
+    box 2.1 3.05 0 0.12 0.06 3 3A3A3A
+
+shape AMALFI_HOUSE
+    home ITALY:CAMPANIA, ITALY:LIGURIA | 0.006 6 70 | pastel
+    # A house of the steep coast: pastel walls, a flat roof terrace or a little vault, green shutters, bougainvillea.
+    box 0 4 0 3.5 4 4 A
+    windows 3.52 0.4 -3.5 0 1 7 7.4 0.4 2.8
+    box 0 8.1 0 3.52 0.1 4.02 E8E2D8
+    tube 0 8.2 -4 0 8.2 4 1.2 8 E8E2D8
+    blob 3.6 1.5 3.4 0.3 1.4 0.8 C83A8A 0.4
+
+shape LIGURIAN_TOWER_HOUSE
+    home ITALY:LIGURIA | 0.006 6 60 | pastel
+    # A tall Ligurian house: five storeys of colour, painted window frames, green shutters, a slate roof.
+    box 0 7.5 0 3 7.5 3.5 A
+    windows 3.02 0.3 -3.5 0 1 7 14.6 0.4 2.8
+    repeat 5 0 2.8 0
+    box 3.03 1.95 -2.95 0.01 0.78 0.12 3E6A3A
+    repeat 5 0 2.8 0
+    box 3.03 1.95 -1.6 0.01 0.78 0.12 3E6A3A
+    gable 0 15 0 3 3.5 1.5 0.3 5A5A60 A
+
+shape FISHING_GOZZO
+    home ITALY, MALTA | 0.003 30 110 | water
+    # A gozzo: a little wooden fishing boat, white with a blue stripe, an outboard on its stern.
+    tbox 0 -0.3 0 0.6 2.6 0 0.5 0 1.0 3.2 F2F2EE
+    box 1.01 0.35 0 0.01 0.06 3 2A6AC8
+    mirrorx
+    box 1.01 0.35 0 0.01 0.06 3 2A6AC8
+    box 0 0.55 1.6 0.6 0.05 0.8 8A6A48
+    box 0 0.7 -3.2 0.15 0.35 0.15 2A2A2A
+
+shape VENETIAN_GONDOLA
+    home ITALY:VENETO | 0.006 30 110 | water
+    # A black gondola moored by its striped pole, the curved steel prow up front.
+    tbox 0 -0.2 0 0.5 5.2 0 0.4 0 0.7 5.5 1A1A1A
+    tube 0 0.4 5.3 0 1.4 5.9 0.08 4 1A1A1A
+    box 0 1.5 5.95 0.05 0.25 0.12 C8C8C8 shiny
+    tube 0 0.4 -5.3 0 0.9 -5.8 0.08 4 1A1A1A
+    box 0 0.5 0 0.45 0.1 1 7A2A2A
+    tube 1.3 -1 2 1.3 3 2 0.12 6 F2F2EE
+    repeat 4 0 1 0
+    cyl 1.3 -0.6 2 0.125 0.125 0.5 6 D82A2A
+
+shape VENETIAN_HOUSE
+    home ITALY:VENETO, ITALY:FRIULI VENEZIA GIULIA | 0.005 6 60 | town
+    # A Venetian palazzo: faded rose walls, pointed Gothic windows, funnel chimneys on the roof.
+    box 0 5 0 4 5 5 D89A88
+    windows 4.02 0.4 -5 0 1 10 9.4 0.4 3
+    repeat 3 0 0 3.33
+    tri 4.07 8.4 -3.99 4.07 8.4 -2.67 4.07 9.0 -3.33 2A3A4A
+    gable 0 10 0 4 5 1.4 0.4 A8502A D89A88
+    mirror
+    cyl 2 10.6 3 0.25 0.25 1.4 8 C88A6A
+    mirror
+    cyl 2 12 3 0.25 0.55 0.6 8 C88A6A
+
+shape MOORING_POLES
+    home ITALY:VENETO | 0.004 20 80 | water
+    # Mooring poles of the lagoon: wooden posts bound in threes, striped red and white where boats tie up.
+    ring 3 0.25
+    tube 0 -1 0 0 2.5 0 0.14 6 6A5A48
+    tube 3 -1 1 3 3 1 0.13 6 F2F2EE
+    repeat 3 0 1 0
+    cyl 3 -0.5 1 0.135 0.135 0.5 6 2A6AC8
+
+shape HILL_TOWN
+    home ITALY:TUSCANY, ITALY:UMBRIA, ITALY:MARCHE, ITALY:ABRUZZO, ITALY:BASILICATA, ITALY:MOLISE, ITALY:LAZIO, SAN MARINO | 0.002 80 120 | country
+    # A hill town far off: houses of honey stone crowding up a hill, a church and a tower over the roofs.
+    blob 0 0 0 30 12 40 6A7A4A 0.25
+    box 0 13 -10 10 4 6 D8B88A
+    box 4 15 4 8 5 6 D0B080
+    box -6 14 12 6 4 6 D8B88A
+    hip 0 17 -10 10 6 1.5 0.3 B8603A
+    hip 4 20 4 8 6 1.5 0.3 B0583A
+    hip -6 18 12 6 6 1.5 0.3 B8603A
+    box -4 19 -2 2 9 2 C8A880
+    hip -4 28 -2 2.2 2.2 1.4 0.2 A8502A
+    box 6 21 -4 3 3 5 E0C898
+    gable 6 24 -4 3 5 2 0.2 B8603A E0C898
+    windows 10 9 -16 0 1 8 6 0.6 3
+
+shape TRABOCCO
+    home ITALY | 0.002 15 70 | coast
+    # A trabocco: a fishing machine of poles over the sea, a long walkway, a hut, the net hung from great arms.
+    repeat 6 3 0 0
+    mirror
+    tube 0 -2 1 0 2.2 1 0.1 4 8A7A60
+    box 7.5 2.3 0 8 0.06 1.2 8A7A60
+    box 16 3.2 0 1.5 0.9 1.8 8A7A60
+    gable 16 4.1 0 1.5 1.8 0.8 0.2 6A5A48 8A7A60
+    tube 17 4 0 26 7 -5 0.08 4 8A7A60
+    tube 17 4 0 26 7 5 0.08 4 8A7A60
+    tube 26 7 -5 26 1 -5 0.02 3 2A2A2A
+    tube 26 7 5 26 1 5 0.02 3 2A2A2A
+    quad 26 1 -5 26 1 5 30 1 5 30 1 -5 9A9A88
+
+shape SASSI_CAVE_HOUSES
+    home ITALY:BASILICATA | 0.003 30 110
+    # The Sassi: houses of pale tufa stacked up a ravine, their doors and arches dark against the stone.
+    blob -6 4 0 8 10 14 C8B898 0.3
+    box 0 1.5 -6 3 1.5 3 D8C8A8
+    box -1 4.5 -2 3 1.5 3 D0C0A0
+    box -2 7.5 3 3 1.5 3 D8C8A8
+    box -3 10.5 -4 3 1.5 3 D0C0A0
+    box 0 1.5 4 3 1.5 3 D8C8A8
+    box 3.02 1.0 -6 0.03 0.9 0.5 3A3028
+    box 2.02 4.0 -2 0.03 0.9 0.5 3A3028
+    box 1.02 7.0 3 0.03 0.9 0.5 3A3028
+    box 0.02 10.0 -4 0.03 0.9 0.5 3A3028
+    box 3.02 1.0 4 0.03 0.9 0.5 3A3028
+    cyl -1 3 5 0.2 0.2 6 6 D8C8A8
+
+shape SARACEN_TOWER
+    home ITALY:CALABRIA, ITALY:SICILY, ITALY:SARDINIA, ITALY:CAMPANIA, ITALY:LIGURIA, FRANCE:CORSICA | 0.003 15 110 | coast
+    # A Saracen watchtower: a square stone tower over the sea, its base battered out, the door high up.
+    tbox 0 0 0 4.5 4.5 0 3 0 3.6 3.6 B8A888
+    box 0 7 0 3.4 4 3.4 B8A888
+    box 0 11.2 0 3.6 0.2 3.6 A89878
+    merlons 3.6 11.4 -3.4 3.6 11.4 3.4 0.3 B8A888
+    box 3.42 7 0 0.03 0.9 0.5 3A3028
+
+shape NURAGHE
+    home ITALY:SARDINIA | 0.003 20 110 | country
+    # A nuraghe: a Bronze Age tower of huge dark stones, round and tapering, a low door into the dark.
+    cyl 0 0 0 6 4.2 10 12 7A7468
+    ring 12 5.2
+    blob 0 3 0 0.6 1.2 0.6 6A6458 0.3
+    ring 10 4.6 15
+    blob 0 7 0 0.6 1.0 0.6 8A8478 0.3
+    box 5.8 1 0 0.3 1 0.5 1E1E1E
+
+shape SHEPHERD_HUT_SARDINIA
+    home ITALY:SARDINIA | 0.003 10 70 | country
+    # A pinnetta: a shepherd's round hut of stone with a cone of juniper poles.
+    cyl 0 0 0 2.2 2.2 1.4 10 8A8478
+    spire 0 1.4 0 2.4 3 10 6A5040
+    ring 10 1.6
+    tube 0 1.4 0 -1.6 4.2 0 0.06 3 5A4030
+    box 2.2 0.7 0 0.05 0.7 0.4 1E1E1E
+
+shape THREE_WHEEL_TRUCK
+    home ITALY:SICILY, ITALY:CALABRIA, ITALY:APULIA, ITALY:CAMPANIA, ITALY:BASILICATA | 0.004 3 25 | pastel
+    # A three-wheeled little truck: a tiny cab, a load bed of crates, one wheel up front.
+    box 0 0.95 0.9 0.55 0.5 0.45 A
+    box 0 1.15 1.3 0.5 0.25 0.05 2A3A4A glass
+    box 0 0.65 -0.6 0.6 0.08 0.95 6A6A6A
+    mirror
+    box 0 0.85 -0.6 0.62 0.15 0.97 A
+    repeat 3 0 0 0.6
+    box 0 0.95 -1.2 0.25 0.2 0.2 C89A40
+    tube -0.1 0.28 1.15 0.1 0.28 1.15 0.26 10 1E1E1E
+    mirrorx
+    tube 0.5 0.28 -1.1 0.65 0.28 -1.1 0.26 10 1E1E1E
+
+shape LAUNDRY_LINES
+    home ITALY:CAMPANIA, ITALY:SICILY, ITALY:LIGURIA, ITALY:VENETO, MALTA | 0.003 4 25 | town
+    # Washing hung on lines between two house fronts: sheets, shirts and towels drying over the lane.
+    box -2 5 -3.5 2 5 0.3 E8C8A0
+    box -2 5 3.5 2 5 0.3 E0D0B0
+    repeat 2 0 2.5 0
+    tube -1 5 -3.2 -1 5 3.2 0.015 3 3A3A3A
+    repeat 5 0 0 1.1
+    box -1 4.5 -2.4 0.02 0.45 0.4 F2F2F2
+    repeat 4 0 0 1.3
+    box -1 7.1 -2 0.02 0.35 0.3 D84A3A
+    repeat 3 0 0 1.6
+    box -1 6.95 -1.3 0.02 0.5 0.35 3A7AC8
+
+shape ROMAN_DRINKING_FOUNTAIN
+    home ITALY:LAZIO, VATICAN | 0.003 3 15 | town
+    # A nasone of Rome: a cast-iron drinking fountain with a curved spout, water running all day.
+    tube 0 0 0 0 1.1 0 0.18 8 3A3E3A
+    blob 0 1.12 0 0.18 0.08 0.18 3A3E3A
+    tube 0.15 0.85 0 0.32 0.75 0 0.03 4 3A3E3A
+    tube 0.32 0.75 0 0.32 0.1 0 0.012 3 A8C8E8 water
+    box 0.3 0.05 0 0.25 0.05 0.3 8A8A88
+
+shape ROMAN_TOMB_RUIN
+    home ITALY:LAZIO | 0.003 15 80 | country
+    # A Roman tomb by the old road: a round drum of stone and brick, half fallen, umbrella pines beside it.
+    cyl 0 0 0 4 4 2 12 C8B898
+    cyl 0 2 0 3.6 3.6 3 12 A8603A
+    blob 2 5 1 1.5 0.8 1.5 B8A888 0.4
+    blob -1.5 5.2 -2 1.0 1.0 1.0 A8603A 0.4
+    tube 7 0 2 7 6 2 0.3 6 6A5040
+    blob 7 7 2 3.5 1.0 3.5 3E5A2E 0.3
+
+shape PORTICO_ARCADE
+    home ITALY:EMILIA-ROMAGNA | 0.005 3 20 | town
+    # A Bologna portico: a red-ochre house front carried on arches over the pavement.
+    box -1 5 0 1 5 6 C86A3A
+    windows 0.02 4.3 -6 0 1 12 5.5 0.4 2.8
+    repeat 5 0 0 3
+    box 2.5 1.8 -6 0.3 1.8 0.3 C86A3A
+    repeat 4 0 0 3
+    arch 2.5 3.0 -4.5 3 0.7 0.25 6 C86A3A
+    box 1.25 3.9 0 1.55 0.3 6.2 C86A3A
+    gable -0.25 6.2 0 2.8 6.2 1.4 0.4 B8603A C86A3A
+
+shape RED_SPORTS_CAR
+    home ITALY:EMILIA-ROMAGNA, MONACO | 0.002 3 20
+    # A low red sports car parked outside a cafe of the Motor Valley.
+    box 0 0.45 0 0.95 0.22 2.2 C8201E shiny
+    tbox 0 0.67 -0.3 0.85 1.0 0 0.95 -0.4 0.7 0.6 C8201E shiny
+    box 0 0.82 -0.35 0.86 0.12 0.75 2A2A30 glass
+    box 0 0.7 -2.1 0.9 0.05 0.15 1A1A1A
+    mirror
+    mirrorx
+    tube 0.8 0.32 1.4 0.98 0.32 1.4 0.32 12 1E1E1E
+    mirror
+    mirrorx
+    tube 0.98 0.32 1.4 1.0 0.32 1.4 0.2 8 F2C21E
+
+shape RICE_PADDY_ITALY
+    home ITALY:PIEDMONT, ITALY:LOMBARDY | 0.003 10 80 | country
+    # Rice fields of the Po plain: flooded squares mirroring the sky between low earth banks, a farm track.
+    box 0 0.03 -6 6 0.03 5.5 8AA8C8 water
+    box 0 0.03 6 6 0.03 5.5 8AA8C8 water
+    box 0 0.12 0 6.2 0.12 0.4 7A6A48
+    box 6.3 0.12 0 0.3 0.12 12 7A6A48
+    repeat 8 -1.4 0 0
+    box 5 0.2 -6 0.05 0.15 5 6A9A3A
+    repeat 8 -1.4 0 0
+    box 5 0.2 6 0.05 0.15 5 6A9A3A
+
+shape PIEDMONT_VINEYARD_HUT
+    home ITALY:PIEDMONT | 0.004 10 80 | country
+    # A ciabot of the Langhe: a little brick hut on the vine slopes, a tiled roof and a fig tree beside it.
+    box 0 1.5 0 1.6 1.5 1.8 B8603A
+    gable 0 3 0 1.6 1.8 1.1 0.2 A8502A B8603A
+    box 1.62 1.0 0 0.03 1.0 0.45 5A3A22
+    repeat 4 0 0 1.8
+    box 4.5 0.55 -2.7 2.5 0.5 0.15 4A7A2E
+    blob -2.5 2 1.5 1.3 1.4 1.3 3E6A2E 0.3
+
+shape LAKE_VILLA
+    home ITALY:LOMBARDY | 0.004 10 70
+    # A villa on the lake: ochre walls, green shutters, a balustrade along the garden, a magnolia.
+    box 0 4.5 0 4.5 4.5 7 E8C070
+    windows 4.52 0.5 -7 0 1 14 8 0.4 3.2
+    repeat 5 0 0 2.8
+    box 4.54 2.1 -6.4 0.02 0.7 0.15 3E6A3A
+    repeat 5 0 0 2.8
+    box 4.54 2.1 -4.8 0.02 0.7 0.15 3E6A3A
+    hip 0 9 0 4.5 7 2 0.6 B8603A
+    box 7 0.5 0 0.15 0.5 7 F2EEE6
+    repeat 14 0 0 1
+    tube 7 0.5 -6.5 7 1.0 -6.5 0.07 5 F2EEE6
+    tube 6 0 5 6 2 5 0.2 5 5A4A3A
+    blob 6 3.6 5 2 1.8 2 2E5A2E 0.3
+
+shape MALTESE_BALCONY_HOUSE
+    home MALTA | 0.008 4 40 | town pastel
+    # A Maltese town house of honey limestone, its closed wooden balconies painted in bright colours.
+    box 0 4.5 0 3.5 4.5 4 E0C890
+    windows 3.52 0.4 -4 0 1 8 2.8 0.4 2.6
+    repeat 2 0 3 0
+    box 4.1 4.6 0 0.6 0.9 1.4 A
+    repeat 2 0 3 0
+    box 4.71 4.6 0 0.02 0.7 1.2 2A3A4A glass
+    repeat 2 0 3 0
+    box 4.1 3.65 0 0.65 0.08 1.45 E0C890
+    box 0 9.1 0 3.55 0.1 4.05 E0C890
+
+shape LUZZU_BOAT
+    home MALTA | 0.008 30 110 | water
+    # A luzzu: a Maltese fishing boat painted blue, yellow and red, the eye of Osiris on its tall prow.
+    tbox 0 -0.3 0 0.7 3.5 0 0.5 0 1.1 4 2A6AC8
+    mirrorx
+    box 1.11 0.4 0 0.01 0.08 3.8 F2C21E
+    mirrorx
+    box 1.11 0.25 0 0.01 0.06 3.8 D82A2A
+    tube 0 0.5 3.9 0 1.6 4.3 0.15 4 2A6AC8
+    tube 0 0.5 -3.9 0 1.4 -4.2 0.15 4 2A6AC8
+    mirrorx
+    blob 0.65 0.8 3.6 0.02 0.12 0.18 F2F2F2
+    mirrorx
+    blob 0.66 0.8 3.6 0.02 0.06 0.06 1A1A1A
+
+shape MALTESE_BUS
+    home MALTA | 0.006 4 25
+    # An old Maltese bus, rounded and yellow with an orange stripe, a chrome grille up front.
+    box 0 1.5 0 1.2 1.1 4.5 F2C21E
+    tbox 0 0.6 4.6 1.0 0.25 0 1.4 4.6 1.0 0.25 F2C21E
+    mirrorx
+    box 1.21 1.0 0 0.01 0.15 4.4 E86A1A
+    mirrorx
+    box 1.21 2.0 0 0.01 0.4 4.0 2A3A4A glass
+    box 0 2.0 4.51 1.0 0.45 0.01 2A3A4A glass
+    box 0 0.9 4.86 0.6 0.3 0.02 C8C8C8 shiny
+    box 0 2.65 0 1.1 0.08 4.4 F2F2EE
+    mirror
+    mirrorx
+    tube 1.0 0.45 3.2 1.25 0.45 3.2 0.45 10 1E1E1E
+
+shape TITANO_TOWER
+    home SAN MARINO | 0.006 40 120
+    # A tower on the crest of Monte Titano: a crenellated stone keep, its weathervane a feather.
+    blob 0 0 0 14 8 18 7A7A64 0.35
+    box 0 11 0 2.5 4 2.5 C8B898
+    merlons 2.5 15 -2.5 2.5 15 2.5 0.3 C8B898
+    box 0 16 0 1.2 1 1.2 C8B898
+    spire 0 17 0 1.4 2 4 A8603A
+    tube 0 19 0 0 20 0 0.04 3 3A3A3A
+    tri 0 19.8 0 0 20.4 0.15 0 20.2 0.6 3A3A3A
+    box 6 9 -8 6 1 0.4 C8B898
+
+shape VATICAN_FLAG_POLE
+    home VATICAN | 0.008 6 40
+    # A flagpole with the yellow and white flag of the Vatican.
+    tube 0 0 0 0 9 0 0.07 6 E8E8E8
+    blob 0 9.05 0 0.1 0.1 0.1 D8B030
+    box 0 8.2 0.55 0.02 0.75 0.5 F2D21E
+    box 0 8.2 1.55 0.02 0.75 0.5 F2F2F2
+    blob 0.03 8.2 1.55 0.01 0.2 0.18 D8B030

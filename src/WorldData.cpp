@@ -720,13 +720,22 @@ void addHomes( std::vector<BiomeDef> &table, const std::vector<Header> &places, 
                 else if( tag == "country" ) h.m_town = -1;
                 else if( tag == "water" ) h.m_water = true;
                 else if( tag == "pastel" ) h.m_pastel = true;
-                else ++g_errors;
+                else
+                {
+                    ++g_errors;
+                    TraceLog( LOG_WARNING, "SUNSTREAK: %s: no tag %s", shapes[s].m_name.c_str(), tag.c_str() );
+                }
             }
             for( const std::string &where : splitLine( p[0], ',' ) )
             {
                 const auto it = homes.find( where );
-                if( it == homes.end() ) ++g_errors;   // no such country, region, fleet or place
-                else it->second.push_back( h );
+                if( it != homes.end() )
+                {
+                    it->second.push_back( h );
+                    continue;
+                }
+                ++g_errors;   // no such country, region, fleet or place
+                TraceLog( LOG_WARNING, "SUNSTREAK: %s: no home %s", shapes[s].m_name.c_str(), where.c_str() );
             }
         }
     // Each place's homes: its own, its region's, its country's, its fleet's.

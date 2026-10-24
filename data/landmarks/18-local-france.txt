@@ -339,7 +339,7 @@ shape BORDEAUX_CHATEAU
     box 12 0.6 -7.2 5 0.5 0.15 4A7A2E
 
 shape PHARMACY_CROSS
-    home FRANCE, SPAIN, PORTUGAL, BELGIUM, LUXEMBOURG, MONACO | 0.002 3 12 | town
+    home FRANCE, SPAIN, PORTUGAL, BELGIUM, LUXEMBOURG, MONACO, ITALY, SAN MARINO | 0.002 3 12 | town
     # The green cross of a pharmacy, glowing on its post.
     tube 0 0 0 0 3 0 0.06 6 6A6A6A
     box -0.06 3.6 0 0.04 0.62 0.62 2A2A2A

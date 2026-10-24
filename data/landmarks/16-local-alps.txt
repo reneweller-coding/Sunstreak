@@ -1,7 +1,7 @@
 # Local things of Austria, Switzerland and Liechtenstein (and the Bavarian Alps).
 
 shape TYROLEAN_FARMHOUSE
-    home AUSTRIA, LIECHTENSTEIN, GERMANY:BAVARIA | 0.005 12 90 | country
+    home AUSTRIA, LIECHTENSTEIN, GERMANY:BAVARIA, ITALY:TRENTINO | 0.005 12 90 | country
     # A Tyrolean farmhouse: two wooden balconies heavy with geraniums, a bell turret on the ridge.
     box 0 2.5 0 6 2.5 7 F2EEE4
     box 0 6.2 0 6 1.2 7 7A4A28
@@ -21,7 +21,7 @@ shape TYROLEAN_FARMHOUSE
     blob 3 8.8 -5.2 0.3 0.2 0.3 8A8478 0.4
 
 shape ALM_HUT
-    home AUSTRIA, SWITZERLAND, LIECHTENSTEIN, GERMANY:BAVARIA | 0.004 15 100 | country
+    home AUSTRIA, SWITZERLAND, LIECHTENSTEIN, GERMANY:BAVARIA, ITALY:TRENTINO, ITALY:AOSTA VALLEY | 0.004 15 100 | country
     # An alpine hut: a stone foot, a dark log house, a shingle roof weighted with stones, a trough and a bench.
     box 0 0.8 0 4 0.8 5 8A8478
     box 0 2.6 0 4 1.0 5 5A3E26
@@ -39,7 +39,7 @@ shape ALM_HUT
     tube 6 1.35 -0.4 6 1.25 0.2 0.03 3 9A9A9A
 
 shape MARTERL
-    home AUSTRIA, LIECHTENSTEIN, GERMANY:BAVARIA | 0.003 4 30 | country
+    home AUSTRIA, LIECHTENSTEIN, GERMANY:BAVARIA, ITALY:TRENTINO | 0.003 4 30 | country
     # A Marterl: a carved post with a little roofed shrine, its painted board telling who once died here.
     tube 0 0 0 0 1.7 0 0.08 4 6A4A2A
     box 0 2.05 0 0.12 0.35 0.3 6A4A2A
@@ -94,7 +94,7 @@ shape BAROQUE_VILLAGE_CHURCH
     hoop 2.65 15.5 -12.6 0.9 0.06 14 2A2A2A
 
 shape CHAIRLIFT_LINE
-    home AUSTRIA, SWITZERLAND, LIECHTENSTEIN | 0.001 25 120 | country
+    home AUSTRIA, SWITZERLAND, LIECHTENSTEIN, ITALY:TRENTINO, ITALY:AOSTA VALLEY | 0.001 25 120 | country
     # A chairlift climbing away from the road: steel masts, the cable, chairs hanging from it.
     tube 0 0 0 0 9 0 0.3 6 8A8A90
     tube -12 0 0 -12 15 0 0.3 6 8A8A90
@@ -168,7 +168,7 @@ shape AVALANCHE_BARRIERS
     tube -1.2 3.2 9 0.8 0 9 0.06 4 3A3A3E
 
 shape VALAIS_GRANARY
-    home SWITZERLAND | 0.004 10 80 | country
+    home SWITZERLAND, ITALY:AOSTA VALLEY | 0.004 10 80 | country
     # A Valais granary: a dark larch log store raised on posts capped with round stone slabs against mice.
     mirror
     mirrorx
@@ -304,7 +304,7 @@ shape BERNESE_FARMHOUSE
     box 9.03 1.2 3.5 0.03 1.2 0.6 5A3A22
 
 shape TROUGH_FOUNTAIN
-    home SWITZERLAND, AUSTRIA, LIECHTENSTEIN, GERMANY:BAVARIA | 0.003 4 25
+    home SWITZERLAND, AUSTRIA, LIECHTENSTEIN, GERMANY:BAVARIA, ITALY:TRENTINO | 0.003 4 25
     # A village fountain: a long stone trough, a pillar with its spouting pipe, flowers on the rim.
     box 0 0.45 0 0.55 0.45 1.6 B8B0A0
     box 0 0.91 0 0.45 0.02 1.5 4A7A9A water
@@ -315,7 +315,7 @@ shape TROUGH_FOUNTAIN
     blob 0.5 0.95 1.2 0.2 0.15 0.25 D8302A 0.4
 
 shape SUMMIT_CROSS
-    home AUSTRIA, SWITZERLAND, LIECHTENSTEIN, GERMANY:BAVARIA | 0.001 60 120 | country
+    home AUSTRIA, SWITZERLAND, LIECHTENSTEIN, GERMANY:BAVARIA, ITALY:TRENTINO, ITALY:AOSTA VALLEY | 0.001 60 120 | country
     # A summit cross on a rocky knoll above the road.
     blob 0 1 0 6 4 6 8A8478 0.4
     tube 0 4 0 0 10 0 0.15 4 6A4A2A
