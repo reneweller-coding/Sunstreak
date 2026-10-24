@@ -823,6 +823,8 @@ private:
     float       m_viewerYaw = 0.6f;            ///< the camera round it
     float       m_viewerPitch = 0.22f;         ///< and above it
     float       m_viewerZoom = 1.0f;           ///< and how near
+    int         m_tourShots = 0;               ///< testing (--shape-tour): pictures saved so far
+    int         m_tourFrames = 0;              ///< frames the current model has stood
     StateE      m_viewerReturn = StateE::TITLE;   ///< where it goes back to
     Crossing    m_crossing;                    ///< the ferry or car train the car is aboard
     Environment m_crossEnvA{}, m_crossEnvB{};  ///< the light at the quay and at the far one

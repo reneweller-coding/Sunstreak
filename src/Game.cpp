@@ -163,6 +163,7 @@ void Game::init()
         {
             openViewer();
             m_viewerIndex = std::max( 0, landmarkByName( m_options.m_shape ) );
+            if( m_options.m_shapeTour > 0 ) m_viewerYaw = 0.9f;
         }
         if( m_options.m_screen == "stamps" || m_options.m_screen == "regions" || m_options.m_screen == "postcards" || m_options.m_screen == "album" )
         {

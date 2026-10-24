@@ -152,6 +152,7 @@ const std::vector<DataShape> &dataShapes()
                         out.push_back( DataShape{ trim( line.substr( 6 ) ), {}, std::string( folder ) == "creatures/" } );
                         open = true;
                     }
+                    else if( open && line.rfind( "home ", 0 ) == 0 ) out.back().m_homes.push_back( line.substr( 5 ) );
                     else if( open ) out.back().m_lines.push_back( line );
                 }
             }

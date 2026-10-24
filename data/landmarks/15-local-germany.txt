@@ -1,0 +1,729 @@
+# Local things of Germany, strewn by the places through their "home" lines (see 00-language.txt).
+
+shape HIGH_SEAT
+    home GERMANY, AUSTRIA | 0.004 14 90 | country
+    # A hunter's high seat at a field's edge: four leaning legs, a ladder, a little cabin up top.
+    mirror
+    mirrorx
+    tube 1.2 0 1.2 0.75 4.2 0.75 0.08 5 7A5A3A
+    box 0 4.3 0 0.95 0.08 0.95 8A6A48
+    box 0 5.0 0 0.85 0.7 0.85 7A5A3A
+    box 0.87 5.15 0 0.02 0.22 0.55 2A2420
+    hip 0 5.7 0 0.85 0.85 0.5 0.15 4A3A2A
+    mirror
+    tube 1.95 0 0.3 1.0 4.3 0.3 0.05 4 8A6A48
+    repeat 8 -0.106 0.5 0
+    tube 1.88 0.3 -0.3 1.88 0.3 0.3 0.035 4 8A6A48
+
+shape ADVERTISING_COLUMN
+    home GERMANY, AUSTRIA, SWITZERLAND | 0.003 3 20 | town
+    # A Litfass column on the pavement: a green foot and cap, pasted round with posters.
+    cyl 0 0 0 0.72 0.72 0.35 16 2E4A3A
+    cyl 0 0.35 0 0.62 0.62 2.7 16 E8E0CC
+    ring 5 0.63
+    quad 0 0.6 -0.32 0 0.6 0.32 0 1.6 0.32 0 1.6 -0.32 D8462A
+    ring 5 0.63 36
+    quad 0 1.7 -0.3 0 1.7 0.3 0 2.8 0.3 0 2.8 -0.3 2A6AB8
+    ring 5 0.635 18
+    quad 0 1.0 -0.2 0 1.0 0.2 0 2.0 0.2 0 2.0 -0.2 F2C21E
+    cyl 0 3.05 0 0.74 0.74 0.2 16 2E4A3A
+    dome 0 3.25 0 0.66 0.4 2E4A3A
+    spire 0 3.62 0 0.12 0.35 6 2E4A3A
+
+shape MAYPOLE
+    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG, AUSTRIA | 0.002 6 40
+    # A Bavarian maypole: a white trunk ringed blue, guild boards on its arms, a wreath and a little tree on top.
+    cyl 0 0 0 0.19 0.17 24 8 F2F2F2
+    repeat 11 0 2 0
+    cyl 0 0.6 0 0.2 0.2 0.8 8 3A6AB8
+    repeat 4 0 3.2 0
+    tube 0 7.6 -1.3 0 7.6 1.3 0.04 4 F2F2F2
+    repeat 4 0 3.2 0
+    box 0 7.15 -1.15 0.03 0.4 0.3 4A7AC8
+    repeat 4 0 3.2 0
+    box 0 7.15 1.15 0.03 0.4 0.3 C8A040
+    halo 0 20.5 0 0.7 0.12 12 3A6A2A
+    tube 0 20.5 0.7 0 19.2 0.7 0.03 3 3A6A2A
+    tube 0 20.5 -0.7 0 19.2 -0.7 0.03 3 3A6A2A
+    spire 0 23.6 0 0.7 2.4 6 2E5A2A
+
+shape ROOFED_CRUCIFIX
+    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG, AUSTRIA, SWITZERLAND, LIECHTENSTEIN | 0.003 4 30 | country
+    # A wayside crucifix of the south: a wooden cross with a little roof over the figure, a bench and flowers.
+    box 0 0.25 0 0.4 0.25 0.4 8A8478
+    tube 0 0.5 0 0 4.2 0 0.09 4 6A4A2A
+    tube 0 3.2 -0.9 0 3.2 0.9 0.08 4 6A4A2A
+    quad 0.1 4.35 -1.1 0.1 4.35 1.1 0.75 3.95 1.1 0.75 3.95 -1.1 5A3A22
+    quad 0.1 4.35 -1.1 0.1 4.35 1.1 -0.55 3.95 1.1 -0.55 3.95 -1.1 5A3A22
+    box 0.12 2.85 0 0.05 0.5 0.09 E8D8C0
+    tube 0.12 3.2 -0.7 0.12 3.2 0.7 0.05 4 E8D8C0
+    blob 0.13 3.45 0 0.08 0.1 0.08 E8D8C0
+    box 1.4 0.45 0 0.2 0.04 0.8 8A6A48
+    blob 0.45 0.25 0.3 0.2 0.18 0.2 D8302A 0.4
+
+shape PILLAR_SHRINE
+    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG, GERMANY:RHINELAND-PALATINATE, AUSTRIA | 0.002 4 30 | country
+    # A Bildstock: a sandstone pillar, a niche with a painted saint, a small stone roof.
+    box 0 0.15 0 0.45 0.15 0.45 B89A78
+    box 0 1.2 0 0.18 1.0 0.18 C8A888
+    box 0 2.55 0 0.35 0.4 0.35 C8A888
+    box 0.36 2.55 0 0.02 0.28 0.2 3A5A8A
+    blob 0.37 2.55 0 0.01 0.16 0.1 E8D0B0
+    hip 0 2.95 0 0.38 0.38 0.35 0.05 9A7A60
+    tube 0 3.3 0 0 3.6 0 0.025 3 2A2A2A
+    tube 0 3.52 -0.08 0 3.52 0.08 0.02 3 2A2A2A
+
+shape BEACH_CHAIR
+    home GERMANY:SCHLESWIG-HOLSTEIN, GERMANY:MECKLENBURG-VORPOMMERN, GERMANY:LOWER SAXONY | 0.005 6 40 | coast
+    # A Strandkorb: a hooded wicker beach chair lined with striped cloth.
+    box 0 0.3 0 0.5 0.3 0.62 D8C49A
+    box -0.4 1.05 0 0.1 0.75 0.62 D8C49A
+    mirror
+    box 0.05 0.85 0.58 0.45 0.25 0.04 D8C49A
+    tbox -0.2 1.8 0 0.32 0.62 0.05 1.98 0 0.12 0.62 D8C49A
+    box -0.29 1.1 0 0.012 0.55 0.56 2A6AC0
+    repeat 3 0 0 0.36
+    box -0.28 1.1 -0.36 0.012 0.55 0.07 F2F2F2
+    box 0.05 0.62 0 0.45 0.03 0.56 2A6AC0
+
+shape THATCHED_HALL_HOUSE
+    home GERMANY:LOWER SAXONY, GERMANY:SCHLESWIG-HOLSTEIN, GERMANY:BREMEN, GERMANY:HAMBURG | 0.004 12 90 | country
+    # A Low German hall house: brick between dark beams, a huge thatched roof, crossed horse heads on the gable.
+    box 0 2.2 0 6 2.2 11 9A3A2A
+    repeat 9 0 0 2.6
+    box 6.03 2.2 -10.4 0.03 2.2 0.12 3A2A1E
+    box 6.03 2.2 0 0.03 0.1 11 3A2A1E
+    windows 6.04 0.3 -10 0 1 20 2.2 0.3 3
+    gable 0 4.4 0 6 11 6.5 0.7 8A7A4A 9A3A2A
+    box 0 1.9 11.02 2 1.9 0.05 4A3A26
+    tube 0 10.9 11.6 0.9 11.9 11.6 0.08 4 6A4A2A
+    tube 0 10.9 11.6 -0.9 11.9 11.6 0.08 4 6A4A2A
+
+shape BLACK_FOREST_FARMHOUSE
+    home GERMANY:BADEN-WURTTEMBERG | 0.006 12 90 | country
+    # A Black Forest farmhouse: a vast hip roof drawn low, a wooden storey over whitewash, red geraniums on the balcony.
+    box 0 1.6 0 8 1.6 7 F0ECE2
+    box 0 3.8 0 8 0.6 7 8A5A32
+    windows 8.02 0.4 -6 0 1 12 4 0.4 2.2
+    hip 0 4.4 0 8 7 7.5 2.4 5E4E40
+    box 8.6 2.9 0 0.6 0.06 6 6A4A2A
+    box 9.15 3.25 0 0.04 0.35 6 6A4A2A
+    repeat 5 0 0 2.4
+    box 9.2 3.25 -4.8 0.07 0.25 0.45 D8302A
+    blob 0 11.8 2.5 0.5 0.2 0.5 5E4E40
+
+shape ALLOTMENT_PLOT
+    home GERMANY | 0.004 6 40 | town
+    # A Schrebergarten: a green shed, a picket fence, beds, a gnome and a flag on a pole.
+    box 0 1.1 0 1.6 1.1 1.4 6A9A5A
+    gable 0 2.2 0 1.6 1.4 0.6 0.2 8A3A2A 6A9A5A
+    box 1.62 0.9 0.3 0.03 0.9 0.4 F2F2EE
+    box 1.62 1.3 -0.8 0.03 0.35 0.35 B8CCD8 glass
+    repeat 9 0 0 0.6
+    box 3.6 0.45 -2.4 0.03 0.45 0.04 F2F2F2
+    box 3.6 0.65 0 0.02 0.04 2.5 F2F2F2
+    box 2.4 0.1 -1.2 0.8 0.1 0.8 5A3A22
+    blob 2.4 0.3 -1.2 0.6 0.2 0.6 4A8A3A 0.4
+    blob 2.6 0.2 1.2 0.12 0.2 0.12 3A6AB8
+    blob 2.6 0.44 1.2 0.08 0.08 0.08 F0C8A0
+    spire 2.6 0.5 1.2 0.09 0.25 6 D8302A
+    tube -1.8 0 1.4 -1.8 4 1.4 0.03 4 D0D0D0
+    box -1.8 3.75 1.85 0.01 0.1 0.45 2A2A2A
+    box -1.8 3.55 1.85 0.01 0.1 0.45 D8302A
+    box -1.8 3.35 1.85 0.01 0.1 0.45 F2C21E
+
+shape POST_MILL
+    home GERMANY:BRANDENBURG, GERMANY:SAXONY, GERMANY:SAXONY-ANHALT, GERMANY:MECKLENBURG-VORPOMMERN | 0.002 20 120 | country
+    # A post mill: a wooden body turning on its post, sails to the wind, the tail pole to the ground.
+    tube 0 0 0 0 3.2 0 0.28 6 6A5A4A
+    mirror
+    mirrorx
+    tube 1.3 0 1.3 0 2.4 0 0.1 4 6A5A4A
+    box 0 5.6 0 2.1 2.5 1.7 8A6A48
+    gable 0 8.1 0 2.1 1.7 1.1 0.15 5A4A3A 8A6A48
+    tube -2.1 4.2 0 -5.5 0.4 0 0.12 4 6A5A4A
+    at 2.4 7 0
+    vring 4 0 45
+    tube 0 0 0 0 7 0 0.09 4 5A4A3A
+    vring 4 0 45
+    quad 0 1.2 0.1 0 6.8 0.1 0 6.8 1.3 0 1.2 1.3 E8E2D0
+    at 0 0 0
+
+shape BEER_GARDEN
+    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG, AUSTRIA | 0.003 8 50
+    # A beer garden under chestnut trees: long tables and benches, a serving hut.
+    tube 0 0 -4 0 3.5 -4 0.25 6 5A4A3A
+    blob 0 5.6 -4 3.3 2.6 3.3 3E6A2E 0.3
+    tube 0 0 4 0 3.5 4 0.25 6 5A4A3A
+    blob 0 5.6 4 3.3 2.6 3.3 427030 0.3
+    repeat 3 0 0 3.2
+    box 2 0.76 -3.2 0.4 0.03 1.2 C8A070
+    repeat 3 0 0 3.2
+    box 2 0.38 -3.2 0.05 0.38 1.0 6A5040
+    repeat 3 0 0 3.2
+    box 1.3 0.45 -3.2 0.15 0.03 1.2 C8A070
+    repeat 3 0 0 3.2
+    box 2.7 0.45 -3.2 0.15 0.03 1.2 C8A070
+    box -3 1.2 0 1.2 1.2 1.6 8A6A48
+    gable -3 2.4 0 1.2 1.6 0.8 0.3 5A3A28 8A6A48
+    box -1.78 1.3 0 0.02 0.4 1.0 3A3A40
+
+shape ONION_TOWER_CHAPEL
+    home GERMANY:BAVARIA, AUSTRIA | 0.002 10 80 | country
+    # A Bavarian chapel: whitewashed, a tower with a red-brown onion, a golden ball and a cross.
+    box 0 2.5 0 2.5 2.5 3.5 F2F0EA
+    gable 0 5 0 2.5 3.5 2 0.3 8A3A2A F2F0EA
+    box 0 4.3 4.2 1.2 4.3 1.2 F2F0EA
+    box 0 8.9 4.2 1.25 0.3 1.25 E8E2D2
+    blob 0 10.1 4.2 1.15 1.0 1.15 7A3A2A
+    spire 0 10.9 4.2 0.35 1.6 8 7A3A2A
+    blob 0 12.6 4.2 0.12 0.12 0.12 D8B030
+    tube 0 12.6 4.2 0 13.4 4.2 0.03 4 D8B030
+    tube 0 13.1 3.95 0 13.1 4.45 0.03 4 D8B030
+    box 2.52 1.2 -1 0.03 1.2 0.6 6A4A2A
+    box 2.52 2.9 1.4 0.03 0.6 0.35 4A5A6A
+    blob 1.22 7.4 4.2 0.02 0.45 0.45 F2F2EE
+    hoop 1.25 7.4 4.2 0.45 0.04 12 2A2A2A
+
+shape HOP_GARDEN
+    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG | 0.004 6 60 | country
+    # A hop garden: tall poles strung with wires, the bines climbing to the top.
+    repeat 4 0 0 6
+    tube 0 0 -9 0 7 -9 0.1 4 8A7A5A
+    repeat 4 0 0 6
+    tube 6 0 -9 6 7 -9 0.1 4 8A7A5A
+    tube 0 7 -9 0 7 9 0.02 3 4A4A4A
+    tube 6 7 -9 6 7 9 0.02 3 4A4A4A
+    repeat 4 0 0 6
+    tube 0 7 -9 6 7 -9 0.02 3 4A4A4A
+    repeat 7 0 0 3
+    blob 1.5 3.5 -9 0.35 3.5 0.35 4A8A2E 0.3
+    repeat 7 0 0 3
+    blob 4.5 3.5 -9 0.35 3.5 0.35 4E9032 0.3
+
+shape VINEYARD_HUT
+    home GERMANY:RHINELAND-PALATINATE, GERMANY:BADEN-WURTTEMBERG, GERMANY:SAXONY, LUXEMBOURG | 0.004 10 90 | country
+    # A vineyard hut: a little stone house with a pointed roof among the vine rows.
+    box 0 1.3 0 1.3 1.3 1.3 D8C8A0
+    hip 0 2.6 0 1.3 1.3 1.6 0.2 7A3A2A
+    box 1.32 0.9 0 0.03 0.9 0.4 6A4A2A
+    repeat 4 0 0 1.6
+    box 3.6 0.6 -2.4 1.8 0.55 0.18 4A7A2E
+    repeat 4 0 0 1.6
+    box -3.6 0.6 -2.4 1.8 0.55 0.18 4E7E32
+
+shape BRICK_GOTHIC_CHURCH
+    home GERMANY:MECKLENBURG-VORPOMMERN, GERMANY:BRANDENBURG, GERMANY:SCHLESWIG-HOLSTEIN, GERMANY:LOWER SAXONY | 0.002 20 110 | country
+    # A Brick Gothic village church: a red nave, a stout west tower with a green copper pyramid.
+    box 0 4 0 4.5 4 9 9A3A2A
+    gable 0 8 0 4.5 9 4.5 0.2 5A4A44 9A3A2A
+    box 0 7.5 -10.5 3 7.5 3 9A3A2A
+    spire 0 15 -10.5 3.3 9 4 4A7A62
+    repeat 4 0 0 4
+    box 4.52 4 -6 0.03 2 0.5 3A3A40
+    box 3.02 11 -10.5 0.03 1 0.45 2A2A30
+    tube 0 24 -10.5 0 25.4 -10.5 0.05 4 D8B030
+
+shape FIELDSTONE_CHURCH
+    home GERMANY:BRANDENBURG, GERMANY:MECKLENBURG-VORPOMMERN | 0.002 20 110 | country
+    # A fieldstone church: walls of grey granite boulders, a squat tower with a black wooden belfry.
+    box 0 3.5 0 4 3.5 7 8A8680
+    gable 0 7 0 4 7 4 0.2 8A3A2A 8A8680
+    box 0 6 -8.5 2.8 6 2.8 8A8680
+    box 0 13.2 -8.5 2.4 1.2 2.4 2E2E30
+    spire 0 14.4 -8.5 2.7 5 4 2E2E30
+    repeat 6 0 0 2.2
+    blob 4.02 1.5 -5.5 0.05 0.3 0.35 A8A49C
+    repeat 5 0 0 2.4
+    blob 4.02 4.2 -4.8 0.05 0.25 0.3 6E6A64
+    repeat 3 0 0 4
+    box 4.02 3.6 -3 0.03 1.2 0.4 2A2A30
+
+shape GIANT_CUCKOO_CLOCK
+    home GERMANY:BADEN-WURTTEMBERG | 0.002 8 40
+    # A house-sized cuckoo clock: a carved chalet with a dial, a cuckoo at its door, pine-cone weights.
+    box 0 4 0 2 4 4.5 6A4224
+    gable 0 8 0 2 4.5 3 0.6 4A2E18 6A4224
+    blob 2.02 5.2 0 0.05 1.8 1.8 F2EADA
+    hoop 2.07 5.2 0 1.8 0.08 20 3A2A1A
+    tube 2.1 5.2 0 2.1 6.4 0 0.06 4 1A1A1A
+    tube 2.1 5.2 0 2.1 5.2 0.9 0.06 4 1A1A1A
+    box 2.04 7.6 0 0.04 0.45 0.35 3A2010
+    blob 2.4 7.5 0 0.25 0.18 0.15 8A6A3A
+    blob 0 11.3 0 0.4 0.6 3.2 3E5A2A 0.3
+    mirror
+    tube 2.15 2.9 -1.2 2.15 0.95 -1.2 0.03 3 3A2A1A
+    mirror
+    blob 2.15 0.6 -1.2 0.25 0.5 0.25 4A3018 0.3
+    tube 2.15 3.4 0 2.15 1.6 0 0.04 3 C8A040
+    blob 2.15 1.4 0 0.05 0.4 0.4 D8B030
+
+shape YELLOW_PHONE_BOX
+    home GERMANY | 0.002 3 18 | town
+    # An old post office phone box: yellow, glazed on three sides, the phone inside.
+    box 0 1.15 0 0.55 1.15 0.55 F2C21E
+    box 0.56 1.25 0 0.01 0.8 0.4 B8CCD8 glass
+    mirror
+    box 0 1.25 0.56 0.4 0.8 0.01 B8CCD8 glass
+    box 0 2.35 0 0.6 0.05 0.6 F2C21E
+    box -0.3 1.3 0 0.15 0.2 0.12 2A2A2A
+    box 0.57 2.12 0 0.01 0.1 0.35 F2F2F2
+
+shape GERMAN_POST_BOX
+    home GERMANY | 0.002 3 15 | town
+    # A yellow post box on a grey post, a black horn on its front.
+    tube 0 0 0 0 0.9 0 0.05 6 6A6A6A
+    box 0 1.15 0 0.22 0.3 0.25 F2C21E
+    tbox 0 1.45 0 0.22 0.25 0 1.55 0 0.15 0.25 F2C21E
+    box 0.23 1.3 0 0.01 0.03 0.13 2A2A2A
+    blob 0.23 1.05 0 0.01 0.07 0.1 1A1A1A
+
+shape BUS_SHELTER_GERMANY
+    home GERMANY, AUSTRIA | 0.003 3 14
+    # A village bus stop: a glass shelter with a bench, the green H on its yellow disc.
+    tube 0.6 0 2.4 0.6 2.6 2.4 0.04 5 9A9A9A
+    blob 0.62 2.6 2.4 0.02 0.3 0.3 F2C21E
+    box 0.65 2.6 2.29 0.01 0.17 0.035 2E7A3A
+    box 0.65 2.6 2.51 0.01 0.17 0.035 2E7A3A
+    box 0.65 2.6 2.4 0.01 0.03 0.11 2E7A3A
+    box -0.6 1.2 0 0.04 1.2 1.8 B8CCD8 glass
+    mirror
+    box 0 1.2 1.8 0.6 1.2 0.04 B8CCD8 glass
+    box 0 2.45 0 0.8 0.05 1.9 6A6A70
+    box -0.35 0.5 0 0.2 0.04 1.4 8A6A48
+    box -0.55 1.5 -1.0 0.01 0.3 0.25 F2F2F2
+
+shape SILAGE_BALES
+    home GERMANY, NETHERLANDS, BELGIUM, LUXEMBOURG, AUSTRIA, SWITZERLAND | 0.004 8 70 | country
+    # Round bales wrapped in white film, stacked at a field's edge.
+    repeat 4 0 0 1.3
+    tube 0 0.75 -2.6 0 0.75 -1.4 0.75 14 F2F2EE shiny
+    repeat 3 0 0 1.3
+    tube 0 2.05 -2.0 0 2.05 -0.8 0.75 14 EAEAE6 shiny
+    repeat 2 0 0 1.3
+    tube 2.2 0.75 1.6 2.2 0.75 2.8 0.75 14 2A2A2A shiny
+
+shape GREEN_FARM_TRACTOR
+    home GERMANY, AUSTRIA | 0.003 8 60 | country
+    # A green tractor parked by its field: big rear wheels with red rims, a glass cab.
+    box 0.8 1.1 0 1.2 0.45 0.5 3E7A3A
+    box -0.8 1.6 0 0.8 0.9 0.6 3E7A3A
+    box -0.8 2.75 0 0.75 0.55 0.6 B8CCD8 glass
+    box -0.8 3.33 0 0.85 0.05 0.7 3E7A3A
+    mirror
+    tube -1 0.85 0.65 -1 0.85 1.05 0.85 14 1E1E1E
+    mirror
+    tube -1 0.85 1.05 -1 0.85 1.07 0.45 10 C83A2A
+    mirror
+    tube 1.4 0.55 0.5 1.4 0.55 0.8 0.55 12 1E1E1E
+    mirror
+    tube 1.4 0.55 0.8 1.4 0.55 0.82 0.3 10 C83A2A
+    tube 0.4 1.5 0.35 0.4 3.1 0.35 0.05 4 2A2A2A
+
+shape TRABANT_PARKED
+    home GERMANY:SAXONY, GERMANY:THURINGIA, GERMANY:BRANDENBURG, GERMANY:SAXONY-ANHALT, GERMANY:MECKLENBURG-VORPOMMERN, GERMANY:BERLIN | 0.002 4 25 | pastel
+    # A little East German car parked at the kerb, its roof white.
+    box 0 0.55 0 0.75 0.3 1.75 A
+    box 0 1.05 -0.15 0.68 0.2 0.9 B8CCD8 glass
+    box 0 1.27 -0.15 0.7 0.03 0.92 F2F2EE
+    box 0 0.88 1.2 0.72 0.05 0.5 A
+    mirror
+    mirrorx
+    tube 0.62 0.3 1.1 0.8 0.3 1.1 0.3 10 1E1E1E
+    mirrorx
+    blob 0.5 0.65 1.76 0.12 0.1 0.03 F2F2DA
+    mirror
+    box 0 0.35 1.78 0.72 0.05 0.04 C8C8C8
+
+shape STORK_NEST_POLE
+    home GERMANY:BRANDENBURG, GERMANY:MECKLENBURG-VORPOMMERN, GERMANY:SAXONY-ANHALT | 0.002 8 60 | country
+    # A white stork in its nest of twigs on top of a pole.
+    tube 0 0 0 0 9 0 0.15 6 7A6A5A
+    cyl 0 9 0 0.9 1.1 0.7 10 6A5A3A
+    blob 0 9.85 0 0.25 0.22 0.42 F2F2F2
+    blob 0 9.88 -0.22 0.22 0.14 0.32 1A1A1A
+    tube 0 9.95 0.3 0 10.45 0.42 0.06 4 F2F2F2
+    blob 0 10.5 0.45 0.08 0.08 0.1 F2F2F2
+    tube 0 10.48 0.52 0 10.4 0.88 0.025 3 D84A2A
+
+shape SOLAR_FARM
+    home GERMANY, NETHERLANDS, BELGIUM | 0.002 15 90 | country
+    # Rows of solar panels on their racks, tilted to the sun.
+    repeat 4 -3.2 0 0
+    quad 0 0.8 -8 0 0.8 8 -1.6 2.0 8 -1.6 2.0 -8 2A3A5A shiny
+    repeat 4 -3.2 0 0
+    tube -0.8 0 -7 -0.8 1.4 -7 0.05 4 9A9A9A
+    repeat 4 -3.2 0 0
+    tube -0.8 0 0 -0.8 1.4 0 0.05 4 9A9A9A
+    repeat 4 -3.2 0 0
+    tube -0.8 0 7 -0.8 1.4 7 0.05 4 9A9A9A
+
+shape CORNER_KIOSK
+    home GERMANY:NORTH RHINE-WESTPHALIA, GERMANY:BERLIN, GERMANY:HAMBURG, GERMANY:SAARLAND | 0.003 3 20 | town
+    # A corner kiosk: a little pavilion with its window full of sweets, an awning, crates of drinks.
+    box 0 1.4 0 1.6 1.4 2.2 E8DCC0
+    box 1.62 1.5 0 0.02 0.7 1.6 B8CCD8 glass
+    quad 1.62 2.9 -2.3 1.62 2.9 2.3 2.4 2.5 2.3 2.4 2.5 -2.3 C8302A
+    box 0 2.85 0 1.7 0.05 2.3 4A4A4A
+    box 1.65 3.2 0 0.03 0.3 1.6 F2F2F2
+    box 2.2 0.3 1.6 0.3 0.3 0.4 E8C21E
+    box 2.2 0.3 -1.6 0.3 0.3 0.4 3A6AC8
+    box 2.2 0.9 1.6 0.3 0.3 0.4 C8302A
+
+shape ALPINE_BALCONY_FARMHOUSE
+    home GERMANY:BAVARIA, AUSTRIA | 0.005 12 90 | country
+    # An Upper Bavarian farmhouse: white below, wood above, a balcony of geraniums, a shallow roof far out.
+    box 0 3 0 6 3 8 F2F0E8
+    box 0 6.4 0 6 0.4 8 8A5A32
+    windows 6.02 0.5 -7 0 1 14 6 0.4 2.8
+    gable 0 6.8 0 6 8 2.8 1.6 6A4A3A F2F0E8
+    box 6.7 3.4 0 0.7 0.06 7.5 7A4A28
+    box 7.35 3.8 0 0.05 0.4 7.5 7A4A28
+    repeat 7 0 0 2.1
+    box 7.42 3.78 -6.3 0.08 0.18 0.6 D8302A
+    repeat 4 0 0 4
+    box 6.03 1.6 -6 0.02 0.6 0.22 3E6A3A
+
+shape MEADOW_HAY_BARN
+    home AUSTRIA, SWITZERLAND, LIECHTENSTEIN, GERMANY:BAVARIA | 0.004 15 110 | country
+    # A Heustadl: a little weathered hay barn alone on the meadow.
+    box 0 1.6 0 2.5 1.6 3 7A6A58
+    gable 0 3.2 0 2.5 3 1.8 0.3 5A5048 7A6A58
+    repeat 8 0 0 0.75
+    box 2.52 1.6 -2.6 0.02 1.6 0.03 3A3028
+    box 2.53 1.2 0 0.02 1.0 0.7 5A4A3A
+    mirror
+    mirrorx
+    blob 2.4 0.15 2.9 0.3 0.2 0.3 8A8478 0.4
+
+shape NORTH_SEA_LIGHTHOUSE
+    home GERMANY:SCHLESWIG-HOLSTEIN, GERMANY:LOWER SAXONY, GERMANY:BREMEN | 0.002 20 120 | coast
+    # A North Sea lighthouse: red and white bands, a black gallery, the keeper's white house below.
+    cyl 0 0 0 2.2 1.7 24 14 F2F2F2
+    cyl 0 2 0 2.17 2.09 4 14 C83A2A
+    cyl 0 10 0 2.01 1.93 4 14 C83A2A
+    cyl 0 18 0 1.84 1.76 4 14 C83A2A
+    cyl 0 24 0 2.4 2.4 0.25 14 2A2A2A
+    halo 0 25 0 2.35 0.04 16 2A2A2A
+    cyl 0 24.25 0 1.1 1.1 2 10 F2E8B0 lit
+    dome 0 26.25 0 1.2 0.9 C83A2A
+    box -6 2 0 3 2 4 F2F2EE
+    gable -6 4 0 3 4 2 0.3 C83A2A F2F2EE
+    windows -2.98 0.4 -3 0 1 6 3 0.3 3
+
+shape BEE_SKEP_SHELTER
+    home GERMANY:LOWER SAXONY, GERMANY:BRANDENBURG | 0.002 8 50 | country
+    # A heath bee shelter: straw skeps on two shelves under a thatched lean-to.
+    box -0.5 1.1 0 0.05 1.1 3 5A4A38
+    quad -0.6 2.3 -3.1 -0.6 2.3 3.1 0.85 1.9 3.1 0.85 1.9 -3.1 6A6A50
+    box 0.1 0.6 0 0.6 0.04 3 7A6A50
+    box 0.1 1.3 0 0.6 0.04 3 7A6A50
+    mirror
+    tube 0.7 0 -3 0.7 1.95 -3 0.06 4 5A4A38
+    repeat 6 0 0 1
+    dome 0.1 0.64 -2.5 0.34 0.5 C8A860
+    repeat 6 0 0 1
+    dome 0.1 1.34 -2.5 0.34 0.5 C0A058
+
+shape MINE_HEADFRAME
+    home GERMANY:NORTH RHINE-WESTPHALIA, GERMANY:SAARLAND | 0.002 25 120
+    # A colliery headframe: a red steel tower with two great wheels, its strut leaning on the brick engine house.
+    mirror
+    mirrorx
+    tube 2 0 2 2 26 2 0.3 5 8A2A22
+    repeat 5 0 5 0
+    mirrorx
+    box 2 3 0 0.1 0.1 2 8A2A22
+    repeat 5 0 5 0
+    mirror
+    box 0 3 2 2 0.1 0.1 8A2A22
+    mirror
+    tube -9 0 1.8 0 24 1.5 0.35 5 8A2A22
+    box 0 26 0 2.6 0.3 2.6 6A6A6A
+    hoop 0.6 28.4 0 2.2 0.12 20 2A2A2A
+    hoop -0.6 28.4 0 2.2 0.12 20 2A2A2A
+    at 0.6 28.4 0
+    vring 6 0
+    tube 0 0 0 0 2.2 0 0.05 4 2A2A2A
+    at 0 0 0
+    box -14 5 0 5 5 7 8A3A2A
+    gable -14 10 0 5 7 3 0.2 4A4A4A 8A3A2A
+    windows -8.98 1 -6 0 1 12 8 0.2 4
+
+shape VILLAGE_LINDEN
+    home GERMANY, AUSTRIA | 0.002 10 60 | country
+    # The village linden: a broad old tree with a round bench about its trunk.
+    tube 0 0 0 0 4 0 0.6 8 5A4A3A
+    blob 0 8 0 5 4.5 5 4A7A30 0.3
+    blob 1.5 6.5 2 3 2.5 3 4E8034 0.3
+    cyl 0 0 0 1.35 1.35 0.45 12 6A5A48
+    cyl 0 0.45 0 1.45 1.45 0.08 12 8A6A48
+
+shape FIREWOOD_STACK
+    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG, GERMANY:THURINGIA, AUSTRIA, SWITZERLAND, LIECHTENSTEIN | 0.004 5 40 | country
+    # Firewood stacked neat under a little roof, the cut ends pale.
+    box 0 0.9 0 0.5 0.9 2.5 8A6A48
+    repeat 8 0 0 0.62
+    blob 0.5 0.25 -2.2 0.02 0.14 0.14 D8B888
+    repeat 8 0 0 0.62
+    blob 0.5 0.55 -2.0 0.02 0.14 0.14 C8A878
+    repeat 8 0 0 0.62
+    blob 0.5 0.85 -2.2 0.02 0.14 0.14 D8B888
+    repeat 8 0 0 0.62
+    blob 0.5 1.15 -2.0 0.02 0.14 0.14 C8A878
+    repeat 8 0 0 0.62
+    blob 0.5 1.45 -2.2 0.02 0.14 0.14 D8B888
+    quad -0.6 2.0 -2.7 -0.6 2.0 2.7 0.75 1.8 2.7 0.75 1.8 -2.7 6A5A4A
+
+shape BERLIN_WALL_SEGMENT
+    home GERMANY:BERLIN | 0.004 4 30 | town
+    # Slabs of the Berlin Wall left standing, painted over in colour.
+    repeat 4 0 0 1.25
+    box 0 1.8 -1.9 0.2 1.8 0.6 C8C4BC
+    repeat 4 0 0 1.25
+    box -0.6 0.15 -1.9 0.6 0.15 0.6 B8B4AC
+    tube 0 3.6 -2.5 0 3.6 2.5 0.25 8 C8C4BC
+    blob 0.21 1.5 -1.5 0.02 0.8 0.6 D83A8A
+    blob 0.21 2.3 0.2 0.02 0.6 0.9 2AA8D8
+    blob 0.21 1.0 1.6 0.02 0.7 0.5 F2C21E
+    blob 0.215 2.6 -0.9 0.02 0.5 0.4 3AB860
+    blob 0.215 1.2 0.4 0.02 0.4 0.5 F28A2A
+
+shape SNACK_STAND
+    home GERMANY | 0.002 4 25 | town
+    # An Imbiss: a sausage stand with its hatch and awning, standing tables before it.
+    box 0 1.2 0 1.2 1.2 2 E8E2D8
+    box 1.22 1.4 0 0.02 0.5 1.6 3A3A40
+    quad 1.22 2.4 -2.1 1.22 2.4 2.1 2.2 2.0 2.1 2.2 2.0 -2.1 D8302A
+    box 1.4 1.0 0 0.2 0.04 1.8 C8C8C8
+    box 0 2.6 0 0.05 0.25 1.4 F2C21E
+    mirror
+    tube 3.5 0 -1.5 3.5 1.1 -1.5 0.04 5 9A9A9A
+    mirror
+    cyl 3.5 1.1 -1.5 0.35 0.35 0.04 10 E8E8E8
+
+shape UMGEBINDE_HOUSE
+    home GERMANY:SAXONY | 0.004 12 90 | country
+    # An Umgebinde house: a log ground floor framed by posts and arches, timbering above, a dark roof.
+    box 0 1.3 0 3.5 1.3 6 6A4A30
+    repeat 7 0 0 2
+    tube 3.6 0 -6 3.6 2.6 -6 0.12 4 4A3420
+    repeat 6 0 0 2
+    arch 3.62 2.2 -5 2 0.35 0.08 6 4A3420
+    box 0 3.6 0 3.6 1.0 6.1 F2ECE0
+    repeat 7 0 0 2
+    box 3.62 3.6 -6 0.03 1.0 0.08 4A3420
+    box 3.62 2.65 0 0.03 0.06 6.1 4A3420
+    box 3.62 4.55 0 0.03 0.06 6.1 4A3420
+    windows 3.66 0.5 -5.5 0 1 11 4 0.3 2.2
+    gable 0 4.6 0 3.6 6.1 3.4 0.4 3A3A40 F2ECE0
+
+shape SLATE_HOUSE
+    home GERMANY:THURINGIA, GERMANY:NORTH RHINE-WESTPHALIA, GERMANY:RHINELAND-PALATINATE | 0.004 10 80 | country
+    # A house clad in dark slate, its door white, green shutters at the windows.
+    box 0 3.5 0 4 3.5 5 3E4048
+    windows 4.02 0.5 -4 0 1 8 6 0.4 3
+    gable 0 7 0 4 5 3.5 0.3 2E3038 3E4048
+    box 4.02 1.1 0 0.04 1.1 0.55 F2F2EE
+    repeat 3 0 0 3
+    box 4.03 4.8 -3.6 0.02 0.6 0.2 3E6A3A
+    repeat 3 0 0 3
+    box 4.03 4.8 -2.4 0.02 0.6 0.2 3E6A3A
+
+shape HAUBARG_FARMHOUSE
+    home GERMANY:SCHLESWIG-HOLSTEIN | 0.003 20 110 | country
+    # A Haubarg: a farmhouse under one enormous pyramid of thatch, the walls whitewashed, the door blue.
+    box 0 2.5 0 9 2.5 9 F2F0E8
+    hip 0 5 0 9 9 12 0.6 8A7A4A
+    windows 9.02 0.5 -7 0 1 14 3 0.3 2.5
+    box 9.02 1.3 0 0.05 1.3 1 2E5A8A
+
+shape TOWN_MUSICIANS
+    home GERMANY:BREMEN | 0.004 4 20 | town
+    # The Town Musicians in bronze: a donkey, a dog on its back, a cat on the dog, a rooster on top.
+    box 0 0.4 0 0.6 0.4 0.9 8A8478
+    blob 0 1.3 0 0.3 0.35 0.6 6A5A3A
+    mirror
+    mirrorx
+    tube 0.15 0.8 0.4 0.15 1.15 0.35 0.06 4 6A5A3A
+    blob 0 1.6 0.72 0.14 0.26 0.12 6A5A3A
+    tube 0 1.8 0.68 0 2.1 0.64 0.04 4 6A5A3A
+    blob 0 1.88 -0.05 0.2 0.22 0.35 6A5A3A
+    blob 0 2.12 0.32 0.12 0.13 0.15 6A5A3A
+    blob 0 2.28 -0.05 0.14 0.18 0.2 6A5A3A
+    blob 0 2.48 0.12 0.1 0.1 0.1 6A5A3A
+    blob 0 2.68 0 0.1 0.15 0.12 6A5A3A
+    blob 0 2.88 0.1 0.06 0.07 0.07 6A5A3A
+    blob 0 2.97 0.1 0.02 0.05 0.04 6A5A3A
+
+shape PAINTED_FACADE_HOUSE
+    home GERMANY:BAVARIA, AUSTRIA | 0.003 10 70 | town
+    # A house with Luftlmalerei: painted window frames and a saint on the white wall, green shutters.
+    box 0 4 0 4.5 4 5 F2EEE2
+    repeat 3 0 0 3
+    box 4.51 2.0 -3 0.01 0.75 0.6 C8A060
+    repeat 3 0 0 3
+    box 4.51 4.8 -3 0.01 0.75 0.6 C8A060
+    windows 4.52 0.6 -4.5 0 1 9 6 0.4 2.8
+    blob 4.51 6.6 0 0.01 1.0 1.4 6A8AC8
+    blob 4.515 6.5 0 0.01 0.55 0.5 D8A060
+    blob 4.515 6.3 -0.7 0.01 0.4 0.3 C83A3A
+    gable 0 8 0 4.5 5 3 1.2 6A4A3A F2EEE2
+    repeat 3 0 0 3
+    box 4.53 2.0 -3.75 0.02 0.6 0.16 3E6A3A
+    repeat 3 0 0 3
+    box 4.53 2.0 -2.25 0.02 0.6 0.16 3E6A3A
+
+shape RESORT_VILLA
+    home GERMANY:MECKLENBURG-VORPOMMERN, GERMANY:SCHLESWIG-HOLSTEIN | 0.003 10 70 | coast
+    # A Baltic resort villa: white, with filigree balconies on slim posts and a corner turret.
+    box 0 4.5 0 5 4.5 6 F6F6F2
+    windows 5.02 0.6 -5 0 1 10 8 0.5 3
+    repeat 2 0 3 0
+    box 5.6 3.2 0 0.6 0.05 4 F6F6F2
+    repeat 2 0 3 0
+    box 6.15 3.6 0 0.04 0.4 4 F6F6F2
+    repeat 5 0 0 2
+    tube 6.15 0 -4 6.15 6.2 -4 0.06 4 F6F6F2
+    gable 0 9 0 5 6 3 0.4 4A5A7A F6F6F2
+    box 4 6 -6.2 1.4 6 1.4 F6F6F2
+    spire 4 12 -6.2 1.7 3 4 4A5A7A
+
+shape HEATH_SHEEP_BARN
+    home GERMANY:LOWER SAXONY | 0.002 15 90 | country
+    # A heath sheep barn: long and low, its thatch reaching almost to the ground.
+    box 0 1.0 0 4 1.0 10 7A6048
+    gable 0 2 0 4 10 4 0.6 8A7A4A 7A6048
+    box 0 1.2 10.02 1.2 1.2 0.05 4A3A28
+
+shape MUSIC_PAVILION
+    home GERMANY:BADEN-WURTTEMBERG, GERMANY:BAVARIA, GERMANY:RHINELAND-PALATINATE, GERMANY:SAXONY, AUSTRIA | 0.002 8 50 | town
+    # A spa park pavilion: a round stage under a green copper dome on white columns.
+    cyl 0 0 0 4 4 0.6 12 E8E4DA
+    ring 8 3.6
+    tube 0 0.6 0 0 4 0 0.15 6 F2F2EE
+    cyl 0 4 0 4.1 4.1 0.4 12 F2F2EE
+    dome 0 4.4 0 4.1 2.2 4E7A68
+    spire 0 6.6 0 0.2 1.2 6 D8B030
+
+shape STRAWBERRY_KIOSK
+    home GERMANY:MECKLENBURG-VORPOMMERN, GERMANY:SCHLESWIG-HOLSTEIN, GERMANY:BRANDENBURG, GERMANY:LOWER SAXONY | 0.003 4 25 | country
+    # A strawberry-shaped roadside hut selling the season's berries.
+    blob 0 1.4 0 1.4 1.5 1.4 D8302A
+    ring 8 1.38
+    blob 0 1.2 0 0.02 0.05 0.03 F2E07A
+    ring 8 1.28 22
+    blob 0 1.95 0 0.02 0.05 0.03 F2E07A
+    ring 5 0.55
+    blob 0 2.85 0 0.5 0.12 0.25 3E8A2E
+    box 1.38 1.2 0 0.06 0.5 0.5 F2F2EE
+
+shape ASPARAGUS_STAND
+    home GERMANY:LOWER SAXONY, GERMANY:BRANDENBURG, GERMANY:BADEN-WURTTEMBERG, GERMANY:BAVARIA, GERMANY:NORTH RHINE-WESTPHALIA | 0.003 4 25 | country
+    # A field stand: crates of white asparagus and strawberries under a parasol, a hand-painted sign.
+    box 0 0.8 0 0.5 0.04 1.5 C8A878
+    mirror
+    mirrorx
+    tube 0.4 0 1.3 0.4 0.78 1.3 0.03 4 8A6A48
+    box 0 0.95 -0.8 0.35 0.12 0.5 C8A060
+    box 0 0.95 0.6 0.35 0.12 0.5 C8A060
+    repeat 4 0 0 0.22
+    tube -0.25 1.12 -1.15 0.25 1.12 -1.15 0.08 6 F2F0E2
+    blob 0 1.1 0.6 0.3 0.06 0.4 D8302A 0.4
+    tube -0.3 0 0 -0.3 2.4 0 0.03 4 D0D0D0
+    dome -0.3 2.2 0 1.6 0.5 F2F2F2
+    box 1.0 0.7 1.8 0.02 0.4 0.5 F2F2F2
+    tube 1.0 0 1.8 1.0 0.4 1.8 0.03 4 8A6A48
+
+shape GIANT_NUTCRACKER
+    home GERMANY:SAXONY | 0.002 6 30
+    # An Ore Mountains nutcracker as big as a man and more: red coat, black boots, a tall black hat, white beard.
+    mirror
+    box 0 0.6 0.22 0.25 0.6 0.18 1A1A1A
+    box 0 1.7 0 0.4 0.55 0.5 C8302A
+    box 0 1.2 0 0.42 0.08 0.52 E8C040
+    mirror
+    tube 0 2.1 0.55 0.1 1.4 0.75 0.12 6 C8302A
+    box 0 2.55 0 0.32 0.32 0.32 F0C8A0
+    box 0.33 2.42 0 0.02 0.12 0.18 E8E8E8
+    blob 0.3 2.25 0 0.12 0.22 0.25 F2F2F2
+    cyl 0 2.85 0 0.36 0.36 0.08 10 1A1A1A
+    cyl 0 2.93 0 0.3 0.3 0.75 10 1A1A1A
+    box 0 3.0 0 0.31 0.05 0.31 E8C040
+    blob 0.33 2.62 0.12 0.02 0.04 0.04 2A2A2A
+    blob 0.33 2.62 -0.12 0.02 0.04 0.04 2A2A2A
+
+shape LOOKOUT_TOWER
+    home GERMANY, AUSTRIA | 0.001 30 120 | country
+    # A wooden lookout tower on the hill: a lattice of timbers, flights of stairs, a roofed platform.
+    mirror
+    mirrorx
+    tube 2.5 0 2.5 1.6 18 1.6 0.18 5 7A5A3A
+    repeat 4 0 4.5 0
+    mirror
+    tube -2.3 1 2.3 2.3 4.5 2.3 0.08 4 7A5A3A
+    repeat 4 0 4.5 0
+    mirrorx
+    tube 2.3 1 -2.3 2.3 4.5 2.3 0.08 4 7A5A3A
+    box 0 18 0 2.2 0.12 2.2 8A6A48
+    box 2.15 18.6 0 0.05 0.5 2.2 8A6A48
+    hip 0 20 0 2 2 1.4 0.3 4A3A2A
+    mirror
+    mirrorx
+    tube 1.9 18 1.9 1.9 20 1.9 0.07 4 7A5A3A
+
+shape SAXON_POST_PILLAR
+    home GERMANY:SAXONY | 0.002 4 20 | country
+    # A Saxon post mile pillar: an obelisk of sandstone with the crowned arms and the distances carved in.
+    box 0 0.3 0 0.5 0.3 0.5 C8B898
+    tbox 0 0.6 0 0.32 0.32 0 3.6 0 0.22 0.22 D8C8A8
+    box 0.3 2.2 0 0.02 0.55 0.18 B8A888
+    box 0 3.7 0 0.28 0.1 0.28 C8B898
+    blob 0 3.95 0 0.18 0.18 0.18 C8B898
+    blob 0.25 2.9 0 0.02 0.12 0.12 3A5A8A
+    box 0.27 3.05 0 0.02 0.05 0.1 D8B030
+
+shape GAME_FEEDER
+    home GERMANY, AUSTRIA, SWITZERLAND | 0.002 10 60 | country
+    # A game feeder at the wood's edge: a hay rack with a pitched roof, salt lick on a post beside it.
+    mirror
+    mirrorx
+    tube 0.7 0 1.2 0.7 1.8 1.2 0.08 4 7A5A3A
+    tube 0.7 0.6 0 -0.7 1.6 0 0.03 3 7A5A3A
+    repeat 8 0 0 0.3
+    tube 0.6 0.6 -1.05 -0.1 1.5 -1.05 0.03 3 8A6A48
+    blob 0 1.0 0 0.5 0.4 1.0 C8B068 0.4
+    gable 0 1.8 0 0.8 1.3 0.8 0.3 4A3A2A 7A5A3A
+    tube 2 0 1.5 2 1.4 1.5 0.07 4 7A5A3A
+    box 2 1.5 1.5 0.12 0.1 0.12 E8E2D8
+
+shape WATER_MILL
+    home GERMANY, AUSTRIA, BELGIUM, LUXEMBOURG | 0.001 12 80 | country
+    # A water mill: a stone house with a big wooden wheel and the leat on its trestle.
+    box 0 3 0 4 3 5 B8AA90
+    gable 0 6 0 4 5 3 0.4 6A3A2A B8AA90
+    windows 4.02 0.5 -4.5 0 1 9 5 0.3 2.6
+    hoop 4.7 2.8 -1.5 2.6 0.15 20 5A4030
+    hoop 5.3 2.8 -1.5 2.6 0.15 20 5A4030
+    at 5 2.8 -1.5
+    vring 8 0
+    tube 0 0 0 0 2.6 0 0.06 4 5A4030
+    vring 12 2.6
+    box 0 0 0 0.35 0.06 0.25 6A5040
+    at 0 0 0
+    tube 5 0 -4 5 5.5 -4 0.12 4 5A4030
+    box 5 5.6 -3 0.4 0.15 1.4 6A5040
+    tube 4.7 0.2 -1.5 4.7 0.2 1.0 0.06 3 3A5A6A
+
+shape HIKERS_SHELTER
+    home GERMANY, AUSTRIA, LUXEMBOURG | 0.002 6 50 | country
+    # A forest hikers' shelter: an open wooden hut with a bench, a signpost of yellow arrows beside it.
+    box -1.2 1.1 0 0.06 1.1 1.8 7A5A3A
+    mirror
+    box 0 1.1 1.8 1.2 1.1 0.06 7A5A3A
+    gable 0 2.2 0 1.3 1.9 1.2 0.4 4A3A2A 7A5A3A
+    box -0.8 0.45 0 0.3 0.04 1.6 8A6A48
+    tube 2.5 0 -2 2.5 2.4 -2 0.05 4 8A6A48
+    box 2.5 2.1 -1.6 0.02 0.12 0.45 F2C21E
+    box 2.5 1.85 -2.4 0.02 0.12 0.45 F2C21E
+    box 2.5 1.6 -1.6 0.02 0.12 0.45 F2F2F2

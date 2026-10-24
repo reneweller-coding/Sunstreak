@@ -1017,17 +1017,27 @@ void Game::draw()
         drawTextFx( stats, 12.0f * u, 10.0f * u, 10.0f * u, Green, AlignE::LEFT, 0.0f );
     }
 
+    auto saveScreen = []( const std::string &file )
+    {
+        // LoadImageFromScreen() scales by the desktop's DPI even when the framebuffer is not scaled.
+        rlDrawRenderBatchActive();
+        const int w = GetRenderWidth(), h = GetRenderHeight();
+        Image     img = { rlReadScreenPixels( w, h ), w, h, 1, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 };
+        ExportImage( img, file.c_str() );
+        UnloadImage( img );
+    };
+    if( m_options.m_shapeTour > 0 && m_state == StateE::VIEWER && m_viewerBuilt == m_viewerIndex && ++m_tourFrames >= 4 )
+    {
+        // Testing: one picture per model, then the next, the same view of each.
+        saveScreen( m_options.m_screenshot + landmarkName( m_viewerIndex ) + ".png" );
+        m_tourFrames = 0;
+        m_viewerIndex = ( m_viewerIndex + 1 ) % std::max( 1, landmarkCount() );
+        m_viewerYaw = 0.9f;
+        if( ++m_tourShots >= m_options.m_shapeTour ) m_quit = true;
+    }
     if( lastFrame )
     {
-        if( !m_options.m_screenshot.empty() )
-        {
-            // LoadImageFromScreen() scales by the desktop's DPI even when the framebuffer is not scaled.
-            rlDrawRenderBatchActive();
-            const int w = GetRenderWidth(), h = GetRenderHeight();
-            Image     img = { rlReadScreenPixels( w, h ), w, h, 1, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 };
-            ExportImage( img, m_options.m_screenshot.c_str() );
-            UnloadImage( img );
-        }
+        if( !m_options.m_screenshot.empty() ) saveScreen( m_options.m_screenshot );
         m_quit = true;
     }
     EndDrawing();
@@ -1725,7 +1735,7 @@ void Game::viewerStep( const MenuInput &mi, float dt )
         m_viewerYaw -= d.x * 0.008f;
         m_viewerPitch = clampf( m_viewerPitch + d.y * 0.006f, 0.02f, 1.35f );
     }
-    else
+    else if( m_options.m_shapeTour == 0 )
     {
         m_viewerYaw += 0.22f * dt;
     }

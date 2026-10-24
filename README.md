@@ -276,10 +276,12 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --code XXXXX-XXXXX-XXXXX      drive a Track Lab code
     --screen lab|records|code|garage|passport|stamps|regions|country|postcards|album|rallies|viewer   open that screen
     --shape NAME                  the landmark the viewer opens on (with --screen country: the country)
+    --shape-tour N                with --screen viewer: photograph N models from there on, one picture each, saved
+                                  as the --screenshot prefix followed by the model's name
     --camera 0..2                 chase, far or bumper camera
     --find tunnel|bridge|landmark|landmark2|fork|sea|seain|seaout|ferry|jump
                                  start just before the first tunnel, bridge, landmark (or the second), fork, undersea
-                                 portal (or inside, or before its far portal) or ferry
+                                 portal (or inside, or before its far portal), ferry or crest
     --season spring|summer|autumn|winter   that season (testing)
     --date MM-DD                  that date, for the seasons and the festivals (testing)
     --weather clear|rain|storm|fog|snow|sand   that weather all the way (testing)

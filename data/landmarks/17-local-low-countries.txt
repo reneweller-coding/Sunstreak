@@ -1,0 +1,296 @@
+# Local things of the Netherlands, Belgium and Luxembourg.
+
+shape BIKE_RACK_ROW
+    home NETHERLANDS, BELGIUM | 0.005 3 15 | town pastel
+    # Bicycles parked in a row along a railing, wheel behind wheel.
+    tube -0.4 0.8 -5.8 -0.4 0.8 5.8 0.04 4 8A8A8A
+    repeat 5 0 0 2.8
+    tube -0.4 0 -5.6 -0.4 0.8 -5.6 0.04 4 8A8A8A
+    repeat 6 0 0 1.9
+    hoop 0 0.35 -5 0.34 0.025 12 2A2A2A
+    repeat 6 0 0 1.9
+    hoop 0 0.35 -3.95 0.34 0.025 12 2A2A2A
+    repeat 6 0 0 1.9
+    tube 0 0.35 -5 0 0.85 -4.3 0.025 3 A
+    repeat 6 0 0 1.9
+    tube 0 0.85 -4.3 0 0.35 -3.95 0.025 3 A
+    repeat 6 0 0 1.9
+    tube 0 0.35 -5 0 0.92 -4.75 0.025 3 A
+    repeat 6 0 0 1.9
+    tube 0 0.92 -4.75 0 0.98 -4.05 0.025 3 A
+    repeat 6 0 0 1.9
+    tube -0.25 1.0 -4.05 0.25 1.0 -4.05 0.02 3 2A2A2A
+    repeat 6 0 0 1.9
+    box 0 0.97 -4.78 0.07 0.03 0.12 1A1A1A
+
+shape TULIP_STALL
+    home NETHERLANDS | 0.004 4 25 | country
+    # A farm's flower stall: buckets of tulips in every colour on a wooden rack, an honesty box, a little roof.
+    box 0 0.6 0 0.4 0.03 1.8 C8A070
+    box -0.35 0.95 0 0.25 0.03 1.8 C8A070
+    mirror
+    mirrorx
+    tube 0.38 0 1.7 0.38 0.6 1.7 0.03 4 8A6A48
+    repeat 6 0 0 0.6
+    cyl 0.1 0.63 -1.5 0.15 0.18 0.25 8 9A9A9A
+    repeat 2 0 0 1.8
+    blob 0.1 1.0 -1.5 0.18 0.15 0.18 D82A4A 0.4
+    repeat 2 0 0 1.8
+    blob 0.1 1.0 -0.9 0.18 0.15 0.18 F2C21E 0.4
+    repeat 2 0 0 1.8
+    blob 0.1 1.0 -0.3 0.18 0.15 0.18 F27A2A 0.4
+    repeat 3 0 0 1.2
+    blob -0.35 1.25 -1.2 0.18 0.15 0.18 C83A8A 0.4
+    quad -0.7 1.9 -2 -0.7 1.9 2 0.6 1.6 2 0.6 1.6 -2 6A4A30
+    mirror
+    tube -0.65 0 1.9 -0.65 1.9 1.9 0.04 4 6A4A30
+    box 0.45 0.8 2.1 0.02 0.25 0.35 F2F2F2
+    box 0.3 0.7 0 0.1 0.08 0.12 3A6AC8
+
+shape WHITE_DRAWBRIDGE
+    home NETHERLANDS | 0.002 15 70 | country
+    # A little white drawbridge over a polder ditch: its portal, the balance beams, the counterweight, chains to the deck.
+    box 0 0.02 0 1.5 0.02 6 3A5A6A water
+    box 0 0.5 0 3 0.1 1.2 F2F2EE
+    mirror
+    box 0 1.0 1.15 3 0.03 0.03 F2F2EE
+    mirror
+    tube -2.2 0 1.2 -2.2 5 1.2 0.12 4 F2F2EE
+    tube -2.2 5 -1.3 -2.2 5 1.3 0.1 4 F2F2EE
+    mirror
+    tube -5 5.2 1.1 2 5.2 1.1 0.1 4 F2F2EE
+    box -4.6 4.6 0 0.4 0.5 1.2 F2F2EE
+    mirror
+    tube 1.8 5.1 1.0 1.8 0.6 1.0 0.02 3 2A2A2A
+
+shape STOLP_FARMHOUSE
+    home NETHERLANDS | 0.004 12 90 | country
+    # A stolp farm of North Holland: a square farm under one tall pyramid of thatch, a tiled band, a brick front.
+    box 0 2 0 7 2 7 8A3A2A
+    hip 0 4 0 7 7 9 0.5 8A7A50
+    hip 0 4 0 7.4 7.4 1.3 0.5 A84A2A
+    windows 7.02 0.4 -5 0 1 10 3 0.4 2.6
+    box 7.03 1.1 2.5 0.04 1.1 0.5 2E5A3A
+    box 2 11.5 0 0.4 1 0.4 8A3A2A
+
+shape HAY_BARRACK
+    home NETHERLANDS, BELGIUM | 0.003 10 70 | country
+    # A hay barrack: a pyramid roof that slides up and down four tall poles over the hay.
+    mirror
+    mirrorx
+    tube 2.2 0 2.2 2.2 7.5 2.2 0.12 4 6A5A48
+    blob 0 1.8 0 2.4 1.8 2.4 C8B068 0.3
+    hip 0 3.9 0 2.6 2.6 2.4 0.2 6A6A50
+    mirror
+    mirrorx
+    box 2.2 3.8 2.2 0.18 0.06 0.18 6A5A48
+
+shape GIANT_CLOG
+    home NETHERLANDS | 0.002 5 30
+    # A clog as big as a car, painted with flowers, outside a souvenir shop.
+    blob 0 0.7 0.3 0.95 0.7 2.0 F2C21E
+    blob 0 1.32 -0.7 0.6 0.08 0.75 5A3A22
+    blob 0.98 0.9 0.8 0.02 0.3 0.4 3A6AC8
+    blob 0.99 0.95 0.8 0.02 0.12 0.08 D8302A
+    blob 0.95 0.8 1.6 0.02 0.18 0.25 3A6AC8
+    blob -0.98 0.9 0.8 0.02 0.3 0.4 3A6AC8
+
+shape CHEESE_CART
+    home NETHERLANDS | 0.003 4 20 | town
+    # A cheese barrow: a wooden cart stacked with yellow wheels of cheese, its wheels painted red.
+    box 0 0.8 0 0.6 0.06 1.2 8A6A48
+    mirrorx
+    hoop 0.65 0.45 0.6 0.45 0.05 12 C8302A
+    mirrorx
+    tube 0.45 0.85 -1.2 0.45 0.7 -2.2 0.04 4 8A6A48
+    repeat 3 0 0 0.75
+    cyl 0 0.86 -0.75 0.35 0.35 0.2 12 F2C21E
+    repeat 3 0 0 0.75
+    cyl 0 1.06 -0.75 0.35 0.35 0.2 12 E8B818
+    cyl 0 1.26 -0.38 0.35 0.35 0.2 12 D8302A
+    cyl 0 1.26 0.38 0.35 0.35 0.2 12 F2C21E
+
+shape BELL_CHAIR
+    home NETHERLANDS | 0.002 8 50 | country
+    # A Frisian bell chair: a timber frame in a churchyard with a bell under its pointed roof, gravestones by it.
+    mirror
+    mirrorx
+    tube 0.7 0 0.7 0.5 3.2 0.5 0.1 4 6A5A48
+    mirror
+    tube 0.65 1.2 0.65 -0.65 1.2 0.65 0.06 4 6A5A48
+    box 0 3.2 0 0.7 0.08 0.7 6A5A48
+    spire 0 3.3 0 0.9 1.4 4 3A3A3A
+    cyl 0 2.4 0 0.25 0.12 0.45 10 C8A040 shiny
+    blob 0 2.85 0 0.12 0.08 0.12 C8A040
+    repeat 3 0 0 1.4
+    box -2.5 0.4 -1.4 0.08 0.4 0.3 8A8A88
+
+shape STEP_GABLE_HOUSE
+    home NETHERLANDS, BELGIUM | 0.004 6 50 | town
+    # A brick town house with its stepped gable to the street, white window frames, a hoist beam, a green door.
+    box 0 4 0 5 4 3 9A4A32
+    windows 5.02 0.6 -2.7 0 1 5.4 7 0.4 3
+    quad -5 11 0 5 11 0 5 8 3 -5 8 3 3A3A40
+    quad -5 11 0 5 11 0 5 8 -3 -5 8 -3 3A3A40
+    tri 4.95 8 -3 4.95 8 3 4.95 11 0 9A4A32
+    box 5 8.5 0 0.15 0.5 2.6 9A4A32
+    box 5 9.5 0 0.15 0.5 1.8 9A4A32
+    box 5 10.5 0 0.15 0.5 1.0 9A4A32
+    box 5 11.3 0 0.15 0.3 0.4 9A4A32
+    tube 5 10.4 0 5.8 10.4 0 0.08 4 4A3A28
+    box 5.03 1.2 1.2 0.03 1.2 0.6 2E5A3A
+
+shape STREET_ORGAN
+    home NETHERLANDS | 0.002 4 20 | town
+    # A street organ on its cart: a carved painted front, rows of gilded pipes, little figures that strike the bells.
+    box 0 0.9 0 0.9 0.3 1.6 3A5A9A
+    mirrorx
+    hoop 0.95 0.5 1.1 0.45 0.05 12 C8A040
+    mirrorx
+    hoop 0.95 0.5 -1.1 0.45 0.05 12 C8A040
+    box 0 2.2 0 0.8 1.1 1.5 3A5A9A
+    box 0.82 2.2 0 0.02 1.05 1.4 E8C878
+    repeat 9 0 0 0.3
+    cyl 0.86 1.6 -1.2 0.07 0.07 1.2 6 D8B030 shiny
+    blob 0.84 3.4 0 0.03 0.4 1.5 D8302A
+    blob 0.86 3.6 0 0.03 0.25 0.6 D8B030
+    blob 0.88 2.9 -1.1 0.03 0.2 0.1 F2F2F2
+    blob 0.88 2.9 1.1 0.03 0.2 0.1 F2F2F2
+
+shape HERRING_CART
+    home NETHERLANDS | 0.002 4 20 | town
+    # A herring stall: a white cart with a striped awning and a sign with a fish on it.
+    box 0 1.1 0 1 1.1 2 F2F2EE
+    box 1.02 1.2 0 0.02 0.4 1.6 B8CCD8 glass
+    quad 1 2.6 -2.2 1 2.6 2.2 2 2.2 2.2 2 2.2 -2.2 2A6AC8
+    repeat 4 0 0 1.1
+    quad 1 2.61 -2.2 1 2.61 -1.65 2 2.21 -1.65 2 2.21 -2.2 F2F2F2
+    box 0 2.4 0 1.05 0.05 2.05 2A6AC8
+    box 0 3.0 0 0.05 0.35 1.0 F2F2F2
+    blob 0.06 3.0 0 0.01 0.12 0.5 6A8AA8
+
+shape POLDER_PUMP_HOUSE
+    home NETHERLANDS | 0.002 15 80 | country
+    # A brick pumping station on the dike: arched windows, a tall chimney, the outlet into the canal.
+    box 0 3 0 4 3 5 8A3A2A
+    gable 0 6 0 4 5 2.5 0.3 3A3A40 8A3A2A
+    repeat 3 0 0 3
+    box 4.02 3 -3 0.03 1.4 0.5 2A3A4A
+    repeat 3 0 0 3
+    blob 4.02 4.4 -3 0.03 0.5 0.5 2A3A4A
+    cyl -2 0 -3 0.7 0.5 14 10 8A3A2A
+    box 5 0.3 2 1 0.3 0.8 6A6A6A
+    box 6.5 0.05 2 1.5 0.03 1 4A6A7A water
+    box 4.03 6.6 0 0.02 0.25 1.2 F2F2EE
+
+shape FRIES_STAND
+    home BELGIUM | 0.004 4 20 | town
+    # A fritkot: a little stand with a big paper cone of fries on its roof.
+    box 0 1.3 0 1.4 1.3 2 F2E8D0
+    box 1.42 1.5 0 0.02 0.6 1.5 3A3A40
+    box 1.6 1.0 0 0.2 0.04 1.8 C8C8C8
+    quad 1.42 2.7 -2.1 1.42 2.7 2.1 2.3 2.3 2.1 2.3 2.3 -2.1 D8302A
+    box 0 2.65 0 1.5 0.05 2.1 3A3A40
+    tbox 0 2.7 0 0.12 0.12 0 4.2 0 0.55 0.55 F2F2F2
+    blob 0 4.3 0 0.5 0.35 0.5 F2C21E 0.5
+    blob 0.3 4.5 0.1 0.15 0.12 0.15 F2F2F2
+
+shape FLEMISH_ROADSIDE_CHAPEL
+    home BELGIUM | 0.003 5 40 | country
+    # A Flemish roadside chapel: a tiny brick house of prayer between two limes, a grille in its door.
+    box 0 1.2 0 1 1.2 0.9 A04A32
+    quad -1.05 3.3 0 1.15 3.3 0 1.15 2.35 1.0 -1.05 2.35 1.0 3A3A40
+    quad -1.05 3.3 0 1.15 3.3 0 1.15 2.35 -1.0 -1.05 2.35 -1.0 3A3A40
+    tri 1 2.4 -0.9 1 2.4 0.9 1 3.25 0 A04A32
+    tri -1 2.4 -0.9 -1 2.4 0.9 -1 3.25 0 A04A32
+    box 1.02 0.9 0 0.03 0.9 0.4 2A2A2A
+    blob 1.02 1.8 0 0.03 0.4 0.4 2A2A2A
+    tube 1.1 3.3 0 1.1 3.8 0 0.03 3 2A2A2A
+    tube 1.1 3.62 -0.15 1.1 3.62 0.15 0.025 3 2A2A2A
+    mirror
+    tube -1.5 0 2 -1.5 3 2 0.18 5 5A4A3A
+    mirror
+    blob -1.5 4.8 2 1.6 2 1.6 4A7A30 0.3
+
+shape PIGEON_LOFT
+    home BELGIUM, NETHERLANDS | 0.003 6 40 | country
+    # A racing pigeon loft at the bottom of the garden: a raised wooden house with a landing board and its trap.
+    mirror
+    mirrorx
+    tube 1.2 0 1.6 1.2 1.2 1.6 0.08 4 6A5A48
+    box 0 2 0 1.3 0.8 1.8 E8E2D8
+    box 1.32 2.3 0 0.02 0.25 1.2 4A5A6A
+    box 1.6 1.7 0 0.3 0.03 1.2 8A6A48
+    repeat 8 0 0 0.3
+    tube 1.32 1.75 -1.05 1.32 2.0 -1.05 0.01 3 2A2A2A
+    quad -1.4 3.1 -1.9 -1.4 3.1 1.9 1.5 2.8 1.9 1.5 2.8 -1.9 3A3A40
+    blob 1.6 1.82 -0.6 0.06 0.06 0.12 8A8A9A
+    blob 1.6 1.82 0.3 0.06 0.06 0.12 9A9AA8
+    blob 0 3.08 0.5 0.06 0.06 0.12 7A7A88
+
+shape COMIC_MURAL_WALL
+    home BELGIUM | 0.003 5 30 | town
+    # A comic-strip mural on a gable wall: a running figure in green, a starburst, a big speech bubble.
+    box 0 5 0 0.5 5 4 D8C8B0
+    tri 0.5 10 -4 0.5 10 4 0.5 12 0 D8C8B0
+    blob 0.51 5 0 0.02 4.6 3.6 8AC8E8
+    blob 0.52 3.6 -1.4 0.02 1.6 0.7 3A9A4A
+    blob 0.53 5.6 -1.2 0.02 0.55 0.5 F0C8A0
+    blob 0.53 6.0 -1.25 0.02 0.25 0.5 C83A2A
+    tube 0.53 2.4 -1.6 0.53 0.6 -2.6 0.12 4 2A4A8A
+    tube 0.53 2.4 -1.2 0.53 0.8 -0.2 0.12 4 2A4A8A
+    tube 0.53 4.4 -1.0 0.53 3.6 0.3 0.1 4 3A9A4A
+    blob 0.52 2.2 1.8 0.02 1.1 1.2 F2C21E
+    blob 0.53 2.2 1.8 0.02 0.6 0.7 E8502A
+    blob 0.52 8 1.4 0.02 1.0 1.8 F2F2F2
+    tri 0.52 7.3 0.8 0.52 7.4 1.4 0.52 6.6 -0.4 F2F2F2
+    box 0.53 8.2 1.4 0.01 0.06 1.2 2A2A2A
+    box 0.53 7.8 1.4 0.01 0.06 1.0 2A2A2A
+
+shape FLEMISH_SQUARE_FARM
+    home BELGIUM | 0.003 15 90 | country
+    # A square Flemish farmstead: whitewashed wings round a yard, red pantile roofs, a green gate to the road.
+    box -6 2.2 0 1.6 2.2 7.5 F2F0E6
+    gable -6 4.4 0 1.6 7.5 2.4 0.3 B8502A F2F0E6
+    windows -4.38 0.4 -6 0 1 12 3.5 0.3 2.5
+    mirror
+    box 0 2 6 6 2 1.5 F2F0E6
+    mirror
+    hip 0 4 6 6 1.5 2.2 0.3 B8502A
+    mirror
+    box 6.5 1.2 2.5 0.35 1.2 0.35 F2F0E6
+    box 6.5 0.9 0 0.04 0.9 2.1 3E6A3A
+    tube 0 0 0 0 1.5 0 0.15 5 5A4A3A
+    blob 0 3 0 1.5 2 1.5 4A7A30 0.3
+
+shape WALLOON_STONE_FARM
+    home BELGIUM, LUXEMBOURG | 0.003 15 90 | country
+    # An Ardennes farmhouse: grey-blue stone walls, a slate roof, small windows under pale stone lintels.
+    box 0 2.6 0 5 2.6 9 7A7A7A
+    windows 5.02 0.6 -8 0 1 16 4.5 0.3 2.6
+    repeat 5 0 0 3.6
+    box 5.03 2.2 -7.2 0.02 0.08 0.6 A8A8A0
+    gable 0 5.2 0 5 9 3.5 0.3 3A3E48 7A7A7A
+    box 5.02 1.6 6 0.04 1.6 1.4 5A4A3A
+
+shape CAFE_TERRACE
+    home BELGIUM, NETHERLANDS, LUXEMBOURG | 0.003 4 20 | town
+    # A cafe terrace: round tables, folding chairs, parasols in the colours of the house beer.
+    mirror
+    tube 0 0 2 0 2.4 2 0.03 4 D0D0D0
+    mirror
+    dome 0 2.2 2 1.4 0.5 C8302A
+    mirror
+    cyl 0 0.72 2 0.35 0.35 0.03 10 E8E8E8
+    mirror
+    tube 0 0 2 0 0.72 2 0.03 3 3A3A3A
+    mirror
+    box 0.6 0.45 2 0.2 0.02 0.2 3A3A3A
+    mirror
+    box 0.8 0.7 2 0.02 0.25 0.2 3A3A3A
+    mirror
+    box -0.6 0.45 2 0.2 0.02 0.2 3A3A3A
+    mirror
+    box -0.8 0.7 2 0.02 0.25 0.2 3A3A3A
+    mirror
+    cyl 0.1 0.75 2 0.04 0.05 0.15 6 C88A2A glass

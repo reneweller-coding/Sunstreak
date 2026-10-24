@@ -17,6 +17,7 @@
 #include "WorldBuilder.h"
 
 #include <algorithm>
+#include <cctype>
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
@@ -628,6 +629,171 @@ const RouteData &routeData()
     } );
 }
 
+constexpr float HomeBudget = 0.05f;   ///< the most a place strews of the shapes at home there, per segment and side
+
+/** @brief A shape at home somewhere: how its places strew it (a "home" line of data/landmarks). */
+struct Home
+{
+    int     m_variant = 0;         ///< the LANDMARK variant
+    float   m_chance = 0.0f;       ///< per segment and side
+    float   m_nearest = 8.0f;      ///< from the road's edge (m)
+    float   m_farthest = 80.0f;    ///< and at most
+    float   m_scaleMin = 0.85f;    ///< smallest scale
+    float   m_scaleMax = 1.15f;    ///< largest
+    uint8_t m_climates = 0;        ///< ClimateE bits it keeps to (0: any)
+    int8_t  m_coast = 0;           ///< 1 only beside the sea, -1 never
+    int8_t  m_town = 0;            ///< 1 only where street lamps stand, -1 never
+    bool    m_water = false;       ///< on the sea (boats)
+    bool    m_pastel = false;      ///< colour A changes per object
+};
+
+/**
+ * @brief Whether a place suits a home's tags.
+ * @param[in] h  the home
+ * @param[in] d  the place
+ * @return true if it may be strewn there
+ */
+bool homeFits( const Home &h, const BiomeDef &d )
+{
+    const bool sea = d.m_terrain.m_waterLeft > 0.5f || d.m_terrain.m_waterRight > 0.5f;
+    const bool town = d.m_lampSpacing > 0.0f || d.m_cobbles;
+    if( h.m_climates && !( h.m_climates & ( 1u << static_cast<unsigned>( d.m_climate ) ) ) ) return false;
+    if( ( h.m_coast > 0 || h.m_water ) && !sea ) return false;
+    if( h.m_coast < 0 && sea ) return false;
+    return !( ( h.m_town > 0 && !town ) || ( h.m_town < 0 && town ) );
+}
+
+/**
+ * @brief Strews the data shapes in the places they call home ("home WHERE, WHERE | chance nearest farthest [smin smax]
+ *        | tags"): a place takes the shapes of its country, its "COUNTRY:REGION", its "fleet:NAME" and its "place:ID",
+ *        their chances scaled down together where more than HomeBudget would come.
+ * @param[in,out] table   the biomes, the places among them
+ * @param[in]     places  the places' headers
+ * @param[in]     ids     their biome numbers
+ */
+void addHomes( std::vector<BiomeDef> &table, const std::vector<Header> &places, const std::vector<int> &ids )
+{
+    std::unordered_map<std::string, std::string> fleetOf;   // country -> "fleet:NAME"
+    for( const CountryInfo &c : countries() ) fleetOf.emplace( c.m_name, std::string( "fleet:" ) + FleetNames[static_cast<size_t>( c.m_fleet )] );
+    std::unordered_map<std::string, std::vector<Home>> homes;   // by where
+    for( const auto &[country, fleet] : fleetOf )
+    {
+        homes.emplace( country, std::vector<Home>{} );
+        homes.emplace( fleet, std::vector<Home>{} );
+    }
+    for( const Header &h : places )
+    {
+        homes.emplace( "place:" + h.m_key, std::vector<Home>{} );
+        if( !h.m_country.empty() && h.m_country != "-" ) homes.emplace( h.m_country, std::vector<Home>{} );
+        if( !h.m_region.empty() ) homes.emplace( h.m_country + ":" + h.m_region, std::vector<Home>{} );
+    }
+    const auto &shapes = dataShapes();
+    for( size_t s = 0; s < shapes.size(); ++s )
+        for( const std::string &line : shapes[s].m_homes )
+        {
+            const std::vector<std::string> p = splitLine( line, '|' );
+            const std::vector<std::string> n = p.size() > 1 ? splitLine( p[1], ' ' ) : std::vector<std::string>{};
+            if( n.size() < 3 )
+            {
+                ++g_errors;
+                continue;
+            }
+            Home h;
+            h.m_variant = compiledLandmarks() + static_cast<int>( s );
+            h.m_chance = std::strtof( n[0].c_str(), nullptr );
+            h.m_nearest = std::strtof( n[1].c_str(), nullptr );
+            h.m_farthest = std::strtof( n[2].c_str(), nullptr );
+            if( n.size() >= 5 )
+            {
+                h.m_scaleMin = std::strtof( n[3].c_str(), nullptr );
+                h.m_scaleMax = std::strtof( n[4].c_str(), nullptr );
+            }
+            for( const std::string &tag : p.size() > 2 ? splitLine( p[2], ' ' ) : std::vector<std::string>{} )
+            {
+                std::string upper = tag;
+                std::transform( upper.begin(), upper.end(), upper.begin(), []( unsigned char c ) { return static_cast<char>( std::toupper( c ) ); } );
+                const int climate = indexOf( ClimateNames, std::size( ClimateNames ), upper );
+                if( climate > 0 ) h.m_climates = static_cast<uint8_t>( h.m_climates | ( 1u << static_cast<unsigned>( climate ) ) );
+                else if( tag == "coast" ) h.m_coast = 1;
+                else if( tag == "inland" ) h.m_coast = -1;
+                else if( tag == "town" ) h.m_town = 1;
+                else if( tag == "country" ) h.m_town = -1;
+                else if( tag == "water" ) h.m_water = true;
+                else if( tag == "pastel" ) h.m_pastel = true;
+                else ++g_errors;
+            }
+            for( const std::string &where : splitLine( p[0], ',' ) )
+            {
+                const auto it = homes.find( where );
+                if( it == homes.end() ) ++g_errors;   // no such country, region, fleet or place
+                else it->second.push_back( h );
+            }
+        }
+    // Each place's homes: its own, its region's, its country's, its fleet's.
+    std::vector<std::vector<std::string>> keysOf( places.size() );
+    std::unordered_map<std::string, std::vector<size_t>> placesOf;
+    for( size_t i = 0; i < places.size(); ++i )
+    {
+        const Header &place = places[i];
+        if( ids[i] >= MaxBiomes || place.m_country.empty() || place.m_country == "-" || table[static_cast<size_t>( ids[i] )].m_underwater ) continue;
+        keysOf[i].push_back( "place:" + place.m_key );
+        if( !place.m_region.empty() ) keysOf[i].push_back( place.m_country + ":" + place.m_region );
+        keysOf[i].push_back( place.m_country );
+        const auto fleet = fleetOf.find( place.m_country );
+        if( fleet != fleetOf.end() ) keysOf[i].push_back( fleet->second );
+        for( const std::string &key : keysOf[i] ) placesOf[key].push_back( i );
+    }
+    // "town" and "country" only choose among a home's places: where none of them suits, they are dropped.
+    for( auto &[key, list] : homes )
+        for( Home &h : list )
+        {
+            if( h.m_town == 0 ) continue;
+            const auto it = placesOf.find( key );
+            if( it == placesOf.end() ) continue;
+            if( std::none_of( it->second.begin(), it->second.end(), [&]( size_t i ) { return homeFits( h, table[static_cast<size_t>( ids[i] )] ); } ) ) h.m_town = 0;
+        }
+    std::vector<bool> strewn( shapes.size(), false );
+    for( size_t i = 0; i < places.size(); ++i )
+    {
+        if( keysOf[i].empty() ) continue;
+        BiomeDef &d = table[static_cast<size_t>( ids[i] )];
+        std::vector<const Home *> mine;
+        for( const std::string &key : keysOf[i] )
+        {
+            const auto it = homes.find( key );
+            if( it == homes.end() ) continue;
+            for( const Home &h : it->second )
+                if( homeFits( h, d ) && std::none_of( mine.begin(), mine.end(), [&]( const Home *m ) { return m->m_variant == h.m_variant; } ) )
+                    mine.push_back( &h );
+        }
+        float sum = 0.0f;
+        for( const Home *h : mine ) sum += h->m_chance;
+        const float k = sum > HomeBudget ? HomeBudget / sum : 1.0f;
+        for( const Home *h : mine )
+        {
+            PropRule r{};
+            r.m_kind = PropKindE::LANDMARK;
+            r.m_chance = h->m_chance * k;
+            r.m_nearest = h->m_nearest;
+            r.m_farthest = h->m_farthest;
+            r.m_scaleMin = h->m_scaleMin;
+            r.m_scaleMax = h->m_scaleMax;
+            r.m_onWater = h->m_water;
+            r.m_pastel = h->m_pastel;
+            r.m_variant = static_cast<int16_t>( h->m_variant );
+            d.m_props.push_back( r );
+            strewn[static_cast<size_t>( h->m_variant - compiledLandmarks() )] = true;
+        }
+    }
+    // A shape that calls somewhere home and stands nowhere: a misspelt name or tags no place there has.
+    for( size_t s = 0; s < shapes.size(); ++s )
+        if( !shapes[s].m_homes.empty() && !strewn[s] )
+        {
+            ++g_errors;
+            TraceLog( LOG_WARNING, "SUNSTREAK: %s is at home in no place", shapes[s].m_name.c_str() );
+        }
+}
+
 } // namespace
 
 void addDataPlaces( std::vector<BiomeDef> &table )
@@ -709,6 +875,7 @@ void addDataPlaces( std::vector<BiomeDef> &table )
     for( size_t i = 0; i < models.size(); ++i ) build( true, i );
     for( size_t i = 0; i < places.size(); ++i )
         if( ids[i] < MaxBiomes ) build( false, i );
+    addHomes( table, places, ids );
 }
 
 int compiledLandmarks()

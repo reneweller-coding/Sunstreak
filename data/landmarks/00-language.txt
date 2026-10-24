@@ -2,6 +2,13 @@
 # "landmark NAME nearest farthest [scale]" (and may paint its key colours with "c A B C" right after).
 # The variants are numbered after the compiled landmarks, in the order of the files.
 #
+# A shape may live somewhere: "home WHERE, WHERE | chance nearest farthest [smin smax] [| tags]" makes every place there
+# strew it, chance per 5 m segment and side, distances from the road's edge. WHERE is a country (as the places name
+# it), COUNTRY:REGION, fleet:NAME (the countries of a fleet in countries.txt) or place:ID. Tags: temperate, tropical,
+# arid, cold (the place's climate, any of them), coast or inland, town (street lamps or cobbles) or country, water (on
+# the sea, boats), pastel (colour A changes per object). A place takes at most 0.05 of these together; more are scaled
+# down, so more shapes make more variety, not more clutter.
+#
 # Model space: metres, y up, the ground at y = 0; +x faces the road (the driver passes along z). A long front should run
 # along z, so the driver sees it face on. Keep it within about 120 m of the origin along z: the road bends.
 #
@@ -16,7 +23,8 @@
 #   quad x y z x2 y2 z2 x3 y3 z3 x4 y4 z4 COLOUR       a flat face; tri with three corners
 #   gable x y z hx hz rise overhang ROOF WALL          a gable roof, its ridge along z, on walls of hx, hz
 #   hip x y z hx hz rise overhang ROOF                 a hip roof
-#   windows x y z ax az width height [lit] [storey]    rows of windows on a face running along (ax, 0, az)
+#   windows x y z ax az width height [lit] [storey]    rows of windows on a face, from its corner x y z along (ax, 0, az)
+#                                                      for width (not centred: a face from z -5 to 5 starts at z -5)
 #   boxwindows x y z hx hz height [lit] [storey]       windows round a box standing on x y z
 #   arch x y z span rise r segments COLOUR             a parabolic arch of rods, its legs along z (rise < 0: a cable's sag)
 #   fronds x y z count length droop COLOUR             a palm's crown
