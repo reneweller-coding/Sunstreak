@@ -22,7 +22,26 @@ namespace sunstreak
 {
 
 constexpr int CarCount = 3;     ///< cars the player can choose
-constexpr int PaintCount = 5;   ///< paints per car
+constexpr int PaintCount = 14;  ///< paints per car
+constexpr int RimCount = 7;     ///< rim finishes
+constexpr int DecalCount = 7;   ///< decals (0: none)
+
+/** @brief How the player's car looks: the garage's choices. */
+struct Livery
+{
+    int m_car = 0;          ///< which car
+    int m_paint = 0;        ///< body paint
+    int m_rims = 0;         ///< rim finish
+    int m_decal = 0;        ///< decal
+    int m_decalColor = 1;   ///< the decal's colour (a paint)
+
+    /**
+     * @brief Compares two liveries.
+     * @param[in] o  the other
+     * @return true if they look the same
+     */
+    bool operator==( const Livery &o ) const = default;
+};
 
 /** @brief A car the player can drive. */
 struct CarSpec
@@ -52,6 +71,27 @@ const CarSpec &carSpec( int index );
  * @return its name
  */
 const char *paintName( int index );
+
+/**
+ * @brief The colour of a paint.
+ * @param[in] index  0..PaintCount-1
+ * @return its colour
+ */
+Color paintColor( int index );
+
+/**
+ * @brief The name of a rim finish.
+ * @param[in] index  0..RimCount-1
+ * @return its name
+ */
+const char *rimName( int index );
+
+/**
+ * @brief The name of a decal.
+ * @param[in] index  0..DecalCount-1
+ * @return its name
+ */
+const char *decalName( int index );
 
 /** @brief Which way a prop turns. */
 enum class FacingE : uint8_t
@@ -113,13 +153,21 @@ public:
      */
     FacingE facing( PropKindE kind ) const { return m_facing[static_cast<size_t>( kind )]; }
 
+    /**
+     * @brief Builds the player's car as the garage dressed it (again only when the livery changed).
+     * @param[in] livery  car, paint, rims and decal
+     */
+    void buildLivery( const Livery &livery );
+
     MeshBuilder m_post;           ///< delineator post
     MeshBuilder m_chevronRight;   ///< warning board, arrow to the driver's right
     MeshBuilder m_chevronLeft;    ///< warning board, arrow to the driver's left
     MeshBuilder m_lamp;           ///< street lamp, its arm along +z
     MeshBuilder m_jumpSign;       ///< crest warning
 
-    std::array<std::array<Mesh, PaintCount>, CarCount> m_playerCars{};   ///< the player's cars
+    std::array<std::array<Mesh, PaintCount>, CarCount> m_playerCars{};   ///< the player's cars in plain paint (rivals, ghosts)
+    Mesh                                               m_livery{};       ///< the player's own car, dressed in the garage
+    Livery                                             m_liveryOf{};     ///< what m_livery shows
     std::vector<VehicleModel>                          m_traffic;        ///< traffic, paints included
     Mesh                                               m_cone{};         ///< traffic cone
     std::array<Mesh, 2>                                m_arrowBoard{};   ///< roadworks board, arrow left / right

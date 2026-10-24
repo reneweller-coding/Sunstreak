@@ -28,7 +28,7 @@ Track::Track( uint64_t seed, const TrackParams &params, int startBiome )
         const bool wanted = startBiome >= 0 && startBiome < static_cast<int>( BiomeE::COUNT );
         const int  at = wanted ? routeIndex( static_cast<BiomeE>( startBiome ) ) : -1;
         m_routeStart = at >= 0 ? at : static_cast<int>( hash64( seed * 131 + 17 ) % worldRoute().size() );
-        if( wanted && at < 0 ) m_stageBiomes.push_back( static_cast<uint8_t>( startBiome ) );
+        if( wanted && at < 0 ) m_stageBiomes.push_back( static_cast<uint16_t>( startBiome ) );
     }
     else
     {
@@ -37,7 +37,7 @@ Track::Track( uint64_t seed, const TrackParams &params, int startBiome )
     }
     if( m_params.m_biome != SceneryWorld && startBiome >= 0 && startBiome < static_cast<int>( BiomeE::COUNT ) )
     {
-        const auto want = static_cast<uint8_t>( startBiome );
+        const auto want = static_cast<uint16_t>( startBiome );
         const auto end = m_stageBiomes.begin() + static_cast<long>( BiomeE::COUNT );
         auto       it = std::find( m_stageBiomes.begin(), end, want );
         if( it != end ) std::iter_swap( m_stageBiomes.begin(), it );
@@ -61,8 +61,8 @@ BiomeE Track::stageBiome( int stage ) const
         // One shuffled bag of all biomes after another, never the same biome twice in a row.
         const int               bag = static_cast<int>( m_stageBiomes.size() ) / Count;
         Rng                  r( hash64( m_seed * 31 + static_cast<uint64_t>( bag ) * 977 + 7 ) );
-        std::vector<uint8_t> order( Count );
-        for( int i = 0; i < Count; ++i ) order[i] = static_cast<uint8_t>( i );
+        std::vector<uint16_t> order( Count );
+        for( int i = 0; i < Count; ++i ) order[i] = static_cast<uint16_t>( i );
         for( int i = Count - 1; i > 0; --i ) std::swap( order[i], order[r.rangeInt( 0, i )] );
         if( !m_stageBiomes.empty() && order[0] == m_stageBiomes.back() ) std::swap( order[0], order[1] );
         m_stageBiomes.insert( m_stageBiomes.end(), order.begin(), order.end() );
@@ -337,8 +337,8 @@ void Track::appendSegment()
     const BiomeMix  mix = biomeMix( s );
     const BiomeDef &a = biomeDef( mix.m_from );
     const BiomeDef &b = biomeDef( mix.m_to );
-    seg.m_biome = static_cast<uint8_t>( mix.m_from );
-    seg.m_biomeTo = static_cast<uint8_t>( mix.m_to );
+    seg.m_biome = static_cast<uint16_t>( mix.m_from );
+    seg.m_biomeTo = static_cast<uint16_t>( mix.m_to );
     seg.m_blend = mix.m_t;
     const float lanesT = smoothstepf( 0.2f, 0.8f, mix.m_t );
     seg.m_halfWidth = lerpf( static_cast<float>( a.m_lanes ), static_cast<float>( b.m_lanes ), lanesT ) * LaneWidth * 0.5f;

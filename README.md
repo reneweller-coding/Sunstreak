@@ -3,7 +3,8 @@
 An arcade racer in the spirit of *Lotus III: The Ultimate Challenge*: a low camera, a road that bends, climbs and
 throws you over crests, traffic to slice through and a clock that only checkpoints refill. The endless mode drives a
 track generated from a seed, one biome per 5 km stage, and it grows curvier, denser and stricter as you go. By
-default it is a world tour: 227 places in 97 countries, one after the other round the globe.
+default it is a world tour: 459 places in all 204 countries and territories it visits, every member of the United
+Nations among them, one after the other round the globe.
 
 Beside the endless run there is a championship against eleven rivals, a Track Lab that turns any setting into a
 shareable track code, a ghost of your best drive on every code and a top ten.
@@ -54,16 +55,24 @@ Difficulty (Settings: EASY, NORMAL, HARD) scales the grip, the clock, the traffi
 is in `tuning.ini` beside the settings (written with comments on the first start): steer, centrifugal, accel, brake,
 boost, grip, crash_keep, time, traffic, rivals. Change a value and restart; delete the file for the defaults.
 
-239 biomes. The world tour (Settings > SCENERY) runs east from Ireland: the British Isles, France, Germany and the
+471 biomes. The world tour (Settings > SCENERY) runs east from Ireland: the British Isles, France, Germany and the
 Alps, Italy, Iberia, Morocco, West, East and Southern Africa, Arabia, Egypt and the Levant, Turkey, Greece and the
 Balkans, Central and Eastern Europe, Central Asia, India and the Himalaya, Southeast and East Asia, Australia, New
 Zealand and the Pacific, South and Central America, Mexico, the United States and Canada, Russia, the Baltic,
 Scandinavia, Greenland and Iceland, and back to Ireland. Each stage shows its place and country: Tuscany, the
 Serengeti with its herds, Cappadocia under balloons, Ha Long Bay, the Avenue of Baobabs, Route 66, Las Vegas and
-Tokyo at night, the Great Wall, Uluru, the moai, the Florida Keys and two hundred more. ALL MIXED shuffles every
-biome, the twelve that are not on the map included: Night Metro, Storm Marsh, Neon Horizon, Neon Rain, Dawn
-Expressway, Lunar Highway (low gravity), Red Planet, Crystal Desert, Fungal Glade, Cloud Highway, Pumpkin Hollow and
-Total Eclipse.
+Tokyo at night, the Great Wall, Uluru, the moai, the Florida Keys and four hundred more. Big countries have many
+places (the United States 44, France 15, China 14, Italy 13, India 12, Canada 11), and the famous roads have their
+own: the Stelvio, the Transfagarasan, the Atlantic Road, Trollstigen, the Nordschleife, the Yungas Road, the Road of
+Bones, the Dalton Highway beside its pipeline, the Nullarbor with its kangaroo, camel and cow signs, Bonneville, the
+Tail of the Dragon and the Road to Hana. Landmarks stand where they belong, once per stage: Big Ben and Tower Bridge,
+the Arc de Triomphe, the Colosseum and St Peter's, the Leaning Tower, the Sagrada Familia, Neuschwanstein, the
+Brandenburg Gate, the Acropolis, St Basil's, the Christ the Redeemer and Cristo Rei statues, the Statue of Liberty,
+the Opera House, the Petronas Towers, the Space Needle, the Capitol and the Washington Monument, the HOLLYWOOD sign,
+the Sphinx, the Colossi of Memnon, Borobudur, Harbin's ice castle, the burning crater of Darvaza, Great Zimbabwe,
+Bled's island church and the torii of Miyajima in the sea. ALL MIXED shuffles every biome, the twelve that are not on
+the map included: Night Metro, Storm Marsh, Neon Horizon, Neon Rain, Dawn Expressway, Lunar Highway (low gravity),
+Red Planet, Crystal Desert, Fungal Glade, Cloud Highway, Pumpkin Hollow and Total Eclipse.
 
 Bridges are built the way the region builds them: concrete beams, tall viaducts over Alpine gorges, stone arches in
 Europe, steel trusses in North America, suspension bridges over the Bosphorus and in New York, cable-stayed spans in
@@ -121,14 +130,14 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
 
     --windowed | --fullscreen     this start only
     --seed N                      the endless run's track (otherwise random)
-    --biome 0..238                the first stage's biome (on the world tour: where it starts)
+    --biome 0..470                the first stage's biome (on the world tour: where it starts)
     --scenery world|mixed|N       the endless run's scenery for this start (N: one biome all the way)
     --play                        skip the title
     --championship                start a championship
     --code XXXXX-XXXXX-XXXXX      drive a Track Lab code
     --screen lab|records|code     open that screen
     --camera 0..2                 chase, far or bumper camera
-    --find tunnel|bridge          start just before the first tunnel or bridge
+    --find tunnel|bridge|landmark start just before the first tunnel, bridge or landmark
     --autopilot                   the car drives itself
     --distance M                  start M metres down the road
     --size WxH                    window size for this start

@@ -78,8 +78,8 @@ struct Segment
     float    m_bank = 0;          ///< roll at the start (positive: the right side lower)
     float    m_halfWidth = 0;     ///< half the paved width at the start (lanes only)
     uint8_t  m_lanes = 3;         ///< lanes
-    uint8_t  m_biome = 0;         ///< the biome blended from
-    uint8_t  m_biomeTo = 0;       ///< the biome blended to
+    uint16_t m_biome = 0;         ///< the biome blended from
+    uint16_t m_biomeTo = 0;       ///< the biome blended to
     uint8_t  m_blockedLanes = 0;  ///< bit per closed lane (roadworks)
     float    m_blend = 0;         ///< 0..1 between m_biome and m_biomeTo
     uint16_t m_flags = 0;         ///< SegmentFlagE
@@ -244,7 +244,7 @@ private:
     uint64_t                     m_seed;                ///< the seed
     TrackParams                  m_params;              ///< overrides
     Rng                          m_rng;                 ///< the feature planner's generator
-    mutable std::vector<uint8_t> m_stageBiomes;         ///< biome per stage, extended on demand (world tour: a detour first)
+    mutable std::vector<uint16_t> m_stageBiomes;        ///< biome per stage, extended on demand (world tour: a detour first)
     int                          m_routeStart = 0;      ///< the world tour's first place (index in worldRoute())
     std::deque<Segment>          m_segments;            ///< the segments held
     long                         m_first = 0;           ///< absolute index of m_segments.front()

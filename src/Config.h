@@ -48,8 +48,13 @@ struct Settings
     int          m_difficulty = 1;                     ///< 0 easy, 1 normal, 2 hard
     bool         m_shadows = true;                     ///< real-time sun shadows
     int          m_fpsLimit = 0;                       ///< frame rate cap (0: none beyond vsync)
-    bool         m_vibration = true;
-    int          m_scenery = 0;        ///< endless runs: 0 the world tour, 1 every biome mixed                   ///< gamepad rumble
+    bool         m_vibration = true;                   ///< gamepad rumble
+    int          m_scenery = 0;                        ///< endless runs: 0 the world tour, 1 every biome mixed
+    int          m_car = 0;                            ///< the chosen car
+    int          m_paint = 0;                          ///< its paint
+    int          m_rims = 0;                           ///< its rims
+    int          m_decal = 0;                          ///< its decal
+    int          m_decalColor = 1;                     ///< the decal's colour (a paint)
     int64_t      m_bestScore = 0;                      ///< the highest score of an endless run
     double       m_bestDistance = 0.0;                 ///< the longest endless run in metres
 };
@@ -70,7 +75,7 @@ struct LaunchOptions
     int         m_height = 0;          ///< its height
     bool        m_mute = false;        ///< no sound at all (test runs)
     std::string m_audioTest;           ///< render a test drive's sound to this WAV and quit
-    int         m_find = 0;            ///< start before the first 1 tunnel, 2 bridge (testing)
+    int         m_find = 0;            ///< start before the first 1 tunnel, 2 bridge, 3 landmark (testing)
     int         m_camera = -1;         ///< a camera for this run only (-1: the settings')
     std::string m_code;                ///< start this track code at once
     bool        m_championship = false;///< start a championship at once

@@ -1679,6 +1679,552 @@ void Models::buildWorldProps()
         m.tube( Vector3{ 0, 1.6f, 0.36f }, Vector3{ 0, 1.52f, 0.44f }, 0.02f, 3, rgb( 30, 30, 30 ) );
     }
 
+    // ---- Landmarks: one variant per monument (rules pick theirs with .v(n)) -------------------------------------------
+    const Color sandstone = rgb( 200, 178, 130 ), marble = rgb( 230, 224, 210 ), copper = rgb( 96, 156, 130 ), gold = rgb( 222, 178, 70 );
+    { // 0 Big Ben and a wing of the parliament.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        m.box( Vector3{ 0, 27.0f, 0 }, Vector3{ 4.0f, 27.0f, 4.0f }, sandstone );
+        m.box( Vector3{ 0, 47.0f, 0 }, Vector3{ 4.6f, 4.0f, 4.6f }, rgb( 186, 160, 110 ) );
+        for( int i = 0; i < 4; ++i )
+        {
+            const float a = Tau * i / 4.0f;
+            const Vector3 c = { std::cos( a ) * 4.65f, 47.0f, std::sin( a ) * 4.65f };
+            m.box( c, Vector3{ std::abs( std::cos( a ) ) > 0.5f ? 0.05f : 2.6f, 2.6f, std::abs( std::cos( a ) ) > 0.5f ? 2.6f : 0.05f }, rgb( 240, 236, 220 ), Mat{ 0.3f, 0.0f } );
+        }
+        m.box( Vector3{ 4.72f, 47.5f, 0 }, Vector3{ 0.04f, 1.8f, 0.12f }, rgb( 30, 30, 30 ) );
+        m.box( Vector3{ 4.72f, 47.0f, 0.6f }, Vector3{ 0.04f, 0.12f, 1.0f }, rgb( 30, 30, 30 ) );
+        m.taperedBox( Vector3{ 0, 51.0f, 0 }, Vector2{ 4.2f, 4.2f }, Vector3{ 0, 58.0f, 0 }, Vector2{ 2.5f, 2.5f }, rgb( 70, 84, 80 ) );
+        m.taperedBox( Vector3{ 0, 58.0f, 0 }, Vector2{ 2.5f, 2.5f }, Vector3{ 0, 70.0f, 0 }, Vector2{ 0.1f, 0.1f }, rgb( 70, 84, 80 ) );
+        m.box( Vector3{ 0, 11.0f, 34.0f }, Vector3{ 9.0f, 11.0f, 30.0f }, sandstone );
+        for( int i = 0; i < 12; ++i ) m.cylinder( Vector3{ 9.0f, 22.0f, 6.0f + 5.0f * i }, 0.6f, 0.05f, 4.0f, 6, rgb( 186, 160, 110 ) );
+        panes( m, Vector3{ 9.0f, 0, 4.0f }, Vector3{ 0, 0, 1 }, Vector3{ 1, 0, 0 }, 60.0f, 22.0f, 2001, 0.4f, 4.0f, 2.0f );
+    }
+    { // 1 Tower Bridge.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const Color stone = rgb( 206, 196, 176 ), blue = rgb( 70, 120, 170 );
+        for( float z : { -30.0f, 30.0f } )
+        {
+            m.box( Vector3{ 0, 22.0f, z }, Vector3{ 7.0f, 22.0f, 7.0f }, stone );
+            for( float x : { -6.0f, 6.0f } )
+                for( float dz : { -6.0f, 6.0f } )
+                {
+                    m.cylinder( Vector3{ x, 44.0f, z + dz }, 1.4f, 1.4f, 4.0f, 8, stone );
+                    m.cylinder( Vector3{ x, 48.0f, z + dz }, 1.6f, 0.05f, 5.0f, 8, rgb( 80, 90, 100 ) );
+                }
+            m.taperedBox( Vector3{ 0, 44.0f, z }, Vector2{ 5.0f, 5.0f }, Vector3{ 0, 52.0f, z }, Vector2{ 0.1f, 0.1f }, rgb( 80, 90, 100 ) );
+            for( float x : { -1.0f, 1.0f } ) m.tube( Vector3{ x * 6.0f, 30.0f, z + ( z > 0 ? 6.0f : -6.0f ) }, Vector3{ x * 6.0f, 9.0f, z + ( z > 0 ? 50.0f : -50.0f ) }, 0.6f, 6, blue );
+        }
+        m.box( Vector3{ 0, 8.5f, 0 }, Vector3{ 6.0f, 0.8f, 80.0f }, blue );
+        for( float x : { -5.0f, 5.0f } ) m.box( Vector3{ x, 37.0f, 0 }, Vector3{ 1.2f, 1.6f, 23.0f }, blue );
+    }
+    { // 2 Colosseum: an elliptical ring in three arcaded tiers, one side fallen.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const Color trav = rgb( 214, 198, 168 ), shadow = rgb( 70, 60, 50 );
+        const int   n = 40;
+        for( int i = 0; i < n; ++i )
+        {
+            const float a0 = Tau * i / n, a1 = Tau * ( i + 1 ) / n;
+            const float h = ( i > 26 && i < 36 ) ? 30.0f : 46.0f;
+            for( float r : { 1.0f, 0.82f } )
+            {
+                const Vector3 p0 = { std::cos( a0 ) * 47.0f * r, 0, std::sin( a0 ) * 39.0f * r };
+                const Vector3 p1 = { std::cos( a1 ) * 47.0f * r, 0, std::sin( a1 ) * 39.0f * r };
+                m.quad( p0, p1, Vector3{ p1.x, h, p1.z }, Vector3{ p0.x, h, p0.z }, r < 1.0f ? scaleColor( trav, 0.8f ) : trav );
+            }
+            const Vector3 o0 = { std::cos( a0 ) * 47.2f, 0, std::sin( a0 ) * 39.2f }, o1 = { std::cos( a1 ) * 47.2f, 0, std::sin( a1 ) * 39.2f };
+            for( int t = 0; t < 3; ++t )
+            {
+                const float y0 = 3.0f + 11.0f * t, y1 = y0 + 7.0f;
+                if( y1 > h ) break;
+                const Vector3 q0 = Vector3Lerp( o0, o1, 0.25f ), q1 = Vector3Lerp( o0, o1, 0.75f );
+                m.quad( Vector3{ q0.x, y0, q0.z }, Vector3{ q1.x, y0, q1.z }, Vector3{ q1.x, y1, q1.z }, Vector3{ q0.x, y1, q0.z }, shadow );
+            }
+        }
+    }
+    { // 3 The Leaning Tower of Pisa and its cathedral.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const float lean = std::tan( 0.07f );
+        for( int i = 0; i < 8; ++i )
+        {
+            const float y = 7.0f * i;
+            m.cylinder( Vector3{ y * lean, y, 0 }, 7.8f - ( i == 7 ? 2.0f : 0.0f ), 7.8f - ( i == 7 ? 2.0f : 0.0f ), 7.0f, 16, marble );
+            m.cylinder( Vector3{ ( y + 6.6f ) * lean, y + 6.6f, 0 }, 8.3f, 8.3f, 0.4f, 16, rgb( 214, 206, 190 ) );
+        }
+        m.box( Vector3{ 10.0f, 8.0f, 45.0f }, Vector3{ 9.0f, 8.0f, 28.0f }, marble );
+        gable( m, Vector3{ 10.0f, 16.0f, 45.0f }, 9.0f, 28.0f, 5.0f, 0.3f, rgb( 160, 90, 70 ), marble );
+        m.cylinder( Vector3{ 10.0f, 16.0f, 40.0f }, 6.0f, 6.0f, 4.0f, 12, marble );
+        m.blob( Vector3{ 10.0f, 20.0f, 40.0f }, Vector3{ 6.0f, 5.0f, 6.0f }, rgb( 200, 190, 170 ), 2011, 0.0f );
+    }
+    { // 4 A basilica's dome over a columned front (St Peter's, Yamoussoukro).
+        MeshBuilder &m = keyed( PropKindE::LANDMARK, 0.0f, FacingE::ROAD, rgb( 226, 214, 186 ), rgb( 120, 136, 150 ) );
+        m.box( Vector3{ 0, 14.0f, 0 }, Vector3{ 30.0f, 14.0f, 40.0f }, keyA( 1.0f ) );
+        m.cylinder( Vector3{ -8.0f, 28.0f, 0 }, 18.0f, 18.0f, 14.0f, 20, keyA( 0.95f ) );
+        m.blob( Vector3{ -8.0f, 42.0f, 0 }, Vector3{ 18.0f, 20.0f, 18.0f }, keyB( 1.0f ), 2021, 0.0f );
+        m.cylinder( Vector3{ -8.0f, 60.0f, 0 }, 3.0f, 2.5f, 8.0f, 10, keyA( 1.0f ) );
+        m.cylinder( Vector3{ -8.0f, 68.0f, 0 }, 2.5f, 0.1f, 5.0f, 10, keyB( 0.9f ) );
+        for( int i = 0; i < 10; ++i ) m.cylinder( Vector3{ 31.5f, 0, -27.0f + 6.0f * i }, 1.3f, 1.2f, 26.0f, 10, keyA( 1.0f ) );
+        m.box( Vector3{ 32.0f, 27.0f, 0 }, Vector3{ 2.5f, 2.0f, 31.0f }, keyA( 0.95f ) );
+    }
+    { // 5 Sagrada Familia: a crowd of perforated spires.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const Color s = rgb( 190, 170, 140 );
+        m.box( Vector3{ 0, 18.0f, 0 }, Vector3{ 22.0f, 18.0f, 40.0f }, s );
+        const float spires[][3] = { { 18, -30, 98 }, { 18, -18, 105 }, { 18, 18, 105 }, { 18, 30, 98 }, { -18, -30, 95 }, { -18, -18, 100 },
+                                    { -18, 18, 100 }, { -18, 30, 95 }, { 0, 0, 160 }, { 0, -12, 130 }, { 0, 12, 130 } };
+        for( const auto &sp : spires )
+        {
+            m.cylinder( Vector3{ sp[0], 20.0f, sp[1] }, 3.5f, 0.6f, sp[2] - 20.0f, 8, s );
+            m.blob( Vector3{ sp[0], sp[2], sp[1] }, Vector3{ 1.4f, 2.0f, 1.4f }, rgb( 220, 120, 60 ), 2031, 0.3f );
+            for( int i = 0; i < 6; ++i ) m.cylinder( Vector3{ sp[0], 26.0f + 10.0f * i, sp[1] }, 3.4f - 0.3f * i, 3.4f - 0.3f * i, 0.6f, 8, scaleColor( s, 0.75f ) );
+        }
+    }
+    { // 6 Neuschwanstein on its crag.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const Color wall = rgb( 238, 234, 226 ), roof = rgb( 80, 96, 120 );
+        m.blob( Vector3{ 0, 4.0f, 0 }, Vector3{ 40.0f, 20.0f, 34.0f }, rgb( 120, 116, 104 ), 2041, 0.4f );
+        m.box( Vector3{ 0, 34.0f, 0 }, Vector3{ 9.0f, 14.0f, 26.0f }, wall );
+        gable( m, Vector3{ 0, 48.0f, 0 }, 9.0f, 26.0f, 8.0f, 0.3f, roof, wall );
+        const float towers[][4] = { { 10, -24, 62, 3.5f }, { 10, 22, 52, 3.0f }, { -10, -20, 56, 3.2f }, { -8, 26, 46, 2.6f }, { 12, 0, 46, 2.4f } };
+        for( const auto &t : towers )
+        {
+            m.cylinder( Vector3{ t[0], 20.0f, t[1] }, t[3], t[3], t[2] - 20.0f, 12, wall );
+            m.cylinder( Vector3{ t[0], t[2], t[1] }, t[3] + 0.4f, 0.1f, t[3] * 2.6f, 12, roof );
+            panes( m, Vector3{ t[0] + t[3], 20.0f, t[1] - 1.0f }, Vector3{ 0, 0, 1 }, Vector3{ 1, 0, 0 }, 2.0f, t[2] - 22.0f, 2042, 0.2f, 4.0f, 3.0f );
+        }
+        panes( m, Vector3{ 9.0f, 20.0f, -26.0f }, Vector3{ 0, 0, 1 }, Vector3{ 1, 0, 0 }, 52.0f, 28.0f, 2043, 0.3f, 4.0f, 2.0f );
+    }
+    { // 7 Mont-Saint-Michel: the rock, the town, the abbey and its spire.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        m.blob( Vector3{ 0, 8.0f, 0 }, Vector3{ 60.0f, 40.0f, 55.0f }, rgb( 150, 140, 124 ), 2051, 0.3f );
+        Rng r( 2052 );
+        for( int i = 0; i < 24; ++i )
+        {
+            const float a = r.range( 0.0f, Tau ), rr = r.range( 25.0f, 50.0f ), y = 48.0f - rr * 0.8f;
+            m.box( Vector3{ std::cos( a ) * rr, y, std::sin( a ) * rr }, Vector3{ 3.0f, 4.0f, 3.5f }, rgb( 170, 160, 144 ) );
+            hip( m, Vector3{ std::cos( a ) * rr, y + 4.0f, std::sin( a ) * rr }, 3.0f, 3.5f, 2.5f, 0.3f, slate );
+        }
+        m.box( Vector3{ 0, 54.0f, 0 }, Vector3{ 10.0f, 10.0f, 22.0f }, rgb( 168, 158, 140 ) );
+        gable( m, Vector3{ 0, 64.0f, 0 }, 10.0f, 22.0f, 7.0f, 0.3f, slate, rgb( 168, 158, 140 ) );
+        m.box( Vector3{ 0, 74.0f, 0 }, Vector3{ 3.5f, 6.0f, 3.5f }, rgb( 168, 158, 140 ) );
+        m.cylinder( Vector3{ 0, 80.0f, 0 }, 3.0f, 0.1f, 20.0f, 8, slate );
+        m.blob( Vector3{ 0, 101.0f, 0 }, Vector3{ 0.5f, 1.2f, 0.5f }, gold, 2053, 0.0f, Glow );
+    }
+    { // 8 Brandenburg Gate.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        for( int i = 0; i < 6; ++i ) m.cylinder( Vector3{ 0, 1.5f, -16.0f + 6.4f * i }, 0.9f, 0.8f, 14.0f, 10, sandstone );
+        m.box( Vector3{ 0, 0.75f, 0 }, Vector3{ 4.5f, 0.75f, 19.0f }, sandstone );
+        m.box( Vector3{ 0, 17.5f, 0 }, Vector3{ 4.5f, 2.0f, 19.0f }, sandstone );
+        m.box( Vector3{ 0, 21.0f, 0 }, Vector3{ 3.0f, 1.5f, 8.0f }, sandstone );
+        m.box( Vector3{ 0, 23.5f, 0 }, Vector3{ 1.2f, 1.0f, 2.6f }, copper );
+        for( int i = 0; i < 4; ++i ) m.blob( Vector3{ 0.5f, 23.4f, -1.8f + 1.2f * i }, Vector3{ 0.5f, 1.0f, 0.4f }, copper, 2061 + i, 0.3f );
+        m.blob( Vector3{ 0, 26.0f, 0 }, Vector3{ 0.5f, 1.5f, 0.6f }, copper, 2065, 0.2f );
+    }
+    { // 9 The Acropolis: the rock and the Parthenon.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        m.blob( Vector3{ 0, 0, 0 }, Vector3{ 90.0f, 32.0f, 60.0f }, rgb( 168, 156, 134 ), 2071, 0.25f );
+        m.taperedBox( Vector3{ 0, 26.0f, 0 }, Vector2{ 60.0f, 40.0f }, Vector3{ 0, 30.0f, 0 }, Vector2{ 56.0f, 38.0f }, rgb( 176, 164, 140 ) );
+        m.box( Vector3{ 0, 31.0f, 0 }, Vector3{ 16.0f, 1.0f, 34.0f }, marble );
+        for( int i = 0; i < 8; ++i )
+            for( float x : { -14.5f, 14.5f } )
+                if( !( x > 0 && i == 5 ) ) m.cylinder( Vector3{ x, 32.0f, -31.0f + 8.9f * i }, 1.0f, 0.85f, 10.5f, 10, marble );
+        for( int i = 0; i < 8; ++i ) m.cylinder( Vector3{ -14.5f + 4.15f * i, 32.0f, -31.0f }, 1.0f, 0.85f, 10.5f, 10, marble );
+        m.box( Vector3{ 0, 43.5f, -18.0f }, Vector3{ 16.0f, 1.0f, 16.0f }, marble );
+        m.tri( Vector3{ -16.0f, 44.5f, -32.0f }, Vector3{ 16.0f, 44.5f, -32.0f }, Vector3{ 0, 49.0f, -32.0f }, marble );
+    }
+    { // 10 St Basil's: onion domes in every colour.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const Color brick = rgb( 168, 64, 48 );
+        m.box( Vector3{ 0, 8.0f, 0 }, Vector3{ 16.0f, 8.0f, 16.0f }, brick );
+        m.cylinder( Vector3{ 0, 16.0f, 0 }, 5.0f, 4.0f, 22.0f, 8, brick );
+        m.cylinder( Vector3{ 0, 38.0f, 0 }, 4.2f, 0.1f, 12.0f, 8, rgb( 60, 140, 90 ) );
+        m.blob( Vector3{ 0, 51.0f, 0 }, Vector3{ 1.4f, 1.6f, 1.4f }, gold, 2081, 0.0f, Shiny );
+        const Color domes[8] = { rgb( 230, 60, 60 ), rgb( 60, 150, 90 ), rgb( 60, 110, 200 ), rgb( 240, 200, 60 ),
+                                 rgb( 230, 120, 40 ), rgb( 80, 180, 170 ), rgb( 200, 60, 140 ), rgb( 120, 180, 60 ) };
+        for( int i = 0; i < 8; ++i )
+        {
+            const float a = Tau * i / 8.0f, r = i % 2 ? 11.0f : 12.5f, h = i % 2 ? 22.0f : 28.0f;
+            const Vector3 b = { std::cos( a ) * r, 16.0f, std::sin( a ) * r };
+            m.cylinder( b, 3.0f, 3.0f, h - 16.0f, 8, i % 2 ? rgb( 236, 220, 190 ) : brick );
+            m.blob( Vector3{ b.x, h + 2.5f, b.z }, Vector3{ 3.6f, 3.4f, 3.6f }, domes[i], 2082 + i, 0.15f, Shiny );
+            m.cylinder( Vector3{ b.x, h + 5.2f, b.z }, 1.4f, 0.05f, 3.0f, 8, domes[i] );
+        }
+    }
+    { // 11 A statue with open arms on its pedestal (Christ the Redeemer, Cristo Rei).
+        MeshBuilder &m = keyed( PropKindE::LANDMARK, 0.0f, FacingE::ROAD, rgb( 236, 232, 222 ) );
+        m.box( Vector3{ 0, 4.0f, 0 }, Vector3{ 3.5f, 4.0f, 3.5f }, keyA( 0.85f ) );
+        m.taperedBox( Vector3{ 0, 8.0f, 0 }, Vector2{ 2.6f, 2.8f }, Vector3{ 0, 26.0f, 0 }, Vector2{ 1.6f, 2.2f }, keyA( 1.0f ) );
+        m.box( Vector3{ 0, 24.5f, 0 }, Vector3{ 1.4f, 1.3f, 14.0f }, keyA( 0.97f ) );
+        m.blob( Vector3{ 0.2f, 28.0f, 0 }, Vector3{ 1.3f, 1.6f, 1.3f }, keyA( 1.0f ), 2091, 0.0f );
+    }
+    { // 12 The Statue of Liberty.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        m.taperedBox( Vector3{ 0, 0, 0 }, Vector2{ 12.0f, 12.0f }, Vector3{ 0, 27.0f, 0 }, Vector2{ 8.0f, 8.0f }, rgb( 170, 160, 140 ) );
+        m.taperedBox( Vector3{ 0, 27.0f, 0 }, Vector2{ 4.5f, 5.0f }, Vector3{ 0, 52.0f, 0 }, Vector2{ 2.4f, 3.0f }, copper );
+        m.blob( Vector3{ 0.4f, 55.0f, 0 }, Vector3{ 2.0f, 2.6f, 2.0f }, copper, 2101, 0.1f );
+        for( int i = 0; i < 7; ++i )
+        {
+            const float a = -1.2f + 0.4f * i;
+            m.tube( Vector3{ 0.4f, 57.0f, 0 }, Vector3{ 0.4f + std::cos( a ) * 0.5f, 57.0f + std::cos( a * 0.5f ) * 3.0f, std::sin( a ) * 3.0f }, 0.15f, 3, copper );
+        }
+        m.tube( Vector3{ 0, 49.0f, -2.5f }, Vector3{ 0.5f, 64.0f, -4.0f }, 0.9f, 6, copper );
+        m.cylinder( Vector3{ 0.5f, 64.0f, -4.0f }, 1.0f, 1.4f, 2.0f, 8, copper );
+        m.blob( Vector3{ 0.5f, 67.0f, -4.0f }, Vector3{ 0.9f, 1.6f, 0.9f }, rgb( 255, 190, 80 ), 2102, 0.3f, Glow );
+        m.box( Vector3{ 2.3f, 44.0f, 2.0f }, Vector3{ 0.4f, 2.5f, 1.6f }, copper );
+    }
+    { // 13 Sydney Opera House: shells on a podium.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const Color shell = rgb( 244, 242, 234 );
+        m.box( Vector3{ 0, 4.0f, 0 }, Vector3{ 30.0f, 4.0f, 60.0f }, rgb( 196, 170, 140 ) );
+        auto sail = [&]( float z, float h, float x, float dir )
+        {
+            const Vector3 base0 = { x - 10.0f, 8.0f, z }, base1 = { x + 10.0f, 8.0f, z }, tip = { x, 8.0f + h, z + dir * h * 0.5f };
+            const Vector3 back = { x, 8.0f, z + dir * h * 0.9f };
+            m.tri( base0, base1, tip, shell, Shiny );
+            m.tri( base0, tip, back, scaleColor( shell, 0.93f ), Shiny );
+            m.tri( base1, back, tip, scaleColor( shell, 0.9f ), Shiny );
+        };
+        for( float x : { -12.0f, 12.0f } )
+        {
+            sail( -40.0f, 40.0f, x, 1.0f );
+            sail( -20.0f, 34.0f, x, 1.0f );
+            sail( 0.0f, 26.0f, x, 1.0f );
+            sail( 30.0f, 18.0f, x, -1.0f );
+        }
+    }
+    { // 14 Petronas Towers.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const Color steel2 = rgb( 196, 202, 210 );
+        for( float z : { -22.0f, 22.0f } )
+        {
+            float y = 0.0f;
+            for( int i = 0; i < 9; ++i )
+            {
+                const float r = 14.0f - 1.1f * i, h = 40.0f - 2.5f * i;
+                m.cylinder( Vector3{ 0, y, z }, r, r * 0.97f, h, 16, steel2, Shiny );
+                y += h;
+            }
+            m.cylinder( Vector3{ 0, y, z }, 3.0f, 0.2f, 70.0f, 8, steel2, Shiny );
+        }
+        m.box( Vector3{ 0, 170.0f, 0 }, Vector3{ 2.5f, 3.0f, 12.0f }, steel2, Shiny );
+        m.tube( Vector3{ 0, 140.0f, -12.0f }, Vector3{ 0, 168.0f, 0 }, 0.6f, 5, steel2 );
+        m.tube( Vector3{ 0, 140.0f, 12.0f }, Vector3{ 0, 168.0f, 0 }, 0.6f, 5, steel2 );
+    }
+    { // 15 Space Needle.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const Color w = rgb( 236, 236, 236 );
+        for( int i = 0; i < 3; ++i )
+        {
+            const float a = Tau * i / 3.0f;
+            const Vector3 foot = { std::cos( a ) * 14.0f, 0, std::sin( a ) * 14.0f }, waist = { std::cos( a ) * 3.0f, 110.0f, std::sin( a ) * 3.0f };
+            const Vector3 top = { std::cos( a ) * 6.0f, 150.0f, std::sin( a ) * 6.0f };
+            m.tube( foot, waist, 1.2f, 6, w );
+            m.tube( waist, top, 1.0f, 6, w );
+        }
+        m.cylinder( Vector3{ 0, 150.0f, 0 }, 7.0f, 22.0f, 6.0f, 20, w );
+        m.cylinder( Vector3{ 0, 156.0f, 0 }, 22.0f, 14.0f, 4.0f, 20, rgb( 230, 140, 60 ) );
+        m.cylinder( Vector3{ 0, 160.0f, 0 }, 14.0f, 4.0f, 4.0f, 20, w );
+        m.cylinder( Vector3{ 0, 164.0f, 0 }, 1.0f, 0.1f, 20.0f, 6, w );
+    }
+    { // 16 The Capitol.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const Color w = rgb( 240, 238, 232 );
+        m.box( Vector3{ 0, 12.0f, 0 }, Vector3{ 20.0f, 12.0f, 110.0f }, w );
+        m.cylinder( Vector3{ 0, 24.0f, 0 }, 22.0f, 22.0f, 6.0f, 24, w );
+        for( int i = 0; i < 24; ++i )
+        {
+            const float a = Tau * i / 24.0f;
+            m.cylinder( Vector3{ std::cos( a ) * 20.0f, 30.0f, std::sin( a ) * 20.0f }, 0.8f, 0.8f, 12.0f, 6, w );
+        }
+        m.cylinder( Vector3{ 0, 30.0f, 0 }, 18.0f, 18.0f, 12.0f, 24, scaleColor( w, 0.9f ) );
+        m.blob( Vector3{ 0, 42.0f, 0 }, Vector3{ 19.0f, 18.0f, 19.0f }, w, 2111, 0.0f );
+        m.cylinder( Vector3{ 0, 60.0f, 0 }, 3.0f, 3.0f, 8.0f, 12, w );
+        m.blob( Vector3{ 0, 70.0f, 0 }, Vector3{ 0.8f, 2.0f, 0.8f }, rgb( 70, 70, 70 ), 2112, 0.0f );
+        for( int i = 0; i < 8; ++i ) m.cylinder( Vector3{ 21.0f, 0, -14.0f + 4.0f * i }, 0.9f, 0.8f, 22.0f, 8, w );
+    }
+    { // 17 Obelisk (Washington, Luxor).
+        MeshBuilder &m = keyed( PropKindE::LANDMARK, 0.0f, FacingE::ROAD, rgb( 236, 232, 222 ) );
+        m.taperedBox( Vector3{ 0, 0, 0 }, Vector2{ 8.4f, 8.4f }, Vector3{ 0, 152.0f, 0 }, Vector2{ 5.2f, 5.2f }, keyA( 1.0f ), {}, false );
+        m.taperedBox( Vector3{ 0, 152.0f, 0 }, Vector2{ 5.2f, 5.2f }, Vector3{ 0, 169.0f, 0 }, Vector2{ 0.1f, 0.1f }, keyA( 0.95f ) );
+    }
+    { // 18 HOLLYWOOD on its hill.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        m.blob( Vector3{ -30.0f, 0, 0 }, Vector3{ 70.0f, 40.0f, 80.0f }, rgb( 150, 140, 96 ), 2121, 0.3f );
+        static const char *glyphs[6][5] = { { "101", "101", "111", "101", "101" }, { "111", "101", "101", "101", "111" },
+                                            { "100", "100", "100", "100", "111" }, { "101", "101", "010", "010", "010" },
+                                            { "101", "101", "101", "111", "101" }, { "110", "101", "101", "101", "110" } };
+        const int word[9] = { 0, 1, 2, 2, 3, 4, 1, 1, 5 };
+        for( int l = 0; l < 9; ++l )
+            for( int row = 0; row < 5; ++row )
+                for( int col = 0; col < 3; ++col )
+                    if( glyphs[word[l]][row][col] == '1' )
+                        m.box( Vector3{ 6.0f, 22.0f + ( 4 - row ) * 3.0f, -40.0f + l * 10.0f + col * 3.0f }, Vector3{ 0.3f, 1.5f, 1.5f }, rgb( 246, 246, 244 ) );
+    }
+    { // 19 Kuwait Towers.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const Color w = rgb( 230, 232, 236 ), blue = rgb( 40, 100, 150 );
+        m.cylinder( Vector3{ 0, 0, 0 }, 2.0f, 1.0f, 187.0f, 10, w );
+        m.blob( Vector3{ 0, 82.0f, 0 }, Vector3{ 16.0f, 16.0f, 16.0f }, blue, 2131, 0.0f, Shiny );
+        m.blob( Vector3{ 0, 122.0f, 0 }, Vector3{ 10.0f, 10.0f, 10.0f }, blue, 2132, 0.0f, Shiny );
+        m.cylinder( Vector3{ 0, 0, 30.0f }, 1.6f, 0.8f, 147.0f, 10, w );
+        m.blob( Vector3{ 0, 70.0f, 30.0f }, Vector3{ 14.0f, 14.0f, 14.0f }, blue, 2133, 0.0f, Shiny );
+        m.cylinder( Vector3{ 0, 0, -22.0f }, 1.2f, 0.4f, 113.0f, 10, w );
+    }
+    { // 20 A victory column with a golden figure (the Angel of Independence, the Siegessaeule).
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        m.box( Vector3{ 0, 4.0f, 0 }, Vector3{ 8.0f, 4.0f, 8.0f }, marble );
+        m.cylinder( Vector3{ 0, 8.0f, 0 }, 2.6f, 2.2f, 36.0f, 12, marble );
+        m.cylinder( Vector3{ 0, 44.0f, 0 }, 3.2f, 3.2f, 1.2f, 12, marble );
+        m.taperedBox( Vector3{ 0, 45.0f, 0 }, Vector2{ 0.7f, 0.9f }, Vector3{ 0, 50.0f, 0 }, Vector2{ 0.4f, 0.5f }, gold, Shiny );
+        for( float s : { -1.0f, 1.0f } ) m.tri( Vector3{ 0, 48.0f, 0 }, Vector3{ -0.5f, 52.0f, s * 3.0f }, Vector3{ -0.3f, 46.0f, s * 1.5f }, gold, Shiny );
+        m.blob( Vector3{ 0, 50.8f, 0 }, Vector3{ 0.4f, 0.5f, 0.4f }, gold, 2141, 0.0f, Shiny );
+    }
+    { // 21 The Colossi of Memnon: two seated kings.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        for( float z : { -10.0f, 10.0f } )
+        {
+            m.box( Vector3{ 0, 2.0f, z }, Vector3{ 4.0f, 2.0f, 3.5f }, sandstone );
+            m.box( Vector3{ -0.5f, 7.5f, z }, Vector3{ 3.0f, 3.5f, 3.0f }, scaleColor( sandstone, 0.9f ) );
+            m.box( Vector3{ 2.0f, 6.0f, z }, Vector3{ 2.0f, 1.0f, 2.4f }, scaleColor( sandstone, 0.85f ) );
+            m.taperedBox( Vector3{ -1.0f, 11.0f, z }, Vector2{ 2.0f, 2.6f }, Vector3{ -1.0f, 17.0f, z }, Vector2{ 1.5f, 1.8f }, sandstone );
+            m.blob( Vector3{ -0.8f, 18.5f, z }, Vector3{ 1.4f, 1.8f, 1.6f }, scaleColor( sandstone, 0.9f ), 2151, 0.3f );
+        }
+    }
+    { // 22 The Sphinx.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const Color lime = rgb( 210, 180, 130 );
+        m.blob( Vector3{ -10.0f, 6.0f, 0 }, Vector3{ 28.0f, 7.0f, 8.0f }, lime, 2161, 0.25f );
+        for( float z : { -4.0f, 4.0f } ) m.box( Vector3{ 18.0f, 1.5f, z }, Vector3{ 9.0f, 1.5f, 2.0f }, lime );
+        m.box( Vector3{ 12.0f, 14.0f, 0 }, Vector3{ 4.0f, 7.0f, 5.0f }, lime );
+        m.taperedBox( Vector3{ 11.0f, 14.0f, 0 }, Vector2{ 3.0f, 7.0f }, Vector3{ 11.0f, 22.0f, 0 }, Vector2{ 3.0f, 4.0f }, scaleColor( lime, 0.9f ) );
+        m.box( Vector3{ 14.5f, 18.0f, 0 }, Vector3{ 1.5f, 3.5f, 3.0f }, scaleColor( lime, 1.05f ) );
+    }
+    { // 23 Borobudur: square terraces, round terraces of bell stupas, the great stupa.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const Color stone = rgb( 120, 116, 104 );
+        for( int i = 0; i < 6; ++i ) m.box( Vector3{ 0, 2.0f + 4.0f * i, 0 }, Vector3{ 60.0f - 7.0f * i, 2.0f, 60.0f - 7.0f * i }, scaleColor( stone, 0.9f + 0.02f * i ) );
+        for( int ring = 0; ring < 3; ++ring )
+        {
+            const float r = 14.0f - 4.0f * ring, y = 24.0f + 2.5f * ring;
+            m.cylinder( Vector3{ 0, y, 0 }, r + 2.5f, r + 2.5f, 2.5f, 24, stone );
+            const int n = 16 - 4 * ring;
+            for( int i = 0; i < n; ++i )
+            {
+                const float a = Tau * i / n;
+                m.blob( Vector3{ std::cos( a ) * r, y + 3.5f, std::sin( a ) * r }, Vector3{ 1.5f, 1.8f, 1.5f }, stone, 2171 + i, 0.0f );
+                m.cylinder( Vector3{ std::cos( a ) * r, y + 5.0f, std::sin( a ) * r }, 0.4f, 0.05f, 1.2f, 6, stone );
+            }
+        }
+        m.blob( Vector3{ 0, 36.0f, 0 }, Vector3{ 5.0f, 6.0f, 5.0f }, stone, 2191, 0.0f );
+        m.cylinder( Vector3{ 0, 41.0f, 0 }, 1.2f, 0.1f, 6.0f, 8, stone );
+    }
+    { // 24 La Mano: fingers rising from the sand.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const Color c = rgb( 190, 186, 180 );
+        const float fingers[5][3] = { { 0, -4.5f, 6.0f }, { 0.3f, -2.0f, 7.2f }, { 0.2f, 0.4f, 7.6f }, { 0, 2.8f, 7.0f }, { -1.0f, 5.2f, 3.6f } };
+        for( const auto &f : fingers )
+        {
+            m.tube( Vector3{ f[0], -0.5f, f[1] }, Vector3{ f[0] + 0.3f, f[2], f[1] * 1.05f }, 0.9f, 8, c );
+            m.blob( Vector3{ f[0] + 0.3f, f[2], f[1] * 1.05f }, Vector3{ 0.9f, 0.6f, 0.9f }, c, 2201, 0.0f );
+        }
+    }
+    { // 25 Harbin's ice castle, lit from inside.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const Color lights[4] = { rgb( 120, 200, 255 ), rgb( 255, 120, 220 ), rgb( 140, 255, 180 ), rgb( 255, 220, 120 ) };
+        for( int i = 0; i < 9; ++i )
+        {
+            const float z = -40.0f + 10.0f * i, h = 14.0f + 10.0f * std::sin( i * 0.9f ) + ( i == 4 ? 26.0f : 0.0f );
+            m.box( Vector3{ 0, h * 0.5f, z }, Vector3{ 4.0f, h * 0.5f, 4.0f }, lights[i % 4], Mat{ 0.55f, 0.6f } );
+            m.taperedBox( Vector3{ 0, h, z }, Vector2{ 4.4f, 4.4f }, Vector3{ 0, h + 7.0f, z }, Vector2{ 0.1f, 0.1f }, lights[( i + 1 ) % 4], Mat{ 0.6f, 0.6f } );
+        }
+        m.box( Vector3{ 0, 4.0f, 0 }, Vector3{ 3.0f, 4.0f, 44.0f }, rgb( 200, 230, 255 ), Mat{ 0.4f, 0.7f } );
+    }
+    { // 26 Darvaza: the burning crater.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const int n = 20;
+        for( int i = 0; i < n; ++i )
+        {
+            const float a = Tau * i / n;
+            m.blob( Vector3{ std::cos( a ) * 34.0f, 0.5f, std::sin( a ) * 34.0f }, Vector3{ 8.0f, 3.0f, 8.0f }, rgb( 150, 120, 90 ), 2211 + i, 0.4f );
+            m.tri( Vector3{ std::cos( a ) * 26.0f, -6.0f, std::sin( a ) * 26.0f }, Vector3{ std::cos( a + 0.15f ) * 26.0f, -6.0f, std::sin( a + 0.15f ) * 26.0f },
+                   Vector3{ std::cos( a + 0.07f ) * 25.0f, -1.0f + 2.0f * ( i % 3 ), std::sin( a + 0.07f ) * 25.0f }, rgb( 255, 150, 40 ), Glow );
+        }
+        m.cylinder( Vector3{ 0, -8.0f, 0 }, 30.0f, 30.0f, 0.5f, 20, rgb( 255, 110, 30 ), Glow );
+        m.cylinder( Vector3{ 0, -7.4f, 0 }, 31.0f, 34.0f, 7.0f, 20, rgb( 90, 60, 40 ), Mat{ 0.3f, 0.0f } );
+    }
+    { // 27 A triumphal arch (the Arc de Triomphe, Palmyra).
+        MeshBuilder &m = keyed( PropKindE::LANDMARK, 0.0f, FacingE::ROAD, rgb( 222, 210, 184 ) );
+        for( float z : { -15.0f, 15.0f } ) m.box( Vector3{ 0, 15.0f, z }, Vector3{ 11.0f, 15.0f, 7.5f }, keyA( 1.0f ) );
+        m.box( Vector3{ 0, 38.0f, 0 }, Vector3{ 11.0f, 8.0f, 22.5f }, keyA( 0.97f ) );
+        for( int k = 0; k < 6; ++k )
+        {
+            const float a0 = 3.14159f * k / 6.0f, a1 = 3.14159f * ( k + 1 ) / 6.0f;
+            for( float x : { -11.0f, 11.0f } )
+                m.quad( Vector3{ x, 22.0f + std::sin( a0 ) * 8.0f, -std::cos( a0 ) * 7.5f }, Vector3{ x, 22.0f + std::sin( a1 ) * 8.0f, -std::cos( a1 ) * 7.5f },
+                        Vector3{ x, 30.0f, -std::cos( a1 ) * 7.5f }, Vector3{ x, 30.0f, -std::cos( a0 ) * 7.5f }, keyA( 0.92f ) );
+        }
+        m.box( Vector3{ 0, 46.5f, 0 }, Vector3{ 11.5f, 0.6f, 23.0f }, keyA( 0.9f ) );
+    }
+    { // 28 Great Zimbabwe: the curved wall and the conical tower.
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const Color granite = rgb( 150, 136, 116 );
+        for( int i = 0; i < 30; ++i )
+        {
+            if( i == 7 || i == 8 ) continue;
+            const float a = Tau * i / 30.0f;
+            m.box( Vector3{ std::cos( a ) * 40.0f, 5.0f, std::sin( a ) * 30.0f }, Vector3{ 4.5f, 5.0f + ( i % 5 == 0 ? 1.0f : 0.0f ), 4.5f }, scaleColor( granite, 0.9f + 0.02f * ( i % 5 ) ) );
+        }
+        m.cylinder( Vector3{ 15.0f, 0, 5.0f }, 3.0f, 1.6f, 10.0f, 12, granite );
+    }
+    { // 29 An island church in a lake (Bled).
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        m.blob( Vector3{ 0, 0, 0 }, Vector3{ 36.0f, 8.0f, 28.0f }, rgb( 120, 116, 104 ), 2231, 0.3f );
+        for( int i = 0; i < 8; ++i )
+            m.blob( Vector3{ -20.0f + 6.0f * i, 10.0f, -14.0f + 3.0f * ( i % 3 ) }, Vector3{ 4.0f, 5.0f, 4.0f }, rgb( 60, 110, 56 ), 2232 + i, 0.4f );
+        m.box( Vector3{ 4.0f, 12.0f, 4.0f }, Vector3{ 5.0f, 5.0f, 9.0f }, white );
+        gable( m, Vector3{ 4.0f, 17.0f, 4.0f }, 5.0f, 9.0f, 4.0f, 0.3f, rgb( 170, 70, 52 ), white );
+        m.box( Vector3{ 4.0f, 18.0f, -7.0f }, Vector3{ 2.5f, 11.0f, 2.5f }, white );
+        m.cylinder( Vector3{ 4.0f, 29.0f, -7.0f }, 2.6f, 0.1f, 9.0f, 8, rgb( 170, 70, 52 ) );
+    }
+    { // 30 A torii standing in the sea (Itsukushima).
+        MeshBuilder &m = add( PropKindE::LANDMARK, 0.0f, FacingE::ROAD );
+        const Color red = rgb( 214, 60, 40 );
+        for( float z : { -8.0f, 8.0f } )
+        {
+            m.cylinder( Vector3{ 0, -4.0f, z }, 0.9f, 0.8f, 20.0f, 10, red );
+            for( float x : { -3.0f, 3.0f } ) m.tube( Vector3{ x, -4.0f, z }, Vector3{ 0, 8.0f, z }, 0.4f, 6, red );
+        }
+        m.box( Vector3{ 0, 13.5f, 0 }, Vector3{ 1.0f, 0.6f, 10.5f }, red );
+        m.box( Vector3{ 0, 16.3f, 0 }, Vector3{ 1.4f, 0.6f, 12.5f }, rgb( 40, 36, 34 ) );
+        m.box( Vector3{ 0, 15.5f, 0 }, Vector3{ 1.0f, 0.4f, 11.5f }, red );
+    }
+
+    // ---- Waterfalls, basalt, stones, ships, marsh houses, pipelines, signs, tortoises, trulli ---------------------------
+    for( int v = 0; v < 2; ++v )
+    { // Waterfall: wide and low (Niagara, Iguazu) or a tall thread (Kaieteur, Trollstigen).
+        MeshBuilder &m = keyed( PropKindE::WATERFALL, 0.0f, FacingE::ROAD, rgb( 96, 92, 88 ), rgb( 236, 244, 248 ) );
+        const float  w = v ? 14.0f : 60.0f, h = v ? 90.0f : 30.0f;
+        m.box( Vector3{ -10.0f, h * 0.5f, 0 }, Vector3{ 10.0f, h * 0.5f, w + 30.0f }, keyA( 0.9f ) );
+        m.blob( Vector3{ -14.0f, h, 0 }, Vector3{ 14.0f, 6.0f, w + 30.0f }, rgb( 70, 110, 56 ), 2241 + v, 0.4f );
+        for( int i = 0; i < ( v ? 1 : 4 ); ++i )
+        {
+            const float z = v ? 0.0f : -w + w * 0.5f * i + w * 0.25f, hw = v ? w * 0.5f : w * 0.22f;
+            m.quad( Vector3{ 0.2f, h, z - hw }, Vector3{ 0.2f, h, z + hw }, Vector3{ 4.0f, 0, z + hw * 1.2f }, Vector3{ 4.0f, 0, z - hw * 1.2f }, keyB( 1.0f ), Mat{ 0.25f, 0.4f } );
+            m.blob( Vector3{ 6.0f, 2.0f, z }, Vector3{ 6.0f, 5.0f, hw * 1.4f }, keyB( 0.95f ), 2245 + i, 0.4f, Mat{ 0.15f, 0.0f } );
+        }
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Basalt columns: a causeway of steps, or a cliff of organ pipes.
+        MeshBuilder &m = add( PropKindE::BASALT_COLUMNS, 3.0f );
+        Rng          r( 2251 + v );
+        for( int i = 0; i < 40; ++i )
+        {
+            const float x = r.range( -6.0f, 6.0f ), z = r.range( -6.0f, 6.0f );
+            const float h = v ? r.range( 6.0f, 14.0f ) : r.range( 0.3f, 2.6f ) + std::max( 0.0f, -x * 0.25f );
+            m.cylinder( Vector3{ x, -0.5f, z }, 0.55f, 0.55f, h + 0.5f, 6, rgb( 52 + i % 3 * 6, 52, 56 ), {}, 0.5f * i );
+        }
+    }
+    { // A stone circle of trilithons.
+        MeshBuilder &m = add( PropKindE::STONE_CIRCLE, 0.0f );
+        const Color stone = rgb( 150, 148, 138 );
+        for( int i = 0; i < 15; ++i )
+        {
+            if( i == 4 || i == 11 ) continue;
+            const float a0 = Tau * i / 15.0f, a1 = a0 + Tau * 0.6f / 15.0f;
+            const Vector3 p0 = { std::cos( a0 ) * 15.0f, 0, std::sin( a0 ) * 15.0f }, p1 = { std::cos( a1 ) * 15.0f, 0, std::sin( a1 ) * 15.0f };
+            m.box( Vector3{ p0.x, 2.2f, p0.z }, Vector3{ 1.0f, 2.2f, 1.0f }, stone );
+            m.box( Vector3{ p1.x, 2.2f, p1.z }, Vector3{ 1.0f, 2.2f, 1.0f }, stone );
+            if( i % 3 != 2 ) m.box( Vector3{ ( p0.x + p1.x ) * 0.5f, 4.8f, ( p0.z + p1.z ) * 0.5f }, Vector3{ 1.6f, 0.4f, 1.6f }, scaleColor( stone, 0.95f ) );
+        }
+        for( int i = 0; i < 5; ++i )
+        {
+            const float a = Tau * i / 5.0f;
+            m.box( Vector3{ std::cos( a ) * 6.0f, 3.2f, std::sin( a ) * 6.0f }, Vector3{ 1.2f, 3.2f, 1.0f }, stone );
+        }
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Cargo ship with containers.
+        MeshBuilder &m = keyed( PropKindE::SHIP, 0.0f, FacingE::FREE, rgb( 40, 60, 110 ) );
+        const float  l = 60.0f + 30.0f * v;
+        m.taperedBox( Vector3{ 0, -4.0f, 0 }, Vector2{ 6.0f, l * 0.95f }, Vector3{ 0, 5.0f, 0 }, Vector2{ 8.0f, l }, keyA( 1.0f ) );
+        m.box( Vector3{ 0, 4.0f, 0 }, Vector3{ 8.05f, 1.0f, l }, rgb( 170, 50, 40 ) );
+        const Color boxes[] = { rgb( 200, 60, 50 ), rgb( 40, 120, 180 ), rgb( 230, 170, 40 ), rgb( 60, 150, 90 ), rgb( 210, 210, 210 ), rgb( 120, 70, 140 ) };
+        Rng r( 2261 + v );
+        for( int i = 0; i < static_cast<int>( l / 7.0f ); ++i )
+            for( int s = 0; s < 3 + v; ++s )
+                m.box( Vector3{ 0, 6.5f + 2.6f * s, -l + 14.0f + 6.5f * i }, Vector3{ 7.0f, 1.3f, 3.0f }, boxes[r.rangeInt( 0, 5 )] );
+        m.box( Vector3{ 0, 12.0f, -l + 7.0f }, Vector3{ 7.5f, 7.0f, 4.0f }, rgb( 240, 240, 236 ) );
+        panes( m, Vector3{ 7.5f, 6.0f, -l + 3.0f }, Vector3{ 0, 0, 1 }, Vector3{ 1, 0, 0 }, 8.0f, 13.0f, 2265 + v, 0.5f, 3.0f, 1.0f );
+    }
+    { // Mudhif: an arched reed hall.
+        MeshBuilder &m = add( PropKindE::REED_HOUSE, 4.0f, FacingE::ROAD );
+        const Color reed = rgb( 196, 170, 110 );
+        for( int i = 0; i < 9; ++i )
+        {
+            const float z = -10.0f + 2.5f * i;
+            for( int k = 0; k < 6; ++k )
+            {
+                const float a0 = 3.14159f * k / 6.0f, a1 = 3.14159f * ( k + 1 ) / 6.0f;
+                m.tube( Vector3{ -std::cos( a0 ) * 4.0f, std::sin( a0 ) * 6.0f, z }, Vector3{ -std::cos( a1 ) * 4.0f, std::sin( a1 ) * 6.0f, z }, 0.35f, 5, scaleColor( reed, 0.9f ) );
+            }
+            if( i < 8 )
+                for( int k = 0; k < 6; ++k )
+                {
+                    const float a0 = 3.14159f * k / 6.0f, a1 = 3.14159f * ( k + 1 ) / 6.0f;
+                    m.quad( Vector3{ -std::cos( a0 ) * 3.9f, std::sin( a0 ) * 5.9f, z }, Vector3{ -std::cos( a0 ) * 3.9f, std::sin( a0 ) * 5.9f, z + 2.5f },
+                            Vector3{ -std::cos( a1 ) * 3.9f, std::sin( a1 ) * 5.9f, z + 2.5f }, Vector3{ -std::cos( a1 ) * 3.9f, std::sin( a1 ) * 5.9f, z }, reed );
+                }
+        }
+    }
+    { // Raised pipeline on its supports.
+        MeshBuilder &m = add( PropKindE::PIPELINE, 0.0f, FacingE::ALONG );
+        m.tube( Vector3{ 0, 2.6f, -2.6f }, Vector3{ 0, 2.6f, 2.6f }, 0.6f, 10, rgb( 200, 204, 208 ), Shiny, true );
+        for( float x : { -1.0f, 1.0f } ) m.box( Vector3{ x, 1.0f, 0 }, Vector3{ 0.12f, 1.0f, 0.12f }, rgb( 110, 110, 110 ) );
+        m.box( Vector3{ 0, 1.9f, 0 }, Vector3{ 1.2f, 0.1f, 0.15f }, rgb( 110, 110, 110 ) );
+    }
+    for( int v = 0; v < 5; ++v )
+    { // Animal warning sign: kangaroo, camel, moose, cow, deer.
+        MeshBuilder &m = add( PropKindE::WARNING_SIGN, 0.3f, FacingE::ALONG );
+        m.box( Vector3{ 0, 1.2f, 0 }, Vector3{ 0.05f, 1.2f, 0.05f }, rgb( 150, 150, 156 ) );
+        const Vector3 c = { 0, 3.1f, -0.06f };
+        const Color   y = rgb( 250, 200, 30 ), k = rgb( 20, 20, 20 );
+        m.quad( Vector3{ -0.9f, c.y, c.z }, Vector3{ 0, c.y - 0.9f, c.z }, Vector3{ 0.9f, c.y, c.z }, Vector3{ 0, c.y + 0.9f, c.z }, k, Mat{ 0.2f, 0.0f } );
+        m.quad( Vector3{ -0.8f, c.y, c.z - 0.01f }, Vector3{ 0, c.y - 0.8f, c.z - 0.01f }, Vector3{ 0.8f, c.y, c.z - 0.01f }, Vector3{ 0, c.y + 0.8f, c.z - 0.01f }, y,
+                Mat{ 0.25f, 0.0f } );
+        const float zz = c.z - 0.02f;
+        auto px = [&]( float x0, float y0, float x1, float y1 ) { m.quad( Vector3{ x0, c.y + y0, zz }, Vector3{ x1, c.y + y0, zz }, Vector3{ x1, c.y + y1, zz }, Vector3{ x0, c.y + y1, zz }, k ); };
+        switch( v )
+        {
+        case 0: px( -0.25f, -0.2f, 0.15f, 0.2f ), px( 0.05f, 0.2f, 0.25f, 0.4f ), px( -0.45f, -0.35f, -0.15f, -0.25f ), px( 0.1f, -0.45f, 0.3f, -0.2f ); break;
+        case 1: px( -0.35f, -0.05f, 0.25f, 0.15f ), px( -0.15f, 0.15f, 0.05f, 0.3f ), px( 0.25f, 0.05f, 0.35f, 0.4f ), px( -0.3f, -0.4f, -0.22f, -0.05f ), px( 0.12f, -0.4f, 0.2f, -0.05f ); break;
+        case 2: px( -0.3f, -0.1f, 0.2f, 0.15f ), px( 0.2f, 0.05f, 0.4f, 0.2f ), px( 0.15f, 0.2f, 0.45f, 0.3f ), px( -0.25f, -0.45f, -0.17f, -0.1f ), px( 0.1f, -0.45f, 0.18f, -0.1f ); break;
+        case 3: px( -0.35f, -0.1f, 0.25f, 0.15f ), px( 0.25f, 0.0f, 0.4f, 0.15f ), px( -0.3f, -0.35f, -0.22f, -0.1f ), px( 0.15f, -0.35f, 0.23f, -0.1f ); break;
+        default: px( -0.3f, -0.05f, 0.15f, 0.15f ), px( 0.15f, 0.1f, 0.3f, 0.3f ), px( 0.2f, 0.3f, 0.4f, 0.4f ), px( -0.25f, -0.4f, -0.17f, -0.05f ), px( 0.05f, -0.4f, 0.13f, -0.05f ); break;
+        }
+    }
+    { // Giant tortoise.
+        MeshBuilder &m = add( PropKindE::TORTOISE, 0.0f );
+        const Color shell = rgb( 70, 64, 56 ), skin = rgb( 110, 104, 92 );
+        m.blob( Vector3{ 0, 0.55f, 0 }, Vector3{ 0.75f, 0.5f, 0.9f }, shell, 2271, 0.15f );
+        for( float x : { -1.0f, 1.0f } )
+            for( float z : { -1.0f, 1.0f } ) m.tube( Vector3{ x * 0.55f, 0.35f, z * 0.55f }, Vector3{ x * 0.65f, 0.0f, z * 0.6f }, 0.14f, 5, skin );
+        m.tube( Vector3{ 0, 0.45f, 0.8f }, Vector3{ 0, 0.7f, 1.3f }, 0.12f, 5, skin );
+        m.blob( Vector3{ 0, 0.72f, 1.4f }, Vector3{ 0.13f, 0.12f, 0.18f }, skin, 2272, 0.1f );
+    }
+    for( int v = 0; v < 2; ++v )
+    { // Trullo: whitewashed walls under stone cones with white tips.
+        MeshBuilder &m = add( PropKindE::TRULLO, 3.0f, FacingE::ROAD );
+        const Color w = rgb( 242, 240, 234 ), stone = rgb( 120, 116, 110 );
+        for( int i = 0; i < 2 + v; ++i )
+        {
+            const float z = -3.5f + 3.5f * i, r = 2.0f + 0.3f * ( ( i + v ) % 2 );
+            m.cylinder( Vector3{ 0, 0, z }, r, r, 2.4f, 10, w );
+            m.cylinder( Vector3{ 0, 2.4f, z }, r + 0.1f, 0.3f, 3.0f + 0.4f * i, 10, stone );
+            m.blob( Vector3{ 0, 5.6f + 0.4f * i, z }, Vector3{ 0.25f, 0.35f, 0.25f }, w, 2281 + i, 0.0f );
+        }
+        m.box( Vector3{ 2.25f, 0.9f, -3.5f }, Vector3{ 0.05f, 0.9f, 0.45f }, rgb( 60, 90, 120 ) );
+    }
+    m_keys[static_cast<size_t>( PropKindE::LANDMARK )] = { rgb( 226, 214, 186 ), rgb( 120, 136, 150 ), rgb( 34, 40, 54 ) };
+
     // The wind in the new plants.
     const std::pair<PropKindE, float> sway[] = { { PropKindE::OLIVE, 0.3f },       { PropKindE::POPLAR, 0.7f },     { PropKindE::UMBRELLA_PINE, 0.35f },
                                                  { PropKindE::SPRUCE, 0.45f },     { PropKindE::EUCALYPTUS, 0.6f }, { PropKindE::BANANA, 0.8f },

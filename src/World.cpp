@@ -200,6 +200,14 @@ float World::terrainHeight( const Track &track, long index, float lateral, const
     return h;
 }
 
+long landmarkSpot( uint64_t seed, size_t rule, int k, long stage, bool &right )
+{
+    const long     stageSegs = static_cast<long>( StageLength / SegmentLength );
+    const uint64_t h = hash64( seed ^ ( rule * 131 + static_cast<uint64_t>( k ) * 977 + static_cast<uint64_t>( stage ) * 7919 ) );
+    right = ( ( h >> 20 ) & 1u ) != 0;
+    return 60 + static_cast<long>( h % static_cast<uint64_t>( stageSegs - 120 ) );
+}
+
 World::~World()
 {
     {
@@ -843,7 +851,26 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 const PropRule &pr = rule.m_props[r];
                 const uint64_t  key = seed ^ ( sideKey * 31 + r * 7919 );
                 const float     h0 = hashFloat( key, static_cast<uint64_t>( j ) );
-                if( h0 >= pr.m_chance ) continue;
+                if( pr.m_perStage > 0 )
+                { // A landmark stands at a few fixed spots per stage, not by chance.
+                    const long stageSegs = static_cast<long>( StageLength / SegmentLength );
+                    const long stage = j / stageSegs, local = j % stageSegs;
+                    bool       spot = false;
+                    for( int k = 0; k < pr.m_perStage && !spot; ++k )
+                    {
+                        bool       right = false;
+                        const long where = landmarkSpot( seed, r, k, stage, right );
+                        // On the dry side, or on the water for a monument that stands in it.
+                        const bool wetL = A.m_terrain.m_waterLeft > 0.5f, wetR = A.m_terrain.m_waterRight > 0.5f;
+                        if( ( right ? wetR : wetL ) != pr.m_onWater && ( right ? wetL : wetR ) == pr.m_onWater ) right = !right;
+                        spot = !tunnel && local == where && right == ( side > 0 );
+                    }
+                    if( !spot ) continue;
+                }
+                else if( h0 >= pr.m_chance )
+                {
+                    continue;
+                }
                 const float h1 = hashFloat( key + 1, static_cast<uint64_t>( j ) );
                 const float h2 = hashFloat( key + 2, static_cast<uint64_t>( j ) );
                 const float h3 = hashFloat( key + 3, static_cast<uint64_t>( j ) );

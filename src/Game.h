@@ -29,6 +29,8 @@
 #include "Traffic.h"
 #include "World.h"
 
+#include <future>
+#include <map>
 #include <memory>
 #include <string>
 #include <vector>
@@ -64,12 +66,33 @@ enum class TitleE
     ENDLESS,       ///< endless run
     CHAMPIONSHIP,  ///< five races
     TRACK_LAB,     ///< build or enter a track
-    CAR,           ///< choose a car
-    PAINT,         ///< choose a paint
+    GARAGE,        ///< car, paint, rims, decals
+    PASSPORT,      ///< world map, stamps, postcards
     RECORDS,       ///< top ten and progress
     SETTINGS,      ///< settings
     QUIT,          ///< leave the game
     COUNT          ///< number of items
+};
+
+/** @brief The items of the garage, in order. */
+enum class GarageE
+{
+    CAR,           ///< which car
+    PAINT,         ///< its paint
+    RIMS,          ///< rim finish
+    DECAL,         ///< stripes, roundels, chequers
+    DECAL_COLOR,   ///< the decal's colour
+    BACK,          ///< leave
+    COUNT          ///< number of items
+};
+
+/** @brief The pages of the passport. */
+enum class PassportE
+{
+    MAP,        ///< the world tour on a map
+    STAMPS,     ///< a stamp per country
+    POSTCARDS,  ///< a picture per place
+    COUNT       ///< number of pages
 };
 
 /** @brief The items of the Track Lab, in order. */
@@ -104,6 +127,8 @@ enum class StateE
     CODE_ENTRY,  ///< typing a track code
     INITIALS,    ///< entering a name into the top ten
     RECORDS,     ///< the records screen
+    GARAGE,      ///< dressing the car
+    PASSPORT,    ///< map, stamps and postcards
 };
 
 /** @brief What is being played. */
@@ -279,6 +304,24 @@ private:
     /** @brief Saves the records. */
     void saveRecords() const;
 
+    /** @brief Dresses the player's car as the garage says and keeps the choice. */
+    void applyLivery();
+
+    /**
+     * @brief Adds career points.
+     * @param[in] points  how many
+     */
+    void earn( int64_t points );
+
+    /**
+     * @brief Saves the picture just rendered as the current place's postcard (before the HUD is drawn).
+     * @param[in] biome  the place
+     */
+    void takePostcard( BiomeE biome );
+
+    /** @brief Frees the postcard pictures the passport loaded. */
+    void unloadPostcards();
+
     /**
      * @brief The station the radio should play now (the biome's in automatic mode).
      * @return 0..StationCount-1, StationCount for the music files
@@ -388,6 +431,53 @@ private:
 
     /** @brief Draws the records screen. */
     void drawRecords();
+
+    /** @brief Draws the garage. */
+    void drawGarage();
+
+    /** @brief Draws the passport. */
+    void drawPassport();
+
+    /**
+     * @brief Draws the world tour on a map: the route, the places seen, the slices of the globe.
+     * @param[in] x  left
+     * @param[in] y  top
+     * @param[in] w  width
+     * @param[in] h  height
+     */
+    void drawWorldMap( float x, float y, float w, float h );
+
+    /**
+     * @brief Draws a page of country stamps.
+     * @param[in] x  left
+     * @param[in] y  top
+     * @param[in] w  width
+     * @param[in] h  height
+     */
+    void drawStamps( float x, float y, float w, float h );
+
+    /**
+     * @brief Draws a page of postcards.
+     * @param[in] x  left
+     * @param[in] y  top
+     * @param[in] w  width
+     * @param[in] h  height
+     */
+    void drawPostcards( float x, float y, float w, float h );
+
+    /**
+     * @brief A garage item's value as text.
+     * @param[in] item  the item
+     * @return the value, with (LOCKED) where it is
+     */
+    std::string garageValue( GarageE item ) const;
+
+    /**
+     * @brief Changes a garage item.
+     * @param[in] item  the item
+     * @param[in] dir   -1 or +1
+     */
+    void changeGarage( GarageE item, int dir );
 
     /** @brief Draws the messages in the middle of the screen. */
     void drawPopups();
@@ -500,6 +590,15 @@ private:
     float m_thunderIn = -1.0f;        ///< seconds until thunder (-1: none)
 
     std::vector<Popup> m_popups;      ///< messages
+
+    // Garage, passport, postcards, points.
+    int64_t                    m_earned = 0;            ///< career points of this run
+    int                        m_passportPage = 0;      ///< the passport's page (PassportE)
+    int                        m_passportSheet = 0;     ///< which sheet of stamps or postcards
+    int                        m_postcardWanted = -1;   ///< the place whose postcard is due (-1: none)
+    double                     m_postcardAt = 0.0;      ///< taken once the car passes this distance
+    std::map<int, Texture2D>   m_postcardTex;           ///< pictures loaded for the passport
+    std::future<void>          m_postcardJob;           ///< the last postcard being written
 
     // The radio.
     int         m_playingStation = -1;  ///< the station that plays

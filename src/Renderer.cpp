@@ -353,7 +353,8 @@ void Renderer::drawShadows( const SceneInput &in, const CameraView &cam, const V
         if( c.m_alpha >= 1.0f && std::abs( c.m_s - playerS ) < ShadowExtent )
             DrawMesh( in.m_models->m_playerCars[c.m_car][c.m_paint], m_depthMaterial, poseMatrix( roadPose( track, c.m_s, c.m_x, c.m_yaw ), origin ) );
     if( in.m_player )
-        DrawMesh( in.m_models->m_playerCars[in.m_car][in.m_paint], m_depthMaterial, poseMatrix( in.m_player->pose( track ), origin ) );
+        DrawMesh( in.m_models->m_livery.vaoId ? in.m_models->m_livery : in.m_models->m_playerCars[in.m_car][in.m_paint], m_depthMaterial,
+                  poseMatrix( in.m_player->pose( track ), origin ) );
     rlEnableBackfaceCulling();
     EndMode3D();
     EndTextureMode();
@@ -517,7 +518,7 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
     if( in.m_player && in.m_drawPlayer )
     {
         setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, in.m_player->m_s ) );
-        DrawMesh( models.m_playerCars[in.m_car][in.m_paint], m_material, poseMatrix( playerPose, origin ) );
+        DrawMesh( models.m_livery.vaoId ? models.m_livery : models.m_playerCars[in.m_car][in.m_paint], m_material, poseMatrix( playerPose, origin ) );
     }
     setF( s, "objectShade", 1.0f );
     if( in.m_player )

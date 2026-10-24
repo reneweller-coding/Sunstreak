@@ -7,6 +7,11 @@
 
 #include "UiCommon.h"
 
+#include <rlgl.h>
+
+#include <filesystem>
+#include <future>
+
 namespace sunstreak
 {
 
@@ -77,6 +82,10 @@ void Game::init()
     tuning() = applyDifficulty( m_tuningBase, m_settings.m_difficulty );
     m_records.load( configDirectory() + "/records.txt" );
     m_models.build();
+    m_carIndex = std::clamp( m_settings.m_car, 0, CarCount - 1 );
+    m_paintIndex = std::clamp( m_settings.m_paint, 0, PaintCount - 1 );
+    m_car.m_spec = carSpec( m_carIndex );
+    applyLivery();
     m_renderer.init();
     m_world.init( &m_models );
     const std::vector<std::string> dirs = { std::string( GetApplicationDirectory() ) + "music", configDirectory() + "/music" };
@@ -106,6 +115,13 @@ void Game::init()
         startDemo();
         if( m_options.m_screen == "lab" ) m_state = StateE::LAB;
         if( m_options.m_screen == "records" ) m_state = StateE::RECORDS;
+        if( m_options.m_screen == "garage" ) m_state = StateE::GARAGE;
+        if( m_options.m_screen == "passport" ) m_state = StateE::PASSPORT;
+        if( m_options.m_screen == "stamps" || m_options.m_screen == "postcards" )
+        {
+            m_state = StateE::PASSPORT;
+            m_passportPage = static_cast<int>( m_options.m_screen == "stamps" ? PassportE::STAMPS : PassportE::POSTCARDS );
+        }
         if( m_options.m_screen == "code" )
         {
             m_codeText = encodeTrack( m_lab );
@@ -118,6 +134,8 @@ void Game::init()
 void Game::shutdown()
 {
     saveRecords();
+    if( m_postcardJob.valid() ) m_postcardJob.wait();
+    unloadPostcards();
     if( m_world.m_buildCount > 0 )
         TraceLog( LOG_INFO, "SUNSTREAK: %d chunks built, %.2f ms on average, %.2f ms the slowest, %d on the main thread, frame part peak %.2f ms",
                   m_world.m_buildCount, m_world.m_buildTotalMs / m_world.m_buildCount, m_world.m_buildMaxMs, m_world.m_syncBuilds,
@@ -132,6 +150,61 @@ void Game::shutdown()
 void Game::saveRecords() const
 {
     m_records.save( configDirectory() + "/records.txt" );
+}
+
+void Game::applyLivery()
+{
+    m_settings.m_car = m_carIndex;
+    m_settings.m_paint = m_paintIndex;
+    m_settings.m_rims = std::clamp( m_settings.m_rims, 0, RimCount - 1 );
+    m_settings.m_decal = std::clamp( m_settings.m_decal, 0, DecalCount - 1 );
+    m_settings.m_decalColor = std::clamp( m_settings.m_decalColor, 0, PaintCount - 1 );
+    m_models.buildLivery( Livery{ m_carIndex, m_paintIndex, m_settings.m_rims, m_settings.m_decal, m_settings.m_decalColor } );
+}
+
+void Game::earn( int64_t points )
+{
+    if( points <= 0 || m_demo ) return;
+    m_earned += points;
+    m_records.m_points += points;
+}
+
+void Game::takePostcard( BiomeE biome )
+{
+    m_postcardWanted = -1;
+    m_records.m_postcards.set( static_cast<size_t>( biome ) );
+    // Read what the renderer drew (the HUD comes after); scale and save it on a worker.
+    rlDrawRenderBatchActive();
+    const int         w = GetRenderWidth(), h = GetRenderHeight();
+    Image             img = { rlReadScreenPixels( w, h ), w, h, 1, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 };
+    const std::string dir = configDirectory() + "/postcards";
+    const std::string file = dir + "/" + std::to_string( static_cast<int>( biome ) ) + ".png";
+    if( m_postcardJob.valid() ) m_postcardJob.wait();
+    m_postcardJob = std::async( std::launch::async,
+                                [img, dir, file]() mutable
+                                {
+                                    const int ch = std::min( img.height, img.width * 9 / 16 ), cw = ch * 16 / 9;
+                                    ImageCrop( &img, Rectangle{ static_cast<float>( img.width - cw ) * 0.5f, static_cast<float>( img.height - ch ) * 0.5f,
+                                                                static_cast<float>( cw ), static_cast<float>( ch ) } );
+                                    ImageResize( &img, 480, 270 );
+                                    std::error_code ec;
+                                    std::filesystem::create_directories( dir, ec );
+                                    ExportImage( img, file.c_str() );
+                                    UnloadImage( img );
+                                } );
+    const auto old = m_postcardTex.find( static_cast<int>( biome ) );
+    if( old != m_postcardTex.end() )
+    {
+        UnloadTexture( old->second );
+        m_postcardTex.erase( old );
+    }
+    popup( "POSTCARD", placeName( biome ), Cyan, 0.7f, 2.2f );
+}
+
+void Game::unloadPostcards()
+{
+    for( auto &[biome, tex] : m_postcardTex ) UnloadTexture( tex );
+    m_postcardTex.clear();
 }
 
 void Game::setupTrack( uint64_t seed, double startS, const TrackParams &params )
@@ -198,6 +271,21 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
     {
         startS = m_options.m_startDistance;
         m_options.m_startDistance = 0.0f;
+    }
+    if( m_options.m_find == 3 )
+    {
+        // Testing: start shortly before the first stage's first landmark.
+        Track           probe( setup.m_seed, params, m_options.m_startBiome );
+        const BiomeDef &def = biomeDef( probe.stageBiome( 0 ) );
+        for( size_t r = 0; r < def.m_props.size(); ++r )
+            if( def.m_props[r].m_perStage > 0 )
+            {
+                bool       right = false;
+                const long local = landmarkSpot( setup.m_seed, r, 0, 0, right );
+                startS = std::max( params.m_startLine - 9.0, static_cast<double>( local ) * SegmentLength - 260.0 );
+                break;
+            }
+        m_options.m_find = 0;
     }
     if( m_options.m_find != 0 )
     {
@@ -289,6 +377,8 @@ void Game::beginCountdown()
     m_resultPage = 0;
     m_ghost.load( ghostDir(), m_code );
     m_ghost.startRecording();
+    m_earned = 0;
+    m_postcardWanted = -1;
     m_state = StateE::COUNTDOWN;
     m_stateTime = 0.0f;
     m_musicStage = m_stage;
@@ -360,7 +450,43 @@ void Game::progress( double ds )
     for( int i = 0; i < PaintCount; ++i ) paints[i] = m_records.paintUnlocked( i );
     m_records.m_totalKm += ds / 1000.0;
     const BiomeMix mix = m_track->biomeMix( m_car.m_s );
-    m_records.m_seen.set( static_cast<size_t>( mix.m_t < 0.5f ? mix.m_from : mix.m_to ) );
+    const BiomeE   here = mix.m_t < 0.5f ? mix.m_from : mix.m_to;
+    const size_t   bit = static_cast<size_t>( here );
+    if( !m_records.m_seen.test( bit ) )
+    {
+        // A new place: points, and a stamp for a new country.
+        const int  countries = m_records.countriesSeen();
+        const bool round = m_records.circumnavigated();
+        const bool globe = m_records.decalUnlocked( DecalCount - 1 );
+        m_records.m_seen.set( bit );
+        earn( 2000 );
+        if( m_records.countriesSeen() > countries )
+        {
+            earn( 5000 );
+            const char *country = biomeDef( here ).m_country;
+            popup( "NEW STAMP", country ? country : "", Gold, 0.8f, 2.6f );
+        }
+        if( !round && m_records.circumnavigated() ) popup( "ROUND THE WORLD", "NEW PAINT  GLOBETROTTER", Gold, 1.2f, 4.5f );
+        if( !globe && m_records.decalUnlocked( DecalCount - 1 ) ) popup( "NEW DECAL", "GLOBE", Gold, 0.9f, 3.0f );
+    }
+    if( !m_records.m_postcards.test( bit ) && m_postcardWanted != static_cast<int>( here ) && mix.m_from == mix.m_to )
+    {
+        // A postcard of a new place: in sight of its landmark, or a stretch into its stage.
+        const long      stage = static_cast<long>( m_car.m_s / StageLength );
+        const BiomeDef &def = biomeDef( here );
+        double          at = static_cast<double>( stage ) * StageLength + 1400.0;
+        for( size_t r = 0; r < def.m_props.size(); ++r )
+            if( def.m_props[r].m_perStage > 0 )
+            {
+                bool          right = false;
+                const PropRule &pr = def.m_props[r];
+                const double  spot = ( static_cast<double>( stage ) * ( StageLength / SegmentLength ) + landmarkSpot( m_seed, r, 0, stage, right ) ) * SegmentLength;
+                at = spot - ( ( pr.m_nearest + pr.m_farthest ) * 0.75 + 40.0 );
+                break;
+            }
+        m_postcardWanted = static_cast<int>( here );
+        m_postcardAt = std::max( at, m_car.m_s + 60.0 );
+    }
     for( int i = 0; i < CarCount; ++i )
         if( !cars[i] && m_records.carUnlocked( i ) ) popup( "NEW CAR", carSpec( i ).m_name, Gold, 0.9f, 3.0f );
     for( int i = 0; i < PaintCount; ++i )
@@ -384,11 +510,13 @@ void Game::frame( float dt )
     case StateE::LAB:
     case StateE::CODE_ENTRY:
     case StateE::RECORDS:
+    case StateE::GARAGE:
+    case StateE::PASSPORT:
     {
         const StateE before = m_state;
         menus( mi );
         if( m_state == before || m_state == StateE::SETTINGS || m_state == StateE::LAB || m_state == StateE::TITLE ||
-            m_state == StateE::RECORDS || m_state == StateE::CODE_ENTRY )
+            m_state == StateE::RECORDS || m_state == StateE::CODE_ENTRY || m_state == StateE::GARAGE || m_state == StateE::PASSPORT )
             if( m_demo ) simulate( dt, true );
         break;
     }
@@ -484,6 +612,7 @@ void Game::endTimeAttack()
     m_settings.m_bestDistance = std::max( m_settings.m_bestDistance, dist );
     m_newGhost = m_ghost.saveIfBest( ghostDir(), m_code, static_cast<double>( score ), m_carIndex, m_paintIndex );
     m_rank = m_mode == ModeE::ENDLESS ? m_records.rankOf( score ) : -1;
+    earn( score );
     saveSettings( m_settings );
     saveRecords();
     m_state = m_rank >= 0 ? StateE::INITIALS : StateE::GAMEOVER;
@@ -500,6 +629,8 @@ void Game::crossFinish()
     for( size_t i = 0; i < m_results.size(); ++i )
         if( m_results[i].m_driver < 0 ) m_place = static_cast<int>( i ) + 1;
     m_newGhost = m_ghost.saveIfBest( ghostDir(), m_code, -static_cast<double>( m_raceTime ), m_carIndex, m_paintIndex );
+    static const int64_t byPlace[8] = { 12000, 9000, 7000, 5500, 4500, 3500, 2500, 1500 };
+    earn( m_place >= 1 && m_place <= 8 ? byPlace[m_place - 1] : 800 );
     popup( m_place == 1 ? "YOU WIN!" : format( "P%d", m_place ), "FINISH  " + clockText( m_raceTime ), m_place <= 3 ? Gold : Ink, 1.4f, 3.5f );
     m_audio.playOnBeat( m_place <= 3 ? SfxE::VICTORY : SfxE::STAGE );
     saveRecords();
@@ -1020,6 +1151,17 @@ void Game::updateCamera( float dt )
         const float   roll = -m_car.m_steer * 0.025f - clampf( m_car.m_drift * 0.002f, -0.03f, 0.03f );
         const Vector3 right = Vector3Normalize( Vector3CrossProduct( m_cam.m_forward, up ) );
         m_cam.m_up = Vector3Normalize( Vector3Add( Vector3Scale( up, std::cos( roll ) ), Vector3Scale( right, std::sin( roll ) ) ) );
+    }
+    if( m_state == StateE::GARAGE )
+    { // The showroom: round and round the car.
+        const Pose  p = m_car.pose( track );
+        const float a = m_time * 0.3f;
+        m_cam.m_pos = poseLocal( p, std::sin( a ) * 6.5f, 1.7f + 0.4f * std::sin( m_time * 0.21f ), std::cos( a ) * 6.5f );
+        m_cam.m_forward = Vector3Normalize( relativeTo( poseLocal( p, 0.0f, 0.55f, 0.0f ), m_cam.m_pos ) );
+        m_cam.m_up = p.m_up;
+        m_cam.m_fovY = 50.0f;
+        m_blur = 0.0f;
+        return;
     }
     // Shake: kerbs, verge, landings, hits, and a faint tremor at top speed.
     const float shake = m_car.m_shake + std::pow( sn, 3.0f ) * 0.15f;

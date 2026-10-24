@@ -59,6 +59,17 @@ struct BakedChunk
     float                 m_ms = 0.0f;   ///< how long the baking took
 };
 
+/**
+ * @brief Where one of a stage's landmarks stands (a prop rule with PropRule::m_perStage).
+ * @param[in]  seed   the track's seed
+ * @param[in]  rule   the rule's index in its biome
+ * @param[in]  k      which of the rule's spots
+ * @param[in]  stage  the stage
+ * @param[out] right  whether it stands on the right (before the water decides)
+ * @return the segment within the stage
+ */
+long landmarkSpot( uint64_t seed, size_t rule, int k, long stage, bool &right );
+
 /** @brief The chunks around the car. */
 class World
 {

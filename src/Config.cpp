@@ -88,6 +88,11 @@ bool loadSettings( Settings &settings )
             else if( key == "fps_limit" ) settings.m_fpsLimit = std::clamp( std::stoi( val ), 0, 240 );
             else if( key == "vibration" ) settings.m_vibration = val == "1";
             else if( key == "scenery" ) settings.m_scenery = std::clamp( std::stoi( val ), 0, 1 );
+            else if( key == "car" ) settings.m_car = std::max( 0, std::stoi( val ) );
+            else if( key == "paint" ) settings.m_paint = std::max( 0, std::stoi( val ) );
+            else if( key == "rims" ) settings.m_rims = std::max( 0, std::stoi( val ) );
+            else if( key == "decal" ) settings.m_decal = std::max( 0, std::stoi( val ) );
+            else if( key == "decal_color" ) settings.m_decalColor = std::max( 0, std::stoi( val ) );
             else if( key == "best_score" ) settings.m_bestScore = std::stoll( val );
             else if( key == "best_distance" ) settings.m_bestDistance = std::stod( val );
         }
@@ -121,6 +126,11 @@ bool saveSettings( const Settings &settings )
     out << "fps_limit=" << settings.m_fpsLimit << "\n";
     out << "vibration=" << ( settings.m_vibration ? 1 : 0 ) << "\n";
     out << "scenery=" << settings.m_scenery << "\n";
+    out << "car=" << settings.m_car << "\n";
+    out << "paint=" << settings.m_paint << "\n";
+    out << "rims=" << settings.m_rims << "\n";
+    out << "decal=" << settings.m_decal << "\n";
+    out << "decal_color=" << settings.m_decalColor << "\n";
     out << "best_score=" << settings.m_bestScore << "\n";
     out << "best_distance=" << settings.m_bestDistance << "\n";
     return static_cast<bool>( out );
@@ -149,7 +159,7 @@ LaunchOptions parseCommandLine( int argc, char **argv )
         else if( a == "--find" )
         {
             const std::string what = next();
-            o.m_find = what == "tunnel" ? 1 : what == "bridge" ? 2 : 0;
+            o.m_find = what == "tunnel" ? 1 : what == "bridge" ? 2 : what == "landmark" ? 3 : 0;
         }
         else if( a == "--camera" ) o.m_camera = std::clamp( std::atoi( next().c_str() ), 0, 2 );
         else if( a == "--code" ) o.m_code = next();

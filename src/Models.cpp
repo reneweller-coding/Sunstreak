@@ -40,9 +40,19 @@ const CarSpec CarSpecs[CarCount] = {
     { "VORTEX", 88.0f, 0.92f, 0.93f, 4.8f, 2.0f, 12, 1100.0f, 9200.0f, 1.15f },
 };
 
-const char *PaintNames[PaintCount] = { "RACING RED", "ICE WHITE", "SUN YELLOW", "DEEP BLUE", "CHAMPION GOLD" };
-const Color PaintColors[PaintCount] = { rgb( 196, 18, 24 ), rgb( 232, 234, 240 ), rgb( 240, 186, 16 ),
-                                        rgb( 22, 56, 168 ), rgb( 214, 168, 52 ) };
+const char *PaintNames[PaintCount] = { "RACING RED",    "ICE WHITE",   "SUN YELLOW",    "DEEP BLUE",   "CHAMPION GOLD",
+                                       "MIDNIGHT BLACK", "LIME GREEN",  "SUNSET ORANGE", "MIAMI PINK",  "GULF BLUE",
+                                       "BRITISH GREEN", "SILVER ARROW", "PEARL PURPLE",  "GLOBETROTTER" };
+const Color PaintColors[PaintCount] = { rgb( 196, 18, 24 ),  rgb( 232, 234, 240 ), rgb( 240, 186, 16 ), rgb( 22, 56, 168 ),
+                                        rgb( 214, 168, 52 ), rgb( 22, 22, 26 ),    rgb( 120, 210, 40 ), rgb( 240, 110, 20 ),
+                                        rgb( 236, 80, 160 ), rgb( 120, 180, 220 ), rgb( 20, 76, 46 ),   rgb( 178, 182, 190 ),
+                                        rgb( 110, 60, 160 ), rgb( 20, 130, 150 ) };
+
+const char *RimNames[RimCount] = { "SILVER", "BLACK", "WHITE", "GOLD", "BRONZE", "RED", "GUNMETAL" };
+const Color RimColors[RimCount] = { rgb( 170, 172, 178 ), rgb( 26, 26, 28 ),  rgb( 232, 232, 234 ), rgb( 214, 170, 60 ),
+                                    rgb( 150, 100, 52 ),  rgb( 190, 30, 30 ), rgb( 76, 80, 88 ) };
+
+const char *DecalNames[DecalCount] = { "NONE", "TWIN STRIPES", "SIDE STRIPE", "ROUNDEL", "TWO TONE", "CHEQUERS", "GLOBE" };
 
 /** @brief A cross-section of a car body. */
 struct Station
@@ -75,13 +85,43 @@ struct CarShape
     float                     m_wing;        ///< rear wing height above the deck (0: none)
 };
 
+/** @brief What goes on a car besides its paint. */
+struct Dress
+{
+    Color m_rims = rgb( 170, 172, 178 );   ///< rim colour
+    int   m_decal = 0;                     ///< decal (DecalNames)
+    Color m_decalColor{};                  ///< decal colour
+};
+
+/**
+ * @brief A flat disc standing on a car's flank (roundels, the globe).
+ * @param[out] mb    where the triangles go
+ * @param[in]  c     its centre
+ * @param[in]  side  -1 left, +1 right (the disc faces outward)
+ * @param[in]  r     radius
+ * @param[in]  col   colour
+ */
+void flankDisc( MeshBuilder &mb, Vector3 c, float side, float r, Color col )
+{
+    const int n = 14;
+    for( int i = 0; i < n; ++i )
+    {
+        const float   a0 = Tau * static_cast<float>( i ) / n, a1 = Tau * static_cast<float>( i + 1 ) / n;
+        const Vector3 p0 = { c.x, c.y + std::sin( a0 ) * r, c.z + std::cos( a0 ) * r };
+        const Vector3 p1 = { c.x, c.y + std::sin( a1 ) * r, c.z + std::cos( a1 ) * r };
+        if( side > 0 ) mb.tri( c, p0, p1, col, Mat{ 0.0f, 0.4f } );
+        else mb.tri( c, p1, p0, col, Mat{ 0.0f, 0.4f } );
+    }
+}
+
 /**
  * @brief Lofts a car body, its cabin, wheels and lights.
  * @param[out] mb     where the triangles go
  * @param[in]  shape  the outline
  * @param[in]  paint  body colour
+ * @param[in]  dress  rims and decal
  */
-void buildCar( MeshBuilder &mb, const CarShape &shape, Color paint )
+void buildCar( MeshBuilder &mb, const CarShape &shape, Color paint, const Dress &dress = {} )
 {
     const Color under = rgb( 26, 26, 30 );
     const Color trim = rgb( 40, 40, 46 );
@@ -106,8 +146,46 @@ void buildCar( MeshBuilder &mb, const CarShape &shape, Color paint )
         for( int k = 0; k < 8; ++k )
         {
             const int   n = ( k + 1 ) % 8;
-            const Color c = k == 7 ? under : ( k == 0 || k == 6 ) ? scaleColor( paint, 0.72f ) : paint;
+            // Two tone: the lower flanks in the decal's colour.
+            const Color coat = dress.m_decal == 4 && ( k == 0 || k == 1 || k == 5 || k == 6 ) ? dress.m_decalColor : paint;
+            const Color c = k == 7 ? under : ( k == 0 || k == 6 ) ? scaleColor( coat, 0.72f ) : coat;
             mb.quad( r0[k], r0[n], r1[n], r1[k], c, k == 7 ? Mat{} : Paint );
+        }
+        const Station &s0 = body[i], &s1 = body[i + 1];
+        if( dress.m_decal == 1 )
+        { // Twin stripes over the top.
+            for( float x0 : { -0.34f, 0.14f } )
+            {
+                const float x1 = x0 + 0.2f;
+                mb.quad( Vector3{ x0 * s0.m_hw, s0.m_yt + 0.012f, s0.m_z }, Vector3{ x1 * s0.m_hw, s0.m_yt + 0.012f, s0.m_z },
+                         Vector3{ x1 * s1.m_hw, s1.m_yt + 0.012f, s1.m_z }, Vector3{ x0 * s1.m_hw, s1.m_yt + 0.012f, s1.m_z }, dress.m_decalColor, Paint );
+            }
+        }
+        if( dress.m_decal == 2 )
+        { // A band along both flanks.
+            for( float side : { -1.0f, 1.0f } )
+            {
+                const float h0 = s0.m_yt - s0.m_yb, h1 = s1.m_yt - s1.m_yb;
+                const Vector3 a = { side * ( s0.m_hw + 0.012f ), s0.m_yb + 0.42f * h0, s0.m_z }, b = { side * ( s1.m_hw + 0.012f ), s1.m_yb + 0.42f * h1, s1.m_z };
+                const Vector3 c = { side * ( s1.m_hw + 0.012f ), s1.m_yb + 0.6f * h1, s1.m_z }, d = { side * ( s0.m_hw + 0.012f ), s0.m_yb + 0.6f * h0, s0.m_z };
+                if( side > 0 ) mb.quad( a, b, c, d, dress.m_decalColor, Paint );
+                else mb.quad( b, a, d, c, dress.m_decalColor, Paint );
+            }
+        }
+        if( dress.m_decal == 5 && i + 3 >= body.size() )
+        { // Chequers across the bonnet.
+            for( int row = 0; row < 2; ++row )
+                for( int col = 0; col < 8; ++col )
+                {
+                    const float t0 = row * 0.5f, t1 = t0 + 0.5f;
+                    const float u0 = -0.8f + 0.2f * col, u1 = u0 + 0.2f;
+                    auto p = [&]( float t, float u )
+                    {
+                        const float hw = lerpf( s0.m_hw, s1.m_hw, t );
+                        return Vector3{ u * hw, lerpf( s0.m_yt, s1.m_yt, t ) + 0.012f, lerpf( s0.m_z, s1.m_z, t ) };
+                    };
+                    mb.quad( p( t0, u0 ), p( t0, u1 ), p( t1, u1 ), p( t1, u0 ), ( row + col ) % 2 ? dress.m_decalColor : rgb( 240, 240, 240 ), Paint );
+                }
         }
     }
     // Nose and tail caps.
@@ -135,6 +213,38 @@ void buildCar( MeshBuilder &mb, const CarShape &shape, Color paint )
         mb.quad( a0, b0, b1, a1, side, shape.m_sideGlass ? Glass : Paint );
         mb.quad( a2, b2, b3, a3, side, shape.m_sideGlass ? Glass : Paint );
         mb.quad( a1, b1, b2, a2, windowTop ? glass : paint, windowTop ? Glass : Paint );
+        if( dress.m_decal == 1 && !windowTop )
+            for( float x0 : { -0.34f, 0.14f } )
+            {
+                const float x1 = x0 + 0.2f;
+                mb.quad( Vector3{ x0 * a.m_hwT * 1.2f, a.m_yT + 0.012f, a.m_z }, Vector3{ x1 * a.m_hwT * 1.2f, a.m_yT + 0.012f, a.m_z },
+                         Vector3{ x1 * b.m_hwT * 1.2f, b.m_yT + 0.012f, b.m_z }, Vector3{ x0 * b.m_hwT * 1.2f, b.m_yT + 0.012f, b.m_z }, dress.m_decalColor, Paint );
+            }
+    }
+    // Roundels and globes on the doors.
+    if( dress.m_decal == 3 || dress.m_decal == 6 )
+    {
+        const Station &mid = body[body.size() / 2];
+        const float    y = mid.m_yb + 0.5f * ( mid.m_yt - mid.m_yb ), r = 0.22f * ( mid.m_yt - mid.m_yb ) / 0.6f;
+        for( float side : { -1.0f, 1.0f } )
+        {
+            const float x = side * ( mid.m_hw + 0.012f );
+            if( dress.m_decal == 3 )
+            {
+                flankDisc( mb, Vector3{ x, y, mid.m_z }, side, r, dress.m_decalColor );
+                flankDisc( mb, Vector3{ x + side * 0.003f, y, mid.m_z }, side, r * 0.72f, rgb( 244, 244, 240 ) );
+            }
+            else
+            { // The globe: an ocean, two continents and a meridian.
+                flankDisc( mb, Vector3{ x, y, mid.m_z }, side, r, rgb( 30, 90, 190 ) );
+                flankDisc( mb, Vector3{ x + side * 0.003f, y + r * 0.25f, mid.m_z - r * 0.3f }, side, r * 0.35f, rgb( 70, 170, 70 ) );
+                flankDisc( mb, Vector3{ x + side * 0.003f, y - r * 0.3f, mid.m_z + r * 0.35f }, side, r * 0.3f, rgb( 70, 170, 70 ) );
+                const Vector3 a = { x + side * 0.006f, y - r, mid.m_z - 0.012f }, b = { x + side * 0.006f, y + r, mid.m_z + 0.012f };
+                const Vector3 c = { x + side * 0.006f, y + r, mid.m_z - 0.012f }, d = { x + side * 0.006f, y - r, mid.m_z + 0.012f };
+                if( side > 0 ) mb.quad( a, d, b, c, rgb( 240, 240, 240 ) );
+                else mb.quad( d, a, c, b, rgb( 240, 240, 240 ) );
+            }
+        }
     }
     // Wheels with hubs.
     const float hw = body[body.size() / 2].m_hw;
@@ -146,7 +256,18 @@ void buildCar( MeshBuilder &mb, const CarShape &shape, Color paint )
             mb.tube( Vector3{ side * ( hw - 0.29f ), r, z }, Vector3{ side * ( hw - 0.02f ), r, z }, r, 10,
                      rgb( 20, 20, 22 ), Mat{}, true );
             mb.tube( Vector3{ side * ( hw - 0.03f ), r, z }, Vector3{ side * ( hw + 0.005f ), r, z }, r * 0.58f, 8,
-                     rgb( 170, 172, 178 ), Chrome, true );
+                     dress.m_rims, Chrome, true );
+            // Five spokes in a darker shade.
+            const float x = side * ( hw + 0.007f );
+            for( int k = 0; k < 5; ++k )
+            {
+                const float   a = Tau * static_cast<float>( k ) / 5.0f;
+                const Vector3 d = { 0, std::sin( a ), std::cos( a ) }, n = { 0, -d.z * 0.05f, d.y * 0.05f };
+                const Vector3 p0 = { x, r + d.y * r * 0.12f + n.y, z + d.z * r * 0.12f + n.z }, p1 = { x, r + d.y * r * 0.12f - n.y, z + d.z * r * 0.12f - n.z };
+                const Vector3 p2 = { x, r + d.y * r * 0.54f - n.y, z + d.z * r * 0.54f - n.z }, p3 = { x, r + d.y * r * 0.54f + n.y, z + d.z * r * 0.54f + n.z };
+                if( side > 0 ) mb.quad( p0, p1, p2, p3, scaleColor( dress.m_rims, 0.55f ), Chrome );
+                else mb.quad( p1, p0, p3, p2, scaleColor( dress.m_rims, 0.55f ), Chrome );
+            }
         }
     }
     // Lights: red at the tail, white at the nose.
@@ -307,6 +428,35 @@ const CarSpec &carSpec( int index )
 const char *paintName( int index )
 {
     return PaintNames[std::clamp( index, 0, PaintCount - 1 )];
+}
+
+Color paintColor( int index )
+{
+    return PaintColors[std::clamp( index, 0, PaintCount - 1 )];
+}
+
+const char *rimName( int index )
+{
+    return RimNames[std::clamp( index, 0, RimCount - 1 )];
+}
+
+const char *decalName( int index )
+{
+    return DecalNames[std::clamp( index, 0, DecalCount - 1 )];
+}
+
+void Models::buildLivery( const Livery &livery )
+{
+    if( m_livery.vaoId && livery == m_liveryOf ) return;
+    if( m_livery.vaoId ) UnloadMesh( m_livery );
+    Dress dress;
+    dress.m_rims = RimColors[std::clamp( livery.m_rims, 0, RimCount - 1 )];
+    dress.m_decal = std::clamp( livery.m_decal, 0, DecalCount - 1 );
+    dress.m_decalColor = PaintColors[std::clamp( livery.m_decalColor, 0, PaintCount - 1 )];
+    MeshBuilder mb;
+    buildCar( mb, playerShape( std::clamp( livery.m_car, 0, CarCount - 1 ) ), PaintColors[std::clamp( livery.m_paint, 0, PaintCount - 1 )], dress );
+    m_livery = mb.upload();
+    m_liveryOf = livery;
 }
 
 const MeshBuilder &Models::prop( PropKindE kind, uint64_t variant ) const
@@ -1256,6 +1406,8 @@ void Models::unload()
     for( auto &car : m_playerCars )
         for( auto &m : car )
             if( m.vaoId ) UnloadMesh( m );
+    if( m_livery.vaoId ) UnloadMesh( m_livery );
+    m_livery = Mesh{};
     for( auto &v : m_traffic ) UnloadMesh( v.m_mesh );
     m_traffic.clear();
     UnloadMesh( m_cone );

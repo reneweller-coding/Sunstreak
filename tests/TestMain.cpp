@@ -98,7 +98,8 @@ int main()
             follows = follows && tour.stageBiome( s ) == route[static_cast<size_t>( first + s ) % route.size()];
         check( follows, "the world tour follows the route" );
         Track paris( 1234, world, static_cast<int>( BiomeE::PARIS ) );
-        check( paris.stageBiome( 0 ) == BiomeE::PARIS && paris.stageBiome( 1 ) == BiomeE::CHAMPAGNE, "the world tour from a chosen place" );
+        check( paris.stageBiome( 0 ) == BiomeE::PARIS && paris.stageBiome( 1 ) == route[static_cast<size_t>( routeIndex( BiomeE::PARIS ) + 1 )],
+               "the world tour from a chosen place" );
     }
     { // The car reaches its speed on a straight and stops again.
         Track     t( 4242 );
@@ -209,7 +210,23 @@ int main()
             onRoute += n;
         }
         std::printf( "      %d places on the world tour, %d countries\n", onRoute, countryCount() );
-        check( once && onRoute >= 220, "the world tour visits every place once" );
+        check( once && onRoute >= 450 && countryCount() >= 200, "the world tour visits every place once" );
+        // Every place on the route is on the map, and the route goes round the globe.
+        bool                          located = true;
+        std::bitset<LongitudeSectors> sectors;
+        for( BiomeE r : worldRoute() )
+        {
+            GeoPoint g;
+            located = located && placeLocation( r, g ) && g.m_lat > -60.0f && g.m_lat < 80.0f && g.m_lon >= -180.0f && g.m_lon <= 180.0f;
+            if( located ) sectors.set( static_cast<size_t>( longitudeSector( g.m_lon ) ) );
+        }
+        check( located && sectors.all() && longitudeSector( -180.0f ) == 0 && longitudeSector( 180.0f ) == 0, "every place on the map, round the globe" );
+        // Career points unlock the garage step by step; the globe wants countries, not points.
+        Records career;
+        career.m_points = 60000;
+        check( career.rimsUnlocked( 3 ) && !career.rimsUnlocked( 4 ) && career.paintUnlocked( 6 ) && !career.paintUnlocked( 8 ) &&
+                   !career.decalUnlocked( DecalCount - 1 ) && !career.paintUnlocked( PaintCount - 1 ) && Records::pointsText( 25000 ) == "25 000 POINTS",
+               "garage unlocks" );
         Track t( 31337 );
         bool  seen[static_cast<int>( BiomeE::COUNT )] = {};
         for( int s = 0; s < static_cast<int>( BiomeE::COUNT ); ++s ) seen[static_cast<int>( t.stageBiome( s ) )] = true;

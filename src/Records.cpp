@@ -205,6 +205,65 @@ bool decodeTrack( const std::string &code, TrackSetup &setup )
     return true;
 }
 
+namespace
+{
+
+/**
+ * @brief Reads a set of biome bits written as 128 hex digits (bit 511 first).
+ * @param[in]  val   the digits
+ * @param[out] bits  the set (bits are added)
+ */
+void readBits( const std::string &val, std::bitset<512> &bits )
+{
+    const size_t n = std::min<size_t>( val.size(), 128 );
+    for( size_t i = 0; i < n; ++i )
+    {
+        const int d = std::isdigit( static_cast<unsigned char>( val[i] ) ) ? val[i] - '0' : std::toupper( val[i] ) - 'A' + 10;
+        for( int k = 0; k < 4; ++k )
+            if( d & ( 8 >> k ) ) bits.set( n * 4 - 1 - i * 4 - static_cast<size_t>( k ) );
+    }
+}
+
+/**
+ * @brief Writes a set of biome bits as 128 hex digits.
+ * @param[in,out] out   the stream
+ * @param[in]     bits  the set
+ */
+void writeBits( std::ostream &out, const std::bitset<512> &bits )
+{
+    for( int i = 0; i < 128; ++i )
+    {
+        int d = 0;
+        for( int k = 0; k < 4; ++k ) d = d * 2 + ( bits.test( static_cast<size_t>( 511 - i * 4 - k ) ) ? 1 : 0 );
+        out << "0123456789ABCDEF"[d];
+    }
+    out << "\n";
+}
+
+/** @brief What the paints from SUN YELLOW on cost, in career points (0: unlocked otherwise). */
+constexpr int64_t PaintPoints[PaintCount] = { 0, 0, 0, 0, 0, 25000, 50000, 75000, 100000, 150000, 200000, 300000, 400000, 0 };
+constexpr int64_t RimPoints[RimCount] = { 0, 10000, 30000, 60000, 120000, 180000, 250000 };      ///< rims, in career points
+constexpr int64_t DecalPoints[DecalCount] = { 0, 20000, 40000, 80000, 120000, 200000, 0 };      ///< decals, in career points
+constexpr int     GlobeCountries = 50;   ///< countries seen for the GLOBE decal
+
+/**
+ * @brief A number of points as text.
+ * @param[in] points  the number
+ * @return e.g. "25 000 POINTS"
+ */
+std::string groupedPoints( int64_t points )
+{
+    std::string digits = std::to_string( points ), out;
+    for( size_t i = 0; i < digits.size(); ++i )
+    {
+        if( i > 0 && ( digits.size() - i ) % 3 == 0 ) out += ' ';
+        out += digits[i];
+    }
+    return out + " POINTS";
+}
+
+} // namespace
+
 void Records::load( const std::string &path )
 {
     std::ifstream in( path );
@@ -219,14 +278,10 @@ void Records::load( const std::string &path )
             if( key == "total_km" ) m_totalKm = std::stod( val );
             else if( key == "titles" ) m_titles = std::stoi( val );
             else if( key == "best_place" ) m_bestPlace = std::stoi( val );
-            else if( key == "seen" ) m_seen = std::bitset<256>( std::stoull( val ) );
-            else if( key == "seen2" )
-                for( size_t i = 0; i < val.size() && i < 64; ++i )
-                {
-                    const int d = std::isdigit( static_cast<unsigned char>( val[i] ) ) ? val[i] - '0' : std::toupper( val[i] ) - 'A' + 10;
-                    for( int k = 0; k < 4; ++k )
-                        if( d & ( 8 >> k ) ) m_seen.set( 255 - i * 4 - static_cast<size_t>( k ) );
-                }
+            else if( key == "seen" ) m_seen = std::bitset<512>( std::stoull( val ) );
+            else if( key == "seen2" ) readBits( val, m_seen );
+            else if( key == "postcards" ) readBits( val, m_postcards );
+            else if( key == "points" ) m_points = std::max<int64_t>( 0, std::stoll( val ) );
             else if( key == "top" && m_top.size() < 10 )
             {
                 std::stringstream ss( val );
@@ -255,14 +310,11 @@ void Records::save( const std::string &path ) const
     out << "total_km=" << m_totalKm << "\n";
     out << "titles=" << m_titles << "\n";
     out << "best_place=" << m_bestPlace << "\n";
+    out << "points=" << m_points << "\n";
     out << "seen2=";
-    for( int i = 0; i < 64; ++i )
-    {
-        int d = 0;
-        for( int k = 0; k < 4; ++k ) d = d * 2 + ( m_seen.test( static_cast<size_t>( 255 - i * 4 - k ) ) ? 1 : 0 );
-        out << "0123456789ABCDEF"[d];
-    }
-    out << "\n";
+    writeBits( out, m_seen );
+    out << "postcards=";
+    writeBits( out, m_postcards );
     for( const ScoreEntry &e : m_top ) out << "top=" << e.m_initials << "|" << e.m_score << "|" << e.m_distance << "|" << e.m_code << "\n";
 }
 
@@ -294,7 +346,19 @@ bool Records::paintUnlocked( int paint ) const
     if( paint == 2 ) return m_totalKm >= 15.0;
     if( paint == 3 ) return m_totalKm >= 50.0;
     if( paint == 4 ) return m_titles > 0;
-    return true;
+    if( paint == PaintCount - 1 ) return circumnavigated();
+    return m_points >= PaintPoints[std::clamp( paint, 0, PaintCount - 1 )];
+}
+
+bool Records::rimsUnlocked( int rims ) const
+{
+    return m_points >= RimPoints[std::clamp( rims, 0, RimCount - 1 )];
+}
+
+bool Records::decalUnlocked( int decal ) const
+{
+    if( decal == DecalCount - 1 ) return countriesSeen() >= GlobeCountries;
+    return m_points >= DecalPoints[std::clamp( decal, 0, DecalCount - 1 )];
 }
 
 std::string Records::carRequirement( int car )
@@ -304,7 +368,42 @@ std::string Records::carRequirement( int car )
 
 std::string Records::paintRequirement( int paint )
 {
-    return paint == 2 ? "15 KM" : paint == 3 ? "50 KM" : paint == 4 ? "WIN A CHAMPIONSHIP" : "";
+    if( paint == 2 ) return "15 KM";
+    if( paint == 3 ) return "50 KM";
+    if( paint == 4 ) return "WIN A CHAMPIONSHIP";
+    if( paint == PaintCount - 1 ) return "DRIVE ROUND THE WORLD";
+    const int64_t p = PaintPoints[std::clamp( paint, 0, PaintCount - 1 )];
+    return p > 0 ? pointsText( p ) : "";
+}
+
+std::string Records::rimsRequirement( int rims )
+{
+    const int64_t p = RimPoints[std::clamp( rims, 0, RimCount - 1 )];
+    return p > 0 ? pointsText( p ) : "";
+}
+
+std::string Records::decalRequirement( int decal )
+{
+    if( decal == DecalCount - 1 ) return std::to_string( GlobeCountries ) + " COUNTRIES";
+    const int64_t p = DecalPoints[std::clamp( decal, 0, DecalCount - 1 )];
+    return p > 0 ? pointsText( p ) : "";
+}
+
+std::string Records::pointsText( int64_t points )
+{
+    return groupedPoints( points );
+}
+
+int Records::sectorsSeen() const
+{
+    std::bitset<LongitudeSectors> sectors;
+    for( int i = 0; i < static_cast<int>( BiomeE::COUNT ); ++i )
+    {
+        GeoPoint where;
+        if( m_seen.test( static_cast<size_t>( i ) ) && placeLocation( static_cast<BiomeE>( i ), where ) )
+            sectors.set( static_cast<size_t>( longitudeSector( where.m_lon ) ) );
+    }
+    return static_cast<int>( sectors.count() );
 }
 
 int Records::seenCount() const

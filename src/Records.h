@@ -60,7 +60,9 @@ struct Records
     double                  m_totalKm = 0.0;    ///< kilometres driven in all modes
     int                     m_titles = 0;       ///< championships won
     int                     m_bestPlace = 0;    ///< best championship place (0: none)
-    std::bitset<256>        m_seen;             ///< a bit per biome driven through
+    std::bitset<512>        m_seen;             ///< a bit per biome driven through
+    std::bitset<512>        m_postcards;        ///< a bit per place with a postcard in the album
+    int64_t                 m_points = 0;       ///< career points: scores, race results, discoveries (the garage's currency)
 
     /**
      * @brief Reads the records file.
@@ -102,6 +104,20 @@ struct Records
     bool paintUnlocked( int paint ) const;
 
     /**
+     * @brief Whether a rim finish may be used.
+     * @param[in] rims  the finish
+     * @return true if unlocked
+     */
+    bool rimsUnlocked( int rims ) const;
+
+    /**
+     * @brief Whether a decal may be used.
+     * @param[in] decal  the decal
+     * @return true if unlocked
+     */
+    bool decalUnlocked( int decal ) const;
+
+    /**
      * @brief What unlocks a car.
      * @param[in] car  the car
      * @return e.g. "30 KM"
@@ -114,6 +130,39 @@ struct Records
      * @return e.g. "15 KM" or "WIN A CHAMPIONSHIP"
      */
     static std::string paintRequirement( int paint );
+
+    /**
+     * @brief What unlocks a rim finish.
+     * @param[in] rims  the finish
+     * @return e.g. "10 000 POINTS"
+     */
+    static std::string rimsRequirement( int rims );
+
+    /**
+     * @brief What unlocks a decal.
+     * @param[in] decal  the decal
+     * @return e.g. "20 000 POINTS"
+     */
+    static std::string decalRequirement( int decal );
+
+    /**
+     * @brief A number of career points as text.
+     * @param[in] points  the number
+     * @return e.g. "25 000 POINTS"
+     */
+    static std::string pointsText( int64_t points );
+
+    /**
+     * @brief How many slices of the globe hold a place driven through.
+     * @return 0..LongitudeSectors
+     */
+    int sectorsSeen() const;
+
+    /**
+     * @brief Whether the player has driven round the world (a place in every slice of the globe).
+     * @return true once all are seen
+     */
+    bool circumnavigated() const { return sectorsSeen() == LongitudeSectors; }
 
     /**
      * @brief Counts the biomes discovered.
