@@ -142,6 +142,14 @@ std::string placeName( BiomeE biome )
     return s;
 }
 
+std::string borderName( BiomeE dest, BiomeE from )
+{
+    const BiomeDef &d = biomeDef( dest ), &f = biomeDef( from );
+    const bool      same = d.m_country && f.m_country && std::strcmp( d.m_country, f.m_country ) == 0;
+    if( same && d.m_region ) return d.m_region;
+    return d.m_country ? d.m_country : d.m_name ? d.m_name : "";
+}
+
 int countryCount()
 {
     static const int n = []

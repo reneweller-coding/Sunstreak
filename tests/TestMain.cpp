@@ -266,6 +266,30 @@ int main()
         bool all = true;
         for( bool v : seen ) all = all && v;
         check( all, "one bag of stages visits every biome" );
+        { // The world tour forks at borders: two carriageways and a barrier, and the side taken decides the next place.
+            TrackParams tour;
+            tour.m_biome = SceneryWorld;
+            Track world( 99, tour, static_cast<int>( BiomeE::CLIFFS ) );
+            int   forks = 0, stage = -1;
+            for( int st = 0; st < 40; ++st )
+                if( world.fork( st ).m_exists )
+                {
+                    ++forks;
+                    if( stage < 0 ) stage = st;
+                }
+            bool split = false, next = false;
+            if( stage >= 0 )
+            {
+                const Fork f = world.fork( stage );
+                world.generateTo( f.m_at + 200.0 );
+                const Segment &mid = world.segment( static_cast<long>( ( f.m_at + 100.0 ) / SegmentLength ) );
+                split = ( mid.m_flags & SEG_MEDIAN ) && mid.m_lanes >= 4 && f.m_left != f.m_right;
+                world.choose( stage, 1 );
+                next = world.stageBiome( stage + 1 ) == f.m_right && world.fork( stage ).m_chosen == 1;
+            }
+            std::printf( "      %d forks in the first 40 stages from the white cliffs\n", forks );
+            check( forks >= 3 && split && next, "forks at the borders" );
+        }
         std::printf( "      %d biomes, %d data errors\n", biomeCount(), dataErrors() );
         check( dataErrors() == 0 && biomeCount() >= static_cast<int>( BiomeE::COUNT ) && biomeId( "TUSCANY" ) == static_cast<int>( BiomeE::TUSCANY ) &&
                    biomeKey( BiomeE::PARIS ) == "PARIS",

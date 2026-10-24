@@ -124,7 +124,16 @@ struct VehicleModel
  * @param[in]  cap    letter height (m)
  * @param[in]  lift   height of the board's lower edge (m)
  */
-void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float cap = 0.42f, float lift = 1.4f );
+void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float cap = 0.42f, float lift = 1.4f, bool posts = true );
+
+/**
+ * @brief The gantry before a fork of the world tour: a green board over each carriageway with where it leads.
+ * @param[out] out        where the triangles go (+x is the driver's left, the boards face -z)
+ * @param[in]  left       where the left carriageway leads
+ * @param[in]  right      where the right one leads
+ * @param[in]  halfWidth  half the road's paved width
+ */
+void buildForkSign( MeshBuilder &out, std::string_view left, std::string_view right, float halfWidth );
 
 /** @brief All models. */
 struct DataShape;

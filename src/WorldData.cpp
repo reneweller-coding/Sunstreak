@@ -461,7 +461,86 @@ struct RouteData
     std::vector<BiomeE>                    m_route;      ///< in order
     std::vector<std::pair<bool, GeoPoint>> m_where;      ///< by place number
     std::vector<int>                       m_index;      ///< place number -> route position (-1 off the route)
+    std::vector<RouteFork>                 m_forks;      ///< by route position
 };
+
+/**
+ * @brief The distance between two points on the globe.
+ * @param[in] a  one
+ * @param[in] b  the other
+ * @return kilometres
+ */
+float greatCircle( const GeoPoint &a, const GeoPoint &b )
+{
+    const float k = Tau / 360.0f;
+    const float h = std::pow( std::sin( ( b.m_lat - a.m_lat ) * k * 0.5f ), 2.0f ) +
+                    std::cos( a.m_lat * k ) * std::cos( b.m_lat * k ) * std::pow( std::sin( ( b.m_lon - a.m_lon ) * k * 0.5f ), 2.0f );
+    return 2.0f * 6371.0f * std::asin( std::min( 1.0f, std::sqrt( h ) ) );
+}
+
+/**
+ * @brief The direction from one point to another.
+ * @param[in] a  from
+ * @param[in] b  to
+ * @return degrees east of north
+ */
+float bearing( const GeoPoint &a, const GeoPoint &b )
+{
+    const float k = Tau / 360.0f;
+    const float y = std::sin( ( b.m_lon - a.m_lon ) * k ) * std::cos( b.m_lat * k );
+    const float x = std::cos( a.m_lat * k ) * std::sin( b.m_lat * k ) - std::sin( a.m_lat * k ) * std::cos( b.m_lat * k ) * std::cos( ( b.m_lon - a.m_lon ) * k );
+    return std::atan2( y, x ) / k;
+}
+
+/**
+ * @brief Which country or state a place belongs to, for the borders the forks stand at.
+ * @param[in] biome  the place
+ * @return "COUNTRY/STATE"
+ */
+std::string landOf( BiomeE biome )
+{
+    const BiomeDef &d = biomeDef( biome );
+    return std::string( d.m_country ? d.m_country : "" ) + "/" + ( d.m_region ? d.m_region : "" );
+}
+
+/**
+ * @brief Finds the forks: where the route crosses a border, a neighbour a little further on is the other choice.
+ * @param[in,out] d  the route
+ */
+void findForks( RouteData &d )
+{
+    const int n = static_cast<int>( d.m_route.size() );
+    d.m_forks.assign( static_cast<size_t>( n ), RouteFork{} );
+    auto where = [&]( int pos ) { return d.m_where[static_cast<size_t>( d.m_route[static_cast<size_t>( ( pos % n + n ) % n )] )].second; };
+    auto land = [&]( int pos ) { return landOf( d.m_route[static_cast<size_t>( ( pos % n + n ) % n )] ); };
+    for( int i = 0; i < n; ++i )
+    {
+        RouteFork &f = d.m_forks[static_cast<size_t>( i )];
+        f.m_main = ( i + 1 ) % n;
+        const std::string here = land( i ), next = land( i + 1 );
+        if( here == next ) continue;
+        // The nearest place that starts another land a little further on (not the next one's, not this one's).
+        const GeoPoint at = where( i );
+        const float    hop = greatCircle( at, where( i + 1 ) );
+        float          best = std::max( 900.0f, hop * 2.5f + 300.0f );
+        for( int j = i + 2; j < i + 40; ++j )
+        {
+            const std::string other = land( j );
+            if( other == here || other == next || other == land( j - 1 ) ) continue;
+            const float dist = greatCircle( at, where( j ) );
+            if( dist < best )
+            {
+                best = dist;
+                f.m_other = j % n;
+            }
+        }
+        if( f.m_other < 0 ) continue;
+        float turn = bearing( at, where( f.m_other ) ) - bearing( at, where( f.m_main ) );
+        while( turn > 180.0f ) turn -= 360.0f;
+        while( turn <= -180.0f ) turn += 360.0f;
+        f.m_otherLeft = turn < 0.0f;
+    }
+}
 
 /**
  * @brief The route, read once.
@@ -488,6 +567,7 @@ const RouteData &routeData()
             d.m_route.push_back( static_cast<BiomeE>( id ) );
             d.m_where[static_cast<size_t>( id )] = { true, GeoPoint{ std::strtof( p[1].c_str(), nullptr ), std::strtof( p[2].c_str(), nullptr ) } };
         }
+        findForks( d );
         return d;
     }();
     return data;
@@ -634,6 +714,13 @@ const CountryInfo &countryAt( int index )
 const std::vector<BiomeE> &worldRoute()
 {
     return routeData().m_route;
+}
+
+RouteFork routeFork( int pos )
+{
+    const auto &forks = routeData().m_forks;
+    if( forks.empty() ) return {};
+    return forks[static_cast<size_t>( ( pos % static_cast<int>( forks.size() ) + static_cast<int>( forks.size() ) ) % static_cast<int>( forks.size() ) )];
 }
 
 int routeIndex( BiomeE biome )

@@ -19,6 +19,8 @@
 
 #include <cstdint>
 #include <deque>
+#include <memory>
+#include <mutex>
 #include <vector>
 
 namespace sunstreak
@@ -49,6 +51,23 @@ enum SegmentFlagE : uint16_t
     SEG_FINISH = 1 << 10,      ///< the finish line of a race
     SEG_TUNNEL = 1 << 11,      ///< inside a tunnel
     SEG_BRIDGE = 1 << 12,      ///< on a bridge over a valley
+    SEG_FORK = 1 << 13,        ///< near a fork of the world tour: flat land, no tunnels, bridges, crests or roadworks
+    SEG_MEDIAN = 1 << 14,      ///< a barrier down the middle: two carriageways to two places
+};
+
+constexpr double ForkAt = 2400.0;       ///< where in its stage a fork's carriageways part (the choice; the border is 2.6 km on)
+constexpr double ForkWiden = 300.0;     ///< the road widens to two carriageways before it
+constexpr double ForkMedian = 1300.0;   ///< then they run side by side, beyond the sight of the choice
+constexpr double ForkPeel = 300.0;      ///< then the other one turns away and the road narrows again
+
+/** @brief A fork of the world tour: the road splits, each carriageway towards another country or state. */
+struct Fork
+{
+    bool   m_exists = false;            ///< this stage has one
+    double m_at = 0.0;                  ///< where the barrier between the carriageways begins (absolute)
+    BiomeE m_left = BiomeE::MEADOW;     ///< where the left carriageway leads
+    BiomeE m_right = BiomeE::MEADOW;    ///< where the right one leads
+    int    m_chosen = 0;                ///< -1 left, +1 right, 0 not yet
 };
 
 /** @brief What the Track Lab (and a race) asks of the generator; -1 leaves a value to the biomes. */
@@ -85,6 +104,7 @@ struct Segment
     float    m_blend = 0;         ///< 0..1 between m_biome and m_biomeTo
     uint16_t m_flags = 0;         ///< SegmentFlagE
     int      m_stage = 0;         ///< the stage this segment belongs to
+    float    m_flat = 0.0f;       ///< 0..1 how flat the land beside it lies (a fork's surroundings)
 };
 
 /** @brief The road at a point: position and orientation, interpolated. */
@@ -197,6 +217,28 @@ public:
     BiomeE stageBiome( int stage ) const;
 
     /**
+     * @brief The world tour's fork in a stage (copies of the track share the choices).
+     * @param[in] stage  the stage
+     * @return the fork (m_exists false outside the world tour and where the route goes on alone)
+     */
+    Fork fork( int stage ) const;
+
+    /**
+     * @brief Takes one carriageway of a fork; the stages after it follow.
+     * @param[in] stage  the stage of the fork
+     * @param[in] side   -1 left, +1 right
+     */
+    void choose( int stage, int side );
+
+    /**
+     * @brief Whether a distance lies in a fork's zone (with a margin).
+     * @param[in] s       the distance
+     * @param[in] margin  metres added before and after
+     * @return true if so
+     */
+    bool inForkZone( double s, double margin ) const;
+
+    /**
      * @brief The track's seed.
      * @return the seed
      */
@@ -259,6 +301,22 @@ private:
     long                         m_lastJump = -1000;    ///< segment of the last crest
     long                         m_lastWorks = -1000;   ///< segment of the last roadworks
     long                         m_lastSpecial = -1000; ///< segment of the last tunnel or bridge
+
+    /** @brief The world tour's way: the route position of every stage and the choices at its forks (shared by copies). */
+    struct Tour
+    {
+        std::mutex          m_mutex;    ///< the main thread chooses, the world's worker reads
+        std::vector<int>    m_pos;      ///< route position per stage after the detour (as far as known)
+        std::vector<int8_t> m_choice;   ///< per stage: -1 left, +1 right, 0 not yet
+    };
+    std::shared_ptr<Tour> m_tour;       ///< the world tour's way (null in other modes)
+
+    /**
+     * @brief The route position of a world tour stage (after the detour), following the choices made.
+     * @param[in] stage  the stage counted after the detour
+     * @return the position in worldRoute()
+     */
+    int tourPos( int stage ) const;
 };
 
 /**

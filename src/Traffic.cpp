@@ -207,13 +207,16 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
         }
         if( c.m_lane >= lanes ) c.m_lane = lanes - 1;
         float want = c.m_cruise;
+        // The barrier of a fork: no changing to the other carriageway.
+        const bool median = seg.m_flags & SEG_MEDIAN;
+        auto       sameSide = [&]( int l ) { return !median || ( l * 2 < lanes ) == ( c.m_lane * 2 < lanes ); };
         // Closed lane ahead: move over.
         if( laneClosedAhead( track, c.m_s, c.m_lane, 120.0 ) )
         {
             for( int d : { -1, 1 } )
             {
                 const int l = c.m_lane + d;
-                if( l >= 0 && l < lanes && !laneClosedAhead( track, c.m_s, l, 140.0 ) && laneFree( l, c.m_s, &c ) )
+                if( l >= 0 && l < lanes && sameSide( l ) && !laneClosedAhead( track, c.m_s, l, 140.0 ) && laneFree( l, c.m_s, &c ) )
                 {
                     c.m_lane = l;
                     break;
@@ -230,14 +233,27 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
             {
                 // Overtaking on the outer side: the left, or the right where they keep left.
                 const int l = c.m_lane + ( m_rng.chance( 0.8f ) == keepLeft ? 1 : -1 );
-                if( l >= 0 && l < lanes && laneFree( l, c.m_s, &c ) && !laneClosedAhead( track, c.m_s, l, 100.0 ) )
+                if( l >= 0 && l < lanes && sameSide( l ) && laneFree( l, c.m_s, &c ) && !laneClosedAhead( track, c.m_s, l, 100.0 ) )
                     c.m_lane = l;
                 else
                     want = std::min( want, o.m_speed - ( gap < 12.0 ? 3.0f : 0.0f ) );
             }
         }
         c.m_speed = approach( c.m_speed, std::max( 0.0f, want ), want < c.m_speed ? 1.6f : 0.5f, dt );
-        const float target = laneCenter( c.m_lane, lanes, seg.m_halfWidth );
+        float target = laneCenter( c.m_lane, lanes, seg.m_halfWidth );
+        if( seg.m_flags & SEG_FORK )
+        {
+            // On the carriageway the player did not take: follow it as it turns away, then leave.
+            const Fork   fork = track.fork( seg.m_stage );
+            const double v = c.m_s - fork.m_at - ForkMedian;
+            if( fork.m_chosen != 0 && v > 0.0 && c.m_x * static_cast<float>( fork.m_chosen ) < 0.0f )
+            {
+                const double w = std::min( v, ForkPeel ) / ForkPeel;
+                target = static_cast<float>( -fork.m_chosen ) * static_cast<float>( 3.0 + 130.0 * w * w );
+                c.m_x = target;
+                c.m_gone = v > ForkPeel;
+            }
+        }
         c.m_vx = clampf( ( target - c.m_x ) * 1.3f, -2.6f, 2.6f );
         c.m_x += c.m_vx * dt;
         c.m_yaw = std::atan2( c.m_vx, std::max( c.m_speed, 5.0f ) );
@@ -315,7 +331,7 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
                    [&]( const TrafficCar &c )
                    {
                        const bool across = c.m_animal && c.m_x * c.m_vx > 0.0f && std::abs( c.m_x ) > track.segment( static_cast<long>( c.m_s / SegmentLength ) ).m_halfWidth + 9.0f;
-                       return across || c.m_s < player.m_s - 140.0 || c.m_s > player.m_s + 1700.0;
+                       return across || c.m_gone || c.m_s < player.m_s - 140.0 || c.m_s > player.m_s + 1700.0;
                    } );
 
     // Cones and boards.

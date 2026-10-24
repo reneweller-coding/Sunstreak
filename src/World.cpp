@@ -181,13 +181,15 @@ float World::terrainHeight( const Track &track, long index, float lateral, const
     const bool     left = lateral < 0.0f;
     const double   s = static_cast<double>( index ) * SegmentLength;
     const uint64_t seed = track.seed();
-    float          h = -0.35f * smoothstepf( 0.0f, 4.0f, a );
-    const float    wall = left ? terrain.m_wallLeft : terrain.m_wallRight;
+    // Round a fork the land lies flat and level with the road, far out to where the other carriageway goes.
+    const float    keep = 1.0f - track.segment( index ).m_flat * ( 1.0f - smoothstepf( 160.0f, 260.0f, a ) );
+    float          h = -0.35f * smoothstepf( 0.0f, 4.0f, a ) * keep;
+    const float    wall = ( left ? terrain.m_wallLeft : terrain.m_wallRight ) * keep;
     const float    n1 = valueNoise( s * 0.012, lateral * 0.02, seed + 11 );
     h += wall * smoothstepf( 8.0f, 70.0f, a ) * ( 0.75f + 0.45f * n1 );
     const float hills = fbm( s * 0.0035, lateral * 0.005, seed + 23 ) * 0.5f + 0.5f;
-    h += terrain.m_hills * smoothstepf( 30.0f, 220.0f, a ) * hills * 1.6f;
-    const float water = left ? terrain.m_waterLeft : terrain.m_waterRight;
+    h += terrain.m_hills * keep * smoothstepf( 30.0f, 220.0f, a ) * hills * 1.6f;
+    const float water = ( left ? terrain.m_waterLeft : terrain.m_waterRight ) * keep;
     if( water > 0.0f ) h = lerpf( h, terrain.m_seaLevel - 4.5f, water * smoothstepf( 4.0f, 22.0f, a ) );
     const float cover = tunnelCover( track, index );
     if( cover > 0.0f ) h += TunnelLift * cover * smoothstepf( 0.0f, 6.0f, a ) * ( 1.0f - smoothstepf( 60.0f, 140.0f, a ) );
@@ -434,6 +436,17 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
         // outer edge (southern Africa, Ireland), mirrored where they drive on the left.
         const BiomeDef    &here = ruling( seg, 0.5f );
         const CountryInfo &land = countryInfo( here.m_country );
+        // A fork of the world tour: where its barrier begins (u = 0) and where the other carriageway goes.
+        const Fork   fork = track.fork( seg.m_stage );
+        const double u = static_cast<double>( j ) * SegmentLength - fork.m_at;
+        const int    half = lanes / 2;
+        const float  carriage = static_cast<float>( std::max( 1, half ) ) * LaneWidth * 0.5f;   // half a carriageway
+        auto         branchX = [&]( double v ) -> float
+        {
+            const double w = std::clamp( v - ForkMedian, 0.0, ForkPeel );
+            return static_cast<float>( -fork.m_chosen ) * ( carriage + 0.6f + static_cast<float>( 130.0 * ( w / ForkPeel ) * ( w / ForkPeel ) ) );
+        };
+        const bool peeling = fork.m_exists && fork.m_chosen != 0 && u >= ForkMedian && u < ForkMedian + ForkPeel;
         Color              lineL = sf.m_line, lineR = sf.m_line;
         if( here.m_country && sf.m_lineGlow <= 0.0f && !here.m_unpaved )
         {
@@ -457,6 +470,16 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
         for( int k = 1; k < lanes; ++k )
         {
             const float f = -1.0f + 2.0f * static_cast<float>( k ) / static_cast<float>( lanes );
+            if( fork.m_exists && k * 2 == lanes && u > -120.0 && u < ForkMedian )
+            {
+                // The gore before the barrier: a hatched wedge between the carriageways.
+                const float g = u < 0.0 ? 0.6f * smoothstepf( -120.0f, 0.0f, static_cast<float>( u ) ) : 0.6f;
+                cols.push_back( { 0.0f, -g - 0.15f, StripE::LINE } );
+                cols.push_back( { 0.0f, -g, StripE::DASH } );
+                cols.push_back( { 0.0f, g, StripE::LINE } );
+                cols.push_back( { 0.0f, g + 0.15f, StripE::ROAD } );
+                continue;
+            }
             cols.push_back( { f, -0.08f, StripE::DASH } );
             cols.push_back( { f, 0.08f, StripE::ROAD } );
         }
@@ -823,6 +846,48 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             props.box( Vector3{ base.x, base.y + 0.4f, base.z }, Vector3{ 0.07f, 0.4f, 0.07f }, Color{ 120, 124, 132, 255 } );
         }
 
+        // The fork: a barrier between the carriageways, a cushion at its nose, the gantry with both places; after it
+        // the other carriageway turns away into the fields.
+        if( fork.m_exists )
+        {
+            const Color concrete = { 196, 194, 186, 255 };
+            if( seg.m_flags & SEG_MEDIAN )
+            {
+                const Vector3 a0 = at( A, 0.0f, 0.0f ), b0 = at( B, 0.0f, 0.0f );
+                const Vector3 mid = Vector3Lerp( a0, b0, 0.5f );
+                obox( props, Vector3{ mid.x, mid.y + 0.42f, mid.z }, A.m_right, A.m_forward, 0.28f, 0.42f, SegmentLength * 0.52f, concrete );
+                if( u < SegmentLength )
+                {
+                    const Color yellow = { 250, 200, 30, 255 }, black = { 24, 24, 26, 255 };
+                    const Vector3 nose = Vector3Add( a0, Vector3Scale( A.m_forward, 1.6f ) );
+                    obox( props, Vector3{ nose.x, nose.y + 0.6f, nose.z }, A.m_right, A.m_forward, 0.7f, 0.6f, 1.6f, yellow );
+                    for( int k = 0; k < 3; ++k )
+                        obox( props, Vector3{ a0.x - A.m_forward.x * 0.02f, a0.y + 0.3f + 0.4f * k, a0.z - A.m_forward.z * 0.02f }, A.m_right, A.m_forward, 0.72f, 0.08f, 0.05f, black );
+                }
+            }
+            if( ( u >= -285.0 && u < -285.0 + SegmentLength ) || ( u >= -780.0 && u < -780.0 + SegmentLength ) )
+            {
+                const BiomeE from = track.stageBiome( seg.m_stage );
+                MeshBuilder  sign;
+                buildForkSign( sign, borderName( fork.m_left, from ), borderName( fork.m_right, from ), A.m_hw );
+                props.append( sign, at( A, 0.0f, 0.0f ), A.m_heading, 1.0f );
+            }
+            if( peeling )
+            {
+                // The other carriageway, a little above the land, its kerbs along it.
+                const double  ua = u, ub = u + SegmentLength;
+                const float   xa = branchX( ua ), xb = branchX( ub );
+                const Color   kerb = j % 2 == 0 ? sf.m_rumbleA : sf.m_rumbleB;
+                const float   lift = 0.04f;
+                auto          strip = [&]( float a0, float a1, float b0, float b1, Color col )
+                { ground.quad( at( A, a0, lift ), at( A, a1, lift ), at( B, b1, lift ), at( B, b0, lift ), col ); };
+                strip( xa - carriage, xa + carriage, xb - carriage, xb + carriage, band ? sf.m_road : sf.m_roadAlt );
+                strip( xa - carriage - RumbleWidth, xa - carriage, xb - carriage - RumbleWidth, xb - carriage, kerb );
+                strip( xa + carriage, xa + carriage + RumbleWidth, xb + carriage, xb + carriage + RumbleWidth, kerb );
+                if( band ) strip( xa - 0.08f, xa + 0.08f, xb - 0.08f, xb + 0.08f, sf.m_line );
+            }
+        }
+
         // Furniture and props, per side.
         for( float side : { -1.0f, 1.0f } )
         {
@@ -881,13 +946,13 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 }
             }
 
-            if( rule.m_postSpacing > 0.0f && !railed && !tunnel && !bridge )
+            if( rule.m_postSpacing > 0.0f && !railed && !tunnel && !bridge && !( seg.m_flags & SEG_FORK ) )
             {
                 const long k = std::max( 2L, static_cast<long>( rule.m_postSpacing / SegmentLength + 0.5f ) );
                 if( ( j + ( side < 0 ? k / 2 : 0 ) ) % k == 0 )
                     props.append( models.m_post, at( A, side * ( A.m_hw + RumbleWidth + 0.7f ), 0.0f ), A.m_heading, 1.0f );
             }
-            if( rule.m_lampSpacing > 0.0f && !tunnel && !bridge )
+            if( rule.m_lampSpacing > 0.0f && !tunnel && !bridge && !( seg.m_flags & SEG_FORK ) )
             {
                 const long k = std::max( 2L, static_cast<long>( rule.m_lampSpacing / SegmentLength + 0.5f ) );
                 if( j % k == ( side > 0 ? 0 : k / 2 ) )
@@ -950,6 +1015,15 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 if( ( tunnel && dist < 7.0f ) || ( bridge && dist < 4.0f ) ) continue;
                 const float  lateral = side * ( A.m_edge + dist );
                 const double ps = static_cast<double>( j ) * SegmentLength + h2 * SegmentLength;
+                // Nothing where the other carriageway of a fork turns away (it is decided before this is baked).
+                if( fork.m_exists && u > ForkMedian - 60.0 && u < ForkMedian + ForkPeel + 40.0 )
+                {
+                    if( fork.m_chosen == 0 || side * static_cast<float>( -fork.m_chosen ) > 0.0f )
+                    {
+                        const float bx = branchX( std::clamp( u, ForkMedian, ForkMedian + ForkPeel ) );
+                        if( std::abs( lateral - bx ) < carriage + 14.0f || std::abs( lateral ) < std::abs( bx ) + 14.0f ) continue;
+                    }
+                }
                 const float  ht = pr.m_onWater ? A.m_terrain.m_seaLevel : terrainHeight( track, j, lateral, A.m_terrain, A.m_edge );
                 // Place along the chord inside the segment.
                 Vector3 pos = at( A, lateral, ht );

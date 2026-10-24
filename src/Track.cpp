@@ -29,6 +29,8 @@ Track::Track( uint64_t seed, const TrackParams &params, int startBiome )
         const int  at = wanted ? routeIndex( static_cast<BiomeE>( startBiome ) ) : -1;
         m_routeStart = at >= 0 ? at : static_cast<int>( hash64( seed * 131 + 17 ) % worldRoute().size() );
         if( wanted && at < 0 ) m_stageBiomes.push_back( static_cast<uint16_t>( startBiome ) );
+        m_tour = std::make_shared<Tour>();
+        m_tour->m_pos.push_back( m_routeStart );
     }
     else
     {
@@ -55,8 +57,8 @@ BiomeE Track::stageBiome( int stage ) const
     {
         const auto &route = worldRoute();
         const int   detour = static_cast<int>( m_stageBiomes.size() );
-        if( stage < detour ) return static_cast<BiomeE>( m_stageBiomes[static_cast<size_t>( stage )] );
-        return route[static_cast<size_t>( m_routeStart + stage - detour ) % route.size()];
+        if( stage < detour ) return static_cast<BiomeE>( m_stageBiomes[static_cast<size_t>( std::max( 0, stage ) )] );
+        return route[static_cast<size_t>( tourPos( stage - detour ) ) % route.size()];
     }
     while( static_cast<int>( m_stageBiomes.size() ) <= stage )
     {
@@ -70,6 +72,65 @@ BiomeE Track::stageBiome( int stage ) const
         m_stageBiomes.insert( m_stageBiomes.end(), order.begin(), order.end() );
     }
     return static_cast<BiomeE>( m_stageBiomes[stage] );
+}
+
+int Track::tourPos( int stage ) const
+{
+    if( !m_tour ) return m_routeStart + stage;
+    std::lock_guard<std::mutex> lock( m_tour->m_mutex );
+    std::vector<int>    &pos = m_tour->m_pos;
+    std::vector<int8_t> &choice = m_tour->m_choice;
+    while( static_cast<int>( pos.size() ) <= stage )
+    {
+        // The next stage: along the route, or where the other carriageway of the last fork led.
+        const size_t    last = pos.size() - 1;
+        const RouteFork f = routeFork( pos[last] );
+        const int8_t    c = last < choice.size() ? choice[last] : 0;
+        const bool      other = f.m_other >= 0 && c != 0 && ( c < 0 ) == f.m_otherLeft;
+        pos.push_back( other ? f.m_other : f.m_main );
+    }
+    return pos[static_cast<size_t>( std::max( 0, stage ) )];
+}
+
+Fork Track::fork( int stage ) const
+{
+    Fork f;
+    const int detour = static_cast<int>( m_stageBiomes.size() );
+    if( !m_tour || stage < detour ) return f;
+    const int       pos = tourPos( stage - detour );
+    const RouteFork r = routeFork( pos );
+    if( r.m_other < 0 ) return f;
+    const auto &route = worldRoute();
+    const BiomeE main = route[static_cast<size_t>( r.m_main ) % route.size()], other = route[static_cast<size_t>( r.m_other ) % route.size()];
+    f.m_exists = true;
+    f.m_at = static_cast<double>( stage ) * StageLength + ForkAt;
+    f.m_left = r.m_otherLeft ? other : main;
+    f.m_right = r.m_otherLeft ? main : other;
+    std::lock_guard<std::mutex> lock( m_tour->m_mutex );
+    const size_t k = static_cast<size_t>( stage - detour );
+    f.m_chosen = k < m_tour->m_choice.size() ? m_tour->m_choice[k] : 0;
+    return f;
+}
+
+void Track::choose( int stage, int side )
+{
+    const int detour = static_cast<int>( m_stageBiomes.size() );
+    if( !m_tour || stage < detour || !fork( stage ).m_exists ) return;
+    std::lock_guard<std::mutex> lock( m_tour->m_mutex );
+    const size_t k = static_cast<size_t>( stage - detour );
+    if( m_tour->m_choice.size() <= k ) m_tour->m_choice.resize( k + 1, 0 );
+    if( m_tour->m_choice[k] != 0 ) return;
+    m_tour->m_choice[k] = static_cast<int8_t>( side < 0 ? -1 : 1 );
+    // The stages after this one were only guesses.
+    if( m_tour->m_pos.size() > k + 1 ) m_tour->m_pos.resize( k + 1 );
+}
+
+bool Track::inForkZone( double s, double margin ) const
+{
+    if( !m_tour ) return false;
+    const int stage = static_cast<int>( std::max( 0.0, s ) / StageLength );
+    const Fork f = fork( stage );
+    return f.m_exists && s > f.m_at - ForkWiden - margin && s < f.m_at + ForkMedian + ForkPeel + margin;
 }
 
 float Track::difficulty( int stage )
@@ -133,6 +194,7 @@ void Track::decorate( size_t from )
     const long   first = endIndex() + static_cast<long>( from );
     const double s = static_cast<double>( first ) * SegmentLength;
     if( s < m_params.m_startLine + 600.0 || n < 16 || first - m_lastSpecial < 80 ) return;
+    if( inForkZone( s, 150.0 ) || inForkZone( s + static_cast<double>( n ) * SegmentLength, 150.0 ) ) return;
     float maxCurve = 0.0f;
     for( size_t i = from; i < from + n; ++i )
     {
@@ -191,6 +253,7 @@ void Track::planShape()
     auto straight = [&]( float length, bool allowSpecials )
     {
         const int n = std::max( 2, static_cast<int>( length / SegmentLength ) );
+        if( inForkZone( s, 100.0 ) || inForkZone( s + static_cast<double>( n ) * SegmentLength, 100.0 ) ) allowSpecials = false;
         // A crest that throws the car, in hilly country, now and then.
         int jumpAt = -1;
         if( allowSpecials && n >= 40 && hilly > 0.45f && startIndex - m_lastJump > 300 && m_rng.chance( 0.25f * hilly ) )
@@ -254,6 +317,17 @@ void Track::planShape()
     if( s < m_params.m_startLine + 360.0 )
     {
         straight( static_cast<float>( m_params.m_startLine + 360.0 - s ), false );
+        return;
+    }
+    // Round a fork the road runs straight or in long sweeps, so the carriageways part cleanly.
+    if( inForkZone( s, 250.0 ) )
+    {
+        if( m_rng.chance( 0.5f ) ) straight( m_rng.range( 150.0f, 300.0f ), false );
+        else
+        {
+            const float dir = std::abs( m_genHeading ) > 0.6f ? ( m_genHeading > 0 ? -1.0f : 1.0f ) : m_rng.sign();
+            curveFeature( dir, m_rng.range( 1600.0f, 2600.0f ), m_rng.range( 0.08f, 0.2f ) );
+        }
         return;
     }
 
@@ -356,6 +430,28 @@ void Track::appendSegment()
     if( index > 0 && index % static_cast<long>( CheckpointSpacing / SegmentLength ) == 0 ) seg.m_flags |= SEG_CHECKPOINT;
     if( index == static_cast<long>( m_params.m_startLine / SegmentLength ) ) seg.m_flags |= SEG_START;
     if( m_params.m_length > 0.0 && index == static_cast<long>( m_params.m_length / SegmentLength ) ) seg.m_flags |= SEG_FINISH;
+    if( m_tour )
+    {
+        const Fork fork = this->fork( static_cast<int>( s / StageLength ) );
+        if( fork.m_exists && s > fork.m_at - ForkWiden - 200.0 && s < fork.m_at + ForkMedian + ForkPeel + 200.0 )
+        {
+            // Two carriageways of the road's lanes each: widening before the barrier, narrowing after it.
+            const double u = s - fork.m_at;
+            const float  wide = smoothstepf( static_cast<float>( -ForkWiden ), -60.0f, static_cast<float>( u ) ) *
+                               ( 1.0f - smoothstepf( static_cast<float>( ForkMedian ), static_cast<float>( ForkMedian + ForkPeel * 0.7 ), static_cast<float>( u ) ) );
+            const int lanes = std::min( 3, static_cast<int>( seg.m_lanes ) );
+            seg.m_halfWidth = lerpf( seg.m_halfWidth, static_cast<float>( lanes ) * LaneWidth + 0.6f, wide );
+            seg.m_lanes = static_cast<uint8_t>( wide > 0.5f ? lanes * 2 : seg.m_lanes );
+            if( wide > 0.02f && wide < 0.98f ) seg.m_flags |= SEG_NO_DASH;
+            seg.m_flags |= SEG_FORK;
+            seg.m_flags &= static_cast<uint16_t>( ~( SEG_TUNNEL | SEG_BRIDGE | SEG_JUMP | SEG_ROADWORKS | SEG_PUDDLE | SEG_RAIL_L | SEG_RAIL_R |
+                                                     SEG_CHEVRON_L | SEG_CHEVRON_R ) );
+            seg.m_blockedLanes = 0;
+            if( u >= 0.0 && u < ForkMedian ) seg.m_flags |= SEG_MEDIAN;
+            seg.m_flat = smoothstepf( static_cast<float>( -ForkWiden - 200.0 ), static_cast<float>( -ForkWiden ), static_cast<float>( u ) ) *
+                         ( 1.0f - smoothstepf( static_cast<float>( ForkMedian + ForkPeel ), static_cast<float>( ForkMedian + ForkPeel + 200.0 ), static_cast<float>( u ) ) );
+        }
+    }
     if( seg.m_flags & ( SEG_TUNNEL | SEG_BRIDGE ) ) seg.m_flags |= SEG_RAIL_L | SEG_RAIL_R;
     seg.m_bank = clampf( seg.m_curve * 28.0f, -0.09f, 0.09f );
     seg.m_stage = static_cast<int>( s / StageLength );

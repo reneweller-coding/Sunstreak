@@ -629,7 +629,19 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
         startS = m_options.m_startDistance;
         m_options.m_startDistance = 0.0f;
     }
-    if( m_options.m_find >= 3 )
+    if( m_options.m_find == 5 )
+    {
+        // Testing: start before the first fork of the world tour.
+        Track probe( setup.m_seed, params, m_options.m_startBiome );
+        for( int st = 0; st < 40; ++st )
+            if( probe.fork( st ).m_exists )
+            {
+                startS = probe.fork( st ).m_at - 700.0;
+                break;
+            }
+        m_options.m_find = 0;
+    }
+    if( m_options.m_find == 3 || m_options.m_find == 4 )
     {
         // Testing: start shortly before the first stage's first (or second) landmark.
         Track           probe( setup.m_seed, params, m_options.m_startBiome );
@@ -1206,6 +1218,27 @@ void Game::step( float h, const CarInput &in )
     // Guard rails.
     const Segment   &seg = track.segment( static_cast<long>( m_car.m_s / SegmentLength ) );
     const TrackFrame f = track.frameAt( m_car.m_s );
+    if( seg.m_flags & SEG_MEDIAN )
+    {
+        // The barrier between a fork's carriageways keeps the car on the side it took.
+        const Fork  fork = track.fork( seg.m_stage );
+        const float side = fork.m_chosen != 0 ? static_cast<float>( fork.m_chosen ) : ( m_car.m_x < 0.0f ? -1.0f : 1.0f );
+        const float wall = 0.3f + m_car.m_spec.m_width * 0.5f;
+        if( m_car.m_x * side < wall )
+        {
+            const float into = -( m_car.m_vx - m_car.m_drift ) * side;
+            m_car.m_x = side * wall;
+            if( into > 0.0f ) m_car.m_vx = m_car.m_drift + side * into * 0.35f;
+            if( !m_wasScraping && into > 3.0f )
+            {
+                m_crash = std::max( m_crash, std::min( 1.0f, into / 15.0f ) * 0.6f );
+                m_car.m_speed *= 0.95f;
+            }
+            m_car.m_speed *= std::exp( -0.35f * h );
+            m_scraping = true;
+            m_scrapeSide = -side;
+        }
+    }
     const float      railX = f.m_halfWidth + RumbleWidth + 0.45f - m_car.m_spec.m_width * 0.5f;
     for( float side : { -1.0f, 1.0f } )
     {
@@ -1292,6 +1325,16 @@ void Game::timeAttackRules( float h )
         popup( format( "STAGE %d", stage + 1 ), placeName( track.stageBiome( stage ) ), Accent, 1.2f, 3.2f );
         m_audio.playOnBeat( SfxE::STAGE );
     }
+    {
+        // A fork of the world tour: the carriageway the car is on where the barrier begins decides the way on.
+        const Fork fork = track.fork( stage );
+        if( fork.m_exists && fork.m_chosen == 0 && m_car.m_s >= fork.m_at )
+        {
+            const int side = m_car.m_x < 0.0f ? -1 : 1;
+            m_track->choose( stage, side );
+            popup( "NEXT", borderName( side < 0 ? fork.m_left : fork.m_right, track.stageBiome( stage ) ), Accent, 1.0f, 2.6f );
+        }
+    }
     const double ds = m_car.m_s - m_lastS;
     m_lastS = m_car.m_s;
     const float sn = m_car.m_speed / m_car.m_spec.m_topSpeed;
@@ -1307,12 +1350,20 @@ CarInput Game::autopilot() const
     const int      lanes = seg.m_lanes;
     const int      current = laneOf( m_car.m_x, lanes, seg.m_halfWidth );
 
-    // Pick the lane with the most room ahead.
+    // Pick the lane with the most room ahead; at a fork, one carriageway (the seed's pick, or the one taken).
     int   best = current;
     float bestCost = 1e9f;
+    int   forkSide = 0;
+    if( seg.m_flags & SEG_FORK )
+    {
+        const Fork fork = track.fork( seg.m_stage );
+        forkSide = fork.m_chosen != 0 ? fork.m_chosen : ( hash64( m_seed * 31 + static_cast<uint64_t>( seg.m_stage ) ) & 1 ) ? 1 : -1;
+        if( fork.m_chosen == 0 && m_car.m_s > fork.m_at - 150.0 ) forkSide = m_car.m_x < 0.0f ? -1 : 1;
+    }
     for( int lane = 0; lane < lanes; ++lane )
     {
         float cost = std::abs( static_cast<float>( lane - current ) ) * 6.0f + std::abs( static_cast<float>( lane ) - ( lanes - 1 ) * 0.5f );
+        if( forkSide != 0 && lanes >= 2 && ( lane * 2 < lanes ) != ( forkSide < 0 ) ) cost += 400.0f;
         for( long i = 0; i < 30; ++i )
             if( track.segment( static_cast<long>( m_car.m_s / SegmentLength ) + i ).m_blockedLanes & ( 1u << lane ) ) cost += 200.0f;
         for( const TrafficCar &c : m_traffic.m_cars )

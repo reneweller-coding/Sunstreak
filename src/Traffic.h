@@ -38,6 +38,7 @@ struct TrafficCar
     bool   m_animal = false;   ///< an animal crossing the road (m_vx carries it across)
     float  m_wait = 0.0f;      ///< seconds it stands still in the road
     bool   m_waited = false;   ///< it has stood already
+    bool   m_gone = false;     ///< took the other carriageway of a fork and has left the road
 };
 
 /** @brief A cone or an arrow board. */

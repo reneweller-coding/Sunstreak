@@ -1537,7 +1537,7 @@ constexpr uint32_t bit( FleetE f )
 
 } // namespace
 
-void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float cap, float lift )
+void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float cap, float lift, bool posts )
 {
     static const Color boards[5] = { rgb( 244, 244, 240 ), rgb( 255, 204, 0 ), rgb( 244, 244, 240 ), rgb( 0, 72, 160 ), rgb( 0, 112, 66 ) };
     static const Color inks[5] = { rgb( 20, 20, 22 ), rgb( 20, 20, 22 ), rgb( 20, 20, 22 ), rgb( 250, 250, 250 ), rgb( 250, 250, 250 ) };
@@ -1546,7 +1546,8 @@ void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float c
     std::vector<std::pair<Vector2, Vector2>> lines;
     const float                               w = textStrokes( text, lines ) * cap;
     const float                               hw = w * 0.5f + cap * 0.9f, h = cap * 2.2f, y = lift + h * 0.5f;
-    for( float x : { -hw * 0.7f, hw * 0.7f } ) out.box( Vector3{ x, lift * 0.5f + 0.1f, 0.04f }, Vector3{ 0.05f, lift * 0.5f + 0.1f, 0.05f }, rgb( 140, 142, 148 ) );
+    if( posts )
+        for( float x : { -hw * 0.7f, hw * 0.7f } ) out.box( Vector3{ x, lift * 0.5f + 0.1f, 0.04f }, Vector3{ 0.05f, lift * 0.5f + 0.1f, 0.05f }, rgb( 140, 142, 148 ) );
     out.box( Vector3{ 0, y, 0 }, Vector3{ hw, h * 0.5f, 0.03f }, frames[s], Mat{ 0.2f, 0.0f } );
     const float inset = s == 2 ? cap * 0.22f : cap * 0.1f;
     out.quad( Vector3{ hw - inset, y - h * 0.5f + inset, -0.035f }, Vector3{ -hw + inset, y - h * 0.5f + inset, -0.035f },
@@ -1565,6 +1566,26 @@ void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float c
         const Vector3 p2 = Vector3Add( Vector3Add( q, n ), Vector3Scale( d, thick * 0.4f ) ), p3 = Vector3Subtract( Vector3Add( p, n ), Vector3Scale( d, thick * 0.4f ) );
         out.quad( p0, p1, p2, p3, inks[s], Mat{ 0.25f, 0.0f } );
         out.quad( p3, p2, p1, p0, inks[s], Mat{ 0.25f, 0.0f } );
+    }
+}
+
+void buildForkSign( MeshBuilder &out, std::string_view left, std::string_view right, float halfWidth )
+{
+    const Color steel = rgb( 140, 142, 148 );
+    const float span = halfWidth + 2.2f, top = 7.4f;
+    for( float x : { -span, span } ) out.box( Vector3{ x, top * 0.5f, 0.3f }, Vector3{ 0.2f, top * 0.5f, 0.2f }, steel );
+    out.box( Vector3{ 0, top - 0.25f, 0.3f }, Vector3{ span, 0.18f, 0.12f }, steel );
+    out.box( Vector3{ 0, top - 1.6f, 0.3f }, Vector3{ span, 0.12f, 0.1f }, steel );
+    for( int k = 0; k < 2; ++k )
+    {
+        // Each board over its carriageway (the driver's left is +x), the arrow on the side it turns to.
+        const std::string text = k == 0 ? "< " + std::string( left ) : std::string( right ) + " >";
+        std::vector<std::pair<Vector2, Vector2>> lines;
+        const float room = halfWidth - 0.6f;
+        const float cap = std::min( 0.6f, room / ( textStrokes( text, lines ) + 1.8f ) );
+        MeshBuilder board;
+        buildPlaceSign( board, text, 4, cap, top - 0.4f - cap * 2.2f, false );
+        out.append( board, Vector3{ ( k == 0 ? 1.0f : -1.0f ) * halfWidth * 0.5f, 0, 0 }, 0.0f, 1.0f );
     }
 }
 

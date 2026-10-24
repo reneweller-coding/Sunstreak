@@ -1680,6 +1680,22 @@ void Game::drawHud()
     DrawRectangle( static_cast<int>( bx ), static_cast<int>( H - 30.0f * u ), static_cast<int>( bw * m_car.m_boostTank ), static_cast<int>( 10.0f * u ),
                    boostCol );
 
+    // A fork ahead: where each carriageway leads, the one the car is on lit.
+    if( !m_demo )
+    {
+        const int  stage = static_cast<int>( m_car.m_s / StageLength );
+        const Fork fork = m_track->fork( stage );
+        if( fork.m_exists && fork.m_chosen == 0 && m_car.m_s > fork.m_at - 1100.0 )
+        {
+            const BiomeE here = m_track->stageBiome( stage );
+            const bool   left = m_car.m_x < 0.0f;
+            const float  y = 150.0f * u, size = 18.0f * u;
+            drawText( "THE ROAD FORKS", W * 0.5f, y - 26.0f * u, 12.0f * u, Dim, AlignE::CENTER );
+            drawTextFx( "< " + borderName( fork.m_left, here ), W * 0.5f - 24.0f * u, y, size, left ? Accent : Dim, AlignE::RIGHT, left ? 0.6f : 0.0f );
+            drawTextFx( borderName( fork.m_right, here ) + " >", W * 0.5f + 24.0f * u, y, size, left ? Dim : Accent, AlignE::LEFT, left ? 0.0f : 0.6f );
+        }
+    }
+
     // The road ahead and the next checkpoint or the finish.
     const float mw = 210.0f * u, mh = 150.0f * u;
     drawMinimap( 24.0f * u, H - mh - 24.0f * u, mw, mh );

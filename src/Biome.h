@@ -963,6 +963,21 @@ struct Rally
  */
 const std::vector<Rally> &rallies();
 
+/** @brief Where the world tour may go after a place: the next on the route, and now and then a neighbour further on. */
+struct RouteFork
+{
+    int m_main = -1;    ///< the next route position
+    int m_other = -1;   ///< another route position across a border (-1: no fork here)
+    bool m_otherLeft = false;   ///< the other road leaves to the left (as the map lies)
+};
+
+/**
+ * @brief The fork after a route position (data/route.txt; at the borders of countries and states).
+ * @param[in] pos  the position in worldRoute()
+ * @return the choices
+ */
+RouteFork routeFork( int pos );
+
 /**
  * @brief A biome's place on the world tour.
  * @param[in] biome  which one
@@ -976,6 +991,14 @@ int routeIndex( BiomeE biome );
  * @return the text for the screen
  */
 std::string placeName( BiomeE biome );
+
+/**
+ * @brief What a sign at a border calls a place: its state if it lies in the same country, else its country.
+ * @param[in] dest  where the road leads
+ * @param[in] from  where it comes from
+ * @return the name
+ */
+std::string borderName( BiomeE dest, BiomeE from );
 
 /**
  * @brief How many countries the world tour visits.
