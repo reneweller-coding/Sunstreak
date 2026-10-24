@@ -1,0 +1,547 @@
+# Local things of India, Pakistan, Nepal, Bhutan, Bangladesh, Sri Lanka and the Maldives.
+
+shape CHAI_STALL
+    home INDIA, PAKISTAN, BANGLADESH, NEPAL, SRI LANKA | 0.006 3 15
+    # A chai stall: a wooden counter under a tarpaulin, a kettle on the stove, glasses in a row, a bench in front.
+    box 0 0.5 0 0.5 0.5 1.2 6A5A48
+    box 0 1.0 0 0.55 0.03 1.25 8A6A48
+    cyl 0 1.03 -0.6 0.18 0.12 0.25 8 9A9A9A shiny
+    repeat 5 0 0 0.2
+    cyl 0.3 1.03 0.1 0.04 0.035 0.1 6 D89A5A glass
+    quad -0.8 2.2 -1.6 -0.8 2.2 1.6 1.4 1.8 1.6 1.4 1.8 -1.6 2A6AC8
+    mirror
+    tube 1.3 0 1.5 1.3 1.8 1.5 0.04 4 6A5A48
+    mirror
+    tube -0.7 0 1.5 -0.7 2.2 1.5 0.04 4 6A5A48
+    box 1.6 0.4 0 0.18 0.04 1.0 8A6A48
+
+shape ROADSIDE_DHABA
+    home INDIA:PUNJAB, INDIA:HARYANA, INDIA:RAJASTHAN, INDIA:UTTAR PRADESH, INDIA:DELHI, INDIA:MADHYA PRADESH, INDIA:BIHAR, PAKISTAN | 0.005 4 30
+    # A highway dhaba: a whitewashed eatery, a painted sign, charpoys laid out for the truck drivers to rest on.
+    box -1.5 1.6 0 1.5 1.6 3.5 F2EEE2
+    box 0.02 1.2 0 0.02 1.0 2.5 3A3A3A
+    box 0.03 2.7 0 0.02 0.35 3 E8A020
+    box 0.04 2.7 0 0.01 0.15 2.2 C82A2A
+    repeat 3 0 0 2.2
+    box 2 0.45 -2.2 0.45 0.05 0.95 C8B080
+    repeat 3 0 0 2.2
+    box 2 0.2 -2.2 0.42 0.2 0.9 6A4A30
+    quad -0.2 3.0 -3.5 -0.2 3.0 3.5 3.2 2.6 3.5 3.2 2.6 -3.5 8A8A80
+
+shape ZEBU_RESTING
+    home INDIA, NEPAL, BANGLADESH, SRI LANKA, PAKISTAN | 0.006 4 40 | country
+    # A white zebu cow lying at the roadside, chewing, its hump and dewlap, painted horns.
+    blob 0 0.55 0 0.45 0.4 0.95 E8E2D8
+    blob 0 0.95 0.45 0.25 0.25 0.25 E8E2D8
+    blob 0 0.55 1.05 0.18 0.25 0.35 E0D8CC
+    mirrorx
+    tube 0.1 0.8 1.15 0.25 1.1 1.0 0.04 3 C83A2A
+    blob 0.35 0.2 0.6 0.18 0.15 0.4 D8D0C4
+    tube 0 0.6 -0.95 0 0.2 -1.1 0.03 3 E8E2D8
+
+shape ROADSIDE_SHRINE_HINDU
+    home INDIA, NEPAL | 0.005 3 20 | country
+    # A little roadside shrine: an orange-painted cell with a pointed top, a saffron flag on a bamboo pole, marigolds.
+    box 0 0.6 0 0.5 0.6 0.5 E87A2A
+    spire 0 1.2 0 0.55 0.9 4 E87A2A
+    box 0.51 0.6 0 0.02 0.4 0.25 2A1A10
+    blob 0.52 0.55 0 0.02 0.18 0.12 D82A2A
+    tube -0.8 0 0.6 -0.8 3.5 0.6 0.03 3 B8A060
+    tri -0.8 3.5 0.6 -0.8 3.0 0.6 -0.8 3.25 1.4 F28A1A
+    repeat 4 0 0 0.25
+    blob 0.6 0.1 -0.4 0.08 0.06 0.08 F2A01A
+
+shape GOPURAM_TEMPLE
+    home INDIA:TAMIL NADU, INDIA:KARNATAKA, INDIA:ANDHRA PRADESH, INDIA:TELANGANA, INDIA:KERALA, INDIA:PUDUCHERRY | 0.003 15 110
+    # A South Indian temple gate: a stepped tower crowded with painted gods, a barrel roof on top, the wall around.
+    box 0 2.5 0 3 2.5 5 E8D8B0
+    tbox 0 5 0 3 5 0 15 0 1.4 3 E8B860
+    repeat 5 0 2 0
+    box 0 5.4 0 3.05 0.12 5.05 C83A2A
+    repeat 5 0 2 0
+    box 3.0 6.2 -2 0.06 0.4 0.3 3A8AC8
+    repeat 5 0 2 0
+    box 3.0 6.2 2 0.06 0.4 0.3 3AA85A
+    tube 0 15.5 -3 0 15.5 3 0.6 8 D8A030
+    repeat 5 0 0 1.2
+    spire 0 16 -2.4 0.15 0.6 6 D8A030
+    box 3.02 1.6 0 0.03 1.6 0.9 2A1A10
+    box 0 1.5 9 1 1.5 4 E8D8B0
+
+shape KERALA_HOUSE
+    home INDIA:KERALA | 0.008 6 60 | country
+    # A Kerala house: whitewashed walls under steep sloping tiled roofs in two tiers, wooden pillars on the veranda.
+    box 0 1.6 0 3.5 1.6 4.5 F2EEE6
+    hip 0 3.2 0 4.3 5.3 1.2 0.6 A8502A
+    box 0 4.6 0 2.5 0.4 3.2 F2EEE6
+    hip 0 5 0 3 3.8 1.8 0.4 A8502A
+    repeat 4 0 0 3
+    tube 4 0 -4.5 4 3 -4.5 0.12 6 6A4A2A
+    box 3.52 1.0 0 0.03 1.0 0.5 5A3A22
+    tube 7 0 3 7.4 9 3.3 0.2 6 8A7050
+    fronds 7.4 9 3.3 9 3.8 0.6 3E7A2E
+
+shape CHINESE_FISHING_NETS
+    home INDIA:KERALA | 0.004 10 60
+    # The Chinese fishing nets of Kochi: great cantilevered arms of teak poles lowering their nets into the water.
+    box 0 0.02 3 4 0.02 4 3A6A7A water
+    box 0 0.4 -1 1.2 0.4 1.5 8A7A60
+    tube 0 0.8 -1 0 5 3 0.12 4 7A6A50
+    tube 0 0.8 -1 0 3 -4 0.1 4 7A6A50
+    tube 0 5 3 -2 3 7 0.06 4 7A6A50
+    tube 0 5 3 2 3 7 0.06 4 7A6A50
+    quad -2 3 7 2 3 7 1 0.5 5 -1 0.5 5 C8C8B8
+    repeat 4 0 0 0.6
+    blob 0 3.2 -4 0.15 0.15 0.15 9A9488
+
+shape STEPWELL
+    home INDIA:GUJARAT, INDIA:RAJASTHAN | 0.002 10 60 | country
+    # A stepwell: flights of stone steps going down in a square pit to the water, little pavilions on its rim.
+    box 0 0.15 0 6 0.15 6 C8A880
+    box 0 0.16 0 4.5 0.02 4.5 2A2018
+    repeat 4 0 -0.6 0
+    box 0 -0.1 0 4 0.15 4 C8A070
+    box 0 -2.6 0 1.5 0.05 1.5 3A5A5A water
+    mirror
+    mirrorx
+    box 5 0.9 5 0.6 0.6 0.6 C8A880
+    mirror
+    mirrorx
+    dome 5 1.5 5 0.6 0.5 C8A880
+
+shape CHHATRI
+    home INDIA:RAJASTHAN, INDIA:MADHYA PRADESH, INDIA:GUJARAT | 0.004 8 70 | country
+    # A chhatri: a domed pavilion of sandstone on slender pillars, raised on a stepped platform.
+    box 0 0.3 0 2.4 0.3 2.4 D8A870
+    box 0 0.8 0 2 0.2 2 D8A870
+    mirror
+    mirrorx
+    tube 1.6 1 1.6 1.6 3.4 1.6 0.15 6 D8A870
+    box 0 3.6 0 2.1 0.2 2.1 D8A870
+    dome 0 3.8 0 1.8 1.5 D8A870
+    spire 0 5.3 0 0.15 0.6 6 C89860
+
+shape PAINTED_HAVELI
+    home INDIA:RAJASTHAN | 0.006 6 60 | town
+    # A haveli: a merchant's house painted with frescoes, carved stone balconies jutting out, a little cupola on the roof.
+    box 0 4 0 4 4 5 E8C890
+    repeat 3 0 0 3
+    box 4.5 4.6 -3 0.5 0.6 0.8 E0B880
+    repeat 3 0 0 3
+    dome 4.5 5.2 -3 0.8 0.4 E0B880
+    repeat 3 0 0 3
+    box 5.0 4.6 -3 0.02 0.45 0.6 2A2A2A
+    blob 4.01 2 0 0.02 1.2 2.2 6A9AC8
+    blob 4.02 2 0 0.02 0.6 1.0 C8603A
+    box 4.02 1.2 3.5 0.03 1.2 0.6 6A3A1A
+    box 0 8.1 0 4.02 0.1 5.02 D8B880
+    dome -2 8.2 -3 1.0 1.0 E8C890
+
+shape CAMEL_CART
+    home INDIA:RAJASTHAN, INDIA:GUJARAT, PAKISTAN | 0.004 4 30 | country
+    # A camel cart: a flat wooden bed on truck tyres, a decorated camel in a harness of tassels pulling it.
+    box 0 0.8 0 0.9 0.06 1.6 8A6A48
+    mirrorx
+    tube 0.9 0.4 0 1.05 0.4 0 0.4 10 1E1E1E
+    blob 0 1.0 -0.6 0.5 0.25 0.6 C8B070 0.4
+    mirrorx
+    tube 0.4 0.8 1.6 0.4 1.3 3 0.04 3 8A6A48
+    blob 0 1.8 3.2 0.35 0.45 0.9 C89A60
+    blob 0 2.4 3.1 0.25 0.3 0.35 B88A50
+    tube 0 2 3.9 0 2.6 4.4 0.12 5 C89A60
+    blob 0 2.65 4.6 0.12 0.15 0.28 C89A60
+    mirrorx
+    tube 0.2 1.4 2.6 0.2 0 2.6 0.07 4 C89A60
+    mirrorx
+    tube 0.2 1.4 3.8 0.2 0 3.8 0.07 4 C89A60
+    box 0 1.85 3.2 0.38 0.12 0.5 C82A6A
+
+shape GOAN_CHURCH
+    home INDIA:GOA | 0.006 10 80
+    # A Goan church: a whitewashed baroque front with two towers and a scrolled gable, a cross before it.
+    box 0 4 0 3 4 6 F6F6F2
+    box 3.2 5 0 0.3 5 4 F6F6F2
+    mirror
+    box 3.2 7 3 0.5 7 1 F6F6F2
+    mirror
+    dome 3.2 14 3 0.9 0.9 F6F6F2
+    blob 3.3 10.5 0 0.3 1.5 2 F6F6F2
+    box 3.52 1.6 0 0.03 1.6 0.8 5A3A22
+    blob 3.52 3.3 0 0.03 0.5 0.8 5A3A22
+    gable 0 8 0 3 6 2 0.3 A8502A F6F6F2
+    tube 8 0 0 8 3.5 0 0.12 4 F6F6F2
+    tube 8 2.7 -0.8 8 2.7 0.8 0.1 4 F6F6F2
+
+shape GOAN_HOUSE
+    home INDIA:GOA | 0.008 6 60 | pastel
+    # A Portuguese-Goan house: a bright painted front with white pilasters, a covered porch with seats, a tiled roof.
+    box 0 2 0 3.5 2 5 A
+    repeat 5 0 0 2.5
+    box 3.51 2 -5 0.02 2 0.18 F2F2F2
+    windows 3.52 0.4 -4.5 0 1 9 3.2 0.4 2.4
+    box 4.5 0.4 0 1 0.4 2 F2F2F2
+    gable 4.5 2.6 0 1 2 0.8 0.2 A8502A F2F2F2
+    mirror
+    tube 5.3 0.8 1.8 5.3 2.6 1.8 0.08 4 F2F2F2
+    hip 0 4 0 3.8 5.3 1.4 0.4 A8502A
+
+shape INDIAN_MILESTONE
+    home INDIA | 0.006 2 6 | country
+    # A milestone of the national highway: white with a yellow top, the name and the kilometres painted in black.
+    box 0 0.35 0 0.15 0.35 0.3 F2F2EE
+    tube -0.15 0.7 0 0.15 0.7 0 0.3 10 F2C21E
+    box 0.16 0.4 0 0.01 0.06 0.2 2A2A2A
+    box 0.16 0.22 0 0.01 0.05 0.12 2A2A2A
+
+shape AMBASSADOR_CAR
+    home INDIA | 0.004 3 20 | pastel
+    # The Ambassador: the round-shouldered Indian saloon, a taxi in Kolkata, an official car with a red light elsewhere.
+    box 0 0.65 0 0.82 0.32 2.2 A
+    blob 0 1.05 -0.3 0.78 0.35 1.1 A
+    box 0 1.12 -0.3 0.79 0.2 0.95 2A3A4A glass
+    box 0 0.82 1.5 0.75 0.12 0.7 A
+    mirror
+    mirrorx
+    tube 0.72 0.33 1.4 0.88 0.33 1.4 0.33 10 1E1E1E
+    mirrorx
+    blob 0.55 0.8 2.2 0.12 0.12 0.04 F2F2DA
+    box 0 0.55 2.22 0.4 0.12 0.02 C8C8C8 shiny
+
+shape CYCLE_RICKSHAW
+    home INDIA, BANGLADESH, NEPAL, PAKISTAN | 0.005 3 20 | town
+    # A cycle rickshaw: a bicycle front pulling a padded seat for two under a folding hood painted with flowers.
+    hoop 0 0.35 1.0 0.35 0.025 12 2A2A2A
+    tube 0 0.35 1.0 0 1.0 0.6 0.03 3 1E1E1E
+    tube 0 1.0 0.6 0 0.6 -0.2 0.03 3 1E1E1E
+    box 0 0.9 0.3 0.06 0.03 0.12 1E1E1E
+    mirrorx
+    hoop 0.55 0.35 -0.5 0.35 0.025 12 2A2A2A
+    box 0 0.85 -0.5 0.55 0.15 0.35 C82A6A
+    box 0 1.2 -0.75 0.55 0.3 0.06 C82A6A
+    blob 0 1.65 -0.6 0.6 0.4 0.4 2A8AC8
+    blob 0.4 1.65 -0.3 0.02 0.12 0.12 F2C21E
+
+shape BRICK_KILN
+    home INDIA:PUNJAB, INDIA:UTTAR PRADESH, INDIA:BIHAR, INDIA:WEST BENGAL, INDIA:HARYANA, PAKISTAN, NEPAL, BANGLADESH | 0.005 20 120 | country
+    # A brick kiln: a tall tapering chimney over the firing ground, stacks of red bricks drying in rows.
+    cyl 0 0 0 1.5 0.8 22 10 8A3A2A
+    box 0 0.6 0 6 0.6 6 7A3A2A
+    repeat 5 0 0 2.4
+    box 9 0.6 -4.8 1.2 0.6 0.5 B8603A
+    repeat 5 0 0 2.4
+    box 12 0.6 -4.8 1.2 0.6 0.5 A8503A
+    blob 0 23 0 0.8 0.6 0.8 7A7A7A 0.3
+
+shape ROOFTOP_TANK_HOUSE
+    home INDIA, NEPAL, BANGLADESH, PAKISTAN, SRI LANKA | 0.006 4 40 | town pastel
+    # A concrete town house painted a bright colour, rebar sticking up for the next storey, black water tanks on the roof.
+    box 0 3 0 3.5 3 4 A
+    windows 3.52 0.4 -3.5 0 1 7 5.6 0.4 2.8
+    box 4 3 0 0.5 0.06 3.5 C8C8C8
+    box 0 6.05 0 3.5 0.05 4 C8C2B8
+    cyl -1 6.1 -2 0.5 0.5 1.0 10 1E1E1E
+    cyl -1 6.1 -0.6 0.5 0.5 1.0 10 1E1E1E
+    mirror
+    mirrorx
+    tube 3.3 6.1 3.8 3.3 7 3.8 0.02 3 6A5040
+
+shape GURDWARA
+    home INDIA:PUNJAB, INDIA:CHANDIGARH, INDIA:HARYANA, INDIA:DELHI | 0.003 10 80
+    # A village gurdwara: white walls, a golden onion dome with little domes at the corners, the saffron flag on its tall pole.
+    box 0 2.5 0 4 2.5 4 F6F6F2
+    cyl 0 5 0 2 2 1 10 F6F6F2
+    blob 0 7 0 2 1.8 2 D8B030 shiny
+    spire 0 8.6 0 0.2 0.8 6 D8B030
+    mirror
+    mirrorx
+    box 3.5 5.6 3.5 0.5 0.6 0.5 F6F6F2
+    mirror
+    mirrorx
+    blob 3.5 6.6 3.5 0.5 0.5 0.5 D8B030 shiny
+    tube 7 0 0 7 14 0 0.12 6 E87A2A
+    tri 7 14 0 7 12.8 0 7 13.4 1.8 E87A2A
+    box 4.02 1.4 0 0.03 1.4 0.7 5A3A22
+
+shape KATH_KUNI_HOUSE
+    home INDIA:HIMACHAL PRADESH, INDIA:UTTARAKHAND | 0.008 6 60 | country
+    # A kath-kuni house of the Himalaya: walls of alternating stone and timber courses, a wooden gallery, a slate roof.
+    box 0 2.8 0 3.5 2.8 4 9A9488
+    repeat 7 0 0.8 0
+    box 0 0.4 0 3.52 0.12 4.02 6A4A2A
+    box 4.1 4.4 0 0.6 0.06 4 6A4A2A
+    box 4.68 4.8 0 0.03 0.4 4 6A4A2A
+    windows 3.53 2.6 -3.5 0 1 7 3 0.3 2.4
+    hip 0 5.6 0 4 4.5 2 0.6 6A6A70
+
+shape TIBETAN_CHORTEN
+    home INDIA:LADAKH, INDIA:SIKKIM, INDIA:ARUNACHAL PRADESH, INDIA:JAMMU AND KASHMIR, INDIA:HIMACHAL PRADESH, NEPAL, BHUTAN, MONGOLIA | 0.005 6 60 | country
+    # A chorten: a whitewashed stupa on its stepped base, the dome, the spire of rings and a golden finial.
+    box 0 0.4 0 1.6 0.4 1.6 F2F2EE
+    box 0 1.1 0 1.3 0.3 1.3 F2F2EE
+    box 0 1.6 0 1.1 0.2 1.1 F2F2EE
+    blob 0 2.4 0 1.0 0.9 1.0 F2F2EE
+    box 0 3.4 0 0.4 0.25 0.4 C83A2A
+    spire 0 3.65 0 0.35 1.8 8 D8B030
+    blob 0 5.5 0 0.12 0.12 0.12 D8B030
+
+shape MANI_WALL
+    home INDIA:LADAKH, INDIA:SIKKIM, NEPAL, BHUTAN | 0.004 4 40 | country
+    # A mani wall: a long low wall heaped with stones carved with prayers, prayer flags strung over it.
+    box 0 0.6 0 0.6 0.6 6 C8C0B0
+    repeat 12 0 0 1
+    blob 0 1.25 -5.5 0.35 0.15 0.4 9A9488 0.3
+    tube 0 2.6 -6 0 2.6 6 0.02 3 C8C8C8
+    tube 0 0 -6 0 2.6 -6 0.04 3 8A6A48
+    tube 0 0 6 0 2.6 6 0.04 3 8A6A48
+    repeat 12 0 0 1
+    box 0 2.4 -5.5 0.01 0.18 0.2 3A6AC8
+    repeat 12 0 0 1
+    box 0 2.4 -5 0.01 0.18 0.2 E8C21E
+
+shape PRAYER_WHEELS
+    home INDIA:LADAKH, INDIA:SIKKIM, NEPAL, BHUTAN, CHINA:TIBET | 0.004 3 25
+    # A row of prayer wheels under a little roof: red and gold drums turned by every passer-by.
+    repeat 8 0 0 0.7
+    cyl 0 0.6 -2.45 0.25 0.25 0.6 10 C83A2A
+    repeat 8 0 0 0.7
+    halo 0 0.9 -2.45 0.26 0.03 10 D8B030
+    box -0.4 0.5 0 0.1 0.5 2.8 F2F2EE
+    quad -0.5 1.8 -2.9 -0.5 1.8 2.9 0.6 1.5 2.9 0.6 1.5 -2.9 C8A030
+
+shape SHIKARA_BOAT
+    home INDIA:JAMMU AND KASHMIR | 0.006 8 50
+    # A shikara on the lake: a long gondola with a canopied seat, its pointed prow, a man's paddle laid across.
+    box 0 0.02 0 2.5 0.02 6 4A6A7A water
+    tbox 0 0 0 0.6 3.5 0 0.4 0 0.7 3.8 6A3A1A
+    tube 0 0.4 3.7 0 0.9 4.3 0.1 4 6A3A1A
+    mirror
+    mirrorx
+    tube 0.6 0.4 1.2 0.6 1.8 1.2 0.04 3 6A3A1A
+    box 0 1.85 0 0.7 0.05 1.4 C83A2A
+    box 0 0.55 0 0.55 0.1 1.1 E8C21E
+
+shape NAGA_MORUNG
+    home INDIA:NAGALAND, INDIA:MANIPUR, INDIA:ARUNACHAL PRADESH | 0.005 8 60 | country
+    # A Naga morung: a long hut with a thatched roof sweeping down, carved posts at its front, crossed horns on the gable.
+    box 0 1.2 0 4 1.2 2.5 6A5A40
+    gable 0 2.4 0 4.2 2.6 3 0.6 8A7A48 6A5A40
+    mirror
+    tube 4.4 0 2 4.4 2.6 2 0.15 5 4A3A2A
+    tube 0 5.3 2.6 0.8 6.2 2.9 0.06 3 E8E0C8
+    tube 0 5.3 2.6 -0.8 6.2 2.9 0.06 3 E8E0C8
+    blob 4.42 1.6 2 0.03 0.25 0.12 C83A2A
+
+shape BAMBOO_STILT_HOUSE
+    home INDIA:ASSAM, INDIA:TRIPURA, INDIA:MIZORAM, INDIA:MANIPUR, INDIA:MEGHALAYA, BANGLADESH | 0.008 6 60 | country
+    # A chang ghar: a house of woven bamboo raised on stilts above the floods, a ladder to its veranda, a thatched roof.
+    mirror
+    mirrorx
+    tube 2.5 0 2.5 2.5 1.6 2.5 0.1 4 B8A060
+    box 0 1.65 0 2.8 0.08 2.8 B8A060
+    box 0 2.6 -0.4 2.6 0.95 2.2 C8B070
+    hip 0 3.5 0 3.2 3.2 2 0.4 9A8A50
+    tube 3.6 0 1.5 2.8 1.65 1.5 0.05 3 8A7A48
+    tube 3.6 0 2.2 2.8 1.65 2.2 0.05 3 8A7A48
+
+shape LIVING_ROOT_BRIDGE
+    home INDIA:MEGHALAYA | 0.004 8 50
+    # A living root bridge: the aerial roots of rubber trees trained across a stream into a walkway, mossy and old.
+    box 0 0.02 0 1.5 0.02 6 4A6A6A water
+    tube 0 0 -6 0 4 -5.5 0.6 6 5A4A3A
+    blob 0 6 -5.5 2.5 2 2.5 3A6A2E 0.3
+    tube 0 0 6 0 4 5.5 0.6 6 5A4A3A
+    blob 0 6 5.5 2.5 2 2.5 3A6A2E 0.3
+    arch 0 1.8 0 10 -1.2 0.2 12 6A5A40
+    arch 0.5 1.8 0 10 -1.2 0.15 12 5A4A30
+    arch -0.5 1.8 0 10 -1.2 0.15 12 5A4A30
+    blob 0 1.2 0 0.6 0.1 3 4A6A30 0.4
+
+shape ODISHA_TEMPLE
+    home INDIA:ODISHA, INDIA:WEST BENGAL, INDIA:CHHATTISGARH | 0.003 10 80
+    # An Odisha temple: a curving tower of carved sandstone ribs, a ribbed amalaka disc and a pot on top, a porch before it.
+    tbox 0 0 0 2.5 2.5 0 4 0 2.4 2.4 C8A070
+    tbox 0 4 0 2.4 2.4 0 10 0 1.4 1.4 C8A070
+    repeat 6 0 1.2 0
+    box 0 4.5 0 2.42 0.08 2.42 A88050
+    cyl 0 10 0 1.6 1.6 0.6 16 C8A070
+    blob 0 11 0 0.4 0.5 0.4 D8A030
+    box 3.5 1.5 0 1 1.5 1.5 C8A070
+    hip 3.5 3 0 1.2 1.7 1.2 0.2 B89060
+
+shape KUTCH_BHUNGA
+    home INDIA:GUJARAT | 0.006 6 50 | country
+    # A bhunga of Kutch: a round mud hut whitewashed and painted with red patterns, a conical thatch roof.
+    cyl 0 0 0 2.2 2.2 2.2 12 F2EEE2
+    spire 0 2.2 0 2.6 2.4 12 9A8A58
+    ring 8 2.21
+    tri 0 1.4 -0.3 0 1.4 0.3 0 1.9 0 C83A2A
+    box 2.15 0.9 0 0.1 0.9 0.45 3A6AB8
+
+shape PAINTED_MUD_HOUSE
+    home INDIA:CHHATTISGARH, INDIA:JHARKHAND, INDIA:ODISHA, INDIA:MADHYA PRADESH, INDIA:BIHAR | 0.006 6 50 | country
+    # A village house of mud washed white and ochre, painted with trees, peacocks and patterns, a tiled roof.
+    box 0 1.4 0 3 1.4 4 F2EEE2
+    box 3.01 0.4 0 0.01 0.4 4 C88A4A
+    blob 3.02 1.6 -2 0.02 0.6 0.6 2E6A3A
+    blob 3.02 1.6 2 0.02 0.5 0.5 3A6AB8
+    tri 3.02 1.0 -0.6 3.02 1.0 0.6 3.02 2.2 0 C83A2A
+    box 3.03 0.9 0 0.03 0.9 0.4 3A2A1A
+    gable 0 2.8 0 3.2 4.2 1.4 0.3 A8502A F2EEE2
+
+shape INDIAN_PEACOCK
+    home INDIA:RAJASTHAN, INDIA:GUJARAT, INDIA:MADHYA PRADESH, INDIA:UTTAR PRADESH, INDIA:HARYANA, SRI LANKA | 0.005 4 40 | country
+    # A peacock on a wall: a blue neck and crest, its long green train trailing behind.
+    box 0 0.6 0 0.25 0.6 2 C8B898
+    blob 0 1.45 0 0.15 0.2 0.25 1E4AA8
+    tube 0 1.5 0.15 0 1.8 0.25 0.05 4 1E4AA8
+    blob 0 1.85 0.28 0.05 0.06 0.06 1E4AA8
+    tube 0 1.97 0.26 0 2.08 0.26 0.01 3 1E4AA8
+    tbox 0 1.25 -0.2 0.06 0.1 0 1.25 -1.5 0.06 0.4 2A7A4A
+
+shape LANGUR_MONKEYS
+    home INDIA, NEPAL, SRI LANKA | 0.005 3 30 | country
+    # Grey langurs sitting on a wall with their black faces and long curling tails.
+    box 0 0.6 0 0.25 0.6 1.6 B8B0A0
+    repeat 3 0 0 1
+    blob 0 1.45 -1 0.18 0.25 0.16 C8C4BC
+    repeat 3 0 0 1
+    blob 0 1.85 -0.95 0.11 0.12 0.1 C8C4BC
+    repeat 3 0 0 1
+    blob 0.08 1.85 -0.9 0.04 0.06 0.05 1E1E1E
+    repeat 3 0 0 1
+    tube 0 1.2 -1.15 0 0.4 -1.3 0.03 3 C8C4BC
+
+shape WATER_BUFFALO
+    home INDIA, NEPAL, BANGLADESH, PAKISTAN, SRI LANKA | 0.005 6 60 | country
+    # A water buffalo: black and heavy, its broad swept-back horns, standing in a muddy pond.
+    box 0 0.02 0 2 0.02 2.5 5A5A40 water
+    blob 0 0.9 0 0.5 0.5 1.0 2A2A2A
+    mirror
+    mirrorx
+    tube 0.25 0.5 0.6 0.25 0 0.6 0.1 5 2A2A2A
+    blob 0 1.0 1.15 0.25 0.3 0.4 2A2A2A
+    mirrorx
+    tube 0.15 1.3 1.1 0.6 1.25 0.6 0.06 3 3A3A3A
+
+shape SUFI_SHRINE
+    home PAKISTAN, INDIA:PUNJAB, INDIA:DELHI, INDIA:RAJASTHAN, BANGLADESH | 0.003 8 60
+    # A Sufi shrine: a white tomb with a green dome, green flags on poles, lamps and garlands at its door.
+    box 0 2 0 2.5 2 2.5 F6F6F2
+    cyl 0 4 0 1.8 1.8 0.6 10 F6F6F2
+    dome 0 4.6 0 1.8 1.6 2E8A4A
+    spire 0 6.2 0 0.12 0.8 6 D8B030
+    mirror
+    tube 3.2 0 2.5 3.2 5 2.5 0.04 3 8A6A48
+    mirror
+    tri 3.2 5 2.5 3.2 4.3 2.5 3.2 4.65 3.5 2E8A4A
+    box 2.52 1.1 0 0.03 1.1 0.5 2E6A3A
+
+shape NEWAR_TEMPLE
+    home NEPAL | 0.006 10 80
+    # A Newar pagoda temple: red brick on a stepped plinth, two or three tiers of roofs on carved wooden struts.
+    box 0 0.5 0 3 0.5 3 C8B8A0
+    box 0 1.4 0 2.6 0.4 2.6 C8B8A0
+    box 0 3 0 2 1.2 2 A8503A
+    hip 0 4.2 0 2.8 2.8 1.0 0.3 8A6A40
+    box 0 5.6 0 1.4 0.6 1.4 A8503A
+    hip 0 6.2 0 2 2 0.8 0.3 8A6A40
+    box 0 7.3 0 0.8 0.4 0.8 A8503A
+    hip 0 7.7 0 1.2 1.2 0.8 0.2 D8B030
+    spire 0 8.5 0 0.2 1.0 6 D8B030
+    box 2.02 2.6 0 0.03 0.8 0.5 3A2A1A
+
+shape NEPALI_STONE_HOUSE
+    home NEPAL | 0.008 6 60 | country
+    # A hill house of Nepal: the lower walls washed red ochre, white above, small dark windows, a roof of slate.
+    box 0 1.2 0 3 1.2 4 A84A2A
+    box 0 3 0 3 0.6 4 F2EEE2
+    windows 3.02 1.4 -3.5 0 1 7 2.2 0.3 2
+    hip 0 3.6 0 3.3 4.3 1.6 0.3 6A6A70
+    box 3.02 0.9 0 0.03 0.9 0.45 3A2A1A
+    box 4.5 0.3 1 1.2 0.3 2 C8B8A0
+
+shape SUSPENSION_FOOTBRIDGE
+    home NEPAL, BHUTAN, INDIA:SIKKIM, INDIA:UTTARAKHAND, INDIA:ARUNACHAL PRADESH | 0.003 15 90 | country
+    # A steel suspension footbridge over a gorge, sagging on its cables, covered in prayer flags.
+    box 0 0.02 0 3 0.02 12 3A5A6A water
+    mirror
+    mirrorx
+    tube 0.8 0 12 0.8 3 12 0.08 4 7A7A7A
+    arch 0.8 3 0 24 -2.4 0.04 14 7A7A7A
+    arch -0.8 3 0 24 -2.4 0.04 14 7A7A7A
+    arch 0 1.6 0 24 -2.2 0.05 14 6A6A6A
+    repeat 10 0 0 2
+    box 0.8 1.9 -9 0.01 0.15 0.2 E8C21E
+    repeat 10 0 0 2
+    box -0.8 1.9 -10 0.01 0.15 0.2 C83A2A
+
+shape BHUTANESE_HOUSE
+    home BHUTAN | 0.01 6 60 | country
+    # A Bhutanese farmhouse: thick white walls of rammed earth, an upper storey of painted wooden windows, a roof weighted with stones.
+    box 0 2 0 4 2 4.5 F2EEE2
+    box 0 4.6 0 4 0.6 4.5 8A4A2A
+    repeat 4 0 0 2.2
+    box 4.02 4.6 -3.3 0.02 0.45 0.8 C8A030
+    repeat 4 0 0 2.2
+    box 4.03 4.6 -3.3 0.02 0.3 0.5 2A2A2A
+    box 4.02 2 0 0.03 0.4 0.4 2A2A2A
+    box 0 5.4 0 4.6 0.2 5.1 6A4A2A
+    hip 0 5.8 0 3.5 4 1.2 0.2 8A8A80
+    repeat 4 0 0 2
+    blob 1.5 6.6 -3 0.25 0.15 0.25 9A9488 0.4
+
+shape STILT_FISHING_POLES
+    home SRI LANKA | 0.006 15 60 | coast
+    # The stilt fishermen's poles: bare sticks standing in the surf, each with a little crossbar to sit on.
+    repeat 6 0 0 2.2
+    tube 0 -1 -5.5 0 2.4 -5.5 0.06 4 8A7A60
+    repeat 6 0 0 2.2
+    tube 0 1.7 -5.8 0 1.7 -5.2 0.04 3 8A7A60
+    repeat 5 0 0 2.6
+    tube 1.6 -1 -5 1.6 2.2 -5 0.06 4 8A7A60
+
+shape ROADSIDE_BUDDHA
+    home SRI LANKA, MYANMAR, THAILAND, LAOS, CAMBODIA | 0.004 4 30
+    # A white seated Buddha in a glass shrine at a junction, a bo tree beside it with coloured flags on strings.
+    box 0 0.5 0 1 0.5 1 F2F2EE
+    box 0 1.8 0 0.9 0.8 0.9 B8CCD8 glass
+    blob 0 1.4 0 0.4 0.3 0.35 F2F2EE
+    blob 0 1.95 0 0.2 0.3 0.2 F2F2EE
+    blob 0 2.3 0 0.13 0.14 0.13 F2F2EE
+    hip 0 2.6 0 1.1 1.1 0.5 0.1 C8302A
+    tube -3 0 2 -3 3 2 0.3 6 6A5A48
+    blob -3 5 2 3 2.2 3 3E6A2E 0.3
+    tube 0.9 2.6 0 -3 3 2 0.01 3 E8C21E
+
+shape TEA_ESTATE_BUNGALOW
+    home SRI LANKA, INDIA:KERALA, INDIA:WEST BENGAL, INDIA:ASSAM | 0.004 10 80 | country
+    # A planter's bungalow among the tea: white walls, a red tin roof, a long veranda looking over the green rows.
+    box 0 1.6 0 3.5 1.6 6 F2F2EE
+    hip 0 3.2 0 3.8 6.3 1.6 0.3 B83A2A
+    quad 3.5 3 -6 3.5 3 6 5.2 2.5 6 5.2 2.5 -6 B83A2A
+    repeat 5 0 0 3
+    tube 5.1 0 -6 5.1 2.5 -6 0.08 4 F2F2EE
+    windows 3.52 0.2 -5.5 0 1 11 2.6 0.4 2.4
+    repeat 6 0 0 1.6
+    box 9 0.5 -4 1.6 0.5 0.6 2E6A2E
+
+shape NOUKA_BOAT
+    home BANGLADESH, INDIA:WEST BENGAL | 0.005 8 50
+    # A country boat of the delta: a long wooden hull with a curved prow, a rounded bamboo hood over its middle.
+    box 0 0.02 0 2.5 0.02 6 4A6A6A water
+    tbox 0 0 0 0.5 3.6 0 0.4 0 0.8 4 5A3A22
+    tube 0 0.4 3.9 0 1.2 4.5 0.12 4 5A3A22
+    tube 0 0.4 -3.9 0 1.0 -4.4 0.12 4 5A3A22
+    tube 0 1.0 -1.5 0 1.0 0.5 0.75 10 8A7048
+
+shape DHONI_BOAT
+    home MALDIVES, SRI LANKA, INDIA:ANDAMAN AND NICOBAR | 0.008 30 110 | water
+    # A dhoni: a Maldivian wooden boat with a high curving prow and a little canopied deck.
+    tbox 0 -0.4 0 0.9 4.5 0 0.5 0 1.3 5 F2F2EE
+    tube 0 0.5 4.9 0 2.6 6 0.15 4 F2F2EE
+    box 1.31 0.3 0 0.01 0.08 4.8 2A6AC8
+    box 0 1.6 -2 1 0.05 2 2A6AC8
+    mirrorx
+    tube 0.9 0.5 -0.2 0.9 1.6 -0.2 0.04 3 8A6A48
+    mirrorx
+    tube 0.9 0.5 -3.8 0.9 1.6 -3.8 0.04 3 8A6A48
