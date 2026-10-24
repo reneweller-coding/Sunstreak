@@ -42,6 +42,7 @@ namespace sunstreak
 /** @brief The items of the settings menu, in order. */
 enum class SettingE
 {
+    PROFILE,      ///< battery, balanced or quality in one go
     DISPLAY,      ///< window or fullscreen
     RESOLUTION,   ///< 3D resolution
     SHADOWS,      ///< sun shadows
@@ -533,8 +534,9 @@ private:
      * @param[in] items  labels
      * @param[in] values value texts (empty: none)
      * @param[in] y      top of the menu
+     * @param[in] rows   row height against the usual (long menus a little tighter)
      */
-    void drawMenu( const char *title, const std::vector<std::string> &items, const std::vector<std::string> &values, float y );
+    void drawMenu( const char *title, const std::vector<std::string> &items, const std::vector<std::string> &values, float y, float rows = 1.0f );
 
     /** @brief Draws the title screen. */
     void drawTitle();

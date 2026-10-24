@@ -18,9 +18,124 @@ namespace sunstreak
 
 using namespace ui;
 
+namespace
+{
+
+/** @brief One piece of a hint line: text, or a button drawn as a glyph. */
+struct HintPiece
+{
+    std::string m_text;    ///< the words, or the button's name
+    bool        m_glyph;   ///< a button
+};
+
+/**
+ * @brief Splits a hint like "[A] SELECT   [B] BACK" into words and buttons.
+ * @param[in] text  the hint
+ * @return its pieces
+ */
+std::vector<HintPiece> hintPieces( std::string_view text )
+{
+    std::vector<HintPiece> out;
+    size_t                 i = 0;
+    while( i < text.size() )
+    {
+        if( text[i] == '[' )
+        {
+            const size_t end = text.find( ']', i );
+            if( end == std::string_view::npos ) break;
+            out.push_back( { std::string( text.substr( i + 1, end - i - 1 ) ), true } );
+            i = end + 1;
+        }
+        else
+        {
+            const size_t end = std::min( text.find( '[', i ), text.size() );
+            out.push_back( { std::string( text.substr( i, end - i ) ), false } );
+            i = end;
+        }
+    }
+    return out;
+}
+
+/**
+ * @brief The width of a button glyph.
+ * @param[in] name  the button
+ * @param[in] size  the hint's text size
+ * @return pixels
+ */
+float glyphWidth( const std::string &name, float size )
+{
+    if( name == "A" || name == "B" || name == "X" || name == "Y" || name == "STICK" ) return size * 1.6f;
+    if( name == "DPAD" ) return size * 1.7f;
+    return textWidth( name, size * 0.78f ) + size * 1.0f;
+}
+
+/**
+ * @brief Draws a button glyph: the face buttons in their colours, shoulders and keys as labelled caps, the d-pad as a
+ *        cross, the stick as a ring.
+ * @param[in] name  the button
+ * @param[in] x     left
+ * @param[in] y     top of the hint's capitals
+ * @param[in] size  the hint's text size
+ * @param[in] a     opacity
+ */
+void drawGlyph( const std::string &name, float x, float y, float size, unsigned char a )
+{
+    const float   w = glyphWidth( name, size ), cy = y + size * 0.5f;
+    const Vector2 c = { x + w * 0.5f, cy };
+    if( name == "A" || name == "B" || name == "X" || name == "Y" )
+    {
+        const Color fill = name == "A" ? Color{ 90, 170, 70, a } : name == "B" ? Color{ 205, 60, 50, a } : name == "X" ? Color{ 60, 110, 205, a } : Color{ 225, 185, 40, a };
+        DrawCircleV( c, size * 0.78f, fill );
+        drawText( name, c.x, cy - size * 0.36f, size * 0.72f, name == "Y" ? Color{ 30, 30, 30, a } : Color{ 255, 255, 255, a }, AlignE::CENTER, 0.16f );
+        return;
+    }
+    if( name == "DPAD" )
+    {
+        const float s = size * 0.8f, t = size * 0.28f;
+        DrawRectangleRec( Rectangle{ c.x - s, c.y - t, s * 2.0f, t * 2.0f }, Color{ 220, 224, 235, a } );
+        DrawRectangleRec( Rectangle{ c.x - t, c.y - s, t * 2.0f, s * 2.0f }, Color{ 220, 224, 235, a } );
+        return;
+    }
+    if( name == "STICK" )
+    {
+        DrawRing( c, size * 0.55f, size * 0.78f, 0.0f, 360.0f, 24, Color{ 220, 224, 235, a } );
+        DrawCircleV( c, size * 0.3f, Color{ 220, 224, 235, a } );
+        return;
+    }
+    const Rectangle r = { x, y - size * 0.3f, w, size * 1.6f };
+    DrawRectangleRounded( r, 0.4f, 6, Color{ 60, 64, 78, a } );
+    DrawRectangleRoundedLinesEx( r, 0.4f, 6, 1.2f, Color{ 220, 224, 235, a } );
+    drawText( name, c.x, cy - size * 0.39f, size * 0.78f, Color{ 245, 246, 250, a }, AlignE::CENTER, 0.14f );
+}
+
+} // namespace
+
+void ui::drawHint( std::string_view text, float x, float y, float size, Color color, AlignE align )
+{
+    const std::vector<HintPiece> pieces = hintPieces( text );
+    const float                  ts = textScale();
+    float                        width = 0.0f;
+    for( const HintPiece &p : pieces ) width += p.m_glyph ? glyphWidth( p.m_text, size * ts ) + size * 0.35f : textWidth( p.m_text, size );
+    float pen = align == AlignE::CENTER ? x - width * 0.5f : align == AlignE::RIGHT ? x - width : x;
+    for( const HintPiece &p : pieces )
+    {
+        if( p.m_glyph )
+        {
+            drawGlyph( p.m_text, pen, y, size * ts, color.a );
+            pen += glyphWidth( p.m_text, size * ts ) + size * 0.35f;
+        }
+        else
+        {
+            drawText( p.m_text, pen, y, size, color, AlignE::LEFT );
+            pen += textWidth( p.m_text, size );
+        }
+    }
+}
+
+
 const char *Game::settingLabel( SettingE item ) const
 {
-    static const char *labels[] = { "DISPLAY",      "3D RESOLUTION", "SHADOWS",      "VSYNC",     "FRAME LIMIT", "DIFFICULTY",
+    static const char *labels[] = { "PROFILE",      "DISPLAY",      "3D RESOLUTION", "SHADOWS",      "VSYNC",     "FRAME LIMIT", "DIFFICULTY",
                                     "SCENERY",      "TIME OF DAY",   "WEATHER",      "STEER ASSIST", "BRAKE ASSIST", "COLOUR BLIND",
                                     "TEXT SIZE",    "GEARS",         "SPEEDOMETER",  "CAMERA",    "SPEED BLUR",  "VIBRATION",
                                     "MUSIC",        "EFFECTS",       "RADIO",        "BACK" };
@@ -40,6 +155,11 @@ std::string Game::settingValue( SettingE item ) const
     static const char *levels[] = { "EASY", "NORMAL", "HARD" };
     switch( item )
     {
+    case SettingE::PROFILE:
+    {
+        static const char *profiles[] = { "CUSTOM", "BATTERY  40 FPS", "BALANCED  60 FPS", "QUALITY" };
+        return profiles[std::clamp( m_settings.m_profile, 0, 3 )];
+    }
     case SettingE::DISPLAY: return m_settings.m_display == DisplayModeE::FULLSCREEN ? "FULLSCREEN" : "WINDOW";
     case SettingE::RESOLUTION: return format( "%d%%", static_cast<int>( m_settings.m_renderScale * 100.0f + 0.5f ) );
     case SettingE::SHADOWS: return m_settings.m_shadows ? "ON" : "OFF";
@@ -79,8 +199,28 @@ std::string Game::settingValue( SettingE item ) const
 
 void Game::changeSetting( SettingE item, int dir )
 {
+    // Touching what a profile sets makes it a custom one.
+    if( item == SettingE::RESOLUTION || item == SettingE::SHADOWS || item == SettingE::VSYNC || item == SettingE::FRAME_LIMIT ) m_settings.m_profile = 0;
     switch( item )
     {
+    case SettingE::PROFILE:
+    {
+        // Battery: 40 frames at 70 % without shadows; balanced: 60 at 85 %; quality: as fast as the display, full
+        // resolution, shadows.
+        m_settings.m_profile = ( m_settings.m_profile + 4 + dir ) % 4;
+        static const int   fps[4] = { 0, 40, 60, 0 };
+        static const float scale[4] = { 1.0f, 0.7f, 0.85f, 1.0f };
+        if( m_settings.m_profile > 0 )
+        {
+            m_settings.m_fpsLimit = fps[m_settings.m_profile];
+            m_settings.m_renderScale = scale[m_settings.m_profile];
+            m_settings.m_shadows = m_settings.m_profile == 3;
+            m_settings.m_vsync = true;
+            SetWindowState( FLAG_VSYNC_HINT );
+            SetTargetFPS( m_settings.m_fpsLimit ? m_settings.m_fpsLimit : 0 );
+        }
+        break;
+    }
     case SettingE::DISPLAY: toggleFullscreen(); break;
     case SettingE::RESOLUTION:
     {
@@ -743,13 +883,13 @@ void Game::draw()
         const bool mph = m_settings.m_units == UnitsE::MPH;
         drawText( format( "%d %s", static_cast<int>( m_car.m_speed * ( mph ? 2.23694f : 3.6f ) ), mph ? "MPH" : "KM/H" ), W - 28.0f * u, 22.0f * u, 20.0f * u, Ink,
                   AlignE::RIGHT );
-        drawText( m_input.m_gamepad ? "A  BACK" : "ENTER  BACK", W * 0.5f, H - 30.0f * u, 11.0f * u, Dim, AlignE::CENTER );
+        drawHint( m_input.m_gamepad ? "[A] BACK" : "[ENTER] BACK", W * 0.5f, H - 30.0f * u, 11.0f * u, Dim, AlignE::CENTER );
         break;
     }
     case StateE::PHOTO:
-        drawText( m_input.m_gamepad ? "STICK  TURN     TRIGGERS  ZOOM     A  TAKE PHOTO     B  BACK"
-                                    : "ARROWS  TURN     + -  ZOOM     ENTER  TAKE PHOTO     ESC  BACK",
-                  W * 0.5f, H - 30.0f * u, 11.0f * u, Color{ 255, 255, 255, 170 }, AlignE::CENTER );
+        drawHint( m_input.m_gamepad ? "[STICK] TURN     [LT] [RT] ZOOM     [A] TAKE PHOTO     [B] BACK"
+                                    : "[ARROWS] TURN     [+] [-] ZOOM     [ENTER] TAKE PHOTO     [ESC] BACK",
+                  W * 0.5f, H - 30.0f * u, 11.0f * u, Color{ 255, 255, 255, 190 }, AlignE::CENTER );
         drawPopups();
         break;
     case StateE::PASSPORT: drawPassport(); break;
@@ -758,7 +898,7 @@ void Game::draw()
                             m_state == StateE::GARAGE || m_state == StateE::PASSPORT || m_state == StateE::RALLIES;
     if( menuScreen ) drawPopups();
 
-    if( m_nowTimer < 4.5f && !m_nowPlaying.empty() && m_state != StateE::PASSPORT )
+    if( m_nowTimer < 4.5f && !m_nowPlaying.empty() && m_state != StateE::PASSPORT && m_state != StateE::RALLIES )
     {
         const float a = std::min( 1.0f, m_nowTimer * 4.0f ) * std::min( 1.0f, ( 4.5f - m_nowTimer ) * 1.5f );
         // Menus keep the bottom line for their hints: there the radio shows in the top left corner.
@@ -834,7 +974,7 @@ void Game::drawTitle()
     drawMenu( "", { "ENDLESS RUN", "DAILY CHALLENGE", "RALLIES", "CHAMPIONSHIP", "TRACK LAB", "GARAGE", "PASSPORT", "RECORDS", "SETTINGS", "QUIT" },
               { "", daily, format( "%d / %d DONE", done, static_cast<int>( rallies().size() ) ), "", "", garageValue( GarageE::CAR ),
                 format( "%d / %d COUNTRIES", m_records.countriesSeen(), countryCount() ), "", "", "" },
-              H * 0.3f );
+              H * 0.3f, 0.84f );
 }
 
 void Game::drawResults()
@@ -983,9 +1123,9 @@ void Game::drawCodeEntry()
         bx += box + gap;
     }
     if( !m_codeError.empty() ) drawText( m_codeError, W * 0.5f, y + 170.0f * u, 14.0f * u, Red, AlignE::CENTER );
-    const char *hint = m_input.m_gamepad ? "UP DOWN  LETTER     LEFT RIGHT  MOVE     A  ACCEPT     B  BACK"
-                                         : "TYPE THE CODE     ARROWS  EDIT     ENTER  ACCEPT     ESC  BACK";
-    drawText( hint, W * 0.5f, y + h - 40.0f * u, 12.0f * u, Dim, AlignE::CENTER );
+    const char *hint = m_input.m_gamepad ? "[DPAD] LETTER AND PLACE     [A] ACCEPT     [B] BACK"
+                                         : "TYPE THE CODE     [ARROWS] EDIT     [ENTER] ACCEPT     [ESC] BACK";
+    drawHint( hint, W * 0.5f, y + h - 40.0f * u, 12.0f * u, Dim, AlignE::CENTER );
 }
 
 void Game::drawInitials()
@@ -1008,7 +1148,7 @@ void Game::drawInitials()
                                   Color{ 255, 150, 40, static_cast<unsigned char>( 90 + 60 * std::sin( m_time * 8.0f ) ) } );
         drawTextFx( std::string( 1, m_initials[static_cast<size_t>( i )] ), cx, y + 132.0f * u, 64.0f * u, sel ? Ink : Dim, AlignE::CENTER, 0.6f );
     }
-    drawText( m_input.m_gamepad ? "UP DOWN  LETTER     A  NEXT / DONE" : "TYPE YOUR INITIALS     ENTER  DONE", W * 0.5f, y + h - 36.0f * u,
+    drawHint( m_input.m_gamepad ? "[DPAD] LETTER     [A] NEXT / DONE" : "TYPE YOUR INITIALS     [ENTER] DONE", W * 0.5f, y + h - 36.0f * u,
               12.0f * u, Dim, AlignE::CENTER );
 }
 
@@ -1358,8 +1498,8 @@ void Game::drawPassport()
     case PassportE::STAMPS: drawStamps( cx, cy, cw, ch ); break;
     default: drawPostcards( cx, cy, cw, ch ); break;
     }
-    const char *hint = m_input.m_gamepad ? "D-PAD LEFT RIGHT  PAGE     UP DOWN  SHEET     B  BACK" : "LEFT RIGHT  PAGE     UP DOWN  SHEET     ESC  BACK";
-    drawText( hint, W * 0.5f, y + h - 28.0f * u, 11.0f * u, Dim, AlignE::CENTER );
+    const char *hint = m_input.m_gamepad ? "[DPAD] PAGE AND SHEET     [B] BACK" : "[ARROWS] PAGE AND SHEET     [ESC] BACK";
+    drawHint( hint, W * 0.5f, y + h - 28.0f * u, 11.0f * u, Dim, AlignE::CENTER );
 }
 
 void Game::drawRallies()
@@ -1582,11 +1722,11 @@ void Game::drawPopups()
     }
 }
 
-void Game::drawMenu( const char *title, const std::vector<std::string> &items, const std::vector<std::string> &values, float y )
+void Game::drawMenu( const char *title, const std::vector<std::string> &items, const std::vector<std::string> &values, float y, float rowScale )
 {
     const float W = static_cast<float>( GetScreenWidth() ), H = static_cast<float>( GetScreenHeight() );
     const float u = std::min( H / 720.0f, W / 1150.0f );
-    const float rowH = 40.0f * u;
+    const float rowH = 40.0f * u * rowScale;
     const float w = ( values.empty() ? 460.0f : 720.0f ) * u;
     const float x = W * 0.5f - w * 0.5f;
     // Long menus scroll: at most as many rows as fit, the selection kept in view.
@@ -1622,8 +1762,8 @@ void Game::drawMenu( const char *title, const std::vector<std::string> &items, c
             drawText( v, x + w - 40.0f * u, ry, 18.0f * u, sel ? Accent : c, AlignE::RIGHT );
         }
     }
-    const char *hint = m_input.m_gamepad ? "A  SELECT     B  BACK     D-PAD  CHANGE" : "ENTER  SELECT     ESC  BACK     ARROWS  CHANGE";
-    drawText( hint, W * 0.5f, y + h + 18.0f * u, 13.0f * u, Color{ 220, 224, 235, 200 }, AlignE::CENTER );
+    const char *hint = m_input.m_gamepad ? "[A] SELECT     [B] BACK     [DPAD] CHANGE" : "[ENTER] SELECT     [ESC] BACK     [ARROWS] CHANGE";
+    drawHint( hint, W * 0.5f, y + h + 18.0f * u, 13.0f * u, Color{ 220, 224, 235, 200 }, AlignE::CENTER );
 }
 
 } // namespace sunstreak

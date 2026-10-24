@@ -94,6 +94,7 @@ bool loadSettings( Settings &settings )
             else if( key == "brake_assist" ) settings.m_brakeAssist = val == "1";
             else if( key == "colour_blind" ) settings.m_colourBlind = val == "1";
             else if( key == "text_size" ) settings.m_textSize = std::clamp( std::stoi( val ), 0, 2 );
+            else if( key == "profile" ) settings.m_profile = std::clamp( std::stoi( val ), 0, 3 );
             else if( key == "car" ) settings.m_car = std::max( 0, std::stoi( val ) );
             else if( key == "paint" ) settings.m_paint = std::max( 0, std::stoi( val ) );
             else if( key == "rims" ) settings.m_rims = std::max( 0, std::stoi( val ) );
@@ -138,6 +139,7 @@ bool saveSettings( const Settings &settings )
     out << "brake_assist=" << ( settings.m_brakeAssist ? 1 : 0 ) << "\n";
     out << "colour_blind=" << ( settings.m_colourBlind ? 1 : 0 ) << "\n";
     out << "text_size=" << settings.m_textSize << "\n";
+    out << "profile=" << settings.m_profile << "\n";
     out << "car=" << settings.m_car << "\n";
     out << "paint=" << settings.m_paint << "\n";
     out << "rims=" << settings.m_rims << "\n";

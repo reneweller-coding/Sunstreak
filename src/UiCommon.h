@@ -8,6 +8,7 @@
 #include "Biome.h"
 #include "Rng.h"
 #include "Track.h"
+#include "VectorFont.h"
 
 #include <raylib.h>
 
@@ -112,6 +113,17 @@ inline void panel( float x, float y, float w, float h, unsigned char alpha = 170
     DrawRectangleRounded( Rectangle{ x, y, w, h }, 0.08f, 8, Color{ 8, 10, 22, alpha } );
     DrawRectangleRoundedLinesEx( Rectangle{ x, y, w, h }, 0.08f, 8, 1.5f, Color{ 255, 255, 255, 40 } );
 }
+
+/**
+ * @brief Draws a hint line: words, and buttons in brackets ("[A] SELECT   [ESC] BACK") drawn as glyphs (GameUi.cpp).
+ * @param[in] text   the hint
+ * @param[in] x      anchor
+ * @param[in] y      top of the capitals
+ * @param[in] size   text size
+ * @param[in] color  the words' colour (its opacity also the glyphs')
+ * @param[in] align  alignment
+ */
+void drawHint( std::string_view text, float x, float y, float size, Color color, AlignE align );
 
 /**
  * @brief The UI's unit: 1 at 720 lines, smaller in narrow windows.

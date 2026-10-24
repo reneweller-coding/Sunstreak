@@ -64,10 +64,13 @@ int main( int argc, char **argv )
     const bool          hadFile = loadSettings( settings );
     if( !hadFile && runningOnSteamDeck() )
     {
-        // The Deck: fullscreen, 60 frames, no shadow pass (the APU's budget goes to the frame rate).
+        // The Deck: fullscreen, the balanced profile (60 frames, no shadow pass), the text a size larger for its screen.
         settings.m_display = DisplayModeE::FULLSCREEN;
         settings.m_fpsLimit = 60;
         settings.m_shadows = false;
+        settings.m_renderScale = 0.85f;
+        settings.m_profile = 2;
+        settings.m_textSize = 1;
     }
     if( options.m_forceDisplay >= 0 ) settings.m_display = options.m_forceDisplay ? DisplayModeE::FULLSCREEN : DisplayModeE::WINDOWED;
 

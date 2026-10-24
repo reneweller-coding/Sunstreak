@@ -164,6 +164,12 @@ game starts windowed on Windows and fullscreen on a Deck; the choice is kept in 
 
 Gamepads are read through raylib (GLFW); the rumble goes through SDL2, which CMake fetches as well.
 
+On the Deck (or with any gamepad) the hints show the buttons as glyphs: the face buttons in their colours, shoulders
+and triggers as labelled caps, the d-pad and the stick; with a keyboard they show the keys. The layout holds at 1280 x
+800. Settings > PROFILE switches the performance in one go: BATTERY (40 frames at 70 % resolution, no shadows),
+BALANCED (60 frames at 85 %, no shadows) or QUALITY (full resolution, shadows, as fast as the display); a first start on
+the Deck takes BALANCED and the text a size larger.
+
 Releases: `.\Deploy\build_release.ps1` builds, tests and packs `dist\Sunstreak-<version>-windows-x64.zip` and, through
 WSL (Ubuntu 22.04), `dist/Sunstreak-<version>-linux-x86_64.tar.gz`, each with an empty `music` folder for your own.
 On GitHub, `.github/workflows/release.yml` builds both archives for a tag `v*` and attaches them to its release.

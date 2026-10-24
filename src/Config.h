@@ -56,6 +56,7 @@ struct Settings
     bool         m_brakeAssist = false;                ///< brakes for bends and obstacles taken too fast
     bool         m_colourBlind = false;                ///< the HUD's red and green become orange and blue
     int          m_textSize = 0;                       ///< 0 100 %, 1 115 %, 2 130 %
+    int          m_profile = 0;                        ///< 0 custom, 1 battery, 2 balanced, 3 quality
     int          m_car = 0;                            ///< the chosen car
     int          m_paint = 0;                          ///< its paint
     int          m_rims = 0;                           ///< its rims
