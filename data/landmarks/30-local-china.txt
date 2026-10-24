@@ -1,0 +1,312 @@
+# Local things of China, Hong Kong and Macau.
+
+shape PAIFANG
+    home CHINA | 0.004 6 40
+    # A paifang: a memorial archway of stone and painted wood, three openings under stacked tiled roofs.
+    mirror
+    tube 0 0 3 0 4 3 0.25 8 B8B0A0
+    mirror
+    tube 0 0 1.2 0 5 1.2 0.28 8 C83A2A
+    box 0 4.4 0 0.3 0.6 3.4 2A6A8A
+    box 0 5.2 0 0.35 0.15 1.5 C83A2A
+    gable 0 5.4 0 0.8 1.8 0.8 0.5 2A3A3A C83A2A
+    mirror
+    gable 0 4.6 2.4 0.7 1.0 0.6 0.4 2A3A3A C83A2A
+    box 0.31 4.4 0 0.01 0.35 1.0 D8B030
+
+shape GUARDIAN_LIONS
+    home CHINA, TAIWAN | 0.005 3 20 | town
+    # A pair of stone guardian lions on their plinths, one with a ball under its paw, curly manes carved in rows.
+    mirror
+    box 0 0.5 1.6 0.6 0.5 0.6 B8B0A0
+    mirror
+    blob 0 1.4 1.6 0.4 0.5 0.35 C8C0B0
+    mirror
+    blob 0.15 2.05 1.6 0.3 0.3 0.3 C8C0B0 0.2
+    mirror
+    blob 0.35 1.1 1.4 0.12 0.12 0.12 B8B0A0
+
+shape TULOU
+    home CHINA:FUJIAN | 0.006 15 110 | country
+    # A tulou of the Hakka: a great round fortress of rammed earth, four storeys of rooms inside, small windows high up, a ring of tiled roof.
+    cyl 0 0 0 12 12 10 24 C8A878
+    cyl 0 0.01 0 9 9 10.2 24 8A6A48
+    spire 0 10 0 12.8 1.6 24 4A4A48
+    repeat 3 0 2.5 0
+    halo 0 4 0 12.02 0.08 24 9A7A50
+    box 12 1.6 0 0.1 1.6 1 4A3A2A
+    ring 12 12.02
+    box 0 8 0 0.03 0.4 0.3 2A2018
+
+shape YAODONG
+    home CHINA:SHAANXI, CHINA:SHANXI, CHINA:GANSU, CHINA:HENAN, CHINA:NINGXIA | 0.006 8 70 | country
+    # Yaodong: cave dwellings dug into a loess cliff, arched fronts with lattice windows, red paper cuts in the panes.
+    blob -6 4 0 6 8 12 C8A070 0.25
+    repeat 3 0 0 4
+    box 0.2 1.5 -4 0.2 1.5 1.5 B89060
+    repeat 3 0 0 4
+    blob 0.2 3 -4 0.2 1 1.5 B89060
+    repeat 3 0 0 4
+    box 0.42 1.8 -4 0.02 1.2 1.1 E8D8B8
+    repeat 3 0 0 4
+    box 0.44 1.0 -3.5 0.02 1.0 0.4 6A3A1E
+    repeat 3 0 0 4
+    blob 0.44 2.4 -4.5 0.01 0.15 0.15 D82A2A
+
+shape HUTONG_GATE
+    home CHINA:BEIJING, CHINA:HEBEI, CHINA:TIANJIN | 0.006 3 25 | town
+    # A courtyard house gate: a red double door under a little tiled roof between grey brick walls, stone drums either side.
+    box 0 1.6 -3 0.4 1.6 2 7A7A78
+    box 0 1.6 3 0.4 1.6 2 7A7A78
+    box 0 1.8 0 0.5 1.8 1 7A7A78
+    box 0.51 1.2 0 0.02 1.2 0.7 B82A2A
+    gable 0 3.6 0 0.8 1.2 0.6 0.2 3A3A3A 7A7A78
+    mirror
+    cyl 0.8 0 0.9 0.25 0.25 0.6 10 B8B0A0
+    blob 0.53 2.6 0 0.02 0.15 0.6 D8B030
+
+shape DIAOLOU
+    home CHINA:GUANGDONG | 0.006 10 90 | country
+    # A diaolou of Kaiping: a tall fortified tower house in a blend of Chinese and Western styles, a pavilion of columns on top.
+    box 0 7 0 3 7 3 D8D0C0
+    windows 3.02 2 -2.5 0 1 5 11 0.3 3
+    box 0 14.3 0 3.4 0.3 3.4 C8C0B0
+    mirror
+    mirrorx
+    tube 2.8 14.6 2.8 2.8 17 2.8 0.2 6 E8E2D8
+    box 0 17.2 0 3.2 0.2 3.2 C8C0B0
+    dome 0 17.4 0 2.4 1.4 C8C0B0
+
+shape DIAOJIAOLOU
+    home CHINA:HUNAN, CHINA:GUIZHOU, CHINA:CHONGQING, CHINA:GUANGXI | 0.008 6 60 | country
+    # A diaojiaolou: a wooden stilt house of the Miao and Tujia, propped out over the slope, its balcony hung with chillies.
+    repeat 3 0 0 2.4
+    tube 2.5 -2 -2.4 2.5 1.2 -2.4 0.15 5 5A4030
+    box 0 2.5 0 3 1.3 3.5 6A4A2A
+    box 3.3 2 0 0.3 0.05 3 6A4A2A
+    box 3.58 2.35 0 0.03 0.35 3 6A4A2A
+    windows 3.02 1.6 -3 0 1 6 2.2 0.4 2
+    gable 0 3.8 0 3.3 3.8 1.4 0.6 3A3A3A 6A4A2A
+    repeat 6 0 0 0.6
+    blob 3.6 2.9 -1.5 0.06 0.3 0.06 D82A2A
+
+shape DRUM_TOWER
+    home CHINA:GUIZHOU, CHINA:GUANGXI | 0.003 10 80
+    # A Dong drum tower: a pagoda of wood with a dozen stacked eaves narrowing to the top, painted white at the edges.
+    box 0 1.5 0 2.5 1.5 2.5 6A4A2A
+    repeat 8 0 1 0
+    hip 0 3 0 3 3 0.6 0.2 3A3A3A
+    repeat 8 0 1 0
+    halo 0 3.02 0 3.2 0.06 8 F2F2F2
+    box 0 7 0 1.2 4 1.2 6A4A2A
+    hip 0 11 0 1.6 1.6 1.4 0.2 3A3A3A
+    spire 0 12.4 0 0.2 1 6 D8B030
+
+shape WIND_RAIN_BRIDGE
+    home CHINA:GUIZHOU, CHINA:GUANGXI | 0.003 10 70
+    # A wind-and-rain bridge: a covered wooden gallery on stone piers over a stream, pagoda roofs rising above it.
+    box 0 0.02 0 6 0.02 3 3A5A5A water
+    mirror
+    box 0 0.8 4 1.4 0.8 1.2 9A9488
+    box 0 1.7 0 1.6 0.1 8 6A4A2A
+    repeat 6 0 0 3
+    mirror
+    tube 1.4 1.8 -7.5 1.4 3.2 -7.5 0.08 4 6A4A2A
+    gable 0 3.2 0 1.8 8.2 1 0.4 3A3A3A 6A4A2A
+    hip 0 4.2 0 1.6 1.6 1.2 0.4 3A3A3A
+    hip 0 5.4 0 1.0 1.0 1.0 0.3 3A3A3A
+    mirror
+    hip 0 4 5 1.4 1.4 1.0 0.3 3A3A3A
+
+shape CORMORANT_RAFT
+    home CHINA:GUANGXI, CHINA:YUNNAN | 0.005 6 40
+    # A cormorant fisher's bamboo raft on the river, a lantern at its end and two black birds perched on its poles.
+    box 0 0.02 0 2.5 0.02 6 3A6A6A water
+    repeat 6 0 0 0.12
+    tube -0.3 0.1 -3 -0.3 0.25 3 0.06 6 B8A060
+    tube 0 0.15 -3.2 0 0.15 3.2 0.3 8 B8A060
+    tube 0 0.3 2.5 0 1.6 2.6 0.03 3 6A5A48
+    blob 0 1.7 2.6 0.15 0.2 0.15 E8C060 lit
+    blob 0.2 0.6 -1 0.12 0.2 0.25 1E1E1E
+    blob -0.2 0.6 0.8 0.12 0.2 0.25 1E1E1E
+
+shape TIBETAN_HOUSE
+    home CHINA:TIBET, CHINA:QINGHAI, CHINA:SICHUAN, INDIA:LADAKH | 0.008 6 60 | country
+    # A Tibetan house: thick whitewashed walls tapering up, black-framed windows, a flat roof with prayer flags at its corners.
+    tbox 0 0 0 4 5 0 5 0 3.6 4.6 F2EEE2
+    repeat 3 0 0 3
+    tbox 3.9 2.6 -3 0.05 0.6 3.9 3.6 -3 0.05 0.5 1E1E1E
+    repeat 3 0 0 3
+    box 3.95 3.1 -3 0.02 0.35 0.3 2A3A4A
+    box 0 5.15 0 3.7 0.15 4.7 6A3A22
+    mirror
+    mirrorx
+    tube 3.4 5.3 4.2 3.4 7 4.2 0.03 3 8A6A48
+    mirror
+    mirrorx
+    tri 3.4 7 4.2 3.4 6.4 4.2 3.4 6.7 4.9 3A6AC8
+    box 3.98 1.1 0 0.03 1.1 0.5 C83A2A
+
+shape UYGHUR_DRYING_HOUSE
+    home CHINA:XINJIANG | 0.008 6 60 | country
+    # A raisin drying house of Turpan: a tall mud-brick barn with walls of open brick lattice for the hot dry wind.
+    box 0 2.5 0 2.5 2.5 5 C8A070
+    repeat 8 0 0 1.2
+    box 2.52 0.8 -4.2 0.03 0.25 0.25 2A2018
+    repeat 8 0 0 1.2
+    box 2.52 1.6 -4.2 0.03 0.25 0.25 2A2018
+    repeat 8 0 0 1.2
+    box 2.52 2.4 -4.2 0.03 0.25 0.25 2A2018
+    repeat 8 0 0 1.2
+    box 2.52 3.2 -4.2 0.03 0.25 0.25 2A2018
+    repeat 8 0 0 1.2
+    box 2.52 4.0 -4.2 0.03 0.25 0.25 2A2018
+    box 0 5.05 0 2.55 0.05 5.05 B89060
+
+shape RED_LANTERN_LINE
+    home CHINA, TAIWAN | 0.006 3 20 | town
+    # A line of red paper lanterns strung along the street between posts, gold tassels hanging below.
+    tube 0 0 -6 0 4 -6 0.08 4 6A4A2A
+    tube 0 0 6 0 4 6 0.08 4 6A4A2A
+    tube 0 3.9 -6 0 3.9 6 0.02 3 3A3A3A
+    repeat 8 0 0 1.5
+    blob 0 3.4 -5.25 0.35 0.38 0.35 D82A2A lit
+    repeat 8 0 0 1.5
+    tube 0 3.0 -5.25 0 2.6 -5.25 0.03 3 D8B030
+
+shape VILLAGE_TEMPLE_CHINA
+    home CHINA | 0.004 6 40 | country
+    # A village temple: a little hall with a curved tiled roof, red pillars, a big bronze incense burner smoking in front.
+    box 0 1.5 0 2.5 1.5 3 E8D8C0
+    repeat 3 0 0 2.6
+    tube 2.8 0 -2.6 2.8 2.6 -2.6 0.12 6 C83A2A
+    gable 0 3 0 3.2 3.6 1.4 0.6 3A3A3A E8D8C0
+    mirror
+    tube 0 4.4 3.4 0 4.9 4.0 0.08 4 3A3A3A
+    box 2.52 1.1 0 0.03 1.1 0.6 C83A2A
+    cyl 5 0 0 0.6 0.5 1 8 6A4A2A
+    blob 5 1.8 0 0.3 0.6 0.3 C8C8C8 0.3
+
+shape MOON_GATE_WALL
+    home CHINA:JIANGSU, CHINA:ZHEJIANG, CHINA:SHANGHAI, CHINA:ANHUI | 0.004 4 30
+    # A garden wall with a moon gate: whitewashed with a dark tile coping, the round opening framing a bamboo grove.
+    box 0 2 -3 0.3 2 2 F2F2EE
+    box 0 2 3 0.3 2 2 F2F2EE
+    box 0 3.3 0 0.3 0.7 1.2 F2F2EE
+    hoop 0.31 1.6 0 1.25 0.1 20 6A6A68
+    box 0 4.05 0 0.4 0.08 5 3A3A3A
+    repeat 5 0 0 0.5
+    tube -2 0 -1 -2 4.5 -1 0.06 4 4A8A3A
+    blob -2 4.4 0 0.6 1.0 1.6 4A8A3A 0.4
+
+shape ELECTRIC_TRICYCLE
+    home CHINA | 0.008 3 20 | country
+    # An electric cargo tricycle: a little cab or just a seat up front, a blue load bed behind piled with cabbages.
+    box 0 0.6 0.8 0.3 0.3 0.4 2A6AC8
+    hoop 0 0.3 1.2 0.28 0.04 12 1E1E1E
+    box 0 0.65 -0.6 0.6 0.08 0.9 2A6AC8
+    mirror
+    box 0 0.85 -0.6 0.62 0.2 0.02 2A6AC8
+    mirrorx
+    hoop 0.6 0.3 -0.8 0.28 0.04 12 1E1E1E
+    blob 0 1.0 -0.6 0.45 0.25 0.7 7ABA5A 0.5
+    tube 0 0.9 0.9 0 1.2 1.0 0.03 3 1E1E1E
+
+shape RURAL_TILED_HOUSE
+    home CHINA | 0.01 6 60 | country
+    # A new village house: three storeys faced in white tiles, blue mirror glass windows, a balcony and a little flat-roof pavilion.
+    box 0 4.5 0 4 4.5 5 F2F2F2
+    windows 4.02 0.4 -4.5 0 1 9 8.4 0.6 3
+    box 4.5 3 0 0.5 0.06 3.5 E8E8E8
+    box 4.98 3.4 0 0.03 0.4 3.5 C8C8C8
+    box 0 9.05 0 4.02 0.05 5.02 D8D8D8
+    box -1 9.8 -2 1.5 0.7 1.5 F2F2F2
+    hip -1 10.5 -2 1.8 1.8 0.6 0.2 C83A2A
+    box 4.03 1.2 0 0.03 1.2 0.8 C83A2A
+
+shape HONG_KONG_NEON
+    home CHINA:HONG KONG, CHINA:MACAU | 0.01 3 25 | town
+    # A Hong Kong street front: neon signs jutting out over the pavement, red, blue and green, shop shutters below.
+    box -1 6 0 1 6 4 C8C0B8
+    windows 0.02 3 -4 0 1 8 9 0.6 3
+    box 0.03 1.3 0 0.02 1.3 3.5 6A6A70
+    box 1.5 7 -2 1.5 0.5 0.06 D82A2A glow
+    box 1.2 5.5 1 1.2 0.6 0.06 2A8AE8 glow
+    box 1.8 9 0.5 1.8 0.5 0.06 3AE87A glow
+    box 1.0 4 -1.5 1.0 0.35 0.06 E8C02A glow
+
+shape HK_DOUBLE_DECK_TRAM
+    home CHINA:HONG KONG | 0.01 4 20 | town
+    # A Hong Kong tram: a narrow double-deck tram painted green, its trolley pole up to the wire.
+    box 0 1.7 0 1.0 1.4 3.8 2A7A4A
+    box 0 1.3 0 1.01 0.3 3.6 2A3A4A glass
+    box 0 2.5 0 1.01 0.35 3.6 2A3A4A glass
+    box 0 3.15 0 0.95 0.08 3.7 E8E8E2
+    tube 0 3.2 -1 0 4.8 1 0.025 3 2A2A2A
+    mirrorx
+    box 0.62 0.02 0 0.04 0.02 6 8A8A8A shiny
+
+shape MACAU_PORTUGUESE_HOUSE
+    home CHINA:MACAU | 0.01 4 30 | town pastel
+    # A Portuguese house of Macau: pastel plaster with white pilasters, green shutters, a balcony of iron railings.
+    box 0 3.5 0 3.5 3.5 4 A
+    windows 3.52 0.4 -3.5 0 1 7 6.4 0.4 3
+    repeat 3 0 0 2.33
+    box 3.53 4.9 -2.9 0.02 0.7 0.15 3E6A3A
+    box 4 3.4 0 0.5 0.04 3.5 2A2A2A
+    box 4.48 3.8 0 0.02 0.4 3.5 2A2A2A
+    repeat 3 0 0 4
+    box 3.51 3.5 -4 0.02 3.5 0.18 F2F2F2
+    hip 0 7 0 3.7 4.2 1.2 0.3 A8502A
+
+shape CANAL_TOWN_BRIDGE
+    home CHINA:JIANGSU, CHINA:ZHEJIANG, CHINA:SHANGHAI | 0.006 6 40
+    # A water town: a stone arch bridge over a canal, white houses with dark tiles on either bank, a boat beneath.
+    box 0 0.02 0 2.5 0.02 8 3A5A5A water
+    hoop 0 0.2 0 2.4 0.25 16 9A9488
+    box 0 2.5 0 0.9 0.15 2.6 9A9488
+    tbox 0 0 -3.2 0.9 1 0 2.4 -2.4 0.9 0.2 9A9488
+    tbox 0 0 3.2 0.9 1 0 2.4 2.4 0.9 0.2 9A9488
+    box -5 2 -5 2 2 2.5 F2F2EE
+    gable -5 4 -5 2.2 2.6 1.2 0.3 3A3A3A F2F2EE
+    box -5 2 5 2 2 2.5 F2F2EE
+    gable -5 4 5 2.2 2.6 1.2 0.3 3A3A3A F2F2EE
+    tbox 0 0 -5 0.5 2 0 0.3 -5 0.7 2.2 3A2A1A
+
+shape GREAT_WALL_TOWER
+    home CHINA:BEIJING, CHINA:HEBEI, CHINA:GANSU, CHINA:NINGXIA, CHINA:SHANXI, CHINA:INNER MONGOLIA, CHINA:TIANJIN, CHINA:LIAONING | 0.003 50 120 | country
+    # A watchtower of the Great Wall on a far ridge, the wall snaking away down the hillside on both sides.
+    blob 0 0 0 12 6 30 6A7A4A 0.3
+    box 0 8 0 3 2.5 3 A8A088
+    merlons 3 10.5 -3 3 10.5 3 0.3 A8A088
+    box 0 6.5 9 1.5 1.5 6 A8A088
+    box 0 4.5 -9 1.5 1.5 6 A8A088
+    merlons 1.5 8 3 1.5 8 15 0.25 A8A088
+    box 3.02 8 0 0.03 0.5 0.4 2A2A2A
+
+shape LI_BOAT_HOUSE
+    home CHINA:HAINAN | 0.01 6 50 | country
+    # A Li boat house of Hainan: a long low hut under a thatched roof shaped like an upturned boat.
+    box 0 0.6 0 2 0.6 5 9A8A60
+    tube 0 0.9 -5.4 0 0.9 5.4 2.1 12 8A7A48
+    box 2 0.6 0 0.05 0.6 0.4 3A2A1A
+
+shape CORN_HANGING_HOUSE
+    home CHINA:HEILONGJIANG, CHINA:JILIN, CHINA:LIAONING | 0.008 6 60 | country
+    # A farmhouse of the northeast: red brick, a big south window, strings of corn cobs and red peppers hung along the eaves.
+    box 0 1.6 0 3 1.6 6 A84A3A
+    windows 3.02 0.2 -5.5 0 1 11 2.6 0.4 2.4
+    gable 0 3.2 0 3.2 6.2 1.6 0.4 6A6A70 A84A3A
+    repeat 8 0 0 1.4
+    blob 3.3 2.6 -5 0.12 0.6 0.12 F2C21E
+    repeat 4 0 0 2.8
+    blob 3.3 2.6 -4.3 0.08 0.5 0.08 D82A2A
+
+shape YAK_HAIR_TENT
+    home CHINA:QINGHAI, CHINA:TIBET, CHINA:SICHUAN | 0.006 10 80 | country
+    # A herders' tent of black yak hair, pegged out wide on long ropes, smoke from the stove pipe, yaks grazing near.
+    tbox 0 0 0 3 4 0 2.2 0 0.4 3.5 2A2620
+    ring 8 0
+    tube 0 2 0 6 0 0 0.02 3 8A7A60
+    tube 0 2.2 1 0 3.2 1 0.08 4 6A6A6A
+    blob 0 3.6 1 0.4 0.5 0.4 C8C8C8 0.3

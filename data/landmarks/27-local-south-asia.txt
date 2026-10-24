@@ -274,7 +274,7 @@ shape KATH_KUNI_HOUSE
     hip 0 5.6 0 4 4.5 2 0.6 6A6A70
 
 shape TIBETAN_CHORTEN
-    home INDIA:LADAKH, INDIA:SIKKIM, INDIA:ARUNACHAL PRADESH, INDIA:JAMMU AND KASHMIR, INDIA:HIMACHAL PRADESH, NEPAL, BHUTAN, MONGOLIA | 0.005 6 60 | country
+    home INDIA:LADAKH, INDIA:SIKKIM, INDIA:ARUNACHAL PRADESH, INDIA:JAMMU AND KASHMIR, INDIA:HIMACHAL PRADESH, NEPAL, BHUTAN, MONGOLIA, CHINA:TIBET, CHINA:QINGHAI, CHINA:SICHUAN | 0.005 6 60 | country
     # A chorten: a whitewashed stupa on its stepped base, the dome, the spire of rings and a golden finial.
     box 0 0.4 0 1.6 0.4 1.6 F2F2EE
     box 0 1.1 0 1.3 0.3 1.3 F2F2EE
@@ -285,7 +285,7 @@ shape TIBETAN_CHORTEN
     blob 0 5.5 0 0.12 0.12 0.12 D8B030
 
 shape MANI_WALL
-    home INDIA:LADAKH, INDIA:SIKKIM, NEPAL, BHUTAN | 0.004 4 40 | country
+    home INDIA:LADAKH, INDIA:SIKKIM, NEPAL, BHUTAN, CHINA:TIBET, CHINA:QINGHAI | 0.004 4 40 | country
     # A mani wall: a long low wall heaped with stones carved with prayers, prayer flags strung over it.
     box 0 0.6 0 0.6 0.6 6 C8C0B0
     repeat 12 0 0 1
@@ -412,7 +412,7 @@ shape LANGUR_MONKEYS
     tube 0 1.2 -1.15 0 0.4 -1.3 0.03 3 C8C4BC
 
 shape WATER_BUFFALO
-    home INDIA, NEPAL, BANGLADESH, PAKISTAN, SRI LANKA, VIETNAM, THAILAND, CAMBODIA, LAOS, MYANMAR, PHILIPPINES, INDONESIA, MALAYSIA | 0.005 6 60 | country
+    home INDIA, NEPAL, BANGLADESH, PAKISTAN, SRI LANKA, VIETNAM, THAILAND, CAMBODIA, LAOS, MYANMAR, PHILIPPINES, INDONESIA, MALAYSIA, CHINA:GUANGXI, CHINA:YUNNAN, CHINA:GUIZHOU, CHINA:HUNAN | 0.005 6 60 | country
     # A water buffalo: black and heavy, its broad swept-back horns, standing in a muddy pond.
     box 0 0.02 0 2 0.02 2.5 5A5A40 water
     blob 0 0.9 0 0.5 0.5 1.0 2A2A2A
