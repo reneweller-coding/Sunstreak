@@ -139,7 +139,7 @@ shape KHMER_STILT_HOUSE
     tube 2.5 1.2 -2 2.5 1.0 0.8 0.15 6 C83A2A
 
 shape SUGAR_PALM
-    home CAMBODIA, THAILAND | 0.006 8 70 | country
+    home CAMBODIA, THAILAND, INDIA:TAMIL NADU, INDIA:ANDHRA PRADESH, SRI LANKA | 0.006 8 70 | country
     # Sugar palms over the rice fields: tall straight trunks, round heads of fan leaves, a bamboo ladder lashed to one.
     tube 0 0 0 0 11 0 0.25 6 6A5A48
     blob 0 11.6 0 1.8 1.4 1.8 4A7A3A 0.3

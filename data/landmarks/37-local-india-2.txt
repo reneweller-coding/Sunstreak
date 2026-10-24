@@ -1,0 +1,607 @@
+# More local things of India and its neighbours.
+
+shape AUTO_RICKSHAW
+    home INDIA, PAKISTAN, BANGLADESH, SRI LANKA, NEPAL | 0.008 1 12 | town
+    # An auto rickshaw: a three-wheeled scooter cab, green below with a yellow canopy, the driver up front.
+    tbox 0 0.35 0 0.65 1.0 0 1.1 0 0.62 0.9 3A8A3A
+    blob 0 1.45 -0.1 0.68 0.6 1.0 F2C21E
+    box 0 1.45 0.88 0.5 0.3 0.02 2A3A4A glass
+    tube -0.05 0.25 1.0 0.05 0.25 1.0 0.25 10 1E1E1E
+    mirrorx
+    tube 0.6 0.25 -0.6 0.7 0.25 -0.6 0.25 10 1E1E1E
+    blob 0 1.25 0.45 0.15 0.22 0.12 E8E0D0
+
+shape PAINTED_GOODS_TRUCK
+    home INDIA, PAKISTAN, NEPAL, AFGHANISTAN, BANGLADESH | 0.006 3 25
+    # A painted goods truck: a snub-nosed cab in bright colours with a carved crown over the windscreen, the load under a blue tarpaulin, words painted across the tailboard.
+    box 0 1.6 3.2 1.15 1.0 0.9 F2A21E
+    box 0 2.1 4.11 1.0 0.35 0.01 2A3A4A glass
+    tbox 0 2.6 3.6 1.1 0.5 0 3.3 3.9 0.9 0.4 C82A2A
+    box 0 0.7 4.15 1.15 0.15 0.05 2A2A2A
+    box 0 1.6 -1.2 1.25 0.9 3.4 E8C02A
+    box 1.26 1.6 -1.2 0.01 0.6 3.2 2A6AC8
+    repeat 4 0 0 1.6
+    blob 1.27 1.6 -3.6 0.02 0.25 0.25 E8502A
+    blob 0 2.6 -1.2 1.2 0.6 3.3 3A6AC8 0.3
+    box 0 1.6 -4.61 1.2 0.8 0.01 F2C21E
+    box 0 1.3 -4.62 0.9 0.12 0.01 1E1E1E
+    mirrorx
+    tube 1.0 0.5 3.0 1.25 0.5 3.0 0.5 10 1E1E1E
+    mirrorx
+    tube 1.0 0.5 -2.8 1.25 0.5 -2.8 0.5 10 1E1E1E
+    mirrorx
+    tube 1.0 0.5 -3.9 1.25 0.5 -3.9 0.5 10 1E1E1E
+
+shape KETTUVALLAM
+    home INDIA:KERALA | 0.008 30 110 | water
+    # A Kerala houseboat: a long dark wooden rice barge under a vaulted roof of woven palm thatch, an open front deck with chairs.
+    tbox 0 -0.3 0 0.8 7 0 0.6 0 1.6 8 4A3A28
+    tube 0 0.9 -6.5 0 0.9 5 1.8 10 C8A060
+    box 0 0.65 6.2 1.2 0.05 1.2 8A6A48
+    repeat 2 0 0 0.9
+    box 0.6 0.95 5.8 0.25 0.3 0.25 F2F2F2
+    tbox 0 0.6 7.6 1.0 0.3 0 1.3 8.6 0.2 0.1 4A3A28
+
+shape TEMPLE_TANK
+    home INDIA:TAMIL NADU, INDIA:KERALA, INDIA:KARNATAKA, INDIA:ANDHRA PRADESH | 0.004 10 60 | town
+    # A temple tank: a square pool ringed by stone steps on all four sides, a little pillared pavilion standing in the water.
+    box 0 0.02 0 6 0.02 6 4A7A7A water
+    mirrorx
+    box 6.3 0.15 0 0.3 0.15 6.6 C8B8A0
+    mirror
+    box 0 0.15 6.3 6.6 0.15 0.3 C8B8A0
+    mirrorx
+    box 6.9 0.3 0 0.3 0.3 7.2 B8A890
+    mirror
+    box 0 0.3 6.9 7.2 0.3 0.3 B8A890
+    mirrorx
+    box 7.5 0.45 0 0.3 0.45 7.8 C8B8A0
+    mirror
+    box 0 0.45 7.5 7.8 0.45 0.3 C8B8A0
+    mirrorx
+    box 8.1 0.6 0 0.3 0.6 8.4 C83A2A
+    mirror
+    box 0 0.6 8.1 8.4 0.6 0.3 F2EEE2
+    box 0 0.5 0 1.2 0.5 1.2 B8A890
+    mirror
+    mirrorx
+    tube 1 1 1 1 3 1 0.12 6 B8A890
+    box 0 3.1 0 1.4 0.1 1.4 B8A890
+    tbox 0 3.2 0 1.2 1.2 0 4.2 0 0.4 0.4 B8A890
+    spire 0 4.2 0 0.25 0.6 6 D8A830
+
+shape AYYANAR_HORSES
+    home INDIA:TAMIL NADU, INDIA:PUDUCHERRY | 0.004 4 30 | country
+    # A village guardian shrine: giant terracotta horses painted white and red in a row under a big tree, ready to ride out at night.
+    tube -4 0 0 -4 4 0 0.5 6 6A5A48
+    blob -4 6.5 0 4 2.5 4 3A6A2A 0.3
+    repeat 3 0 0 3.5
+    box 0 0.2 -3.5 1.6 0.2 0.8 B85A3A
+    repeat 3 0 0 3.5
+    blob 0 2.2 -3.5 1.3 0.6 0.5 F2EEE2
+    repeat 3 0 0 3.5
+    blob 0 2.75 -3.5 0.5 0.15 0.52 C82A2A
+    repeat 3 0 0 3.5
+    tube 1 2.5 -3.5 1.5 3.6 -3.5 0.3 6 F2EEE2
+    repeat 3 0 0 3.5
+    blob 1.8 3.7 -3.5 0.5 0.3 0.25 F2EEE2
+    repeat 3 0 0 3.5
+    tube 0.8 1.8 -3.2 0.8 0.4 -3.2 0.15 6 F2EEE2
+    repeat 3 0 0 3.5
+    tube 0.8 1.8 -3.8 0.8 0.4 -3.8 0.15 6 F2EEE2
+    repeat 3 0 0 3.5
+    tube -0.8 1.8 -3.2 -0.8 0.4 -3.2 0.15 6 F2EEE2
+    repeat 3 0 0 3.5
+    tube -0.8 1.8 -3.8 -0.8 0.4 -3.8 0.15 6 F2EEE2
+
+shape PAINTED_HORN_BULLOCK_CART
+    home INDIA, PAKISTAN, BANGLADESH, NEPAL, SRI LANKA | 0.004 3 25 | country
+    # A bullock cart: two white zebu bulls with painted horns under a wooden yoke, big wooden wheels, a load of hay piled high.
+    repeat 2 0.9 0 0
+    blob -0.45 1.0 1.8 0.3 0.4 0.8 E8E4DC
+    repeat 2 0.9 0 0
+    blob -0.45 1.45 2.3 0.2 0.2 0.25 E8E4DC
+    repeat 2 0.9 0 0
+    blob -0.45 1.1 2.75 0.17 0.2 0.3 E8E4DC
+    repeat 2 0.9 0 0
+    tube -0.5 1.3 2.65 -0.6 1.7 2.55 0.04 3 C82A2A
+    repeat 2 0.9 0 0
+    tube -0.4 1.3 2.65 -0.3 1.7 2.55 0.04 3 2A6AC8
+    repeat 2 0.9 0 0
+    tube -0.3 0.7 2.3 -0.3 0 2.3 0.07 4 E8E4DC
+    repeat 2 0.9 0 0
+    tube -0.6 0.7 2.3 -0.6 0 2.3 0.07 4 E8E4DC
+    repeat 2 0.9 0 0
+    tube -0.3 0.7 1.3 -0.3 0 1.3 0.07 4 E8E4DC
+    repeat 2 0.9 0 0
+    tube -0.6 0.7 1.3 -0.6 0 1.3 0.07 4 E8E4DC
+    box 0 1.45 2.5 0.95 0.06 0.06 8A6A48
+    tube 0 1.3 2.5 0 1.0 -0.4 0.05 4 8A6A48
+    box 0 1.0 -1.5 0.9 0.08 1.2 8A6A48
+    blob 0 1.7 -1.5 1.0 0.65 1.3 C8B060 0.4
+    mirrorx
+    hoop 1.0 0.8 -1.5 0.8 0.07 12 6A4A30
+
+shape BLACKBUCK
+    home INDIA:RAJASTHAN, INDIA:GUJARAT, INDIA:HARYANA, INDIA:PUNJAB, INDIA:MADHYA PRADESH, INDIA:MAHARASHTRA, INDIA:ANDHRA PRADESH, INDIA:KARNATAKA, PAKISTAN | 0.006 6 60 | country
+    # Blackbuck on the dry grassland: a dark buck with long spiralled horns and a white belly, his tawny does around him.
+    blob 0 0.8 0 0.17 0.2 0.45 2A2420
+    blob 0 0.72 0 0.16 0.11 0.4 F2EEE2
+    tube 0 0.88 0.35 0 1.15 0.5 0.06 4 2A2420
+    blob 0 1.17 0.6 0.06 0.08 0.14 2A2420
+    tube 0.03 1.25 0.55 0.1 1.75 0.4 0.02 3 1E1E1E
+    tube -0.03 1.25 0.55 -0.1 1.75 0.4 0.02 3 1E1E1E
+    mirror
+    mirrorx
+    tube 0.08 0.62 0.32 0.08 0 0.32 0.03 3 2A2420
+    repeat 3 0.9 0 1.1
+    blob 1 0.75 -2 0.15 0.18 0.4 C8925A
+    repeat 3 0.9 0 1.1
+    blob 1 0.68 -2 0.14 0.1 0.36 F2EEE2
+    repeat 3 0.9 0 1.1
+    tube 1 0.82 -1.7 1 1.05 -1.55 0.05 4 C8925A
+    repeat 3 0.9 0 1.1
+    blob 1 1.07 -1.45 0.05 0.07 0.12 C8925A
+    repeat 3 0.9 0 1.1
+    tube 1.07 0.6 -1.7 1.07 0 -1.7 0.03 3 C8925A
+    repeat 3 0.9 0 1.1
+    tube 0.93 0.6 -1.7 0.93 0 -1.7 0.03 3 C8925A
+    repeat 3 0.9 0 1.1
+    tube 1.07 0.6 -2.3 1.07 0 -2.3 0.03 3 C8925A
+    repeat 3 0.9 0 1.1
+    tube 0.93 0.6 -2.3 0.93 0 -2.3 0.03 3 C8925A
+
+shape NILGAI
+    home INDIA:RAJASTHAN, INDIA:HARYANA, INDIA:UTTAR PRADESH, INDIA:MADHYA PRADESH, INDIA:GUJARAT, INDIA:BIHAR, INDIA:PUNJAB, NEPAL | 0.004 6 50 | country
+    # A nilgai bull in the fields: a big blue-grey antelope, high at the shoulder, with a dark beard tuft and short horns.
+    blob 0 1.2 0 0.3 0.38 0.75 6A7080
+    tube 0 1.4 0.55 0 1.75 0.8 0.11 5 6A7080
+    blob 0 1.75 0.95 0.1 0.12 0.22 6A7080
+    tube 0.04 1.85 0.9 0.05 2.05 0.85 0.025 3 1E1E1E
+    tube -0.04 1.85 0.9 -0.05 2.05 0.85 0.025 3 1E1E1E
+    blob 0 1.35 0.75 0.04 0.12 0.04 1E1E1E
+    mirror
+    mirrorx
+    tube 0.17 0.95 0.5 0.17 0 0.5 0.06 4 E8E4DC
+    blob 1.5 1.1 2 0.25 0.32 0.65 B8885A
+    tube 1.5 1.25 2.5 1.5 1.6 2.75 0.09 5 B8885A
+    blob 1.5 1.6 2.9 0.09 0.1 0.2 B8885A
+    tube 1.65 0.85 2.45 1.65 0 2.45 0.05 4 B8885A
+    tube 1.35 0.85 2.45 1.35 0 2.45 0.05 4 B8885A
+    tube 1.65 0.85 1.55 1.65 0 1.55 0.05 4 B8885A
+    tube 1.35 0.85 1.55 1.35 0 1.55 0.05 4 B8885A
+
+shape TEMPLE_ELEPHANT
+    home INDIA:KERALA, INDIA:KARNATAKA, INDIA:TAMIL NADU | 0.002 4 30
+    # A temple elephant in festival dress: a golden caparison over its forehead, riders on its back holding up a red parasol.
+    blob 0 2.0 0 0.9 1.0 1.6 5A5450
+    blob 0 2.3 1.6 0.6 0.7 0.6 5A5450
+    tube 0 2 2.1 0 0.6 2.4 0.15 6 5A5450
+    mirrorx
+    blob 0.55 2.4 1.4 0.1 0.5 0.4 5A5450
+    mirror
+    mirrorx
+    cyl 0.5 0 0.9 0.28 0.28 1.4 8 5A5450
+    blob 0 2.45 2.05 0.45 0.65 0.12 D8A830 shiny
+    blob 0 3.05 -0.2 0.95 0.08 1.0 C82A2A
+    blob 0 3.3 -0.2 0.15 0.25 0.12 F2F2F2
+    blob 0 3.65 -0.2 0.09 0.1 0.09 6A4A30
+    tube 0 3.1 0.6 0 4.6 0.6 0.03 3 D8A830
+    spire 0 4.3 0.6 0.8 0.5 10 C82A2A
+
+shape TIGER_IN_GRASS
+    home INDIA:MADHYA PRADESH, INDIA:RAJASTHAN, INDIA:UTTARAKHAND, INDIA:WEST BENGAL, INDIA:ASSAM, INDIA:MAHARASHTRA, INDIA:KARNATAKA, BANGLADESH, NEPAL, BHUTAN | 0.002 8 50 | country
+    # A tiger stepping out of the tall grass: orange with black stripes, a white muzzle, its long tail curled up at the tip.
+    repeat 8 0 0 0.8
+    blob -1.4 1.0 -3 0.3 1.0 0.4 B8A860 0.5
+    blob 0 0.75 0 0.3 0.32 0.85 E8802A
+    box 0 0.78 -0.6 0.22 0.2 0.03 1E1E1E
+    box 0 0.8 -0.3 0.29 0.27 0.03 1E1E1E
+    box 0 0.8 0 0.31 0.3 0.03 1E1E1E
+    box 0 0.8 0.3 0.29 0.27 0.03 1E1E1E
+    blob 0 0.9 0.95 0.22 0.22 0.22 E8802A
+    blob 0 0.82 1.12 0.12 0.1 0.1 F2F2EE
+    mirrorx
+    blob 0.13 1.1 0.92 0.05 0.06 0.04 1E1E1E
+    mirror
+    mirrorx
+    tube 0.17 0.5 0.55 0.17 0 0.6 0.08 4 E8802A
+    tube 0 0.8 -0.8 0 0.45 -1.4 0.05 4 E8802A
+    tube 0 0.45 -1.4 0 0.7 -1.75 0.05 4 1E1E1E
+
+shape SARUS_CRANES
+    home INDIA:UTTAR PRADESH, INDIA:GUJARAT, INDIA:RAJASTHAN, INDIA:HARYANA, INDIA:BIHAR, INDIA:MADHYA PRADESH, NEPAL, CAMBODIA, VIETNAM, MYANMAR | 0.004 6 40 | country
+    # A pair of sarus cranes in a wet field: the tallest flying birds, grey with long legs and bare red heads.
+    box 0 0.02 0 2.5 0.02 3 4A6A5A water
+    repeat 2 0.8 0 1.4
+    blob -0.4 1.2 -0.7 0.18 0.22 0.4 9AA0A8
+    repeat 2 0.8 0 1.4
+    tube -0.33 1.0 -0.7 -0.33 0 -0.7 0.025 3 C88A7A
+    repeat 2 0.8 0 1.4
+    tube -0.47 1.0 -0.7 -0.47 0 -0.7 0.025 3 C88A7A
+    repeat 2 0.8 0 1.4
+    tube -0.4 1.3 -0.4 -0.4 1.8 -0.3 0.04 4 9AA0A8
+    repeat 2 0.8 0 1.4
+    blob -0.4 1.82 -0.22 0.06 0.07 0.1 C83A2A
+    repeat 2 0.8 0 1.4
+    tube -0.4 1.8 -0.14 -0.4 1.75 0.05 0.02 3 4A4A40
+
+shape STRAW_STACKS
+    home INDIA:PUNJAB, INDIA:HARYANA, INDIA:UTTAR PRADESH, INDIA:BIHAR, INDIA:RAJASTHAN, PAKISTAN, NEPAL, BANGLADESH | 0.008 6 50 | country
+    # Straw stacks by the village: tall beehive heaps of golden straw with a cap of mud plaster, the threshing floor beside them.
+    repeat 3 0 0 3.5
+    cyl 0 0 -3.5 1.2 1.3 2 10 C8A860
+    repeat 3 0 0 3.5
+    dome 0 2 -3.5 1.3 1.4 C8A860
+    repeat 3 0 0 3.5
+    dome 0 3.2 -3.5 0.5 0.3 8A6A48
+    box 3 0.02 0 2 0.02 2 B89870
+
+shape DUNG_CAKE_STACK
+    home INDIA:UTTAR PRADESH, INDIA:BIHAR, INDIA:PUNJAB, INDIA:HARYANA, INDIA:RAJASTHAN, INDIA:MADHYA PRADESH, PAKISTAN, NEPAL | 0.008 3 30 | country
+    # Cow dung cakes drying in the sun: round patties pressed in rows on a mud wall, and a tall store of them plastered and decorated.
+    box 0 0.8 0 0.2 0.8 3 B89870
+    repeat 8 0 0 0.7
+    tube 0.21 0.5 -2.5 0.25 0.5 -2.5 0.12 8 6A5A40
+    repeat 8 0 0 0.7
+    tube 0.21 0.85 -2.15 0.25 0.85 -2.15 0.12 8 6A5A40
+    repeat 7 0 0 0.7
+    tube 0.21 1.2 -2.5 0.25 1.2 -2.5 0.12 8 6A5A40
+    cyl -2 0 3 1.2 0.7 2.2 10 8A6A48
+    dome -2 2.2 3 0.7 0.5 8A6A48
+    halo -2 1.2 3 0.97 0.05 10 F2F2F2
+    halo -2 0.6 3 1.1 0.05 10 C83A2A
+
+shape TUBEWELL
+    home INDIA:PUNJAB, INDIA:HARYANA, INDIA:UTTAR PRADESH, PAKISTAN | 0.006 4 40 | country
+    # A tube well pump house in the fields: a small brick room, the fat pipe pouring water into a concrete tank and down the channel.
+    box 0 1.2 0 1.5 1.2 1.5 A8503A
+    box 1.52 0.9 0.6 0.02 0.9 0.4 3A6A8A
+    tube 1.5 0.9 0 2.3 0.9 0 0.15 8 8A8A8A
+    tube 2.3 0.9 0 2.6 0.55 0 0.12 6 C8E0F0 glass
+    box 2.8 0.35 0 0.6 0.35 0.8 B8B0A0
+    box 2.8 0.66 0 0.5 0.02 0.7 6A9AB8 water
+    box 2.8 0.05 4 0.3 0.05 3.2 B8B0A0
+    box 2.8 0.11 4 0.2 0.01 3.2 6A9AB8 water
+    tube -2.5 0 2 -2.5 7 2 0.25 6 C8C0B0
+    blob -2.5 8 2 1.2 2 1.2 5A7A4A 0.4
+
+shape TRACTOR_TROLLEY
+    home INDIA:PUNJAB, INDIA:HARYANA, INDIA:UTTAR PRADESH, INDIA:RAJASTHAN, INDIA:MADHYA PRADESH, INDIA:BIHAR, INDIA:MAHARASHTRA, PAKISTAN | 0.006 3 30
+    # A tractor with its trolley: a red tractor with big rear wheels pulling a high-sided blue trailer heaped with sugar cane.
+    box 0 1.1 4 0.45 0.4 0.8 C82A2A
+    box 0 1.3 2.9 0.35 0.2 0.35 1E1E1E
+    mirrorx
+    tube 0.45 0.4 4.4 0.65 0.4 4.4 0.4 10 1E1E1E
+    mirrorx
+    tube 0.65 0.75 2.8 1.0 0.75 2.8 0.75 12 1E1E1E
+    mirrorx
+    quad 0.6 1.6 2.0 0.6 1.6 3.6 1.05 1.6 3.6 1.05 1.6 2.0 C82A2A
+    tube 0 1.4 3.3 0 1.9 3.5 0.03 3 3A3A3A
+    blob 0 1.85 2.9 0.18 0.28 0.15 F2F2F2
+    blob 0 2.25 2.9 0.12 0.12 0.12 E8902A
+    tube 0 0.6 2.3 0 0.6 0.4 0.06 4 3A3A3A
+    box 0 1.3 -1.5 1.2 0.6 2 6A8AC8
+    blob 0 2.2 -1.5 1.1 0.5 2 8AA050 0.4
+    mirrorx
+    tube 1.0 0.5 -1.5 1.25 0.5 -1.5 0.5 10 1E1E1E
+
+shape PEEPAL_PLATFORM
+    home INDIA, NEPAL, SRI LANKA, BANGLADESH | 0.006 4 30
+    # A peepal tree on its round platform at the village crossing: whitewashed, red threads wound round the trunk, a little shrine stone.
+    cyl 0 0 0 3 3 0.7 16 F2EEE2
+    halo 0 0.7 0 3 0.08 16 C83A2A
+    tube 0 0.7 0 0 4 0 0.6 6 8A7A68
+    halo 0 1.4 0 0.62 0.04 10 C82A2A
+    halo 0 1.6 0 0.62 0.04 10 F2C21E
+    tube 0 3.5 0 3 5.5 1 0.3 5 8A7A68
+    tube 0 3.5 0 -3 5.8 -1 0.3 5 8A7A68
+    blob 0 7 0 5 3 5 3A6A2A 0.3
+    blob 1.5 1.0 1 0.15 0.3 0.15 E8601E
+
+shape TEMPLE_CAR
+    home INDIA:TAMIL NADU, INDIA:ODISHA, INDIA:KARNATAKA, INDIA:KERALA | 0.002 6 40 | town
+    # A temple chariot parked by the temple wall: a huge carved wooden car on solid wheels, its tall tiered top dressed in red and white cloth.
+    box 0 1.6 0 2.5 0.6 3 6A4A30
+    box 0 2.6 0 2.2 0.4 2.7 7A5A38
+    box 0 3.4 0 1.9 0.4 2.4 6A4A30
+    mirror
+    mirrorx
+    tube 2.3 1.0 2 2.6 1.0 2 1.0 12 4A3A28
+    tbox 0 3.8 0 1.8 2.2 0 9 0 0.4 0.5 C82A2A
+    tbox 0 5 0 1.55 1.9 0 5.6 0 1.45 1.75 F2F2EE
+    tbox 0 7 0 1.0 1.2 0 7.6 0 0.9 1.1 F2F2EE
+    spire 0 9 0 0.4 1.2 8 D8A830
+
+shape CHETTINAD_MANSION
+    home INDIA:TAMIL NADU | 0.004 6 40 | town
+    # A Chettinad mansion: a long two-storey front painted lime and cream, a raised veranda of columns, a carved door, a parapet of ornaments.
+    box 0 3.4 0 4 3.4 10 E8D8A8
+    box 4.6 0.5 0 0.6 0.5 9.5 B8A890
+    repeat 8 0 0 2.6
+    tube 5 1 -9.1 5 3.4 -9.1 0.18 8 F2F2F2
+    quad 4 3.8 -10 4 3.8 10 5.4 3.4 10 5.4 3.4 -10 B8603A
+    windows 4.02 3.8 -9 0 1 18 2.6 0.3 3
+    box 4.02 1.6 0 0.03 1.1 0.7 5A3A22
+    box 0 7 0 4.05 0.2 10.05 F2F2F2
+    repeat 9 0 0 2.4
+    spire 4 7.2 -9.6 0.15 0.5 4 F2F2F2
+
+shape MOUNTAIN_TOY_TRAIN
+    home INDIA:WEST BENGAL, INDIA:HIMACHAL PRADESH, INDIA:TAMIL NADU | 0.003 3 20
+    # A narrow gauge hill train: a little blue steam engine and two short coaches on the tiny track beside the road.
+    mirrorx
+    box 0.4 0.03 0 0.03 0.03 10 8A8A8A
+    repeat 20 0 0 1
+    box 0 0.01 -9.5 0.6 0.02 0.1 5A4A38
+    box 0 1.0 6 0.7 0.5 1.4 2A4A8A
+    box 0 1.4 4.3 0.75 0.75 0.5 2A4A8A
+    box 0 2.2 4.3 0.8 0.05 0.6 1E1E1E
+    cyl 0 1.5 7 0.15 0.18 0.6 8 1E1E1E
+    mirrorx
+    tube 0.45 0.3 6.5 0.55 0.3 6.5 0.3 8 2A2A2A
+    mirrorx
+    tube 0.45 0.3 5.3 0.55 0.3 5.3 0.3 8 2A2A2A
+    box 0 1.2 1.5 0.75 0.8 1.8 2A4A8A
+    box 0 1.2 -2.5 0.75 0.8 1.8 2A4A8A
+    box 0.76 1.4 1.5 0.01 0.3 1.5 2A3A4A glass
+    box 0.76 1.4 -2.5 0.01 0.3 1.5 2A3A4A glass
+    box 0 2.05 1.5 0.8 0.05 1.9 E8E0C8
+    box 0 2.05 -2.5 0.8 0.05 1.9 E8E0C8
+    mirrorx
+    tube 0.45 0.25 0.3 0.55 0.25 0.3 0.25 8 2A2A2A
+    mirrorx
+    tube 0.45 0.25 -3.7 0.55 0.25 -3.7 0.25 8 2A2A2A
+
+shape LADAKHI_HOUSE
+    home INDIA:LADAKH, INDIA:HIMACHAL PRADESH, INDIA:JAMMU AND KASHMIR, NEPAL | 0.006 4 40 | country
+    # A Ladakhi house: thick whitewashed walls with black-framed windows, a flat roof stacked with firewood and fodder, a prayer flag pole.
+    box 0 2.5 0 3.5 2.5 4 F2EEE2
+    repeat 3 0 0 2.6
+    box 3.52 3.3 -2.6 0.02 0.55 0.55 1E1E1E
+    repeat 3 0 0 2.6
+    box 3.53 3.3 -2.6 0.02 0.35 0.35 6A4A30
+    box 3.52 1.0 0 0.02 1.0 0.5 6A3A22
+    box 0 5.1 0 3.6 0.15 4.1 6A3A22
+    box -1.5 5.6 -2 1.2 0.4 1.2 8A6A48
+    blob 1 5.5 2 1 0.4 1 B8A860 0.5
+    tube 3.3 5 3.8 3.3 7.5 3.8 0.04 3 C8B890
+    tube 3.3 7.3 3.8 -3 5.3 -3.6 0.01 3 C8B890
+    repeat 5 -1.05 -0.33 -1.23
+    box 2.25 6.85 2.57 0.02 0.12 0.15 C82A2A
+    repeat 5 -1.05 -0.33 -1.23
+    box 1.7 6.66 1.93 0.02 0.12 0.15 2A6AC8
+
+shape HILLTOP_GOMPA
+    home INDIA:LADAKH, INDIA:SIKKIM, INDIA:ARUNACHAL PRADESH, INDIA:HIMACHAL PRADESH, NEPAL, BHUTAN | 0.002 18 100
+    # A monastery on its hill: white buildings stacked up the rock, a red-walled main temple on top with golden roof ornaments.
+    blob 0 0 0 8 7 8 9A8A70 0.4
+    box 3 3 -2 2.5 1.5 2 F2EEE2
+    windows 5.52 2.2 -3.5 0 1 3 1.4 0.2 1.4
+    box 4 2.5 3 2 1.5 2.5 F2EEE2
+    box 1 5.5 0 2.5 1.5 3 F2EEE2
+    windows 3.52 4.6 -2.5 0 1 5 1.6 0.2 1.4
+    box 0 8 0 2.5 1.5 2.5 9A2A1E
+    box 0 9.55 0 2.6 0.1 2.6 3A3A3A
+    box 0 9.7 0 1 0.1 1 D8A830
+    spire 0 9.8 0 0.4 1 6 D8A830
+    mirror
+    cyl 0 9.65 2.2 0.15 0.12 0.6 6 D8A830
+
+shape RIVER_GHAT_STEPS
+    home INDIA:UTTAR PRADESH, INDIA:UTTARAKHAND, INDIA:BIHAR, INDIA:WEST BENGAL, INDIA:MADHYA PRADESH | 0.004 8 50 | town
+    # River steps: broad stone stairs down to the water, straw umbrellas over wooden platforms, a temple spire above.
+    box 5 0.02 0 2 0.02 10 5A6A5A water
+    box 3 0.2 0 0.4 0.2 10 C8B8A0
+    box 2.2 0.4 0 0.4 0.4 10 C0B098
+    box 1.4 0.6 0 0.4 0.6 10 C8B8A0
+    box 0.6 0.8 0 0.4 0.8 10 C0B098
+    box -0.2 1.0 0 0.4 1.0 10 C8B8A0
+    box -2 1.2 0 1.4 1.2 10 C0B098
+    repeat 3 0 0 3.5
+    box 2.2 0.9 -3.5 0.7 0.08 0.7 8A6A48
+    repeat 3 0 0 3.5
+    tube 2.2 0.9 -3.5 2.2 2.6 -3.5 0.04 3 8A6A48
+    repeat 3 0 0 3.5
+    spire 2.2 2.4 -3.5 1.3 0.5 8 C8A860
+    box -2.5 3.8 2 1.6 1.4 1.6 E8A0A0
+    cyl -2.5 5.2 2 1.4 0.3 3.6 8 E89A8A
+    tube -2.5 8.6 2 -2.5 9.8 2 0.03 3 C8C8C8
+    box -2.5 9.5 2.3 0.01 0.25 0.3 E8701E
+
+shape KOLKATA_TRAM
+    home INDIA:WEST BENGAL | 0.006 2 15 | town
+    # A Kolkata tram: an old single-deck car in cream and blue, its trolley pole up to the wire, the rails set in the street.
+    box 0 1.6 0 1.1 1.1 5 E8E0C8
+    box 0 0.8 0 1.11 0.3 5 2A6AC8
+    box 1.11 1.8 0 0.01 0.4 4.6 2A3A4A glass
+    box 0 1.8 5.01 0.9 0.45 0.01 2A3A4A glass
+    box 0 2.75 0 1.0 0.05 4.8 6A6A6A
+    tube 0 2.8 -2 0 4.3 1 0.03 3 3A3A3A
+    tube 0 4.3 -10 0 4.3 10 0.01 3 3A3A3A
+    mirrorx
+    box 0.75 0.02 0 0.04 0.02 8 8A8A8A shiny
+
+shape MUMBAI_DOUBLE_DECKER
+    home INDIA:MAHARASHTRA | 0.006 2 15 | town
+    # A red double-decker bus: two decks of windows, a cream band between them, the destination board lit at the front.
+    box 0 2.4 0 1.25 2.0 5 C82A2A
+    box 1.26 1.6 -0.3 0.01 0.4 4.5 2A3A4A glass
+    box 1.26 3.4 0 0.01 0.4 4.8 2A3A4A glass
+    box 1.26 2.55 0 0.01 0.08 5 F2E8C8
+    box 0 1.8 5.01 1.1 0.5 0.01 2A3A4A glass
+    box 0 3.4 5.01 1.1 0.4 0.01 2A3A4A glass
+    box 0 4.1 5.02 0.8 0.15 0.01 F2E8A0 glow
+    mirrorx
+    tube 1.0 0.5 3.6 1.26 0.5 3.6 0.5 10 1E1E1E
+    mirrorx
+    tube 1.0 0.5 -3.2 1.26 0.5 -3.2 0.5 10 1E1E1E
+
+shape CHAWL_BLOCK
+    home INDIA:MAHARASHTRA, INDIA:GUJARAT | 0.006 4 30 | town
+    # A chawl: a long old tenement of three storeys, each with a common balcony along its front, laundry hanging from the rails.
+    box 0 4.5 0 3 4.5 10 C8B8A0
+    repeat 3 0 3 0
+    box 3.8 0.05 0 0.8 0.08 10 8A8478
+    repeat 3 0 3 0
+    box 4.55 0.55 0 0.04 0.5 10 6A5A48
+    windows 3.02 0.3 -9.5 0 1 19 8.5 0.3 3
+    repeat 3 0 3 0
+    box 4.6 0.5 -6 0.01 0.35 0.4 E8502A
+    repeat 3 0 3 0
+    box 4.6 0.5 -2 0.01 0.35 0.5 2A8AC8
+    repeat 3 0 3 0
+    box 4.6 0.5 3 0.01 0.35 0.4 F2F2F2
+    gable 0 9 0 3.2 10.2 1 0.3 8A5A3A C8B8A0
+    repeat 5 0 0 5
+    tube 4.55 0 -10 4.55 9 -10 0.06 4 6A5A48
+
+shape ARECA_PALMS
+    home INDIA:KARNATAKA, INDIA:KERALA, INDIA:ASSAM, INDIA:GOA, INDIA:MEGHALAYA, SRI LANKA, BANGLADESH, MYANMAR, INDONESIA, MALAYSIA | 0.008 6 50 | country
+    # An areca nut garden: very thin straight palm trunks in rows, little crowns of fronds high up, bunches of orange nuts.
+    repeat 5 0 0 2.5
+    tube 0 0 -5 0 11 -5 0.1 6 9A9A88
+    repeat 5 0 0 2.5
+    fronds 0 11 -5 8 1.8 0.4 4A8A3A
+    repeat 5 0 0 2.5
+    blob 0.2 10.2 -5 0.2 0.3 0.2 E8802A
+    repeat 5 0 0 2.5
+    tube -2.5 0 -3.75 -2.5 10 -3.75 0.1 6 9A9A88
+    repeat 5 0 0 2.5
+    fronds -2.5 10 -3.75 8 1.8 0.4 4A8A3A
+
+shape ASSAM_TYPE_HOUSE
+    home INDIA:ASSAM, INDIA:MEGHALAYA, INDIA:TRIPURA, INDIA:MANIPUR, INDIA:MIZORAM, INDIA:NAGALAND, INDIA:ARUNACHAL PRADESH, INDIA:SIKKIM | 0.006 4 40 | country
+    # An Assam-type house: a timber frame with plastered bamboo walls painted white, a red corrugated tin roof, a low front veranda.
+    box 0 0.15 0 3.6 0.15 4.4 8A8478
+    box 0 1.7 0 2.8 1.4 4 F2F2EE
+    repeat 6 0 0 1.6
+    box 2.81 1.7 -4 0.02 1.4 0.06 5A3A22
+    box 2.81 1.7 0 0.02 0.05 4 5A3A22
+    windows 2.82 0.8 -3.5 0 1 7 2 0.4 2.4
+    hip 0 3.1 0 3.6 4.6 1.6 0.4 A82A22
+    repeat 4 0 0 2.6
+    tube 3.4 0.3 -3.9 3.4 3.1 -3.9 0.07 4 5A3A22
+
+shape TRAFFIC_POLICE_PODIUM
+    home INDIA, PAKISTAN, BANGLADESH, SRI LANKA, NEPAL | 0.004 1 6 | town
+    # A traffic police podium at the crossing: a round raised stand under a striped umbrella, the officer in khaki waving the traffic on.
+    cyl 0 0 0 0.8 0.8 0.6 10 F2F2F2
+    halo 0 0.3 0 0.81 0.08 10 C82A2A
+    tube 0 0.6 0 0 2.7 0 0.04 3 8A8A8A
+    spire 0 2.4 0 1.2 0.4 8 C82A2A
+    mirror
+    tube 0 0.6 0.08 0 1.05 0.08 0.05 3 C8A870
+    box 0 1.3 0 0.12 0.28 0.18 C8A870
+    blob 0 1.72 0 0.1 0.12 0.1 8A6048
+    cyl 0 1.78 0 0.12 0.12 0.08 8 C8A870
+    tube 0 1.5 0.18 0.1 1.95 0.35 0.04 3 C8A870
+
+shape STREET_CRICKET
+    home INDIA, PAKISTAN, BANGLADESH, SRI LANKA, NEPAL | 0.006 3 30 | town
+    # A game of street cricket: three stumps stuck in the dust, the batsman ready, the bowler running in, a fielder waiting.
+    repeat 3 0 0 0.11
+    tube 0 0 -2.11 0 0.7 -2.11 0.02 3 F2E8C8
+    tube 0.05 0.6 -1.75 0.05 0 -1.75 0.04 3 3A3A6A
+    tube -0.05 0.6 -1.75 -0.05 0 -1.75 0.04 3 3A3A6A
+    box 0 0.85 -1.75 0.14 0.25 0.1 F2F2F2
+    blob 0 1.22 -1.75 0.09 0.1 0.09 6A4A30
+    tube 0.12 0.9 -1.6 0.2 0.2 -1.4 0.05 4 C8A870
+    tube 0.05 0.6 3 0.05 0 3.3 0.04 3 3A3A3A
+    tube -0.05 0.6 3 -0.05 0 2.7 0.04 3 3A3A3A
+    box 0 0.85 3 0.14 0.25 0.1 2A6AC8
+    blob 0 1.22 3 0.09 0.1 0.09 6A4A30
+    tube 0.12 1.05 3 0.15 1.55 2.85 0.035 3 2A6AC8
+    blob 0.15 1.6 2.82 0.04 0.04 0.04 C82A2A
+    tube 2.05 0.6 0.5 2.05 0 0.5 0.04 3 3A3A3A
+    tube 1.95 0.6 0.5 1.95 0 0.5 0.04 3 3A3A3A
+    box 2 0.85 0.5 0.14 0.25 0.1 E8C02A
+    blob 2 1.22 0.5 0.09 0.1 0.09 6A4A30
+
+shape SHAMIANA_TENT
+    home INDIA, PAKISTAN, BANGLADESH, NEPAL | 0.004 4 30
+    # A wedding tent: a big canopy of red, yellow and green printed cloth on poles, strings of marigolds hanging at its edge.
+    mirror
+    mirrorx
+    tube 4 0 4 4 3.2 4 0.06 4 C8A870
+    tube 0 0 0 0 4.2 0 0.08 4 C8A870
+    tri 4 3.2 -4 4 3.2 4 0 4.2 0 C82A2A
+    tri -4 3.2 4 -4 3.2 -4 0 4.2 0 C82A2A
+    tri -4 3.2 -4 4 3.2 -4 0 4.2 0 F2C21E
+    tri 4 3.2 4 -4 3.2 4 0 4.2 0 F2C21E
+    tri 4 3.2 4 4 3.2 -4 0 4.2 0 C82A2A
+    tri -4 3.2 -4 -4 3.2 4 0 4.2 0 C82A2A
+    tri 4 3.2 -4 -4 3.2 -4 0 4.2 0 F2C21E
+    tri -4 3.2 4 4 3.2 4 0 4.2 0 F2C21E
+    box 4.01 2.95 0 0.01 0.25 4 2A8A4A
+    mirror
+    box 0 2.95 4.01 4 0.25 0.01 2A8A4A
+    repeat 8 0 0 1
+    blob 4.05 2.5 -3.5 0.06 0.3 0.06 F2902A
+    box -4 1.6 0 0.02 1.6 4 F2C21E
+    repeat 4 0 0 1
+    box 1 0.4 -1.5 0.2 0.4 0.2 C82A2A
+    repeat 4 0 0 1
+    box -0.5 0.4 -1.5 0.2 0.4 0.2 C82A2A
+
+shape PAAN_KIOSK
+    home INDIA, PAKISTAN, BANGLADESH | 0.006 1 10 | town
+    # A paan shop: a tiny wooden box of a kiosk raised on legs, strings of shiny snack packets hanging around the seller.
+    box 0 1.3 0 0.7 0.7 0.9 2A8A6A
+    mirror
+    mirrorx
+    tube 0.6 0 0.8 0.6 0.6 0.8 0.04 3 3A3A3A
+    box 0.71 1.35 0 0.01 0.45 0.7 2A2018
+    blob 0.45 1.3 0 0.15 0.2 0.15 F2F2F2
+    blob 0.45 1.6 0 0.09 0.1 0.09 6A4A30
+    repeat 8 0 0 0.2
+    box 0.75 1.75 -0.7 0.01 0.12 0.06 F2C21E
+    repeat 8 0 0 0.2
+    box 0.75 1.52 -0.7 0.01 0.1 0.06 E8502A
+    quad 0.7 2.0 -1 0.7 2.0 1 1.3 1.8 1 1.3 1.8 -1 2A6AC8
+    box 0 2.05 0 0.75 0.05 0.95 6A6A6A
+
+shape CANE_JUICE_CART
+    home INDIA, PAKISTAN, BANGLADESH, NEPAL, VIETNAM, CAMBODIA, EGYPT | 0.004 2 15 | town
+    # A sugar cane juice cart: a hand cart with an iron press and its big flywheel, glasses in a row, a bundle of cane leaning beside.
+    box 0 0.9 0 0.6 0.08 1.1 6A8AC8
+    mirrorx
+    hoop 0.65 0.4 -0.5 0.4 0.04 10 3A3A3A
+    box 0 1.3 0.4 0.3 0.3 0.25 3A3A3A
+    hoop 0.35 1.6 0.4 0.5 0.06 12 3A3A3A
+    repeat 4 0 0 0.15
+    cyl 0.3 0.98 -0.6 0.05 0.05 0.15 6 C8D860 glass
+    tube -0.4 0 -1 -0.5 2.2 -1.1 0.15 6 8AA050
+    tube 0 0.98 -0.8 0 2.4 -0.8 0.03 3 8A8A8A
+    spire 0 2.2 -0.8 1.1 0.35 8 E8C02A
+
+shape MARIGOLD_FIELD
+    home INDIA, NEPAL, BANGLADESH, MEXICO:PUEBLA, MEXICO:MEXICO STATE, MEXICO:MICHOACAN, MEXICO:OAXACA, THAILAND | 0.006 4 50 | country
+    # A field of marigolds: low rows of bushy plants covered in orange and yellow flowers.
+    repeat 7 0 0 1
+    box -3 0.3 -3 3.5 0.3 0.3 4A7A2A
+    repeat 4 0 0 2
+    blob -3 0.62 -3 3.4 0.14 0.35 F2902A 0.5
+    repeat 3 0 0 2
+    blob -3 0.62 -2 3.4 0.14 0.35 F2C21E 0.5
+
+shape PADDY_WITH_EGRETS
+    home INDIA:KERALA, INDIA:TAMIL NADU, INDIA:ANDHRA PRADESH, INDIA:WEST BENGAL, INDIA:ODISHA, INDIA:ASSAM, INDIA:KARNATAKA, INDIA:GOA, BANGLADESH, SRI LANKA, NEPAL, THAILAND, VIETNAM, CAMBODIA, LAOS, MYANMAR, PHILIPPINES, INDONESIA, MALAYSIA | 0.008 6 60 | country
+    # A flooded rice paddy with the young green rice in rows, a low earth bund around it, white egrets stalking the shallows.
+    box 0 0.02 0 5 0.02 6 5A7A6A water
+    mirror
+    box 0 0.15 6.2 5.2 0.15 0.2 6A5A40
+    mirrorx
+    box 5.2 0.15 0 0.2 0.15 6.2 6A5A40
+    repeat 9 0 0 1.2
+    box 0 0.2 -4.8 4.6 0.18 0.12 6AAA3A
+    repeat 3 1.2 0 -1.5
+    blob 1 0.6 1.5 0.08 0.12 0.15 F2F2F2
+    repeat 3 1.2 0 -1.5
+    tube 1 0.65 1.6 1 0.9 1.7 0.025 3 F2F2F2
+    repeat 3 1.2 0 -1.5
+    blob 1 0.92 1.75 0.03 0.03 0.06 F2F2F2
+    repeat 3 1.2 0 -1.5
+    tube 1 0.92 1.8 1 0.9 1.92 0.012 3 E8C02A
+    repeat 3 1.2 0 -1.5
+    tube 1 0.5 1.5 1 0 1.5 0.015 3 2A2A2A

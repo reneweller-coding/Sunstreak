@@ -308,7 +308,7 @@ shape HIPPO_POOL
     blob 2.5 0.15 3 0.7 0.3 1.1 6A5A5A
 
 shape RHINO
-    home SOUTH AFRICA, NAMIBIA, KENYA, BOTSWANA, ZIMBABWE, ESWATINI | 0.003 15 90 | country
+    home SOUTH AFRICA, NAMIBIA, KENYA, BOTSWANA, ZIMBABWE, ESWATINI, INDIA:ASSAM, NEPAL | 0.003 15 90 | country
     # A rhinoceros: grey and massive, two horns on its long head, grazing alone.
     blob 0 1.2 0 0.7 0.75 1.4 8A8680
     mirror
