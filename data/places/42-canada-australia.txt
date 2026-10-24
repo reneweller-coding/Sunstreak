@@ -1,0 +1,109 @@
+# Canada province by province, Australia state by state: the ones the first tour had left out.
+
+place HOPEWELL_ROCKS | BAY OF FUNDY | CANADA | MORNING | NEW BRUNSWICK
+    sea 1 0 -8
+    water 6A5A48 0.85
+    land 6A9050 608648 6A7A58
+    verge 9A7A5A
+    hills 14 0 6
+    drive 2 0.3 0.98 24
+    bends 0.5 0.45 0.4
+    p SPRUCE 0.25 4 150
+    p BIRCH 0.1 3 80
+    p LIGHTHOUSE 0.002 30 120
+    p COTTAGE 0.008 10 60
+    c F2F0EA 3A6A8A
+    landmark FLOWERPOT_ROCKS 60 100
+    bridges 0.25 COVERED A83A2A
+
+place PEI_SHORE | RED SHORES | CANADA | GOLDEN | PRINCE EDWARD ISLAND
+    sea 1 0 -6
+    water 2A6A8A
+    land 7AAA50 70A048 7A9A58
+    verge B85A3A
+    fields 0.5 B8603A 8AB050 E8D860
+    hills 8 2 2
+    drive 2 0.3 1.0 24
+    bends 0.35 0.3 0.3
+    p COTTAGE 0.015 10 80
+    c F2F0EA 2A6A3A
+    p CHURCH 0.004 20 120
+    c F4F2EA 4A4A50
+    p LIGHTHOUSE 0.003 20 100
+    p HAYBALE 0.02 10 80
+    landmark STRIPED_LIGHTHOUSE 50 90
+    c F2F0EA C83A2A
+
+place MANITOBA_LAKES | MANITOBA LAKES | CANADA | MORNING | MANITOBA
+    hills 4 1 1 0.5
+    water 3A5A7A
+    land 8AAA50 7E9E48 7A9A5A
+    fields 0.4 F0D830 8AB04A C8B060
+    drive 2 0.3 1.0 24
+    bends 0.15 0.15 0.1
+    p BIRCH 0.1 3 80
+    p GRAIN_ELEVATOR 0.003 40 150
+    c A83A30 3A3A40
+    p BOAT 0.005 30 150
+    floating
+    p BISON 0.008 20 120
+
+place NUNAVUT_TUNDRA | HUDSON BAY | CANADA | ARCTIC | NUNAVUT
+    sea 1 0 -4
+    water 5A7A90
+    land 8A8A70 7E7E66 9A9A90
+    verge 9A9A90
+    road 7A7468 7A7468
+    hills 6 2 2 0.3
+    drive 2 0.05 0.85 24
+    bends 0.3 0.3 0.2
+    posts 0
+    p ROCK 0.12 2 80
+    p SNOWBANK 0.08 1 30 0.6 1.0
+    p SNOW_HOUSE 0.004 15 80
+    p REINDEER 0.01 15 120
+    p ICEBERG 0.004 40 200
+    floating
+    landmark INUKSHUK 14 24
+
+place PINNACLES | PINNACLES DESERT | AUSTRALIA | DESERT | WESTERN AUSTRALIA
+    land E0B868 D4AC60 C8A060
+    verge D8B068
+    hills 6 2 2
+    drive 2 0.15 0.98 21
+    bends 0.25 0.25 0.15
+    p PILLAR 0.03 6 120 0.3 0.5
+    c C8A060
+    p SHRUB 0.15 2 80 0.4 0.6
+    c 8A9A60
+    p KANGAROO 0.01 8 80
+    landmark ROCK_PINNACLES 20 40
+
+place BAROSSA | BAROSSA VALLEY | AUSTRALIA | GOLDEN | SOUTH AUSTRALIA
+    land A8A060 9C9458 A89A6A
+    fields 0.4 8AA04A B07A4A C8B070
+    hills 14 4 4
+    drive 2 0.4 1.0 21
+    bends 0.45 0.4 0.4
+    p VINE_ROW 0.3 8 70 1 1
+    p EUCALYPTUS 0.08 4 120
+    p COTTAGE 0.012 10 80
+    c D8C8A8 8A8A90
+    p CHURCH 0.003 30 150
+    c D8C8A8 6A6A70
+
+place CANBERRA | CANBERRA | AUSTRALIA | MORNING | AUSTRALIAN CAPITAL TERRITORY
+    sea 1 0 -3
+    water 4A7A9A
+    land 8AA058 7E9450 8A9A68
+    drive 3 0.8 1.0 21
+    bends 0.3 0.3 0.15
+    lamps 40
+    posts 0
+    p EUCALYPTUS 0.15 3 100
+    p FLAT_HOUSE 0.02 10 60
+    pastel
+    p GLASS_TOWER 0.01 40 200
+    c 9AA8B0
+    p KANGAROO 0.01 10 80
+    landmark PARLIAMENT_AU 140 220 0.8

@@ -5,7 +5,7 @@
 # change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
-place MONT_SAINT_MICHEL | MONT SAINT-MICHEL | FRANCE | MORNING
+place MONT_SAINT_MICHEL | MONT SAINT-MICHEL | FRANCE | MORNING | NORMANDY
     clouds 0.5
     sea 1 1 -1.5
     water 8A9A94 0.6
@@ -20,7 +20,7 @@ place MONT_SAINT_MICHEL | MONT SAINT-MICHEL | FRANCE | MORNING
     p SAILBOAT 0.004 60 250
     floating
 
-place DUNE_OF_PILAT | DUNE DU PILAT | FRANCE | GOLDEN
+place DUNE_OF_PILAT | DUNE DU PILAT | FRANCE | GOLDEN | NOUVELLE-AQUITAINE
     sea 0 1 -3
     water 2A7A9A
     land 6E9050 648648 E2D2A8
@@ -39,7 +39,7 @@ place DUNE_OF_PILAT | DUNE DU PILAT | FRANCE | GOLDEN
     p COTTAGE 0.006 10 60
     c F4F0E4 B8584A
 
-place ALPE_D_HUEZ | ALPE D HUEZ | FRANCE | ALPINE
+place ALPE_D_HUEZ | ALPE D HUEZ | FRANCE | ALPINE | AUVERGNE-RHONE-ALPES
     land 6AA44A 609842 749660
     ranges 66748A EAEEF6 13
     hills 50 30 -24
@@ -55,7 +55,7 @@ place ALPE_D_HUEZ | ALPE D HUEZ | FRANCE | ALPINE
     c E8D84A
     p BILLBOARD 0.002 5 12
 
-place VERDON | GORGES DU VERDON | FRANCE | NOON
+place VERDON | GORGES DU VERDON | FRANCE | NOON | PROVENCE
     land 8E9E5A 84944E A0A070
     verge D8D2C2
     sea 0 1 -90
@@ -75,7 +75,7 @@ place VERDON | GORGES DU VERDON | FRANCE | NOON
     p COTTAGE 0.004 20 100
     c E8D8B8 B0583A
 
-place COL_DE_TURINI | COL DE TURINI | FRANCE | NIGHT
+place COL_DE_TURINI | COL DE TURINI | FRANCE | NIGHT | PROVENCE
     windows FFD696
     lamps 0
     land D8DEE6 6A7A5A 5A6A54
@@ -91,7 +91,7 @@ place COL_DE_TURINI | COL DE TURINI | FRANCE | NIGHT
     p BILLBOARD 0.004 4 10
     p ROCK 0.08 3 40
 
-place CORSICA | CORSICA | FRANCE | NOON
+place CORSICA | CORSICA | FRANCE | NOON | CORSICA
     island CORSICA
     sea 0 1 -24
     water 1E7A9E

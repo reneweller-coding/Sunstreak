@@ -5,7 +5,7 @@
 # change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
-place DAINTREE | DAINTREE | AUSTRALIA | TROPICAL
+place DAINTREE | DAINTREE | AUSTRALIA | TROPICAL | QUEENSLAND
     rain 0.1
     sea 1 0 -3
     water 2A8AA0
@@ -19,7 +19,7 @@ place DAINTREE | DAINTREE | AUSTRALIA | TROPICAL
     p BANANA 0.04 3 40
     p MANGROVE 0.05 2 12
 
-place RED_CENTRE | RED CENTRE | AUSTRALIA | DESERT
+place RED_CENTRE | RED CENTRE | AUSTRALIA | DESERT | NORTHERN TERRITORY
     land C8603A BC5834 C87A4A
     verge B85A34
     drive 2 0.15 0.95 7
@@ -31,7 +31,7 @@ place RED_CENTRE | RED CENTRE | AUSTRALIA | DESERT
     p TERMITE_MOUND 0.03 4 80
     p KANGAROO 0.03 8 80
 
-place BLUE_MOUNTAINS | BLUE MOUNTAINS | AUSTRALIA | HAZE
+place BLUE_MOUNTAINS | BLUE MOUNTAINS | AUSTRALIA | HAZE | NEW SOUTH WALES
     fog 0.002 9AB4D0
     land 6A8A4E 607E48 5A7A50
     hills 40 10 -20
@@ -42,7 +42,7 @@ place BLUE_MOUNTAINS | BLUE MOUNTAINS | AUSTRALIA | HAZE
     p ROCK 0.05 3 40
     p KANGAROO 0.01 8 60
 
-place GREAT_OCEAN_ROAD | GREAT OCEAN ROAD | AUSTRALIA | MORNING
+place GREAT_OCEAN_ROAD | GREAT OCEAN ROAD | AUSTRALIA | MORNING | VICTORIA
     clouds 0.5
     sea 1 0 -30
     water 2A6A90

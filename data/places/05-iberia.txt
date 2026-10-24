@@ -5,7 +5,7 @@
 # change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
-place BASQUE_COAST | BASQUE COAST | SPAIN | MORNING
+place BASQUE_COAST | BASQUE COAST | SPAIN | MORNING | BASQUE COUNTRY
     clouds 0.6
     sea 1 0 -18
     water 2E5E80
@@ -26,7 +26,7 @@ place BASQUE_COAST | BASQUE COAST | SPAIN | MORNING
     floating
     p PINE 0.08 10 100
 
-place RIOJA | RIOJA | SPAIN | GOLDEN
+place RIOJA | RIOJA | SPAIN | GOLDEN | LA RIOJA
     land A88A5A 9C7E52 9A8A68
     fields 0.5 8AA04A B07A4A C8B070
     ranges 8A7A80 B8B0C0 6
@@ -78,7 +78,7 @@ place ALGARVE | ALGARVE | PORTUGAL | NOON
     p PALM 0.03 3 30
     p UMBRELLA_PINE 0.04 6 60
 
-place ANDALUSIA | ANDALUSIA | SPAIN | NOON
+place ANDALUSIA | ANDALUSIA | SPAIN | NOON | ANDALUSIA
     land B8A060 AC9658 A09A6A
     hills 28 6 6
     drive 2 0.5 1.0 6
@@ -93,7 +93,7 @@ place ANDALUSIA | ANDALUSIA | SPAIN | NOON
     p CHURCH 0.003 60 200
     c F4F2EA C8803A
 
-place LA_MANCHA | LA MANCHA | SPAIN | NOON
+place LA_MANCHA | LA MANCHA | SPAIN | NOON | CASTILE-LA MANCHA
     land B8A26A AC9660 C0A878
     fields 0.5 C8A860 8A9A4A A87A50
     hills 10 3 3
@@ -107,7 +107,7 @@ place LA_MANCHA | LA MANCHA | SPAIN | NOON
     p CASTLE 0.002 150 350
     c C8B088 8A6A50
 
-place COSTA_DEL_SOL | COSTA DEL SOL | SPAIN | NOON
+place COSTA_DEL_SOL | COSTA DEL SOL | SPAIN | NOON | ANDALUSIA
     sea 1 0 -6
     water 2A78A8
     land B8A878 AC9C70 9A9A6A
@@ -126,7 +126,7 @@ place COSTA_DEL_SOL | COSTA DEL SOL | SPAIN | NOON
     p FLOWER_BUSH 0.05 2 20
     c D0307A
 
-place LANZAROTE | LANZAROTE | SPAIN | DESERT
+place LANZAROTE | LANZAROTE | SPAIN | DESERT | CANARY ISLANDS
     island CANARY ISLANDS
     clouds 0.2
     sea 0 1 -10

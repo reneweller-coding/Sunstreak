@@ -5,7 +5,7 @@
 # change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
-place STELVIO | STELVIO PASS | ITALY | ALPINE
+place STELVIO | STELVIO PASS | ITALY | ALPINE | LOMBARDY
     land 7A9858 6E8C50 8A8C80
     verge 8A8884
     ranges 5E6676 F2F4F8 15
@@ -21,7 +21,7 @@ place STELVIO | STELVIO PASS | ITALY | ALPINE
     p CHALET 0.004 12 60
     c E8E0D0 6A4A3A
 
-place VENICE | VENICE | ITALY | HAZE
+place VENICE | VENICE | ITALY | HAZE | VENETO
     sea 1 1 -1.5
     water 4A7E76 0.9
     land B89A7A AC8E70 A89A80
@@ -45,7 +45,7 @@ place VENICE | VENICE | ITALY | HAZE
     c B8583A
     v 1
 
-place CINQUE_TERRE | CINQUE TERRE | ITALY | GOLDEN
+place CINQUE_TERRE | CINQUE TERRE | ITALY | GOLDEN | LIGURIA
     sea 0 1 -30
     water 1E6A90
     land 7A9450 708A48 86965E
@@ -68,7 +68,7 @@ place CINQUE_TERRE | CINQUE TERRE | ITALY | GOLDEN
     p CHURCH 0.004 20 100
     c E8D8C0 6A6060
 
-place PISA | PISA | ITALY | NOON
+place PISA | PISA | ITALY | NOON | TUSCANY
     land 8EA458 849A50 9AA066
     fields 0.4 D8B860 8AA050 A88A58
     hills 6 0 0
@@ -85,7 +85,7 @@ place PISA | PISA | ITALY | NOON
     p CHURCH 0.003 40 160
     c EEE6D4 A8583A
 
-place ROME | ROME | ITALY | GOLDEN
+place ROME | ROME | ITALY | GOLDEN | LAZIO
     land 8A9A60 809058 9A9470
     road 6A6A70
     drive 3 1.3 0.97 6
@@ -137,7 +137,7 @@ place VATICAN | VATICAN CITY | VATICAN | NOON
     p UMBRELLA_PINE 0.1 3 60
     landmark OBELISK 30 45 0.15
 
-place ALBEROBELLO | ALBEROBELLO | ITALY | NOON
+place ALBEROBELLO | ALBEROBELLO | ITALY | NOON | APULIA
     land 8E9A58 849050 A06A4A
     fields 0.35 A8603A 9AA050 C8B060
     verge D8D0C0
@@ -152,7 +152,7 @@ place ALBEROBELLO | ALBEROBELLO | ITALY | NOON
     c F4F2EA 8A8A8A
     p PRICKLY_PEAR 0.03 3 30
 
-place SARDINIA | SARDINIA | ITALY | NOON
+place SARDINIA | SARDINIA | ITALY | NOON | SARDINIA
     island SARDINIA
     sea 0 1 -6
     water 2ABAC8

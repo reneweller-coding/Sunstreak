@@ -5,7 +5,7 @@
 # change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
-place LAKE_COMO | LAKE COMO | ITALY | GOLDEN
+place LAKE_COMO | LAKE COMO | ITALY | GOLDEN | LOMBARDY
     sea 1 0 -8
     water 3E7090
     land 5E9A48 569040 5A8A50
@@ -27,7 +27,7 @@ place LAKE_COMO | LAKE COMO | ITALY | GOLDEN
     p CHURCH 0.004 20 120
     c EEE6D4 A8583A
 
-place TUSCANY | TUSCANY | ITALY | GOLDEN
+place TUSCANY | TUSCANY | ITALY | GOLDEN | TUSCANY
     land 9AA65A 8E9A52 A8A060
     fields 0.6 D8B860 8AA050 A88A58
     hills 26 6 6
@@ -44,7 +44,7 @@ place TUSCANY | TUSCANY | ITALY | GOLDEN
     p CHURCH 0.003 60 200
     c D8C8A8 A8583A
 
-place VIA_APPIA | VIA APPIA | ITALY | NOON
+place VIA_APPIA | VIA APPIA | ITALY | NOON | LAZIO
     land 8E9E58 82924E 9A9A62
     road 6A6A70
     drive 2 0.6 1.0 7
@@ -59,7 +59,7 @@ place VIA_APPIA | VIA APPIA | ITALY | NOON
     p STONE_WALL 0.2 3 3 1 1
     p OLIVE 0.05 8 60
 
-place AMALFI | AMALFI COAST | ITALY | NOON
+place AMALFI | AMALFI COAST | ITALY | NOON | CAMPANIA
     sea 1 0 -30
     water 1E6A9A
     land 6E9A4E 64904A 7A8A5C
@@ -84,7 +84,7 @@ place AMALFI | AMALFI COAST | ITALY | NOON
     p SAILBOAT 0.01 60 250
     floating
 
-place SICILY | SICILY | ITALY | NOON
+place SICILY | SICILY | ITALY | NOON | SICILY
     island SICILY
     land B0A060 A4945A 9A8E62
     hills 24 6 6
@@ -103,7 +103,7 @@ place SICILY | SICILY | ITALY | NOON
     c E0CCA4 A8583A
     p STONE_WALL 0.2 3 3 1 1
 
-place COTE_D_AZUR | COTE D AZUR | FRANCE | NOON
+place COTE_D_AZUR | COTE D AZUR | FRANCE | NOON | PROVENCE
     sea 1 0 -14
     water 1E7AB0
     land 6E9A4E 64904A 7A8E5C
@@ -128,7 +128,7 @@ place COTE_D_AZUR | COTE D AZUR | FRANCE | NOON
     p FLOWER_BUSH 0.06 2 20
     c D03A9A
 
-place CAMARGUE | CAMARGUE | FRANCE | MORNING
+place CAMARGUE | CAMARGUE | FRANCE | MORNING | PROVENCE
     hills 2 1 1 0.6
     water 6A9AB0
     land 8AA060 7E9458 A8A07A

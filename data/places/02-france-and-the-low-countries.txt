@@ -5,7 +5,7 @@
 # change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
-place BRITTANY | BRITTANY | FRANCE | MORNING
+place BRITTANY | BRITTANY | FRANCE | MORNING | BRITTANY
     clouds 0.5
     sea 0 1 -6
     water 2E5E7A
@@ -21,7 +21,7 @@ place BRITTANY | BRITTANY | FRANCE | MORNING
     p LIGHTHOUSE 0.004 30 120
     p ROCK 0.08 3 40
 
-place NORMANDY | NORMANDY | FRANCE | OVERCAST
+place NORMANDY | NORMANDY | FRANCE | OVERCAST | NORMANDY
     clouds 0.6
     land 6AA24A 5E9442 78965A
     drive 2 0.6 0.97 6
@@ -36,7 +36,7 @@ place NORMANDY | NORMANDY | FRANCE | OVERCAST
     c D8D2C4 50565E
     p HAYBALE 0.015 12 60
 
-place PARIS | PARIS | FRANCE | MORNING
+place PARIS | PARIS | FRANCE | MORNING | ILE-DE-FRANCE
     land 7A8A6A 728262 8A8A7A
     road 6E7078
     drive 3 1.2 0.95 0
@@ -53,8 +53,9 @@ place PARIS | PARIS | FRANCE | MORNING
     p CHURCH 0.004 30 150
     c F0ECE4 7A8490
     landmark TRIUMPHAL_ARCH 40 70
+    landmark EIFFEL_TOWER 220 320 0.45
 
-place CHAMPAGNE | CHAMPAGNE | FRANCE | MORNING
+place CHAMPAGNE | CHAMPAGNE | FRANCE | MORNING | GRAND EST
     land 8CB25A 80A452 B8B07A
     verge E0DCCC
     hills 16 4 4
@@ -69,7 +70,7 @@ place CHAMPAGNE | CHAMPAGNE | FRANCE | MORNING
     p COTTAGE 0.01 20 80
     c E6DED0 8A5A48
 
-place LOIRE_VALLEY | LOIRE VALLEY | FRANCE | GOLDEN
+place LOIRE_VALLEY | LOIRE VALLEY | FRANCE | GOLDEN | CENTRE-VAL DE LOIRE
     sea 0 1 -5
     water 4A7890
     land 7CAE52 70A04A 86A462

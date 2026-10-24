@@ -5,7 +5,7 @@
 # change; landmark NAME nearest farthest [scale]; windows COLOUR lights the windows of the rules that follow.
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
-place SA_CALOBRA | SA CALOBRA | SPAIN | NOON
+place SA_CALOBRA | SA CALOBRA | SPAIN | NOON | BALEARIC ISLANDS
     island MALLORCA
     land 8A9058 808650 9A9672
     verge D0C8B8
@@ -22,7 +22,7 @@ place SA_CALOBRA | SA CALOBRA | SPAIN | NOON
     c 6E7A48
     p PILLAR 0.01 60 250 0.8 1.2
 
-place BARCELONA | BARCELONA | SPAIN | GOLDEN
+place BARCELONA | BARCELONA | SPAIN | GOLDEN | CATALONIA
     sea 0 0.5 -4
     water 2A7AAA
     land 8A9A60 809058 9A9470
@@ -39,7 +39,7 @@ place BARCELONA | BARCELONA | SPAIN | GOLDEN
     p BROADLEAF 0.1 1.5 8
     c 6A9A48
 
-place ALHAMBRA | GRANADA | SPAIN | GOLDEN
+place ALHAMBRA | GRANADA | SPAIN | GOLDEN | ANDALUSIA
     land 9A9A5E 909054 A89A6E
     ranges 8A8EA8 F0F2F6 9
     hills 24 10 6
@@ -54,7 +54,7 @@ place ALHAMBRA | GRANADA | SPAIN | GOLDEN
     c F4F2EA B8583A
     p POPLAR 0.05 6 60
 
-place PICOS | PICOS DE EUROPA | SPAIN | MIST
+place PICOS | PICOS DE EUROPA | SPAIN | MIST | ASTURIAS
     land 62A048 589440 6A8E5A
     verge B0ACA4
     ranges 8A8A88 D8D8DA 11

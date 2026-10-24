@@ -1,0 +1,321 @@
+# France region by region, Spain by its communities, Italy by its regions: the ones the first tour had left out.
+
+place OPAL_COAST | OPAL COAST | FRANCE | OVERCAST | HAUTS-DE-FRANCE
+    clouds 0.6
+    sea 1 0 -20
+    water 4A7A8A
+    land 7AAA50 70A048 7A9A58
+    verge D8D4C8
+    hills 14 0 8
+    drive 2 0.4 0.98 6
+    bends 0.4 0.35 0.35
+    p CHALK_ROCK 0.01 40 200
+    p COTTAGE 0.01 10 80
+    c F2F0EA 4A4A50
+    p WINDMILL 0.01 60 300
+    landmark STRIPED_LIGHTHOUSE 60 120
+    c F2F0EA 1A1A1A
+
+place BURGUNDY | BURGUNDY | FRANCE | GOLDEN | BOURGOGNE-FRANCHE-COMTE
+    land 8AA850 7E9C48 8A9A60
+    fields 0.4 8AA04A C8B070 6A8A3A
+    hills 18 5 5
+    drive 2 0.4 1.0 6
+    bends 0.5 0.4 0.45
+    bridges 0.1 ARCH C8B494
+    p VINE_ROW 0.35 6 70 1 1
+    p CASTLE 0.003 80 250
+    c D8C8A8 6A6A78
+    p COTTAGE 0.015 10 80
+    c D8C8A8 A8583A
+    p CHURCH 0.004 30 150
+    c D8C8A8 A8583A
+    p COW 0.02 10 80
+    c F2EEE0 F2EEE0
+
+place PONT_DU_GARD | PONT DU GARD | FRANCE | NOON | OCCITANIE
+    land 9AA060 8E9458 A8A070
+    hills 20 6 6
+    drive 2 0.4 1.0 6
+    bends 0.5 0.45 0.4
+    p OLIVE 0.1 6 80
+    p CYPRESS 0.06 4 60
+    p SHRUB 0.2 2 60
+    c 7A8A58
+    p COTTAGE 0.01 10 80
+    c E0D0B0 B0603A
+    landmark PONT_DU_GARD 70 110 0.9
+
+place CARCASSONNE | CARCASSONNE | FRANCE | GOLDEN | OCCITANIE
+    land A8A060 9C9458 A8A070
+    fields 0.4 8AA04A C8B070 A87A50
+    hills 16 4 4
+    drive 2 0.4 1.0 6
+    bends 0.45 0.4 0.4
+    p VINE_ROW 0.3 6 70 1 1
+    p CYPRESS 0.04 4 60
+    p UMBRELLA_PINE 0.02 8 80
+    landmark CITE_CARCASSONNE 150 230 0.9
+
+place NAVARRA | BARDENAS REALES | SPAIN | DESERT | NAVARRE
+    land C8B088 BCA47E B8A080
+    verge C0A880
+    hills 12 4 4
+    drive 2 0.15 0.98 6
+    bends 0.35 0.3 0.25
+    p BUTTE 0.012 40 300 0.5 0.9
+    c C8B48A
+    p BADLAND 0.01 20 200
+    c C0A880
+    p SHRUB 0.1 2 60
+    c 8A9060
+
+place ARAGON | MALLOS DE RIGLOS | SPAIN | MORNING | ARAGON
+    land 8A9A58 7E8E50 9A8A68
+    ranges 8A6A5A C8B0A0 9
+    hills 36 12 12
+    drive 2 0.3 0.97 6
+    bends 0.6 0.5 0.5
+    p PILLAR 0.02 40 250 1.6 2.4
+    c B07050
+    p PINE 0.12 4 120
+    p FLAT_HOUSE 0.008 10 60
+    c D8C0A0 9A5A3A
+    p CASTLE 0.002 100 300
+    c C8B088 8A6A50
+
+place VALENCIA | VALENCIA | SPAIN | NOON | VALENCIA
+    sea 1 0 -3
+    water 2A8AB8
+    land 7A9A50 709048 8A9A60
+    fields 0.3 F09A30 6A9A3A E8C060
+    drive 3 1.1 1.0 6
+    bends 0.3 0.3 0.1
+    lamps 35
+    posts 0
+    p BROADLEAF 0.1 4 60
+    c 4E8A3A
+    p PALM 0.12 2 30
+    p FLAT_HOUSE 0.04 6 40
+    c F4F0E4 C86A3A
+    landmark ARTS_SCIENCES 60 110
+
+place MURCIA | MAR MENOR | SPAIN | NOON | MURCIA
+    sea 1 1 -2
+    water 3A9AC0
+    land C8B888 BCAC80 B0A078
+    hills 4 1 1
+    drive 2 0.5 1.0 6
+    bends 0.3 0.3 0.1
+    p PALM 0.1 2 30
+    p FLAT_HOUSE 0.04 6 40
+    c F4F0E4 4A7AB0
+    pastel
+    p WINDMILL 0.002 60 300
+    p PARASOL 0.03 3 15
+    pastel
+
+place MADRID | MADRID | SPAIN | NOON | MADRID
+    land 9A9A70 8E8E66 A09A7A
+    drive 4 1.4 1.0 0
+    bends 0.25 0.25 0.1
+    lamps 30
+    posts 0
+    gantries 600
+    p ROW_HOUSES 0.12 5 30
+    c E8D8B8 6A5A50
+    pastel
+    p GLASS_TOWER 0.04 40 200
+    c 8A9AA8
+    p SUPERTALL 0.002 150 350
+    p BROADLEAF 0.08 2 10
+    c 5A8A40
+
+place CASTILE | SEGOVIA | SPAIN | GOLDEN | CASTILE AND LEON
+    land B8A86A AC9C60 B0A070
+    fields 0.6 D8B860 B8A050 8A9A4A
+    hills 12 4 4
+    drive 2 0.3 1.0 6
+    bends 0.35 0.3 0.3
+    p AQUEDUCT 0.0 60 100 1.2 1.2
+    once
+    p CASTLE 0.004 120 300
+    c D8C8A0 6A6A78
+    p FLAT_HOUSE 0.008 20 100
+    c E0D0B0 A8583A
+    p UMBRELLA_PINE 0.02 8 80
+
+place CANTABRIA | CANTABRIAN COAST | SPAIN | MIST | CANTABRIA
+    fog 0.0024
+    sea 1 0 -25
+    water 2A5A7A
+    land 5EA048 549440 5E8E50
+    hills 30 0 14
+    drive 2 0.4 0.97 6
+    bends 0.6 0.5 0.5
+    p COW 0.05 8 80
+    p COTTAGE 0.015 10 80
+    c F2F0EA 9A4A3A
+    p BROADLEAF 0.15 4 100
+    c 4E8A3A
+    p SEA_STACK 0.006 40 200
+    c 9A9488
+    floating
+
+place SANTIAGO | SANTIAGO DE COMPOSTELA | SPAIN | RAIN | GALICIA
+    rain 0.3
+    land 5E9A48 549040 5E8A50
+    hills 20 6 6
+    drive 2 0.6 0.95 18
+    bends 0.45 0.4 0.4
+    lamps 40
+    p COTTAGE 0.03 6 60
+    c D8D0C0 8A4A3A
+    p EUCALYPTUS 0.12 4 100
+    p STONE_WALL 0.3 3 3 1 1
+    landmark SANTIAGO_CATHEDRAL 50 90
+
+place EXTREMADURA | DEHESA | SPAIN | GOLDEN | EXTREMADURA
+    land A8A060 9C9458 A8A070
+    hills 8 2 2
+    drive 2 0.2 1.0 6
+    bends 0.3 0.3 0.25
+    p OAK 0.08 6 200 0.7 1.0
+    p COW 0.01 10 120
+    c 2A2A2A 2A2A2A
+    p STONE_WALL 0.3 3 3 1 1
+    p CASTLE 0.002 150 350
+    c C8B088 8A6A50
+    p FLAT_HOUSE 0.006 20 100
+    c F4F2EA A8583A
+
+place AOSTA | AOSTA VALLEY | ITALY | ALPINE | AOSTA VALLEY
+    land 6AAA4A 60A042 6E9A58
+    ranges 6E7480 F2F4F8 14
+    hills 50 30 30
+    drive 2 0.4 0.97 3
+    bends 0.6 0.55 0.6
+    tunnels 0.15
+    bridges 0.12 ARCH 9A9890
+    p CASTLE 0.004 60 200
+    c C8C0B0 6A6A70
+    p CHALET 0.012 10 80
+    c E8E0D0 6A4A3A
+    p SPRUCE 0.25 4 150
+    landmark MATTERHORN 500 700 0.6
+
+place PIEDMONT | LANGHE | ITALY | MIST | PIEDMONT
+    fog 0.0026
+    land 8AA850 7E9C48 8A9A60
+    hills 30 8 8
+    drive 2 0.4 0.98 6
+    bends 0.6 0.5 0.55
+    p VINE_ROW 0.4 6 70 1 1
+    p COTTAGE 0.015 10 80
+    c E0C8A0 A8583A
+    p CASTLE 0.003 80 250
+    c C89878 8A5A40
+    p CHURCH 0.004 30 150
+    c E0D0B0 A8583A
+    landmark MOLE_ANTONELLIANA 400 550 0.8
+
+place FRIULI | TRIESTE | ITALY | MORNING | FRIULI VENEZIA GIULIA
+    sea 1 0 -30
+    water 2A6A9A
+    land 6A9A4A 609040 6A8A58
+    hills 30 0 20
+    drive 2 0.5 0.98 6
+    bends 0.5 0.45 0.4
+    p CYPRESS 0.04 4 60
+    p FLAT_HOUSE 0.02 8 60
+    c E8D8C0 A8583A
+    pastel
+    p SAILBOAT 0.02 40 200
+    floating
+    landmark MIRAMARE 70 120 0.9
+
+place EMILIA | BOLOGNA | ITALY | HAZE | EMILIA-ROMAGNA
+    land 8AAA50 7E9E48 8A9A60
+    fields 0.6 D8B860 8AA050 C8A858
+    hills 4 1 1
+    drive 2 0.6 1.0 6
+    bends 0.25 0.25 0.1
+    lamps 40
+    p POPLAR 0.08 4 80
+    p ROW_HOUSES 0.08 6 30
+    c C86A3A 6A4A3A
+    pastel
+    p FLAT_HOUSE 0.01 15 80
+    c E0C8A0 A8583A
+    landmark TWO_TOWERS 40 70
+
+place MARCHE | MARCHE HILLS | ITALY | GOLDEN | MARCHE
+    sea 1 0 -30
+    water 2A7AA8
+    land 9AA65A 8E9A52 A8A060
+    fields 0.5 D8B860 8AA050 A88A58
+    hills 28 6 12
+    drive 2 0.4 1.0 6
+    bends 0.55 0.45 0.6
+    p COTTAGE 0.015 15 120
+    c D8C098 A8583A
+    p CYPRESS 0.04 4 60
+    p CHURCH 0.004 60 200
+    c D8C8A8 A8583A
+
+place UMBRIA | ASSISI | ITALY | MORNING | UMBRIA
+    like TUSCANY
+    fog 0.0018 D8D4C8
+    landmark ASSISI 150 230
+
+place ABRUZZO | GRAN SASSO | ITALY | ALPINE | ABRUZZO
+    land 8AA058 7E9450 9A9A7A
+    ranges 7A7A80 E8EAEE 11
+    hills 40 14 14
+    drive 2 0.2 0.97 6
+    bends 0.6 0.5 0.6
+    p SHEEP 0.04 10 120
+    p CASTLE 0.003 100 300
+    c C8C0B0 6A6A70
+    p ROCK 0.08 3 80
+    p PEAK 0.005 200 450 1.0 1.4
+    c 9A9AA0 F2F4F8
+
+place MOLISE | MOLISE | ITALY | MORNING | MOLISE
+    land 8AA850 7E9C48 8A9A60
+    hills 26 8 8
+    drive 2 0.2 0.98 6
+    bends 0.55 0.45 0.55
+    p OAK 0.1 4 150
+    p FLAT_HOUSE 0.012 10 80
+    c E0D0B0 A8583A
+    p CHURCH 0.003 60 200
+    c D8C8A8 A8583A
+    p SHEEP 0.02 10 100
+
+place BASILICATA | MATERA | ITALY | GOLDEN | BASILICATA
+    land B8A878 AC9C70 B0A07A
+    verge C0A880
+    hills 20 10 -10
+    drive 2 0.3 0.98 6
+    bends 0.5 0.45 0.45
+    p OLIVE 0.08 6 80
+    p FLAT_HOUSE 0.02 10 80
+    c D8C098 B08A60
+    landmark MATERA_SASSI 80 140
+
+place CALABRIA | TROPEA | ITALY | NOON | CALABRIA
+    sea 1 0 -40
+    water 1E8AB0
+    land 7A9A50 709048 7A8A58
+    hills 30 0 20
+    drive 2 0.4 0.98 6
+    bends 0.65 0.55 0.55
+    p FLAT_HOUSE 0.03 6 50
+    c F0D8B0 B0603A
+    pastel
+    p PRICKLY_PEAR 0.04 3 40
+    p OLIVE 0.06 6 80
+    p SEA_STACK 0.006 40 200
+    c C8B898
+    floating
