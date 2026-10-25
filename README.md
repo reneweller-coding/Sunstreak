@@ -116,8 +116,9 @@ Zealand and the Pacific, South and Central America, Mexico, the United States an
 Scandinavia, Greenland and Iceland, and back to Ireland. The road lies as high as each place's roads do
 (data/altitudes.txt, from the ASTER elevation model by `tools/make_altitudes.py`): it climbs and falls towards the
 next place at up to 8 %, already before the border where no fork comes first, from the Dead Sea at -400 m to La Paz at
-3850 m and the Himalaya above 5000; a pass climbs in its hairpins to the height on its sign, and the HUD shows the
-height (ALT, in feet with MPH). Each stage shows its place and country: Tuscany, the
+3850 m and the Himalaya above 5000; a pass's stage starts with an approach as long as the climb to its foot needs (up
+from Venice to the Stelvio 38 km), and its hairpins top out at the height on its sign; the HUD shows the height (ALT,
+in feet with MPH). Each stage shows its place and country: Tuscany, the
 Serengeti with its herds, Cappadocia under balloons, Ha Long Bay, the Avenue of Baobabs, Route 66, Las Vegas and
 Tokyo at night, the Great Wall, Uluru, the moai, the Florida Keys and seven hundred more. The big countries are
 driven region by region, each with its own landscape and sights, and the stage line names the place, its state and

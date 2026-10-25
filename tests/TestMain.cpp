@@ -98,7 +98,7 @@ int main()
         {
             const double a = t.placeAltitude( k );
             low = std::min( low, a );
-            high = std::max( high, a + ( biomeDef( t.stageBiome( k ) ).m_summitHeight > 0 ? SummitRise : 0.0f ) );
+            high = std::max( { high, a, static_cast<double>( biomeDef( t.stageBiome( k ) ).m_summitHeight ) } );
         }
         check( minY > low - 150.0 && maxY < high + 250.0, "height within the heights of the places" );
         check( checkpoints == 119, "a checkpoint every 2.5 km" );
@@ -403,10 +403,54 @@ int main()
             std::printf( "      La Paz at %.0f m (data %.0f), the Stelvio's top at %.0f m (sign %d)\n", high,
                          paz.m_biome >= 0 ? biomeDef( static_cast<BiomeE>( paz.m_biome ) ).m_altitude : 0.0f, top,
                          pass.m_biome >= 0 ? biomeDef( static_cast<BiomeE>( pass.m_biome ) ).m_summitHeight : 0 );
-            check( paz.m_biome >= 0 && pass.m_biome >= 0 &&
+            // On the world tour from Venice at the sea: a long approach up to the Stelvio's foot, then the hairpins.
+            TrackParams world;
+            world.m_biome = SceneryWorld;
+            const int venice = biomeId( "VENICE" );
+            Track     tour( 3, world, venice );
+            tour.generateTo( tour.stageStart( 2 ) );
+            double peak = -1e9;
+            for ( long j = tour.stageSegment( 1 ); j < tour.stageSegment( 2 ) - 2; ++j )
+                peak = std::max( peak, tour.segment( j ).m_pos.m_y );
+            const bool stelvio = tour.stageBiome( 1 ) == static_cast<BiomeE>( pass.m_biome );
+            std::printf( "      from Venice: %s, %.1f km long, its top at %.0f m\n",
+                         placeName( tour.stageBiome( 1 ) ).c_str(), tour.stageLength( 1 ) / 1000.0, peak );
+            check( paz.m_biome >= 0 && pass.m_biome >= 0 && venice >= 0 && stelvio &&
+                       std::abs( peak - 2757.0 ) < 200.0 &&
                        std::abs( high - biomeDef( static_cast<BiomeE>( paz.m_biome ) ).m_altitude ) < 150.0 &&
                        std::abs( top - biomeDef( static_cast<BiomeE>( pass.m_biome ) ).m_summitHeight ) < 200.0,
                    "real heights: the place's, and up to the pass" );
+        }
+        {   // Every pass of the world tour, from the place before it: its hairpins top out at the height on its sign.
+            TrackParams world;
+            world.m_biome = SceneryWorld;
+            const auto &route = worldRoute();
+            int         passes = 0, reached = 0;
+            std::string missed;
+            for ( size_t i = 0; i < route.size(); ++i )
+            {
+                const BiomeDef &pass = biomeDef( route[i] );
+                if ( pass.m_summitHeight <= 0 ) continue;
+                ++passes;
+                Track tour( 11, world, static_cast<int>( route[( i + route.size() - 1 ) % route.size()] ) );
+                int   st = 1;
+                while ( st < 4 && tour.stageBiome( st ) != route[i] ) ++st;
+                tour.generateTo( tour.stageStart( st + 1 ) );
+                double peak = -1e9;   // where the board with the pass's name and height stands
+                for ( long j = tour.stageSegment( st ); j < tour.stageSegment( st + 1 ) - 2; ++j )
+                    if ( tour.segment( j ).m_flags & SEG_SUMMIT ) peak = std::max( peak, tour.segment( j ).m_pos.m_y );
+                const double miss = std::abs( peak - pass.m_summitHeight );
+                reached += miss < 200.0 ? 1 : 0;
+                if ( miss >= 200.0 )
+                {
+                    char text[160];
+                    std::snprintf( text, sizeof( text ), "  %s %.0f m at %d (%.1f km)", pass.m_name, peak,
+                                   pass.m_summitHeight, tour.stageLength( st ) / 1000.0 );
+                    missed += text;
+                }
+            }
+            std::printf( "      %d of %d passes within 200 m of their sign%s\n", reached, passes, missed.c_str() );
+            check( passes >= 10 && reached == passes, "every pass climbs to its sign" );
         }
         {   // The random tour: every country once, each in another part of the world, a fork between two, the sea
             // floor or a ferry between landmasses; the countries of earlier runs left out.

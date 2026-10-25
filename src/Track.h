@@ -34,7 +34,9 @@ constexpr float  ShoulderWidth = 2.2f;         ///< gravel beside the kerb
 constexpr double StageLength = 15000.0;        ///< one biome
 constexpr double SeaStageLength = 5000.0;      ///< a stage on the sea floor or a ferry's: a third of one on land
 constexpr float  MaxClimb = 0.08f;             ///< the steepest the road climbs or falls towards a place's height
-constexpr float  SummitRise = 700.0f;          ///< about what a pass's hairpins climb: its road lies this far below
+constexpr float  PassClimb = 0.10f;            ///< the steepest a pass's approach climbs to its foot
+constexpr double PassApproach = 0.09;          ///< the grade its length is reckoned at
+constexpr double PassApproachMax = 30000.0;    ///< and the longest approach
 constexpr double CheckpointSpacing = 2500.0;   ///< metres between checkpoints
 constexpr double BlendLength = 500.0;          ///< the crossfade between two biomes
 constexpr double StartLine = 40.0;             ///< where the start gantry stands
@@ -324,8 +326,8 @@ public:
     long stageSegments( int stage ) const;
 
     /**
-     * @brief How high the road of a stage lies above the sea: its place's (data/altitudes.txt), a pass's below its
-     *        summit by what the hairpins climb, the sea's at 0.
+     * @brief How high the road of a stage lies above the sea: its place's (data/altitudes.txt), a pass's at its foot
+     *        below the summit by what its hairpins climb, the sea's at 0.
      * @param[in] stage  the stage number
      * @return metres
      */
@@ -521,6 +523,14 @@ private:
      * @param[in] steps  until this stage (counted after the detour) is known
      */
     void growTour( size_t steps ) const;
+
+    /**
+     * @brief How long a stage of the tour is (with the tour's mutex held and its place known): a third on the sea; a
+     *        pass's with an approach as long as the climb (or the descent) from the last place to its foot needs.
+     * @param[in] k  the stage counted after the detour
+     * @return metres
+     */
+    double stepLength( size_t k ) const;
 };
 
 /**

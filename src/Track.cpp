@@ -19,6 +19,30 @@ namespace
 
 constexpr float MaxHeading = 1.35f;   ///< the road never turns further than this from north (rad)
 
+/**
+ * @brief About what a pass's hairpins climb at 9 %: its legs and bends, at most as many as a stage has room for.
+ * @param[in] pass  the place
+ * @return metres
+ */
+double passRise( const BiomeDef &pass )
+{
+    return 0.09 * std::min( 7400.0, static_cast<double>( std::max( 4, static_cast<int>( pass.m_hairpins ) ) ) * 282.0 );
+}
+
+/**
+ * @brief How high a place's road lies: its data/altitudes.txt height, a pass's at its foot below the summit by what its
+ *        hairpins climb, the sea's at 0.
+ * @param[in] place  the place
+ * @return metres above the sea
+ */
+double heightOf( BiomeE place )
+{
+    const BiomeDef &d = biomeDef( place );
+    if ( d.m_underwater || d.m_crossing != CrossingE::NONE ) return 0.0;
+    if ( d.m_summitHeight > 0 ) return static_cast<double>( d.m_summitHeight ) - passRise( d );
+    return d.m_altitude;
+}
+
 }   // namespace
 
 Track::Track( uint64_t seed, const TrackParams &params, int startBiome )
@@ -109,7 +133,7 @@ void Track::growTour( size_t steps ) const
         // The next stage: along the route (or at random), or where the other carriageway of the last fork led; across
         // the sea a stage on the sea floor (or a ferry) comes first, a third as long.
         const size_t last = pos.size() - 1;
-        start.push_back( start[last] + ( sea[last] >= 0 ? SeaStageLength : StageLength ) );
+        start.push_back( start[last] + stepLength( last ) );
         if ( sea[last] >= 0 )
         {
             pos.push_back( pos[last] );
@@ -135,7 +159,7 @@ int Track::stageAt( double s ) const
     if ( !m_tour || s < begin ) return static_cast<int>( s / StageLength );
     std::lock_guard<std::mutex> lock( m_tour->m_mutex );
     const std::vector<double>  &start = m_tour->m_start;
-    while ( start.back() + ( m_tour->m_sea.back() >= 0 ? SeaStageLength : StageLength ) <= s ) growTour( start.size() );
+    while ( start.back() + stepLength( start.size() - 1 ) <= s ) growTour( start.size() );
     const auto at = std::upper_bound( start.begin(), start.end(), s );
     return static_cast<int>( m_stageBiomes.size() ) + static_cast<int>( at - start.begin() ) - 1;
 }
@@ -166,10 +190,20 @@ long Track::stageSegments( int stage ) const
 
 double Track::placeAltitude( int stage ) const
 {
-    const BiomeDef &d = biomeDef( stageBiome( stage ) );
-    if ( d.m_underwater || d.m_crossing != CrossingE::NONE ) return 0.0;
-    if ( d.m_summitHeight > 0 ) return std::max( d.m_altitude, static_cast<float>( d.m_summitHeight ) - SummitRise );
-    return d.m_altitude;
+    return heightOf( stageBiome( stage ) );
+}
+
+double Track::stepLength( size_t k ) const
+{
+    if ( m_tour->m_sea[k] >= 0 ) return SeaStageLength;
+    const auto  &route = worldRoute();
+    const BiomeE here = route[static_cast<size_t>( m_tour->m_pos[k] ) % route.size()];
+    if ( k == 0 || biomeDef( here ).m_summitHeight <= 0 ) return StageLength;
+    // A pass: up (or down) from the last place, or from the sea, to its foot, before the hairpins.
+    const double from =
+        m_tour->m_sea[k - 1] >= 0 ? 0.0 : heightOf( route[static_cast<size_t>( m_tour->m_pos[k - 1] ) % route.size()] );
+    const double approach = std::min( PassApproachMax, std::abs( heightOf( here ) - from ) / PassApproach );
+    return StageLength + std::round( approach / 100.0 ) * 100.0;
 }
 
 double Track::heightGoal( double s ) const
@@ -220,7 +254,7 @@ Fork Track::fork( int stage ) const
     const BiomeE main = route[static_cast<size_t>( r.m_main ) % route.size()],
                  other = route[static_cast<size_t>( r.m_other ) % route.size()];
     f.m_exists = true;
-    f.m_at = stageStart( stage ) + ForkAt;
+    f.m_at = stageStart( stage + 1 ) - ( StageLength - ForkAt );   // as far before the border in a long stage
     f.m_left = r.m_otherLeft ? other : main;
     f.m_right = r.m_otherLeft ? main : other;
     std::lock_guard<std::mutex> lock( m_tour->m_mutex );
@@ -648,8 +682,9 @@ void Track::appendSegment()
     float curvy = 0, sharp = 0, hilly = 0;
     styleAt( s, curvy, sharp, hilly );
     // Towards the height of the place's roads, at most MaxClimb, the hills on top (and no steeper than 12 % in all).
+    const float steepest = biomeDef( stageBiome( stageAt( s ) ) ).m_summitHeight > 0 ? PassClimb : MaxClimb;
     const float toward =
-        clampf( static_cast<float>( ( heightGoal( s ) - m_genPos.m_y ) / 600.0 ), -MaxClimb, MaxClimb );
+        clampf( static_cast<float>( ( heightGoal( s ) - m_genPos.m_y ) / 600.0 ), -steepest, steepest );
     seg.m_grade = bend.m_fixed ? extraGrade : clampf( hillGrade( s, hilly ) + toward, -0.12f, 0.12f ) + extraGrade;
     if ( s < m_params.m_startLine + 60.0 ) seg.m_grade *= static_cast<float>( s / ( m_params.m_startLine + 60.0 ) );
     if ( m_tour )
@@ -781,13 +816,19 @@ bool Track::planSerpentine( double s )
 {
     const int    stage = stageAt( s );
     const double begin = stageStart( stage );
-    if ( stage == m_serpentineStage || s - begin < 900.0 || s - begin > 2600.0 ) return false;
+    // A pass's hairpins begin at its foot, once the approach has got there (or when the room for them runs short).
+    const bool   passStage = biomeDef( stageBiome( stage ) ).m_summitHeight > 0;
+    const double latest = passStage ? std::max( begin + 2600.0, stageStart( stage + 1 ) - 13500.0 ) : begin + 2600.0;
+    if ( stage == m_serpentineStage || s - begin < 900.0 || s > latest ) return false;
+    if ( passStage && s < latest - 200.0 && std::abs( m_genPos.m_y - placeAltitude( stage ) ) > 60.0 ) return false;
     m_serpentineStage = stage;
     const BiomeMix  mix = biomeMix( s );
     const BiomeDef &place = biomeDef( mix.m_t < 0.5f ? mix.m_from : mix.m_to );
     int             up = place.m_hairpins;
     const bool      numbered = up > 0;
-    if ( !numbered )
+    if ( !numbered && place.m_summitHeight > 0 )
+        up = 4;   // a pass without numbered hairpins: a few bends up to its board all the same
+    else if ( !numbered )
     {
         // High mountains climb in hairpins now and then.
         if ( !mayClimbHairpins( place ) || !m_rng.chance( 0.5f ) ) return false;
