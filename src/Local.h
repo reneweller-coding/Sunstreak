@@ -231,6 +231,8 @@ struct PlaceRoadside
     int8_t  m_lamp = -1;          ///< its street lamps: -1 not known, 0 LEDs, 1 sodium
     float   m_unpaved = -1.0f;    ///< 0..1 the share of its main roads on gravel or dirt (-1: not known)
     float   m_concrete = -1.0f;   ///< 0..1 the share on concrete slabs (-1: not known)
+    bool    m_rail = false;       ///< its guard rails are mapped thickly: it has them along its country roads
+    uint8_t m_cables = 0;         ///< the conductors of its overhead lines where the sample says (3 or 6; 0: not known)
 };
 
 /**

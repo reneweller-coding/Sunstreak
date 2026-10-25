@@ -510,6 +510,26 @@ int main()
             check( roadsideErrors() == 0 && poles >= 20 && wood > 0 && concrete > 0 && steel > 0,
                    "the roadside data reaches the places" );
         }
+        {   // The wires of the overhead lines (six conductors where measured), guard rails where mapped thickly, and the sun's
+            // real height: high at noon in a summer in Berlin, low in a winter, vertical at the equator at the equinox, below
+            // the horizon in a polar night at noon and above it at midnight in the polar summer.
+            int sixWires = 0, rails = 0;
+            for ( int i = 0; i < biomeCount(); ++i )
+            {
+                sixWires += biomeDef( static_cast<BiomeE>( i ) ).m_poleWires >= 6 ? 1 : 0;
+                rails += biomeDef( static_cast<BiomeE>( i ) ).m_railLeft ? 1 : 0;
+            }
+            const float june = dateFromText( "06-21" ), december = dateFromText( "12-21" ), march = dateFromText( "03-21" );
+            const float summerNoon = sunHeightAt( 52.5f, june, 12.0f ), winterNoon = sunHeightAt( 52.5f, december, 12.0f );
+            const float equator = sunHeightAt( 0.0f, march, 12.0f ), polarNoon = sunHeightAt( 70.0f, december, 12.0f );
+            const float midnightSun = sunHeightAt( 70.0f, june, 0.0f );
+            std::printf( "      sun: Berlin noon %.1f (June) %.1f (December), equator %.1f, 70 N noon in December %.1f, midnight in June %.1f; "
+                         "%d places with six conductors, %d with guard rails\n",
+                         summerNoon, winterNoon, equator, polarNoon, midnightSun, sixWires, rails );
+            check( std::abs( summerNoon - 61.0f ) < 1.0f && std::abs( winterNoon - 14.0f ) < 1.0f && equator > 88.0f && polarNoon < 0.0f &&
+                       midnightSun > 2.0f,
+                   "the sun stands where it really stands" );
+        }
         {   // Road customs: miles and boards in the USA, cameras in Germany, EU plates in France, toll plazas in Italy.
             const RoadCustoms &usa = roadCustoms( "USA" ), &germany = roadCustoms( "GERMANY" ),
                               &france = roadCustoms( "FRANCE" );

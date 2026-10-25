@@ -365,7 +365,16 @@ Environment Game::sceneEnvironment( double s ) const
     const float    under = ( biomeDef( mix.m_from ).m_underwater ? 1.0f - mix.m_t : 0.0f ) +
                            ( biomeDef( mix.m_to ).m_underwater ? mix.m_t : 0.0f );
     // On the sea floor the hour does not reach: the sea keeps its own light.
-    if ( m_hour >= 0.0f ) e = blendEnvironment( environmentAtHour( e, m_hour ), e, under );
+    if ( m_hour >= 0.0f )
+    {
+        // On the tour's clock the sun stands where it really stands at the place and the date (its height sets the sky
+        // and the length of the shadows); the fixed times of day keep their own sun.
+        GeoPoint   where;
+        const bool real = m_settings.m_timeOfDay == 1 && placeLocation( mix.m_from, where );
+        e = blendEnvironment( real ? environmentAtSun( e, m_hour, where.m_lat, seasonClock().dateAt( s ) )
+                                   : environmentAtHour( e, m_hour ),
+                              e, under );
+    }
     e.m_underwater = smoothstepf( 0.35f, 0.65f, under );
     // Dirty air where the place's pollution index is high: thicker in the heating season and at night, thinner in the
     // monsoon and in the afternoon, where the data knows the place's air (the month counts with the seasons on, the hour

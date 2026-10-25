@@ -208,7 +208,7 @@ const RoadsideMapT &roadsideData()
             RoadsideMapT out;
             for ( const std::string &line : dataLines( dataText( "roadside.txt" ) ) )
             {
-                // roadside PLACE pole=KIND lamp=KIND gravel=PCT concrete=PCT
+                // roadside PLACE pole=KIND lamp=KIND gravel=PCT concrete=PCT rail=1 cables=N
                 const std::vector<std::string> w = splitLine( line, ' ' );
                 if ( w.size() < 3 || w[0] != "roadside" )
                 {
@@ -229,6 +229,9 @@ const RoadsideMapT &roadsideData()
                         r.m_unpaved = static_cast<float>( std::atof( value.c_str() ) ) / 100.0f;
                     else if ( key == "concrete" && std::atof( value.c_str() ) > 0.0 )
                         r.m_concrete = static_cast<float>( std::atof( value.c_str() ) ) / 100.0f;
+                    else if ( key == "rail" && value == "1" ) r.m_rail = true;
+                    else if ( key == "cables" && ( value == "3" || value == "6" ) )
+                        r.m_cables = static_cast<uint8_t>( value == "3" ? 3 : 6 );
                     else
                         ++g_roadsideErrors;
                 }
@@ -496,7 +499,13 @@ void applyRoadside( std::vector<BiomeDef> &table )
         else if ( r.m_lamp == 0 && d.m_lampTone == LampSodium )
             d.m_lampTone = LampWarm;
         // Poles of overhead lines on the country roads (not in towns, not along motorways).
-        if ( r.m_pole > 0 && !town && d.m_lanes < 3 ) d.m_poleKind = r.m_pole;
+        if ( r.m_pole > 0 && !town && d.m_lanes < 3 )
+        {
+            d.m_poleKind = r.m_pole;
+            d.m_poleWires = r.m_cables;
+        }
+        // Guard rails along both sides where the sample maps them thickly (the country roads, not the towns).
+        if ( r.m_rail && !town && d.m_lanes < 3 ) d.m_railLeft = d.m_railRight = true;
         // More gravel than the country's share where the place's main roads have it; concrete slabs where they have many.
         if ( r.m_unpaved > 0.0f && !town && !d.m_unpaved && d.m_lanes < 3 )
             d.m_gravel = std::max( d.m_gravel, std::min( 0.9f, r.m_unpaved ) );

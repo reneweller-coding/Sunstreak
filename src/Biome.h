@@ -929,6 +929,7 @@ struct BiomeDef
     uint8_t     m_lampTone = 0;    ///< the light of its street lamps (LampWarm, LampSodium, LampCool in Local.h)
     uint8_t     m_postStyle = 0;   ///< its delineator posts (postStyle() in Local.h)
     uint8_t     m_poleKind = 0;    ///< the poles of overhead lines beside its road: 0 none, 1 wood, 2 concrete, 3 steel
+    uint8_t     m_poleWires = 0;   ///< the conductors of those lines where the data knows (3 or 6; 6 hangs a pair more)
     const char *m_island = nullptr;                       ///< an island of its own (none: the country's landmass)
     bool        m_underwater = false;                     ///< a glass tunnel on the sea floor
     std::vector<SwimRule> m_swim;                         ///< what swims round the tunnel
@@ -1203,6 +1204,27 @@ int longitudeSector( float lon );
  * @return the environment
  */
 Environment environmentAtHour( const Environment &place, float hour );
+
+/**
+ * @brief How high the sun stands: by the place's latitude, the day of the year and the local solar time.
+ * @param[in] latitude  degrees north (negative: south)
+ * @param[in] phase     the time of year (0: 1 January)
+ * @param[in] hour      local solar time, 0..24
+ * @return degrees above the horizon (negative: below it)
+ */
+float sunHeightAt( float latitude, float phase, float hour );
+
+/**
+ * @brief A place's light at the tour clock with the sun where it really stands there and then: its height sets the sky
+ *        (a low sun all day in the far north in winter, a midnight sun in summer, a vertical one at the equator) and the
+ *        length of the shadows (WorldBiomes.cpp).
+ * @param[in] place     the place's environment as written
+ * @param[in] hour      local solar time, 0..24
+ * @param[in] latitude  degrees north
+ * @param[in] phase     the time of year (0: 1 January)
+ * @return the environment
+ */
+Environment environmentAtSun( const Environment &place, float hour, float latitude, float phase );
 
 /**
  * @brief Blends two environments.

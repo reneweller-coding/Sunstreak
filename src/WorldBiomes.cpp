@@ -143,6 +143,33 @@ Environment environmentAtHour( const Environment &place, float hour )
     return e;
 }
 
+float sunHeightAt( float latitude, float phase, float hour )
+{
+    constexpr float rad = 0.0174532925f;
+    const float     declination = 23.44f * std::sin( ( phase * 365.0f - 81.0f ) * 6.2831853f / 365.0f ) * rad;
+    const float     lat = latitude * rad, angle = ( hour - 12.0f ) * 15.0f * rad;
+    const float     s = std::sin( lat ) * std::sin( declination ) + std::cos( lat ) * std::cos( declination ) * std::cos( angle );
+    return std::asin( std::clamp( s, -1.0f, 1.0f ) ) / rad;
+}
+
+Environment environmentAtSun( const Environment &place, float hour, float latitude, float phase )
+{
+    // The sun's height asks for the sky of a morning with the same sun (the keys of environmentAtHour); the evening
+    // mirrors the morning.
+    static const float heights[] = { -9.0f, -3.0f, 0.0f, 6.0f, 16.0f, 55.0f };
+    static const float hours[] = { 4.6f, 5.6f, 6.4f, 7.4f, 9.0f, 12.5f };
+    const float        height = sunHeightAt( latitude, phase, hour );
+    size_t             i = 0;
+    while ( i + 2 < std::size( heights ) && height >= heights[i + 1] ) ++i;
+    const float t = clampf( ( height - heights[i] ) / ( heights[i + 1] - heights[i] ), 0.0f, 1.0f );
+    const float morning = lerpf( hours[i], hours[i + 1], t );
+    const float h = std::fmod( std::fmod( hour, 24.0f ) + 24.0f, 24.0f );
+    Environment e = environmentAtHour( place, h < 12.0f ? morning : 25.0f - morning );
+    // Above the horizon the sun stands where it stands; below it the sky keeps its dusk and its moon.
+    if ( height > 1.0f ) e.m_sunElevation = std::min( height, 80.0f );
+    return e;
+}
+
 std::string placeName( BiomeE biome )
 {
     const BiomeDef &d = biomeDef( biome );

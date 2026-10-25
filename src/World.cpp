@@ -1748,6 +1748,31 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 props.append( models.m_utilityPole[std::min<size_t>( rule.m_poleKind - 1, 2 )],
                               at( A, l, terrainHeight( track, j, l, A.m_terrain, A.m_edge ) ), A.m_heading, 1.0f );
             }
+            // The wires between the poles: from the insulators of this segment's end to the next one's, sagging between
+            // two poles; a pair more on the pole where the data says the line carries six conductors or more.
+            if ( rule.m_poleKind > 0 && side > 0 && !tunnel && !bridge && !forkClear )
+            {
+                const long  span = std::max( 2L, static_cast<long>( 60.0f / SegmentLength + 0.5f ) );
+                const float u0 = static_cast<float>( j % span ) / static_cast<float>( span ),
+                            u1 = static_cast<float>( j % span + 1 ) / static_cast<float>( span );
+                const float lA = A.m_hw + RumbleWidth + 5.5f, lB = B.m_hw + RumbleWidth + 5.5f;
+                const float hA = terrainHeight( track, j, lA, A.m_terrain, A.m_edge );
+                const float hB = terrainHeight( track, j + 1, lB, B.m_terrain, B.m_edge );
+                // Where the insulators of the three pole models sit: across the road and above the ground.
+                static const float arms[3][4] = { { -1.1f, -0.4f, 0.4f, 1.1f }, { -1.0f, 0.0f, 1.0f, 0.0f }, { -1.4f, -0.7f, 0.7f, 1.4f } };
+                static const float tops[3] = { 8.7f, 9.57f, 10.56f };
+                static const int   counts[3] = { 4, 3, 4 };
+                const size_t       kind = std::min<size_t>( rule.m_poleKind - 1, 2 );
+                auto               wire = [&]( float x, float y )
+                {
+                    const float sag0 = 3.6f * u0 * ( 1.0f - u0 ), sag1 = 3.6f * u1 * ( 1.0f - u1 );
+                    props.tube( at( A, lA + x, hA + y - sag0 ), at( B, lB + x, hB + y - sag1 ), 0.012f, 3,
+                                Color{ 34, 34, 38, 255 } );
+                };
+                for ( int w = 0; w < counts[kind]; ++w ) wire( arms[kind][w], tops[kind] );
+                if ( rule.m_poleWires >= 6 )
+                    for ( float x : { -0.25f, 0.25f } ) wire( x, tops[kind] - 1.3f );
+            }
             const bool chevron = seg.m_flags & ( side < 0 ? SEG_CHEVRON_L : SEG_CHEVRON_R );
             if ( chevron && j % 2 == 0 && !tunnel && !bridge )
             {
