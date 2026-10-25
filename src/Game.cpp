@@ -794,6 +794,7 @@ void Game::finishCrossing()
     m_police.reset();
     m_passenger.reset();
     m_hero.reset();
+    m_thief.reset();
     m_train.reset();
     m_sky.reset();
     m_delivered = 0;
@@ -1037,6 +1038,7 @@ void Game::setupTrack( uint64_t seed, double startS, const TrackParams &params, 
     m_police.reset();
     m_passenger.reset();
     m_hero.reset();
+    m_thief.reset();
     m_train.reset();
     m_sky.reset();
     m_delivered = 0;
@@ -1886,7 +1888,7 @@ void Game::step( float h, const CarInput &in )
         // The local hero: a duel to the next checkpoint, with words in their language.
         HeroEvents ev;
         const bool enabled = !m_demo && !m_setup.m_race && m_state == StateE::RACE && !m_timeUp && !m_finishedTrack &&
-                             m_police.m_state != PoliceStateE::CHASE;
+                             m_police.m_state != PoliceStateE::CHASE && m_thief.m_state == HeroStateE::NONE;
         m_hero.update( h, track, m_car, m_traffic, enabled, ev );
         const Phrases &words = phrasesOf( m_hero.m_country.empty() ? nullptr : m_hero.m_country.c_str() );
         const float    pan = clampf( ( m_hero.m_x - m_car.m_x ) / 6.0f, -1.0f, 1.0f );
@@ -1920,33 +1922,70 @@ void Game::step( float h, const CarInput &in )
         const bool      enabled = !m_demo && !m_setup.m_race && m_state == StateE::RACE && !m_timeUp && !m_finishedTrack;
         m_passenger.update( h, track, m_car.m_s, m_car.m_x, m_car.m_speed, enabled, pe );
         const char *from = m_passenger.m_from.empty() ? nullptr : m_passenger.m_from.c_str();
+        const JobE  job = m_passenger.m_job;
+        const char *to = biomeDef( m_passenger.m_to ).m_name;
         if( pe.m_pickedUp )
         {
-            popup( std::string( helloIn( from ) ) + "!", "TO " + placeName( m_passenger.m_to ), Accent, 1.0f, 3.2f );
+            if( job == JobE::FRAGILE ) popup( "FRAGILE!", std::string( "A PARCEL FOR " ) + ( to ? to : "" ) + ": HIT NOTHING ON THE WAY", Accent, 1.0f, 3.2f );
+            else if( job == JobE::ORGAN ) popup( "URGENT!", std::string( "AN ORGAN FOR THE HOSPITAL IN " ) + ( to ? to : "" ), Red, 1.0f, 3.2f );
+            else popup( std::string( helloIn( from ) ) + "!", "TO " + placeName( m_passenger.m_to ), Accent, 1.0f, 3.2f );
             m_audio.play( SfxE::SELECT );
         }
-        if( pe.m_delivered )
+        if( pe.m_thief )
         {
-            const bool travel = m_mode == ModeE::TRAVEL;
-            const int  points = 3000 + static_cast<int>( m_passenger.m_timeLeft ) * 20;
-            m_score += points;
-            if( !travel ) m_timeLeft += 5.0f;
-            ++m_delivered;
-            popup( std::string( thanksIn( from ) ) + "!", travel ? format( "+%d", points ) : format( "+%d  +5 SEC", points ), Green, 1.1f, 3.2f );
-            m_audio.playOnBeat( SfxE::CHECKPOINT );
-        }
-        if( pe.m_late )
-        {
-            popup( "TOO LATE", "YOUR PASSENGER GOT OUT", Red, 0.9f, 2.6f );
+            m_thief.startThief( track, m_car, m_passenger.m_destS );
+            popup( "STOP THAT CAR!", "CATCH THE THIEF BEFORE THE NEXT CHECKPOINT", Red, 1.0f, 3.2f );
             m_audio.play( SfxE::WARNING );
         }
         if( pe.m_delivered )
         {
-            ++m_records.m_delivered;
-            if( from && std::find( m_records.m_hitchFrom.begin(), m_records.m_hitchFrom.end(), from ) == m_records.m_hitchFrom.end() )
-                m_records.m_hitchFrom.push_back( from );
+            const bool travel = m_mode == ModeE::TRAVEL;
+            const int  base = job == JobE::ORGAN ? 5000 : job == JobE::FRAGILE ? 4000 : 3000;
+            const int  points = base + static_cast<int>( m_passenger.m_timeLeft ) * 20;
+            m_score += points;
+            if( !travel ) m_timeLeft += 5.0f;
+            ++m_delivered;
+            const std::string title = job == JobE::ORGAN ? std::string( "IN TIME!" ) : job == JobE::FRAGILE ? std::string( "DELIVERED IN ONE PIECE" )
+                                                                                                          : std::string( thanksIn( from ) ) + "!";
+            popup( title, travel ? format( "+%d", points ) : format( "+%d  +5 SEC", points ), Green, 1.1f, 3.2f );
+            m_audio.playOnBeat( SfxE::CHECKPOINT );
         }
-        if( pe.m_delivered ) checkAchievements();
+        if( pe.m_late )
+        {
+            popup( "TOO LATE", job == JobE::HITCHHIKER ? "YOUR PASSENGER GOT OUT" : job == JobE::ORGAN ? "THE HOSPITAL HAD TO WAIT" : "THE PARCEL WAS NOT THERE IN TIME",
+                   Red, 0.9f, 2.6f );
+            m_audio.play( SfxE::WARNING );
+        }
+        if( pe.m_delivered )
+        {
+            if( job == JobE::HITCHHIKER )
+            {
+                ++m_records.m_delivered;
+                if( from && std::find( m_records.m_hitchFrom.begin(), m_records.m_hitchFrom.end(), from ) == m_records.m_hitchFrom.end() )
+                    m_records.m_hitchFrom.push_back( from );
+            }
+            else
+            {
+                ++m_records.m_jobs;
+            }
+            checkAchievements();
+        }
+    }
+    {
+        // The thief of a police officer's job: stay close beside or behind it for a moment to catch it.
+        HeroEvents ev;
+        m_thief.update( h, track, m_car, m_traffic, false, ev );
+        if( ev.m_won )
+        {
+            const bool travel = m_mode == ModeE::TRAVEL;
+            m_score += 5000;
+            if( !travel ) m_timeLeft += 5.0f;
+            ++m_records.m_jobs;
+            popup( "CAUGHT THE THIEF", travel ? std::string( "+5000" ) : std::string( "+5000  +5 SEC" ), Green, 1.1f, 3.0f );
+            m_audio.playOnBeat( SfxE::CHECKPOINT );
+            checkAchievements();
+        }
+        if( ev.m_lost ) popup( "THE THIEF GOT AWAY", "", Red, 1.0f, 2.6f );
     }
     const bool racing = m_setup.m_race && !m_demo;
     if( racing ) m_race.update( h, m_raceTime, track, m_car, m_raceEv, m_state == StateE::RACE );
@@ -2284,6 +2323,11 @@ void Game::handleEvents()
             m_score += 100.0 * m_combo * m_ev.m_overtakes;
         }
         m_car.m_boostTank = std::min( 1.0f, m_car.m_boostTank + 0.03f * static_cast<float>( m_ev.m_overtakes ) );
+    }
+    if( ( m_ev.m_hit > 0.25f || m_car.m_crashTimer > 0.0f || m_crash > 0.3f ) && m_passenger.breakCargo() )
+    {
+        popup( "CRASH!", "THE PARCEL IS BROKEN", Red, 1.0f, 2.6f );
+        m_audio.play( SfxE::CRASH, 0.5f );
     }
     if( m_ev.m_gaveWay > 0 && scoring )
     {

@@ -94,6 +94,7 @@ const std::vector<Achievement> &achievements()
         { "hero1", "LOCAL KNOWLEDGE", "BEAT A LOCAL HERO TO THE CHECKPOINT" },
         { "hero25", "LEGEND OF THE ROADS", "BEAT 25 LOCAL HEROES" },
         { "train1", "FASTER THAN THE TRAIN", "BEAT A FAST TRAIN TO THE END OF ITS VIADUCT" },
+        { "jobs10", "COURIER OF THE WORLD", "TEN COURIER JOBS: PARCELS, ORGANS, THIEVES" },
         { "aqua", "SURF'S UP", "AQUAPLANE IN A DOWNPOUR" },
         { "cards50", "POSTCARD COLLECTOR", "50 POSTCARDS IN THE ALBUM" },
         { "album25", "PHOTOGRAPHER", "PHOTOGRAPH 25 LANDMARKS" },
@@ -134,6 +135,7 @@ AchievementProgress achievementProgress( const Records &r, size_t index )
     if( key == "hero1" ) return upTo( r.m_heroWins, 1 );
     if( key == "hero25" ) return upTo( r.m_heroWins, 25 );
     if( key == "train1" ) return upTo( r.m_trainWins, 1 );
+    if( key == "jobs10" ) return upTo( r.m_jobs, 10 );
     if( key == "aqua" ) return upTo( r.m_aquaplanes, 1 );
     if( key == "cards50" ) return upTo( static_cast<int>( r.m_postcards.count() ), 50 );
     if( key == "album25" ) return upTo( static_cast<int>( r.m_album.size() ), 25 );

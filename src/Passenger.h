@@ -1,7 +1,9 @@
 /**
  * @file Passenger.h
- * @brief Hitchhikers: now and then one waits by the road with their thumb out. Stop beside them and they ride along to
- *        the next place; get them there in time and they thank you in their language.
+ * @brief Hitchhikers and courier jobs: now and then someone waits by the road. Stop beside them: a hitchhiker rides along
+ *        to the next place and thanks you in their language; a courier hands you a fragile parcel for the next place (hit
+ *        nothing on the way); a paramedic an organ for the hospital at the next checkpoint (hurry); a police officer asks
+ *        you to catch the car that was just stolen before it reaches the next checkpoint.
  * @author reneweller
  */
 #pragma once
@@ -19,6 +21,18 @@ constexpr float  HitchPace = 38.0f;    ///< the pace (m/s) the time to deliver t
 constexpr float  HitchSlack = 15.0f;   ///< and the seconds on top
 constexpr float  HitchStop = 9.0f;     ///< slower than this (m/s) beside them, they get in
 
+/** @brief What the one by the road wants. */
+enum class JobE : uint8_t
+{
+    HITCHHIKER,  ///< a ride to the next place
+    FRAGILE,     ///< a fragile parcel for the next place: hit nothing
+    ORGAN,       ///< an organ for the hospital at the next checkpoint: hurry
+    THIEF,       ///< a stolen car to catch before the next checkpoint
+    COUNT        ///< number of jobs
+};
+
+constexpr float OrganPace = 50.0f;   ///< the pace (m/s) the organ's time is reckoned at
+
 /** @brief What the hitchhiker is doing. */
 enum class PassengerStateE : uint8_t
 {
@@ -33,6 +47,7 @@ struct PassengerEvents
     bool m_pickedUp = false;    ///< they got in
     bool m_delivered = false;   ///< they got there in time
     bool m_late = false;        ///< too late: they got out at the roadside, a little cross
+    bool m_thief = false;       ///< the officer's thief drives off: the chase begins (m_destS is where it must be caught by)
 };
 
 /**
@@ -79,7 +94,14 @@ public:
      */
     void update( float dt, const Track &track, double s, float x, float speed, bool enabled, PassengerEvents &ev );
 
+    /**
+     * @brief The car hit something: a fragile parcel aboard breaks.
+     * @return true if one did
+     */
+    bool breakCargo();
+
     PassengerStateE m_state = PassengerStateE::NONE;   ///< what they are doing
+    JobE            m_job = JobE::HITCHHIKER;          ///< what they want
     double          m_s = 0.0;                         ///< where they wait
     float           m_x = 0.0f;                        ///< their lateral offset there
     float           m_side = 1.0f;                     ///< 1 right of the road, -1 left

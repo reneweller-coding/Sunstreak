@@ -967,10 +967,13 @@ void Game::draw()
     in.m_slush = smoothstepf( 0.05f, 0.4f, in.m_env.m_snow );
     if( m_passenger.m_state == PassengerStateE::WAITING && !m_models.m_hitchhikers.empty() && m_track )
     {
-        // The hitchhiker by the road, facing it, thumb out.
-        const Pose p = roadPose( *m_track, m_passenger.m_s, m_passenger.m_x, 0.0f );
-        in.m_pieces.push_back( { &m_models.m_hitchhikers[static_cast<size_t>( m_passenger.m_look ) % m_models.m_hitchhikers.size()], p.m_pos,
-                                 std::atan2( p.m_forward.x, p.m_forward.z ) + ( m_passenger.m_side < 0.0f ? PI : 0.0f ) } );
+        // The one by the road, facing it: a hitchhiker with their thumb out, a courier, a paramedic, a police officer.
+        const Pose  p = roadPose( *m_track, m_passenger.m_s, m_passenger.m_x, 0.0f );
+        const int   job = static_cast<int>( m_passenger.m_job );
+        const Mesh &mesh = job > 0 && m_models.m_couriers[static_cast<size_t>( job - 1 )].vertexCount
+                               ? m_models.m_couriers[static_cast<size_t>( job - 1 )]
+                               : m_models.m_hitchhikers[static_cast<size_t>( m_passenger.m_look ) % m_models.m_hitchhikers.size()];
+        in.m_pieces.push_back( { &mesh, p.m_pos, std::atan2( p.m_forward.x, p.m_forward.z ) + ( m_passenger.m_side < 0.0f ? PI : 0.0f ) } );
     }
     in.m_puddles.clear();
     if( in.m_env.m_rain > 0.35f && m_track )
@@ -1024,6 +1027,7 @@ void Game::draw()
             const float dz = f.m_forward.z * std::cos( t.m_turn ) + f.m_right.z * std::sin( t.m_turn );
             in.m_pieces.push_back( { &mesh, p, std::atan2( dx, dz ) } );
         }
+    if( m_thief.m_state != HeroStateE::NONE ) in.m_cars.push_back( { m_thief.m_s, m_thief.m_x, m_thief.m_yaw, m_thief.m_car, m_thief.m_paint, 1.0f } );
     if( m_hero.m_state != HeroStateE::NONE ) in.m_cars.push_back( { m_hero.m_s, m_hero.m_x, m_hero.m_yaw, m_hero.m_car, m_hero.m_paint, 1.0f } );
     if( m_police.m_state != PoliceStateE::NONE && m_police.m_model >= 0 )
         in.m_police.push_back( { m_police.m_s, m_police.m_x, m_police.m_yaw, m_police.m_model,
@@ -2817,13 +2821,22 @@ void Game::drawHud()
             const bool  hurry = m_passenger.m_timeLeft < 15.0f && ( static_cast<int>( m_time * 4.0f ) & 1 );
             const float km = static_cast<float>( std::max( 0.0, m_passenger.m_destS - m_car.m_s ) / 1000.0 );
             const char *to = biomeDef( m_passenger.m_to ).m_name;
-            drawTextFx( format( "PASSENGER TO %s  %.1f KM  %s", to ? to : "", km, clockText( m_passenger.m_timeLeft ).c_str() ), 28.0f * u, row( 142.0f ),
-                        12.0f * u, hurry ? Red : Accent, AlignE::LEFT, 0.3f );
+            static const char *const what[] = { "PASSENGER TO", "FRAGILE PARCEL FOR", "ORGAN FOR THE HOSPITAL IN", "" };
+            drawTextFx( format( "%s %s  %.1f KM  %s", what[static_cast<int>( m_passenger.m_job ) % 4], to ? to : "", km, clockText( m_passenger.m_timeLeft ).c_str() ),
+                        28.0f * u, row( 142.0f ), 12.0f * u, hurry ? Red : Accent, AlignE::LEFT, 0.3f );
         }
         else if( m_passenger.m_state == PassengerStateE::WAITING && m_passenger.m_s - m_car.m_s < 500.0 && m_passenger.m_s > m_car.m_s - 10.0 )
         {
-            drawTextFx( format( "HITCHHIKER AHEAD %d M  STOP BESIDE THEM", static_cast<int>( std::max( 0.0, m_passenger.m_s - m_car.m_s ) ) ), 28.0f * u,
-                        row( 142.0f ), 12.0f * u, Cyan, AlignE::LEFT, 0.3f );
+            static const char *const who[] = { "HITCHHIKER", "COURIER", "PARAMEDIC", "POLICE OFFICER" };
+            drawTextFx( format( "%s AHEAD %d M  STOP BESIDE THEM", who[static_cast<int>( m_passenger.m_job ) % 4],
+                                static_cast<int>( std::max( 0.0, m_passenger.m_s - m_car.m_s ) ) ),
+                        28.0f * u, row( 142.0f ), 12.0f * u, Cyan, AlignE::LEFT, 0.3f );
+        }
+        if( m_thief.m_state == HeroStateE::DUEL )
+        {
+            const double gap = m_thief.m_s - m_car.m_s;
+            drawTextFx( format( "CATCH THE THIEF  %d M AHEAD  %.1f KM LEFT", static_cast<int>( std::max( 0.0, gap ) ), std::max( 0.0, m_thief.m_goal - m_thief.m_s ) / 1000.0 ),
+                        28.0f * u, row( 124.0f ), 12.0f * u, m_thief.m_catch > 0.0f ? Green : Red, AlignE::LEFT, 0.3f );
         }
         if( m_police.m_state == PoliceStateE::CHASE )
         {

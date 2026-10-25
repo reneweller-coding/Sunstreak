@@ -143,7 +143,10 @@ dashboard: fuzzy dice in America, a nodding dog in Germany, a beckoning cat in J
 Thailand, a red knot in China, pompoms in Mexico, a blue eye charm in Turkey, a dashcam in Russia, a koala in Australia.
 Now and then a hitchhiker waits by the road, thumb out: slow down beside them and they get in with a hello in their
 language, then take them to the next place before their patience runs out (+3000 and five seconds, and their thanks:
-DANKE, ARIGATO, SHUKRAN, ASANTE ...); too slow and they get out at the roadside.
+DANKE, ARIGATO, SHUKRAN, ASANTE ...); too slow and they get out at the roadside. Sometimes it is a courier job instead: a courier with a fragile parcel for
+the next place (hit nothing on the way, or it breaks), a paramedic with an organ for the hospital at the next checkpoint
+(hurry), or a police officer whose car was just stolen: catch the thief by staying close beside or behind it for a
+moment before it reaches the next checkpoint.
 Now and then there is something to see (data/spectacles.txt): an airliner coming in to land low across the road near
 the big airports and over the Caribbean islands, two fighter jets roaring overhead in the deserts of the American west
 and the Emirates, hot-air balloons over Cappadocia, Bagan, Luxor and the Serengeti, a container ship on the Panama Canal

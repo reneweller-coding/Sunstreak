@@ -68,6 +68,25 @@ void LocalHero::reset()
     *this = LocalHero{};
 }
 
+void LocalHero::startThief( const Track &track, const PlayerCar &player, double goal )
+{
+    *this = LocalHero{};
+    m_thief = true;
+    m_state = HeroStateE::DUEL;
+    m_name = "THE THIEF";
+    const uint64_t h = hash64( track.seed() * 37 + static_cast<uint64_t>( player.m_s ) );
+    m_car = static_cast<int>( h % CarCount );
+    m_paint = static_cast<int>( ( h >> 8 ) % PaintCount );
+    const Segment &seg = track.segment( static_cast<long>( ( player.m_s + 120.0 ) / SegmentLength ) );
+    m_lane = static_cast<int>( ( h >> 16 ) % static_cast<uint64_t>( std::max( 1, static_cast<int>( seg.m_lanes ) ) ) );
+    m_s = player.m_s + 120.0;
+    m_x = laneCenter( m_lane, seg.m_lanes, seg.m_halfWidth );
+    m_speed = std::max( player.m_speed, 25.0f );
+    m_start = player.m_s;
+    m_goal = goal;
+    m_lastStage = static_cast<int>( player.m_s / StageLength );
+}
+
 void LocalHero::update( float dt, const Track &track, PlayerCar &player, const Traffic &traffic, bool enabled, HeroEvents &ev )
 {
     ev = HeroEvents{};
@@ -123,6 +142,19 @@ void LocalHero::update( float dt, const Track &track, PlayerCar &player, const T
         break;
     case HeroStateE::DUEL:
     {
+        if( m_thief )
+        {
+            // A little slower than the car; caught when the car stays close for a moment, away at the goal.
+            target = std::min( spec.m_topSpeed * 0.9f, cornerSpeed( track, m_s, m_speed, spec ) ) * ( 1.0f + clampf( static_cast<float>( gap ) / 500.0f, -0.1f, 0.03f ) );
+            m_catch = std::abs( gap ) < 9.0 && std::abs( player.m_x - m_x ) < 3.2f ? m_catch + dt : std::max( 0.0f, m_catch - dt * 0.5f );
+            if( m_catch >= 1.2f || m_s >= m_goal )
+            {
+                m_heroFirst = m_catch < 1.2f;
+                ( m_heroFirst ? ev.m_lost : ev.m_won ) = true;
+                m_state = HeroStateE::AFTER;
+            }
+            break;
+        }
         target = std::min( spec.m_topSpeed * 0.99f, cornerSpeed( track, m_s, m_speed, spec ) );
         target *= 1.0f + clampf( static_cast<float>( gap ) / 600.0f, -0.06f, 0.08f );   // a little rubber band
         const bool carFirst = player.m_s >= m_goal, heroFirst = m_s >= m_goal;
@@ -135,7 +167,7 @@ void LocalHero::update( float dt, const Track &track, PlayerCar &player, const T
         break;
     }
     case HeroStateE::AFTER:
-        target = m_heroFirst ? spec.m_topSpeed * 0.85f : 22.0f;
+        target = m_heroFirst ? spec.m_topSpeed * 0.85f : m_thief ? 0.0f : 22.0f;
         if( std::abs( gap ) > HeroGone ) m_state = HeroStateE::NONE;
         break;
     default: break;

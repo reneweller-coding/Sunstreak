@@ -48,6 +48,13 @@ void Passenger::reset()
     *this = Passenger{};
 }
 
+bool Passenger::breakCargo()
+{
+    if( m_state != PassengerStateE::ABOARD || m_job != JobE::FRAGILE ) return false;
+    m_state = PassengerStateE::NONE;
+    return true;
+}
+
 void Passenger::update( float dt, const Track &track, double s, float x, float speed, bool enabled, PassengerEvents &ev )
 {
     ev = PassengerEvents{};
@@ -71,6 +78,9 @@ void Passenger::update( float dt, const Track &track, double s, float x, float s
             m_side = side;
             m_x = side * ( seg.m_halfWidth + RumbleWidth + 1.2f );
             m_look = static_cast<int>( h % 1000 );
+            // Mostly hitchhikers; now and then a courier, a paramedic or a police officer.
+            const int job = static_cast<int>( ( h >> 20 ) % 20 );
+            m_job = job < 11 ? JobE::HITCHHIKER : job < 14 ? JobE::FRAGILE : job < 17 ? JobE::ORGAN : JobE::THIEF;
             const BiomeDef &place = biomeDef( track.stageBiome( st ) );
             m_from = place.m_country ? place.m_country : "";
             break;
@@ -86,11 +96,28 @@ void Passenger::update( float dt, const Track &track, double s, float x, float s
         }
         if( std::abs( s - m_s ) < 9.0 && std::abs( x - m_x ) < 5.0f && speed < HitchStop )
         {
-            // In they get: to the next place, as soon as the road reaches it.
-            const int next = static_cast<int>( m_s / StageLength ) + 1;
-            m_destS = static_cast<double>( next ) * StageLength + 800.0;
-            m_to = track.stageBiome( next );
-            m_timeLeft = static_cast<float>( ( m_destS - s ) / HitchPace ) + HitchSlack;
+            // The organ and the thief go to the next checkpoint at least 1.5 km on, the rest to the next place.
+            const double checkpoint = std::ceil( ( s + 1500.0 ) / CheckpointSpacing ) * CheckpointSpacing;
+            if( m_job == JobE::THIEF )
+            {
+                m_destS = checkpoint;
+                m_state = PassengerStateE::NONE;
+                ev.m_thief = true;
+                return;
+            }
+            if( m_job == JobE::ORGAN )
+            {
+                m_destS = checkpoint;
+                m_to = track.stageBiome( static_cast<int>( checkpoint / StageLength ) );
+                m_timeLeft = static_cast<float>( ( m_destS - s ) / OrganPace ) + 6.0f;
+            }
+            else
+            {
+                const int next = static_cast<int>( m_s / StageLength ) + 1;
+                m_destS = static_cast<double>( next ) * StageLength + 800.0;
+                m_to = track.stageBiome( next );
+                m_timeLeft = static_cast<float>( ( m_destS - s ) / HitchPace ) + HitchSlack;
+            }
             m_state = PassengerStateE::ABOARD;
             ev.m_pickedUp = true;
         }

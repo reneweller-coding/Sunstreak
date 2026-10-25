@@ -66,6 +66,15 @@ public:
      */
     void update( float dt, const Track &track, PlayerCar &player, const Traffic &traffic, bool enabled, HeroEvents &ev );
 
+    /**
+     * @brief Drives off as a car thief ahead of the car; caught when the car stays close beside or behind it for a moment
+     *        (HeroEvents::m_won), away when it reaches the goal first (m_lost).
+     * @param[in] track   the road
+     * @param[in] player  the car
+     * @param[in] goal    where it must be caught by
+     */
+    void startThief( const Track &track, const PlayerCar &player, double goal );
+
     HeroStateE  m_state = HeroStateE::NONE;   ///< what they are doing
     double      m_s = 0.0;                    ///< where along the road
     float       m_x = 0.0f;                   ///< lateral offset
@@ -79,6 +88,8 @@ public:
     double      m_start = 0.0;                ///< the checkpoint the duel starts at
     double      m_goal = 0.0;                 ///< and the one it ends at
     bool        m_heroFirst = false;          ///< they won
+    bool        m_thief = false;              ///< a car thief, not a hero
+    float       m_catch = 0.0f;               ///< seconds the car has stayed close to the thief
     int         m_lastStage = -1;             ///< the last stage whose hero came along
 
 private:

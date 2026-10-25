@@ -816,6 +816,7 @@ private:
     Police                 m_police;       ///< the patrol car of the world tour
     Passenger              m_passenger;    ///< the hitchhiker of the moment
     LocalHero              m_hero;         ///< the local hero of the moment
+    LocalHero              m_thief;        ///< the car thief of a police officer's job
     TrainRace              m_train;        ///< the race against a fast train
     Spectacle              m_sky;          ///< the spectacle over the road
     int                    m_delivered = 0;   ///< hitchhikers taken where they wanted to go this run

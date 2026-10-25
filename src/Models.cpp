@@ -2221,6 +2221,21 @@ void Models::buildCreatures()
                 m_sky[static_cast<size_t>( k )] = shape.upload();
                 break;
             }
+    // ---- The couriers ----------------------------------------------------------------------------------------------
+    static const char *const couriers[3] = { "COURIER_PARCEL", "COURIER_MEDIC", "COURIER_OFFICER" };
+    for( size_t k = 0; k < m_couriers.size(); ++k )
+    {
+        if( m_couriers[k].vaoId ) UnloadMesh( m_couriers[k] );
+        m_couriers[k] = Mesh{};
+        for( const DataShape &d : dataShapes() )
+            if( d.m_name == couriers[k] )
+            {
+                MeshBuilder shape;
+                buildDataShape( shape, d );
+                m_couriers[k] = shape.upload();
+                break;
+            }
+    }
     // ---- The hitchhikers: the HITCHHIKER shapes ------------------------------------------------------------------------
     for( Mesh &m : m_hitchhikers )
         if( m.vaoId ) UnloadMesh( m );
@@ -2324,6 +2339,9 @@ void Models::unload()
     for( Mesh &m : m_sky )
         if( m.vaoId ) UnloadMesh( m );
     m_sky.clear();
+    for( Mesh &m : m_couriers )
+        if( m.vaoId ) UnloadMesh( m );
+    m_couriers = {};
 }
 
 } // namespace sunstreak
