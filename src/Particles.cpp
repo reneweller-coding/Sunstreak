@@ -6,6 +6,7 @@
 #include "Particles.h"
 
 #include <algorithm>
+#include <cstddef>
 
 namespace sunstreak
 {

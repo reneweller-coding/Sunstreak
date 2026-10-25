@@ -14,6 +14,7 @@
 
 #include <raylib.h>
 
+#include <cstddef>
 #include <vector>
 
 namespace sunstreak
