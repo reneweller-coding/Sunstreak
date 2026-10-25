@@ -7,24 +7,26 @@
 # lines where the sample says so.
 #   roadside PLACE pole=KIND lamp=KIND gravel=PCT concrete=PCT rail=1 cables=N
 
-roadside ABRUZZO pole=CONCRETE
+roadside ABRUZZO pole=CONCRETE cables=3
 roadside ADRAR gravel=23
 roadside AGADEZ gravel=38
 roadside AGUASCALIENTES concrete=31
+roadside ALBEROBELLO cables=3
 roadside ALGARVE pole=CONCRETE cables=3
-roadside ALHAMBRA pole=STEEL lamp=SODIUM
-roadside ALPE_D_HUEZ pole=WOOD
-roadside AMISH_COUNTRY pole=WOOD
+roadside ALHAMBRA pole=STEEL lamp=SODIUM cables=3
+roadside ALPE_D_HUEZ pole=WOOD cables=3
+roadside AMISH_COUNTRY pole=WOOD cables=3
 roadside AMSTERDAM rail=1
 roadside ANDALUSIA pole=STEEL cables=3
+roadside ANDORRA cables=6
 roadside AOMORI pole=CONCRETE
 roadside APPLECROSS pole=WOOD cables=3
-roadside ARAGON pole=STEEL
-roadside ARKHANGELSK pole=CONCRETE
+roadside ARAGON pole=STEEL cables=3
+roadside ARKHANGELSK pole=CONCRETE cables=3
 roadside ATACAMA gravel=29
 roadside ATHENS pole=CONCRETE
-roadside ATLANTIC_ROAD pole=WOOD
-roadside AUCKLAND pole=CONCRETE rail=1
+roadside ATLANTIC_ROAD pole=WOOD cables=3
+roadside AUCKLAND pole=CONCRETE rail=1 cables=3
 roadside AUTOBAHN pole=WOOD rail=1 cables=3
 roadside BADLANDS pole=WOOD
 roadside BAJA_SUR gravel=23
@@ -35,47 +37,48 @@ roadside BAND_E_AMIR gravel=82
 roadside BANFF pole=WOOD
 roadside BANGKOK pole=CONCRETE cables=6
 roadside BAOBAB_AVENUE gravel=59
-roadside BARCELONA pole=WOOD
+roadside BARCELONA pole=WOOD cables=3
 roadside BAROSSA pole=WOOD
 roadside BASHKORTOSTAN gravel=33
 roadside BASILICATA pole=STEEL
 roadside BASQUE_COAST pole=STEEL
 roadside BAVARIA pole=WOOD
-roadside BERLIN pole=STEEL rail=1
+roadside BERLIN pole=STEEL rail=1 cables=3
+roadside BETHLEHEM cables=3
 roadside BLACK_CANYON pole=WOOD
 roadside BLACK_FOREST pole=WOOD lamp=LED cables=3
 roadside BLUEGRASS pole=WOOD lamp=LED
-roadside BLUE_MOUNTAINS pole=WOOD lamp=SODIUM
+roadside BLUE_MOUNTAINS pole=WOOD lamp=SODIUM cables=3
 roadside BLUE_RIDGE pole=WOOD
 roadside BOHEMIA pole=CONCRETE cables=3
 roadside BRASILIA pole=CONCRETE
 roadside BRITTANY pole=CONCRETE cables=3
 roadside BROMO cables=3
-roadside BUENOS_AIRES pole=CONCRETE concrete=20
-roadside BURGUNDY pole=CONCRETE
+roadside BUENOS_AIRES pole=CONCRETE concrete=20 cables=3
+roadside BURGUNDY pole=CONCRETE cables=3
 roadside CAMARGUE pole=CONCRETE
-roadside CANBERRA pole=WOOD rail=1
-roadside CANTABRIA pole=STEEL
+roadside CANBERRA pole=WOOD rail=1 cables=6
+roadside CANTABRIA pole=STEEL cables=3
 roadside CAPE_COD pole=WOOD
 roadside CAPE_WINELANDS pole=WOOD cables=3
-roadside CARCASSONNE pole=STEEL
+roadside CARCASSONNE pole=STEEL cables=3
 roadside CARRETERA_AUSTRAL gravel=35 concrete=55
 roadside CARTAGENA pole=STEEL concrete=57
 roadside CASABLANCA pole=CONCRETE
-roadside CASTILE pole=STEEL
+roadside CASTILE pole=STEEL cables=3
 roadside CAUSEWAY_COAST pole=WOOD cables=3
 roadside CHAMONIX pole=CONCRETE cables=3
 roadside CHAMPAGNE pole=CONCRETE cables=3
-roadside CHARLESTON pole=WOOD
+roadside CHARLESTON pole=WOOD cables=3
 roadside CHEFCHAOUEN pole=STEEL
 roadside CHESAPEAKE pole=WOOD
 roadside CHICAGO pole=WOOD rail=1
 roadside CHILOE gravel=14
-roadside CHUYSKY pole=CONCRETE
-roadside CINQUE_TERRE pole=STEEL
+roadside CHUYSKY pole=CONCRETE cables=3
+roadside CINQUE_TERRE pole=STEEL cables=3
 roadside CITADELLE gravel=58
 roadside COCORA_VALLEY gravel=44 concrete=32
-roadside COL_DE_TURINI pole=CONCRETE
+roadside COL_DE_TURINI pole=CONCRETE cables=3
 roadside CONNEMARA pole=WOOD cables=3
 roadside COPAN gravel=47 concrete=21
 roadside CORNWALL pole=WOOD lamp=LED cables=3
@@ -96,21 +99,21 @@ roadside DOURO_VALLEY cables=3
 roadside DRAKENSBERG gravel=53
 roadside DUNE_OF_PILAT pole=STEEL
 roadside EASTER_ISLAND gravel=13
-roadside ELBRUS pole=CONCRETE
-roadside EMILIA pole=STEEL
+roadside ELBRUS pole=CONCRETE cables=3
+roadside EMILIA pole=STEEL cables=3
 roadside ENTRE_RIOS gravel=60
 roadside ESPIRITO_SANTO gravel=31
 roadside ESSAOUIRA pole=CONCRETE
 roadside ETHIOPIAN_HIGHLANDS gravel=90
-roadside EXTREMADURA pole=STEEL
+roadside EXTREMADURA pole=STEEL cables=3
 roadside FINNISH_LAKELAND gravel=49
-roadside FIORDLAND pole=CONCRETE
+roadside FIORDLAND pole=CONCRETE cables=3
 roadside FLANDERS pole=CONCRETE
 roadside FLORIDA_KEYS pole=CONCRETE
-roadside FRIULI pole=CONCRETE
+roadside FRIULI pole=CONCRETE cables=3
 roadside GAMBIA_RIVER gravel=18
 roadside GANVIE pole=STEEL gravel=33
-roadside GAUJA pole=WOOD
+roadside GAUJA pole=WOOD cables=3
 roadside GLENCOE pole=WOOD cables=3
 roadside GOLDEN_GATE_HIGHLANDS gravel=21
 roadside GOLDEN_RING pole=CONCRETE
@@ -118,15 +121,15 @@ roadside GRAND_CANYON pole=WOOD
 roadside GREAT_ZIMBABWE gravel=27
 roadside GROSSGLOCKNER pole=WOOD
 roadside GUATAPE gravel=15
-roadside HADRIANS_WALL pole=WOOD
+roadside HADRIANS_WALL pole=WOOD cables=3
 roadside HAMBURG pole=WOOD rail=1
 roadside HARZ pole=WOOD lamp=LED
-roadside HELSINKI pole=WOOD lamp=LED rail=1
+roadside HELSINKI pole=WOOD lamp=LED rail=1 cables=3
 roadside HIDALGO gravel=14
 roadside HIGH_ATLAS pole=CONCRETE
 roadside HIMEJI pole=CONCRETE
 roadside HIRAIZUMI pole=CONCRETE
-roadside HOBBITON pole=CONCRETE
+roadside HOBBITON pole=CONCRETE cables=3
 roadside HOLLYWOOD pole=WOOD
 roadside HONG_KONG concrete=25
 roadside HOPEWELL_ROCKS gravel=18
@@ -134,12 +137,13 @@ roadside HUMAHUACA gravel=35
 roadside ICEFIELDS concrete=41
 roadside IGUAZU gravel=11
 roadside IROHAZAKA pole=CONCRETE
-roadside IRONBRIDGE pole=WOOD
+roadside IRONBRIDGE pole=WOOD cables=3
 roadside ISLE_OF_SKYE pole=WOOD cables=3
 roadside ISTANBUL pole=STEEL
 roadside JERICOACOARA gravel=30
-roadside JERSEY_SHORE pole=WOOD
+roadside JERSEY_SHORE pole=WOOD cables=3
 roadside KALININGRAD pole=CONCRETE
+roadside KAMCHATKA cables=3
 roadside KATHMANDU_VALLEY pole=CONCRETE
 roadside KAZAN pole=CONCRETE
 roadside KHABAROVSK pole=CONCRETE
@@ -150,28 +154,29 @@ roadside KYIV pole=CONCRETE
 roadside KYOTO pole=CONCRETE cables=3
 roadside LAGOS gravel=24
 roadside LAKE_BIWA pole=CONCRETE
-roadside LAKE_BLED pole=WOOD
+roadside LAKE_BLED pole=WOOD cables=3
 roadside LAKE_COMO pole=STEEL
 roadside LAKE_DISTRICT pole=WOOD cables=3
 roadside LAKE_NAKURU gravel=29
 roadside LALIBELA gravel=26
 roadside LANZAROTE pole=WOOD
-roadside LAPLAND_SE pole=WOOD
+roadside LAPLAND_SE pole=WOOD cables=3
 roadside LAS_VEGAS pole=STEEL
 roadside LAVAUX pole=CONCRETE lamp=SODIUM cables=3
 roadside LA_FREEWAY pole=WOOD
 roadside LA_MANCHA pole=STEEL
 roadside LA_PAMPA gravel=15
 roadside LA_PAZ pole=CONCRETE
-roadside LIECHTENSTEIN pole=CONCRETE
+roadside LIECHTENSTEIN pole=CONCRETE cables=3
 roadside LIMA pole=CONCRETE
-roadside LISBON pole=CONCRETE
+roadside LISBON pole=CONCRETE cables=3
+roadside LOFOTEN cables=3
 roadside LOIRE_VALLEY pole=CONCRETE cables=3
-roadside LUXEMBOURG pole=STEEL
+roadside LUXEMBOURG pole=STEEL cables=3
 roadside MACKENZIE_BASIN pole=CONCRETE
 roadside MACKINAC pole=WOOD
-roadside MADRID pole=STEEL lamp=SODIUM rail=1
-roadside MALBORK pole=CONCRETE
+roadside MADRID pole=STEEL lamp=SODIUM rail=1 cables=6
+roadside MALBORK pole=CONCRETE cables=3
 roadside MANITOBA_LAKES concrete=55
 roadside MARAGOGI gravel=33
 roadside MARCHE pole=STEEL
@@ -184,35 +189,36 @@ roadside MEXICO_CITY pole=STEEL
 roadside MIAMI pole=WOOD
 roadside MILLION_DOLLAR pole=WOOD
 roadside MIYAJIMA pole=CONCRETE
-roadside MONT_SAINT_MICHEL pole=CONCRETE
+roadside MONT_SAINT_MICHEL pole=CONCRETE cables=3
 roadside MOSCOW pole=STEEL lamp=LED rail=1
-roadside MOUNT_RUSHMORE pole=WOOD
+roadside MOUNT_RUSHMORE pole=WOOD cables=3
 roadside MS_DELTA pole=STEEL
 roadside MURCIA pole=STEEL
-roadside MYSTIC pole=WOOD rail=1
+roadside MYSTIC pole=WOOD rail=1 cables=3
 roadside NAGALAND gravel=13
 roadside NAPA pole=WOOD
 roadside NAVARRA pole=STEEL
-roadside NECKAR_VALLEY pole=WOOD rail=1
+roadside NECKAR_VALLEY pole=WOOD rail=1 cables=3
 roadside NEUQUEN gravel=17 concrete=25
-roadside NEWPORT pole=WOOD lamp=SODIUM
+roadside NEWPORT pole=WOOD lamp=SODIUM cables=3
 roadside NEW_RIVER_GORGE pole=WOOD
-roadside NEW_YORK pole=WOOD lamp=LED
+roadside NEW_YORK pole=WOOD lamp=LED cables=3
 roadside NGORONGORO gravel=90
-roadside NIAGARA pole=WOOD
-roadside NORDSCHLEIFE pole=WOOD rail=1
-roadside NORFOLK_BROADS pole=WOOD
+roadside NIAGARA pole=WOOD cables=3
+roadside NORDSCHLEIFE pole=WOOD rail=1 cables=3
+roadside NORFOLK_BROADS pole=WOOD cables=3
 roadside NORMANDY pole=CONCRETE cables=3
 roadside NORTHERN_THAILAND concrete=28
 roadside NORTH_SHORE pole=WOOD
 roadside NORTH_WOODS pole=WOOD
 roadside NOVOSIBIRSK pole=CONCRETE
 roadside NYIRAGONGO gravel=56
-roadside OKINAWA pole=CONCRETE
+roadside OKINAWA pole=CONCRETE cables=3
 roadside OKLAHOMA_PLAINS pole=WOOD
 roadside OMETEPE gravel=33
 roadside OPAL_COAST pole=CONCRETE
 roadside OREGON_COAST pole=WOOD
+roadside ORHEI cables=3
 roadside OSAKA pole=CONCRETE rail=1
 roadside OURO_PRETO gravel=20
 roadside OUTER_BANKS pole=WOOD
@@ -221,54 +227,55 @@ roadside PANAMA_CANAL concrete=58
 roadside PANTANAL gravel=53
 roadside PARIS pole=CONCRETE lamp=LED rail=1
 roadside PARKE_COUNTY pole=WOOD
-roadside PEAK_DISTRICT pole=WOOD
+roadside PEAK_DISTRICT pole=WOOD cables=3
 roadside PEI_SHORE pole=WOOD
 roadside PELOPONNESE pole=WOOD
 roadside PERITO_MORENO gravel=12
-roadside PHILADELPHIA pole=WOOD
-roadside PICOS pole=STEEL
+roadside PHILADELPHIA pole=WOOD cables=3
+roadside PICOS pole=STEEL cables=3
 roadside PICO_CAO_GRANDE gravel=17
 roadside PIKES_PEAK pole=WOOD
 roadside PINK_LAKE gravel=21
-roadside PISA pole=CONCRETE
-roadside PLATTE_RIVER pole=WOOD concrete=21
+roadside PISA pole=CONCRETE cables=3
+roadside PLATTE_RIVER pole=WOOD concrete=21 cables=3
 roadside PNG_HIGHLANDS gravel=48
-roadside PONT_DU_GARD pole=CONCRETE
+roadside PONT_DU_GARD pole=CONCRETE cables=3
 roadside PRAIRIES pole=WOOD
 roadside PRIMORSKY pole=CONCRETE
 roadside PUDUCHERRY pole=CONCRETE
 roadside PUEBLA concrete=34
 roadside PUSZTA pole=CONCRETE
-roadside QUEBEC_CITY pole=WOOD
+roadside QUEBEC_CITY pole=WOOD cables=3
 roadside RAINBOW_MOUNTAIN gravel=90
 roadside RHINE_VALLEY pole=WOOD cables=3
 roadside RIOJA pole=WOOD cables=3
 roadside RIO_NEGRO gravel=12
 roadside RIVIERA_MAYA gravel=27
 roadside ROCKET_CITY pole=STEEL
-roadside ROMANTIC_ROAD pole=CONCRETE
+roadside ROMANTIC_ROAD pole=CONCRETE cables=3
 roadside ROME pole=CONCRETE
-roadside ROTORUA pole=CONCRETE
+roadside ROTORUA pole=CONCRETE cables=6
 roadside ROUTE_66 gravel=41
-roadside RUGEN pole=CONCRETE
+roadside RUGEN pole=CONCRETE cables=3
 roadside RUTA_DE_LAS_FLORES gravel=26
 roadside RWANDA_HILLS gravel=67
-roadside SAAR_LOOP pole=WOOD
+roadside SAAR_LOOP pole=WOOD cables=3
 roadside SACRED_VALLEY pole=CONCRETE gravel=19
 roadside SAHARA_DUNES pole=CONCRETE
 roadside SAHEL gravel=81
 roadside SALZKAMMERGUT pole=WOOD
 roadside SANI_PASS gravel=42
 roadside SANTA_FE pole=WOOD
-roadside SANTA_FE_AR pole=CONCRETE concrete=24
-roadside SANTIAGO pole=STEEL
+roadside SANTA_FE_AR pole=CONCRETE concrete=24 cables=3
+roadside SANTIAGO pole=STEEL cables=6
 roadside SANTIAGO_CL pole=CONCRETE concrete=33
-roadside SAN_FRANCISCO pole=WOOD
+roadside SAN_FRANCISCO pole=WOOD cables=3
 roadside SAN_LUIS_AR rail=1
+roadside SAN_MARINO cables=3
 roadside SAO_FRANCISCO_RIVER gravel=31
 roadside SAO_PAULO pole=CONCRETE
 roadside SAVANNAH pole=WOOD
-roadside SAXON_SWITZERLAND pole=CONCRETE
+roadside SAXON_SWITZERLAND pole=CONCRETE cables=3
 roadside SA_CALOBRA pole=STEEL
 roadside SEATTLE pole=WOOD lamp=LED concrete=25 rail=1
 roadside SEA_TO_SKY pole=WOOD
@@ -282,7 +289,7 @@ roadside SIWA gravel=76
 roadside SNOWDONIA pole=WOOD cables=3
 roadside SOCHI pole=CONCRETE
 roadside SPACE_COAST pole=CONCRETE
-roadside SPIS pole=CONCRETE
+roadside SPIS pole=CONCRETE cables=3
 roadside SPITI gravel=48
 roadside SPREEWALD pole=CONCRETE
 roadside SRI_LANKA pole=CONCRETE
@@ -293,30 +300,30 @@ roadside ST_LOUIS pole=WOOD concrete=21 rail=1
 roadside ST_PETERSBURG pole=STEEL lamp=LED rail=1
 roadside SURFERS_PARADISE pole=WOOD
 roadside SVALBARD_ARCTIC gravel=32
-roadside SWABIAN_ALB pole=CONCRETE
+roadside SWABIAN_ALB pole=CONCRETE cables=3
 roadside SWISS_ALPS pole=WOOD
 roadside SYDNEY pole=WOOD
 roadside TANGANYIKA gravel=62
 roadside TATRA pole=CONCRETE
-roadside THURINGIAN_FOREST pole=CONCRETE lamp=LED rail=1
+roadside THURINGIAN_FOREST pole=CONCRETE lamp=LED rail=1 cables=3
 roadside TIEBELE gravel=90
 roadside TOKYO pole=CONCRETE rail=1
 roadside TOMSK pole=CONCRETE
-roadside TORONTO pole=WOOD rail=1
+roadside TORONTO pole=WOOD rail=1 cables=3
 roadside TRANSYLVANIA pole=CONCRETE
-roadside TROLLSTIGEN pole=WOOD
+roadside TROLLSTIGEN pole=WOOD cables=3
 roadside TUCUMAN concrete=23
 roadside TUSCANY pole=CONCRETE
 roadside URAL pole=CONCRETE
-roadside VALENCIA pole=STEEL
+roadside VALENCIA pole=STEEL cables=3
 roadside VALPARAISO concrete=50
 roadside VEADEIROS gravel=19
-roadside VENICE pole=CONCRETE
+roadside VENICE pole=CONCRETE cables=6
 roadside VERACRUZ pole=CONCRETE concrete=25
-roadside VERDON pole=CONCRETE
+roadside VERDON pole=CONCRETE cables=3
 roadside VIA_APPIA pole=CONCRETE
 roadside VOLGOGRAD pole=CONCRETE
-roadside WASHINGTON_DC pole=WOOD
+roadside WASHINGTON_DC pole=WOOD cables=3
 roadside WEST_TEXAS pole=WOOD
 roadside WILD_ATLANTIC pole=WOOD cables=3
 roadside WILD_COAST gravel=77
