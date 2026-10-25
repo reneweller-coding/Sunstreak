@@ -105,6 +105,16 @@ bool stageSpectacle( const Track &track, int stage, SkyE &kind, double &at )
     return false;
 }
 
+bool stageRunway( const Track &track, int stage, double &s, float &side )
+{
+    SkyE   kind = SkyE::COUNT;
+    double at = 0.0;
+    if( !stageSpectacle( track, stage, kind, at ) || kind != SkyE::PLANE ) return false;
+    s = at + RunwayAhead;
+    side = ( hash64( track.seed() * 77 + static_cast<uint64_t>( stage ) ) & 1 ) ? 1.0f : -1.0f;
+    return true;
+}
+
 void Spectacle::reset()
 {
     *this = Spectacle{};
@@ -138,11 +148,17 @@ void Spectacle::update( float dt, const Track &track, const PlayerCar &player, b
         switch( m_kind )
         {
         case SkyE::PLANE:
-            // It crosses just ahead of where the car will be in eight seconds.
-            m_things.push_back( { SKY_AIRLINER, player.m_s + static_cast<double>( speed ) * 8.0 + 40.0, -m_dir * 720.0f, 70.0f, m_dir * PI * 0.5f } );
+        {
+            // It crosses the road over the end of the runway just as the car gets there, and lands beyond it.
+            double cross = player.m_s + RunwayAhead;
+            float  side = m_dir;
+            stageRunway( track, stage, cross, side );
+            const float eta = static_cast<float>( std::max( 60.0, cross - player.m_s ) ) / speed;
+            m_things.push_back( { SKY_AIRLINER, cross, -m_dir * std::clamp( 85.0f * eta, 250.0f, 1100.0f ), 70.0f, m_dir * PI * 0.5f } );
             ev.m_roar = true;
             ev.m_pan = -m_dir;
             break;
+        }
         case SkyE::JETS:
             for( float side : { -1.0f, 1.0f } )
                 m_things.push_back( { SKY_JET, player.m_s - 500.0 + ( side > 0.0f ? -40.0 : 0.0 ), side * 14.0f, 55.0f, 0.0f } );
@@ -178,8 +194,9 @@ void Spectacle::update( float dt, const Track &track, const PlayerCar &player, b
         switch( m_kind )
         {
         case SkyE::PLANE:
-            t.m_lateral += m_dir * 85.0f * dt;
-            t.m_height = std::max( 22.0f, t.m_height - 3.2f * dt );
+            // Down over the road, then onto the runway, slowing as it rolls.
+            t.m_lateral += m_dir * ( t.m_height > 0.5f ? 85.0f : 45.0f ) * dt;
+            t.m_height = t.m_lateral * m_dir > 0.0f ? std::max( 0.0f, t.m_height - 9.0f * dt ) : std::max( 22.0f, t.m_height - 3.2f * dt );
             gone = gone && std::abs( t.m_lateral ) > 800.0f && t.m_lateral * m_dir > 0.0f;
             break;
         case SkyE::JETS:

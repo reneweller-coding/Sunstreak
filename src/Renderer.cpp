@@ -174,7 +174,8 @@ void quad2( Vector3 a, Vector3 b, Vector3 c, Vector3 d, Color colA, Color colC )
  */
 float inTunnel( const Track &track, double s )
 {
-    return ( track.segment( static_cast<long>( s / SegmentLength ) ).m_flags & SEG_TUNNEL ) ? 1.0f : 0.0f;
+    const Segment &seg = track.segment( static_cast<long>( s / SegmentLength ) );
+    return ( seg.m_flags & SEG_TUNNEL ) ? 1.0f : seg.m_gallery != 0 ? 0.5f : 0.0f;
 }
 
 } // namespace

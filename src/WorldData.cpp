@@ -311,6 +311,8 @@ const std::unordered_map<std::string, Step> &steps()
         { "legend", []( W &w, const Args &a ) { w.legend( keep( a.rest( 0 ) ) ); } },
         { "humps", []( W &w, const Args &a ) { w.humps( static_cast<int>( a.f( 0 ) ) ); } },
         { "local", []( W &w, const Args &a ) { w.local( keep( a.rest( 0 ) ) ); } },
+        { "galleries", []( W &w, const Args &a ) { w.galleries( a.f( 0 ) ); } },
+        { "snowwalls", []( W &w, const Args &a ) { w.snowWalls( a.f( 0 ) ); } },
         { "bridges",
           []( W &w, const Args &a )
           {

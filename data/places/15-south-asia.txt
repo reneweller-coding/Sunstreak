@@ -6,6 +6,7 @@
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
 place KARAKORAM | KARAKORAM HIGHWAY | PAKISTAN | MORNING | GILGIT-BALTISTAN
+    galleries 0.12
     local شاہراہ قراقرم
     legend UP TO 4693 M AT THE KHUNJERAB PASS
     land 9A8A70 8E7E66 8A8070

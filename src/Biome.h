@@ -947,6 +947,8 @@ struct BiomeDef
     const char           *m_legend = nullptr;                     ///< a legendary road: what the banner says of it
     uint8_t               m_humps = 0;                            ///< humped bridges over the sea per stage (the Atlantic Road)
     const char           *m_local = nullptr;                      ///< its name in its own script (UTF-8; the signs draw data/script-names.txt)
+    float                 m_galleries = 0.0f;                     ///< chance that a stretch below its mountain wall runs under an avalanche gallery
+    float                 m_snowWalls = 0.0f;                     ///< walls of snow this high line its road in winter and spring (m; 0 none)
 };
 
 /**

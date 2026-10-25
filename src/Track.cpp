@@ -5,6 +5,8 @@
  */
 #include "Track.h"
 
+#include "Spectacle.h"
+
 #include <algorithm>
 #include <array>
 
@@ -315,6 +317,15 @@ void Track::decorate( size_t from )
         for( size_t i = from + 1; i < last; ++i ) m_pendingFlags[i] |= SEG_TUNNEL;
         m_lastSpecial = first;
     }
+    else if( here.m_galleries > 0.0f && length >= 100.0f && maxCurve < 1.0f / 120.0f &&
+             std::max( here.m_terrain.m_wallLeft, here.m_terrain.m_wallRight ) > 10.0f && m_rng.chance( here.m_galleries ) )
+    {
+        // An avalanche gallery: its back wall against the higher mountain side, open to the valley.
+        const int8_t side = here.m_terrain.m_wallLeft >= here.m_terrain.m_wallRight ? -1 : 1;
+        const size_t last = from + std::min<size_t>( n - 1, 60 );
+        for( size_t i = from + 1; i < last; ++i ) m_pendingBend[i].m_gallery = side;
+        m_lastSpecial = first;
+    }
     else if( here.m_bridges > 0.0f && length >= 80.0f && maxCurve < 1.0f / 700.0f )
     {
         // Long causeways over the sea, short covered bridges, the big spans not too short; one style per bridge.
@@ -516,6 +527,14 @@ void Track::appendSegment()
     seg.m_hairpin = bend.m_hairpin;
     seg.m_reachL = bend.m_reachL;
     seg.m_reachR = bend.m_reachR;
+    seg.m_gallery = bend.m_gallery;
+    {
+        // The land of a landing plane's runway lies flat (Spectacle.h).
+        double cross = 0.0;
+        float  side = 0.0f;
+        if( stageRunway( *this, static_cast<int>( s / StageLength ), cross, side ) )
+            seg.m_runway = side * ( 1.0f - smoothstepf( 60.0f, 120.0f, static_cast<float>( std::abs( s - cross ) ) ) );
+    }
 
     float curvy = 0, sharp = 0, hilly = 0;
     styleAt( s, curvy, sharp, hilly );
@@ -599,7 +618,7 @@ void Track::appendSegment()
             seg.m_blockedLanes = 0;
         }
     }
-    if( seg.m_flags & ( SEG_TUNNEL | SEG_BRIDGE ) ) seg.m_flags |= SEG_RAIL_L | SEG_RAIL_R;
+    if( ( seg.m_flags & ( SEG_TUNNEL | SEG_BRIDGE ) ) || seg.m_gallery != 0 ) seg.m_flags |= SEG_RAIL_L | SEG_RAIL_R;
     seg.m_bank = clampf( seg.m_curve * 28.0f, -0.09f, 0.09f );
     seg.m_stage = static_cast<int>( s / StageLength );
     seg.m_pos = m_genPos;

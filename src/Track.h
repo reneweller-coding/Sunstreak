@@ -127,6 +127,8 @@ struct Segment
     float    m_reachL = 0.0f;     ///< in a serpentine: how far left of the centre line the land is this segment's (0: all)
     float    m_reachR = 0.0f;     ///< and right (the rest belongs to the legs above and below)
     uint8_t  m_hairpin = 0;       ///< the number on the board of the hairpin that begins here (0: none)
+    int8_t   m_gallery = 0;       ///< under an avalanche gallery: the side its back wall stands on (-1 left, 1 right; 0 none)
+    float    m_runway = 0.0f;     ///< beside a landing plane's runway: how flat its land lies, signed by its side (-1..1)
 };
 
 /**
@@ -412,6 +414,7 @@ private:
         uint8_t m_hairpin = 0;     ///< Segment::m_hairpin
         float   m_reachL = 0.0f;   ///< Segment::m_reachL
         float   m_reachR = 0.0f;   ///< Segment::m_reachR
+        int8_t  m_gallery = 0;     ///< Segment::m_gallery
     };
     std::deque<Bend>             m_pendingBend;         ///< planned serpentine details
     std::vector<Serpentine>      m_serpentines;         ///< the serpentines planned and still held

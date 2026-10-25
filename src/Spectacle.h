@@ -57,6 +57,21 @@ int skyErrors();
  */
 bool stageSpectacle( const Track &track, int stage, SkyE &kind, double &at );
 
+constexpr double RunwayAhead = 600.0;   ///< the landing plane crosses the road this far beyond where its spectacle begins
+constexpr float  RunwayNear = 70.0f;    ///< the runway begins this far beside the road's edge
+constexpr float  RunwayLength = 600.0f; ///< and runs this far away from it
+constexpr float  RunwayHalf = 22.0f;    ///< half its width
+
+/**
+ * @brief Where a stage's landing plane crosses the road, if the stage has one: there the world lays its runway.
+ * @param[in]  track  the road
+ * @param[in]  stage  the stage
+ * @param[out] s      where along the road it crosses
+ * @param[out] side   the side the runway lies on (-1 left, 1 right; the plane comes from the other)
+ * @return true if the stage has a landing plane
+ */
+bool stageRunway( const Track &track, int stage, double &s, float &side );
+
 /** @brief One thing in the sky or on the water, in road terms. */
 struct SkyThing
 {

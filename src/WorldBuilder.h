@@ -685,6 +685,28 @@ public:
     }
 
     /**
+     * @brief Avalanche galleries over the road below the mountain wall.
+     * @param[in] chance  per suitable stretch
+     * @return this
+     */
+    W &galleries( float chance )
+    {
+        m_d.m_galleries = chance;
+        return *this;
+    }
+
+    /**
+     * @brief Walls of snow along the road in winter and spring.
+     * @param[in] height  how high (m)
+     * @return this
+     */
+    W &snowWalls( float height )
+    {
+        m_d.m_snowWalls = height;
+        return *this;
+    }
+
+    /**
      * @brief Sets the bridges.
      * @param[in] chance  per suitable straight
      * @param[in] style   how they are built

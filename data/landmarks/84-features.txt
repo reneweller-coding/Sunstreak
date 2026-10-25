@@ -1,0 +1,566 @@
+# Round eight: what the regions still lacked. Wind farms where the wind blows, the Hill of Crosses, the towers of
+# Svaneti, funfairs, Dutch lift bridges over canals, truck stops and service areas, the mine dumps of Johannesburg,
+# painted shop signs and kraals in Africa, Bhutan's dzongs, Bali's meru towers and rice barns, Japanese rice racks in
+# autumn, Turkic balbals in the steppe, Andean apachetas, refineries with their flares.
+
+shape WIND_FARM
+    # A wind farm: three turbines in a row, eighty metres to the hub, their blades still or turning.
+    home GERMANY, DENMARK, NETHERLANDS, SPAIN, PORTUGAL, FRANCE, POLAND, SWEDEN, ENGLAND, SCOTLAND, WALES, IRELAND, NORTHERN IRELAND, BELGIUM, AUSTRIA, ITALY:SICILY, ITALY:APULIA, ITALY:SARDINIA, TURKEY:AEGEAN, MOROCCO, EGYPT, USA:TEXAS, USA:IOWA, USA:OKLAHOMA, USA:WYOMING, USA:CALIFORNIA, USA:NEBRASKA, USA:MINNESOTA, CANADA:ALBERTA, CANADA:QUEBEC, CANADA:PRINCE EDWARD ISLAND, CHINA:GANSU, CHINA:INNER MONGOLIA, CHINA:XINJIANG, INDIA:TAMIL NADU, INDIA:GUJARAT, INDIA:RAJASTHAN, BRAZIL:CEARA, BRAZIL:RIO GRANDE DO NORTE, BRAZIL:BAHIA, AUSTRALIA:SOUTH AUSTRALIA, AUSTRALIA:VICTORIA, MEXICO:OAXACA, SOUTH AFRICA:EASTERN CAPE, SOUTH AFRICA:NORTHERN CAPE, NEW ZEALAND, URUGUAY, CHILE:ANTOFAGASTA | 0.0010 80 420 0.85 1.15 | country
+    cyl 0 0 -90 2.3 1.4 82 10 EEF0F0
+    box -1.2 83.6 -90 4 1.6 1.5 E8EAEA
+    blob 3 83.6 -90 1.4 1.4 1.4 F2F4F4
+    box -2.5 85.4 -90 0.25 0.25 0.25 FF2A1E glow
+    tube 3.4 83.6 -90 3.6 122.992 -83.054 0.75 5 F2F4F4
+    tube 3.4 83.6 -90 3.6 57.888 -59.358 0.75 5 F2F4F4
+    tube 3.4 83.6 -90 3.6 69.919 -127.588 0.75 5 F2F4F4
+    cyl 0 0 0 2.3 1.4 82 10 EEF0F0
+    box -1.2 83.6 0 4 1.6 1.5 E8EAEA
+    blob 3 83.6 0 1.4 1.4 1.4 F2F4F4
+    box -2.5 85.4 0 0.25 0.25 0.25 FF2A1E glow
+    tube 3.4 83.6 0 3.6 110.88 29.254 0.75 5 F2F4F4
+    tube 3.4 83.6 0 3.6 44.625 8.998 0.75 5 F2F4F4
+    tube 3.4 83.6 0 3.6 95.295 -38.252 0.75 5 F2F4F4
+    cyl 0 0 90 2.3 1.4 82 10 EEF0F0
+    box -1.2 83.6 90 4 1.6 1.5 E8EAEA
+    blob 3 83.6 90 1.4 1.4 1.4 F2F4F4
+    box -2.5 85.4 90 0.25 0.25 0.25 FF2A1E glow
+    tube 3.4 83.6 90 3.6 80.114 129.848 0.75 5 F2F4F4
+    tube 3.4 83.6 90 3.6 50.834 67.057 0.75 5 F2F4F4
+    tube 3.4 83.6 90 3.6 119.852 73.095 0.75 5 F2F4F4
+
+shape WIND_TURBINE
+    # A single wind turbine on a field, its red light on the nacelle.
+    home GERMANY, DENMARK, NETHERLANDS, SPAIN, PORTUGAL, FRANCE, POLAND, SWEDEN, ENGLAND, SCOTLAND, WALES, IRELAND, NORTHERN IRELAND, BELGIUM, AUSTRIA, ITALY:SICILY, ITALY:APULIA, ITALY:SARDINIA, TURKEY:AEGEAN, MOROCCO, EGYPT, USA:TEXAS, USA:IOWA, USA:OKLAHOMA, USA:WYOMING, USA:CALIFORNIA, USA:NEBRASKA, USA:MINNESOTA, CANADA:ALBERTA, CANADA:QUEBEC, CANADA:PRINCE EDWARD ISLAND, CHINA:GANSU, CHINA:INNER MONGOLIA, CHINA:XINJIANG, INDIA:TAMIL NADU, INDIA:GUJARAT, INDIA:RAJASTHAN, BRAZIL:CEARA, BRAZIL:RIO GRANDE DO NORTE, BRAZIL:BAHIA, AUSTRALIA:SOUTH AUSTRALIA, AUSTRALIA:VICTORIA, MEXICO:OAXACA, SOUTH AFRICA:EASTERN CAPE, SOUTH AFRICA:NORTHERN CAPE, NEW ZEALAND, URUGUAY, CHILE:ANTOFAGASTA | 0.0008 50 300 0.85 1.15 | country
+    cyl 0 0 0 2.3 1.4 82 10 EEF0F0
+    box -1.2 83.6 0 4 1.6 1.5 E8EAEA
+    blob 3 83.6 0 1.4 1.4 1.4 F2F4F4
+    box -2.5 85.4 0 0.25 0.25 0.25 FF2A1E glow
+    tube 3.4 83.6 0 3.6 97.281 37.588 0.75 5 F2F4F4
+    tube 3.4 83.6 0 3.6 44.208 -6.946 0.75 5 F2F4F4
+    tube 3.4 83.6 0 3.6 109.312 -30.642 0.75 5 F2F4F4
+
+shape HILL_OF_CROSSES
+    # The Hill of Crosses: a low hill thick with crosses large and small, wooden, iron, hung with rosaries.
+    home LITHUANIA | 0.0010 15 60 | country
+    blob -6 0 0 10 2.6 11 6A8A4A 0.2
+    repeat 14 0 0 1.25
+    tube -2 0 -8.5 -2 3.9 -8.5 0.05 4 5A4430
+    repeat 14 0 0 1.25
+    tube -2 3.3 -8.85 -2 3.3 -8.15 0.04 4 5A4430
+    repeat 13 0 0 1.25
+    tube -3.4 0 -7.9 -3.4 4.2 -7.9 0.05 4 8A8C90
+    repeat 13 0 0 1.25
+    tube -3.4 3.6 -8.25 -3.4 3.6 -7.55 0.04 4 8A8C90
+    repeat 12 0 0 1.25
+    tube -4.8 0 -7.3 -4.8 3.9 -7.3 0.05 4 3A3A3C
+    repeat 12 0 0 1.25
+    tube -4.8 3.3 -7.65 -4.8 3.3 -6.95 0.04 4 3A3A3C
+    repeat 11 0 0 1.25
+    tube -6.2 0 -6.7 -6.2 4.2 -6.7 0.05 4 5A4430
+    repeat 11 0 0 1.25
+    tube -6.2 3.6 -7.05 -6.2 3.6 -6.35 0.04 4 5A4430
+    repeat 10 0 0 1.25
+    tube -7.6 0 -6.1 -7.6 3.9 -6.1 0.05 4 8A8C90
+    repeat 10 0 0 1.25
+    tube -7.6 3.3 -6.45 -7.6 3.3 -5.75 0.04 4 8A8C90
+    repeat 9 0 0 1.25
+    tube -9 0 -5.5 -9 4.2 -5.5 0.05 4 3A3A3C
+    repeat 9 0 0 1.25
+    tube -9 3.6 -5.85 -9 3.6 -5.15 0.04 4 3A3A3C
+    tube -6 3 -4 -6 8.2 -4 0.18 5 4A3A2A
+    tube -6 3 0 -6 9 0 0.18 5 4A3A2A
+    tube -6 3 4 -6 8.2 4 0.18 5 4A3A2A
+    tube -6 6.7 -5.2 -6 6.7 -2.8 0.15 5 4A3A2A
+    tube -6 7.5 -1.2 -6 7.5 1.2 0.15 5 4A3A2A
+    tube -6 6.7 2.8 -6 6.7 5.2 0.15 5 4A3A2A
+    box 1.5 0.6 9 0.6 0.6 0.8 8A6A44
+    tube 2 0 9 2 3.5 9 0.08 4 3A3A3C
+    tube 2 2.8 8.2 2 2.8 9.8 0.07 4 3A3A3C
+
+shape SVAN_TOWERS
+    # The towers of Svaneti: square stone defence towers above a village of stone houses, slate roofs.
+    home GEORGIA | 0.0030 30 220 0.9 1.1 | country
+    tbox -4 0 -8 2.4 2.4 -4 22 -8 1.9 1.9 8A8478
+    box -2.08 19.5 -8 0.05 0.5 0.25 2A2622
+    box -4 19.5 -6.08 0.25 0.5 0.05 2A2622
+    box -4 22.2 -8 2.05 0.2 2.05 7A7468
+    hip -4 22.4 -8 2 2 1.6 0.15 5A5450
+    tbox -12 0 6 2.4 2.4 -12 25 6 1.9 1.9 8A8478
+    box -10.08 22.5 6 0.05 0.5 0.25 2A2622
+    box -12 22.5 7.92 0.25 0.5 0.05 2A2622
+    box -12 25.2 6 2.05 0.2 2.05 7A7468
+    hip -12 25.4 6 2 2 1.6 0.15 5A5450
+    tbox -2 0 14 2.4 2.4 -2 20 14 1.9 1.9 8A8478
+    box -0.08 17.5 14 0.05 0.5 0.25 2A2622
+    box -2 17.5 15.92 0.25 0.5 0.05 2A2622
+    box -2 20.2 14 2.05 0.2 2.05 7A7468
+    hip -2 20.4 14 2 2 1.6 0.15 5A5450
+    box -8 2.5 -1 4 2.5 3.5 9A9488
+    gable -8 5 -1 4 3.5 2.2 0.4 5A5450 9A9488
+    box 0 2 5 3 2 3 948E82
+    gable 0 4 5 3 3 1.8 0.4 5A5450 948E82
+
+shape FUNFAIR
+    # A funfair on the edge of town: a Ferris wheel with lights round its rim, a carousel, stalls.
+    home GERMANY, NETHERLANDS, BELGIUM, AUSTRIA, DENMARK, FRANCE, ENGLAND, LUXEMBOURG, USA | 0.00025 20 90 | summer autumn
+    at -14 13 0
+    hoop 0 0 0 11 0.25 24 F2F2F2
+    hoop 0.6 0 0 11 0.12 24 FFD86A glow
+    vring 12 11 0
+    box 0 0 0 0.8 0.7 0.9 C82A2A
+    at 0 0 0
+    tube -14 13 0 -14 24 0 0.12 4 E8E8E8
+    tube -14 13 0 -14 22.526 5.5 0.12 4 E8E8E8
+    tube -14 13 0 -14 18.5 9.526 0.12 4 E8E8E8
+    tube -14 13 0 -14 13 11 0.12 4 E8E8E8
+    tube -14 13 0 -14 7.5 9.526 0.12 4 E8E8E8
+    tube -14 13 0 -14 3.474 5.5 0.12 4 E8E8E8
+    tube -14 13 0 -14 2 0 0.12 4 E8E8E8
+    tube -14 13 0 -14 3.474 -5.5 0.12 4 E8E8E8
+    tube -14 13 0 -14 7.5 -9.526 0.12 4 E8E8E8
+    tube -14 13 0 -14 13 -11 0.12 4 E8E8E8
+    tube -14 13 0 -14 18.5 -9.526 0.12 4 E8E8E8
+    tube -14 13 0 -14 22.526 -5.5 0.12 4 E8E8E8
+    tube -14 0 -4 -14 13 0 0.35 6 5A6A8A
+    tube -14 0 4 -14 13 0 0.35 6 5A6A8A
+    cyl -2 0 16 6 6 0.6 16 8A3A5A
+    spire -2 4.2 16 6.8 3.2 16 E8C81E
+    cyl -2 3.9 16 6.6 6.6 0.3 16 C82A2A
+    cyl -2 0.6 16 0.6 0.6 3.6 8 F2E8D0
+    at -2 0 16
+    ring 8 4.5 0
+    tube 0 0.6 0 0 3.9 0 0.05 4 D8C080
+    ring 8 4.5 20
+    blob 0 1.6 0 0.6 0.45 0.25 F2F2F2
+    at 0 0 0
+    box 1 1.3 -16 1.5 1.3 2.2 F2E8D0
+    box 2.6 2.7 -16 0.4 0.08 2.3 C82A2A
+    box 2.6 2 -16 0.05 0.4 2 FFE8A0 glow
+    box 1 1.3 -11 1.5 1.3 2.2 E8F0F8
+    box 2.6 2.7 -11 0.4 0.08 2.3 2A6AC8
+    box 2.6 2 -11 0.05 0.4 2 FFE8A0 glow
+    box 1 1.3 -6 1.5 1.3 2.2 F8E8F0
+    box 2.6 2.7 -6 0.4 0.08 2.3 2A9A4A
+    box 2.6 2 -6 0.05 0.4 2 FFE8A0 glow
+
+shape LIFT_BRIDGE
+    # A white lift bridge over a canal beside the road, its balance beams high above the deck.
+    home NETHERLANDS, BELGIUM | 0.0022 18 70 | country
+    quad -2 0.04 -60 -2 0.04 60 -10 0.04 60 -10 0.04 -60 2A4A5A water
+    box -1.7 0.15 0 0.3 0.15 60 8A3A2A
+    box -10.3 0.15 0 0.3 0.15 60 8A3A2A
+    box -6 0.75 0 4.6 0.12 1.5 F2F2EE
+    box -6 0.95 -1.45 4.6 0.2 0.04 F2F2EE
+    box -6 0.95 1.45 4.6 0.2 0.04 F2F2EE
+    tube -8.5 0.8 -1.4 -8.5 6.5 -1.4 0.18 4 F2F2EE
+    tube -8.5 0.8 1.4 -8.5 6.5 1.4 0.18 4 F2F2EE
+    tube -8.5 6.4 -1.4 -8.5 6.4 1.4 0.16 4 F2F2EE
+    tube -2.5 1 -1.2 -12.5 7 -1.2 0.16 4 F2F2EE
+    tube -2.5 1 1.2 -12.5 7 1.2 0.16 4 F2F2EE
+    tube -12.5 7 -1.4 -12.5 7 1.4 0.16 4 F2F2EE
+    box -12.6 6.4 0 0.4 0.6 1.3 F2F2EE
+    tube -2.6 0.95 -1.5 -9.4 0.95 -1.5 0.06 4 2A2A2A
+    tube -2.6 0.95 1.5 -9.4 0.95 1.5 0.06 4 2A2A2A
+
+shape TRUCK_STOP_US
+    # A truck stop: a canopy over the diesel pumps, a diner and a store, big rigs in a row, the tall sign.
+    home USA, CANADA | 0.0004 20 80 | country
+    box -6 5.2 -6 5 0.35 7 F2F2F2
+    box -6 4.82 -6 4.9 0.02 6.9 FFF4D8 glow
+    box -9.5 2.5 -11 0.3 2.5 0.3 D8D8DC
+    box -9.5 2.5 -1 0.3 2.5 0.3 D8D8DC
+    box -2.5 2.5 -11 0.3 2.5 0.3 D8D8DC
+    box -2.5 2.5 -1 0.3 2.5 0.3 D8D8DC
+    box -6 0.8 -10 0.4 0.8 0.5 2A6A3A
+    box -6 0.8 -6 0.4 0.8 0.5 2A6A3A
+    box -6 0.8 -2 0.4 0.8 0.5 2A6A3A
+    box -18 3 -6 6 3 9 C8B89A
+    box -11.9 2.6 -6 0.05 1 6 2A3A4A glass
+    tube 2 0 -16 2 14 -16 0.35 6 8A8A8C
+    box 2 15 -16 0.4 2 3.5 C8281E
+    text 2.42 15.5 -16 1 F2F2F2 TRUCK STOP
+    text 2.42 14.2 -16 0.8 FFE07A DIESEL glow
+    box -1 1.6 14 1.25 1.3 7 D8D8DC
+    box -1 1.4 22.6 1.2 1.1 1.3 C8281E
+    box -1 1 24.6 1.1 0.6 1 C8281E
+    tube -2 1.5 22 -2 3.8 22 0.12 6 C8C8CC
+    box 0.22 1.9 22.6 0.02 0.4 0.7 2A3A4A glass
+    hoop -2.25 0.5 8.5 0.5 0.15 10 1E1E1E
+    hoop -2.25 0.5 9.6 0.5 0.15 10 1E1E1E
+    hoop -2.25 0.5 22 0.5 0.15 10 1E1E1E
+    hoop -2.25 0.5 24.5 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 8.5 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 9.6 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 22 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 24.5 0.5 0.15 10 1E1E1E
+    at -4 0 0
+    box -1 1.6 14 1.25 1.3 7 D8D8DC
+    box -1 1.4 22.6 1.2 1.1 1.3 2A5AB0
+    box -1 1 24.6 1.1 0.6 1 2A5AB0
+    tube -2 1.5 22 -2 3.8 22 0.12 6 C8C8CC
+    box 0.22 1.9 22.6 0.02 0.4 0.7 2A3A4A glass
+    hoop -2.25 0.5 8.5 0.5 0.15 10 1E1E1E
+    hoop -2.25 0.5 9.6 0.5 0.15 10 1E1E1E
+    hoop -2.25 0.5 22 0.5 0.15 10 1E1E1E
+    hoop -2.25 0.5 24.5 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 8.5 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 9.6 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 22 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 24.5 0.5 0.15 10 1E1E1E
+    at -8 0 0
+    box -1 1.6 14 1.25 1.3 7 D8D8DC
+    box -1 1.4 22.6 1.2 1.1 1.3 E8E8E4
+    box -1 1 24.6 1.1 0.6 1 E8E8E4
+    tube -2 1.5 22 -2 3.8 22 0.12 6 C8C8CC
+    box 0.22 1.9 22.6 0.02 0.4 0.7 2A3A4A glass
+    hoop -2.25 0.5 8.5 0.5 0.15 10 1E1E1E
+    hoop -2.25 0.5 9.6 0.5 0.15 10 1E1E1E
+    hoop -2.25 0.5 22 0.5 0.15 10 1E1E1E
+    hoop -2.25 0.5 24.5 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 8.5 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 9.6 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 22 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 24.5 0.5 0.15 10 1E1E1E
+    at 0 0 0
+
+shape SERVICE_AREA_EU
+    # A motorway service area: fuel under a canopy, a flat-roofed restaurant, lorries parked for the night.
+    home GERMANY, AUSTRIA, SWITZERLAND, FRANCE, ITALY, SPAIN, NETHERLANDS, BELGIUM, POLAND, CZECHIA, DENMARK, SWEDEN | 0.0004 20 80 | country
+    box -6 5.2 -6 5 0.35 7 F2F2F2
+    box -6 4.82 -6 4.9 0.02 6.9 FFF4D8 glow
+    box -9.5 2.5 -11 0.3 2.5 0.3 D8D8DC
+    box -9.5 2.5 -1 0.3 2.5 0.3 D8D8DC
+    box -2.5 2.5 -11 0.3 2.5 0.3 D8D8DC
+    box -2.5 2.5 -1 0.3 2.5 0.3 D8D8DC
+    box -6 0.8 -10 0.4 0.8 0.5 2A6A3A
+    box -6 0.8 -6 0.4 0.8 0.5 2A6A3A
+    box -6 0.8 -2 0.4 0.8 0.5 2A6A3A
+    box -19 2.5 -6 6 2.5 8 D8D4CC
+    box -12.9 2.2 -6 0.05 1 6 2A3A4A glass
+    box -19 5.1 -6 6.2 0.15 8.2 6A6A70
+    tube 2 0 -16 2 7 -16 0.15 6 8A8A8C
+    box 2 7.6 -16 0.15 1.2 1.4 1E4AA8
+    box 2.17 7.9 -16.5 0.01 0.3 0.3 F2F2F2
+    box 2.17 7.9 -15.5 0.01 0.3 0.3 F2F2F2
+    box 2.17 7.1 -16 0.01 0.3 0.6 F2F2F2
+    box -1 1.6 14 1.25 1.3 6.8 E8E8EC
+    box -1 1.75 21.9 1.25 1.45 1 1E4AA8
+    box 0.26 2.3 21.9 0.02 0.55 0.9 2A3A4A glass
+    hoop -2.25 0.5 9 0.5 0.15 10 1E1E1E
+    hoop -2.25 0.5 10.1 0.5 0.15 10 1E1E1E
+    hoop -2.25 0.5 21.9 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 9 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 10.1 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 21.9 0.5 0.15 10 1E1E1E
+    at -4 0 0
+    box -1 1.6 14 1.25 1.3 6.8 E8E8EC
+    box -1 1.75 21.9 1.25 1.45 1 E8E8E4
+    box 0.26 2.3 21.9 0.02 0.55 0.9 2A3A4A glass
+    hoop -2.25 0.5 9 0.5 0.15 10 1E1E1E
+    hoop -2.25 0.5 10.1 0.5 0.15 10 1E1E1E
+    hoop -2.25 0.5 21.9 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 9 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 10.1 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 21.9 0.5 0.15 10 1E1E1E
+    at -8 0 0
+    box -1 1.6 14 1.25 1.3 6.8 E8E8EC
+    box -1 1.75 21.9 1.25 1.45 1 C8281E
+    box 0.26 2.3 21.9 0.02 0.55 0.9 2A3A4A glass
+    hoop -2.25 0.5 9 0.5 0.15 10 1E1E1E
+    hoop -2.25 0.5 10.1 0.5 0.15 10 1E1E1E
+    hoop -2.25 0.5 21.9 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 9 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 10.1 0.5 0.15 10 1E1E1E
+    hoop 0.25 0.5 21.9 0.5 0.15 10 1E1E1E
+    at 0 0 0
+
+shape MINE_DUMP
+    # A mine dump of the Rand: a flat-topped hill of yellow tailings, gullied by the rain, grass on its crown.
+    home SOUTH AFRICA:GAUTENG | 0.0030 40 320 0.8 1.3
+    tbox -45 0 0 40 55 -45 24 0 28 42 D8B85A
+    box -45 24.1 0 26 0.1 40 8A9A4A
+    quad -4.7 0.2 -40 -4.7 0.2 -37 -16.7 24 -28 -16.7 24 -30 B8984A
+    quad -4.7 0.2 -20 -4.7 0.2 -17 -16.7 24 -13 -16.7 24 -15 B8984A
+    quad -4.7 0.2 0 -4.7 0.2 3 -16.7 24 2 -16.7 24 0 B8984A
+    quad -4.7 0.2 18 -4.7 0.2 21 -16.7 24 15.5 -16.7 24 13.5 B8984A
+    quad -4.7 0.2 36 -4.7 0.2 39 -16.7 24 29 -16.7 24 27 B8984A
+
+shape BARBER_SHOP
+    # A barber shop of planks with its hand-painted board: the cuts on offer, a name in big letters.
+    home fleet:AFRICA | 0.0010 3 8 | stand
+    box -1.2 1.2 0 1.2 1.2 1.6 E8D8A8
+    box 0.02 1 0.8 0.02 1 0.45 3A2A1A
+    quad 0.6 2.3 -1.9 0.6 2.3 1.9 -2.6 2.7 1.9 -2.6 2.7 -1.9 8A949C
+    quad -2.6 2.68 -1.9 -2.6 2.68 1.9 0.6 2.28 1.9 0.6 2.28 -1.9 8A949C
+    box 0.05 1.6 -0.7 0.02 0.6 0.75 2A8AC8
+    blob 0.1 1.55 -1.15 0.04 0.2 0.17 5A3A28
+    blob 0.11 1.78 -1.15 0.04 0.1 0.17 1E1A18
+    blob 0.1 1.55 -0.25 0.04 0.2 0.17 5A3A28
+    blob 0.11 1.78 -0.25 0.04 0.1 0.17 3A2A1A
+    text 0.08 2.05 -0.7 0.16 F2F2F2 BARBER
+    text 0.08 1.12 -0.7 0.1 E8C81E ALL STYLES
+
+shape KRAAL
+    # A kraal: a ring of thorn branches round the cattle, round huts with thatched roofs beside it.
+    home SOUTH AFRICA, LESOTHO, ESWATINI, BOTSWANA, NAMIBIA, ZIMBABWE, ZAMBIA, MALAWI, MOZAMBIQUE, TANZANIA | 0.0012 20 140 | country
+    at -10 0 0
+    ring 28 9 0
+    blob 0 0.6 0 0.9 0.7 0.9 6A5A44 0.6
+    box -2 1 -3 0.35 0.4 0.9 3A2A1E
+    box -2 0.35 -3.6 0.08 0.35 0.08 2A2A2A
+    box -2 0.35 -2.4 0.08 0.35 0.08 2A2A2A
+    blob -2 1.3 -1.95 0.2 0.22 0.3 3A2A1E
+    box 2 1 1 0.35 0.4 0.9 E8E4DA
+    box 2 0.35 0.4 0.08 0.35 0.08 2A2A2A
+    box 2 0.35 1.6 0.08 0.35 0.08 2A2A2A
+    blob 2 1.3 2.05 0.2 0.22 0.3 E8E4DA
+    box -1 1 3 0.35 0.4 0.9 8A5A3A
+    box -1 0.35 2.4 0.08 0.35 0.08 2A2A2A
+    box -1 0.35 3.6 0.08 0.35 0.08 2A2A2A
+    blob -1 1.3 4.05 0.2 0.22 0.3 8A5A3A
+    cyl -14 0 -6 2.5 2.5 1.9 12 C8A078
+    spire -14 1.9 -6 3 2.4 12 B89A5A
+    cyl -15 0 6 2.5 2.5 1.9 12 C8A078
+    spire -15 1.9 6 3 2.4 12 B89A5A
+    at 0 0 0
+
+shape DZONG
+    # A dzong: a white fortress with sloping walls, a red band under the roofs, the golden-roofed tower in its court.
+    home place:BHUTAN | 0.0016 80 320 0.9 1.1
+    tbox -30 0 0 22 36 -30 16 0 20 34 F2EEE4
+    box -30 17 0 20.2 1.2 34.2 8A2A1E
+    hip -30 18.2 0 20.5 34.5 4.5 1.2 6A6A6A
+    tbox -30 18 0 8 10 -30 30 0 7 9 F2EEE4
+    box -30 30.8 0 7.2 0.9 9.2 8A2A1E
+    hip -30 31.7 0 7.6 9.6 4 1 D8A82A shiny
+    repeat 12 0 0 5
+    box -9.45 12 -27 0.05 0.9 0.8 3A2A1E
+    repeat 12 0 0 5
+    box -8.85 7 -27 0.05 0.7 0.7 3A2A1E
+
+shape MERU_TOWERS
+    # Meru towers of a Balinese temple: roofs of black palm fibre, eleven, nine and seven tiers, inside a brick wall.
+    home INDONESIA:BALI | 0.0020 20 140 0.9 1.1
+    box -8 1.2 -5 2.2 1.2 2.2 B86A4A
+    box -8 2.6 -5 1.6 0.2 1.6 D8C8A0
+    box -8 3.15 -5 1.17 0.35 1.17 5A3A2A
+    hip -8 3.5 -5 2.6 2.6 0.7 0.15 2A2622
+    box -8 4.4 -5 1.096 0.35 1.096 5A3A2A
+    hip -8 4.75 -5 2.436 2.436 0.7 0.15 2A2622
+    box -8 5.65 -5 1.023 0.35 1.023 5A3A2A
+    hip -8 6 -5 2.273 2.273 0.7 0.15 2A2622
+    box -8 6.9 -5 0.949 0.35 0.949 5A3A2A
+    hip -8 7.25 -5 2.109 2.109 0.7 0.15 2A2622
+    box -8 8.15 -5 0.875 0.35 0.875 5A3A2A
+    hip -8 8.5 -5 1.945 1.945 0.7 0.15 2A2622
+    box -8 9.4 -5 0.802 0.35 0.802 5A3A2A
+    hip -8 9.75 -5 1.782 1.782 0.7 0.15 2A2622
+    box -8 10.65 -5 0.728 0.35 0.728 5A3A2A
+    hip -8 11 -5 1.618 1.618 0.7 0.15 2A2622
+    box -8 11.9 -5 0.655 0.35 0.655 5A3A2A
+    hip -8 12.25 -5 1.455 1.455 0.7 0.15 2A2622
+    box -8 13.15 -5 0.581 0.35 0.581 5A3A2A
+    hip -8 13.5 -5 1.291 1.291 0.7 0.15 2A2622
+    box -8 14.4 -5 0.507 0.35 0.507 5A3A2A
+    hip -8 14.75 -5 1.127 1.127 0.7 0.15 2A2622
+    box -8 15.65 -5 0.434 0.35 0.434 5A3A2A
+    hip -8 16 -5 0.964 0.964 0.7 0.15 2A2622
+    spire -8 16.55 -5 0.3 0.9 6 D8A82A
+    box -9 1.2 4 2.2 1.2 2.2 B86A4A
+    box -9 2.6 4 1.6 0.2 1.6 D8C8A0
+    box -9 3.15 4 1.17 0.35 1.17 5A3A2A
+    hip -9 3.5 4 2.6 2.6 0.7 0.15 2A2622
+    box -9 4.4 4 1.08 0.35 1.08 5A3A2A
+    hip -9 4.75 4 2.4 2.4 0.7 0.15 2A2622
+    box -9 5.65 4 0.99 0.35 0.99 5A3A2A
+    hip -9 6 4 2.2 2.2 0.7 0.15 2A2622
+    box -9 6.9 4 0.9 0.35 0.9 5A3A2A
+    hip -9 7.25 4 2 2 0.7 0.15 2A2622
+    box -9 8.15 4 0.81 0.35 0.81 5A3A2A
+    hip -9 8.5 4 1.8 1.8 0.7 0.15 2A2622
+    box -9 9.4 4 0.72 0.35 0.72 5A3A2A
+    hip -9 9.75 4 1.6 1.6 0.7 0.15 2A2622
+    box -9 10.65 4 0.63 0.35 0.63 5A3A2A
+    hip -9 11 4 1.4 1.4 0.7 0.15 2A2622
+    box -9 11.9 4 0.54 0.35 0.54 5A3A2A
+    hip -9 12.25 4 1.2 1.2 0.7 0.15 2A2622
+    box -9 13.15 4 0.45 0.35 0.45 5A3A2A
+    hip -9 13.5 4 1 1 0.7 0.15 2A2622
+    spire -9 14.05 4 0.3 0.9 6 D8A82A
+    box -3 1.2 9 2.2 1.2 2.2 B86A4A
+    box -3 2.6 9 1.6 0.2 1.6 D8C8A0
+    box -3 3.15 9 1.17 0.35 1.17 5A3A2A
+    hip -3 3.5 9 2.6 2.6 0.7 0.15 2A2622
+    box -3 4.4 9 1.054 0.35 1.054 5A3A2A
+    hip -3 4.75 9 2.343 2.343 0.7 0.15 2A2622
+    box -3 5.65 9 0.939 0.35 0.939 5A3A2A
+    hip -3 6 9 2.086 2.086 0.7 0.15 2A2622
+    box -3 6.9 9 0.823 0.35 0.823 5A3A2A
+    hip -3 7.25 9 1.829 1.829 0.7 0.15 2A2622
+    box -3 8.15 9 0.707 0.35 0.707 5A3A2A
+    hip -3 8.5 9 1.571 1.571 0.7 0.15 2A2622
+    box -3 9.4 9 0.591 0.35 0.591 5A3A2A
+    hip -3 9.75 9 1.314 1.314 0.7 0.15 2A2622
+    box -3 10.65 9 0.476 0.35 0.476 5A3A2A
+    hip -3 11 9 1.057 1.057 0.7 0.15 2A2622
+    spire -3 11.55 9 0.3 0.9 6 D8A82A
+    box -7 1.1 -12 6 1.1 0.3 B86A4A
+    box -13 1.1 0 0.3 1.1 12 B86A4A
+    box -1 1.1 0 0.3 1.1 2 B86A4A
+
+shape LUMBUNG
+    # Rice barns of Lombok on four posts, their thatch curved like a horseshoe, the ladder up to the store.
+    home INDONESIA:WEST NUSA TENGGARA, INDONESIA:BALI | 0.0028 8 90 0.9 1.1 | country
+    tube -1 0 -4 -1 2.2 -4 0.12 6 6A4A2A
+    tube -1 0 -2 -1 2.2 -2 0.12 6 6A4A2A
+    tube 1 0 -4 1 2.2 -4 0.12 6 6A4A2A
+    tube 1 0 -2 1 2.2 -2 0.12 6 6A4A2A
+    box 0 2.25 -3 1.3 0.08 1.3 7A5A3A
+    cyl 0 2.3 -3 1.2 1.3 1.6 10 B8985A
+    blob 0 4.1 -3 1.55 2 1.55 A8884A
+    spire 0 5.7 -3 0.4 0.8 8 A8884A
+    tube 1.6 0 -2.6 1 2.2 -2.6 0.05 4 6A4A2A
+    tube -1 0 2 -1 2.2 2 0.12 6 6A4A2A
+    tube -1 0 4 -1 2.2 4 0.12 6 6A4A2A
+    tube 1 0 2 1 2.2 2 0.12 6 6A4A2A
+    tube 1 0 4 1 2.2 4 0.12 6 6A4A2A
+    box 0 2.25 3 1.3 0.08 1.3 7A5A3A
+    cyl 0 2.3 3 1.2 1.3 1.6 10 B8985A
+    blob 0 4.1 3 1.55 2 1.55 A8884A
+    spire 0 5.7 3 0.4 0.8 8 A8884A
+    tube 1.6 0 3.4 1 2.2 3.4 0.05 4 6A4A2A
+
+shape HASA_RACKS
+    # Rice drying in autumn: sheaves hung on rows of poles and bars at the edge of the harvested paddies.
+    home JAPAN | 0.0040 6 90 | country autumn
+    repeat 6 0 0 3
+    tube -3 0 -7.5 -3 2.6 -7.5 0.06 4 7A5A3A
+    tube -3 2.2 -7.5 -3 2.2 7.5 0.04 4 7A5A3A
+    tube -3 1.5 -7.5 -3 1.5 7.5 0.04 4 7A5A3A
+    repeat 24 0 0 0.62
+    box -3 1.95 -7.2 0.12 0.35 0.27 C8A85A
+    repeat 24 0 0 0.62
+    box -3 1.25 -7.2 0.12 0.35 0.27 B8984A
+    repeat 6 0 0 3
+    tube -9 0 -7.5 -9 2.6 -7.5 0.06 4 7A5A3A
+    tube -9 2.2 -7.5 -9 2.2 7.5 0.04 4 7A5A3A
+    tube -9 1.5 -7.5 -9 1.5 7.5 0.04 4 7A5A3A
+    repeat 24 0 0 0.62
+    box -9 1.95 -7.2 0.12 0.35 0.27 C8A85A
+    repeat 24 0 0 0.62
+    box -9 1.25 -7.2 0.12 0.35 0.27 B8984A
+    repeat 6 0 0 3
+    tube -15 0 -7.5 -15 2.6 -7.5 0.06 4 7A5A3A
+    tube -15 2.2 -7.5 -15 2.2 7.5 0.04 4 7A5A3A
+    tube -15 1.5 -7.5 -15 1.5 7.5 0.04 4 7A5A3A
+    repeat 24 0 0 0.62
+    box -15 1.95 -7.2 0.12 0.35 0.27 C8A85A
+    repeat 24 0 0 0.62
+    box -15 1.25 -7.2 0.12 0.35 0.27 B8984A
+
+shape BALBALS
+    # Balbals: a row of old stone figures in the steppe, their faces worn, hands folded over a cup.
+    home KYRGYZSTAN, KAZAKHSTAN, MONGOLIA, RUSSIA:SIBERIA | 0.0012 6 70 | country
+    tbox 0 0 -4 0.3 0.22 0 1.2 -4 0.24 0.18 8A8478
+    blob 0 1.35 -4 0.24 0.24 0.2 8A8478 0.3
+    box 0.22 1.4 -4.08 0.02 0.025 0.04 3A3A38
+    box 0.22 1.4 -3.92 0.02 0.025 0.04 3A3A38
+    box 0.24 0.95 -4 0.02 0.15 0.12 6A6458
+    tbox 0 0 -2 0.3 0.22 0 1.45 -2 0.24 0.18 8A8478
+    blob 0 1.6 -2 0.24 0.24 0.2 8A8478 0.3
+    box 0.22 1.65 -2.08 0.02 0.025 0.04 3A3A38
+    box 0.22 1.65 -1.92 0.02 0.025 0.04 3A3A38
+    box 0.24 1.2 -2 0.02 0.15 0.12 6A6458
+    tbox 0 0 0 0.3 0.22 0 1.7 0 0.24 0.18 8A8478
+    blob 0 1.85 0 0.24 0.24 0.2 8A8478 0.3
+    box 0.22 1.9 -0.08 0.02 0.025 0.04 3A3A38
+    box 0.22 1.9 0.08 0.02 0.025 0.04 3A3A38
+    box 0.24 1.45 0 0.02 0.15 0.12 6A6458
+    tbox 0 0 2 0.3 0.22 0 1.2 2 0.24 0.18 8A8478
+    blob 0 1.35 2 0.24 0.24 0.2 8A8478 0.3
+    box 0.22 1.4 1.92 0.02 0.025 0.04 3A3A38
+    box 0.22 1.4 2.08 0.02 0.025 0.04 3A3A38
+    box 0.24 0.95 2 0.02 0.15 0.12 6A6458
+    tbox 0 0 4 0.3 0.22 0 1.45 4 0.24 0.18 8A8478
+    blob 0 1.6 4 0.24 0.24 0.2 8A8478 0.3
+    box 0.22 1.65 3.92 0.02 0.025 0.04 3A3A38
+    box 0.22 1.65 4.08 0.02 0.025 0.04 3A3A38
+    box 0.24 1.2 4 0.02 0.15 0.12 6A6458
+
+shape APACHETA
+    # An apacheta at the pass: a cairn of stones left by travellers, a pole with the bright chequered flag.
+    home PERU, BOLIVIA, ECUADOR, CHILE:ANTOFAGASTA, ARGENTINA:JUJUY, ARGENTINA:SALTA, ARGENTINA:CATAMARCA | 0.0016 3 25 | country
+    blob 0 0.4 0 1.3 0.6 1.2 7A7268 0.6
+    blob 0 0.95 0 0.9 0.5 0.8 8A8278 0.6
+    blob 0 1.4 0 0.5 0.35 0.45 6A6258 0.6
+    tube 0 1.4 0 0 3.6 0 0.04 4 5A4430
+    box 0 3.55 0.1 0.01 0.05 0.05 C82A2A
+    box 0 3.55 0.2 0.01 0.05 0.05 E8781E
+    box 0 3.55 0.3 0.01 0.05 0.05 E8C81E
+    box 0 3.55 0.4 0.01 0.05 0.05 F2F2F2
+    box 0 3.55 0.5 0.01 0.05 0.05 2A9A4A
+    box 0 3.55 0.6 0.01 0.05 0.05 1E6AC8
+    box 0 3.55 0.7 0.01 0.05 0.05 6A2A8A
+    box 0 3.45 0.1 0.01 0.05 0.05 6A2A8A
+    box 0 3.45 0.2 0.01 0.05 0.05 C82A2A
+    box 0 3.45 0.3 0.01 0.05 0.05 E8781E
+    box 0 3.45 0.4 0.01 0.05 0.05 E8C81E
+    box 0 3.45 0.5 0.01 0.05 0.05 F2F2F2
+    box 0 3.45 0.6 0.01 0.05 0.05 2A9A4A
+    box 0 3.45 0.7 0.01 0.05 0.05 1E6AC8
+    box 0 3.35 0.1 0.01 0.05 0.05 1E6AC8
+    box 0 3.35 0.2 0.01 0.05 0.05 6A2A8A
+    box 0 3.35 0.3 0.01 0.05 0.05 C82A2A
+    box 0 3.35 0.4 0.01 0.05 0.05 E8781E
+    box 0 3.35 0.5 0.01 0.05 0.05 E8C81E
+    box 0 3.35 0.6 0.01 0.05 0.05 F2F2F2
+    box 0 3.35 0.7 0.01 0.05 0.05 2A9A4A
+    box 0 3.25 0.1 0.01 0.05 0.05 2A9A4A
+    box 0 3.25 0.2 0.01 0.05 0.05 1E6AC8
+    box 0 3.25 0.3 0.01 0.05 0.05 6A2A8A
+    box 0 3.25 0.4 0.01 0.05 0.05 C82A2A
+    box 0 3.25 0.5 0.01 0.05 0.05 E8781E
+    box 0 3.25 0.6 0.01 0.05 0.05 E8C81E
+    box 0 3.25 0.7 0.01 0.05 0.05 F2F2F2
+    box 0 3.15 0.1 0.01 0.05 0.05 F2F2F2
+    box 0 3.15 0.2 0.01 0.05 0.05 2A9A4A
+    box 0 3.15 0.3 0.01 0.05 0.05 1E6AC8
+    box 0 3.15 0.4 0.01 0.05 0.05 6A2A8A
+    box 0 3.15 0.5 0.01 0.05 0.05 C82A2A
+    box 0 3.15 0.6 0.01 0.05 0.05 E8781E
+    box 0 3.15 0.7 0.01 0.05 0.05 E8C81E
+    box 0 3.05 0.1 0.01 0.05 0.05 E8C81E
+    box 0 3.05 0.2 0.01 0.05 0.05 F2F2F2
+    box 0 3.05 0.3 0.01 0.05 0.05 2A9A4A
+    box 0 3.05 0.4 0.01 0.05 0.05 1E6AC8
+    box 0 3.05 0.5 0.01 0.05 0.05 6A2A8A
+    box 0 3.05 0.6 0.01 0.05 0.05 C82A2A
+    box 0 3.05 0.7 0.01 0.05 0.05 E8781E
+    box 0 2.95 0.1 0.01 0.05 0.05 E8781E
+    box 0 2.95 0.2 0.01 0.05 0.05 E8C81E
+    box 0 2.95 0.3 0.01 0.05 0.05 F2F2F2
+    box 0 2.95 0.4 0.01 0.05 0.05 2A9A4A
+    box 0 2.95 0.5 0.01 0.05 0.05 1E6AC8
+    box 0 2.95 0.6 0.01 0.05 0.05 6A2A8A
+    box 0 2.95 0.7 0.01 0.05 0.05 C82A2A
+
+shape REFINERY
+    # A refinery: tanks, distillation columns, pipe racks, a flare stack burning day and night.
+    home USA:TEXAS, USA:LOUISIANA, NETHERLANDS, SAUDI ARABIA, UAE, KUWAIT, QATAR, BAHRAIN, OMAN, NIGERIA, VENEZUELA, ALGERIA, LIBYA, IRAN, IRAQ, AZERBAIJAN | 0.0005 90 380 0.9 1.2 | country
+    cyl -20 0 -40 9 9 12 16 E8E8EC
+    cyl -20 12 -40 9 7.65 0.6 16 E8E8EC
+    cyl -20 0 -18 9 9 12 16 E8E8EC
+    cyl -20 12 -18 9 7.65 0.6 16 E8E8EC
+    cyl -45 0 -40 11 11 14 16 D8D8DC
+    cyl -45 14 -40 11 9.35 0.6 16 D8D8DC
+    cyl -30 0 5 1.6 1.6 38 10 B8B8BC
+    cyl -30 0 10 1.6 1.6 46 10 B8B8BC
+    cyl -30 0 15 1.6 1.6 32 10 B8B8BC
+    box -30 4 10 6 4 8 8A8A90
+    tube -12 6 -30 -12 6 30 0.6 6 7A7A80
+    tube -12 8 -30 -12 8 30 0.6 6 C8A030
+    tube -14 6 10 -28 30 10 0.4 6 7A7A80
+    tube -60 0 25 -60 60 25 0.9 8 B8B8BC
+    blob -60 63 25 2.2 4 2.2 FF8A2A glow
+    blob -60 61 25 1.4 2.2 1.4 FFE07A glow
+    blob -58 70 25 4 3 4 6A6A70 0.5

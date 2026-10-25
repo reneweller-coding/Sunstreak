@@ -6,6 +6,7 @@
 #include "World.h"
 
 #include "ScriptNames.h"
+#include "Spectacle.h"
 
 #include "Festival.h"
 #include "Local.h"
@@ -302,8 +303,11 @@ float World::terrainHeight( const Track &track, long index, float lateral, const
         const float    side = static_cast<float>( sp->height( x, z ) ) - road + rough;
         return lerpf( -0.35f * smoothstepf( 0.0f, 4.0f, a ), side, smoothstepf( 2.0f, 9.0f, a ) );
     }
-    // Round a fork the land lies flat and level with the road, far out to where the other carriageway goes.
-    const float    keep = 1.0f - track.segment( index ).m_flat * ( 1.0f - smoothstepf( 160.0f, 260.0f, a ) );
+    // Round a fork the land lies flat and level with the road, far out to where the other carriageway goes; so does the
+    // land of a landing plane's runway, on its side.
+    float          keep = 1.0f - track.segment( index ).m_flat * ( 1.0f - smoothstepf( 160.0f, 260.0f, a ) );
+    const float    runway = track.segment( index ).m_runway;
+    if( runway != 0.0f && ( runway > 0.0f ) != left ) keep *= 1.0f - std::abs( runway );
     float          h = -0.35f * smoothstepf( 0.0f, 4.0f, a ) * keep;
     const float    wall = ( left ? terrain.m_wallLeft : terrain.m_wallRight ) * keep;
     const float    n1 = valueNoise( s * 0.012, lateral * 0.02, seed + 11 );
@@ -579,7 +583,11 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
         const Surface &sf = A.m_surface;
         const bool     tunnel = seg.m_flags & SEG_TUNNEL;
         const bool     bridge = seg.m_flags & SEG_BRIDGE;
-        ground.setShade( tunnel ? 0.12f : 1.0f );
+        double         runwayS = 0.0;
+        float          runwaySide = 0.0f;
+        const bool     hasRunway = stageRunway( track, static_cast<int>( static_cast<double>( j ) * SegmentLength / StageLength ), runwayS, runwaySide );
+        const bool     runwayHere = hasRunway && static_cast<long>( runwayS / SegmentLength ) == j;
+        ground.setShade( tunnel ? 0.12f : seg.m_gallery != 0 ? 0.5f : 1.0f );
 
         // A ferry or a car train over the sea: from where the car drives aboard to where it drives off, the vessels'
         // decks, open water to the horizon (or the bank the train goes into) and the vessels themselves.
@@ -947,6 +955,89 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 props.tri( at( X, wx, 5.0f ), at( X, wx, 7.2f ), at( X, wx * 0.55f, 7.2f ), face );
                 props.quad( at( X, -wx - 0.6f, 7.2f ), at( X, wx + 0.6f, 7.2f ), at( X, wx + 0.6f, 8.2f ), at( X, -wx - 0.6f, 8.2f ),
                             Color{ 120, 118, 112, 255 } );
+            }
+        }
+        if( seg.m_gallery != 0 && !tunnel && !bridge )
+        {
+            // An avalanche gallery: a concrete roof from the mountain's wall over the road onto pillars on the valley
+            // side, the slope going on over it.
+            const float m = static_cast<float>( seg.m_gallery );
+            const float wa = A.m_hw + RumbleWidth + 0.8f, wb = B.m_hw + RumbleWidth + 0.8f;
+            const Color concrete = { 152, 150, 142, 255 }, under = { 110, 108, 102, 255 };
+            props.setShade( 0.45f );
+            props.quad( at( A, m * wa, 0.0f ), at( B, m * wb, 0.0f ), at( B, m * wb, 6.0f ), at( A, m * wa, 6.0f ), concrete );
+            props.quad( at( A, m * wa, 6.0f ), at( B, m * wb, 6.0f ), at( B, -m * ( wb + 0.6f ), 5.6f ), at( A, -m * ( wa + 0.6f ), 5.6f ), under );
+            props.setShade( 1.0f );
+            props.quad( at( A, m * ( wa + 5.0f ), 9.5f ), at( B, m * ( wb + 5.0f ), 9.5f ), at( B, -m * ( wb + 0.6f ), 6.4f ),
+                        at( A, -m * ( wa + 0.6f ), 6.4f ), sf.m_groundFar );
+            props.quad( at( A, -m * ( wa + 0.6f ), 5.6f ), at( B, -m * ( wb + 0.6f ), 5.6f ), at( B, -m * ( wb + 0.6f ), 6.4f ),
+                        at( A, -m * ( wa + 0.6f ), 6.4f ), concrete );
+            if( j % 2 == 0 ) obox( props, at( A, -m * ( wa + 0.25f ), 2.8f ), A.m_right, A.m_forward, 0.3f, 2.8f, 0.45f, concrete );
+        }
+        {
+            // Walls of snow along the road in winter and spring where the place clears it through deep snow.
+            const BiomeDef &place = bridgeBiome( seg );
+            const bool      snowy = A.m_season.m_winter > 0.25f || A.m_season.m_spring > 0.35f;
+            if( place.m_snowWalls > 0.0f && snowy && !tunnel && !bridge && seg.m_gallery == 0 )
+            {
+                const Color snow = { 240, 244, 250, 255 }, grime = { 196, 200, 210, 255 };
+                const float ha = place.m_snowWalls * ( 0.8f + 0.35f * hashFloat( seed + 91, static_cast<uint64_t>( j ) ) );
+                const float hb = place.m_snowWalls * ( 0.8f + 0.35f * hashFloat( seed + 91, static_cast<uint64_t>( j + 1 ) ) );
+                for( float side : { -1.0f, 1.0f } )
+                {
+                    const float ia = side * ( A.m_hw + RumbleWidth + 0.4f ), ib = side * ( B.m_hw + RumbleWidth + 0.4f );
+                    const float oa = side * ( A.m_edge + 2.5f ), ob = side * ( B.m_edge + 2.5f );
+                    props.quad( at( A, ia, 0.0f ), at( B, ib, 0.0f ), at( B, ib, hb ), at( A, ia, ha ), snow, Mat{ 0.0f, 0.3f } );
+                    props.quad( at( A, ia, ha ), at( B, ib, hb ), at( B, ob, hb + 0.3f ), at( A, oa, ha + 0.3f ), snow, Mat{ 0.0f, 0.3f } );
+                    for( float k : { 0.32f, 0.61f } )
+                        props.quad( at( A, ia * 0.995f, ha * k ), at( B, ib * 0.995f, hb * k ), at( B, ib * 0.995f, hb * k + 0.12f ),
+                                    at( A, ia * 0.995f, ha * k + 0.12f ), grime );
+                    c.m_colliders.push_back( { sj, side * ( A.m_hw + RumbleWidth + 1.4f ), 1.0f } );
+                }
+            }
+        }
+        if( runwayHere )
+        {
+            // The runway the low planes land on (Spectacle.h): across the road from the crossing, its threshold
+            // painted, lights along its edges; on the other side the approach lights on their poles, a tower beyond.
+            const float s0 = runwaySide;
+            auto        rw = [&]( float l, float f, float h ) { return Vector3Add( at( A, l, h ), Vector3Scale( A.m_forward, f ) ); };
+            const Color tarmac = { 74, 74, 80, 255 }, paint = { 236, 236, 232, 255 };
+            for( int k = 0; k < 12; ++k )
+            {
+                const float l0 = s0 * ( A.m_edge + RunwayNear + RunwayLength * static_cast<float>( k ) / 12.0f );
+                const float l1 = s0 * ( A.m_edge + RunwayNear + RunwayLength * static_cast<float>( k + 1 ) / 12.0f );
+                const float h = terrainHeight( track, j, ( l0 + l1 ) * 0.5f, A.m_terrain, A.m_edge ) + 0.08f;
+                props.quad( rw( l0, -RunwayHalf, h ), rw( l1, -RunwayHalf, h ), rw( l1, RunwayHalf, h ), rw( l0, RunwayHalf, h ), tarmac, Mat{ 0.0f, 0.15f } );
+                props.quad( rw( l0 + s0 * 10.0f, -0.6f, h + 0.02f ), rw( l0 + s0 * 34.0f, -0.6f, h + 0.02f ), rw( l0 + s0 * 34.0f, 0.6f, h + 0.02f ),
+                            rw( l0 + s0 * 10.0f, 0.6f, h + 0.02f ), paint );
+                for( float f : { -RunwayHalf - 0.8f, RunwayHalf + 0.8f } )
+                    props.box( rw( l0, f, h + 0.25f ), Vector3{ 0.25f, 0.25f, 0.25f }, Color{ 255, 236, 180, 255 }, Mat{ 1.0f, 0.0f } );
+                if( k == 0 )
+                    for( float f : { -18.0f, -14.0f, -10.0f, -6.0f, 6.0f, 10.0f, 14.0f, 18.0f } )
+                        props.quad( rw( l0 + s0 * 6.0f, f - 1.0f, h + 0.02f ), rw( l0 + s0 * 36.0f, f - 1.0f, h + 0.02f ),
+                                    rw( l0 + s0 * 36.0f, f + 1.0f, h + 0.02f ), rw( l0 + s0 * 6.0f, f + 1.0f, h + 0.02f ), paint );
+            }
+            for( int k = 0; k < 10; ++k )
+            {
+                const float l = -s0 * ( A.m_edge + 20.0f + 30.0f * static_cast<float>( k ) );
+                const float h = terrainHeight( track, j, l, A.m_terrain, A.m_edge );
+                const float top = 3.0f + 0.5f * static_cast<float>( k );
+                props.cylinder( rw( l, 0.0f, h ), 0.12f, 0.1f, top, 6, Color{ 210, 120, 40, 255 } );
+                props.box( rw( l, 0.0f, h + top ), Vector3{ 0.3f, 0.2f, 0.3f }, Color{ 255, 250, 230, 255 }, Mat{ 1.0f, 0.0f } );
+                for( float f : { -4.0f, -2.0f, 2.0f, 4.0f } )
+                    props.box( rw( l, f, h + top ), Vector3{ 0.2f, 0.15f, 0.2f }, Color{ 255, 240, 200, 255 }, Mat{ 1.0f, 0.0f } );
+            }
+            const float tl = s0 * ( A.m_edge + 220.0f ), th = terrainHeight( track, j, tl, A.m_terrain, A.m_edge );
+            props.cylinder( rw( tl, 160.0f, th ), 2.4f, 2.0f, 26.0f, 10, Color{ 226, 224, 218, 255 } );
+            props.cylinder( rw( tl, 160.0f, th + 26.0f ), 3.6f, 4.2f, 4.0f, 10, Color{ 60, 90, 120, 255 }, Mat{ 0.2f, 0.9f } );
+            props.cylinder( rw( tl, 160.0f, th + 30.0f ), 4.4f, 3.0f, 1.2f, 10, Color{ 200, 200, 196, 255 } );
+            obox( props, rw( s0 * ( A.m_edge + 330.0f ), 220.0f, th + 6.0f ), A.m_right, A.m_forward, 30.0f, 6.0f, 90.0f, Color{ 214, 216, 220, 255 } );
+            for( float side : { -1.0f, 1.0f } )
+            {
+                MeshBuilder sign;
+                buildPlaceSign( sign, "LOW FLYING AIRCRAFT", 1, 0.32f, 1.6f );
+                props.append( sign, Vector3Add( at( A, side * ( A.m_edge + 2.4f ), 0.0f ), Vector3Scale( A.m_forward, -60.0f ) ), A.m_heading, 1.0f );
             }
         }
         if( bridge )
@@ -1520,6 +1611,11 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 if( viaduct && std::abs( lateral - railL ) < 7.0f ) return;
                 const float reach = side < 0.0f ? seg.m_reachL : seg.m_reachR;
                 if( reach > 0.0f && std::abs( lateral ) > reach - 3.0f ) return;   // the next leg's land
+                if( hasRunway && std::abs( sj + static_cast<double>( h2 * SegmentLength ) - runwayS ) < RunwayHalf + 130.0 && lateral * runwaySide > A.m_edge + RunwayNear - 30.0f &&
+                    std::abs( lateral ) < A.m_edge + RunwayNear + RunwayLength + 40.0f )
+                    return;   // the runway's ground
+                if( hasRunway && std::abs( sj + static_cast<double>( h2 * SegmentLength ) - runwayS ) < 12.0 && lateral * runwaySide < 0.0f && std::abs( lateral ) < A.m_edge + 320.0f )
+                    return;   // the approach lights
                 const double ps = static_cast<double>( j ) * SegmentLength + h2 * SegmentLength;
                 // Nothing where the other carriageway of a fork turns away (it is decided before this is baked).
                 if( fork.m_exists && u > ForkMedian - 60.0 && u < ForkMedian + ForkPeel + 40.0 )

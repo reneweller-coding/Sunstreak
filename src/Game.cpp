@@ -1180,6 +1180,20 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
             }
         m_options.m_find = 0;
     }
+    if( m_options.m_find == 18 )
+    {
+        // Testing: start before the first runway of a landing plane.
+        Track  probe( setup.m_seed, params, m_options.m_startBiome );
+        double cross = 0.0;
+        float  side = 0.0f;
+        for( int st = 0; st < 60; ++st )
+            if( stageRunway( probe, st, cross, side ) )
+            {
+                startS = std::max( startS, cross - RunwayAhead - 20.0 );
+                break;
+            }
+        m_options.m_find = 0;
+    }
     if( m_options.m_find == 14 )
     {
         // Testing: start a little before the first spectacle.
@@ -1280,7 +1294,7 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
         {
             probe.generateTo( s + 1000.0 );
             for( long i = static_cast<long>( s / SegmentLength ); i < static_cast<long>( ( s + 1000.0 ) / SegmentLength ); ++i )
-                if( ( probe.segment( i ).m_flags & want ) && probe.segment( i ).m_grade > steep )
+                if( m_options.m_find == 17 ? probe.segment( i ).m_gallery != 0 : ( probe.segment( i ).m_flags & want ) && probe.segment( i ).m_grade > steep )
                 {
                     startS = std::max( params.m_startLine - 9.0, static_cast<double>( i ) * SegmentLength - ( want == SEG_JUMP ? 30.0 : 160.0 ) );
                     s = 1e9;

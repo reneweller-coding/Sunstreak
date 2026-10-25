@@ -22,6 +22,8 @@ place LIECHTENSTEIN | LIECHTENSTEIN | LIECHTENSTEIN | MORNING
     p SPRUCE 0.15 30 150
 
 place FURKA_PASS | FURKA PASS | SWITZERLAND | ALPINE
+    galleries 0.12
+    snowwalls 5
     serpentine 12
     summit 2429 FURKAPASS
     legend UP TO 2429 M PAST THE RHONE GLACIER
@@ -43,6 +45,8 @@ place FURKA_PASS | FURKA PASS | SWITZERLAND | ALPINE
     once
 
 place GROSSGLOCKNER | GROSSGLOCKNER | AUSTRIA | ALPINE
+    galleries 0.08
+    snowwalls 5
     serpentine 36 KEHRE
     summit 2504 HOCHTOR
     legend 36 HAIRPINS UP TO THE HOCHTOR

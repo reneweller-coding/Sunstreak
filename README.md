@@ -251,7 +251,13 @@ stalls, sugarcane presses and fruit carts in South Asia, king coconuts in Sri La
 and street kitchens in Southeast Asia, unmanned vegetable shelves and vending machines in Japan, roast sweet potatoes in
 China and Korea, the Andes' blankets of wares, fruit carts under parasols in Latin America, jerk drums in the
 Caribbean, charcoal sacks, produce tables and kiosks in Africa, the padstal of the Karoo and the market tables of the
-Pacific. The car crashes into them.
+Pacific. The car crashes into them. Wind farms turn where the wind blows (the North Sea coasts, Spain, Texas, Gansu,
+Tamil Nadu, Ceara); the Hill of Crosses stands in Lithuania, the towers of Svaneti in the Caucasus, dzongs in Bhutan,
+meru towers and rice barns on Bali and Lombok; funfairs in summer, white lift bridges over Dutch canals, truck stops
+and service areas, refineries with their flares, the yellow mine dumps of Johannesburg, barber shops with painted
+boards and kraals in Africa, rice drying on racks in a Japanese autumn, balbals in the steppe, apachetas at the Andes'
+passes. Alpine roads run under avalanche galleries, Aomori, Logan Pass, the Grossglockner and Trollstigen between walls
+of snow in winter and spring, and where a plane comes in low over the road its runway lies beside it.
 
 At most borders the road forks, as it did in OutRun. Almost two kilometres ahead two boards on the screen show where
 each side goes (the place, its region and country, the distance counting down, the side you are on lit), gantries
@@ -362,7 +368,7 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --shape-tour N                with --screen viewer: photograph N models from there on, one picture each, saved
                                   as the --screenshot prefix followed by the model's name
     --camera 0..4                 chase, far, bumper or cockpit camera; 4 from above (screenshots)
-    --find tunnel|bridge|landmark|landmark2|fork|sea|seain|seaout|ferry|jump|hitchhiker|hero|train|sky|summit|hump
+    --find tunnel|bridge|landmark|landmark2|fork|sea|seain|seaout|ferry|jump|hitchhiker|hero|train|sky|summit|hump|gallery|runway
                                  start just before the first tunnel, bridge, landmark (or the second), fork, undersea
                                  portal (or inside, or before its far portal), ferry or crest
     --season spring|summer|autumn|winter   that season (testing)

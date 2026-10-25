@@ -339,6 +339,7 @@ place MATSUSHIMA | MATSUSHIMA BAY | JAPAN | MORNING | TOHOKU
     floating
 
 place AOMORI | AOMORI | JAPAN | WINTER | TOHOKU
+    snowwalls 7
     local 青森
     snow 0.5
     sea 1 0 -6
