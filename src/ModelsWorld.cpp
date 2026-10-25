@@ -14,6 +14,7 @@
 
 #include "MathUtil.h"
 #include "Rng.h"
+#include "VectorFont.h"
 
 #include <algorithm>
 #include <cmath>
@@ -435,6 +436,29 @@ int buildDataShape( MeshBuilder &m, const DataShape &shape )
                     m.tube( at( i ), at( i + 1 ), r * ( 1.0f - 0.35f * ( 1.0f - std::abs( 2.0f * ( i + 0.5f ) / segs - 1.0f ) ) ), 6, k, mat, true );
                 }
             }
+            else if( op == "text" && need( 7 ) )
+            { // text x y z cap COLOUR WORDS: painted letters on a face towards the road (+x), centred on x y z
+                std::string words;
+                for( size_t i = 6; i < w.size(); ++i ) words += ( i > 6 ? " " : "" ) + w[i];
+                std::vector<std::pair<Vector2, Vector2>> strokes;
+                const float   cap = f( 4 ), width = textStrokes( words, strokes ) * cap, thick = cap * 0.16f;
+                const Vector3 c = p( 1 );
+                const Color   k = col( 5 );
+                for( const auto &[a, b] : strokes )
+                {
+                    // Read from the road, the letters run along -z.
+                    const Vector3 s0 = { c.x, c.y + ( a.y - 0.5f ) * cap, c.z + width * 0.5f - a.x * cap };
+                    const Vector3 s1 = { c.x, c.y + ( b.y - 0.5f ) * cap, c.z + width * 0.5f - b.x * cap };
+                    Vector3       d = Vector3Subtract( s1, s0 );
+                    const float   len = Vector3Length( d );
+                    d = len > 1e-4f ? Vector3Scale( d, 1.0f / len ) : Vector3{ 0, 0, -1 };
+                    const Vector3 side = { 0.0f, -d.z * thick * 0.5f, d.y * thick * 0.5f }, e0 = Vector3Scale( d, thick * 0.4f );
+                    const Vector3 q0 = Vector3Subtract( Vector3Subtract( s0, side ), e0 ), q1 = Vector3Add( Vector3Subtract( s1, side ), e0 );
+                    const Vector3 q2 = Vector3Add( Vector3Add( s1, side ), e0 ), q3 = Vector3Subtract( Vector3Add( s0, side ), e0 );
+                    m.quad( q0, q1, q2, q3, k, mat.m_emissive > 0.0f ? mat : Mat{ 0.25f, 0.0f } );
+                    m.quad( q3, q2, q1, q0, k, mat.m_emissive > 0.0f ? mat : Mat{ 0.25f, 0.0f } );
+                }
+            }
             else if( ( op == "hoop" || op == "halo" ) && need( 8 ) )
             { // hoop x y z r thickness segments COLOUR: a circle facing the road (a wheel); halo: lying flat
                 const Vector3 c = p( 1 );
@@ -451,7 +475,7 @@ int buildDataShape( MeshBuilder &m, const DataShape &shape )
             }
             else if( op != "box" && op != "tbox" && op != "cyl" && op != "spire" && op != "tube" && op != "blob" && op != "dome" &&
                      op != "quad" && op != "tri" && op != "gable" && op != "hip" && op != "fronds" && op != "merlons" && op != "windows" &&
-                     op != "boxwindows" && op != "arch" && op != "hoop" && op != "halo" )
+                     op != "boxwindows" && op != "arch" && op != "hoop" && op != "halo" && op != "text" )
                 ++errors;
         }
     }

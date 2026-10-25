@@ -6,8 +6,9 @@
 # strew it, chance per 5 m segment and side, distances from the road's edge. WHERE is a country (as the places name
 # it), COUNTRY:REGION, fleet:NAME (the countries of a fleet in countries.txt) or place:ID. Tags: temperate, tropical,
 # arid, cold (the place's climate, any of them), coast or inland, town (street lamps or cobbles) or country, water (on
-# the sea, boats), pastel (colour A changes per object). A place takes at most 0.05 of these together; more are scaled
-# down, so more shapes make more variety, not more clutter.
+# the sea, boats), pastel (colour A changes per object), stand (a roadside stand: the car crashes into it, and its chance
+# is its region's own density), spring, summer, autumn, winter (only in these seasons of the place). A place takes at
+# most 0.05 of the others together; more are scaled down, so more shapes make more variety, not more clutter.
 #
 # Model space: metres, y up, the ground at y = 0; +x faces the road (the driver passes along z). A long front should run
 # along z, so the driver sees it face on. Keep it within about 120 m of the origin along z: the road bends.
@@ -31,6 +32,7 @@
 #   merlons x y z x2 y2 z2 halfwidth COLOUR            battlements along a wall's top
 #   hoop x y z r thickness segments COLOUR             a circle standing up, facing the road (a wheel's rim)
 #   halo x y z r thickness segments COLOUR             a circle lying flat (a railing round a tower)
+#   text x y z cap COLOUR WORDS                        painted capitals on a face towards the road, centred on x y z
 #
 # COLOUR is RRGGBB, or A, B, C for the key colours (C is the windows' light); ":0.8" darkens either.
 # A primitive may end with a material: glow, lit, glass, shiny or water.

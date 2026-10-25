@@ -72,6 +72,18 @@ Vector3 at( const Cross &x, float l, float h )
 }
 
 /**
+ * @brief The season a place's look shows, as a bit of PropRule::m_seasons (the tropics and the deserts: summer).
+ * @param[in] s  the look
+ * @return 1 spring, 2 summer, 4 autumn, 8 winter
+ */
+uint8_t seasonBit( const SeasonLook &s )
+{
+    if( s.m_winter > 0.4f ) return 8;
+    if( s.m_autumn > 0.3f || s.m_bare > 0.4f ) return 4;
+    return s.m_spring > 0.3f ? 1 : 2;
+}
+
+/**
  * @brief Whether a kind is a building that stands on a plot in a town, a city or a village.
  * @param[in] k     the kind
  * @param[out] tall  a high-rise
@@ -1489,6 +1501,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             // village here and there.
             auto place = [&]( const PropRule &pr, uint64_t key, float dist, bool onPlot )
             {
+                if( pr.m_seasons && !( pr.m_seasons & seasonBit( A.m_season ) ) ) return;   // a stand out of season
                 const float h2 = hashFloat( key + 2, static_cast<uint64_t>( j ) );
                 const float h3 = hashFloat( key + 3, static_cast<uint64_t>( j ) );
                 const float h4 = hashFloat( key + 4, static_cast<uint64_t>( j ) );
@@ -1579,7 +1592,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 const MeshBuilder &near = dist > LodLateral ? far : full;
                 if( near.triangleCount() ) scenery.append( near, pos, yaw, scale, bright, defaults ? keys : nullptr, &look, pick );
                 if( far.triangleCount() ) sceneryFar.append( far, pos, yaw, scale, bright, defaults ? keys : nullptr, &look, pick );
-                const float radius = models.propRadius( pr.m_kind );
+                const float radius = pr.m_radius > 0.0f ? pr.m_radius : models.propRadius( pr.m_kind );
                 if( radius > 0.0f && dist < 45.0f && !pr.m_soft ) c.m_colliders.push_back( { ps, lateral, radius * scale } );
             };
             const Plots plots = plotsOf( rule, models );

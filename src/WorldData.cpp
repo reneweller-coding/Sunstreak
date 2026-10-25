@@ -665,6 +665,8 @@ struct Home
     int8_t  m_town = 0;            ///< 1 only where street lamps stand, -1 never
     bool    m_water = false;       ///< on the sea (boats)
     bool    m_pastel = false;      ///< colour A changes per object
+    bool    m_stand = false;       ///< a roadside stand: the car crashes into it, its chance is its region's own (no budget)
+    uint8_t m_seasons = 0;         ///< PropRule::m_seasons
 };
 
 /**
@@ -740,6 +742,9 @@ void addHomes( std::vector<BiomeDef> &table, const std::vector<Header> &places, 
                 else if( tag == "country" ) h.m_town = -1;
                 else if( tag == "water" ) h.m_water = true;
                 else if( tag == "pastel" ) h.m_pastel = true;
+                else if( tag == "stand" ) h.m_stand = true;
+                else if( tag == "spring" || tag == "summer" || tag == "autumn" || tag == "winter" )
+                    h.m_seasons = static_cast<uint8_t>( h.m_seasons | ( tag == "spring" ? 1u : tag == "summer" ? 2u : tag == "autumn" ? 4u : 8u ) );
                 else
                 {
                     ++g_errors;
@@ -796,19 +801,21 @@ void addHomes( std::vector<BiomeDef> &table, const std::vector<Header> &places, 
                     mine.push_back( &h );
         }
         float sum = 0.0f;
-        for( const Home *h : mine ) sum += h->m_chance;
+        for( const Home *h : mine ) sum += h->m_stand ? 0.0f : h->m_chance;
         const float k = sum > HomeBudget ? HomeBudget / sum : 1.0f;
         for( const Home *h : mine )
         {
             PropRule r{};
             r.m_kind = PropKindE::LANDMARK;
-            r.m_chance = h->m_chance * k;
+            r.m_chance = h->m_stand ? h->m_chance : h->m_chance * k;
             r.m_nearest = h->m_nearest;
             r.m_farthest = h->m_farthest;
             r.m_scaleMin = h->m_scaleMin;
             r.m_scaleMax = h->m_scaleMax;
             r.m_onWater = h->m_water;
             r.m_pastel = h->m_pastel;
+            r.m_radius = h->m_stand ? 1.3f : 0.0f;
+            r.m_seasons = h->m_seasons;
             r.m_variant = static_cast<int16_t>( h->m_variant );
             d.m_props.push_back( r );
             strewn[static_cast<size_t>( h->m_variant - compiledLandmarks() )] = true;

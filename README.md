@@ -241,6 +241,17 @@ New England clapboard, crofts in Scotland and Ireland and the tower houses of Ye
 some 300 m back from the road, cross streets between their blocks; in the country the houses gather in villages of two
 or three rows here and there, with lone farms between. From afar (beyond 320 m ahead, or 130 m beside the road) every
 prop is drawn lighter: small parts and dark panes left out, the lit windows kept, litter and tufts not at all.
+Where a region sells by the road, its stands stand there, built its way, as many as it has and in their season (sixty
+of them, `data/landmarks/83-stands.txt`): honesty boxes at farm gates from Bavaria to New Zealand, strawberry kiosks in
+early summer, flower fields to cut yourself, farm stands, pumpkins, fireworks tents, boiled peanuts and maple syrup in
+North America, fruit on three-wheelers in southern Italy, melon heaps round the Mediterranean and melon cages in
+Russia, honey in the Balkans, grandmothers with buckets of berries, smoked fish, churchkhela in the Caucasus, lamb on
+the spit, gozleme, tagines and fossils in Morocco, dates, samovars and tandir bread in Central Asia, dhabas, chai
+stalls, sugarcane presses and fruit carts in South Asia, king coconuts in Sri Lanka, fruit stalls on bamboo, warungs
+and street kitchens in Southeast Asia, unmanned vegetable shelves and vending machines in Japan, roast sweet potatoes in
+China and Korea, the Andes' blankets of wares, fruit carts under parasols in Latin America, jerk drums in the
+Caribbean, charcoal sacks, produce tables and kiosks in Africa, the padstal of the Karoo and the market tables of the
+Pacific. The car crashes into them.
 
 At most borders the road forks, as it did in OutRun. Almost two kilometres ahead two boards on the screen show where
 each side goes (the place, its region and country, the distance counting down, the side you are on lit), gantries

@@ -707,6 +707,8 @@ struct PropRule
     int16_t   m_variant = -1;    ///< one of the kind's variants (-1: any)
     uint8_t   m_perStage = 0;    ///< placed this many times per stage at fixed spots instead of by chance (landmarks)
     bool      m_soft = false;    ///< nothing to crash into (litter)
+    float     m_radius = 0.0f;   ///< a collision radius of its own (0: the kind's; roadside stands)
+    uint8_t   m_seasons = 0;     ///< the seasons it stands in: 1 spring, 2 summer, 4 autumn, 8 winter (0: all year)
 };
 
 /** @brief How a bridge is built. */
