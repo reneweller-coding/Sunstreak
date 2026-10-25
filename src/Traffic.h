@@ -86,6 +86,8 @@ struct TrafficEvents
     int   m_gaveWay = 0;           ///< a siren passed the player, who had kept out of its way
     float m_horn = 0.0f;           ///< 0..1 a horn, the loudest this step
     float m_hornPan = 0.0f;        ///< -1 left .. 1 right: where
+    float m_hornPitch = 1.0f;      ///< its Doppler shift
+    float m_whooshPitch = 1.0f;    ///< the rush's pitch: higher the faster the car goes past
 };
 
 /** @brief Traffic and roadworks. */

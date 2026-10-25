@@ -4,6 +4,7 @@
  * @author reneweller
  */
 #include "Traffic.h"
+#include "Audio.h"
 #include "Local.h"
 
 #include <algorithm>
@@ -531,6 +532,7 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
                 c.m_honk = 3.0f;
                 ev.m_horn = 1.0f;
                 ev.m_hornPan = clampf( -dx / 4.0f, -1.0f, 1.0f );
+                ev.m_hornPitch = doppler( ds > 0.0 ? c.m_speed - player.m_speed : player.m_speed - c.m_speed );
             }
         }
         if( c.m_honk > 0.0f ) c.m_honk -= dt;
@@ -543,6 +545,7 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
             {
                 ev.m_horn = strength;
                 ev.m_hornPan = clampf( -dx / 4.0f, -1.0f, 1.0f );
+                ev.m_hornPitch = doppler( ds > 0.0 ? c.m_speed - player.m_speed : player.m_speed - c.m_speed );
             }
         }
         if( c.m_animal ) continue;
@@ -559,6 +562,7 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
                 {
                     ev.m_whoosh = strength;
                     ev.m_whooshPan = clampf( -dx / 4.0f, -1.0f, 1.0f );
+                    ev.m_whooshPitch = clampf( 0.7f + rel / 80.0f, 0.7f, 1.6f );
                 }
             }
         }

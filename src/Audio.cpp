@@ -34,6 +34,7 @@ struct Event
     SfxE  m_type = SfxE::TICK;   ///< which
     float m_strength = 1.0f;     ///< 0..1
     float m_pan = 0.0f;          ///< -1..1
+    float m_pitch = 1.0f;        ///< Doppler shift
 };
 
 /** @brief One sounding effect. */
@@ -44,6 +45,7 @@ struct Voice
     float m_t = 0;               ///< seconds since start
     float m_strength = 1;        ///< 0..1
     float m_pan = 0;             ///< -1..1
+    float m_pitch = 1;           ///< Doppler shift
     float m_a = 0, m_b = 0;      ///< per-type state
     float m_phase = 0;           ///< oscillator
     Svf   m_f;                   ///< filter
@@ -66,6 +68,7 @@ struct Synth
     std::atomic<float> m_aUnder{ 0 };
     std::atomic<float> m_aSiren{ 0 }, m_aSirenPan{ 0 };
     std::atomic<int>   m_aSirenKind{ 0 };
+    std::atomic<float> m_aSirenPitch{ 1 };
 
     std::array<Event, 64>  m_queue;          ///< effects posted by the game
     std::atomic<uint32_t>  m_head{ 0 };      ///< written by the game thread
@@ -86,7 +89,7 @@ struct Synth
     float  a_joint = 0, a_thump = 0, a_thump2 = 0, a_thumpDelay = -1, a_horn = 0, a_hornF = 420, a_hornIn = 6, a_bird = 0, a_birdF = 3000,
            a_birdIn = 2, a_birdPh = 0, a_insectPh = 0, a_amPh = 0, a_droplet = 0;
     float  a_under = 0, a_whale = 0, a_whaleIn = 4, a_whaleDur = 1, a_whalePh = 0, a_whaleF0 = 200, a_whaleF1 = 300;
-    float  a_siren = 0, a_sirenPan = 0, a_sirenT = 0, a_sirenPh = 0;
+    float  a_siren = 0, a_sirenPan = 0, a_sirenT = 0, a_sirenPh = 0, a_sirenPitch = 1;
     int    a_coef = 0;
     Svf    a_surfLo, a_surfHi, a_windBp, a_rainHp, a_cityLo, a_hornLo, a_thumpLo, a_seaLo, a_mufL, a_mufR;
     Noise  a_n;
@@ -253,8 +256,10 @@ struct Synth
         {
             a_sirenT += dt;
             if( a_sirenT > 360.0f ) a_sirenT -= 360.0f;
-            const float f = m_aSirenKind.load( std::memory_order_relaxed ) == 1 ? ( std::fmod( a_sirenT, 1.2f ) < 0.6f ? 440.0f : 587.0f )
-                                                                                 : 700.0f + 650.0f * ( 0.5f - 0.5f * std::cos( Pi2 * a_sirenT / 3.6f ) );
+            a_sirenPitch += ( m_aSirenPitch.load( std::memory_order_relaxed ) - a_sirenPitch ) * 0.0005f;
+            const float f = ( m_aSirenKind.load( std::memory_order_relaxed ) == 1 ? ( std::fmod( a_sirenT, 1.2f ) < 0.6f ? 440.0f : 587.0f )
+                                                                                   : 700.0f + 650.0f * ( 0.5f - 0.5f * std::cos( Pi2 * a_sirenT / 3.6f ) ) ) *
+                            a_sirenPitch;
             a_sirenPh += f * dt;
             if( a_sirenPh >= 1.0f ) a_sirenPh -= 1.0f;
             siren = ( std::sin( Pi2 * a_sirenPh ) + 0.4f * std::sin( 2.0f * Pi2 * a_sirenPh ) + 0.2f * std::sin( 3.0f * Pi2 * a_sirenPh ) ) * a_siren * 0.2f;
@@ -324,6 +329,7 @@ struct Synth
         v->m_type = e.m_type;
         v->m_strength = e.m_strength;
         v->m_pan = e.m_pan;
+        v->m_pitch = e.m_pitch;
         v->m_n.m_s = 0x9E37u + static_cast<uint32_t>( e_count * 7919 );
         if( e.m_type == SfxE::BACKFIRE ) v->m_a = 0.0f;
     }
@@ -379,7 +385,7 @@ struct Synth
         case SfxE::WHOOSH:
         {
             dur = 0.6f;
-            v.m_f.set( 2600.0f * std::exp( -t * 3.5f ) + 260.0f, 1.1f );
+            v.m_f.set( ( 2600.0f * std::exp( -t * 3.5f ) + 260.0f ) * v.m_pitch, 1.1f );
             const float env = std::sin( 3.14159f * std::min( 1.0f, t / dur ) );
             y = v.m_f.band( v.m_n.next() ) * env * env * 1.4f;
             break;
@@ -434,7 +440,7 @@ struct Synth
             // Two reedy notes a third apart, pitched a little differently each time.
             dur = 0.32f;
             if( v.m_a == 0.0f ) v.m_a = 0.85f + 0.3f * v.m_n.unit();
-            const float f = 400.0f * v.m_a;
+            const float f = 400.0f * v.m_a * v.m_pitch;
             const float env = std::min( 1.0f, t * 80.0f ) * std::min( 1.0f, ( dur - t ) * 30.0f );
             y = std::tanh( ( std::sin( Pi2 * f * t ) + std::sin( Pi2 * f * 1.26f * t ) ) * 2.2f ) * env * 0.16f;
             break;
@@ -902,14 +908,15 @@ void Audio::setAmbience( const Ambience &a )
     g_synth->m_aSiren.store( a.m_siren, std::memory_order_relaxed );
     g_synth->m_aSirenPan.store( a.m_sirenPan, std::memory_order_relaxed );
     g_synth->m_aSirenKind.store( a.m_sirenKind, std::memory_order_relaxed );
+    g_synth->m_aSirenPitch.store( a.m_sirenPitch, std::memory_order_relaxed );
 }
 
-void Audio::play( SfxE type, float strength, float pan )
+void Audio::play( SfxE type, float strength, float pan, float pitch )
 {
     if( !g_synth ) return;
     const uint32_t h = g_synth->m_head.load( std::memory_order_relaxed );
     if( h - g_synth->m_tail.load( std::memory_order_acquire ) >= g_synth->m_queue.size() ) return;
-    g_synth->m_queue[h % g_synth->m_queue.size()] = Event{ type, std::clamp( strength, 0.0f, 1.5f ), std::clamp( pan, -1.0f, 1.0f ) };
+    g_synth->m_queue[h % g_synth->m_queue.size()] = Event{ type, std::clamp( strength, 0.0f, 1.5f ), std::clamp( pan, -1.0f, 1.0f ), std::clamp( pitch, 0.5f, 2.0f ) };
     g_synth->m_head.store( h + 1, std::memory_order_release );
 }
 

@@ -2381,7 +2381,7 @@ void Game::handleEvents()
         popup( "NEAR MISS", format( "+%d  X%d", 500 * m_combo, m_combo ), Cyan, 0.7f, 1.3f, true );
         m_audio.play( SfxE::NEAR_MISS, 0.8f );
     }
-    if( m_ev.m_whoosh > 0.0f ) m_audio.play( SfxE::WHOOSH, m_ev.m_whoosh, m_ev.m_whooshPan );
+    if( m_ev.m_whoosh > 0.0f ) m_audio.play( SfxE::WHOOSH, m_ev.m_whoosh, m_ev.m_whooshPan, m_ev.m_whooshPitch );
     if( m_car.m_eventAquaplane && !m_demo && m_state == StateE::RACE )
     {
         ++m_records.m_aquaplanes;
@@ -2391,7 +2391,7 @@ void Game::handleEvents()
         m_audio.play( SfxE::WHOOSH, 0.8f );
         m_haptics.pulse( 0.3f, 0.6f, 0.4f );
     }
-    if( m_ev.m_horn > 0.0f && !m_demo ) m_audio.play( SfxE::HORN, m_ev.m_horn, m_ev.m_hornPan );
+    if( m_ev.m_horn > 0.0f && !m_demo ) m_audio.play( SfxE::HORN, m_ev.m_horn, m_ev.m_hornPan, m_ev.m_hornPitch );
     if( m_raceEv.m_whoosh > 0.0f ) m_audio.play( SfxE::WHOOSH, m_raceEv.m_whoosh, m_raceEv.m_whooshPan );
     if( m_raceEv.m_hit > 0.0f )
     {
@@ -2794,6 +2794,7 @@ void Game::updateAudio()
             a.m_siren = loud;
             a.m_sirenPan = clampf( ( c.m_x - m_car.m_x ) / 6.0f, -1.0f, 1.0f );
             a.m_sirenKind = c.m_siren - 1;
+            a.m_sirenPitch = doppler( c.m_s < m_car.m_s ? c.m_speed - m_car.m_speed : m_car.m_speed - c.m_speed );
         }
     if( !m_demo && m_police.m_state == PoliceStateE::CHASE )
     {
@@ -2801,6 +2802,7 @@ void Game::updateAudio()
         a.m_siren = clampf( 1.0f - static_cast<float>( std::abs( m_police.gap( m_car.m_s ) ) ) / 600.0f, 0.0f, 1.0f );
         a.m_sirenPan = clampf( ( m_police.m_x - m_car.m_x ) / 6.0f, -1.0f, 1.0f );
         a.m_sirenKind = m_police.m_siren;
+        a.m_sirenPitch = doppler( m_police.m_s < m_car.m_s ? m_police.m_speed - m_car.m_speed : m_car.m_speed - m_police.m_speed );
     }
     m_audio.setAmbience( a );
 

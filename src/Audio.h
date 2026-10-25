@@ -10,6 +10,8 @@
  */
 #pragma once
 
+#include <algorithm>
+
 #include "Music.h"
 
 #include <raylib.h>
@@ -49,6 +51,16 @@ enum class SfxE : uint8_t
     COUNT         ///< number of effects
 };
 
+/**
+ * @brief The Doppler shift of a sound from something on the road.
+ * @param[in] closing  how fast it and the listener come together (m/s; negative: apart)
+ * @return the pitch factor
+ */
+inline float doppler( float closing )
+{
+    return 343.0f / ( 343.0f - std::clamp( closing, -120.0f, 120.0f ) );
+}
+
 /** @brief What the engine and the tyres are doing. */
 struct EngineState
 {
@@ -83,6 +95,7 @@ struct Ambience
     float m_siren = 0.0f;        ///< 0..1 a police siren, louder as it nears
     float m_sirenPan = 0.0f;     ///< -1 left .. 1 right: where it is
     int   m_sirenKind = 0;       ///< 0 the long wail, 1 the two tones of Europe
+    float m_sirenPitch = 1.0f;   ///< its Doppler shift: above 1 coming nearer, below going away
 };
 
 /** @brief The sound system. */
@@ -117,7 +130,7 @@ public:
      * @param[in] strength  0..1
      * @param[in] pan       -1 left .. 1 right
      */
-    void play( SfxE type, float strength = 1.0f, float pan = 0.0f );
+    void play( SfxE type, float strength = 1.0f, float pan = 0.0f, float pitch = 1.0f );
 
     /**
      * @brief Plays a musical cue on the soundtrack's next beat (at once if no generated music plays).

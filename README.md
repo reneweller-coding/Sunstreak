@@ -189,7 +189,8 @@ by default; TOUR CLOCK lets the sun follow the time zones (morning wherever the 
 kilometres, and the longitude of each place on top: east of you it is already evening); DAWN, DAY, DUSK and NIGHT fix
 the hour. Every place sounds like itself: the surf on the shore it lies on, wind over deserts and mountains, insects
 and birds in the tropics, the hum and horns of a city, rain on the car, the joints of a bridge and the engine echoing
-in a tunnel.
+in a tunnel. Sirens and horns are Doppler-shifted, higher as they come nearer and lower as they go, and the rush of a
+car going past is the higher the faster you pass it.
 
 The seasons (Settings > SEASONS: AS TODAY by the date, AS YOU TRAVEL a year every 400 km, or OFF) reach the temperate
 and cold places: in autumn the broadleaf trees, bushes, hedges and vines turn orange, red and gold, the fields to
