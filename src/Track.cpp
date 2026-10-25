@@ -9,6 +9,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 
 namespace sunstreak
 {
@@ -34,6 +35,7 @@ Track::Track( uint64_t seed, const TrackParams &params, int startBiome )
         m_tour = std::make_shared<Tour>();
         m_tour->m_pos.push_back( m_routeStart );
         m_tour->m_sea.push_back( -1 );
+        m_tour->m_start.push_back( static_cast<double>( m_stageBiomes.size() ) * StageLength );
     }
     else
     {
@@ -90,15 +92,23 @@ int Track::tourPos( int stage ) const
 {
     if ( !m_tour ) return m_routeStart + stage;
     std::lock_guard<std::mutex> lock( m_tour->m_mutex );
-    std::vector<int>           &pos = m_tour->m_pos;
-    std::vector<int>           &sea = m_tour->m_sea;
-    std::vector<int8_t>        &choice = m_tour->m_choice;
-    std::vector<RouteFork>     &forks = m_tour->m_fork;
-    while ( static_cast<int>( pos.size() ) <= stage )
+    growTour( static_cast<size_t>( std::max( 0, stage ) ) );
+    return m_tour->m_pos[static_cast<size_t>( std::max( 0, stage ) )];
+}
+
+void Track::growTour( size_t steps ) const
+{
+    std::vector<int>       &pos = m_tour->m_pos;
+    std::vector<int>       &sea = m_tour->m_sea;
+    std::vector<double>    &start = m_tour->m_start;
+    std::vector<int8_t>    &choice = m_tour->m_choice;
+    std::vector<RouteFork> &forks = m_tour->m_fork;
+    while ( pos.size() <= steps )
     {
         // The next stage: along the route (or at random), or where the other carriageway of the last fork led; across
-        // the sea a stage on the sea floor (or a ferry) comes first.
+        // the sea a stage on the sea floor (or a ferry) comes first, a third as long.
         const size_t last = pos.size() - 1;
+        start.push_back( start[last] + ( sea[last] >= 0 ? SeaStageLength : StageLength ) );
         if ( sea[last] >= 0 )
         {
             pos.push_back( pos[last] );
@@ -116,7 +126,41 @@ int Track::tourPos( int stage ) const
         pos.push_back( next );
         sea.push_back( crossing );
     }
-    return pos[static_cast<size_t>( std::max( 0, stage ) )];
+}
+
+int Track::stageAt( double s ) const
+{
+    const double begin = m_tour ? static_cast<double>( m_stageBiomes.size() ) * StageLength : 0.0;
+    if ( !m_tour || s < begin ) return static_cast<int>( s / StageLength );
+    std::lock_guard<std::mutex> lock( m_tour->m_mutex );
+    const std::vector<double>  &start = m_tour->m_start;
+    while ( start.back() + ( m_tour->m_sea.back() >= 0 ? SeaStageLength : StageLength ) <= s ) growTour( start.size() );
+    const auto at = std::upper_bound( start.begin(), start.end(), s );
+    return static_cast<int>( m_stageBiomes.size() ) + static_cast<int>( at - start.begin() ) - 1;
+}
+
+double Track::stageStart( int stage ) const
+{
+    const int detour = m_tour ? static_cast<int>( m_stageBiomes.size() ) : 0;
+    if ( !m_tour || stage <= detour ) return static_cast<double>( stage ) * StageLength;
+    std::lock_guard<std::mutex> lock( m_tour->m_mutex );
+    growTour( static_cast<size_t>( stage - detour ) );
+    return m_tour->m_start[static_cast<size_t>( stage - detour )];
+}
+
+double Track::stageLength( int stage ) const
+{
+    return stageStart( stage + 1 ) - stageStart( stage );
+}
+
+long Track::stageSegment( int stage ) const
+{
+    return std::lround( stageStart( stage ) / SegmentLength );
+}
+
+long Track::stageSegments( int stage ) const
+{
+    return stageSegment( stage + 1 ) - stageSegment( stage );
 }
 
 RouteFork Track::stepFork( size_t k ) const
@@ -155,7 +199,7 @@ Fork Track::fork( int stage ) const
     const BiomeE main = route[static_cast<size_t>( r.m_main ) % route.size()],
                  other = route[static_cast<size_t>( r.m_other ) % route.size()];
     f.m_exists = true;
-    f.m_at = static_cast<double>( stage ) * StageLength + ForkAt;
+    f.m_at = stageStart( stage ) + ForkAt;
     f.m_left = r.m_otherLeft ? other : main;
     f.m_right = r.m_otherLeft ? main : other;
     std::lock_guard<std::mutex> lock( m_tour->m_mutex );
@@ -177,6 +221,7 @@ void Track::choose( int stage, int side )
     {
         m_tour->m_pos.resize( k + 1 );
         m_tour->m_sea.resize( k + 1 );
+        m_tour->m_start.resize( k + 1 );
     }
     if ( m_tour->m_fork.size() > k + 1 ) m_tour->m_fork.resize( k + 1 );
 }
@@ -195,6 +240,7 @@ void Track::setTourChoices( const std::vector<int8_t> &choices )
     m_tour->m_choice = choices;
     m_tour->m_pos.resize( 1 );
     m_tour->m_sea.resize( 1 );
+    m_tour->m_start.resize( 1 );
     m_tour->m_fork.clear();
 }
 
@@ -208,11 +254,11 @@ float Track::seaDip( double s, float *trench ) const
         const BiomeDef &d = biomeDef( stageBiome( stage ) );
         return d.m_underwater && d.m_crossing == CrossingE::NONE;
     };
-    const int stage = static_cast<int>( s / StageLength );
+    const int stage = stageAt( s );
     if ( sea( stage ) ) return SeaDipDepth;
     // Down the ramp to the next stage's portal, up the ramp from the last one's. The next stage is asked only on the
     // ramp: it is known for sure once the fork before it is behind.
-    const double b0 = static_cast<double>( stage ) * StageLength, b1 = b0 + StageLength;
+    const double b0 = stageStart( stage ), b1 = stageStart( stage + 1 );
     float        dip = 0.0f;
     if ( s > b1 - SeaRamp && sea( stage + 1 ) )
         dip = SeaDipDepth * smoothstepf( static_cast<float>( -SeaRamp ), 0.0f, static_cast<float>( s - b1 ) );
@@ -228,10 +274,10 @@ Crossing Track::crossingAt( double s ) const
     Crossing c;
     if ( !m_tour || s < 0.0 ) return c;
     // The neighbours are asked only near them: the next stage is known for sure once the fork before it is behind.
-    const int stage = static_cast<int>( s / StageLength );
+    const int stage = stageAt( s );
     for ( int k : { stage, stage + 1, stage - 1 } )
     {
-        const double b0 = static_cast<double>( k ) * StageLength, b1 = b0 + StageLength;
+        const double b0 = stageStart( k ), b1 = stageStart( k + 1 );
         if ( k < 1 || s < b0 - CrossingReach || s > b1 + CrossingReach ) continue;
         const BiomeE    sea = stageBiome( k );
         const BiomeDef &d = biomeDef( sea );
@@ -249,16 +295,19 @@ Crossing Track::crossingAt( double s ) const
 bool Track::nearSeaPortal( double s, double margin ) const
 {
     if ( !m_tour ) return false;
-    const double k = std::floor( s / StageLength + 0.5 ), boundary = k * StageLength;
-    if ( k < 1.0 || std::abs( s - boundary ) > SeaRamp + margin ) return false;
-    return biomeDef( stageBiome( static_cast<int>( k ) - 1 ) ).m_underwater !=
-           biomeDef( stageBiome( static_cast<int>( k ) ) ).m_underwater;
+    // The nearer boundary: the start of this stage or of the next.
+    const int    stage = stageAt( s );
+    const double b0 = stageStart( stage ), b1 = stageStart( stage + 1 );
+    const int    k = s - b0 < b1 - s ? stage : stage + 1;
+    const double boundary = k == stage ? b0 : b1;
+    if ( k < 1 || std::abs( s - boundary ) > SeaRamp + margin ) return false;
+    return biomeDef( stageBiome( k - 1 ) ).m_underwater != biomeDef( stageBiome( k ) ).m_underwater;
 }
 
 bool Track::inForkZone( double s, double margin ) const
 {
     if ( !m_tour ) return false;
-    const int  stage = static_cast<int>( std::max( 0.0, s ) / StageLength );
+    const int  stage = stageAt( std::max( 0.0, s ) );
     const Fork f = fork( stage );
     if ( !f.m_exists ) return false;
     // Round the gore, and where the other carriageway peels away; in between the road is free to bend and climb.
@@ -274,19 +323,22 @@ float Track::difficulty( double s )
 
 BiomeMix Track::biomeMix( double s ) const
 {
-    BiomeMix     m;
-    const double k = std::floor( s / StageLength + 0.5 );
-    const double boundary = k * StageLength;
-    if ( k >= 1.0 && std::abs( s - boundary ) < BlendLength * 0.5 )
+    BiomeMix m;
+    // Across the nearer boundary, the start of this stage or of the next.
+    const int    stage = stageAt( std::max( 0.0, s ) );
+    const double b0 = stageStart( stage ), b1 = stageStart( stage + 1 );
+    const int    k = s - b0 < b1 - s ? stage : stage + 1;
+    const double boundary = k == stage ? b0 : b1;
+    if ( k >= 1 && std::abs( s - boundary ) < BlendLength * 0.5 )
     {
-        m.m_from = stageBiome( static_cast<int>( k ) - 1 );
-        m.m_to = stageBiome( static_cast<int>( k ) );
+        m.m_from = stageBiome( k - 1 );
+        m.m_to = stageBiome( k );
         m.m_t = smoothstepf( static_cast<float>( -BlendLength * 0.5 ), static_cast<float>( BlendLength * 0.5 ),
                              static_cast<float>( s - boundary ) );
     }
     else
     {
-        m.m_from = m.m_to = stageBiome( static_cast<int>( std::max( 0.0, s ) / StageLength ) );
+        m.m_from = m.m_to = stageBiome( stage );
         m.m_t = 0.0f;
     }
     return m;
@@ -568,7 +620,7 @@ void Track::appendSegment()
         // The land of a landing plane's runway lies flat (Spectacle.h).
         double cross = 0.0;
         float  side = 0.0f;
-        if ( stageRunway( *this, static_cast<int>( s / StageLength ), cross, side ) )
+        if ( stageRunway( *this, stageAt( s ), cross, side ) )
             seg.m_runway = side * ( 1.0f - smoothstepf( 60.0f, 120.0f, static_cast<float>( std::abs( s - cross ) ) ) );
     }
 
@@ -613,7 +665,7 @@ void Track::appendSegment()
         seg.m_flags |= SEG_FINISH;
     if ( m_tour )
     {
-        const Fork fork = this->fork( static_cast<int>( s / StageLength ) );
+        const Fork fork = this->fork( stageAt( s ) );
         if ( fork.m_exists && s > fork.m_at - ForkWiden - 200.0 && s < fork.m_at + ForkMedian + ForkPeel + 200.0 )
         {
             // Two carriageways of the road's lanes each: widening before the barrier, narrowing after it.
@@ -666,7 +718,7 @@ void Track::appendSegment()
     }
     if ( ( seg.m_flags & ( SEG_TUNNEL | SEG_BRIDGE ) ) || seg.m_gallery != 0 ) seg.m_flags |= SEG_RAIL_L | SEG_RAIL_R;
     seg.m_bank = clampf( seg.m_curve * 28.0f, -0.09f, 0.09f );
-    seg.m_stage = static_cast<int>( s / StageLength );
+    seg.m_stage = stageAt( s );
     seg.m_pos = m_genPos;
     seg.m_heading = m_genHeading;
     m_segments.push_back( seg );
@@ -704,9 +756,9 @@ const Serpentine *Track::serpentineAt( long index ) const
 
 bool Track::planSerpentine( double s )
 {
-    const int    stage = static_cast<int>( s / StageLength );
-    const double stageStart = static_cast<double>( stage ) * StageLength;
-    if ( stage == m_serpentineStage || s - stageStart < 900.0 || s - stageStart > 2600.0 ) return false;
+    const int    stage = stageAt( s );
+    const double begin = stageStart( stage );
+    if ( stage == m_serpentineStage || s - begin < 900.0 || s - begin > 2600.0 ) return false;
     m_serpentineStage = stage;
     const BiomeMix  mix = biomeMix( s );
     const BiomeDef &place = biomeDef( mix.m_t < 0.5f ? mix.m_from : mix.m_to );
@@ -720,7 +772,7 @@ bool Track::planSerpentine( double s )
     }
     // Room up to where the fork's road widens, the finish, or the next place.
     const Fork fk = m_tour ? fork( stage ) : Fork{};
-    double     end = fk.m_exists ? fk.m_at - ForkWiden - 400.0 : stageStart + StageLength - 700.0;
+    double     end = fk.m_exists ? fk.m_at - ForkWiden - 400.0 : stageStart( stage + 1 ) - 700.0;
     if ( m_params.m_length > 0.0 ) end = std::min( end, m_params.m_length - 300.0 );
     if ( end - s < 2500.0 ) return false;
     for ( double t = s; t < end + 200.0; t += 200.0 )
@@ -927,7 +979,7 @@ bool Track::planSerpentine( double s )
 
 bool Track::planHump( double s )
 {
-    const int stage = static_cast<int>( s / StageLength );
+    const int stage = stageAt( s );
     if ( stage != m_humpStage )
     {
         m_humpStage = stage;
@@ -935,9 +987,9 @@ bool Track::planHump( double s )
         m_humpsLeft = biomeDef( mix.m_t < 0.5f ? mix.m_from : mix.m_to ).m_humps;
     }
     const long   startIndex = endIndex() + static_cast<long>( m_pendingFlags.size() );
-    const double local = s - static_cast<double>( stage ) * StageLength;
-    if ( m_humpsLeft <= 0 || local < 1200.0 || local > StageLength - 3200.0 || startIndex - m_lastSpecial < 120 ||
-         !m_rng.chance( 0.12f ) )
+    const double local = s - stageStart( stage );
+    if ( m_humpsLeft <= 0 || local < 1200.0 || local > stageLength( stage ) - 3200.0 ||
+         startIndex - m_lastSpecial < 120 || !m_rng.chance( 0.12f ) )
         return false;
     if ( inForkZone( s, 400.0 ) || nearSeaPortal( s, 500.0 ) ) return false;
     // A steep hump over the sea (the Storseisundet bridge seems to end in the air), turning a little at its top.

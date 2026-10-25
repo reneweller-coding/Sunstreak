@@ -85,11 +85,12 @@ inline bool upClose( const Chunk &c, double s )
  * @param[in]  seed   the track's seed
  * @param[in]  rule   the rule's index in its biome
  * @param[in]  k      which of the rule's spots
- * @param[in]  stage  the stage
- * @param[out] right  whether it stands on the right (before the water decides)
+ * @param[in]  stage     the stage
+ * @param[in]  segments  how many segments the stage has
+ * @param[out] right     whether it stands on the right (before the water decides)
  * @return the segment within the stage
  */
-long landmarkSpot( uint64_t seed, size_t rule, int k, long stage, bool &right );
+long landmarkSpot( uint64_t seed, size_t rule, int k, long stage, long segments, bool &right );
 
 /** @brief The chunks around the car. */
 class World

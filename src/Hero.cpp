@@ -50,9 +50,8 @@ bool stageHero( const Track &track, int stage, double &checkpoint )
     const uint64_t h = hash64( track.seed() * 4099 + static_cast<uint64_t>( stage ) * 17 + 11 );
     if ( h % 3 == 1 ) return false;   // two stages in three
     // A checkpoint well inside the stage, with the road to the next one free of crossings and forks.
-    const double first =
-        std::ceil( ( static_cast<double>( stage ) * StageLength + 2000.0 ) / CheckpointSpacing ) * CheckpointSpacing;
-    const int count = static_cast<int>( ( StageLength - 2000.0 - CheckpointSpacing - 1500.0 ) / CheckpointSpacing );
+    const double first = std::ceil( ( track.stageStart( stage ) + 2000.0 ) / CheckpointSpacing ) * CheckpointSpacing;
+    const int    count = static_cast<int>( ( StageLength - 2000.0 - CheckpointSpacing - 1500.0 ) / CheckpointSpacing );
     if ( count <= 0 ) return false;
     for ( int k = 0; k < count; ++k )
     {
@@ -87,7 +86,7 @@ void LocalHero::startThief( const Track &track, const PlayerCar &player, double 
     m_speed = std::max( player.m_speed, 25.0f );
     m_start = player.m_s;
     m_goal = goal;
-    m_lastStage = static_cast<int>( player.m_s / StageLength );
+    m_lastStage = track.stageAt( player.m_s );
 }
 
 void LocalHero::update( float dt, const Track &track, PlayerCar &player, const Traffic &traffic, bool enabled,
@@ -97,7 +96,7 @@ void LocalHero::update( float dt, const Track &track, PlayerCar &player, const T
     if ( m_state == HeroStateE::NONE )
     {
         if ( !enabled ) return;
-        const int stage = static_cast<int>( player.m_s / StageLength );
+        const int stage = track.stageAt( player.m_s );
         for ( int st = stage; st <= stage + 1; ++st )
         {
             double cp = 0.0;

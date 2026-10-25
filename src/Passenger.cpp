@@ -21,8 +21,7 @@ bool stageHitchhiker( const Track &track, int stage, double &s, float &side )
     const uint64_t h = hash64( track.seed() * 2029 + static_cast<uint64_t>( stage ) * 13 + 3 );
     if ( h % 3 == 0 ) return false;   // two stages in three
     side = place.m_country && countryInfo( place.m_country ).m_left ? -1.0f : 1.0f;
-    const double base =
-        static_cast<double>( stage ) * StageLength + HitchAt + static_cast<double>( ( h >> 8 ) % 10000 );
+    const double base = track.stageStart( stage ) + HitchAt + static_cast<double>( ( h >> 8 ) % 10000 );
     for ( int k = 0; k < 8; ++k )
     {
         s = base + 120.0 * k;
@@ -67,7 +66,7 @@ void Passenger::update( float dt, const Track &track, double s, float x, float s
     {
         if ( !enabled ) return;
         // This stage's or the next one's, once the road there is laid and the spot is still ahead.
-        const int stage = static_cast<int>( s / StageLength );
+        const int stage = track.stageAt( s );
         for ( int st = stage; st <= stage + 1; ++st )
         {
             double hs = 0.0;
@@ -112,13 +111,15 @@ void Passenger::update( float dt, const Track &track, double s, float x, float s
             if ( m_job == JobE::ORGAN )
             {
                 m_destS = checkpoint;
-                m_to = track.stageBiome( static_cast<int>( checkpoint / StageLength ) );
+                m_to = track.stageBiome( track.stageAt( checkpoint ) );
                 m_timeLeft = static_cast<float>( ( m_destS - s ) / OrganPace ) + 6.0f;
             }
             else
             {
-                const int next = static_cast<int>( m_s / StageLength ) + 1;
-                m_destS = static_cast<double>( next ) * StageLength + 800.0;
+                // The next place on land (past a stage on the sea).
+                int next = track.stageAt( m_s ) + 1;
+                if ( biomeDef( track.stageBiome( next ) ).m_underwater ) ++next;
+                m_destS = track.stageStart( next ) + 800.0;
                 m_to = track.stageBiome( next );
                 m_timeLeft = static_cast<float>( ( m_destS - s ) / HitchPace ) + HitchSlack;
             }

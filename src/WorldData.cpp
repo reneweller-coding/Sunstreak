@@ -1817,12 +1817,51 @@ std::string landmassOf( BiomeE biome )
     return countryInfo( d.m_country ).m_land ? countryInfo( d.m_country ).m_land : d.m_country;
 }
 
+/**
+ * @brief Whether one can drive from a landmass to another: the same one, or a chain of data/landlinks.txt between them
+ *        (a search over the little graph of the links).
+ * @param[in] a  a landmass
+ * @param[in] b  another
+ * @return true if joined by land
+ */
+bool joinedByLand( const std::string &a, const std::string &b )
+{
+    static DataCache<std::vector<std::pair<std::string, std::string>>> cache;
+    const auto                                                        &links = cache.get(
+        []
+        {
+            std::vector<std::pair<std::string, std::string>> out;
+            for ( const std::string &line : dataLines( dataText( "landlinks.txt" ) ) )
+            {
+                const std::vector<std::string> p = splitLine( line, ' ' );
+                if ( p.size() != 2 )
+                {
+                    ++g_errors;
+                    continue;
+                }
+                out.emplace_back( p[0], p[1] );
+            }
+            return out;
+        } );
+    if ( a == b ) return true;
+    std::vector<std::string> reached{ a };
+    for ( size_t i = 0; i < reached.size(); ++i )
+        for ( const auto &[x, y] : links )
+        {
+            const std::string *next = x == reached[i] ? &y : y == reached[i] ? &x : nullptr;
+            if ( !next || std::find( reached.begin(), reached.end(), *next ) != reached.end() ) continue;
+            if ( *next == b ) return true;
+            reached.push_back( *next );
+        }
+    return false;
+}
+
 }   // namespace
 
 int seaCrossing( BiomeE from, BiomeE to )
 {
     const std::string a = landmassOf( from ), b = landmassOf( to );
-    if ( a.empty() || b.empty() || a == b ) return -1;
+    if ( a.empty() || b.empty() || joinedByLand( a, b ) ) return -1;
     GeoPoint pa, pb;
     if ( !placeLocation( from, pa ) || !placeLocation( to, pb ) ) return -1;
     // The sea nearest the middle of the crossing (longitudes taken the short way round).

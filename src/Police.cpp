@@ -39,7 +39,7 @@ void Police::update( float dt, const Track &track, double s, float x, float spee
     {
         if ( !enabled ) return;
         // The trap of this stage or the next, once the road there is laid.
-        const int stage = static_cast<int>( s / StageLength );
+        const int stage = track.stageAt( s );
         for ( int st = stage; st <= stage + 1; ++st )
         {
             if ( st <= m_doneStage ) continue;

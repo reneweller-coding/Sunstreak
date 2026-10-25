@@ -242,7 +242,7 @@ void Game::writeBench() const
     const double    n = static_cast<double>( f.size() );
     const auto      pct = [&]( double p ) { return f[std::min( f.size() - 1, static_cast<size_t>( p * n ) )]; };
     const GpuTimer &g = const_cast<Renderer &>( m_renderer ).gpu();
-    const BiomeE    here = m_track->stageBiome( static_cast<int>( m_car.m_s / StageLength ) );
+    const BiomeE    here = m_track->stageBiome( m_track->stageAt( m_car.m_s ) );
     std::ofstream   out( m_options.m_bench );
     out << "place " << placeName( here ) << "\n";
     out << "screen " << GetScreenWidth() << "x" << GetScreenHeight() << " scale " << m_settings.m_renderScale
@@ -307,7 +307,7 @@ float Game::frontAt( double s, WeatherE &type ) const
         const double   centre =
             ( static_cast<double>( st ) + 0.25 + 0.5 * static_cast<double>( ( h >> 8 ) % 1000 ) / 1000.0 ) *
             frontSpacing;
-        const BiomeE   stage = m_track->stageBiome( static_cast<int>( centre / StageLength ) );
+        const BiomeE   stage = m_track->stageBiome( m_track->stageAt( centre ) );
         const ClimateE climate = biomeDef( stage ).m_climate;
         if ( climate == ClimateE::NONE ) continue;
         // Where the data knows the place's real climate, its rain of the month decides how often a front comes (a third
@@ -333,7 +333,7 @@ float Game::frontAt( double s, WeatherE &type ) const
         case ClimateE::TROPICAL:
         {
             // In South and Southeast Asia every other tropical front is the monsoon.
-            const BiomeDef &place = biomeDef( m_track->stageBiome( static_cast<int>( centre / StageLength ) ) );
+            const BiomeDef &place = biomeDef( m_track->stageBiome( m_track->stageAt( centre ) ) );
             const FleetE    fleet = place.m_country ? countryInfo( place.m_country ).m_fleet : FleetE::COUNT;
             const bool      monsoon =
                 ( fleet == FleetE::SOUTH_ASIA || fleet == FleetE::SOUTHEAST_ASIA ) && ( h >> 40 ) % 2 == 0;
@@ -986,7 +986,7 @@ void Game::saveRun()
     out << "overtakes=" << m_overtakes << "\n";
     out << "nearmisses=" << m_nearMisses << "\n";
     out << "topspeed=" << m_topSpeed << "\n";
-    m_savedPlace = biomeKey( m_track->stageBiome( static_cast<int>( m_car.m_s / StageLength ) ) );
+    m_savedPlace = biomeKey( m_track->stageBiome( m_track->stageAt( m_car.m_s ) ) );
     out << "place=" << m_savedPlace << "\n";
     out.close();
     saveRecords();
@@ -1179,8 +1179,7 @@ void Game::setupTrack( uint64_t seed, double startS, const TrackParams &params, 
     m_track->generateTo( startS + ViewDistance + 600.0 );
     const Segment &seg = m_track->segment( static_cast<long>( startS / SegmentLength ) );
     // Start in the slow lane's neighbour: right of the middle, or left of it where they drive on the left.
-    const bool keepLeft =
-        countryInfo( biomeDef( m_track->stageBiome( static_cast<int>( startS / StageLength ) ) ).m_country ).m_left;
+    const bool keepLeft = countryInfo( biomeDef( m_track->stageBiome( m_track->stageAt( startS ) ) ).m_country ).m_left;
     m_car.reset( carSpec( m_carIndex ), startS,
                  laneCenter( keepLeft ? ( seg.m_lanes - 1 ) / 2 : seg.m_lanes / 2, seg.m_lanes, seg.m_halfWidth ),
                  *m_track );
@@ -1238,7 +1237,7 @@ void Game::startDemo()
     setupTrack( seed, 600.0, m_setup.m_params );
     m_car.m_speed = 42.0f;
     m_car.m_gear = 3;
-    m_musicStage = static_cast<int>( m_car.m_s / StageLength );
+    m_musicStage = m_track->stageAt( m_car.m_s );
     playMusic( hash64( seed ), wantedStation() );
 }
 
@@ -1322,7 +1321,7 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
         double cp = 0.0;
         for ( int st = 0; st < 40; ++st )
         {
-            probe.generateTo( static_cast<double>( st + 1 ) * StageLength + 3000.0 );
+            probe.generateTo( probe.stageStart( st + 1 ) + 3000.0 );
             if ( stageHero( probe, st, cp ) )
             {
                 startS = cp - 650.0;
@@ -1339,7 +1338,7 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
         float  side = 0.0f;
         for ( int st = 0; st < 40; ++st )
         {
-            probe.generateTo( static_cast<double>( st + 1 ) * StageLength + 200.0 );
+            probe.generateTo( probe.stageStart( st + 1 ) + 200.0 );
             if ( stageHitchhiker( probe, st, spot, side ) )
             {
                 startS = spot - 170.0;
@@ -1357,10 +1356,10 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
             if ( m_options.m_find == 9 ? biomeDef( probe.stageBiome( st ) ).m_crossing == CrossingE::FERRY
                                        : biomeDef( probe.stageBiome( st ) ).m_underwater )
             {
-                const double portal = static_cast<double>( st ) * StageLength;
+                const double portal = probe.stageStart( st );
                 startS = m_options.m_find == 6 || m_options.m_find == 9 ? portal - 800.0
                          : m_options.m_find == 7                        ? portal + 300.0
-                                                                        : portal + StageLength - 260.0;
+                                                                        : probe.stageStart( st + 1 ) - 260.0;
                 break;
             }
         m_options.m_find = 0;
@@ -1375,7 +1374,7 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
             if ( def.m_props[r].m_perStage > 0 && skip-- == 0 )
             {
                 bool       right = false;
-                const long local = landmarkSpot( setup.m_seed, r, 0, 0, right );
+                const long local = landmarkSpot( setup.m_seed, r, 0, 0, probe.stageSegments( 0 ), right );
                 startS = std::max( params.m_startLine - 9.0,
                                    static_cast<double>( local ) * SegmentLength - 260.0 - def.m_props[r].m_farthest );
                 break;
@@ -1464,7 +1463,7 @@ void Game::beginCountdown()
     m_checkpoints = static_cast<int>( m_car.m_s / CheckpointSpacing );
     m_nextCheckpoint = ( m_checkpoints + 1 ) * CheckpointSpacing;
     m_timeLeft += bendTime( *m_track, m_car.m_s, m_nextCheckpoint, m_checkpoints );
-    m_stage = static_cast<int>( m_car.m_s / StageLength );
+    m_stage = m_track->stageAt( m_car.m_s );
     m_overtakes = 0;
     m_nearMisses = 0;
     m_combo = 1;
@@ -1536,7 +1535,7 @@ int Game::wantedStation() const
     if ( m_settings.m_station >= StationCount ) return m_audio.hasFileMusic() ? StationCount : 0;
     if ( m_settings.m_station >= 0 ) return m_settings.m_station;
     if ( !m_track ) return 0;
-    return biomeDef( m_track->stageBiome( static_cast<int>( m_car.m_s / StageLength ) ) ).m_station;
+    return biomeDef( m_track->stageBiome( m_track->stageAt( m_car.m_s ) ) ).m_station;
 }
 
 void Game::playMusic( uint64_t seed, int station )
@@ -1583,9 +1582,8 @@ void Game::progress( double ds )
     // The album: a photo of each landmark, the first time it comes into view ahead.
     if ( !m_demo && m_albumWanted < 0 )
     {
-        const int       stage = static_cast<int>( m_car.m_s / StageLength );
+        const int       stage = m_track->stageAt( m_car.m_s );
         const BiomeDef &def = biomeDef( m_track->stageBiome( stage ) );
-        const long      stageSegs = static_cast<long>( StageLength / SegmentLength );
         for ( size_t r = 0; r < def.m_props.size() && m_albumWanted < 0; ++r )
         {
             const PropRule &pr = def.m_props[r];
@@ -1596,10 +1594,10 @@ void Game::progress( double ds )
                 continue;
             for ( int k = 0; k < pr.m_perStage; ++k )
             {
-                bool         right = false;
-                const long   local = landmarkSpot( m_track->seed(), r, k, stage, right );
+                bool       right = false;
+                const long local = landmarkSpot( m_track->seed(), r, k, stage, m_track->stageSegments( stage ), right );
                 const double ahead =
-                    static_cast<double>( static_cast<long>( stage ) * stageSegs + local ) * SegmentLength - m_car.m_s;
+                    static_cast<double>( m_track->stageSegment( stage ) + local ) * SegmentLength - m_car.m_s;
                 // In view a little to the side: about as far ahead as twice its distance from the road.
                 const double aside = 0.5 * ( pr.m_nearest + pr.m_farthest );
                 if ( ahead > 1.6 * aside + 30.0 && ahead < 2.6 * aside + 90.0 ) m_albumWanted = pr.m_variant;
@@ -1659,17 +1657,18 @@ void Game::progress( double ds )
     if ( !m_records.m_postcards.test( bit ) && m_postcardWanted != static_cast<int>( here ) && mix.m_from == mix.m_to )
     {
         // A postcard of a new place: in sight of its landmark, or a stretch into its stage.
-        const long      stage = static_cast<long>( m_car.m_s / StageLength );
+        const int       stage = m_track->stageAt( m_car.m_s );
         const BiomeDef &def = biomeDef( here );
-        double          at = static_cast<double>( stage ) * StageLength + 1400.0;
+        double          at = m_track->stageStart( stage ) + 1400.0;
         for ( size_t r = 0; r < def.m_props.size(); ++r )
             if ( def.m_props[r].m_perStage > 0 )
             {
                 bool            right = false;
                 const PropRule &pr = def.m_props[r];
-                const double    spot = ( static_cast<double>( stage ) * ( StageLength / SegmentLength ) +
-                                         landmarkSpot( m_seed, r, 0, stage, right ) ) *
-                                       SegmentLength;
+                const double    spot =
+                    static_cast<double>( m_track->stageSegment( stage ) +
+                                         landmarkSpot( m_seed, r, 0, stage, m_track->stageSegments( stage ), right ) ) *
+                    SegmentLength;
                 at = spot - ( ( pr.m_nearest + pr.m_farthest ) * 0.75 + 40.0 );
                 break;
             }
@@ -1960,7 +1959,7 @@ void Game::simulate( float dt, bool autopilotOn )
     }
     handleEvents();
     if ( !m_demo ) progress( m_car.m_s - before );
-    const int musicStage = static_cast<int>( m_car.m_s / StageLength );
+    const int musicStage = m_track->stageAt( m_car.m_s );
     if ( musicStage != m_musicStage )
     {
         m_musicStage = musicStage;
@@ -2010,7 +2009,7 @@ void Game::simulate( float dt, bool autopilotOn )
     }
     WeatherE    front = WeatherE::NONE;
     const float frontAhead = frontAt( m_car.m_s + 450.0, front );
-    const long  frontStage = static_cast<long>( ( m_car.m_s + 450.0 ) / StageLength );
+    const long  frontStage = m_track->stageAt( m_car.m_s + 450.0 );
     if ( !m_demo && frontAhead > 0.3f && frontStage != m_frontShown && m_state == StateE::RACE )
     {
         m_frontShown = frontStage;
@@ -2348,9 +2347,9 @@ void Game::timeAttackRules( float h )
     bool arrived = false;
     if ( m_mode == ModeE::RALLY && m_journey >= 0 && m_journey < static_cast<int>( journeys().size() ) )
     {
-        const int st = static_cast<int>( m_car.m_s / StageLength );
+        const int st = m_track->stageAt( m_car.m_s );
         arrived = track.stageBiome( st ) == journeys()[static_cast<size_t>( m_journey )].m_to &&
-                  m_car.m_s - static_cast<double>( st ) * StageLength > 200.0;
+                  m_car.m_s - m_track->stageStart( st ) > 200.0;
     }
     if ( ( length > 0.0 && m_car.m_s >= length ) || arrived )
     {
@@ -2398,7 +2397,7 @@ void Game::timeAttackRules( float h )
         }
         m_nextCheckpoint += CheckpointSpacing;
     }
-    const int stage = static_cast<int>( m_car.m_s / StageLength );
+    const int stage = m_track->stageAt( m_car.m_s );
     if ( stage != m_stage )
     {
         m_stage = stage;
@@ -2837,7 +2836,7 @@ void Game::emitParticles( float dt )
         const Color ground = m_car.m_offroad > 0.3f ? surf.m_groundA : surf.m_road;
         const Color dust = snowy ? Color{ 240, 244, 250, 150 } : lerpColor( ground, Color{ 200, 180, 150, 255 }, 0.4f );
         // A dry climate raises more of it: a thicker, wider cloud in a desert, a thinner one in a wet place (not in snow).
-        const PlaceClimate *climate = placeClimate( m_track->stageBiome( static_cast<int>( m_car.m_s / StageLength ) ) );
+        const PlaceClimate *climate = placeClimate( m_track->stageBiome( m_track->stageAt( m_car.m_s ) ) );
         const float         dusty = snowy || !climate ? 1.0f : climateDustiness( *climate );
         for ( int i = emitCount( dirt * m_car.m_speed * 1.2f * dusty, dt, r ); i > 0; --i )
         {
@@ -2849,16 +2848,17 @@ void Game::emitParticles( float dt )
             p.m_size = 0.5f * std::sqrt( dusty );
             p.m_grow = 3.0f;
             p.m_color = Color{ dust.r, dust.g, dust.b,
-                               static_cast<unsigned char>( snowy ? 170 : std::clamp( 120.0f * std::sqrt( dusty ), 80.0f, 160.0f ) ) };
+                               static_cast<unsigned char>(
+                                   snowy ? 170 : std::clamp( 120.0f * std::sqrt( dusty ), 80.0f, 160.0f ) ) };
             p.m_drag = 1.2f;
             p.m_gravity = 0.5f;
             m_particles.emit( p );
         }
     }
     // Dust devils over the desert on clear days, in every other stage: whirls of sand drifting beside the road.
-    const BiomeDef &land = biomeDef( m_track->stageBiome( static_cast<int>( m_car.m_s / StageLength ) ) );
+    const BiomeDef &land = biomeDef( m_track->stageBiome( m_track->stageAt( m_car.m_s ) ) );
     if ( land.m_climate == ClimateE::ARID && env.m_dust < 0.2f && env.m_rain < 0.1f && env.m_sunElevation > 10.0f &&
-         !m_demo && hash64( m_track->seed() * 53 + static_cast<uint64_t>( m_car.m_s / StageLength ) ) % 2 == 0 )
+         !m_demo && hash64( m_track->seed() * 53 + static_cast<uint64_t>( m_track->stageAt( m_car.m_s ) ) ) % 2 == 0 )
     {
         const long block = static_cast<long>( m_car.m_s / 700.0 );
         for ( long b = block; b <= block + 1; ++b )
@@ -2961,7 +2961,7 @@ void Game::updateCamera( float dt )
     const float      lift = static_cast<float>( m_car.m_y - surfaceAtCar );
 
     // The driver sits on the side the country's cars have the wheel (on the right where they keep left).
-    const BiomeDef &here = biomeDef( track.stageBiome( static_cast<int>( m_car.m_s / StageLength ) ) );
+    const BiomeDef &here = biomeDef( track.stageBiome( m_track->stageAt( m_car.m_s ) ) );
     const float     seatTarget = here.m_country && countryInfo( here.m_country ).m_left ? -1.0f : 1.0f;
     m_seat = m_camInit ? approach( m_seat, seatTarget, 2.0f, dt ) : seatTarget;
     // The ornament at the mirror swings out of the bends and jumps on the bumps.

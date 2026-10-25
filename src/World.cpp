@@ -343,13 +343,12 @@ float World::terrainHeight( const Track &track, long index, float lateral, const
     return h;
 }
 
-long landmarkSpot( uint64_t seed, size_t rule, int k, long stage, bool &right )
+long landmarkSpot( uint64_t seed, size_t rule, int k, long stage, long segments, bool &right )
 {
-    const long     stageSegs = static_cast<long>( StageLength / SegmentLength );
     const uint64_t h =
         hash64( seed ^ ( rule * 131 + static_cast<uint64_t>( k ) * 977 + static_cast<uint64_t>( stage ) * 7919 ) );
     right = ( ( h >> 20 ) & 1u ) != 0;
-    return 60 + static_cast<long>( h % static_cast<uint64_t>( stageSegs - 120 ) );
+    return 60 + static_cast<long>( h % static_cast<uint64_t>( std::max( 1L, segments - 120 ) ) );
 }
 
 World::~World()
@@ -606,8 +605,8 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
         const bool     bridge = seg.m_flags & SEG_BRIDGE;
         double         runwayS = 0.0;
         float          runwaySide = 0.0f;
-        const bool     hasRunway = stageRunway(
-            track, static_cast<int>( static_cast<double>( j ) * SegmentLength / StageLength ), runwayS, runwaySide );
+        const bool     hasRunway =
+            stageRunway( track, track.stageAt( static_cast<double>( j ) * SegmentLength ), runwayS, runwaySide );
         const bool runwayHere = hasRunway && static_cast<long>( runwayS / SegmentLength ) == j;
         ground.setShade( tunnel ? 0.12f : seg.m_gallery != 0 ? 0.5f : 1.0f );
 
@@ -615,9 +614,8 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
         // decks, open water to the horizon (or the bank the train goes into) and the vessels themselves.
         const double sj = static_cast<double>( j ) * SegmentLength;
         // A fast train's viaduct beside the road (Train.h), from a stone portal to a stone portal; props keep clear of it.
-        TrainStretch railway;
-        const bool   hasRailway =
-            !tunnel && !bridge && stageTrain( track, static_cast<int>( sj / StageLength ), railway );
+        TrainStretch   railway;
+        const bool     hasRailway = !tunnel && !bridge && stageTrain( track, track.stageAt( sj ), railway );
         const double   viaFrom = railway.m_from - RailBefore, viaTo = railway.m_to + RailAfter;
         const bool     viaduct = hasRailway && sj >= viaFrom - PortalLength && sj < viaTo + PortalLength;
         const float    railL = railway.m_side * ( A.m_edge + RailOffset );
@@ -626,9 +624,9 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
         {
             const bool      ferry = xc.m_type == CrossingE::FERRY;
             const bool      out = sj < xc.m_board + xc.m_length, in = sj >= xc.m_land - xc.m_length;
-            const BiomeDef &shore = biomeDef( track.stageBiome( static_cast<int>(
-                ( sj < ( xc.m_board + xc.m_land ) * 0.5 ? xc.m_board : xc.m_land ) / StageLength ) ) );
-            const Surface  &sh = shore.m_surface;
+            const BiomeDef &shore = biomeDef(
+                track.stageBiome( track.stageAt( sj < ( xc.m_board + xc.m_land ) * 0.5 ? xc.m_board : xc.m_land ) ) );
+            const Surface &sh = shore.m_surface;
             if ( ferry )
             {
                 ground.quad( at( A, -1500.0f, -3.0f ), at( A, 1500.0f, -3.0f ), at( B, 1500.0f, -3.0f ),
@@ -1421,7 +1419,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
         {
             const bool         ferry = xc.m_type == CrossingE::FERRY;
             const double       before = xc.m_board - sj, after = sj - xc.m_land;
-            const BiomeDef    &dest = biomeDef( track.stageBiome( static_cast<int>( xc.m_land / StageLength ) ) );
+            const BiomeDef    &dest = biomeDef( track.stageBiome( track.stageAt( xc.m_land ) ) );
             const CountryInfo &nation = countryInfo( here.m_country );
             const float        driver = nation.m_left ? -1.0f : 1.0f;
             for ( double at0 : { 600.0, 260.0 } )
@@ -1450,8 +1448,8 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
         // The country's road customs: its speed limit after the place sign and before a speed camera, the camera, a
         // toll plaza across the road.
         {
-            const long         stageSegs = static_cast<long>( StageLength / SegmentLength ), local = j % stageSegs;
-            const int          stage = static_cast<int>( j / stageSegs );
+            const int          stage = track.stageAt( static_cast<double>( j ) * SegmentLength );
+            const long         stageSegs = track.stageSegments( stage ), local = j - track.stageSegment( stage );
             const BiomeDef    &place = biomeDef( track.stageBiome( stage ) );
             const RoadCustoms &roads = roadCustoms( place.m_country );
             const float        driver = countryInfo( place.m_country ).m_left ? -1.0f : 1.0f;
@@ -1634,8 +1632,8 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             const CountryInfo &signs = countryInfo( rule.m_country );
 
             // The place's name at the start of its stage, a border post where the country changes.
-            const long stageSegs = static_cast<long>( StageLength / SegmentLength ), stage = j / stageSegs,
-                       local = j % stageSegs;
+            const long stage = track.stageAt( static_cast<double>( j ) * SegmentLength ),
+                       local = j - track.stageSegment( static_cast<int>( stage ) );
             if ( local >= 3 && local <= 7 && !tunnel && !bridge )
             {
                 const BiomeDef    &place = biomeDef( track.stageBiome( static_cast<int>( stage ) ) );
@@ -1725,8 +1723,9 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                     // The reflectors differ between the traffic's own side and the other.
                     const bool   keepLeft = rule.m_country && countryInfo( rule.m_country ).m_left;
                     const size_t far = ( side < 0 ) == keepLeft ? 0 : 1;
-                    props.append( models.m_post[std::min<size_t>( rule.m_postStyle, PostSchemes * PostBodies - 1 ) * 2 + far],
-                                  at( A, side * ( A.m_hw + RumbleWidth + 0.7f ), 0.0f ), A.m_heading, 1.0f );
+                    props.append(
+                        models.m_post[std::min<size_t>( rule.m_postStyle, PostSchemes * PostBodies - 1 ) * 2 + far],
+                        at( A, side * ( A.m_hw + RumbleWidth + 0.7f ), 0.0f ), A.m_heading, 1.0f );
                 }
             }
             if ( rule.m_lampSpacing > 0.0f && !tunnel && !bridge && !forkClear )
@@ -1759,7 +1758,9 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 const float hA = terrainHeight( track, j, lA, A.m_terrain, A.m_edge );
                 const float hB = terrainHeight( track, j + 1, lB, B.m_terrain, B.m_edge );
                 // Where the insulators of the three pole models sit: across the road and above the ground.
-                static const float arms[3][4] = { { -1.1f, -0.4f, 0.4f, 1.1f }, { -1.0f, 0.0f, 1.0f, 0.0f }, { -1.4f, -0.7f, 0.7f, 1.4f } };
+                static const float arms[3][4] = { { -1.1f, -0.4f, 0.4f, 1.1f },
+                                                  { -1.0f, 0.0f, 1.0f, 0.0f },
+                                                  { -1.4f, -0.7f, 0.7f, 1.4f } };
                 static const float tops[3] = { 8.7f, 9.57f, 10.56f };
                 static const int   counts[3] = { 4, 3, 4 };
                 const size_t       kind = std::min<size_t>( rule.m_poleKind - 1, 2 );
@@ -1920,7 +1921,8 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                     for ( int k = 0; k < pr.m_perStage && !spot; ++k )
                     {
                         bool       right = false;
-                        const long where = landmarkSpot( seed, r, k, stage, right );
+                        const long where =
+                            landmarkSpot( seed, r, k, stage, track.stageSegments( static_cast<int>( stage ) ), right );
                         // On the dry side, or on the water for a monument that stands in it.
                         const bool wetL = A.m_terrain.m_waterLeft > 0.5f, wetR = A.m_terrain.m_waterRight > 0.5f;
                         if ( ( right ? wetR : wetL ) != pr.m_onWater && ( right ? wetL : wetR ) == pr.m_onWater )

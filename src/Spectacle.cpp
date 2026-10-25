@@ -109,7 +109,9 @@ bool stageSpectacle( const Track &track, int stage, SkyE &kind, double &at )
         if ( r.m_kind == SkyE::SHIP && place.m_terrain.m_waterLeft < 0.5f && place.m_terrain.m_waterRight < 0.5f )
             continue;
         kind = r.m_kind;
-        at = static_cast<double>( stage ) * StageLength + 1500.0 + static_cast<double>( ( h >> 12 ) % 8000 );
+        at = track.stageStart( stage ) + 1500.0 +
+             static_cast<double>( ( h >> 12 ) %
+                                  static_cast<uint64_t>( std::max( 1000.0, track.stageLength( stage ) - 7000.0 ) ) );
         return true;
     }
     return false;
@@ -133,7 +135,7 @@ void Spectacle::reset()
 void Spectacle::update( float dt, const Track &track, const PlayerCar &player, bool enabled, SkyEvents &ev )
 {
     ev = SkyEvents{};
-    const int stage = static_cast<int>( player.m_s / StageLength );
+    const int stage = track.stageAt( player.m_s );
     if ( stage > m_lastStage )
     {
         m_lastStage = stage;

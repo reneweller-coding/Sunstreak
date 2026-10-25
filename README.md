@@ -275,7 +275,8 @@ then the other one swings away into the fields, its traffic with it, and your ro
 The next stage is the place you chose, and the tour goes on from there.
 
 Where two places lie on different landmasses (the continents, Britain, Ireland, Iceland, Japan's islands, Sicily,
-Zanzibar, the Caribbean, the Pacific and every other island), a stage on the sea floor lies between them: a glass
+Zanzibar, the Caribbean, the Pacific and every other island) and no land joins them (data/landlinks.txt: Africa and
+Eurasia meet at Sinai), a stage on the sea floor lies between them, a third as long as one on land: a glass
 tunnel of steel ribs with a light in every crown, the light of the sea instead of the sun, marine snow drifting
 down. The sea is the one nearest the middle of the crossing, forty-two of them, each with its own floor and its own
 life: the wreck of the Titanic in the North Atlantic, a U-boat in the Channel, the Christ of the Abyss in the Ligurian
@@ -426,6 +427,7 @@ viewer, every landmark and creature alone under its first place's sky, to turn a
 - `route.txt`: the order of the world tour and where each place is; the forks are found from it (where the country or
   the state changes and a neighbour lies a little further on).
 - `seas.txt`: the seas and points in them; a crossing goes under the sea nearest its middle.
+- `landlinks.txt`: landmasses joined by land (AFRICA EURASIA over Sinai); between them the tour stays on land.
 - `landmarks/*.txt` and `creatures/*.txt`: shapes in a small language (`00-language.txt` describes it): boxes, tapered
   boxes, columns, cones, rods, balls, domes, roofs, windows, arches, rings, repeated, turned and mirrored. The creatures
   swim round the undersea tunnels; the ferry, the car train, the festivals' stalls and tents and the regional houses

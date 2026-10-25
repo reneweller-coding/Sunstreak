@@ -229,7 +229,8 @@ const RoadsideMapT &roadsideData()
                         r.m_unpaved = static_cast<float>( std::atof( value.c_str() ) ) / 100.0f;
                     else if ( key == "concrete" && std::atof( value.c_str() ) > 0.0 )
                         r.m_concrete = static_cast<float>( std::atof( value.c_str() ) ) / 100.0f;
-                    else if ( key == "rail" && value == "1" ) r.m_rail = true;
+                    else if ( key == "rail" && value == "1" )
+                        r.m_rail = true;
                     else if ( key == "cables" && ( value == "3" || value == "6" ) )
                         r.m_cables = static_cast<uint8_t>( value == "3" ? 3 : 6 );
                     else
@@ -273,7 +274,7 @@ bool stageCamera( const Track &track, int stage, double &s, int &limit, bool &mp
     // The first clear spot from CameraAt on, the limit sign clear before it.
     for ( int k = 0; k < 6; ++k )
     {
-        s = static_cast<double>( stage ) * StageLength + CameraAt + 100.0 * k;
+        s = track.stageStart( stage ) + CameraAt + 100.0 * k;
         if ( !clearAt( track, s ) || !clearAt( track, s - LimitAt ) ) continue;
         mph = c.m_mph;
         limit = speedLimit( track.segment( static_cast<long>( s / SegmentLength ) ), mph );
@@ -291,7 +292,7 @@ bool stageToll( const Track &track, int stage, double &s )
     // The first clear spot from TollAt on.
     for ( int k = 0; k < 6; ++k )
     {
-        s = static_cast<double>( stage ) * StageLength + TollAt + 100.0 * k;
+        s = track.stageStart( stage ) + TollAt + 100.0 * k;
         if ( track.segment( static_cast<long>( s / SegmentLength ) ).m_lanes >= 2 && clearAt( track, s ) ) return true;
     }
     return false;
@@ -303,7 +304,7 @@ double policeBase( const Track &track, int stage )
     if ( stage < 0 || !place.m_country || place.m_underwater || place.m_surface.m_lineGlow > 0.0f ) return -1.0;
     const uint64_t h = hash64( track.seed() * 1013 + static_cast<uint64_t>( stage ) * 7 + 5 );
     if ( h % 3 != 0 ) return -1.0;   // one stage in three
-    return static_cast<double>( stage ) * StageLength + PoliceAt + static_cast<double>( ( h >> 8 ) % 7000 );
+    return track.stageStart( stage ) + PoliceAt + static_cast<double>( ( h >> 8 ) % 7000 );
 }
 
 bool stagePolice( const Track &track, int stage, double &s, float &side )
@@ -525,15 +526,15 @@ int roadsideErrors()
 float gravelAt( const Track &track, double s )
 {
     if ( s < 0.0 ) return 0.0f;
-    const int       stage = static_cast<int>( s / StageLength );
+    const int       stage = track.stageAt( s );
     const BiomeDef &d = biomeDef( track.stageBiome( stage ) );
-    const double    local = s - static_cast<double>( stage ) * StageLength;
-    if ( d.m_gravel <= 0.0f || local < GravelFrom || local > StageLength - GravelTo ) return 0.0f;
+    const double    local = s - track.stageStart( stage ), length = track.stageLength( stage );
+    if ( d.m_gravel <= 0.0f || local < GravelFrom || local > length - GravelTo ) return 0.0f;
     if ( track.segment( static_cast<long>( s / SegmentLength ) ).m_flags & ( SEG_TUNNEL | SEG_BRIDGE | SEG_FORK ) )
         return 0.0f;
     if ( track.inForkZone( s, 60.0 ) || track.crossingAt( s ).m_type != CrossingE::NONE ) return 0.0f;
     // Stretches of gravel and of asphalt by turns, as many of gravel as the place has of it.
-    const long blocks = static_cast<long>( ( StageLength - GravelTo - GravelFrom ) / GravelBlock );
+    const long blocks = static_cast<long>( ( length - GravelTo - GravelFrom ) / GravelBlock );
     auto       on = [&]( long b )
     {
         if ( b < 0 || b >= blocks ) return 0.0f;

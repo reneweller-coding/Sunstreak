@@ -81,7 +81,7 @@ bool stageTrain( const Track &track, int stage, TrainStretch &out )
     const uint64_t h = hash64( track.seed() * 6151 + static_cast<uint64_t>( stage ) * 23 + 7 );
     if ( h % 2 != 0 ) return false;   // one stage in two
     out.m_line = line;
-    out.m_from = static_cast<double>( stage ) * StageLength + 3000.0 + static_cast<double>( ( h >> 8 ) % 2000 );
+    out.m_from = track.stageStart( stage ) + 3000.0 + static_cast<double>( ( h >> 8 ) % 2000 );
     out.m_to = out.m_from + 4000.0;
     // Away from the traffic of the slow side: the side of the oncoming lanes there would be, the left where they keep right.
     out.m_side = countryInfo( place.m_country ).m_left ? 1.0f : -1.0f;
@@ -91,8 +91,7 @@ bool stageTrain( const Track &track, int stage, TrainStretch &out )
 bool viaductAt( const Track &track, double s, float &side )
 {
     TrainStretch t;
-    if ( !stageTrain( track, static_cast<int>( s / StageLength ), t ) || s < t.m_from - RailBefore ||
-         s >= t.m_to + RailAfter )
+    if ( !stageTrain( track, track.stageAt( s ), t ) || s < t.m_from - RailBefore || s >= t.m_to + RailAfter )
         return false;
     side = t.m_side;
     return true;
@@ -122,7 +121,7 @@ void TrainRace::update( float dt, const Track &track, const PlayerCar &player, b
     {
         if ( !enabled ) return;
         // When the car comes to the viaduct, the train runs just ahead of it, as fast as the car is.
-        const int stage = static_cast<int>( player.m_s / StageLength );
+        const int stage = track.stageAt( player.m_s );
         if ( stage <= m_lastStage || !stageTrain( track, stage, m_stretch ) ) return;
         if ( player.m_s < m_stretch.m_from - 250.0 || player.m_s > m_stretch.m_from ) return;
         m_lastStage = stage;

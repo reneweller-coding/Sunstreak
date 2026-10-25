@@ -104,10 +104,9 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
                              tuning().m_traffic * m_density;
     if ( m_spawnS < player.m_s + 220.0 ) m_spawnS = player.m_s + 220.0;
     // The country decides the side: slower cars keep right, or left where they drive on the left.
-    const int       playerStage = static_cast<int>( player.m_s / StageLength );
-    const bool      keepLeft = countryInfo( biomeDef( track.stageBiome( playerStage ) ).m_country ).m_left;
-    const BiomeDef &spawnPlace =
-        biomeDef( track.stageBiome( static_cast<int>( ( player.m_s + 900.0 ) / StageLength ) ) );
+    const int          playerStage = track.stageAt( player.m_s );
+    const bool         keepLeft = countryInfo( biomeDef( track.stageBiome( playerStage ) ).m_country ).m_left;
+    const BiomeDef    &spawnPlace = biomeDef( track.stageBiome( track.stageAt( player.m_s + 900.0 ) ) );
     const CountryInfo &spawnLand = countryInfo( spawnPlace.m_country );
     const uint32_t     fleetBit = 1u << static_cast<unsigned>( spawnLand.m_fleet );
     const uint8_t      styles = spawnPlace.m_country ? roadCustoms( spawnPlace.m_country ).m_styles : 0;
@@ -161,7 +160,7 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
     }
     // Under the sea: shoals, sharks, rays, whales and crabs round the glass tunnel.
     {
-        const BiomeDef &sea = biomeDef( track.stageBiome( static_cast<int>( ( player.m_s + 500.0 ) / StageLength ) ) );
+        const BiomeDef &sea = biomeDef( track.stageBiome( track.stageAt( player.m_s + 500.0 ) ) );
         if ( m_swimS < player.m_s + 200.0 ) m_swimS = player.m_s + 200.0 + m_rng.range( 0.0f, 80.0f );
         if ( !sea.m_swim.empty() && sea.m_crossing == CrossingE::NONE && player.m_s + 460.0 > m_swimS )
         {
@@ -343,7 +342,7 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
         m_sirenAhead = 900.0;
         const Segment  &seg = track.segment( static_cast<long>( c.m_s / SegmentLength ) );
         const Crossing  xc = track.crossingAt( c.m_s );
-        const BiomeDef &place = biomeDef( track.stageBiome( static_cast<int>( c.m_s / StageLength ) ) );
+        const BiomeDef &place = biomeDef( track.stageBiome( track.stageAt( c.m_s ) ) );
         const int       model = serviceModel( models, place, fire ? "FIRE_ENGINE" : "AMBULANCE" );
         const bool      busy =
             std::any_of( m_cars.begin(), m_cars.end(), []( const TrafficCar &o ) { return o.m_siren != 0; } );

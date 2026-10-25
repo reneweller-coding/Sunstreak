@@ -2264,8 +2264,8 @@ void Game::buildCrossingScene()
     const bool ferry = m_crossing.m_type == CrossingE::FERRY;
     const int  vessel = landmarkByName( ferry ? "FERRY_SHIP" : "CAR_TRAIN" );
     if ( vessel >= 0 ) m_crossVessel = m_models.prop( PropKindE::LANDMARK, static_cast<uint64_t>( vessel ) ).upload();
-    const BiomeDef &from = biomeDef( m_track->stageBiome( static_cast<int>( m_crossing.m_board / StageLength ) ) );
-    const BiomeDef &to = biomeDef( m_track->stageBiome( static_cast<int>( m_crossing.m_land / StageLength ) ) );
+    const BiomeDef &from = biomeDef( m_track->stageBiome( m_track->stageAt( m_crossing.m_board ) ) );
+    const BiomeDef &to = biomeDef( m_track->stageBiome( m_track->stageAt( m_crossing.m_land ) ) );
     MeshBuilder     m;
     if ( ferry )
     {
@@ -2420,7 +2420,7 @@ void Game::drawCrossing()
 {
     const float     W = static_cast<float>( GetScreenWidth() ), H = static_cast<float>( GetScreenHeight() ), u = unit();
     const bool      ferry = m_crossing.m_type == CrossingE::FERRY;
-    const BiomeDef &dest = biomeDef( m_track->stageBiome( static_cast<int>( m_crossing.m_land / StageLength ) ) );
+    const BiomeDef &dest = biomeDef( m_track->stageBiome( m_track->stageAt( m_crossing.m_land ) ) );
     const BiomeDef &sea = biomeDef( m_crossing.m_sea );
     const std::string to = dest.m_name ? dest.m_name : "", over = sea.m_name ? sea.m_name : "";
     DrawRectangle( 0, 0, static_cast<int>( W ), static_cast<int>( 130.0f * u ), Color{ 0, 0, 0, 90 } );
@@ -2837,7 +2837,7 @@ void Game::drawCockpit()
     const float     side = m_seat;    // 1: the driver on the left, the car's middle to the right
     const float     mid = W * 0.5f;   // the wheel straight ahead of the driver
     const Color     trim{ 26, 26, 32, 255 }, trimLight{ 58, 58, 68, 255 }, leather{ 38, 34, 36, 255 };
-    const BiomeDef &here = biomeDef( m_track->stageBiome( static_cast<int>( m_car.m_s / StageLength ) ) );
+    const BiomeDef &here = biomeDef( m_track->stageBiome( m_track->stageAt( m_car.m_s ) ) );
     const float     sn = m_car.m_speed / m_car.m_spec.m_topSpeed;
     auto            sx = [&]( float x ) { return mid + ( x - 0.5f ) * W * side; };   // a screen x mirrored for the side
 
@@ -3093,9 +3093,8 @@ void Game::drawHud()
         drawTextFx( format( "%lld", static_cast<long long>( m_score ) ), 28.0f * u, row( 34.0f ), 28.0f * u, Ink,
                     AlignE::LEFT, 0.3f );
         txt( format( "%.2f KM", ( m_car.m_s - m_startS ) / 1000.0 ), 28.0f * u, row( 74.0f ), 15.0f * u, Ink );
-        const BiomeE biome = m_track->stageBiome( static_cast<int>( m_car.m_s / StageLength ) );
-        std::string  stageLine =
-            format( "STAGE %d  %s", static_cast<int>( m_car.m_s / StageLength ) + 1, placeName( biome ).c_str() );
+        const BiomeE biome = m_track->stageBiome( m_track->stageAt( m_car.m_s ) );
+        std::string stageLine = format( "STAGE %d  %s", m_track->stageAt( m_car.m_s ) + 1, placeName( biome ).c_str() );
         if ( m_settings.m_timeOfDay == 1 && m_hour >= 0.0f )
             stageLine += format( "  %02d:%02d", static_cast<int>( m_hour ),
                                  static_cast<int>( std::fmod( m_hour, 1.0f ) * 60.0f ) );
@@ -3216,7 +3215,7 @@ void Game::drawHud()
     // A fork ahead: where each carriageway leads, the one the car is on lit.
     if ( !m_demo )
     {
-        const int  stage = static_cast<int>( m_car.m_s / StageLength );
+        const int  stage = m_track->stageAt( m_car.m_s );
         const Fork fork = m_track->fork( stage );
         if ( fork.m_exists && fork.m_chosen == 0 && m_car.m_s > fork.m_at - 1900.0 )
         {

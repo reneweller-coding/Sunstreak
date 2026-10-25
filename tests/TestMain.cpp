@@ -361,7 +361,15 @@ int main()
                 !world.fork( 1 ).m_exists;
             std::printf( "      %d sea crossings round the world; stage 2 from the cliffs: %s\n", crossings,
                          placeName( world.stageBiome( 1 ) ).c_str() );
-            check( crossings >= 20 && seas == crossings && channel, "under the sea between landmasses" );
+            // A third as long as a stage on land; over Sinai Africa and Asia are one by land.
+            const bool shorter = world.stageLength( 1 ) == SeaStageLength &&
+                                 world.stageStart( 2 ) == StageLength + SeaStageLength &&
+                                 world.stageAt( StageLength + SeaStageLength + 1.0 ) == 2;
+            const int  bethlehem = biomeId( "BETHLEHEM" ), sinai = biomeId( "SINAI" );
+            const bool overland = bethlehem >= 0 && sinai >= 0 &&
+                                  seaCrossing( static_cast<BiomeE>( bethlehem ), static_cast<BiomeE>( sinai ) ) < 0;
+            check( crossings >= 20 && seas == crossings && channel && shorter && overland,
+                   "under the sea between landmasses, a third as long" );
         }
         {   // The random tour: every country once, each in another part of the world, a fork between two, the sea
             // floor or a ferry between landmasses; the countries of earlier runs left out.
@@ -482,7 +490,8 @@ int main()
         {   // The dust behind a car: more in the desert of Huacachina than in the wet hills of Connemara.
             const PlaceClimate *desert = placeClimate( static_cast<BiomeE>( biomeId( "HUACACHINA" ) ) );
             const PlaceClimate *wet = placeClimate( static_cast<BiomeE>( biomeId( "CONNEMARA" ) ) );
-            const float         dusty = desert ? climateDustiness( *desert ) : 0.0f, damp = wet ? climateDustiness( *wet ) : 9.0f;
+            const float         dusty = desert ? climateDustiness( *desert ) : 0.0f,
+                                damp = wet ? climateDustiness( *wet ) : 9.0f;
             std::printf( "      dust: %.2f in the desert, %.2f in the wet hills\n", dusty, damp );
             check( dusty > 1.5f && damp < 0.7f, "a dry climate raises more dust" );
         }
@@ -526,15 +535,18 @@ int main()
                 sixWires += biomeDef( static_cast<BiomeE>( i ) ).m_poleWires >= 6 ? 1 : 0;
                 rails += biomeDef( static_cast<BiomeE>( i ) ).m_railLeft ? 1 : 0;
             }
-            const float june = dateFromText( "06-21" ), december = dateFromText( "12-21" ), march = dateFromText( "03-21" );
-            const float summerNoon = sunHeightAt( 52.5f, june, 12.0f ), winterNoon = sunHeightAt( 52.5f, december, 12.0f );
+            const float june = dateFromText( "06-21" ), december = dateFromText( "12-21" ),
+                        march = dateFromText( "03-21" );
+            const float summerNoon = sunHeightAt( 52.5f, june, 12.0f ),
+                        winterNoon = sunHeightAt( 52.5f, december, 12.0f );
             const float equator = sunHeightAt( 0.0f, march, 12.0f ), polarNoon = sunHeightAt( 70.0f, december, 12.0f );
             const float midnightSun = sunHeightAt( 70.0f, june, 0.0f );
-            std::printf( "      sun: Berlin noon %.1f (June) %.1f (December), equator %.1f, 70 N noon in December %.1f, midnight in June %.1f; "
-                         "%d places with six conductors, %d with guard rails\n",
-                         summerNoon, winterNoon, equator, polarNoon, midnightSun, sixWires, rails );
-            check( std::abs( summerNoon - 61.0f ) < 1.0f && std::abs( winterNoon - 14.0f ) < 1.0f && equator > 88.0f && polarNoon < 0.0f &&
-                       midnightSun > 2.0f,
+            std::printf(
+                "      sun: Berlin noon %.1f (June) %.1f (December), equator %.1f, 70 N noon in December %.1f, midnight in June %.1f; "
+                "%d places with six conductors, %d with guard rails\n",
+                summerNoon, winterNoon, equator, polarNoon, midnightSun, sixWires, rails );
+            check( std::abs( summerNoon - 61.0f ) < 1.0f && std::abs( winterNoon - 14.0f ) < 1.0f && equator > 88.0f &&
+                       polarNoon < 0.0f && midnightSun > 2.0f,
                    "the sun stands where it really stands" );
         }
         {   // Road customs: miles and boards in the USA, cameras in Germany, EU plates in France, toll plazas in Italy.

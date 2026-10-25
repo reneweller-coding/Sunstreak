@@ -32,6 +32,7 @@ constexpr float  LaneWidth = 3.7f;             ///< metres per lane
 constexpr float  RumbleWidth = 0.9f;           ///< the kerb outside the road edge
 constexpr float  ShoulderWidth = 2.2f;         ///< gravel beside the kerb
 constexpr double StageLength = 15000.0;        ///< one biome
+constexpr double SeaStageLength = 5000.0;      ///< a stage on the sea floor or a ferry's: a third of one on land
 constexpr double CheckpointSpacing = 2500.0;   ///< metres between checkpoints
 constexpr double BlendLength = 500.0;          ///< the crossfade between two biomes
 constexpr double StartLine = 40.0;             ///< where the start gantry stands
@@ -286,6 +287,41 @@ public:
     BiomeE stageBiome( int stage ) const;
 
     /**
+     * @brief The stage a distance lies in (a stage on the sea is a third as long as one on land).
+     * @param[in] s  the distance along the road
+     * @return the stage number (0 first, and before the start)
+     */
+    int stageAt( double s ) const;
+
+    /**
+     * @brief Where a stage begins.
+     * @param[in] stage  the stage number (where the next begins, it ends)
+     * @return the distance along the road
+     */
+    double stageStart( int stage ) const;
+
+    /**
+     * @brief How long a stage is.
+     * @param[in] stage  the stage number
+     * @return metres: StageLength, or SeaStageLength on the sea
+     */
+    double stageLength( int stage ) const;
+
+    /**
+     * @brief The first segment of a stage.
+     * @param[in] stage  the stage number
+     * @return the segment index
+     */
+    long stageSegment( int stage ) const;
+
+    /**
+     * @brief How many segments a stage has.
+     * @param[in] stage  the stage number
+     * @return the count
+     */
+    long stageSegments( int stage ) const;
+
+    /**
      * @brief The world tour's fork in a stage (copies of the track share the choices).
      * @param[in] stage  the stage
      * @return the fork (m_exists false outside the world tour and where the route goes on alone)
@@ -444,6 +480,7 @@ private:
         std::vector<int>       m_sea;      ///< per stage: the sea crossed on the way to m_pos (-1: a place on land)
         std::vector<int8_t>    m_choice;   ///< per stage: -1 left, +1 right, 0 not yet
         std::vector<RouteFork> m_fork;     ///< per stage: where the roads after it lead (as far as known)
+        std::vector<double>    m_start;    ///< per stage: where it begins (as far as known)
     };
     std::shared_ptr<Tour> m_tour;   ///< the world tour's way (null in other modes)
 
@@ -460,6 +497,12 @@ private:
      * @return the fork (no other road where there is none; on the sea floor on to where the crossing leads)
      */
     RouteFork stepFork( size_t k ) const;
+
+    /**
+     * @brief Works the tour out further, following the choices made (with the tour's mutex held).
+     * @param[in] steps  until this stage (counted after the detour) is known
+     */
+    void growTour( size_t steps ) const;
 };
 
 /**

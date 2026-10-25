@@ -1,0 +1,5 @@
+# Where two landmasses of data/countries.txt (or islands of the places) meet by land: the tour drives on between
+# them instead of under the sea. Two landmasses per line; chains of links count too.
+#
+# Africa and Eurasia: Sinai, between Egypt and Israel.
+AFRICA EURASIA
