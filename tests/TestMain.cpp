@@ -415,6 +415,22 @@ int main()
             check( smogProfileErrors() == 0 && air && winter > monsoon + 0.3f && plain == base && smogAt( BiomeE::BAVARIA, 0.5f, 12.0f ) <= 1.0f,
                    "the smog follows the month and the hour" );
         }
+        { // What OpenStreetMap shows: poles of overhead lines beside some country roads, more gravel and concrete where measured.
+            int poles = 0, wood = 0, concrete = 0, steel = 0, gravelly = 0, slabs = 0;
+            for( int i = 0; i < biomeCount(); ++i )
+            {
+                const BiomeDef &d = biomeDef( static_cast<BiomeE>( i ) );
+                poles += d.m_poleKind > 0 ? 1 : 0;
+                wood += d.m_poleKind == 1 ? 1 : 0;
+                concrete += d.m_poleKind == 2 ? 1 : 0;
+                steel += d.m_poleKind == 3 ? 1 : 0;
+                gravelly += d.m_gravel >= 0.3f ? 1 : 0;
+                slabs += d.m_concrete ? 1 : 0;
+            }
+            std::printf( "      roadside: %d places with poles (%d wood, %d concrete, %d steel), %d with gravel from 30 %%, %d on concrete; %d broken lines\n", poles, wood,
+                         concrete, steel, gravelly, slabs, roadsideErrors() );
+            check( roadsideErrors() == 0 && poles >= 20 && wood > 0 && concrete > 0 && steel > 0, "the roadside data reaches the places" );
+        }
         { // Road customs: miles and boards in the USA, cameras in Germany, EU plates in France, toll plazas in Italy.
             const RoadCustoms &usa = roadCustoms( "USA" ), &germany = roadCustoms( "GERMANY" ), &france = roadCustoms( "FRANCE" );
             int tolls = 0, cameras = 0;

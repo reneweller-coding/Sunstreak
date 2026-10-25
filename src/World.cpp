@@ -1465,6 +1465,13 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                     c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, l, 0.35f } );
                 }
             }
+            // The poles of the overhead lines beside the country road (data/roadside.txt), every 60 m on the right.
+            if( rule.m_poleKind > 0 && side > 0 && !tunnel && !bridge && !forkClear && j % std::max( 2L, static_cast<long>( 60.0f / SegmentLength + 0.5f ) ) == 0 )
+            {
+                const float l = A.m_hw + RumbleWidth + 5.5f;
+                props.append( models.m_utilityPole[std::min<size_t>( rule.m_poleKind - 1, 2 )], at( A, l, terrainHeight( track, j, l, A.m_terrain, A.m_edge ) ),
+                              A.m_heading, 1.0f );
+            }
             const bool chevron = seg.m_flags & ( side < 0 ? SEG_CHEVRON_L : SEG_CHEVRON_R );
             if( chevron && j % 2 == 0 && !tunnel && !bridge )
             {

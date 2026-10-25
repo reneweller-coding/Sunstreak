@@ -1,0 +1,124 @@
+# What OpenStreetMap shows round a place (a 12 km sample of the main roads and the power lines), only where it
+# shows enough: the material of the overhead lines' poles (WOOD, CONCRETE, STEEL: a place's own where 8 poles
+# say it, else its country's where three places agree), its street lamps (SODIUM, or LED where the sample
+# says so), the share of its main roads on gravel or dirt and on concrete slabs (per cent). Made by
+# world_data.py (tools in G:/Tools/PythonSkripts/WorldData); OpenStreetMap contributors, ODbL.
+#   roadside PLACE pole=KIND lamp=KIND gravel=PCT concrete=PCT
+
+roadside ALGARVE pole=CONCRETE
+roadside ANDALUSIA pole=STEEL
+roadside APPLECROSS pole=WOOD
+roadside ATACAMA gravel=29
+roadside AUTOBAHN pole=WOOD
+roadside BADLANDS pole=WOOD
+roadside BANFF pole=WOOD
+roadside BANGKOK pole=CONCRETE
+roadside BAOBAB_AVENUE gravel=59
+roadside BASQUE_COAST pole=WOOD
+roadside BAVARIA pole=WOOD
+roadside BLACK_FOREST pole=WOOD lamp=LED
+roadside BLUE_MOUNTAINS pole=WOOD lamp=SODIUM
+roadside BOHEMIA pole=CONCRETE
+roadside BRITTANY pole=CONCRETE
+roadside BUENOS_AIRES pole=CONCRETE concrete=20
+roadside CAMARGUE pole=CONCRETE
+roadside CAPE_WINELANDS pole=WOOD
+roadside CARRETERA_AUSTRAL gravel=35 concrete=55
+roadside CAUSEWAY_COAST pole=WOOD
+roadside CHAMONIX pole=CONCRETE
+roadside CHAMPAGNE pole=CONCRETE
+roadside CHEFCHAOUEN pole=STEEL
+roadside CHICAGO pole=WOOD
+roadside COCORA_VALLEY gravel=44 concrete=32
+roadside CONNEMARA pole=WOOD
+roadside CORNWALL pole=WOOD lamp=LED
+roadside COSTA_DEL_SOL pole=WOOD
+roadside COTE_D_AZUR pole=CONCRETE
+roadside COTSWOLDS pole=WOOD
+roadside DAINTREE pole=WOOD
+roadside DEATH_VALLEY pole=WOOD
+roadside DOLOMITES pole=STEEL
+roadside DRAKENSBERG gravel=53
+roadside EASTER_ISLAND gravel=13
+roadside ETHIOPIAN_HIGHLANDS gravel=90
+roadside FIORDLAND pole=CONCRETE
+roadside FLANDERS pole=CONCRETE
+roadside FLORIDA_KEYS pole=CONCRETE
+roadside GLENCOE pole=WOOD
+roadside GRAND_CANYON pole=WOOD
+roadside HIGH_ATLAS pole=CONCRETE
+roadside HOLLYWOOD pole=WOOD
+roadside HONG_KONG concrete=25
+roadside HUMAHUACA gravel=35
+roadside IGUAZU gravel=11
+roadside IROHAZAKA pole=CONCRETE
+roadside ISLE_OF_SKYE pole=WOOD
+roadside ISTANBUL pole=STEEL
+roadside KATHMANDU_VALLEY pole=CONCRETE
+roadside KYOTO pole=CONCRETE
+roadside LAKE_COMO pole=STEEL
+roadside LAKE_DISTRICT pole=WOOD
+roadside LAKE_NAKURU gravel=29
+roadside LANZAROTE pole=WOOD
+roadside LAS_VEGAS pole=STEEL
+roadside LAVAUX pole=CONCRETE lamp=SODIUM
+roadside LA_FREEWAY pole=WOOD
+roadside LA_MANCHA pole=WOOD
+roadside LOIRE_VALLEY pole=CONCRETE
+roadside MARRAKECH pole=CONCRETE
+roadside MEGHALAYA gravel=21
+roadside MENDOZA concrete=45
+roadside MIAMI pole=WOOD
+roadside MILLION_DOLLAR pole=WOOD
+roadside MIYAJIMA pole=CONCRETE
+roadside MOUNT_RUSHMORE pole=WOOD
+roadside NAPA pole=WOOD
+roadside NEW_YORK pole=WOOD lamp=LED
+roadside NGORONGORO gravel=90
+roadside NORMANDY pole=CONCRETE
+roadside NORTHERN_THAILAND concrete=28
+roadside NORTH_SHORE pole=WOOD
+roadside OKINAWA pole=CONCRETE
+roadside OREGON_COAST pole=WOOD
+roadside PALAWAN concrete=96
+roadside PANTANAL gravel=53
+roadside PARIS pole=CONCRETE lamp=LED
+roadside PELOPONNESE pole=WOOD
+roadside PERITO_MORENO gravel=12
+roadside PIKES_PEAK pole=WOOD
+roadside PUSZTA pole=CONCRETE
+roadside RAINBOW_MOUNTAIN gravel=90
+roadside RHINE_VALLEY pole=WOOD
+roadside RIOJA pole=WOOD
+roadside ROTORUA pole=CONCRETE
+roadside ROUTE_66 gravel=41
+roadside RWANDA_HILLS gravel=67
+roadside SACRED_VALLEY pole=CONCRETE gravel=19
+roadside SAHARA_DUNES pole=CONCRETE
+roadside SAHEL gravel=81
+roadside SALZKAMMERGUT pole=WOOD
+roadside SAN_FRANCISCO pole=WOOD
+roadside SAO_PAULO pole=CONCRETE
+roadside SEATTLE pole=WOOD lamp=LED concrete=25
+roadside SEDONA pole=WOOD
+roadside SEOUL pole=CONCRETE
+roadside SERENGETI gravel=72
+roadside SIGIRIYA pole=STEEL
+roadside SNOWDONIA pole=WOOD
+roadside SPITI gravel=48
+roadside SRI_LANKA pole=CONCRETE
+roadside STONEHENGE pole=WOOD
+roadside SWISS_ALPS pole=WOOD
+roadside TANGANYIKA gravel=62
+roadside TATRA pole=CONCRETE
+roadside TOKYO pole=CONCRETE
+roadside TRANSYLVANIA pole=CONCRETE
+roadside TUSCANY pole=CONCRETE
+roadside VALPARAISO concrete=50
+roadside VIA_APPIA pole=CONCRETE
+roadside WEST_TEXAS pole=WOOD
+roadside WILD_ATLANTIC pole=WOOD
+roadside YELLOWSTONE pole=WOOD
+roadside YUNGAS gravel=23
+roadside ZAMBEZI gravel=23
+roadside ZANZIBAR pole=WOOD

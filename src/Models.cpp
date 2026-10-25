@@ -1395,6 +1395,22 @@ void Models::buildProps()
                        Vector3{ -0.24f, 8.54f, 3.45f }, glow[tone], Glow );
         }
     }
+    { // Poles of overhead lines in the three materials of the data: a wooden pole, a concrete one, a galvanised steel tube.
+        const Color wood = rgb( 96, 74, 56 ), concrete = rgb( 168, 166, 158 ), steel = rgb( 150, 156, 162 ), glass = rgb( 120, 160, 140 );
+        MeshBuilder &w = m_utilityPole[0];
+        w.cylinder( Vector3{ 0, 0, 0 }, 0.16f, 0.13f, 9.0f, 6, wood );
+        w.box( Vector3{ 0, 8.4f, 0 }, Vector3{ 1.3f, 0.08f, 0.09f }, wood );
+        w.box( Vector3{ 0, 7.5f, 0 }, Vector3{ 0.9f, 0.07f, 0.08f }, wood );
+        for( float x : { -1.1f, -0.4f, 0.4f, 1.1f } ) w.cylinder( Vector3{ x, 8.48f, 0 }, 0.06f, 0.04f, 0.22f, 5, glass );
+        MeshBuilder &c = m_utilityPole[1];
+        c.cylinder( Vector3{ 0, 0, 0 }, 0.22f, 0.12f, 10.0f, 8, concrete );
+        c.box( Vector3{ 0, 9.3f, 0 }, Vector3{ 1.2f, 0.07f, 0.08f }, rgb( 86, 88, 94 ) );
+        for( float x : { -1.0f, 0.0f, 1.0f } ) c.cylinder( Vector3{ x, 9.37f, 0 }, 0.06f, 0.04f, 0.2f, 5, glass );
+        MeshBuilder &s = m_utilityPole[2];
+        s.cylinder( Vector3{ 0, 0, 0 }, 0.2f, 0.1f, 11.0f, 8, steel );
+        s.box( Vector3{ 0, 10.3f, 0 }, Vector3{ 1.6f, 0.06f, 0.07f }, steel );
+        for( float x : { -1.4f, -0.7f, 0.7f, 1.4f } ) s.cylinder( Vector3{ x, 10.36f, 0 }, 0.06f, 0.04f, 0.2f, 5, glass );
+    }
     for( size_t style : { size_t{ 0 }, size_t{ 1 }, size_t{ 3 } } )
     { // A crest triangle: red on white, red on yellow, black on yellow.
         MeshBuilder &crest = m_jumpSign[style];

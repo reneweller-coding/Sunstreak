@@ -925,6 +925,7 @@ struct BiomeDef
     const char           *m_region = nullptr;                     ///< its state or province (none: the whole country)
     uint8_t               m_lampTone = 0;                         ///< the light of its street lamps (LampWarm, LampSodium, LampCool in Local.h)
     uint8_t               m_postStyle = 0;                        ///< its delineator posts (PostPlain, PostBand, PostFlex, PostRedWhite in Local.h)
+    uint8_t               m_poleKind = 0;                         ///< the poles of overhead lines beside its road: 0 none, 1 wood, 2 concrete, 3 steel
     const char           *m_island = nullptr;                    ///< an island of its own (none: the country's landmass)
     bool                  m_underwater = false;                   ///< a glass tunnel on the sea floor
     std::vector<SwimRule> m_swim;                                 ///< what swims round the tunnel
@@ -984,6 +985,14 @@ int biomeId( std::string_view key );
  * @return its ID (empty for none)
  */
 const std::string &biomeKey( BiomeE biome );
+
+/**
+ * @brief A biome's ID by its number, without waiting for the biome table (for the code that builds the table: the data
+ *        places are numbered by then).
+ * @param[in] index  the number
+ * @return its ID (empty for none)
+ */
+const std::string &biomeKeyAt( size_t index );
 
 /**
  * @brief Reads the places of the data files into the table (WorldData.cpp).

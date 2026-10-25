@@ -1021,6 +1021,12 @@ const std::string &biomeKey( BiomeE biome )
     return i < keys().size() ? keys()[i] : none;
 }
 
+const std::string &biomeKeyAt( size_t index )
+{
+    static const std::string none;
+    return index < keys().size() ? keys()[index] : none;
+}
+
 const CountryInfo &countryInfo( const char *country )
 {
     static const CountryInfo fallback = { "", false, FleetE::EUROPE, 0, 0, 0, 0, "H FFFFFF", -1, nullptr };

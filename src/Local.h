@@ -196,6 +196,28 @@ bool stagePolice( const Track &track, int stage, double &s, float &side );
  */
 void applyRoadCustoms( std::vector<BiomeDef> &table );
 
+/** @brief What OpenStreetMap shows round a place (data/roadside.txt). */
+struct PlaceRoadside
+{
+    uint8_t m_pole = 0;          ///< the poles of its overhead lines: 0 none known, 1 wood, 2 concrete, 3 steel
+    int8_t  m_lamp = -1;         ///< its street lamps: -1 not known, 0 LEDs, 1 sodium
+    float   m_unpaved = -1.0f;   ///< 0..1 the share of its main roads on gravel or dirt (-1: not known)
+    float   m_concrete = -1.0f;  ///< 0..1 the share on concrete slabs (-1: not known)
+};
+
+/**
+ * @brief Gives the places what OpenStreetMap shows round them: the poles of overhead lines beside their roads, the
+ *        light of their street lamps, more gravel and concrete where their roads have it. Run after applyRoadCustoms.
+ * @param[in,out] table  every biome
+ */
+void applyRoadside( std::vector<BiomeDef> &table );
+
+/**
+ * @brief How many lines of data/roadside.txt were wrong (a line that does not parse, a place that does not exist).
+ * @return the count
+ */
+int roadsideErrors();
+
 /**
  * @brief How much of the road at a distance is gravel: the stretches where a poor country's asphalt ends.
  * @param[in] track  the road

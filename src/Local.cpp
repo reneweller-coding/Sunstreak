@@ -158,6 +158,60 @@ uint64_t nameHash( const char *text )
     return h;
 }
 
+/**
+ * @brief Paves a place with concrete slabs.
+ * @param[in,out] d  the place
+ */
+void pave( BiomeDef &d )
+{
+    d.m_concrete = true;
+    d.m_surface.m_road = Color{ 172, 170, 162, 255 };
+    d.m_surface.m_roadAlt = Color{ 166, 164, 156, 255 };
+}
+
+int g_roadsideErrors = 0;   ///< lines of data/roadside.txt that did not parse
+
+using RoadsideMap = std::map<std::string, PlaceRoadside>;
+
+/**
+ * @brief The places' roadside data (data/roadside.txt), by the places' IDs. The IDs are not checked here: this runs while
+ *        the biome table is built.
+ * @return the data
+ */
+const RoadsideMap &roadsideData()
+{
+    static DataCache<RoadsideMap> cache;
+    return cache.get( []
+    {
+        g_roadsideErrors = 0;
+        RoadsideMap out;
+        for( const std::string &line : dataLines( dataText( "roadside.txt" ) ) )
+        {
+            // roadside PLACE pole=KIND lamp=KIND gravel=PCT concrete=PCT
+            const std::vector<std::string> w = splitLine( line, ' ' );
+            if( w.size() < 3 || w[0] != "roadside" )
+            {
+                ++g_roadsideErrors;
+                continue;
+            }
+            PlaceRoadside r;
+            for( size_t i = 2; i < w.size(); ++i )
+            {
+                const size_t eq = w[i].find( '=' );
+                const std::string key = w[i].substr( 0, eq ), value = eq == std::string::npos ? std::string() : w[i].substr( eq + 1 );
+                if( key == "pole" && ( value == "WOOD" || value == "CONCRETE" || value == "STEEL" ) )
+                    r.m_pole = static_cast<uint8_t>( value == "WOOD" ? 1 : value == "CONCRETE" ? 2 : 3 );
+                else if( key == "lamp" && ( value == "SODIUM" || value == "LED" ) ) r.m_lamp = value == "SODIUM" ? 1 : 0;
+                else if( key == "gravel" && std::atof( value.c_str() ) > 0.0 ) r.m_unpaved = static_cast<float>( std::atof( value.c_str() ) ) / 100.0f;
+                else if( key == "concrete" && std::atof( value.c_str() ) > 0.0 ) r.m_concrete = static_cast<float>( std::atof( value.c_str() ) ) / 100.0f;
+                else ++g_roadsideErrors;
+            }
+            out[w[1]] = r;
+        }
+        return out;
+    } );
+}
+
 } // namespace
 
 const RoadCustoms &roadCustoms( const char *country )
@@ -365,11 +419,7 @@ void applyRoadCustoms( std::vector<BiomeDef> &table )
         // Concrete for some of the country's places, the same ones every time.
         const int lanes = std::max( 2, c.m_concreteLanes );
         if( !d.m_unpaved && !d.m_cobbles && d.m_lanes >= lanes && static_cast<float>( nameHash( d.m_name ) % 1000 ) < c.m_concrete * 1000.0f )
-        {
-            d.m_concrete = true;
-            sf.m_road = Color{ 172, 170, 162, 255 };
-            sf.m_roadAlt = Color{ 166, 164, 156, 255 };
-        }
+            pave( d );
         if( d.m_kerbs || d.m_unpaved ) continue;
         // The edges: the painted or plain stone kerbs of a town, a paved shoulder, or the verge right after the line.
         if( town )
@@ -388,6 +438,36 @@ void applyRoadCustoms( std::vector<BiomeDef> &table )
             sf.m_rumbleB = scaleColor( sf.m_shoulder, 0.95f );
         }
     }
+}
+
+void applyRoadside( std::vector<BiomeDef> &table )
+{
+    const RoadsideMap &all = roadsideData();
+    for( size_t i = 0; i < table.size(); ++i )
+    {
+        BiomeDef &d = table[i];
+        if( !d.m_country || d.m_underwater ) continue;
+        const auto it = all.find( biomeKeyAt( i ) );
+        if( it == all.end() ) continue;
+        const PlaceRoadside &r = it->second;
+        const bool           town = d.m_lampSpacing > 0.0f || d.m_cobbles;
+        // Street lamps: sodium where the sample says so; LEDs take the orange out of a country's estimate.
+        if( r.m_lamp == 1 ) d.m_lampTone = LampSodium;
+        else if( r.m_lamp == 0 && d.m_lampTone == LampSodium ) d.m_lampTone = LampWarm;
+        // Poles of overhead lines on the country roads (not in towns, not along motorways).
+        if( r.m_pole > 0 && !town && d.m_lanes < 3 ) d.m_poleKind = r.m_pole;
+        // More gravel than the country's share where the place's main roads have it; concrete slabs where they have many.
+        if( r.m_unpaved > 0.0f && !town && !d.m_unpaved && d.m_lanes < 3 ) d.m_gravel = std::max( d.m_gravel, std::min( 0.9f, r.m_unpaved ) );
+        if( r.m_concrete >= 0.2f && !d.m_unpaved && !d.m_cobbles && d.m_lanes >= 2 && d.m_surface.m_lineGlow <= 0.0f ) pave( d );
+    }
+}
+
+int roadsideErrors()
+{
+    int errors = ( roadsideData(), g_roadsideErrors );
+    for( const auto &[key, data] : roadsideData() )
+        if( biomeId( key ) < 0 ) ++errors;
+    return errors;
 }
 
 float gravelAt( const Track &track, double s )
