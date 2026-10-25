@@ -2,8 +2,9 @@
 #
 # A tag v* or "Run workflow" by hand: Release builds with the tests, packed as Sunstreak-<version>-windows-x64.zip
 # (MSVC, static runtime) and Sunstreak-<version>-linux-x86_64.tar.gz (GCC 12 on Ubuntu 22.04, so it runs on glibc 2.35
-# and newer, SteamOS included), kept as the run's artifacts and, for a tag, attached to its release. raylib and SDL2
-# are fetched by CMake. Locally the same archives come from Deploy/build_release.ps1.
+# and newer, SteamOS included), kept as the run's artifacts and, for a tag, attached to its release where it lacks
+# them: Deploy/publish_release.ps1 publishes the archives built locally by Deploy/build_release.ps1, and this run is
+# the check that the tag builds and passes its tests on clean machines. raylib and SDL2 are fetched by CMake.
 name: release
 
 on:
