@@ -278,7 +278,8 @@ Where two places lie on different landmasses (the continents, Britain, Ireland, 
 Zanzibar, the Caribbean, the Pacific and every other island) and no land joins them (data/landlinks.txt: Africa and
 Eurasia meet at Sinai), a stage on the sea floor lies between them, a third as long as one on land: a glass
 tunnel of steel ribs with a light in every crown, the light of the sea instead of the sun, marine snow drifting
-down. The sea is the one nearest the middle of the crossing, forty-two of them, each with its own floor and its own
+down. Over land as far as it goes, the tour crosses where the two lands come nearest (Hesse to Madagascar through
+Africa and over the Mozambique Channel), in the sea nearest that crossing's middle, forty-two of them, each with its own floor and its own
 life: the wreck of the Titanic in the North Atlantic, a U-boat in the Channel, the Christ of the Abyss in the Ligurian
 Sea, the Thistlegorm on the Red Sea reef, the ghost fleet of Chuuk, Yonaguni's stone terraces, a galleon in the
 Caribbean, a whale's skeleton on the sand. Shoals, sharks, hammerheads, whale sharks, humpbacks, orcas, dolphins,
@@ -426,7 +427,8 @@ viewer, every landmark and creature alone under its first place's sky, to turn a
 - `countries.txt`: each country's side of the road, vehicles, markings, signs, radio station, flag and landmass.
 - `route.txt`: the order of the world tour and where each place is; the forks are found from it (where the country or
   the state changes and a neighbour lies a little further on).
-- `seas.txt`: the seas and points in them; a crossing goes under the sea nearest its middle.
+- `seas.txt`: the seas and points in them; a crossing goes under the sea nearest the middle between the nearest places
+  of the two lands.
 - `landlinks.txt`: landmasses joined by land (AFRICA EURASIA over Sinai); between them the tour stays on land.
 - `landmarks/*.txt` and `creatures/*.txt`: shapes in a small language (`00-language.txt` describes it): boxes, tapered
   boxes, columns, cones, rods, balls, domes, roofs, windows, arches, rings, repeated, turned and mirrored. The creatures

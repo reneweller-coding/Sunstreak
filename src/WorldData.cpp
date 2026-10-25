@@ -1818,13 +1818,12 @@ std::string landmassOf( BiomeE biome )
 }
 
 /**
- * @brief Whether one can drive from a landmass to another: the same one, or a chain of data/landlinks.txt between them
+ * @brief The landmasses one can drive to from a landmass: itself, and those a chain of data/landlinks.txt joins to it
  *        (a search over the little graph of the links).
- * @param[in] a  a landmass
- * @param[in] b  another
- * @return true if joined by land
+ * @param[in] mass  the landmass
+ * @return them, itself first
  */
-bool joinedByLand( const std::string &a, const std::string &b )
+std::vector<std::string> joinedTo( const std::string &mass )
 {
     static DataCache<std::vector<std::pair<std::string, std::string>>> cache;
     const auto                                                        &links = cache.get(
@@ -1843,17 +1842,37 @@ bool joinedByLand( const std::string &a, const std::string &b )
             }
             return out;
         } );
-    if ( a == b ) return true;
-    std::vector<std::string> reached{ a };
+    std::vector<std::string> reached{ mass };
     for ( size_t i = 0; i < reached.size(); ++i )
         for ( const auto &[x, y] : links )
         {
             const std::string *next = x == reached[i] ? &y : y == reached[i] ? &x : nullptr;
-            if ( !next || std::find( reached.begin(), reached.end(), *next ) != reached.end() ) continue;
-            if ( *next == b ) return true;
-            reached.push_back( *next );
+            if ( next && std::find( reached.begin(), reached.end(), *next ) == reached.end() )
+                reached.push_back( *next );
         }
-    return false;
+    return reached;
+}
+
+/**
+ * @brief The places of the route: where each lies and its landmass.
+ * @return them
+ */
+const std::vector<std::pair<GeoPoint, std::string>> &landPlaces()
+{
+    static DataCache<std::vector<std::pair<GeoPoint, std::string>>> cache;
+    return cache.get(
+        []
+        {
+            std::vector<std::pair<GeoPoint, std::string>> out;
+            const RouteData                              &d = routeData();
+            for ( BiomeE b : d.m_route )
+            {
+                const auto       &where = d.m_where[static_cast<size_t>( b )];
+                const std::string mass = landmassOf( b );
+                if ( where.first && !mass.empty() ) out.emplace_back( where.second, mass );
+            }
+            return out;
+        } );
 }
 
 }   // namespace
@@ -1861,9 +1880,32 @@ bool joinedByLand( const std::string &a, const std::string &b )
 int seaCrossing( BiomeE from, BiomeE to )
 {
     const std::string a = landmassOf( from ), b = landmassOf( to );
-    if ( a.empty() || b.empty() || joinedByLand( a, b ) ) return -1;
+    if ( a.empty() || b.empty() ) return -1;
+    const std::vector<std::string> landA = joinedTo( a ), landB = joinedTo( b );
+    if ( std::find( landA.begin(), landA.end(), b ) != landA.end() ) return -1;
     GeoPoint pa, pb;
     if ( !placeLocation( from, pa ) || !placeLocation( to, pb ) ) return -1;
+    // Over land as far as it goes: the crossing lies between the nearest places of the two lands, found by turns
+    // (Hesse to Madagascar through Africa and over the Mozambique Channel, not under the Red Sea).
+    auto nearestOn = [&]( const std::vector<std::string> &land, const GeoPoint &target, GeoPoint &best )
+    {
+        float km = 1e9f;
+        for ( const auto &[at, mass] : landPlaces() )
+        {
+            if ( std::find( land.begin(), land.end(), mass ) == land.end() ) continue;
+            const float d = greatCircle( at, target );
+            if ( d < km )
+            {
+                km = d;
+                best = at;
+            }
+        }
+    };
+    for ( int turn = 0; turn < 3; ++turn )
+    {
+        nearestOn( landA, pb, pa );
+        nearestOn( landB, pa, pb );
+    }
     // The sea nearest the middle of the crossing (longitudes taken the short way round).
     float dLon = pb.m_lon - pa.m_lon;
     if ( dLon > 180.0f ) dLon -= 360.0f;

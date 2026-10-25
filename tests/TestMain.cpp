@@ -368,7 +368,12 @@ int main()
             const int  bethlehem = biomeId( "BETHLEHEM" ), sinai = biomeId( "SINAI" );
             const bool overland = bethlehem >= 0 && sinai >= 0 &&
                                   seaCrossing( static_cast<BiomeE>( bethlehem ), static_cast<BiomeE>( sinai ) ) < 0;
-            check( crossings >= 20 && seas == crossings && channel && shorter && overland,
+            // Through Africa as far as it goes: from Hesse to Madagascar over the Mozambique Channel.
+            const int baobabs = biomeId( "BAOBAB_AVENUE" ), channel2 = biomeId( "MOZAMBIQUE_CHANNEL" );
+            const int madagascar = baobabs >= 0 ? seaCrossing( BiomeE::MEADOW, static_cast<BiomeE>( baobabs ) ) : -1;
+            std::printf( "      Hesse to Madagascar across the %s\n",
+                         madagascar >= 0 ? biomeDef( static_cast<BiomeE>( madagascar ) ).m_name : "-" );
+            check( crossings >= 20 && seas == crossings && channel && shorter && overland && madagascar == channel2,
                    "under the sea between landmasses, a third as long" );
         }
         {   // The random tour: every country once, each in another part of the world, a fork between two, the sea
