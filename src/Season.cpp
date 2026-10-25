@@ -5,6 +5,7 @@
  */
 #include "Season.h"
 
+#include "Climate.h"
 #include "MathUtil.h"
 
 #include <cmath>
@@ -29,6 +30,32 @@ float near( float phase, float middle, float reach )
 {
     const float d = std::abs( std::remainder( phase - middle, 1.0f ) );
     return 1.0f - smoothstepf( reach * 0.45f, reach, d );
+}
+
+/**
+ * @brief The seasons of a place from its real climate: snow lies where the air stayed below freezing, trees that lose
+ *        their leaves turn while it cools and bud while it warms, and the tropics keep their one look all year.
+ * @param[in] c      the place's climate
+ * @param[in] phase  the date (0: 1 January; the calendar, the same in both hemispheres)
+ * @return the look
+ */
+SeasonLook climateSeason( const PlaceClimate &c, float phase )
+{
+    SeasonLook  look;
+    const float now = climateTemperature( c, phase );
+    // Snow and bare branches follow the air a fortnight late.
+    const float lag = climateTemperature( c, phase - 0.04f );
+    const float cooling = climateTemperature( c, phase - 0.05f ) - climateTemperature( c, phase + 0.05f );
+    // Dry places keep little snow, unless it is bitterly cold there.
+    const float moist = smoothstepf( 120.0f, 350.0f, c.m_rain );
+    const float bitter = 1.0f - smoothstepf( -16.0f, -6.0f, c.m_cold );
+    look.m_winter = ( 1.0f - smoothstepf( -3.0f, 4.0f, lag ) ) * ( moist + ( 1.0f - moist ) * bitter );
+    // Trees that lose their leaves: a cold month, and rain enough to grow them.
+    const float leafy = ( 1.0f - smoothstepf( 2.0f, 9.0f, c.m_cold ) ) * smoothstepf( 200.0f, 500.0f, c.m_rain );
+    look.m_autumn = leafy * smoothstepf( 0.0f, 3.0f, cooling ) * smoothstepf( 2.0f, 8.0f, now ) * ( 1.0f - smoothstepf( 13.0f, 19.0f, now ) );
+    look.m_spring = leafy * smoothstepf( 0.0f, 3.0f, -cooling ) * smoothstepf( 1.0f, 5.0f, now ) * ( 1.0f - smoothstepf( 11.0f, 16.0f, now ) );
+    look.m_bare = leafy * ( 1.0f - smoothstepf( 1.0f, 7.0f, lag ) );
+    return look;
 }
 
 } // namespace
@@ -62,7 +89,10 @@ SeasonLook seasonAt( BiomeE place, float phase )
 {
     SeasonLook look;
     const BiomeDef &d = biomeDef( place );
-    if( phase < 0.0f || d.m_underwater || ( d.m_climate != ClimateE::TEMPERATE && d.m_climate != ClimateE::COLD ) ) return look;
+    if( phase < 0.0f || d.m_underwater || d.m_climate == ClimateE::NONE ) return look;
+    // Where the data knows the place's climate, that decides; elsewhere the latitude does.
+    if( const PlaceClimate *c = placeClimate( place ) ) return climateSeason( *c, phase );
+    if( d.m_climate != ClimateE::TEMPERATE && d.m_climate != ClimateE::COLD ) return look;
     // South of the equator the year turns round; near it there are no seasons to speak of.
     GeoPoint where{ 45.0f, 0.0f };
     placeLocation( place, where );

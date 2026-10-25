@@ -6,6 +6,7 @@
  */
 #include "Achievements.h"
 #include "Car.h"
+#include "Climate.h"
 #include "Data.h"
 #include "Game.h"
 #include "Hero.h"
@@ -385,6 +386,24 @@ int main()
                        festivals()[static_cast<size_t>( market )].m_name == "CHRISTMAS MARKET" && wiesn >= 0 &&
                        festivals()[static_cast<size_t>( wiesn )].m_name == "OKTOBERFEST" && none < 0,
                    "festivals on their dates" );
+        }
+        { // The real climate: snow and bare trees in Bavaria in January but not in July, autumn and spring there, the seasons
+          // of Patagonia turned round, none in Agra, the monsoon of Mumbai.
+            auto look = []( const char *place, const char *day ) { return seasonAt( static_cast<BiomeE>( biomeId( place ) ), dateFromText( day ) ); };
+            const SeasonLook bavJan = look( "BAVARIA", "01-15" ), bavJul = look( "BAVARIA", "07-15" ), bavOct = look( "BAVARIA", "10-20" );
+            const SeasonLook bavApr = look( "BAVARIA", "04-25" ), patJan = look( "PATAGONIA", "01-15" ), patJul = look( "PATAGONIA", "07-15" );
+            const SeasonLook agra = look( "AGRA", "01-15" );
+            const PlaceClimate *mumbai = placeClimate( static_cast<BiomeE>( biomeId( "MUMBAI" ) ) );
+            const float         monsoon = mumbai ? climatePrecipitation( *mumbai, dateFromText( "07-15" ) ) : 0.0f;
+            const float         dry = mumbai ? climatePrecipitation( *mumbai, dateFromText( "01-15" ) ) : 1000.0f;
+            std::printf( "      Bavaria January snow %.2f bare %.2f, July snow %.2f, October autumn %.2f, April spring %.2f; Patagonia January %.2f July %.2f; "
+                         "Mumbai %.0f mm in July, %.0f in January; %d broken lines\n",
+                         bavJan.m_winter, bavJan.m_bare, bavJul.m_winter, bavOct.m_autumn, bavApr.m_spring, patJan.m_winter, patJul.m_winter, monsoon, dry,
+                         climateErrors() );
+            check( climateErrors() == 0 && bavJan.m_winter > 0.7f && bavJan.m_bare > 0.7f && bavJul.m_winter == 0.0f && bavOct.m_autumn > 0.3f &&
+                       bavApr.m_spring > 0.2f && patJan.m_winter == 0.0f && patJul.m_winter > 0.2f && agra.m_winter == 0.0f && agra.m_autumn == 0.0f &&
+                       agra.m_spring == 0.0f && agra.m_bare == 0.0f && monsoon > 300.0f && dry < 5.0f,
+                   "the seasons and the rain follow the real climate" );
         }
         { // Road customs: miles and boards in the USA, cameras in Germany, EU plates in France, toll plazas in Italy.
             const RoadCustoms &usa = roadCustoms( "USA" ), &germany = roadCustoms( "GERMANY" ), &france = roadCustoms( "FRANCE" );
