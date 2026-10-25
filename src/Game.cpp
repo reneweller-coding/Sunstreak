@@ -6,6 +6,7 @@
 #include "Game.h"
 
 #include "Achievements.h"
+#include "Climate.h"
 #include "Phrases.h"
 #include "UiCommon.h"
 #include "VectorFont.h"
@@ -259,10 +260,18 @@ float Game::frontAt( double s, WeatherE &type ) const
     for( long st = std::max( 0L, slot - 1 ); st <= slot + 1; ++st )
     {
         const uint64_t h = hash64( m_seed * 977 + static_cast<uint64_t>( st ) * 131 + 17 );
-        if( h % 100 >= 34 ) continue;
         const double   centre = ( static_cast<double>( st ) + 0.25 + 0.5 * static_cast<double>( ( h >> 8 ) % 1000 ) / 1000.0 ) * frontSpacing;
-        const ClimateE climate = biomeDef( m_track->stageBiome( static_cast<int>( centre / StageLength ) ) ).m_climate;
+        const BiomeE   stage = m_track->stageBiome( static_cast<int>( centre / StageLength ) );
+        const ClimateE climate = biomeDef( stage ).m_climate;
         if( climate == ClimateE::NONE ) continue;
+        // Where the data knows the place's real climate, its rain of the month decides how often a front comes (a third
+        // of the stretches in an average month, hardly any in the dry season) and its temperature whether it snows;
+        // the deserts keep their sandstorms.
+        const PlaceClimate *real = seasonClock().phaseAt( centre ) >= 0.0f && climate != ClimateE::ARID ? placeClimate( stage ) : nullptr;
+        const float         date = seasonClock().dateAt( centre );
+        const float         warmth = real ? climateTemperature( *real, date ) : 10.0f;
+        const float         chance = real ? clampf( 34.0f * std::pow( climatePrecipitation( *real, date ) / 60.0f, 0.8f ), 3.0f, 70.0f ) : 34.0f;
+        if( static_cast<float>( h % 100 ) >= chance ) continue;
         const double half = 700.0 + static_cast<double>( ( h >> 20 ) % 900 );
         const float  k = 1.0f - smoothstepf( static_cast<float>( half * 0.5 ), static_cast<float>( half ), static_cast<float>( std::abs( s - centre ) ) );
         if( k <= best ) continue;
@@ -271,7 +280,7 @@ float Game::frontAt( double s, WeatherE &type ) const
         switch( climate )
         {
         case ClimateE::ARID: type = WeatherE::SANDSTORM; break;
-        case ClimateE::COLD: type = WeatherE::SNOW; break;
+        case ClimateE::COLD: type = real && warmth > 1.5f ? temperate[( h >> 32 ) % 4] : WeatherE::SNOW; break;
         case ClimateE::TROPICAL:
         {
             // In South and Southeast Asia every other tropical front is the monsoon.
@@ -281,7 +290,7 @@ float Game::frontAt( double s, WeatherE &type ) const
             type = monsoon ? WeatherE::MONSOON : ( h >> 32 ) % 3 == 0 ? WeatherE::RAIN : WeatherE::STORM;
             break;
         }
-        default: type = temperate[( h >> 32 ) % 4]; break;
+        default: type = real && warmth <= 0.5f ? WeatherE::SNOW : temperate[( h >> 32 ) % 4]; break;
         }
     }
     return best;
@@ -1645,7 +1654,9 @@ void Game::frame( float dt )
         m_bench.m_overlay += m_cpuOverlayMs;
         m_bench.m_swap += m_cpuSwapMs;
         size_t triangles = 0;
-        for( const Chunk &c : m_world.chunks() ) triangles += static_cast<size_t>( c.m_ground.triangleCount + c.m_props.triangleCount );
+        for( const Chunk &c : m_world.chunks() )
+            triangles += static_cast<size_t>( c.m_ground.triangleCount + c.m_props.triangleCount +
+                                              ( upClose( c, m_car.m_s ) ? c.m_scenery : c.m_sceneryFar ).triangleCount );
         m_bench.m_triangles += static_cast<double>( triangles );
         m_bench.m_traffic += static_cast<int>( m_traffic.m_cars.size() );
     }

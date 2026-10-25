@@ -70,6 +70,95 @@ Vector3 at( const Cross &x, float l, float h )
 }
 
 /**
+ * @brief Whether a kind is a building that stands on a plot in a town, a city or a village.
+ * @param[in] k     the kind
+ * @param[out] tall  a high-rise
+ * @return true for houses and high-rises
+ */
+bool plotted( PropKindE k, bool &tall )
+{
+    using K = PropKindE;
+    tall = k == K::BUILDING || k == K::TOWER || k == K::NEON_TOWER || k == K::GLASS_TOWER || k == K::PANEL_BLOCK;
+    return tall || k == K::HOUSE || k == K::SNOW_HOUSE || k == K::CABIN || k == K::HUT || k == K::COTTAGE || k == K::FLAT_HOUSE ||
+           k == K::CHALET || k == K::HALF_TIMBER || k == K::ROW_HOUSES || k == K::ADOBE || k == K::RONDAVEL || k == K::FAVELA ||
+           k == K::HANOK || k == K::GASSHO || k == K::HUIZHOU_HOUSE || k == K::CAPE_DUTCH || k == K::YURT || k == K::REED_HOUSE ||
+           k == K::TRULLO;
+}
+
+/** @brief The plots of a place: its buildings in rows back from the road instead of scattered. */
+struct Plots
+{
+    std::array<size_t, 16> m_rule{};       ///< the building rules
+    std::array<float, 16>  m_upTo{};       ///< their chances summed up to each (to pick one by weight)
+    int                    m_count = 0;    ///< how many
+    float                  m_along = 0.0f;    ///< a plot's length along the road (m)
+    float                  m_across = 0.0f;   ///< a row's depth
+    float                  m_nearest = 0.0f;  ///< the first row's front from the road's edge
+    float                  m_half = 0.0f;     ///< half the widest building
+    int                    m_rows = 0;        ///< rows back from the road
+    bool                   m_city = false;    ///< a town or a city, built all along (else villages here and there)
+
+    /**
+     * @brief Whether a rule stands on the plots.
+     * @param[in] r  the rule's index
+     * @return true if it does
+     */
+    bool has( size_t r ) const { return std::find( m_rule.begin(), m_rule.begin() + m_count, r ) != m_rule.begin() + m_count; }
+};
+
+/**
+ * @brief Lays out a place's plots: as wide as its widest building, a city's rows some 300 m back (the skyline behind
+ *        the street), a village's two or three.
+ * @param[in] rule    the place
+ * @param[in] models  the footprints
+ * @return the plots (m_count 0: no buildings)
+ */
+Plots plotsOf( const BiomeDef &rule, const Models &models )
+{
+    Plots p;
+    float tallChance = 0.0f, houseChance = 0.0f, nearest = 1e9f, farthest = 0.0f, widest = 0.0f;
+    for( size_t r = 0; r < rule.m_props.size() && p.m_count < static_cast<int>( p.m_rule.size() ); ++r )
+    {
+        const PropRule &pr = rule.m_props[r];
+        bool            tall = false;
+        if( pr.m_perStage > 0 || pr.m_onWater || pr.m_soft || !plotted( pr.m_kind, tall ) ) continue;
+        ( tall ? tallChance : houseChance ) += pr.m_chance;
+        p.m_rule[static_cast<size_t>( p.m_count )] = r;
+        p.m_upTo[static_cast<size_t>( p.m_count )] = tallChance + houseChance;
+        ++p.m_count;
+        nearest = std::min( nearest, pr.m_nearest );
+        farthest = std::max( farthest, pr.m_farthest );
+        widest = std::max( widest, models.propFootprint( pr.m_kind ) * pr.m_scaleMax );
+    }
+    if( p.m_count == 0 ) return p;
+    const bool townish = rule.m_lampSpacing > 0.0f || rule.m_cobbles || rule.m_lanes >= 3;
+    p.m_city = tallChance >= 0.05f || ( townish && houseChance >= 0.05f );
+    p.m_along = std::max( 8.0f, widest ) + ( p.m_city ? 4.0f : 7.0f );
+    p.m_across = p.m_along + 3.0f;
+    p.m_nearest = nearest;
+    p.m_half = std::max( 4.0f, widest * 0.5f );
+    const float deepest = p.m_city ? std::max( farthest, tallChance >= 0.05f ? 320.0f : 160.0f ) : nearest + 3.0f * p.m_across;
+    p.m_rows = std::clamp( static_cast<int>( ( deepest - nearest ) / p.m_across ), 2, p.m_city ? 10 : 3 );
+    return p;
+}
+
+/**
+ * @brief Whether a segment lies in a village: one stretch of 250 to 550 m in roughly every other 800 m of the country.
+ * @param[in] seed  the track's seed
+ * @param[in] j     the segment
+ * @return true in a village
+ */
+bool inVillage( uint64_t seed, long j )
+{
+    const long     block = 160, b = j / block, at = j % block;
+    const uint64_t key = seed ^ 0x5157A6Eull;
+    if( hashFloat( key, static_cast<uint64_t>( b ) ) >= 0.45f ) return false;
+    const long len = 50 + static_cast<long>( 60.0f * hashFloat( key + 1, static_cast<uint64_t>( b ) ) );
+    const long first = 5 + static_cast<long>( static_cast<float>( block - 10 - len ) * hashFloat( key + 2, static_cast<uint64_t>( b ) ) );
+    return at >= first && at < first + len;
+}
+
+/**
  * @brief The biome definition that rules a segment's discrete choices (rails, lamps, props).
  * @param[in] seg  the segment
  * @param[in] h    a random number 0..1 (props pick either side of a crossfade)
@@ -245,6 +334,8 @@ void World::clear()
     {
         UnloadMesh( c.m_ground );
         UnloadMesh( c.m_props );
+        UnloadMesh( c.m_scenery );
+        UnloadMesh( c.m_sceneryFar );
         UnloadMesh( c.m_glass );
     }
     m_chunks.clear();
@@ -284,6 +375,8 @@ void World::upload( BakedChunk &baked )
     c.m_origin = baked.m_origin;
     c.m_ground = baked.m_ground.upload();
     c.m_props = baked.m_props.upload();
+    c.m_scenery = baked.m_scenery.upload();
+    c.m_sceneryFar = baked.m_sceneryFar.upload();
     c.m_glass = baked.m_glass.upload();
     c.m_colliders = std::move( baked.m_colliders );
     m_chunks.push_back( std::move( c ) );
@@ -301,6 +394,8 @@ void World::update( Track &track, double s, int maxBuilds )
     {
         UnloadMesh( m_chunks.front().m_ground );
         UnloadMesh( m_chunks.front().m_props );
+        UnloadMesh( m_chunks.front().m_scenery );
+        UnloadMesh( m_chunks.front().m_sceneryFar );
         UnloadMesh( m_chunks.front().m_glass );
         m_chunks.pop_front();
     }
@@ -416,6 +511,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
 
     MeshBuilder ground;
     MeshBuilder props;
+    MeshBuilder scenery, sceneryFar;
     MeshBuilder glass;
 
     // Light pools of the street lamps: lamps stand every k segments, right side at j % k == 0, left at k/2.
@@ -1326,48 +1422,26 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             if( ( seg.m_flags & SEG_JUMP ) && !tunnel )
                 props.append( models.m_jumpSign[std::min<size_t>( signs.m_warn, 3 )], at( A, side * ( A.m_edge + 1.2f ), 0.0f ), A.m_heading, 1.0f );
 
-            // Scattered props.
-            for( size_t r = 0; r < rule.m_props.size(); ++r )
+            // Scattered props; the buildings of a town or a city on plots in rows back from the road, in the country in a
+            // village here and there.
+            auto place = [&]( const PropRule &pr, uint64_t key, float dist, bool onPlot )
             {
-                const PropRule &pr = rule.m_props[r];
-                const uint64_t  key = seed ^ ( sideKey * 31 + r * 7919 );
-                const float     h0 = hashFloat( key, static_cast<uint64_t>( j ) );
-                if( pr.m_perStage > 0 )
-                { // A landmark stands at a few fixed spots per stage, not by chance.
-                    bool spot = false;
-                    for( int k = 0; k < pr.m_perStage && !spot; ++k )
-                    {
-                        bool       right = false;
-                        const long where = landmarkSpot( seed, r, k, stage, right );
-                        // On the dry side, or on the water for a monument that stands in it.
-                        const bool wetL = A.m_terrain.m_waterLeft > 0.5f, wetR = A.m_terrain.m_waterRight > 0.5f;
-                        if( ( right ? wetR : wetL ) != pr.m_onWater && ( right ? wetL : wetR ) == pr.m_onWater ) right = !right;
-                        spot = !tunnel && local == where && right == ( side > 0 );
-                    }
-                    if( !spot ) continue;
-                }
-                else if( h0 >= pr.m_chance )
-                {
-                    continue;
-                }
-                const float h1 = hashFloat( key + 1, static_cast<uint64_t>( j ) );
                 const float h2 = hashFloat( key + 2, static_cast<uint64_t>( j ) );
                 const float h3 = hashFloat( key + 3, static_cast<uint64_t>( j ) );
                 const float h4 = hashFloat( key + 4, static_cast<uint64_t>( j ) );
-                const float dist = lerpf( pr.m_nearest, pr.m_farthest, h1 );
                 const float waterSide = side < 0 ? A.m_terrain.m_waterLeft : A.m_terrain.m_waterRight;
                 if( pr.m_onWater )
                 {
-                    if( waterSide < 0.5f || dist < 35.0f ) continue;
+                    if( waterSide < 0.5f || dist < 35.0f ) return;
                 }
                 else if( waterSide > 0.5f && dist > 12.0f )
                 {
-                    continue;
+                    return;
                 }
-                if( railed && dist < 2.0f ) continue;
-                if( ( tunnel && dist < 7.0f ) || ( bridge && dist < 4.0f ) ) continue;
+                if( railed && dist < 2.0f ) return;
+                if( ( tunnel && dist < 7.0f ) || ( bridge && dist < 4.0f ) ) return;
                 const float  lateral = side * ( A.m_edge + dist );
-                if( viaduct && std::abs( lateral - railL ) < 7.0f ) continue;
+                if( viaduct && std::abs( lateral - railL ) < 7.0f ) return;
                 const double ps = static_cast<double>( j ) * SegmentLength + h2 * SegmentLength;
                 // Nothing where the other carriageway of a fork turns away (it is decided before this is baked).
                 if( fork.m_exists && u > ForkMedian - 60.0 && u < ForkMedian + ForkPeel + 40.0 )
@@ -1375,7 +1449,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                     if( fork.m_chosen == 0 || side * static_cast<float>( -fork.m_chosen ) > 0.0f )
                     {
                         const float bx = branchX( std::clamp( u, ForkMedian, ForkMedian + ForkPeel ) );
-                        if( std::abs( lateral - bx ) < carriage + 14.0f || std::abs( lateral ) < std::abs( bx ) + 14.0f ) continue;
+                        if( std::abs( lateral - bx ) < carriage + 14.0f || std::abs( lateral ) < std::abs( bx ) + 14.0f ) return;
                     }
                 }
                 const float  ht = pr.m_onWater ? A.m_terrain.m_seaLevel + A.m_seg->m_trench : terrainHeight( track, j, lateral, A.m_terrain, A.m_edge );
@@ -1404,6 +1478,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                     // Fronts (+x) to the road: the road lies to the left of things on the right.
                     if( models.facing( pr.m_kind ) == FacingE::ROAD ) yaw = A.m_heading + ( side < 0 ? Tau * 0.5f : 0.0f ) + ( h3 - 0.5f ) * 0.3f;
                     else if( models.facing( pr.m_kind ) == FacingE::ALONG ) yaw = A.m_heading;
+                    else if( onPlot ) yaw = A.m_heading + Tau * 0.25f * std::floor( h3 * 4.0f ) + ( h3 - 0.5f ) * 0.1f;
                     break;
                 }
                 const float scale = lerpf( pr.m_scaleMin, pr.m_scaleMax, h4 );
@@ -1432,10 +1507,60 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 SeasonLook look = A.m_season;
                 if( !turns ) look.m_autumn = look.m_bare = look.m_spring = 0.0f;
                 const float h = hashFloat( key + 13, static_cast<uint64_t>( j ) );
-                props.append( models.prop( pr.m_kind, variant ), pos, yaw, scale, bright, defaults ? keys : nullptr, &look, blooms ? h : 0.3f + 0.7f * h );
+                // Up close in full; from afar (and deep beside the road) lighter; landmarks always in full.
+                const float        pick = blooms ? h : 0.3f + 0.7f * h;
+                const MeshBuilder &full = models.prop( pr.m_kind, variant );
+                const MeshBuilder &far = pr.m_perStage > 0 ? full : models.propFar( pr.m_kind, variant );
+                const MeshBuilder &near = dist > LodLateral ? far : full;
+                if( near.triangleCount() ) scenery.append( near, pos, yaw, scale, bright, defaults ? keys : nullptr, &look, pick );
+                if( far.triangleCount() ) sceneryFar.append( far, pos, yaw, scale, bright, defaults ? keys : nullptr, &look, pick );
                 const float radius = models.propRadius( pr.m_kind );
                 if( radius > 0.0f && dist < 45.0f && !pr.m_soft ) c.m_colliders.push_back( { ps, lateral, radius * scale } );
+            };
+            const Plots plots = plotsOf( rule, models );
+            const bool  built = plots.m_count > 0 && ( plots.m_city || inVillage( seed, j ) );
+            for( size_t r = 0; r < rule.m_props.size(); ++r )
+            {
+                const PropRule &pr = rule.m_props[r];
+                if( built && plots.has( r ) ) continue;
+                const uint64_t key = seed ^ ( sideKey * 31 + r * 7919 );
+                const float    h0 = hashFloat( key, static_cast<uint64_t>( j ) );
+                if( pr.m_perStage > 0 )
+                { // A landmark stands at a few fixed spots per stage, not by chance.
+                    bool spot = false;
+                    for( int k = 0; k < pr.m_perStage && !spot; ++k )
+                    {
+                        bool       right = false;
+                        const long where = landmarkSpot( seed, r, k, stage, right );
+                        // On the dry side, or on the water for a monument that stands in it.
+                        const bool wetL = A.m_terrain.m_waterLeft > 0.5f, wetR = A.m_terrain.m_waterRight > 0.5f;
+                        if( ( right ? wetR : wetL ) != pr.m_onWater && ( right ? wetL : wetR ) == pr.m_onWater ) right = !right;
+                        spot = !tunnel && local == where && right == ( side > 0 );
+                    }
+                    if( !spot ) continue;
+                }
+                else if( h0 >= pr.m_chance )
+                {
+                    continue;
+                }
+                place( pr, key, lerpf( pr.m_nearest, pr.m_farthest, hashFloat( key + 1, static_cast<uint64_t>( j ) ) ), false );
             }
+            // One plot per few segments and row; a city leaves every fourth free for a cross street, a village thins out
+            // towards its back.
+            const long plotSegs = std::max( 2L, std::lround( plots.m_along / SegmentLength ) ), plot = j / plotSegs;
+            if( built && j % plotSegs == plotSegs / 2 && !( plots.m_city && plot % 4 == 0 ) )
+                for( int row = 0; row < plots.m_rows; ++row )
+                {
+                    const uint64_t key = seed ^ ( sideKey * 37 + static_cast<uint64_t>( row ) * 104729 + 0x9107ull );
+                    const float    fill = plots.m_city ? 0.94f : 0.8f - 0.18f * static_cast<float>( row );
+                    if( hashFloat( key, static_cast<uint64_t>( plot ) ) >= fill ) continue;
+                    const float pick = hashFloat( key + 14, static_cast<uint64_t>( plot ) ) * plots.m_upTo[static_cast<size_t>( plots.m_count - 1 )];
+                    int         i = 0;
+                    while( i + 1 < plots.m_count && pick >= plots.m_upTo[static_cast<size_t>( i )] ) ++i;
+                    const float dist = plots.m_nearest + plots.m_half + plots.m_across * static_cast<float>( row ) +
+                                       ( hashFloat( key + 15, static_cast<uint64_t>( plot ) ) - 0.5f ) * 3.0f;
+                    place( rule.m_props[plots.m_rule[static_cast<size_t>( i )]], key, dist, true );
+                }
         }
 
         // Overhead sign gantries.
@@ -1594,6 +1719,8 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
 
     c.m_ground = std::move( ground );
     c.m_props = std::move( props );
+    c.m_scenery = std::move( scenery );
+    c.m_sceneryFar = std::move( sceneryFar );
     c.m_glass = std::move( glass );
 }
 

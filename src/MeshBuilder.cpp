@@ -315,6 +315,28 @@ bool MeshBuilder::centreOf( bool ( *match )( Color ), Vector3 &at ) const
     return true;
 }
 
+MeshBuilder MeshBuilder::simplified( float minEdge ) const
+{
+    MeshBuilder out;
+    const float min2 = minEdge * minEdge;
+    for( size_t t = 0; t < triangleCount(); ++t )
+    {
+        const float *p = &m_pos[t * 9];
+        auto         d2 = [&]( int a, int b )
+        {
+            const float dx = p[a * 3] - p[b * 3], dy = p[a * 3 + 1] - p[b * 3 + 1], dz = p[a * 3 + 2] - p[b * 3 + 2];
+            return dx * dx + dy * dy + dz * dz;
+        };
+        if( std::max( { d2( 0, 1 ), d2( 1, 2 ), d2( 2, 0 ) } ) < min2 && m_uv[t * 6] < 0.3f ) continue;
+        out.m_pos.insert( out.m_pos.end(), p, p + 9 );
+        out.m_nrm.insert( out.m_nrm.end(), m_nrm.begin() + static_cast<long>( t * 9 ), m_nrm.begin() + static_cast<long>( t * 9 + 9 ) );
+        out.m_col.insert( out.m_col.end(), m_col.begin() + static_cast<long>( t * 12 ), m_col.begin() + static_cast<long>( t * 12 + 12 ) );
+        out.m_uv.insert( out.m_uv.end(), m_uv.begin() + static_cast<long>( t * 6 ), m_uv.begin() + static_cast<long>( t * 6 + 6 ) );
+        out.m_uv2.insert( out.m_uv2.end(), m_uv2.begin() + static_cast<long>( t * 6 ), m_uv2.begin() + static_cast<long>( t * 6 + 6 ) );
+    }
+    return out;
+}
+
 void MeshBuilder::applySway( float amount )
 {
     float top = 0.1f;

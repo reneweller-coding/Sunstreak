@@ -237,6 +237,14 @@ public:
      */
     void applySway( float amount );
 
+    /**
+     * @brief The same model as seen from afar (LOD): triangles whose longest edge is shorter than minEdge are left out,
+     *        unless they glow (the lit windows of a city stay lit).
+     * @param[in] minEdge  the shortest edge kept (m)
+     * @return the lighter model
+     */
+    MeshBuilder simplified( float minEdge ) const;
+
 private:
     std::vector<float>         m_pos;   ///< xyz per vertex
     std::vector<float>         m_nrm;   ///< normal per vertex

@@ -195,8 +195,11 @@ car going past is the higher the faster you pass it.
 The seasons (Settings > SEASONS: AS TODAY by the date, AS YOU TRAVEL a year every 400 km, or OFF) reach the temperate
 and cold places: in autumn the broadleaf trees, bushes, hedges and vines turn orange, red and gold, the fields to
 stubble and leaves blow across the road; in winter snow lies on the land and on everything that faces up, the trees
-are bare and it snows; in spring the green is fresh, some trees blossom and petals drift. South of the equator the year
-is turned round; the tropics and the deserts have none. On their dates the festivals come: Holi in India with bunting
+are bare and it snows; in spring the green is fresh, some trees blossom and petals drift. When they come follows each
+place's real climate (monthly temperature and rain of thirty years, `climate.txt`): snow lies where the air stayed
+below freezing, so the south turns the year round by itself and Patagonia is white in July, while the tropics and the
+deserts keep their one look. The showers follow the rain of the month as well: hardly any in the dry season of Mumbai,
+a monsoon in July, snow in the Alps in January where the same road sees rain in July. On their dates the festivals come: Holi in India with bunting
 and colour in the air, the carnival in Brazil, red lanterns for the Lunar New Year in China, Taiwan, Vietnam, Korea,
 Singapore and Malaysia, Diwali with lights along the road and fireworks at night, Christmas markets with stalls, fairy
 lights and trees in Germany, Austria, Switzerland, Czechia and Alsace, the Oktoberfest's tents in Bavaria, fireworks
@@ -226,7 +229,10 @@ The old towns of Amsterdam, Lisbon, the Romantic Road, Quebec, Cartagena and Our
 houses are the region's own: canal houses in the Low Countries, machiya in Japan, white Cycladic cubes, falu-red
 cottages in Scandinavia, izbas in Russia, azulejo facades in Portugal, bright casitas in Latin America, stilt houses in
 Southeast Asia, shotgun houses on the Gulf and in the Caribbean, hutong gates in China, Queenslanders, Andean adobe,
-New England clapboard, crofts in Scotland and Ireland and the tower houses of Yemen.
+New England clapboard, crofts in Scotland and Ireland and the tower houses of Yemen. Cities stand on plots in rows
+some 300 m back from the road, cross streets between their blocks; in the country the houses gather in villages of two
+or three rows here and there, with lone farms between. From afar (beyond 320 m ahead, or 130 m beside the road) every
+prop is drawn lighter: small parts and dark panes left out, the lit windows kept, litter and tufts not at all.
 
 At most borders the road forks, as it did in OutRun. Almost two kilometres ahead two boards on the screen show where
 each side goes (the place, its region and country, the distance counting down, the side you are on lit), gantries
@@ -393,6 +399,9 @@ viewer, every landmark and creature alone under its first place's sky, to turn a
   are shapes too.
 - `festivals.txt`: the festivals, their dates and places and what they bring (bunting, lanterns, lights, lamps,
   stalls, tents, trees, confetti, fireworks, the aurora).
+- `climate.txt`: the climate of each place: twelve monthly mean temperatures and twelve monthly rain sums (NASA POWER
+  30-year climatology, made by `world_data.py` in the WorldData tools); places without a line keep the seasons of their
+  latitude.
 - `roads.txt`: each country's road customs: miles per hour, speed limit boards, toll plazas, speed cameras, number
   plates; how its roads are built and kept: quality, lane width, shoulders, kerbs, road studs, concrete, gravel; and
   how its traffic drives: how much of it (Numbeo's traffic index) and its ways (scooters, chaos, tractors, road trains);

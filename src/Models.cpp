@@ -550,6 +550,30 @@ const MeshBuilder &Models::prop( PropKindE kind, uint64_t variant ) const
     return v.empty() ? none : v[static_cast<size_t>( variant % v.size() )];
 }
 
+const MeshBuilder &Models::propFar( PropKindE kind, uint64_t variant ) const
+{
+    static const MeshBuilder none;
+    const auto              &v = m_propsFar[static_cast<size_t>( kind )];
+    return v.empty() ? none : v[static_cast<size_t>( variant % v.size() )];
+}
+
+void Models::buildFarProps()
+{
+    for( size_t k = 0; k < m_props.size(); ++k )
+    {
+        m_propsFar[k].clear();
+        m_footprint[k] = 0.0f;
+        for( const MeshBuilder &m : m_props[k] )
+        {
+            const Vector3 e = m.extent();
+            const float   size = std::max( { e.x, e.y, e.z } );
+            m_footprint[k] = std::max( m_footprint[k], 2.0f * std::max( e.x, e.z ) );
+            // Litter, tufts and posts vanish from afar; the rest loses what is smaller than a fortieth of it.
+            m_propsFar[k].push_back( size < 1.5f ? MeshBuilder{} : m.simplified( std::clamp( size * 0.025f, 0.3f, 2.0f ) ) );
+        }
+    }
+}
+
 void Models::buildProps()
 {
     auto add = [&]( PropKindE kind, float radius ) -> MeshBuilder &
@@ -2306,6 +2330,7 @@ int serviceModel( const Models &models, const BiomeDef &place, std::string_view 
 void Models::build()
 {
     buildProps();
+    buildFarProps();
     buildVehicles();
 }
 

@@ -480,6 +480,7 @@ void Models::reloadDataShapes()
 {
     m_props[static_cast<size_t>( PropKindE::LANDMARK )].resize( static_cast<size_t>( compiledLandmarks() ) );
     buildDataLandmarks();
+    buildFarProps();
     for( size_t i = m_creatureFirst; i < m_traffic.size(); ++i ) UnloadMesh( m_traffic[i].m_mesh );
     m_traffic.resize( m_creatureFirst );
     buildCreatures();

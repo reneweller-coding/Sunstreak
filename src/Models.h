@@ -208,6 +208,21 @@ public:
     float propRadius( PropKindE kind ) const { return m_radius[static_cast<size_t>( kind )]; }
 
     /**
+     * @brief A prop as seen from afar (LOD): its small parts and dark panes left out, the lit windows kept.
+     * @param[in] kind     which prop
+     * @param[in] variant  the same number as for prop()
+     * @return its far model (empty for props too small to see from afar)
+     */
+    const MeshBuilder &propFar( PropKindE kind, uint64_t variant ) const;
+
+    /**
+     * @brief How wide a kind's models stand on the ground (to lay out plots).
+     * @param[in] kind  which prop
+     * @return the widest of its variants at scale 1 (m)
+     */
+    float propFootprint( PropKindE kind ) const { return m_footprint[static_cast<size_t>( kind )]; }
+
+    /**
      * @brief The default colours of a prop with key colours.
      * @param[in] kind  which prop
      * @return three colours, or nullptr if the kind has no key colours
@@ -281,6 +296,9 @@ private:
     /** @brief Appends the landmarks of the data files to the compiled ones. */
     void buildDataLandmarks();
 
+    /** @brief Derives the far models and the footprints of all props. */
+    void buildFarProps();
+
 public:
     /** @brief Builds the shapes of the data files and the flags again, after reloadData(). */
     void reloadDataShapes();
@@ -294,6 +312,8 @@ private:
     void buildFlags();
 
     std::array<std::vector<MeshBuilder>, static_cast<size_t>( PropKindE::COUNT )> m_props;    ///< variants per kind
+    std::array<std::vector<MeshBuilder>, static_cast<size_t>( PropKindE::COUNT )> m_propsFar;  ///< the same from afar
+    std::array<float, static_cast<size_t>( PropKindE::COUNT )>                    m_footprint{};  ///< widths on the ground
     std::array<float, static_cast<size_t>( PropKindE::COUNT )>                    m_radius{};  ///< collision radii
     std::array<std::array<Color, 3>, static_cast<size_t>( PropKindE::COUNT )>     m_keys{};    ///< default key colours
     std::array<FacingE, static_cast<size_t>( PropKindE::COUNT )>                  m_facing{};  ///< which way they turn

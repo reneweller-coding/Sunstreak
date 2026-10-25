@@ -418,9 +418,10 @@ void Renderer::drawShadows( const SceneInput &in, const CameraView &cam, const V
         for( const Chunk &c : in.m_world->chunks() )
         {
             const double c0 = static_cast<double>( c.m_index ) * ChunkLength;
-            if( c0 > playerS + ShadowExtent || c0 + ChunkLength < playerS - 60.0 || !c.m_props.vertexCount ) continue;
+            if( c0 > playerS + ShadowExtent || c0 + ChunkLength < playerS - 60.0 ) continue;
             const Vector3 o = relativeTo( c.m_origin, origin );
-            DrawMesh( c.m_props, m_depthMaterial, MatrixTranslate( o.x, o.y, o.z ) );
+            if( c.m_props.vertexCount ) DrawMesh( c.m_props, m_depthMaterial, MatrixTranslate( o.x, o.y, o.z ) );
+            if( c.m_scenery.vertexCount ) DrawMesh( c.m_scenery, m_depthMaterial, MatrixTranslate( o.x, o.y, o.z ) );
         }
     for( const ScenePiece &p : in.m_pieces )
         if( p.m_mesh && p.m_mesh->vertexCount ) DrawMesh( *p.m_mesh, m_depthMaterial, pieceMatrix( p ) );
@@ -577,7 +578,11 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
         for( const Chunk &c : in.m_world->chunks() )
         {
             const Vector3 o = relativeTo( c.m_origin, origin );
-            if( shown( c ) && c.m_props.vertexCount ) DrawMesh( c.m_props, m_material, MatrixTranslate( o.x, o.y, o.z ) );
+            if( !shown( c ) ) continue;
+            if( c.m_props.vertexCount ) DrawMesh( c.m_props, m_material, MatrixTranslate( o.x, o.y, o.z ) );
+            // The scenery from afar beyond LodDistance.
+            const Mesh &scenery = upClose( c, in.m_player ? in.m_player->m_s : cam.m_pos.m_z ) ? c.m_scenery : c.m_sceneryFar;
+            if( scenery.vertexCount ) DrawMesh( scenery, m_material, MatrixTranslate( o.x, o.y, o.z ) );
         }
     // Lone models (the landmark viewer, a crossing).
     for( const ScenePiece &p : in.m_pieces )

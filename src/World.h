@@ -31,6 +31,8 @@ constexpr int    ChunkSegments = 16;                                ///< segment
 constexpr double ChunkLength = ChunkSegments * SegmentLength;       ///< metres per chunk
 constexpr double ViewDistance = 1150.0;                             ///< how far ahead chunks exist
 constexpr double KeepBehind = 320.0;                                ///< how far behind chunks stay (looking back)
+constexpr double LodDistance = 320.0;                               ///< chunks further ahead show their scenery from afar
+constexpr float  LodLateral = 130.0f;                               ///< scenery further from the road is always far
 
 /** @brief Something solid beside the road. */
 struct Collider
@@ -46,7 +48,9 @@ struct Chunk
     long                  m_index = 0;   ///< chunk number (first segment / ChunkSegments)
     Vec3d                 m_origin;      ///< world position of the first segment's centre
     Mesh                  m_ground{};    ///< road and land
-    Mesh                  m_props{};     ///< everything standing
+    Mesh                  m_props{};     ///< everything standing that belongs to the road (signs, gantries, bridges)
+    Mesh                  m_scenery{};   ///< the scattered props: trees, rocks, houses, towers
+    Mesh                  m_sceneryFar{};   ///< the same as seen from afar (LOD)
     Mesh                  m_glass{};     ///< see-through panes (undersea tunnels), drawn after everything solid
     std::vector<Collider> m_colliders;   ///< solid props near the road
 };
@@ -57,11 +61,24 @@ struct BakedChunk
     long                  m_index = 0;   ///< chunk number
     Vec3d                 m_origin;      ///< world position of the first segment's centre
     MeshBuilder           m_ground;      ///< road and land
-    MeshBuilder           m_props;       ///< everything standing
+    MeshBuilder           m_props;       ///< everything standing that belongs to the road
+    MeshBuilder           m_scenery;     ///< the scattered props
+    MeshBuilder           m_sceneryFar;  ///< the same from afar
     MeshBuilder           m_glass;       ///< see-through panes
     std::vector<Collider> m_colliders;   ///< solid props near the road
     float                 m_ms = 0.0f;   ///< how long the baking took
 };
+
+/**
+ * @brief Whether a chunk is near enough to show its scenery up close.
+ * @param[in] c  the chunk
+ * @param[in] s  where the car is along the road
+ * @return true up close, false from afar
+ */
+inline bool upClose( const Chunk &c, double s )
+{
+    return static_cast<double>( c.m_index ) * ChunkLength < s + LodDistance;
+}
 
 /**
  * @brief Where one of a stage's landmarks stands (a prop rule with PropRule::m_perStage).
