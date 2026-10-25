@@ -795,6 +795,7 @@ void Game::finishCrossing()
     m_passenger.reset();
     m_hero.reset();
     m_train.reset();
+    m_sky.reset();
     m_delivered = 0;
     m_particles.clear();
     for( Rival &r : m_race.m_rivals )
@@ -1037,6 +1038,7 @@ void Game::setupTrack( uint64_t seed, double startS, const TrackParams &params, 
     m_passenger.reset();
     m_hero.reset();
     m_train.reset();
+    m_sky.reset();
     m_delivered = 0;
     m_race.m_rivals.clear();
     m_particles.clear();
@@ -1101,6 +1103,20 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
             if( probe.fork( st ).m_exists )
             {
                 startS = probe.fork( st ).m_at - 700.0;
+                break;
+            }
+        m_options.m_find = 0;
+    }
+    if( m_options.m_find == 14 )
+    {
+        // Testing: start a little before the first spectacle.
+        Track  probe( setup.m_seed, params, m_options.m_startBiome );
+        SkyE   kind = SkyE::COUNT;
+        double at = 0.0;
+        for( int st = 0; st < 40; ++st )
+            if( stageSpectacle( probe, st, kind, at ) )
+            {
+                startS = std::max( startS, at - 300.0 );
                 break;
             }
         m_options.m_find = 0;
@@ -1834,6 +1850,12 @@ void Game::step( float h, const CarInput &in )
             m_audio.play( SfxE::NEAR_MISS );
         }
         if( pe.m_caught || pe.m_escaped ) checkAchievements();
+    }
+    {
+        // Something to see: an airliner coming in, jets, balloons, a ship, an airship.
+        SkyEvents ev;
+        m_sky.update( h, track, m_car, !m_demo && m_state == StateE::RACE, ev );
+        if( ev.m_roar ) m_audio.play( SfxE::JET, 1.0f, ev.m_pan );
     }
     {
         // A fast train on its viaduct beside the road: pass its nose before the stretch ends.

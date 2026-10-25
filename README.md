@@ -144,6 +144,10 @@ Thailand, a red knot in China, pompoms in Mexico, a blue eye charm in Turkey, a 
 Now and then a hitchhiker waits by the road, thumb out: slow down beside them and they get in with a hello in their
 language, then take them to the next place before their patience runs out (+3000 and five seconds, and their thanks:
 DANKE, ARIGATO, SHUKRAN, ASANTE ...); too slow and they get out at the roadside.
+Now and then there is something to see (data/spectacles.txt): an airliner coming in to land low across the road near
+the big airports and over the Caribbean islands, two fighter jets roaring overhead in the deserts of the American west
+and the Emirates, hot-air balloons over Cappadocia, Bagan, Luxor and the Serengeti, a container ship on the Panama Canal
+or off Singapore, an airship over southern Germany.
 In half the stages of countries with a fast train (data/trains.txt: the Shinkansen, the TGV, the ICE, the AVE, the
 Frecciarossa, the KTX, the Indian Pacific and ten more) a viaduct runs beside the road for a few kilometres, out of a
 stone portal and into another, and the train races you along it: it starts just ahead and speeds up to its top speed
@@ -326,7 +330,7 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --shape-tour N                with --screen viewer: photograph N models from there on, one picture each, saved
                                   as the --screenshot prefix followed by the model's name
     --camera 0..3                 chase, far, bumper or cockpit camera
-    --find tunnel|bridge|landmark|landmark2|fork|sea|seain|seaout|ferry|jump|hitchhiker|hero|train
+    --find tunnel|bridge|landmark|landmark2|fork|sea|seain|seaout|ferry|jump|hitchhiker|hero|train|sky
                                  start just before the first tunnel, bridge, landmark (or the second), fork, undersea
                                  portal (or inside, or before its far portal), ferry or crest
     --season spring|summer|autumn|winter   that season (testing)

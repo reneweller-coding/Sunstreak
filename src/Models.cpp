@@ -9,6 +9,7 @@
 
 #include "MathUtil.h"
 #include "Rng.h"
+#include "Spectacle.h"
 #include "Train.h"
 #include "VectorFont.h"
 
@@ -2207,6 +2208,19 @@ void Models::buildCreatures()
                     break;
                 }
         }
+    // ---- The spectacles: the SKY_ shapes -------------------------------------------------------------------------------
+    for( Mesh &m : m_sky )
+        if( m.vaoId ) UnloadMesh( m );
+    m_sky.assign( SKY_MODELS, Mesh{} );
+    for( int k = 0; k < SKY_MODELS; ++k )
+        for( const DataShape &d : dataShapes() )
+            if( d.m_name == skyModelName( k ) )
+            {
+                MeshBuilder shape;
+                buildDataShape( shape, d );
+                m_sky[static_cast<size_t>( k )] = shape.upload();
+                break;
+            }
     // ---- The hitchhikers: the HITCHHIKER shapes ------------------------------------------------------------------------
     for( Mesh &m : m_hitchhikers )
         if( m.vaoId ) UnloadMesh( m );
@@ -2307,6 +2321,9 @@ void Models::unload()
         for( Mesh &m : t )
             if( m.vaoId ) UnloadMesh( m );
     m_trains.clear();
+    for( Mesh &m : m_sky )
+        if( m.vaoId ) UnloadMesh( m );
+    m_sky.clear();
 }
 
 } // namespace sunstreak

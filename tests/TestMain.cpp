@@ -14,6 +14,7 @@
 #include "Police.h"
 #include "Race.h"
 #include "Records.h"
+#include "Spectacle.h"
 #include "Track.h"
 #include "Train.h"
 
@@ -456,6 +457,20 @@ int main()
                        std::abs( biomeDef( static_cast<BiomeE>( japan ) ).m_laneWidth - 3.0f ) < 0.01f && concrete > 10 && studs > 10 &&
                        countryInfo( "THAILAND" ).m_lines == 1 && countryInfo( "UAE" ).m_lines == 3,
                    "the roads of the countries" );
+        }
+        { // Spectacles: balloons over Cappadocia in most of its stages, the rules all known.
+            TrackParams p;
+            p.m_biome = biomeId( "CAPPADOCIA" );
+            Track cappadocia( 17, p );
+            int   balloons = 0;
+            for( int st = 0; st < 20; ++st )
+            {
+                SkyE   kind = SkyE::COUNT;
+                double at = 0.0;
+                balloons += stageSpectacle( cappadocia, st, kind, at ) && kind == SkyE::BALLOONS ? 1 : 0;
+            }
+            std::printf( "      balloons over Cappadocia in %d of 20 stages; %d rules, %d errors\n", balloons, static_cast<int>( skyRules().size() ), skyErrors() );
+            check( balloons >= 12 && skyErrors() == 0 && skyRules().size() == 5, "spectacles over the road" );
         }
         { // Fast trains: half of Japan's stages; flat out the car beats the train, dawdling it loses.
             TrackParams p;

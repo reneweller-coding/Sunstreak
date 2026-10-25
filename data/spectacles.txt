@@ -1,0 +1,13 @@
+# Spectacles over and beside the road, in some stages of their places: KIND | where | share of their stages
+#   where: countries, COUNTRY:REGION or place:ID (as the shapes' homes are written)
+#   PLANE     an airliner coming in to land low across the road (SKY_AIRLINER)
+#   JETS      two fighter jets roaring along the road overhead (SKY_JET)
+#   BALLOONS  hot-air balloons drifting over the land (SKY_BALLOON_*)
+#   SHIP      a container ship on the water beside the road, where there is water (SKY_SHIP)
+#   ZEPPELIN  an airship drifting high over the land (SKY_ZEPPELIN)
+
+PLANE | place:NEW_YORK, place:LA_FREEWAY, place:LONDON, place:PARIS, place:TOKYO, place:HONG_KONG, place:SINGAPORE, place:DUBAI, place:SYDNEY, place:LAS_VEGAS, SAINT LUCIA, SAINT KITTS AND NEVIS, SAINT VINCENT, ANTIGUA AND BARBUDA, BARBADOS, GRENADA | 0.7
+JETS | USA:NEVADA, USA:CALIFORNIA, USA:NEW MEXICO, UAE | 0.35
+BALLOONS | place:CAPPADOCIA, place:BAGAN, place:LUXOR, place:SERENGETI, place:SANTA_FE, place:WHITE_SANDS | 0.9
+SHIP | place:PANAMA_CANAL, place:SINGAPORE, place:HONG_KONG, NETHERLANDS | 0.7
+ZEPPELIN | GERMANY:BADEN-WURTTEMBERG, GERMANY:BAVARIA | 0.4

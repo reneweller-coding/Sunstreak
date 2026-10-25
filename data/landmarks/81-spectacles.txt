@@ -1,0 +1,138 @@
+# Round six: spectacles over and beside the road (data/spectacles.txt says where): an airliner coming in to land, fighter
+# jets, hot-air balloons, a container ship, an airship. They stand nowhere by themselves; noses towards +z.
+
+shape SKY_AIRLINER
+    # An airliner on its final approach: gear down, landing lights on.
+    tube 0 0 -16 0 0 16 2.0 14 F2F2F2
+    blob 0 0 16 2.0 2.0 4.0 F2F2F2
+    blob 0 0.5 18.2 1.2 0.7 1.6 1E2630 glass
+    blob 0 0.4 -17 1.6 1.6 4.5 F2F2F2
+    box 0 -0.6 0 16.5 0.3 3.0 E8E8E8
+    box 0 0.2 -19 6.0 0.15 1.6 E8E8E8
+    quad 0 1.5 -15.5 0 8.5 -20 0 8.5 -22 0 1.5 -19 1E3A8A
+    quad 0 1.5 -19 0 8.5 -22 0 8.5 -20 0 1.5 -15.5 1E3A8A
+    tube 6 -1.6 2.5 6 -1.6 -1.5 1.1 12 C8CCD0
+    tube -6 -1.6 2.5 -6 -1.6 -1.5 1.1 12 C8CCD0
+    box 0 0.05 0 2.01 0.25 15.5 1E3A8A
+    repeat 30 0 0 1.0
+    box 0 0.9 -14 2.02 0.12 0.18 2A3A4A glass
+    tube 0 -2.0 12 0 -3.8 12 0.12 6 5A5A5A
+    blob 0 -4.0 12 0.35 0.35 0.35 1E1E1E
+    mirrorx
+    tube 2.5 -2.0 -1 2.5 -3.8 -1 0.15 6 5A5A5A
+    mirrorx
+    box 2.5 -4.0 -1 0.4 0.4 0.8 1E1E1E
+    mirrorx
+    box 7 -0.4 3.2 0.3 0.15 0.15 FFF6E0 glow
+    box 0 -1.2 17 0.3 0.2 0.1 FFF6E0 glow
+    box 16.4 -0.5 0 0.1 0.1 0.2 E82A2A glow
+    box -16.4 -0.5 0 0.1 0.1 0.2 2AE85A glow
+
+shape SKY_JET
+    # A fighter jet in grey, its afterburner glowing.
+    tube 0 0 -7 0 0 6 0.9 10 7A8088
+    blob 0 0 6 0.9 0.8 3.0 7A8088
+    blob 0 0.75 3 0.55 0.5 1.8 3A5A6A glass
+    quad 0 0 2 6.5 0 -5 6.5 0 -6.5 0 0 -6.5 6A7078
+    quad 0 0 -6.5 6.5 0 -6.5 6.5 0 -5 0 0 2 6A7078
+    quad 0 0 2 -6.5 0 -5 -6.5 0 -6.5 0 0 -6.5 6A7078
+    quad 0 0 -6.5 -6.5 0 -6.5 -6.5 0 -5 0 0 2 6A7078
+    mirrorx
+    quad 0.6 0.5 -4 1.6 3.5 -7.5 1.6 3.5 -8.5 0.6 0.5 -7.5 6A7078
+    mirrorx
+    quad 0.6 0.5 -7.5 1.6 3.5 -8.5 1.6 3.5 -7.5 0.6 0.5 -4 6A7078
+    blob 0 0 -7.6 0.7 0.7 1.4 FF8A2A glow
+    blob 0 0 -9.0 0.45 0.45 1.8 FFC86A glow
+
+shape SKY_BALLOON_1
+    # A hot-air balloon in red and yellow.
+    cyl 0 4.2 0 1.6 7.2 5.5 16 D82A2A
+    cyl 0 9.7 0 7.2 7.6 1.2 16 F2D21E
+    dome 0 10.9 0 7.6 8.5 D82A2A
+    cyl 0 13.0 0 7.4 6.9 1.0 16 F2D21E
+    cyl 0 3.6 0 1.6 1.6 0.6 12 3A3A3A
+    box 0 0.55 0 0.75 0.55 0.75 8A5A2A
+    repeat 4 0 0 0
+    tube 0.7 1.1 0.7 1.4 4.0 1.4 0.03 3 3A3A3A
+    tube -0.7 1.1 0.7 -1.4 4.0 1.4 0.03 3 3A3A3A
+    tube 0.7 1.1 -0.7 1.4 4.0 -1.4 0.03 3 3A3A3A
+    tube -0.7 1.1 -0.7 -1.4 4.0 -1.4 0.03 3 3A3A3A
+    blob 0 3.3 0 0.4 0.3 0.4 FFB040 glow
+
+shape SKY_BALLOON_2
+    # A hot-air balloon in blue and white.
+    cyl 0 4.2 0 1.6 7.2 5.5 16 2A5AC8
+    cyl 0 9.7 0 7.2 7.6 1.2 16 F2F2F2
+    dome 0 10.9 0 7.6 8.5 2A5AC8
+    cyl 0 13.0 0 7.4 6.9 1.0 16 F2F2F2
+    cyl 0 3.6 0 1.6 1.6 0.6 12 3A3A3A
+    box 0 0.55 0 0.75 0.55 0.75 8A5A2A
+    repeat 4 0 0 0
+    tube 0.7 1.1 0.7 1.4 4.0 1.4 0.03 3 3A3A3A
+    tube -0.7 1.1 0.7 -1.4 4.0 1.4 0.03 3 3A3A3A
+    tube 0.7 1.1 -0.7 1.4 4.0 -1.4 0.03 3 3A3A3A
+    tube -0.7 1.1 -0.7 -1.4 4.0 -1.4 0.03 3 3A3A3A
+    blob 0 3.3 0 0.4 0.3 0.4 FFB040 glow
+
+shape SKY_BALLOON_3
+    # A hot-air balloon in green, orange and purple.
+    cyl 0 4.2 0 1.6 7.2 5.5 16 2A8A3A
+    cyl 0 9.7 0 7.2 7.6 1.2 16 F2801E
+    dome 0 10.9 0 7.6 8.5 7A3AA8
+    cyl 0 13.0 0 7.4 6.9 1.0 16 F2801E
+    cyl 0 3.6 0 1.6 1.6 0.6 12 3A3A3A
+    box 0 0.55 0 0.75 0.55 0.75 8A5A2A
+    repeat 4 0 0 0
+    tube 0.7 1.1 0.7 1.4 4.0 1.4 0.03 3 3A3A3A
+    tube -0.7 1.1 0.7 -1.4 4.0 1.4 0.03 3 3A3A3A
+    tube 0.7 1.1 -0.7 1.4 4.0 -1.4 0.03 3 3A3A3A
+    tube -0.7 1.1 -0.7 -1.4 4.0 -1.4 0.03 3 3A3A3A
+    blob 0 3.3 0 0.4 0.3 0.4 FFB040 glow
+
+shape SKY_BALLOON_4
+    # A hot-air balloon in rainbow stripes.
+    cyl 0 4.2 0 1.6 7.2 5.5 16 E8501E
+    cyl 0 9.7 0 7.2 7.6 1.2 16 2AA8D8
+    dome 0 10.9 0 7.6 8.5 F2D21E
+    cyl 0 13.0 0 7.4 6.9 1.0 16 2AA8D8
+    cyl 0 3.6 0 1.6 1.6 0.6 12 3A3A3A
+    box 0 0.55 0 0.75 0.55 0.75 8A5A2A
+    repeat 4 0 0 0
+    tube 0.7 1.1 0.7 1.4 4.0 1.4 0.03 3 3A3A3A
+    tube -0.7 1.1 0.7 -1.4 4.0 1.4 0.03 3 3A3A3A
+    tube 0.7 1.1 -0.7 1.4 4.0 -1.4 0.03 3 3A3A3A
+    tube -0.7 1.1 -0.7 -1.4 4.0 -1.4 0.03 3 3A3A3A
+    blob 0 3.3 0 0.4 0.3 0.4 FFB040 glow
+
+shape SKY_SHIP
+    # A container ship, two hundred metres long, its boxes stacked in every colour.
+    box 0 2 0 16 6 100 1E1E22
+    box 0 -3.5 0 15.8 0.6 99.6 B82A2A
+    blob 0 2 98 16 6 10 1E1E22
+    box 0 8.3 -88 14 0.3 10 E8E8E8
+    box 0 16 -90 13 8 6 F2F2F2
+    box 0 20 -86.1 12.5 1.2 0.1 2A3A4A glass
+    box 0 25 -93 1.6 3 1.6 C82A2A
+    repeat 12 0 0 13.5
+    box 0 11 -72 14 3 6 C8501E
+    repeat 12 0 0 13.5
+    box 0 14 -72 14 1.5 6 2A6AA8
+    repeat 6 0 0 27
+    box 0 16.5 -72 14 1.0 6 2A8A3A
+    repeat 6 0 0 27
+    box 0 16.5 -58.5 14 1.0 6 D8A830
+
+shape SKY_ZEPPELIN
+    # An airship drifting high over the land, silver, its gondola below.
+    blob 0 0 0 7.5 7.5 37 D8DCE0
+    box 0 -7.6 8 1.6 1.2 7 F2F2F2
+    box 0 -7.6 8 1.62 0.4 6.5 2A3A4A glass
+    mirrorx
+    quad 0.5 0 -28 8 0 -36 8 0 -38 0.5 0 -36 C8CCD0
+    mirrorx
+    quad 0.5 0 -36 8 0 -38 8 0 -36 0.5 0 -28 C8CCD0
+    quad 0 0.5 -28 0 8 -36 0 8 -38 0 0.5 -36 C8CCD0
+    quad 0 0.5 -36 0 8 -38 0 8 -36 0 0.5 -28 C8CCD0
+    quad 0 -0.5 -28 0 -8 -36 0 -8 -38 0 -0.5 -36 C8CCD0
+    quad 0 -0.5 -36 0 -8 -38 0 -8 -36 0 -0.5 -28 C8CCD0
+    box 0 0 10 7.6 1.4 6 1E3A8A

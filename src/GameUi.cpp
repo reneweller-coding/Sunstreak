@@ -1009,6 +1009,21 @@ void Game::draw()
                                      std::atan2( f.m_forward.x, f.m_forward.z ) + ( k == coaches && k > 0 ? PI : 0.0f ) } );
         }
     }
+    if( m_sky.m_kind != SkyE::COUNT && m_models.m_sky.size() == SKY_MODELS && m_track )
+        for( const SkyThing &t : m_sky.m_things )
+        {
+            // In the road's frame, but level: no bank far out to the side.
+            const Mesh &mesh = m_models.m_sky[static_cast<size_t>( t.m_model )];
+            if( !mesh.vertexCount || t.m_s - m_car.m_s > ViewDistance + 400.0 || t.m_s < m_car.m_s - 1500.0 ) continue;
+            const TrackFrame f = m_track->frameAt( t.m_s );
+            Vec3d            p = f.m_pos;
+            p.m_x += static_cast<double>( f.m_right.x * t.m_lateral );
+            p.m_z += static_cast<double>( f.m_right.z * t.m_lateral );
+            p.m_y += static_cast<double>( t.m_height );
+            const float dx = f.m_forward.x * std::cos( t.m_turn ) + f.m_right.x * std::sin( t.m_turn );
+            const float dz = f.m_forward.z * std::cos( t.m_turn ) + f.m_right.z * std::sin( t.m_turn );
+            in.m_pieces.push_back( { &mesh, p, std::atan2( dx, dz ) } );
+        }
     if( m_hero.m_state != HeroStateE::NONE ) in.m_cars.push_back( { m_hero.m_s, m_hero.m_x, m_hero.m_yaw, m_hero.m_car, m_hero.m_paint, 1.0f } );
     if( m_police.m_state != PoliceStateE::NONE && m_police.m_model >= 0 )
         in.m_police.push_back( { m_police.m_s, m_police.m_x, m_police.m_yaw, m_police.m_model,

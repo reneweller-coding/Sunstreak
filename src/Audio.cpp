@@ -5,6 +5,7 @@
  */
 #include "Audio.h"
 
+#include "MathUtil.h"
 #include "Music.h"
 
 #include "Rng.h"
@@ -436,6 +437,15 @@ struct Synth
             const float f = 400.0f * v.m_a;
             const float env = std::min( 1.0f, t * 80.0f ) * std::min( 1.0f, ( dur - t ) * 30.0f );
             y = std::tanh( ( std::sin( Pi2 * f * t ) + std::sin( Pi2 * f * 1.26f * t ) ) * 2.2f ) * env * 0.16f;
+            break;
+        }
+        case SfxE::JET:
+        {
+            // A rising, then falling roar: noise whose band slides down as it passes, a rumble under it.
+            dur = 7.0f;
+            const float env = smoothstepf( 0.0f, 3.2f, t ) * ( 1.0f - smoothstepf( 3.6f, 7.0f, t ) );
+            v.m_f.set( 1100.0f - 700.0f * smoothstepf( 2.6f, 4.4f, t ), 0.8f );
+            y = ( v.m_f.band( v.m_n.next() ) * 1.6f + std::sin( Pi2 * 48.0f * t ) * 0.25f ) * env;
             break;
         }
         case SfxE::JINGLE:

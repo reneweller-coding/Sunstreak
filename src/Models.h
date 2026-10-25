@@ -260,6 +260,7 @@ public:
     std::string                                        m_playerPlateOf;  ///< what m_playerPlate shows (style, code, text)
     std::vector<Mesh>                                  m_hitchhikers;    ///< the HITCHHIKER shapes, +x towards the road
     std::vector<std::array<Mesh, 2>>                   m_trains;         ///< per train (trainLines()): its power car and a coach, +z ahead
+    std::vector<Mesh>                                  m_sky;            ///< the spectacles' SKY_ shapes (SkyModelE order)
     Mesh                                               m_cone{};         ///< traffic cone
     std::array<Mesh, 2>                                m_arrowBoard{};   ///< roadworks board, arrow left / right
     Mesh                                               m_shadow{};       ///< unit blob shadow
