@@ -994,7 +994,8 @@ private:
     float m_aquaShown = -100.0f;   ///< when AQUAPLANING was last shown
     float m_monsoon = 0.0f;        ///< 0..1 how hard the monsoon falls where the car is (floods from 0.4)
 
-    std::vector<Popup> m_popups;   ///< messages
+    std::vector<Popup> m_popups;             ///< messages
+    float              m_tickerTop = 0.0f;   ///< where the news ticker starts: under the status lines of this frame
 
     // Daily challenge, rallies, replay, photos.
     int                     m_rally = -1;                        ///< the rally driven

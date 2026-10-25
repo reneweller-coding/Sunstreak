@@ -93,6 +93,8 @@ struct Fork
 /** @brief What the Track Lab (and a race) asks of the generator; -1 leaves a value to the biomes. */
 constexpr int SceneryMixed = -1;   ///< TrackParams::m_biome: every stage another biome, all of them shuffled
 constexpr int SceneryWorld = -2;   ///< TrackParams::m_biome: the world tour, stage after stage along the route
+constexpr int SceneryRandomOption =
+    -4;   ///< not a TrackParams::m_biome: SceneryWorld with m_randomTour (menus, options)
 
 /** @brief The settings of a track the Track Lab can change (-1: as the biomes and the stages say). */
 struct TrackParams
@@ -103,9 +105,11 @@ struct TrackParams
     int                   m_traffic = -1;            ///< 0..9 traffic density
     int                   m_obstacles = -1;          ///< 0..9 roadworks and puddles
     int                   m_biome = -1;              ///< one biome all the way, or SceneryMixed / SceneryWorld
+    bool                  m_randomTour = false;      ///< the world tour to a random place far away after each stage
     double                m_length = 0.0;            ///< the finish (m), 0 endless
     double                m_startLine = StartLine;   ///< where the start gantry stands
     std::vector<uint16_t> m_stages;   ///< a rally's places, stage by stage (empty: as m_biome says; not in track codes)
+    std::vector<std::string> m_randomDone;   ///< the random tour: countries been to on earlier runs (not in codes)
 };
 
 /** @brief One 5 m piece of road. */
@@ -435,10 +439,11 @@ private:
     /** @brief The world tour's way: the route position of every stage and the choices at its forks (shared by copies). */
     struct Tour
     {
-        std::mutex          m_mutex;    ///< the main thread chooses, the world's worker reads
-        std::vector<int>    m_pos;      ///< route position per stage after the detour (as far as known)
-        std::vector<int>    m_sea;      ///< per stage: the sea crossed on the way to m_pos (-1: a place on land)
-        std::vector<int8_t> m_choice;   ///< per stage: -1 left, +1 right, 0 not yet
+        std::mutex             m_mutex;    ///< the main thread chooses, the world's worker reads
+        std::vector<int>       m_pos;      ///< route position per stage after the detour (as far as known)
+        std::vector<int>       m_sea;      ///< per stage: the sea crossed on the way to m_pos (-1: a place on land)
+        std::vector<int8_t>    m_choice;   ///< per stage: -1 left, +1 right, 0 not yet
+        std::vector<RouteFork> m_fork;     ///< per stage: where the roads after it lead (as far as known)
     };
     std::shared_ptr<Tour> m_tour;   ///< the world tour's way (null in other modes)
 
@@ -448,6 +453,13 @@ private:
      * @return the position in worldRoute()
      */
     int tourPos( int stage ) const;
+
+    /**
+     * @brief Where the roads after a stage of the tour lead (with the tour's mutex held and the positions up to it known).
+     * @param[in] k  the stage counted after the detour
+     * @return the fork (no other road where there is none; on the sea floor on to where the crossing leads)
+     */
+    RouteFork stepFork( size_t k ) const;
 };
 
 /**

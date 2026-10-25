@@ -71,7 +71,7 @@ SETTINGS = [
     ('DISPLAY', 'a window or fullscreen'), ('3D RESOLUTION', 'the 3D picture at 50 to 200 % of the window; the text stays sharp'),
     ('SHADOWS', 'the sun\'s shadows'), ('VSYNC', 'wait for the display'), ('FRAME LIMIT', 'a cap on the frame rate'),
     ('DIFFICULTY', 'EASY, NORMAL or HARD: grip, clock, traffic and rivals'),
-    ('SCENERY', 'the world tour, or ALL MIXED: every stage another biome'),
+    ('SCENERY', 'the world tour, the RANDOM TOUR to every country in random leaps, or ALL MIXED: every stage another biome'),
     ('TIME OF DAY', 'each place\'s own light, the TOUR CLOCK, or DAWN, DAY, DUSK, NIGHT'),
     ('WEATHER', 'weather fronts passing, or each place\'s own weather'),
     ('SEASONS', 'AS TODAY, AS YOU TRAVEL (a year every 400 km) or OFF'), ('POLICE', 'patrol cars that give chase'),

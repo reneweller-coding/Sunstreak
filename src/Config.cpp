@@ -117,7 +117,7 @@ bool loadSettings( Settings &settings )
             else if ( key == "vibration" )
                 settings.m_vibration = val == "1";
             else if ( key == "scenery" )
-                settings.m_scenery = std::clamp( std::stoi( val ), 0, 1 );
+                settings.m_scenery = std::clamp( std::stoi( val ), 0, 2 );
             else if ( key == "time_of_day" )
                 settings.m_timeOfDay = std::clamp( std::stoi( val ), 0, 5 );
             else if ( key == "weather" )
@@ -237,10 +237,11 @@ LaunchOptions parseCommandLine( int argc, char **argv )
             const std::string what = next();
             // A number, or a place's ID from the data files.
             const bool number = !what.empty() && std::isdigit( static_cast<unsigned char>( what[0] ) );
-            o.m_scenery = what == "world"   ? -2
-                          : what == "mixed" ? -1
-                          : number          ? std::max( 0, std::atoi( what.c_str() ) )
-                                            : std::max( 0, biomeId( what ) );
+            o.m_scenery = what == "world"    ? -2
+                          : what == "random" ? SceneryRandomOption
+                          : what == "mixed"  ? -1
+                          : number           ? std::max( 0, std::atoi( what.c_str() ) )
+                                             : std::max( 0, biomeId( what ) );
         }
         else if ( a == "--weather" )
         {

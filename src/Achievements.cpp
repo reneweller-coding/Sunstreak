@@ -6,6 +6,7 @@
 #include "Achievements.h"
 
 #include "Data.h"
+#include "Festival.h"
 
 #include <algorithm>
 #include <cstring>
@@ -105,6 +106,44 @@ const std::vector<Achievement> &achievements()
         { "km10000", "ROAD WARRIOR", "10000 KM ON THE ROAD" },
         { "champion", "CHAMPION", "WIN A CHAMPIONSHIP" },
         { "rallies", "RALLY LEGEND", "FINISH EVERY RALLY" },
+        // The second set.
+        { "countries50", "STAMP COLLECTOR", "DRIVE THROUGH 50 COUNTRIES" },
+        { "countries150", "AMBASSADOR", "DRIVE THROUGH 150 COUNTRIES" },
+        { "places100", "SIGHTSEER", "VISIT 100 PLACES OF THE TOUR" },
+        { "places400", "CARTOGRAPHER", "VISIT 400 PLACES OF THE TOUR" },
+        { "placesall", "EVERY CORNER", "VISIT EVERY PLACE OF THE TOUR" },
+        { "eastern", "STEPPE AND TAIGA", "EVERY COUNTRY FROM THE BALTIC TO MONGOLIA" },
+        { "islands", "ISLAND HOPPER", "EVERY COUNTRY OF THE CARIBBEAN AND THE PACIFIC" },
+        { "seas10", "TWENTY THOUSAND LEAGUES", "CROSS 10 SEAS" },
+        { "random25", "WANDERLUST", "25 STAGES OF THE RANDOM TOUR" },
+        { "randomall", "AROUND THE WORLD BY CHANCE", "THE RANDOM TOUR TO EVERY COUNTRY" },
+        { "festivals3", "PARTY PEOPLE", "BE THERE FOR 3 FESTIVALS" },
+        { "festivalsall", "ALL YEAR ROUND", "BE THERE FOR EVERY FESTIVAL" },
+        { "cards10", "WISH YOU WERE HERE", "10 POSTCARDS IN THE ALBUM" },
+        { "cards200", "POSTMASTER", "200 POSTCARDS IN THE ALBUM" },
+        { "album1", "SAY CHEESE", "PHOTOGRAPH A LANDMARK" },
+        { "album100", "PHOTO ARCHIVE", "PHOTOGRAPH 100 LANDMARKS" },
+        { "km100", "WARMED UP", "100 KM ON THE ROAD" },
+        { "km40075", "ONCE ROUND THE EARTH", "40075 KM ON THE ROAD" },
+        { "run100", "MARATHON", "100 KM IN ONE ENDLESS RUN" },
+        { "score100k", "SIX FIGURES", "100000 POINTS IN ONE ENDLESS RUN" },
+        { "overtakes1000", "SLIPSTREAM", "1000 OVERTAKES" },
+        { "overtakes10000", "TRAFFIC SURGEON", "10000 OVERTAKES" },
+        { "escape50", "MOST WANTED", "ESCAPE THE POLICE 50 TIMES" },
+        { "hitch50", "BUS DRIVER", "50 HITCHHIKERS DELIVERED" },
+        { "hitchworld50", "UNITED NATIONS", "HITCHHIKERS FROM 50 COUNTRIES" },
+        { "makeway50", "BLUE LIGHT FRIEND", "LET 50 AMBULANCES AND FIRE ENGINES THROUGH" },
+        { "hero100", "KING OF THE ROAD", "BEAT 100 LOCAL HEROES" },
+        { "train10", "BULLET BEATER", "BEAT 10 FAST TRAINS" },
+        { "jobs50", "SPECIAL DELIVERY", "50 COURIER JOBS" },
+        { "legend10", "THE CLASSICS", "DRIVE 10 LEGENDARY ROADS FROM END TO END" },
+        { "aqua25", "WATER SKIER", "AQUAPLANE 25 TIMES" },
+        { "daily7", "DAILY DRIVER", "THE DAILY CHALLENGE ON 7 DAYS" },
+        { "daily30", "CREATURE OF HABIT", "THE DAILY CHALLENGE ON 30 DAYS" },
+        { "podium", "ON THE PODIUM", "FINISH A CHAMPIONSHIP IN THE TOP THREE" },
+        { "champion3", "DYNASTY", "WIN 3 CHAMPIONSHIPS" },
+        { "rally1", "RALLY DRIVER", "FINISH A RALLY" },
+        { "journeysall", "EVERY JOURNEY", "FINISH EVERY JOURNEY FROM A PLACE TO ANOTHER" },
     };
     return list;
 }
@@ -166,6 +205,78 @@ AchievementProgress achievementProgress( const Records &r, size_t index )
         int done = 0;
         for ( double best : r.m_rallyBest ) done += best > 0.0 ? 1 : 0;
         return upTo( done, static_cast<int>( rallies().size() ) );
+    }
+    if ( key == "countries50" ) return upTo( r.countriesSeen(), 50 );
+    if ( key == "countries150" ) return upTo( r.countriesSeen(), 150 );
+    if ( key == "places100" || key == "places400" || key == "placesall" )
+    {
+        int seen = 0;
+        for ( BiomeE b : worldRoute() ) seen += r.m_seen.test( static_cast<size_t>( b ) ) ? 1 : 0;
+        const int all = static_cast<int>( worldRoute().size() );
+        return upTo( seen, key == "places100"   ? std::min( 100, all )
+                           : key == "places400" ? std::min( 400, all )
+                                                : all );
+    }
+    if ( key == "eastern" ) return countriesWhere( r, []( const char *c ) { return fleetIs( c, FleetE::EASTERN ); } );
+    if ( key == "islands" ) return countriesWhere( r, []( const char *c ) { return fleetIs( c, FleetE::ISLANDS ); } );
+    if ( key == "seas10" )
+    {
+        int seen = 0, all = 0;
+        for ( int i = 0; i < biomeCount(); ++i )
+        {
+            if ( !biomeDef( static_cast<BiomeE>( i ) ).m_underwater ) continue;
+            ++all;
+            seen += r.m_seen.test( static_cast<size_t>( i ) ) ? 1 : 0;
+        }
+        return upTo( seen, std::clamp( all, 1, 10 ) );
+    }
+    if ( key == "random25" ) return upTo( r.m_randomStages, 25 );
+    if ( key == "randomall" )
+        return upTo( r.m_randomRounds > 0 ? countryCount() : static_cast<int>( r.m_randomCountries.size() ),
+                     countryCount() );
+    if ( key == "festivals3" ) return upTo( static_cast<int>( r.m_festivals.size() ), 3 );
+    if ( key == "festivalsall" )
+        return upTo( static_cast<int>( r.m_festivals.size() ), std::max( 1, static_cast<int>( festivals().size() ) ) );
+    if ( key == "cards10" ) return upTo( static_cast<int>( r.m_postcards.count() ), 10 );
+    if ( key == "cards200" ) return upTo( static_cast<int>( r.m_postcards.count() ), 200 );
+    if ( key == "album1" ) return upTo( static_cast<int>( r.m_album.size() ), 1 );
+    if ( key == "album100" ) return upTo( static_cast<int>( r.m_album.size() ), 100 );
+    if ( key == "km100" ) return upTo( static_cast<int>( r.m_totalKm ), 100 );
+    if ( key == "km40075" ) return upTo( static_cast<int>( r.m_totalKm ), 40075 );
+    if ( key == "run100" || key == "score100k" )
+    {
+        // The endless top ten keeps the runs.
+        double  far = 0.0;
+        int64_t best = 0;
+        for ( const ScoreEntry &e : r.m_top )
+        {
+            far = std::max( far, e.m_distance );
+            best = std::max( best, e.m_score );
+        }
+        return key == "run100" ? upTo( static_cast<int>( far / 1000.0 ), 100 )
+                               : upTo( static_cast<int>( std::min<int64_t>( best, 100000 ) ), 100000 );
+    }
+    if ( key == "overtakes1000" ) return upTo( r.m_overtakesAll, 1000 );
+    if ( key == "overtakes10000" ) return upTo( r.m_overtakesAll, 10000 );
+    if ( key == "escape50" ) return upTo( r.m_escapes, 50 );
+    if ( key == "hitch50" ) return upTo( r.m_delivered, 50 );
+    if ( key == "hitchworld50" ) return upTo( static_cast<int>( r.m_hitchFrom.size() ), 50 );
+    if ( key == "makeway50" ) return upTo( r.m_gaveWay, 50 );
+    if ( key == "hero100" ) return upTo( r.m_heroWins, 100 );
+    if ( key == "train10" ) return upTo( r.m_trainWins, 10 );
+    if ( key == "jobs50" ) return upTo( r.m_jobs, 50 );
+    if ( key == "legend10" ) return upTo( static_cast<int>( r.m_legendBest.size() ), 10 );
+    if ( key == "aqua25" ) return upTo( r.m_aquaplanes, 25 );
+    if ( key == "daily7" ) return upTo( r.m_dailyDays, 7 );
+    if ( key == "daily30" ) return upTo( r.m_dailyDays, 30 );
+    if ( key == "podium" ) return upTo( r.m_bestPlace >= 1 && r.m_bestPlace <= 3 ? 1 : 0, 1 );
+    if ( key == "champion3" ) return upTo( r.m_titles, 3 );
+    if ( key == "rally1" || key == "journeysall" )
+    {
+        const std::vector<double> &best = key == "rally1" ? r.m_rallyBest : r.m_journeyBest;
+        int                        done = 0;
+        for ( double b : best ) done += b > 0.0 ? 1 : 0;
+        return upTo( done, key == "rally1" ? 1 : std::max( 1, static_cast<int>( journeys().size() ) ) );
     }
     return {};
 }

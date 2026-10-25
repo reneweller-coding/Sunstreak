@@ -38,8 +38,8 @@ struct Settings
     int          m_windowHeight = 900;                 ///< and its height
     bool         m_vsync = true;                       ///< wait for the vertical blank
     float        m_renderScale = 1.0f;                 ///< the 3D picture's resolution against the window's
-    float        m_musicVolume = 0.6f;                 ///< 0..1
-    float        m_sfxVolume = 0.8f;                   ///< 0..1
+    float        m_musicVolume = 0.8f;                 ///< 0..1 (the gain goes with its square)
+    float        m_sfxVolume = 0.8f;                   ///< 0..1 (the gain goes with its square)
     UnitsE       m_units = UnitsE::KMH;                ///< speedometer unit
     bool         m_manualGears = false;                ///< shift by hand
     int          m_camera = 0;                         ///< 0 chase, 1 far chase, 2 bumper, 3 cockpit
@@ -49,7 +49,7 @@ struct Settings
     bool         m_shadows = true;                     ///< real-time sun shadows
     int          m_fpsLimit = 0;                       ///< frame rate cap (0: none beyond vsync)
     bool         m_vibration = true;                   ///< gamepad rumble
-    int          m_scenery = 0;                        ///< endless runs: 0 the world tour, 1 every biome mixed
+    int          m_scenery = 0;       ///< endless runs: 0 the world tour, 1 every biome mixed, 2 the random world tour
     int          m_timeOfDay = 0;     ///< 0 as the place, 1 the tour clock (time zones), 2 dawn, 3 day, 4 dusk, 5 night
     int          m_weather = 0;       ///< 0 weather fronts pass, 1 as the place
     int          m_seasons = 0;       ///< 0 as today, 1 as the tour goes on, 2 off
@@ -73,10 +73,11 @@ struct Settings
 /** @brief What the command line asked for (testing and screenshots included). */
 struct LaunchOptions
 {
-    int         m_forceDisplay = -1;   ///< -1 as the settings say, 0 windowed, 1 fullscreen
-    uint64_t    m_seed = 0;            ///< 0: a new random track
-    int         m_startBiome = -1;     ///< -1 as the seed says, else the first stage's biome
-    int         m_scenery = -3;   ///< endless runs: a biome, -1 all mixed, -2 the world tour (-3: as the settings say)
+    int      m_forceDisplay = -1;   ///< -1 as the settings say, 0 windowed, 1 fullscreen
+    uint64_t m_seed = 0;            ///< 0: a new random track
+    int      m_startBiome = -1;     ///< -1 as the seed says, else the first stage's biome
+    int      m_scenery =
+        -3;   ///< endless runs: a biome, -1 all mixed, -2 the world tour, -4 the random tour (-3: as the settings)
     bool        m_autopilot = false;   ///< drive by itself (demo and screenshots)
     bool        m_lookBack = false;    ///< look back all the time (screenshots)
     bool        m_skipMenu = false;    ///< start a run at once

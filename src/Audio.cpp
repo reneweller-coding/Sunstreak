@@ -27,6 +27,18 @@ using namespace dsp;
 
 constexpr int   VoiceCount = 24;      ///< simultaneous effects
 constexpr float MasterGain = 0.35f;   ///< overall level before the soft clip (about -9 dB)
+constexpr float EngineTrim = 0.85f;   ///< the engine against the effects (about -1.4 dB)
+constexpr float MusicTrim = 1.6f;     ///< the radio against the engine (about +4 dB; it was 5 dB under it)
+
+/**
+ * @brief A volume slider's gain: squared, so the lower half is quiet indeed (0.5 about -12 dB, 0.2 about -28 dB).
+ * @param[in] v  the slider 0..1
+ * @return the gain
+ */
+float volumeGain( float v )
+{
+    return v * v;
+}
 
 /** @brief A posted effect. */
 struct Event
@@ -748,7 +760,7 @@ struct Synth
         const float mus = m_musicVol.load( std::memory_order_relaxed );
         for ( unsigned i = 0; i < frames; ++i )
         {
-            const float engine = renderEngine() * sfx;
+            const float engine = renderEngine() * sfx * EngineTrim;
             m_engWidth[m_engWi & 63] = engine;
             const float delayed = m_engWidth[( m_engWi - 19 ) & 63];
             ++m_engWi;
@@ -785,8 +797,8 @@ struct Synth
                     m_onBeatCount = 0;
                 }
             }
-            l += ml * mus;
-            r += mr * mus;
+            l += ml * mus * MusicTrim;
+            r += mr * mus * MusicTrim;
             out[i * 2] = std::tanh( l * MasterGain );
             out[i * 2 + 1] = std::tanh( r * MasterGain );
         }
@@ -1067,10 +1079,10 @@ void Audio::setVolumes( float music, float sfx )
     m_musicVolume = music;
     if ( g_synth )
     {
-        g_synth->m_musicVol = music;
-        g_synth->m_sfxVol = sfx;
+        g_synth->m_musicVol = volumeGain( music );
+        g_synth->m_sfxVol = volumeGain( sfx );
     }
-    if ( m_musicLoaded ) SetMusicVolume( m_music, music * 0.8f );
+    if ( m_musicLoaded ) SetMusicVolume( m_music, std::min( 1.0f, volumeGain( music ) * MusicTrim * 0.8f ) );
 }
 
 void Audio::startMusic( uint64_t seed, int station )
@@ -1088,7 +1100,7 @@ void Audio::startMusic( uint64_t seed, int station )
         if ( m_musicLoaded )
         {
             m_music.looping = false;
-            SetMusicVolume( m_music, m_musicVolume * 0.8f );
+            SetMusicVolume( m_music, std::min( 1.0f, volumeGain( m_musicVolume ) * MusicTrim * 0.8f ) );
             PlayMusicStream( m_music );
         }
         return;

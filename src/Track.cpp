@@ -93,10 +93,11 @@ int Track::tourPos( int stage ) const
     std::vector<int>           &pos = m_tour->m_pos;
     std::vector<int>           &sea = m_tour->m_sea;
     std::vector<int8_t>        &choice = m_tour->m_choice;
+    std::vector<RouteFork>     &forks = m_tour->m_fork;
     while ( static_cast<int>( pos.size() ) <= stage )
     {
-        // The next stage: along the route, or where the other carriageway of the last fork led; across the sea a
-        // stage on the sea floor comes first.
+        // The next stage: along the route (or at random), or where the other carriageway of the last fork led; across
+        // the sea a stage on the sea floor (or a ferry) comes first.
         const size_t last = pos.size() - 1;
         if ( sea[last] >= 0 )
         {
@@ -104,7 +105,8 @@ int Track::tourPos( int stage ) const
             sea.push_back( -1 );
             continue;
         }
-        const RouteFork f = routeFork( pos[last] );
+        while ( forks.size() <= last ) forks.push_back( stepFork( forks.size() ) );
+        const RouteFork f = forks[last];
         const int8_t    c = last < choice.size() ? choice[last] : 0;
         const bool      other = f.m_other >= 0 && c != 0 && ( c < 0 ) == f.m_otherLeft;
         const int       next = other ? f.m_other : f.m_main;
@@ -117,17 +119,37 @@ int Track::tourPos( int stage ) const
     return pos[static_cast<size_t>( std::max( 0, stage ) )];
 }
 
+RouteFork Track::stepFork( size_t k ) const
+{
+    const std::vector<int> &pos = m_tour->m_pos;
+    if ( m_tour->m_sea[k] >= 0 ) return RouteFork{};
+    if ( !m_params.m_randomTour ) return routeFork( pos[k] );
+    // The random tour goes to no country twice: not to those of earlier runs, not to those of this one so far.
+    std::vector<std::string> done = m_params.m_randomDone;
+    const auto              &route = worldRoute();
+    for ( size_t i = 0; i <= k; ++i )
+    {
+        const char *c = biomeDef( route[static_cast<size_t>( pos[i] ) % route.size()] ).m_country;
+        if ( c && m_tour->m_sea[i] < 0 ) done.emplace_back( c );
+    }
+    const RouteFork f = randomFork( m_seed, static_cast<int>( k ), pos[k], done );
+    return f.m_main >= 0 ? f : routeFork( pos[k] );   // every country been to: on along the route
+}
+
 Fork Track::fork( int stage ) const
 {
     Fork      f;
     const int detour = static_cast<int>( m_stageBiomes.size() );
     if ( !m_tour || stage < detour ) return f;
-    const int pos = tourPos( stage - detour );
+    tourPos( stage - detour );
+    const size_t k = static_cast<size_t>( stage - detour );
+    RouteFork    r;
     {
         std::lock_guard<std::mutex> lock( m_tour->m_mutex );
-        if ( m_tour->m_sea[static_cast<size_t>( stage - detour )] >= 0 ) return f;   // no forks on the sea floor
+        if ( m_tour->m_sea[k] >= 0 ) return f;   // no forks on the sea floor
+        while ( m_tour->m_fork.size() <= k ) m_tour->m_fork.push_back( stepFork( m_tour->m_fork.size() ) );
+        r = m_tour->m_fork[k];
     }
-    const RouteFork r = routeFork( pos );
     if ( r.m_other < 0 ) return f;
     const auto  &route = worldRoute();
     const BiomeE main = route[static_cast<size_t>( r.m_main ) % route.size()],
@@ -137,7 +159,6 @@ Fork Track::fork( int stage ) const
     f.m_left = r.m_otherLeft ? other : main;
     f.m_right = r.m_otherLeft ? main : other;
     std::lock_guard<std::mutex> lock( m_tour->m_mutex );
-    const size_t                k = static_cast<size_t>( stage - detour );
     f.m_chosen = k < m_tour->m_choice.size() ? m_tour->m_choice[k] : 0;
     return f;
 }
@@ -157,6 +178,7 @@ void Track::choose( int stage, int side )
         m_tour->m_pos.resize( k + 1 );
         m_tour->m_sea.resize( k + 1 );
     }
+    if ( m_tour->m_fork.size() > k + 1 ) m_tour->m_fork.resize( k + 1 );
 }
 
 std::vector<int8_t> Track::tourChoices() const
@@ -173,6 +195,7 @@ void Track::setTourChoices( const std::vector<int8_t> &choices )
     m_tour->m_choice = choices;
     m_tour->m_pos.resize( 1 );
     m_tour->m_sea.resize( 1 );
+    m_tour->m_fork.clear();
 }
 
 float Track::seaDip( double s, float *trench ) const

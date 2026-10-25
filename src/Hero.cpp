@@ -48,7 +48,7 @@ bool stageHero( const Track &track, int stage, double &checkpoint )
     const BiomeDef &place = biomeDef( track.stageBiome( stage ) );
     if ( stage < 0 || !place.m_country || place.m_underwater || place.m_surface.m_lineGlow > 0.0f ) return false;
     const uint64_t h = hash64( track.seed() * 4099 + static_cast<uint64_t>( stage ) * 17 + 11 );
-    if ( h % 3 != 1 ) return false;   // one stage in three
+    if ( h % 3 == 1 ) return false;   // two stages in three
     // A checkpoint well inside the stage, with the road to the next one free of crossings and forks.
     const double first =
         std::ceil( ( static_cast<double>( stage ) * StageLength + 2000.0 ) / CheckpointSpacing ) * CheckpointSpacing;

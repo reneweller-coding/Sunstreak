@@ -72,18 +72,23 @@ struct Records
     std::vector<std::string> m_journey;    ///< the travel journal: the world tour's places in the order driven (IDs)
     std::string              m_tourAt;     ///< where the endless world tour stopped (an ID; empty: never driven)
     std::vector<std::string> m_album;      ///< the landmarks photographed, in the order they were (names)
-    std::vector<double>      m_journeyBest;      ///< the best time per journey in seconds (0: not finished)
-    int                      m_escapes = 0;      ///< patrol cars got away from
-    int                      m_caught = 0;       ///< times caught by one
-    std::vector<std::string> m_escapedFrom;      ///< the police liveries got away from (shape names)
-    int                      m_delivered = 0;    ///< hitchhikers taken where they wanted to go
-    std::vector<std::string> m_hitchFrom;        ///< the countries they came from
-    int                      m_gaveWay = 0;      ///< ambulances and fire engines let through
-    int                      m_aquaplanes = 0;   ///< times the tyres floated
-    int                      m_heroWins = 0;     ///< local heroes beaten to the checkpoint
-    int                      m_heroLosses = 0;   ///< local heroes who got there first
-    int                      m_trainWins = 0;    ///< fast trains beaten
-    int                      m_jobs = 0;         ///< courier jobs done (parcels, organs, thieves)
+    std::vector<double>      m_journeyBest;        ///< the best time per journey in seconds (0: not finished)
+    int                      m_escapes = 0;        ///< patrol cars got away from
+    int                      m_caught = 0;         ///< times caught by one
+    std::vector<std::string> m_escapedFrom;        ///< the police liveries got away from (shape names)
+    int                      m_delivered = 0;      ///< hitchhikers taken where they wanted to go
+    std::vector<std::string> m_hitchFrom;          ///< the countries they came from
+    int                      m_gaveWay = 0;        ///< ambulances and fire engines let through
+    int                      m_aquaplanes = 0;     ///< times the tyres floated
+    int                      m_heroWins = 0;       ///< local heroes beaten to the checkpoint
+    int                      m_heroLosses = 0;     ///< local heroes who got there first
+    int                      m_trainWins = 0;      ///< fast trains beaten
+    int                      m_jobs = 0;           ///< courier jobs done (parcels, organs, thieves)
+    int                      m_overtakesAll = 0;   ///< overtakes in all runs
+    int                      m_randomStages = 0;   ///< stages driven on the random world tour
+    std::vector<std::string> m_festivals;          ///< the festivals been at (their names)
+    std::vector<std::string> m_randomCountries;    ///< the countries the random tour has been to in this round
+    int                      m_randomRounds = 0;   ///< random tours driven to every country
     std::vector<std::pair<std::string, double>>
         m_legendBest;                      ///< the best time over each legendary road driven whole (place ID, seconds)
     std::vector<std::string> m_achieved;   ///< the achievements earned (their keys, Achievements.h)

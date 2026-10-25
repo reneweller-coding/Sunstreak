@@ -1115,6 +1115,18 @@ struct RouteFork
 RouteFork routeFork( int pos );
 
 /**
+ * @brief The fork of the random world tour after a route position: two countries not been to, drawn at random, each
+ *        in another part of the world (another fleet) than this one and than the other road where any is left, and a
+ *        place in each.
+ * @param[in] seed  the track's seed
+ * @param[in] step  which stage of the tour this is
+ * @param[in] pos   the position in worldRoute()
+ * @param[in] done  the countries been to
+ * @return the choices (no other road with one country left; m_main -1 with none)
+ */
+RouteFork randomFork( uint64_t seed, int step, int pos, const std::vector<std::string> &done );
+
+/**
  * @brief A biome's place on the world tour.
  * @param[in] biome  which one
  * @return its index in worldRoute(), -1 if it is not on the route

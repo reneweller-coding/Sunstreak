@@ -39,7 +39,7 @@ struct HeroEvents
 };
 
 /**
- * @brief Where a stage's duel begins, if it has one (one stage in three; a checkpoint well inside the stage, with no
+ * @brief Where a stage's duel begins, if it has one (two stages in three; a checkpoint well inside the stage, with no
  *        crossing or fork before the next one).
  * @param[in]  track       the road
  * @param[in]  stage       the stage

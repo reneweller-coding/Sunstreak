@@ -55,7 +55,8 @@ struct RoadCustoms
 // across; from the German Wikipedia's article "Leitpfosten") and a body.
 constexpr uint8_t PostSchemeDefault = 0;   ///< the countries the data does not know: white with an orange cap
 constexpr uint8_t PostSchemeWhite = 1;     ///< white, and across two small round white ones (Germany and its group)
-constexpr uint8_t PostSchemeRedWhite = 2;  ///< red, and white across (Italy, Austria, Poland ..., Great Britain, Australia)
+constexpr uint8_t PostSchemeRedWhite =
+    2;   ///< red, and white across (Italy, Austria, Poland ..., Great Britain, Australia)
 constexpr uint8_t PostSchemeYellowWhite = 3;   ///< yellow, and across two small round white ones (Belgium, Spain ...)
 constexpr uint8_t PostSchemeWhiteYellow = 4;   ///< white, and yellow across (USA, Canada, China)
 constexpr uint8_t PostSchemeSame = 5;          ///< the same on both sides (France, Monaco)
@@ -202,7 +203,7 @@ bool stageToll( const Track &track, int stage, double &s );
  * @brief Where a stage's patrol car would wait, before the spot is checked (that needs the road laid there).
  * @param[in] track  the road
  * @param[in] stage  the stage
- * @return the distance, or -1 if the stage has none (one stage in ten has one, in a country)
+ * @return the distance, or -1 if the stage has none (one stage in three has one, in a country)
  */
 double policeBase( const Track &track, int stage );
 

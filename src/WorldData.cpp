@@ -14,6 +14,7 @@
 
 #include "Data.h"
 #include "Music.h"
+#include "Rng.h"
 #include "WorldBuilder.h"
 
 #include <algorithm>
@@ -1709,6 +1710,68 @@ RouteFork routeFork( int pos )
     if ( forks.empty() ) return {};
     return forks[static_cast<size_t>( ( pos % static_cast<int>( forks.size() ) + static_cast<int>( forks.size() ) ) %
                                       static_cast<int>( forks.size() ) )];
+}
+
+RouteFork randomFork( uint64_t seed, int step, int pos, const std::vector<std::string> &done )
+{
+    const RouteData &d = routeData();
+    const int        n = static_cast<int>( d.m_route.size() );
+    RouteFork        f;
+    if ( n < 3 ) return f;
+    pos = ( pos % n + n ) % n;
+    auto where = [&]( int i ) { return d.m_where[static_cast<size_t>( d.m_route[static_cast<size_t>( i )] )].second; };
+    auto country = [&]( int i )
+    {
+        const char *c = biomeDef( d.m_route[static_cast<size_t>( i )] ).m_country;
+        return std::string( c ? c : "" );
+    };
+    auto fleet = []( const std::string &c )
+    { return c.empty() ? -1 : static_cast<int>( countryInfo( c.c_str() ).m_fleet ); };
+    // The countries still to go to, each with its places.
+    const std::string             here = country( pos );
+    std::vector<std::string>      names;
+    std::vector<std::vector<int>> placesOf;
+    for ( int j = 0; j < n; ++j )
+    {
+        const std::string c = country( j );
+        if ( c.empty() || c == here || std::find( done.begin(), done.end(), c ) != done.end() ) continue;
+        const auto it = std::find( names.begin(), names.end(), c );
+        if ( it == names.end() )
+        {
+            names.push_back( c );
+            placesOf.push_back( { j } );
+        }
+        else
+            placesOf[static_cast<size_t>( it - names.begin() )].push_back( j );
+    }
+    if ( names.empty() ) return f;   // every country been to
+    // A country in another part of the world than here and than the other road (any left if none is), a place in it.
+    auto pick = [&]( uint64_t salt, int besides )
+    {
+        const std::string   skip = besides >= 0 ? country( besides ) : std::string();
+        const int           avoid = besides >= 0 ? fleet( skip ) : -2;
+        std::vector<size_t> far, any;
+        for ( size_t k = 0; k < names.size(); ++k )
+        {
+            if ( names[k] == skip ) continue;
+            any.push_back( k );
+            const int fl = fleet( names[k] );
+            if ( fl != fleet( here ) && fl != avoid ) far.push_back( k );
+        }
+        const std::vector<size_t> &from = far.empty() ? any : far;
+        if ( from.empty() ) return -1;
+        const uint64_t          h = hash64( seed * 7919 + static_cast<uint64_t>( step ) * 104729 + salt * 613 );
+        const std::vector<int> &in = placesOf[from[h % from.size()]];
+        return in[( h >> 24 ) % in.size()];
+    };
+    f.m_main = pick( 1, -1 );
+    f.m_other = pick( 2, f.m_main );
+    if ( f.m_other < 0 ) return f;
+    float turn = bearing( where( pos ), where( f.m_other ) ) - bearing( where( pos ), where( f.m_main ) );
+    while ( turn > 180.0f ) turn -= 360.0f;
+    while ( turn <= -180.0f ) turn += 360.0f;
+    f.m_otherLeft = turn < 0.0f;
+    return f;
 }
 
 namespace

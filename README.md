@@ -49,9 +49,10 @@ VIBRATION; on the Deck through Steam Input).
 - **Endless run**: the clock, the checkpoints and the stages, on a fresh random track each time. On the world tour it
   continues where the last endless run stopped (left and right on the title: NEW TOUR). SAVE AND QUIT in the pause menu
   keeps the run as it stands, the place on the road, the clock and the score; RESUME on the title drives on from there.
-- **Achievements** (PASSPORT > AWARDS): 26 of them, from the first stamp to every country of Africa, Europe, the
-  Americas or Asia, getting away from the police of every livery, ten hitchhikers delivered, ten ambulances let through,
-  aquaplaning in a downpour, 50 postcards, 10000 km. They are announced when earned and kept with the records.
+- **Achievements** (PASSPORT > AWARDS, in sheets of 32): 69 of them, from the first stamp to every country of Africa,
+  Europe, the Americas, Asia, the steppe or the islands, every place of the tour, the random tour to every country,
+  getting away from the police of every livery, hitchhikers from 50 countries, the festivals, 10000 overtakes, a
+  marathon run, the daily challenge on 30 days, 40075 km. They are announced when earned and kept with the records.
 - **Travel**: the world tour without a clock, on and on from where the last tour stopped, for the places, the passport and
   the postcards. Speed cameras and the police still fine you, in points.
 - **Championship**: five races on generated tracks against eleven rivals, from the back of the grid; points
@@ -144,7 +145,7 @@ and honking in India, Egypt or Nigeria; tractors on the country roads of Europe;
 pollution index has it, by country and for some eighty cities of their own: over Delhi, Kathmandu, Lagos or Cairo the
 haze thickens and browns, the sky pales and the colours fade, and litter lies by the road, more of it the dirtier the
 air (plastic bags everywhere; bags caught in thorn bushes in Africa and India, styrofoam boxes in Southeast Asia,
-smouldering heaps, black bin bags in Europe, a car wreck now and then), while Helsinki and Reykjavik stay clear. Now and then (about one stage in ten) a patrol car of the country's police waits at the roadside,
+smouldering heaps, black bin bags in Europe, a car wreck now and then), while Helsinki and Reykjavik stay clear. On about one stage in three a patrol car of the country's police waits at the roadside,
 in its own livery (a black-and-white cruiser in the United States, blue and yellow checks in Britain, a carabinieri
 car in Italy, green and white in Chile, a white jeep in India and some thirty more): past it too fast and it gives chase with its lights and siren
 (the long wail, or the two tones in Europe). Get 400 m ahead and you have escaped (+2500); let it pull up beside you
@@ -153,7 +154,7 @@ The cockpit camera puts you in the driver's seat, on the left or, where they kee
 the border), behind a turning wheel and live dials, with what the country's drivers hang from the mirror or stand on the
 dashboard: fuzzy dice in America, a nodding dog in Germany, a beckoning cat in Japan, marigolds in India, jasmine in
 Thailand, a red knot in China, pompoms in Mexico, a blue eye charm in Turkey, a dashcam in Russia, a koala in Australia.
-Now and then a hitchhiker waits by the road, thumb out: slow down beside them and they get in with a hello in their
+On two stages in three a hitchhiker waits by the road, thumb out: slow down beside them and they get in with a hello in their
 language, then take them to the next place before their patience runs out (+3000 and five seconds, and their thanks:
 DANKE, ARIGATO, SHUKRAN, ASANTE ...); too slow and they get out at the roadside. Sometimes it is a courier job instead: a courier with a fragile parcel for
 the next place (hit nothing on the way, or it breaks), a paramedic with an organ for the hospital at the next checkpoint
@@ -167,7 +168,7 @@ In half the stages of countries with a fast train (data/trains.txt: the Shinkans
 Frecciarossa, the KTX, the Indian Pacific and ten more) a viaduct runs beside the road for a few kilometres, out of a
 stone portal and into another, and the train races you along it: it starts just ahead and speeds up to its top speed
 (at most 93 % of your car's). Pass its nose before the stretch ends for +4000 and five seconds.
-Now and then a local hero turns up beside you before a checkpoint, in a car of your class, and challenges you to the next
+On two stages in three a local hero turns up beside you before a checkpoint, in a car of your class, and challenges you to the next
 one in their language (WETTEN, DASS NICHT? / SHOUBU DA! / EAT MY DUST!). Beat them there for +5000 and five seconds and a
 grumble (MIST! / KUSO!); let them win and they taunt you (LAHME ENTE! / OSOI! / SUNDAY DRIVER!). What everyone says,
 and the heroes' first names, are in data/phrases.txt.
@@ -184,7 +185,10 @@ the Eiffel Tower, Cologne Cathedral, the Elbphilharmonie, the Wartburg and the F
 Golden Gate, the Alamo, Mount Rushmore and Devils Tower, the CN Tower and the Chateau Frontenac, the Matterhorn, the
 Pont du Gard and Carcassonne, the Taj Mahal, the Golden Temple and the Statue of Unity, the Terracotta Army and the
 Leshan Buddha, Himeji Castle and the Skytree, the Motherland Calls and Kizhi, the Hagia Sophia, Petra, Abu Simbel,
-Machu Picchu, Shwedagon, Djenne's mud mosque, Preikestolen and many more. ALL MIXED shuffles every biome, the twelve
+Machu Picchu, Shwedagon, Djenne's mud mosque, Preikestolen and many more. RANDOM TOUR leaps instead of driving on: after
+every stage the road forks to two countries drawn at random, each in another part of the world, and never one the round
+has been to; between landmasses comes the sea floor, a ferry or the car train. The round goes on from run to run (the
+stage line counts it, 37 / 202 COUNTRIES) until every country is done, and then the next begins. ALL MIXED shuffles every biome, the twelve
 that are not on the map included: Night Metro, Storm Marsh, Neon Horizon, Neon Rain, Dawn Expressway, Lunar Highway (low gravity),
 Red Planet, Crystal Desert, Fungal Glade, Cloud Highway, Pumpkin Hollow and Total Eclipse.
 
@@ -356,7 +360,7 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --windowed | --fullscreen     this start only
     --seed N                      the endless run's track (otherwise random)
     --biome N|ID                  the first stage's biome (on the world tour: where it starts)
-    --scenery world|mixed|N|ID    the endless run's scenery for this start (a biome's number or a place's ID such
+    --scenery world|random|mixed|N|ID   the endless run's scenery for this start (a biome's number or a place's ID such
                                   as TUSCANY: that one all the way)
     --play                        skip the title
     --championship                start a championship

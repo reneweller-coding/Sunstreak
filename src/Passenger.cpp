@@ -19,7 +19,7 @@ bool stageHitchhiker( const Track &track, int stage, double &s, float &side )
     const BiomeDef &place = biomeDef( track.stageBiome( stage ) );
     if ( stage < 0 || place.m_underwater || place.m_surface.m_lineGlow > 0.0f ) return false;
     const uint64_t h = hash64( track.seed() * 2029 + static_cast<uint64_t>( stage ) * 13 + 3 );
-    if ( h % 3 != 0 ) return false;   // one stage in three
+    if ( h % 3 == 0 ) return false;   // two stages in three
     side = place.m_country && countryInfo( place.m_country ).m_left ? -1.0f : 1.0f;
     const double base =
         static_cast<double>( stage ) * StageLength + HitchAt + static_cast<double>( ( h >> 8 ) % 10000 );
@@ -98,7 +98,7 @@ void Passenger::update( float dt, const Track &track, double s, float x, float s
             m_state = PassengerStateE::NONE;   // passed by
             return;
         }
-        if ( std::abs( s - m_s ) < 9.0 && std::abs( x - m_x ) < 5.0f && speed < HitchStop )
+        if ( s > m_s - HitchBefore && s < m_s + HitchPast && std::abs( x - m_x ) < 6.0f && speed < HitchStop )
         {
             // The organ and the thief go to the next checkpoint at least 1.5 km on, the rest to the next place.
             const double checkpoint = std::ceil( ( s + 1500.0 ) / CheckpointSpacing ) * CheckpointSpacing;

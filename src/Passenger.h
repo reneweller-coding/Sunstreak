@@ -19,7 +19,9 @@ namespace sunstreak
 constexpr double HitchAt = 1500.0;     ///< a stage's hitchhiker waits somewhere from here on (if it has one)
 constexpr float  HitchPace = 38.0f;    ///< the pace (m/s) the time to deliver them is reckoned at
 constexpr float  HitchSlack = 15.0f;   ///< and the seconds on top
-constexpr float  HitchStop = 9.0f;     ///< slower than this (m/s) beside them, they get in
+constexpr float  HitchStop = 12.0f;    ///< slower than this (m/s) beside them, they get in
+constexpr double HitchBefore = 25.0;   ///< from so far before them
+constexpr double HitchPast = 15.0;     ///< to so far past them
 
 /** @brief What the one by the road wants. */
 enum class JobE : uint8_t
@@ -52,7 +54,7 @@ struct PassengerEvents
 };
 
 /**
- * @brief Where a stage's hitchhiker waits, if one does (one stage in three, on a straight stretch away from tunnels,
+ * @brief Where a stage's hitchhiker waits, if one does (two stages in three, on a straight stretch away from tunnels,
  *        bridges, forks and crossings, on the side the country drives on).
  * @param[in]  track  the road
  * @param[in]  stage  the stage

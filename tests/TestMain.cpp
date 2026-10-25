@@ -179,6 +179,10 @@ int main()
         w.m_params.m_biome = SceneryWorld;
         check( decodeTrack( encodeTrack( w ), c ) && c.m_params.m_biome == SceneryWorld && c.m_seed == 4711,
                "the world tour in a code" );
+        w.m_params.m_randomTour = true;
+        check( decodeTrack( encodeTrack( w ), c ) && c.m_params.m_biome == SceneryWorld && c.m_params.m_randomTour &&
+                   c.m_seed == 4711,
+               "the random tour in a code" );
         if ( biomeCount() > 510 )
         {   // A place past the nine-bit field: sixteen symbols.
             TrackSetup far = a;
@@ -359,6 +363,48 @@ int main()
                          placeName( world.stageBiome( 1 ) ).c_str() );
             check( crossings >= 20 && seas == crossings && channel, "under the sea between landmasses" );
         }
+        {   // The random tour: every country once, each in another part of the world, a fork between two, the sea
+            // floor or a ferry between landmasses; the countries of earlier runs left out.
+            TrackParams tour;
+            tour.m_biome = SceneryWorld;
+            tour.m_randomTour = true;
+            tour.m_randomDone = { "USA", "CHINA", "BRAZIL" };
+            Track                    world( 77, tour, static_cast<int>( BiomeE::MEADOW ) );
+            std::vector<std::string> countries;
+            int                      land = 0, apart = 0, forks = 0, under = 0, twice = 0, skipped = 0, lastFleet = -1;
+            bool                     chosen = true;
+            std::string              path;
+            for ( int stage = 0; stage < 60; ++stage )
+            {
+                world.generateTo( static_cast<double>( stage + 1 ) * StageLength + 1000.0 );
+                const BiomeDef &d = biomeDef( world.stageBiome( stage ) );
+                if ( d.m_underwater )
+                {
+                    ++under;
+                    continue;
+                }
+                const std::string c = d.m_country ? d.m_country : "";
+                twice += std::find( countries.begin(), countries.end(), c ) != countries.end() ? 1 : 0;
+                skipped +=
+                    std::find( tour.m_randomDone.begin(), tour.m_randomDone.end(), c ) != tour.m_randomDone.end();
+                countries.push_back( c );
+                const int fl = static_cast<int>( countryInfo( c.c_str() ).m_fleet );
+                apart += land > 0 && fl != lastFleet ? 1 : 0;
+                lastFleet = fl;
+                ++land;
+                if ( land <= 4 ) path += ( path.empty() ? "" : ", " ) + c;
+                const Fork f = world.fork( stage );
+                if ( !f.m_exists ) continue;
+                ++forks;
+                world.choose( stage, ( stage & 1 ) ? -1 : 1 );
+                const int after = biomeDef( world.stageBiome( stage + 1 ) ).m_underwater ? stage + 2 : stage + 1;
+                chosen = chosen && world.stageBiome( after ) == ( ( stage & 1 ) ? f.m_left : f.m_right );
+            }
+            std::printf( "      random tour from Hesse: %s ...; %d countries in 60 stages, %d on the sea, %d apart\n",
+                         path.c_str(), land, under, apart );
+            check( twice == 0 && skipped == 0 && apart >= land - 3 && forks == land && chosen && under >= 3,
+                   "the random tour: every country once, round the world" );
+        }
         {   // Some seas are crossed aboard: the Channel on a car train, a few straits on ferries.
             const auto &route = worldRoute();
             int         ferries = 0, trains = 0;
@@ -504,7 +550,8 @@ int main()
                        roadCustoms( "ALBANIA" ).m_post == postStyle( PostSchemeRedWhite, PostBodyBand ) &&
                        roadCustoms( "GHANA" ).m_post == postStyle( PostSchemeSame, PostBodyStripesRed ) &&
                        roadCustoms( "ICELAND" ).m_post == postStyle( PostSchemeSame, PostBodyYellowFlat ) &&
-                       roadCustoms( "NEW ZEALAND" ).m_post == PostSchemeDefault && roadCustoms( "JAPAN" ).m_post == PostSchemeDefault,
+                       roadCustoms( "NEW ZEALAND" ).m_post == PostSchemeDefault &&
+                       roadCustoms( "JAPAN" ).m_post == PostSchemeDefault,
                    "road customs by country" );
         }
         {   // The roads of the countries: gravel and potholes in Chad, none in Switzerland; narrow lanes in Japan, concrete somewhere.
@@ -614,7 +661,7 @@ int main()
                        trainLines().size() >= 15,
                    "racing the train" );
         }
-        {   // The local hero: one stage in three; a fast car beats them to the checkpoint, a dawdling one loses.
+        {   // The local hero: two stages in three; a fast car beats them to the checkpoint, a dawdling one loses.
             TrackParams world;
             world.m_biome = SceneryWorld;
             Track tour( 9, world );
@@ -654,7 +701,7 @@ int main()
             std::printf(
                 "      %d duels in 60 stages; flat out won %d, at 90 km/h lost %d; Japan: %s / %s; %d phrase errors\n",
                 duels, fastWon, slowLost, jp.m_challenge.c_str(), jp.m_taunt.c_str(), phraseErrors() );
-            check( duels >= 10 && duels <= 32 && fastWon && !fastLost && slowLost && !slowWon && phraseErrors() == 0 &&
+            check( duels >= 28 && duels <= 52 && fastWon && !fastLost && slowLost && !slowWon && phraseErrors() == 0 &&
                        jp.m_taunt == "OSOI!",
                    "the local hero's duel" );
         }
@@ -683,7 +730,7 @@ int main()
                        earnAchievements( back ).empty(),
                    "achievements earned and kept" );
         }
-        {   // Hitchhikers: one stage in three; stopping beside one, they get in; at pace they get there, crawling they get out.
+        {   // Hitchhikers: two stages in three; stopping beside one, they get in; at pace they get there, crawling they get out.
             TrackParams world;
             world.m_biome = SceneryWorld;
             Track tour( 9, world );
@@ -725,7 +772,7 @@ int main()
             std::printf(
                 "      %d hitchhikers in 60 stages; at 180 km/h delivered %d, at 43 km/h too late %d; %s / %s in Japan\n",
                 waiting, fastDelivered, slowLate, helloIn( "JAPAN" ), thanksIn( "JAPAN" ) );
-            check( waiting >= 10 && waiting <= 32 && fastPicked && fastDelivered && !fastLate && slowPicked &&
+            check( waiting >= 28 && waiting <= 52 && fastPicked && fastDelivered && !fastLate && slowPicked &&
                        slowLate && !slowDelivered && std::string( helloIn( "JAPAN" ) ) == "KONNICHIWA" &&
                        std::string( thanksIn( "PERU" ) ) == "GRACIAS",
                    "hitchhikers: picked up, delivered or too late" );
@@ -848,7 +895,7 @@ int main()
             std::printf(
                 "      %d police cars; %d traps in 100 stages; flat out: chased %d, escaped %d; stopping: caught %d\n",
                 policeCars, traps, runChased, runEscaped, stopCaught );
-            check( usa && hk && policeCars >= 40 && traps >= 4 && traps <= 16 && runChased && runEscaped &&
+            check( usa && hk && policeCars >= 40 && traps >= 20 && traps <= 46 && runChased && runEscaped &&
                        !runCaught && stopChased && stopCaught && !stopEscaped,
                    "the police of the world tour" );
         }

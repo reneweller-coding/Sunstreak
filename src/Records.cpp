@@ -99,12 +99,13 @@ struct Bits
     uint64_t check() const { return hash64( m_hi * 0x9E3779B97F4A7C15ull ^ m_lo ^ 0xC0DEull ) & 255; }
 };
 
-constexpr int      CodeVersion = 1;     ///< the layout of the fifteen-symbol codes
-constexpr int      CodeVersion2 = 2;    ///< the layout of the sixteen-symbol codes (twelve bits of scenery)
-constexpr uint64_t CodeWorld = 510;     ///< scenery field: the world tour
-constexpr uint64_t CodeMixed = 511;     ///< scenery field: all biomes mixed
-constexpr uint64_t CodeWorld2 = 4094;   ///< scenery field of the long codes: the world tour
-constexpr uint64_t CodeMixed2 = 4095;   ///< scenery field of the long codes: all biomes mixed
+constexpr int      CodeVersion = 1;      ///< the layout of the fifteen-symbol codes
+constexpr int      CodeVersion2 = 2;     ///< the layout of the sixteen-symbol codes (twelve bits of scenery)
+constexpr uint64_t CodeWorld = 510;      ///< scenery field: the world tour
+constexpr uint64_t CodeMixed = 511;      ///< scenery field: all biomes mixed
+constexpr uint64_t CodeWorld2 = 4094;    ///< scenery field of the long codes: the world tour
+constexpr uint64_t CodeMixed2 = 4095;    ///< scenery field of the long codes: all biomes mixed
+constexpr uint64_t CodeRandom2 = 4093;   ///< scenery field of the long codes: the random world tour
 
 /**
  * @brief Reads the old twelve-symbol codes (before the world tour): seed, five values, a biome in six bits.
@@ -148,14 +149,15 @@ std::string encodeTrack( const TrackSetup &setup )
 {
     const TrackParams &p = setup.m_params;
     // The places past the nine-bit field take the long code; everything else keeps the codes of earlier versions.
-    const bool wide = p.m_biome >= static_cast<int>( CodeWorld );
+    const bool random = p.m_biome == SceneryWorld && p.m_randomTour;
+    const bool wide = random || p.m_biome >= static_cast<int>( CodeWorld );
     Bits       b;
     if ( wide ) b.push( 0, 2 );
     b.push( wide ? CodeVersion2 : CodeVersion, 4 );
     b.push( setup.m_seed & 0x1FFFFFFFull, 29 );
     for ( int v : { p.m_curvy, p.m_sharp, p.m_hilly, p.m_traffic, p.m_obstacles } ) b.push( nibble( v ), 4 );
     if ( wide )
-        b.push( static_cast<uint64_t>( std::min( p.m_biome, MaxBiomes - 3 ) ), 12 );
+        b.push( random ? CodeRandom2 : static_cast<uint64_t>( std::min( p.m_biome, MaxBiomes - 4 ) ), 12 );
     else
         b.push( p.m_biome >= 0              ? static_cast<uint64_t>( p.m_biome )
                 : p.m_biome == SceneryWorld ? CodeWorld
@@ -209,15 +211,17 @@ bool decodeTrack( const std::string &code, TrackSetup &setup )
     if ( wide && b.pop( 2 ) != 0 ) return false;
     if ( out.m_seed == 0 ) out.m_seed = 1;
     const uint64_t world = wide ? CodeWorld2 : CodeWorld, mixed = wide ? CodeMixed2 : CodeMixed;
-    if ( scenery < world && scenery >= static_cast<uint64_t>( biomeCount() ) ) return false;
+    const bool     random = wide && scenery == CodeRandom2;
+    if ( scenery < world && scenery >= static_cast<uint64_t>( biomeCount() ) && !random ) return false;
     out.m_params.m_curvy = values[0];
     out.m_params.m_sharp = values[1];
     out.m_params.m_hilly = values[2];
     out.m_params.m_traffic = values[3];
     out.m_params.m_obstacles = values[4];
-    out.m_params.m_biome = scenery == world   ? SceneryWorld
-                           : scenery == mixed ? SceneryMixed
-                                              : static_cast<int>( scenery );
+    out.m_params.m_biome = scenery == world || random ? SceneryWorld
+                           : scenery == mixed         ? SceneryMixed
+                                                      : static_cast<int>( scenery );
+    out.m_params.m_randomTour = random;
     out.m_params.m_length = static_cast<double>( len ) * 2500.0;
     if ( out.m_race && len == 0 ) return false;
     setup = out;
@@ -285,7 +289,7 @@ constexpr int64_t RimPoints[RimCount] = {
 };   ///< rims, in career points
 constexpr int64_t DecalPoints[DecalCount] = {
     0, 20000, 40000, 80000, 120000, 200000, 0
-};                                   ///< decals, in career points
+};   ///< decals, in career points
 constexpr int GlobeCountries = 50;   ///< countries seen for the GLOBE decal
 
 /**
@@ -373,6 +377,15 @@ void Records::load( const std::string &path )
                 m_trainWins = std::atoi( v[7].c_str() );
                 m_jobs = std::atoi( v[8].c_str() );
             }
+            else if ( key == "stats2" )
+            {
+                std::stringstream ss( val );
+                std::string       v[3];
+                for ( std::string &s : v ) std::getline( ss, s, '|' );
+                m_overtakesAll = std::atoi( v[0].c_str() );
+                m_randomStages = std::atoi( v[1].c_str() );
+                m_randomRounds = std::atoi( v[2].c_str() );
+            }
             else if ( key == "legends" )
             {
                 std::stringstream ss( val );
@@ -385,11 +398,14 @@ void Records::load( const std::string &path )
                         m_legendBest.emplace_back( item.substr( 0, bar ), std::atof( item.c_str() + bar + 1 ) );
                 }
             }
-            else if ( key == "escaped" || key == "hitchfrom" || key == "achieved" )
+            else if ( key == "escaped" || key == "hitchfrom" || key == "achieved" || key == "festivals" ||
+                      key == "randomtour" )
             {
-                std::vector<std::string> &list = key == "escaped"     ? m_escapedFrom
-                                                 : key == "hitchfrom" ? m_hitchFrom
-                                                                      : m_achieved;
+                std::vector<std::string> &list = key == "escaped"      ? m_escapedFrom
+                                                 : key == "hitchfrom"  ? m_hitchFrom
+                                                 : key == "festivals"  ? m_festivals
+                                                 : key == "randomtour" ? m_randomCountries
+                                                                       : m_achieved;
                 std::stringstream         ss( val );
                 std::string               name;
                 list.clear();
@@ -467,12 +483,14 @@ void Records::save( const std::string &path ) const
     writeNames( out, m_postcards );
     out << "stats=" << m_escapes << "|" << m_caught << "|" << m_delivered << "|" << m_gaveWay << "|" << m_aquaplanes
         << "|" << m_heroWins << "|" << m_heroLosses << "|" << m_trainWins << "|" << m_jobs << "\n";
+    out << "stats2=" << m_overtakesAll << "|" << m_randomStages << "|" << m_randomRounds << "\n";
     out << "legends=";
     for ( size_t i = 0; i < m_legendBest.size(); ++i )
         out << ( i ? "," : "" ) << m_legendBest[i].first << "|" << m_legendBest[i].second;
     out << "\n";
     for ( const auto &[name, list] : { std::pair{ "escaped", &m_escapedFrom }, std::pair{ "hitchfrom", &m_hitchFrom },
-                                       std::pair{ "achieved", &m_achieved } } )
+                                       std::pair{ "achieved", &m_achieved }, std::pair{ "festivals", &m_festivals },
+                                       std::pair{ "randomtour", &m_randomCountries } } )
     {
         out << name << "=";
         for ( size_t i = 0; i < list->size(); ++i ) out << ( i ? "," : "" ) << ( *list )[i];

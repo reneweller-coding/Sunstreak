@@ -956,6 +956,11 @@ void Game::saveRun()
     std::ofstream out( runPath() );
     out << "seed=" << m_setup.m_seed << "\n";
     out << "scenery=" << m_setup.m_params.m_biome << "\n";
+    out << "random=" << ( m_setup.m_params.m_randomTour ? 1 : 0 ) << "\n";
+    out << "randomdone=";
+    for ( size_t i = 0; i < m_setup.m_params.m_randomDone.size(); ++i )
+        out << ( i ? "," : "" ) << m_setup.m_params.m_randomDone[i];
+    out << "\n";
     out << "start="
         << ( m_setup.m_startBiome >= 0 ? biomeKey( static_cast<BiomeE>( m_setup.m_startBiome ) ) : std::string() )
         << "\n";
@@ -1002,6 +1007,14 @@ bool Game::resumeRun()
     s.m_seed = std::strtoull( v["seed"].c_str(), nullptr, 10 );
     s.m_params = endlessParams();
     s.m_params.m_biome = std::atoi( v["scenery"].c_str() );
+    s.m_params.m_randomTour = v["random"] == "1";
+    s.m_params.m_randomDone.clear();
+    {
+        std::stringstream done( v["randomdone"] );
+        std::string       country;
+        while ( std::getline( done, country, ',' ) )
+            if ( !country.empty() ) s.m_params.m_randomDone.push_back( country );
+    }
     s.m_startBiome = v["start"].empty() ? -1 : biomeId( v["start"] );
     std::vector<int8_t> choices;
     std::stringstream   ss( v["choices"] );
@@ -1183,8 +1196,22 @@ void Game::setupTrack( uint64_t seed, double startS, const TrackParams &params, 
 TrackParams Game::endlessParams() const
 {
     TrackParams p;
-    p.m_biome = m_settings.m_scenery ? SceneryMixed : SceneryWorld;
-    if ( m_options.m_scenery >= SceneryWorld && m_options.m_scenery < biomeCount() ) p.m_biome = m_options.m_scenery;
+    // The settings: 0 the world tour, 1 all mixed, 2 the random world tour; the start option before them.
+    p.m_biome = m_settings.m_scenery == 1 ? SceneryMixed : SceneryWorld;
+    p.m_randomTour = m_settings.m_scenery == 2;
+    // The random tour's round: the countries been to on earlier runs (a new round once every one is).
+    if ( m_records.m_randomCountries.size() < static_cast<size_t>( countryCount() ) )
+        p.m_randomDone = m_records.m_randomCountries;
+    if ( m_options.m_scenery >= SceneryWorld && m_options.m_scenery < biomeCount() )
+    {
+        p.m_biome = m_options.m_scenery;
+        p.m_randomTour = false;
+    }
+    if ( m_options.m_scenery == SceneryRandomOption )
+    {
+        p.m_biome = SceneryWorld;
+        p.m_randomTour = true;
+    }
     return p;
 }
 
@@ -1583,6 +1610,22 @@ void Game::progress( double ds )
             if ( m_records.m_journey.size() > 4000 ) m_records.m_journey.erase( m_records.m_journey.begin() );
         }
         if ( ( m_mode == ModeE::ENDLESS || m_mode == ModeE::TRAVEL ) && !key.empty() ) m_records.m_tourAt = key;
+        const char *country = biomeDef( here ).m_country;
+        auto       &round = m_records.m_randomCountries;
+        if ( m_setup.m_params.m_randomTour && country &&
+             std::find( round.begin(), round.end(), country ) == round.end() )
+        {
+            // The random tour: a country of the round; once every one is, the round is done and the next begins.
+            if ( round.size() >= static_cast<size_t>( countryCount() ) ) round.clear();
+            round.emplace_back( country );
+            if ( round.size() == static_cast<size_t>( countryCount() ) )
+            {
+                ++m_records.m_randomRounds;
+                popup( "RANDOM TOUR COMPLETE", format( "EVERY ONE OF THE %d COUNTRIES", countryCount() ), Gold, 1.3f,
+                       5.0f );
+                checkAchievements();
+            }
+        }
     }
     if ( !m_records.m_seen.test( bit ) )
     {
@@ -2380,7 +2423,16 @@ void Game::timeAttackRules( float h )
             m_legendStage = stage;
             m_legendStart = m_raceTime;
         }
-        popup( format( place.m_legend ? "STAGE %d   LEGENDARY ROAD" : "STAGE %d", stage + 1 ) +
+        // On the random tour, how far the round has come (the new country counted).
+        std::string round;
+        if ( m_setup.m_params.m_randomTour && place.m_country )
+        {
+            const auto  &done = m_records.m_randomCountries;
+            const size_t have = done.size() % static_cast<size_t>( countryCount() ) +
+                                ( std::find( done.begin(), done.end(), place.m_country ) == done.end() ? 1 : 0 );
+            round = format( "   %d / %d COUNTRIES", static_cast<int>( have ), countryCount() );
+        }
+        popup( format( place.m_legend ? "STAGE %d   LEGENDARY ROAD" : "STAGE %d", stage + 1 ) + round +
                    ( bonusText.empty() ? std::string() : "   " + bonusText ),
                placeName( track.stageBiome( stage ) ) +
                    ( place.m_legend ? std::string( "  -  " ) + place.m_legend : std::string() ),
@@ -2407,6 +2459,19 @@ void Game::timeAttackRules( float h )
         if ( fest >= 0 )
             popup( festivals()[static_cast<size_t>( fest )].m_name, festivals()[static_cast<size_t>( fest )].m_what,
                    Gold, 0.9f, 3.4f, true );
+        if ( !m_demo )
+        {
+            // The awards that count by the stage: the festivals been at, the random tour, the totals.
+            if ( fest >= 0 )
+            {
+                const std::string &name = festivals()[static_cast<size_t>( fest )].m_name;
+                if ( std::find( m_records.m_festivals.begin(), m_records.m_festivals.end(), name ) ==
+                     m_records.m_festivals.end() )
+                    m_records.m_festivals.push_back( name );
+            }
+            if ( m_setup.m_params.m_biome == SceneryWorld && m_setup.m_params.m_randomTour ) ++m_records.m_randomStages;
+            checkAchievements();
+        }
         m_audio.playOnBeat( SfxE::STAGE );
     }
     if ( !bonusText.empty() ) popup( "CHECKPOINT", bonusText, Green, 1.0f, 2.2f );
@@ -2597,6 +2662,7 @@ void Game::handleEvents()
         if ( scoring )
         {
             m_overtakes += m_ev.m_overtakes;
+            m_records.m_overtakesAll += m_ev.m_overtakes;
             m_score += 100.0 * m_combo * m_ev.m_overtakes;
         }
         m_car.m_boostTank = std::min( 1.0f, m_car.m_boostTank + 0.03f * static_cast<float>( m_ev.m_overtakes ) );

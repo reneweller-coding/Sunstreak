@@ -174,7 +174,8 @@ std::string Game::settingValue( SettingE item ) const
     case SettingE::FRAME_LIMIT:
         return m_settings.m_fpsLimit ? format( "%d FPS", m_settings.m_fpsLimit ) : std::string( "NONE" );
     case SettingE::DIFFICULTY: return levels[std::clamp( m_settings.m_difficulty, 0, 2 )];
-    case SettingE::SCENERY: return m_settings.m_scenery ? "ALL MIXED" : "WORLD TOUR";
+    case SettingE::SCENERY:
+        return m_settings.m_scenery == 1 ? "ALL MIXED" : m_settings.m_scenery == 2 ? "RANDOM TOUR" : "WORLD TOUR";
     case SettingE::TIME_OF_DAY:
     {
         static const char *times[] = { "AS THE PLACE", "TOUR CLOCK", "DAWN", "DAY", "DUSK", "NIGHT" };
@@ -272,7 +273,16 @@ void Game::changeSetting( SettingE item, int dir )
         m_settings.m_difficulty = std::clamp( m_settings.m_difficulty + dir, 0, 2 );
         tuning() = applyDifficulty( m_tuningBase, m_settings.m_difficulty );
         break;
-    case SettingE::SCENERY: m_settings.m_scenery = 1 - m_settings.m_scenery; break;
+    case SettingE::SCENERY:
+    {
+        // In the order shown: the world tour, the random tour, all mixed.
+        static const int order[] = { 0, 2, 1 };
+        int              idx = 0;
+        for ( int i = 0; i < 3; ++i )
+            if ( order[i] == m_settings.m_scenery ) idx = i;
+        m_settings.m_scenery = order[( idx + 3 + dir ) % 3];
+        break;
+    }
     case SettingE::TIME_OF_DAY: m_settings.m_timeOfDay = ( m_settings.m_timeOfDay + 6 + dir ) % 6; break;
     case SettingE::WEATHER: m_settings.m_weather = 1 - m_settings.m_weather; break;
     case SettingE::SEASONS:
@@ -321,7 +331,7 @@ std::string Game::labValue( LabE item ) const
     {
     case LabE::MODE: return m_lab.m_race ? "RACE  (11 RIVALS)" : "TIME ATTACK";
     case LabE::SCENERY:
-        return p.m_biome == SceneryWorld ? std::string( "WORLD TOUR" )
+        return p.m_biome == SceneryWorld ? std::string( p.m_randomTour ? "RANDOM TOUR" : "WORLD TOUR" )
                : p.m_biome < 0           ? std::string( "MIXED" )
                                          : std::string( biomeDef( static_cast<BiomeE>( p.m_biome ) ).m_name );
     case LabE::CURVES: return level( p.m_curvy );
@@ -348,8 +358,9 @@ void Game::changeLab( LabE item, int dir )
         break;
     case LabE::SCENERY:
     {
-        // The world tour, mixed, the eight classic biomes, and every place discovered on the road (in the route's order).
-        std::vector<int> options = { SceneryWorld, SceneryMixed };
+        // The world tour, the random tour, mixed, the eight classic biomes, and every place discovered on the road (in
+        // the route's order).
+        std::vector<int> options = { SceneryWorld, SceneryRandomOption, SceneryMixed };
         for ( BiomeE b : worldRoute() )
             if ( static_cast<int>( b ) < 8 || m_records.m_seen.test( static_cast<size_t>( b ) ) )
                 options.push_back( static_cast<int>( b ) );
@@ -357,11 +368,14 @@ void Game::changeLab( LabE item, int dir )
             if ( routeIndex( static_cast<BiomeE>( b ) ) < 0 &&
                  ( b < 8 || m_records.m_seen.test( static_cast<size_t>( b ) ) ) )
                 options.push_back( b );
-        int idx = 0;
+        const int now = p.m_biome == SceneryWorld && p.m_randomTour ? SceneryRandomOption : p.m_biome;
+        int       idx = 0;
         for ( size_t i = 0; i < options.size(); ++i )
-            if ( options[i] == p.m_biome ) idx = static_cast<int>( i );
-        p.m_biome = options[static_cast<size_t>( ( idx + dir + static_cast<int>( options.size() ) ) %
-                                                 static_cast<int>( options.size() ) )];
+            if ( options[i] == now ) idx = static_cast<int>( i );
+        const int next = options[static_cast<size_t>( ( idx + dir + static_cast<int>( options.size() ) ) %
+                                                      static_cast<int>( options.size() ) )];
+        p.m_randomTour = next == SceneryRandomOption;
+        p.m_biome = p.m_randomTour ? SceneryWorld : next;
         break;
     }
     case LabE::CURVES: level( p.m_curvy ); break;
@@ -2604,20 +2618,23 @@ void Game::drawPassport()
 
 void Game::drawAchievements( float x, float y, float w, float h )
 {
-    // Two columns: a medal, the name, what earns it, how far along.
+    // Sheets of two columns: a medal, the name, what earns it, how far along.
     const float u = unit();
     const auto &list = achievements();
-    const int   rows = static_cast<int>( ( list.size() + 1 ) / 2 );
+    const int   rows = 16, perSheet = 2 * rows;
+    const int   sheets = std::max( 1, ( static_cast<int>( list.size() ) + perSheet - 1 ) / perSheet );
+    m_passportSheet = std::clamp( m_passportSheet, 0, sheets - 1 );
     const float cw = w * 0.5f, rh = std::min( 40.0f * u, h / static_cast<float>( rows ) );
     int         earned = 0;
     for ( size_t i = 0; i < list.size(); ++i )
     {
-        const AchievementProgress p = achievementProgress( m_records, i );
         const bool done = std::find( m_records.m_achieved.begin(), m_records.m_achieved.end(), list[i].m_key ) !=
                           m_records.m_achieved.end();
         earned += done ? 1 : 0;
-        const float   cx = x + cw * static_cast<float>( i / static_cast<size_t>( rows ) ),
-                      cy = y + rh * static_cast<float>( i % static_cast<size_t>( rows ) );
+        const int on = static_cast<int>( i ) - m_passportSheet * perSheet;
+        if ( on < 0 || on >= perSheet ) continue;
+        const AchievementProgress p = achievementProgress( m_records, i );
+        const float   cx = x + cw * static_cast<float>( on / rows ), cy = y + rh * static_cast<float>( on % rows );
         const Vector2 medal = { cx + 14.0f * u, cy + rh * 0.5f };
         DrawCircleV( medal, 10.0f * u, done ? Gold : Color{ 190, 196, 210, 40 } );
         DrawCircleLinesV( medal, 10.0f * u, done ? Color{ 255, 240, 180, 255 } : Dim );
@@ -2627,8 +2644,9 @@ void Game::drawAchievements( float x, float y, float w, float h )
         drawText( done ? std::string( "DONE" ) : format( "%d / %d", p.m_have, p.m_need ), cx + cw - 16.0f * u,
                   cy + rh * 0.5f - 15.0f * u, 12.0f * u, done ? Gold : Dim, AlignE::RIGHT );
     }
-    drawText( format( "%d OF %d EARNED", earned, static_cast<int>( list.size() ) ), x + w, y + h + 8.0f * u, 11.0f * u,
-              Dim, AlignE::RIGHT );
+    drawText( format( "SHEET %d / %d     %d OF %d EARNED", m_passportSheet + 1, sheets, earned,
+                      static_cast<int>( list.size() ) ),
+              x + w, y + h + 8.0f * u, 11.0f * u, Dim, AlignE::RIGHT );
 }
 
 void Game::drawRallies()
@@ -3065,6 +3083,12 @@ void Game::drawHud()
         // The rows spread with the text size.
         const float ts = textScale();
         auto        row = [&]( float y ) { return ( 14.0f + ( y - 14.0f ) * ts ) * u; };
+        // A status line under the stage line; the news ticker goes below the lowest.
+        auto status = [&]( float y )
+        {
+            m_tickerTop = std::max( m_tickerTop, row( y ) + 20.0f * ts * u );
+            return row( y );
+        };
         txt( "SCORE", 28.0f * u, row( 14.0f ), 13.0f * u, Dim );
         drawTextFx( format( "%lld", static_cast<long long>( m_score ) ), 28.0f * u, row( 34.0f ), 28.0f * u, Ink,
                     AlignE::LEFT, 0.3f );
@@ -3091,7 +3115,7 @@ void Game::drawHud()
             drawTextFx( format( "DUEL WITH %s  %s%d M  %.1f KM TO GO", m_hero.m_name.c_str(), lead >= 0.0 ? "+" : "-",
                                 static_cast<int>( std::abs( lead ) ),
                                 std::max( 0.0, m_hero.m_goal - m_car.m_s ) / 1000.0 ),
-                        28.0f * u, row( 124.0f ), 12.0f * u, lead >= 0.0 ? Green : Red, AlignE::LEFT, 0.3f );
+                        28.0f * u, status( 124.0f ), 12.0f * u, lead >= 0.0 ? Green : Red, AlignE::LEFT, 0.3f );
         }
         if ( m_train.m_running && m_train.m_stretch.m_line >= 0 )
         {
@@ -3101,7 +3125,7 @@ void Game::drawHud()
             drawTextFx( format( "RACE THE %s  %s%d M  %.1f KM TO GO", name.c_str(), lead >= 0.0 ? "+" : "-",
                                 static_cast<int>( std::abs( lead ) ),
                                 std::max( 0.0, m_train.m_stretch.m_to - m_car.m_s ) / 1000.0 ),
-                        28.0f * u, row( 160.0f ), 12.0f * u, lead >= 0.0 ? Green : Cyan, AlignE::LEFT, 0.3f );
+                        28.0f * u, status( 160.0f ), 12.0f * u, lead >= 0.0 ? Green : Cyan, AlignE::LEFT, 0.3f );
         }
         if ( m_passenger.m_state == PassengerStateE::ABOARD )
         {
@@ -3112,7 +3136,7 @@ void Game::drawHud()
             static const char *const what[] = { "PASSENGER TO", "FRAGILE PARCEL FOR", "ORGAN FOR THE HOSPITAL IN", "" };
             drawTextFx( format( "%s %s  %.1f KM  %s", what[static_cast<int>( m_passenger.m_job ) % 4], to ? to : "", km,
                                 clockText( m_passenger.m_timeLeft ).c_str() ),
-                        28.0f * u, row( 142.0f ), 12.0f * u, hurry ? Red : Accent, AlignE::LEFT, 0.3f );
+                        28.0f * u, status( 142.0f ), 12.0f * u, hurry ? Red : Accent, AlignE::LEFT, 0.3f );
         }
         else if ( m_passenger.m_state == PassengerStateE::WAITING && m_passenger.m_s - m_car.m_s < 500.0 &&
                   m_passenger.m_s > m_car.m_s - 10.0 )
@@ -3120,14 +3144,15 @@ void Game::drawHud()
             static const char *const who[] = { "HITCHHIKER", "COURIER", "PARAMEDIC", "POLICE OFFICER" };
             drawTextFx( format( "%s AHEAD %d M  STOP BESIDE THEM", who[static_cast<int>( m_passenger.m_job ) % 4],
                                 static_cast<int>( std::max( 0.0, m_passenger.m_s - m_car.m_s ) ) ),
-                        28.0f * u, row( 142.0f ), 12.0f * u, Cyan, AlignE::LEFT, 0.3f );
+                        28.0f * u, status( 142.0f ), 12.0f * u, Cyan, AlignE::LEFT, 0.3f );
         }
         if ( m_thief.m_state == HeroStateE::DUEL )
         {
             const double gap = m_thief.m_s - m_car.m_s;
             drawTextFx( format( "CATCH THE THIEF  %d M AHEAD  %.1f KM LEFT", static_cast<int>( std::max( 0.0, gap ) ),
                                 std::max( 0.0, m_thief.m_goal - m_thief.m_s ) / 1000.0 ),
-                        28.0f * u, row( 124.0f ), 12.0f * u, m_thief.m_catch > 0.0f ? Green : Red, AlignE::LEFT, 0.3f );
+                        28.0f * u, status( 124.0f ), 12.0f * u, m_thief.m_catch > 0.0f ? Green : Red, AlignE::LEFT,
+                        0.3f );
         }
         if ( m_police.m_state == PoliceStateE::CHASE )
         {
@@ -3199,8 +3224,24 @@ void Game::drawHud()
             // side counts is where the barrier begins.
             const bool   left = m_car.m_x < 0.0f;
             const double ahead = fork.m_at - m_car.m_s;
-            const float  y = 150.0f * u, boardW = 300.0f * u, bh = 62.0f * u, gap = 14.0f * u;
-            const float  fade = clampf( static_cast<float>( ( fork.m_at - 1900.0 - m_car.m_s ) / -150.0 ), 0.0f, 1.0f );
+            const float  y = 150.0f * u, bh = 62.0f * u, gap = 14.0f * u;
+            auto         whereOf = []( const BiomeDef &d )
+            {
+                return d.m_region && d.m_country ? std::string( d.m_region ) + " - " + d.m_country
+                       : d.m_country             ? std::string( d.m_country )
+                                                 : std::string();
+            };
+            // Wide enough for the longer place beside its arrow, and on the screen.
+            float boardW = 300.0f * u;
+            for ( const BiomeE to : { fork.m_left, fork.m_right } )
+            {
+                const BiomeDef &d = biomeDef( to );
+                boardW = std::max( boardW, std::max( textWidth( d.m_name ? d.m_name : "", 19.0f * u ),
+                                                     textWidth( whereOf( d ), 11.0f * u ) ) +
+                                               56.0f * u );
+            }
+            boardW = std::min( boardW, ( W - gap ) * 0.5f - 8.0f * u );
+            const float fade = clampf( static_cast<float>( ( fork.m_at - 1900.0 - m_car.m_s ) / -150.0 ), 0.0f, 1.0f );
             const std::string head = ahead > 300.0 ? format( "THE ROAD FORKS IN %.1f KM", ahead / 1000.0 )
                                                    : std::string( "KEEP LEFT OR RIGHT NOW" );
             drawTextFx( head, W * 0.5f, y - 22.0f * u, 13.0f * u, ahead > 300.0 ? Ink : Gold, AlignE::CENTER, 0.3f );
@@ -3216,9 +3257,7 @@ void Game::drawHud()
                 if ( here )
                     DrawRectangleRoundedLinesEx( Rectangle{ boardX, y, boardW, bh }, 0.15f, 6, 2.0f * u,
                                                  Color{ 255, 220, 160, static_cast<unsigned char>( 230.0f * fade ) } );
-                const std::string where = d.m_region && d.m_country ? std::string( d.m_region ) + " - " + d.m_country
-                                          : d.m_country             ? std::string( d.m_country )
-                                                                    : std::string();
+                const std::string where = whereOf( d );
                 const float       tx = k == 0 ? boardX + boardW - 16.0f * u : boardX + 16.0f * u;
                 const AlignE      al = k == 0 ? AlignE::RIGHT : AlignE::LEFT;
                 drawTextFx( k == 0 ? "<" : ">", k == 0 ? boardX + 18.0f * u : boardX + boardW - 18.0f * u,
@@ -3271,7 +3310,8 @@ void Game::drawPopups()
     // What matters now in the middle, small and above the horizon (in menus where the middle is free, lower); the news
     // in a ticker on the left, under the stage line.
     const bool racing = m_state == StateE::RACE || m_state == StateE::COUNTDOWN || m_state == StateE::PAUSED;
-    float      py = racing ? 150.0f * u : H * 0.3f, ty = 132.0f * u;
+    float      py = racing ? 150.0f * u : H * 0.3f, ty = std::max( 132.0f * u, m_tickerTop );
+    m_tickerTop = 0.0f;
     for ( const Popup &p : m_popups )
     {
         const float in = std::min( 1.0f, p.m_age * 6.0f );
