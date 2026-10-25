@@ -7,14 +7,15 @@
 #include "Achievements.h"
 #include "Car.h"
 #include "Data.h"
-#include "Hero.h"
 #include "Game.h"
+#include "Hero.h"
 #include "Passenger.h"
 #include "Phrases.h"
 #include "Police.h"
 #include "Race.h"
 #include "Records.h"
 #include "Track.h"
+#include "Train.h"
 
 #include <cstdio>
 #include <cmath>
@@ -455,6 +456,45 @@ int main()
                        std::abs( biomeDef( static_cast<BiomeE>( japan ) ).m_laneWidth - 3.0f ) < 0.01f && concrete > 10 && studs > 10 &&
                        countryInfo( "THAILAND" ).m_lines == 1 && countryInfo( "UAE" ).m_lines == 3,
                    "the roads of the countries" );
+        }
+        { // Fast trains: half of Japan's stages; flat out the car beats the train, dawdling it loses.
+            TrackParams p;
+            p.m_biome = biomeId( "TOKYO" );
+            Track tokyo( 13, p );
+            int   races = 0;
+            for( int st = 0; st < 20; ++st )
+            {
+                TrainStretch ts;
+                races += stageTrain( tokyo, st, ts ) ? 1 : 0;
+            }
+            auto race = [&]( float pace, bool &won, bool &lost )
+            {
+                won = lost = false;
+                TrainStretch t;
+                int          st = 0;
+                while( st < 20 && !stageTrain( tokyo, st, t ) ) ++st;
+                PlayerCar car;
+                car.reset( carSpec( 0 ), StartLine, 0.0f, tokyo );
+                car.m_s = t.m_from - 240.0;
+                TrainRace train;
+                for( int k = 0; k < 60 * 300 && !won && !lost; ++k )
+                {
+                    tokyo.generateTo( car.m_s + 2000.0 );
+                    car.m_speed = train.m_running ? pace : 45.0f;
+                    TrainEvents ev;
+                    train.update( 1.0f / 60.0f, tokyo, car, true, ev );
+                    won = won || ev.m_won;
+                    lost = lost || ev.m_lost;
+                    car.m_s += static_cast<double>( car.m_speed ) / 60.0;
+                }
+            };
+            bool fastWon = false, fastLost = false, slowWon = false, slowLost = false;
+            race( carSpec( 0 ).m_topSpeed, fastWon, fastLost );
+            race( 40.0f, slowWon, slowLost );
+            std::printf( "      %d train races in 20 stages of Tokyo; flat out won %d, at 144 km/h lost %d; %d trains, %d errors\n", races, fastWon, slowLost,
+                         static_cast<int>( trainLines().size() ), trainErrors() );
+            check( races >= 4 && races <= 16 && fastWon && !fastLost && slowLost && !slowWon && trainErrors() == 0 && trainLines().size() >= 15,
+                   "racing the train" );
         }
         { // The local hero: one stage in three; a fast car beats them to the checkpoint, a dawdling one loses.
             TrackParams world;

@@ -1,0 +1,22 @@
+# The fast trains that run on a viaduct beside the road in some stages of their countries and race the car:
+#   NAME | countries | top speed km/h | coaches
+# The race: at the start of the viaduct the train is just ahead, it speeds up to its top speed (at most 93 % of the
+# car's); pass its nose before the stretch ends. Its shapes are TRAIN_NAME and TRAIN_NAME_COACH (data/landmarks).
+
+SHINKANSEN | JAPAN | 300 | 8
+TGV | FRANCE, BELGIUM, LUXEMBOURG, MONACO | 320 | 8
+ICE | GERMANY, AUSTRIA, NETHERLANDS, SWITZERLAND, DENMARK | 300 | 7
+AVE | SPAIN | 300 | 7
+FRECCIAROSSA | ITALY, SAN MARINO, VATICAN | 300 | 7
+KTX | SOUTH KOREA | 305 | 8
+FUXING | CHINA | 350 | 8
+THSR | TAIWAN | 300 | 8
+EUROSTAR | ENGLAND | 300 | 8
+ACELA | USA | 240 | 6
+INDIAN_PACIFIC | AUSTRALIA | 115 | 10
+VANDE_BHARAT | INDIA | 180 | 8
+SAPSAN | RUSSIA | 250 | 8
+AL_BORAQ | MOROCCO | 320 | 8
+HARAMAIN | SAUDI ARABIA | 300 | 8
+PENDOLINO | POLAND, CZECHIA, FINLAND, PORTUGAL, SLOVAKIA | 220 | 6
+X2000 | SWEDEN, NORWAY | 200 | 6

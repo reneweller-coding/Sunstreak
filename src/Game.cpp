@@ -794,6 +794,7 @@ void Game::finishCrossing()
     m_police.reset();
     m_passenger.reset();
     m_hero.reset();
+    m_train.reset();
     m_delivered = 0;
     m_particles.clear();
     for( Rival &r : m_race.m_rivals )
@@ -1035,6 +1036,7 @@ void Game::setupTrack( uint64_t seed, double startS, const TrackParams &params, 
     m_police.reset();
     m_passenger.reset();
     m_hero.reset();
+    m_train.reset();
     m_delivered = 0;
     m_race.m_rivals.clear();
     m_particles.clear();
@@ -1099,6 +1101,19 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
             if( probe.fork( st ).m_exists )
             {
                 startS = probe.fork( st ).m_at - 700.0;
+                break;
+            }
+        m_options.m_find = 0;
+    }
+    if( m_options.m_find == 13 )
+    {
+        // Testing: start a little before the first train race.
+        Track        probe( setup.m_seed, params, m_options.m_startBiome );
+        TrainStretch t;
+        for( int st = 0; st < 40; ++st )
+            if( stageTrain( probe, st, t ) )
+            {
+                startS = t.m_from - 400.0;
                 break;
             }
         m_options.m_find = 0;
@@ -1819,6 +1834,31 @@ void Game::step( float h, const CarInput &in )
             m_audio.play( SfxE::NEAR_MISS );
         }
         if( pe.m_caught || pe.m_escaped ) checkAchievements();
+    }
+    {
+        // A fast train on its viaduct beside the road: pass its nose before the stretch ends.
+        TrainEvents ev;
+        const bool  enabled = !m_demo && !m_setup.m_race && m_state == StateE::RACE && !m_timeUp && !m_finishedTrack;
+        m_train.update( h, track, m_car, enabled, ev );
+        const std::string name = m_train.m_stretch.m_line >= 0 ? trainLines()[static_cast<size_t>( m_train.m_stretch.m_line )].m_name : std::string();
+        std::string       shown = name;
+        std::replace( shown.begin(), shown.end(), '_', ' ' );
+        if( ev.m_start )
+        {
+            popup( shown + "!", "PASS ITS NOSE BEFORE THE VIADUCT ENDS", Cyan, 1.0f, 3.2f );
+            m_audio.play( SfxE::HORN, 0.5f, m_train.m_stretch.m_side );
+        }
+        if( ev.m_won )
+        {
+            const bool travel = m_mode == ModeE::TRAVEL;
+            m_score += TrainBonus;
+            if( !travel ) m_timeLeft += 5.0f;
+            ++m_records.m_trainWins;
+            popup( "YOU BEAT THE " + shown, travel ? format( "+%d", TrainBonus ) : format( "+%d  +5 SEC", TrainBonus ), Green, 1.1f, 3.0f );
+            m_audio.playOnBeat( SfxE::CHECKPOINT );
+            checkAchievements();
+        }
+        if( ev.m_lost ) popup( "THE " + shown + " WINS", "", Red, 1.0f, 2.6f );
     }
     {
         // The local hero: a duel to the next checkpoint, with words in their language.

@@ -9,6 +9,7 @@
 
 #include "MathUtil.h"
 #include "Rng.h"
+#include "Train.h"
 #include "VectorFont.h"
 
 #include <cstdlib>
@@ -2188,6 +2189,24 @@ void Models::buildCreatures()
         m_policeModel[i] = static_cast<int>( m_traffic.size() );
         m_traffic.push_back( vm );
     }
+    // ---- The fast trains: TRAIN_NAME and TRAIN_NAME_COACH for each of data/trains.txt ---------------------------------
+    for( auto &t : m_trains )
+        for( Mesh &m : t )
+            if( m.vaoId ) UnloadMesh( m );
+    m_trains.assign( trainLines().size(), {} );
+    for( size_t t = 0; t < trainLines().size(); ++t )
+        for( int part = 0; part < 2; ++part )
+        {
+            const std::string name = "TRAIN_" + trainLines()[t].m_name + ( part ? "_COACH" : "" );
+            for( const DataShape &d : dataShapes() )
+                if( d.m_name == name )
+                {
+                    MeshBuilder shape;
+                    buildDataShape( shape, d );
+                    m_trains[t][static_cast<size_t>( part )] = shape.upload();
+                    break;
+                }
+        }
     // ---- The hitchhikers: the HITCHHIKER shapes ------------------------------------------------------------------------
     for( Mesh &m : m_hitchhikers )
         if( m.vaoId ) UnloadMesh( m );
@@ -2284,6 +2303,10 @@ void Models::unload()
     for( Mesh &m : m_hitchhikers )
         if( m.vaoId ) UnloadMesh( m );
     m_hitchhikers.clear();
+    for( auto &t : m_trains )
+        for( Mesh &m : t )
+            if( m.vaoId ) UnloadMesh( m );
+    m_trains.clear();
 }
 
 } // namespace sunstreak

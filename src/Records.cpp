@@ -338,7 +338,7 @@ void Records::load( const std::string &path )
             else if( key == "stats" )
             {
                 std::stringstream ss( val );
-                std::string       v[7];
+                std::string       v[8];
                 for( std::string &s : v ) std::getline( ss, s, '|' );
                 m_escapes = std::atoi( v[0].c_str() );
                 m_caught = std::atoi( v[1].c_str() );
@@ -347,6 +347,7 @@ void Records::load( const std::string &path )
                 m_aquaplanes = std::atoi( v[4].c_str() );
                 m_heroWins = std::atoi( v[5].c_str() );
                 m_heroLosses = std::atoi( v[6].c_str() );
+                m_trainWins = std::atoi( v[7].c_str() );
             }
             else if( key == "escaped" || key == "hitchfrom" || key == "achieved" )
             {
@@ -426,7 +427,7 @@ void Records::save( const std::string &path ) const
     out << "cards3=";
     writeNames( out, m_postcards );
     out << "stats=" << m_escapes << "|" << m_caught << "|" << m_delivered << "|" << m_gaveWay << "|" << m_aquaplanes << "|" << m_heroWins << "|"
-        << m_heroLosses << "\n";
+        << m_heroLosses << "|" << m_trainWins << "\n";
     for( const auto &[name, list] : { std::pair{ "escaped", &m_escapedFrom }, std::pair{ "hitchfrom", &m_hitchFrom }, std::pair{ "achieved", &m_achieved } } )
     {
         out << name << "=";

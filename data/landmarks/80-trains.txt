@@ -1,0 +1,479 @@
+# Round six: the fast trains that race the car on a viaduct beside the road (data/trains.txt says where and how fast).
+# TRAIN_NAME is the power car, its nose towards +z, TRAIN_NAME_COACH a coach; both stand on the rails at y = 0 and
+# are 25.6 m long (z from -12.8 to 12.8). They stand nowhere by themselves.
+
+shape TRAIN_SHINKANSEN
+    # A bullet train: white with a blue band, its long duck-bill nose: the power car.
+    box 0 1.95 -4.50 1.5 1.55 8.30 F2F2F0
+    box 0 3.55 -4.50 1.3 0.12 8.10 F2F2F0
+    box 0 2.45 -4.85 1.51 0.32 7.65 1E2630 glass
+    box 0 2.05 -4.50 1.512 0.07 8.30 1E4AA8
+    box 0 1.25 -4.50 1.512 0.05 8.30 1E4AA8
+    box 0 0.55 -4.50 1.45 0.3 8.30 9AA0A8
+    blob 0 1.8 3.80 1.5 1.65 9.00 F2F2F0
+    blob 0 2.7 6.05 1.0 0.55 4.05 1E2630 glass
+    blob 0 1.5 8.75 1.2 0.12 3.60 1E4AA8
+    box 0.9 1.2 10.10 0.18 0.08 0.02 F2F2E0 glow
+    box -0.9 1.2 10.10 0.18 0.08 0.02 F2F2E0 glow
+    box 0 3.85 -6 0.1 0.3 0.6 3A3A3E
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+    box 0 0.25 1.30 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_SHINKANSEN_COACH
+    # A bullet train: white with a blue band, its long duck-bill nose: a coach.
+    box 0 1.95 0 1.5 1.55 12.8 F2F2F0
+    box 0 3.55 0 1.3 0.12 12.6 F2F2F0
+    box 0 2.45 0 1.51 0.32 12.3 1E2630 glass
+    box 0 2.05 0 1.512 0.07 12.7 1E4AA8
+    box 0 1.25 0 1.512 0.05 12.7 1E4AA8
+    box 0 0.55 0 1.45 0.3 12.6 9AA0A8
+    repeat 2 0 0 18
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_TGV
+    # A TGV: pale grey with a dark blue band and a crimson line: the power car.
+    box 0 1.95 -2.75 1.5 1.55 10.05 E8EAEC
+    box 0 3.55 -2.75 1.3 0.12 9.85 C8CCD0
+    box 0 2.45 -3.10 1.51 0.32 9.40 1E2630 glass
+    box 0 2.05 -2.75 1.512 0.07 10.05 1E2A6A
+    box 0 1.25 -2.75 1.512 0.05 10.05 C83A5A
+    box 0 0.55 -2.75 1.45 0.3 10.05 5A5E66
+    blob 0 1.8 7.30 1.5 1.65 5.50 E8EAEC
+    blob 0 2.7 8.68 1.0 0.55 2.48 1E2630 glass
+    blob 0 1.5 10.33 1.2 0.12 2.20 1E2A6A
+    box 0.9 1.2 11.15 0.18 0.08 0.02 F2F2E0 glow
+    box -0.9 1.2 11.15 0.18 0.08 0.02 F2F2E0 glow
+    box 0 3.85 -6 0.1 0.3 0.6 3A3A3E
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+    box 0 0.25 4.80 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_TGV_COACH
+    # A TGV: pale grey with a dark blue band and a crimson line: a coach.
+    box 0 1.95 0 1.5 1.55 12.8 E8EAEC
+    box 0 3.55 0 1.3 0.12 12.6 C8CCD0
+    box 0 2.45 0 1.51 0.32 12.3 1E2630 glass
+    box 0 2.05 0 1.512 0.07 12.7 1E2A6A
+    box 0 1.25 0 1.512 0.05 12.7 C83A5A
+    box 0 0.55 0 1.45 0.3 12.6 5A5E66
+    repeat 2 0 0 18
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_ICE
+    # An ICE: white with a red stripe along its windows: the power car.
+    box 0 1.95 -2.50 1.5 1.55 10.30 F2F2F2
+    box 0 3.55 -2.50 1.3 0.12 10.10 E8E8E8
+    box 0 2.45 -2.85 1.51 0.32 9.65 1E2630 glass
+    box 0 2.05 -2.50 1.512 0.07 10.30 D81E2A
+    box 0 1.25 -2.50 1.512 0.05 10.30 D81E2A
+    box 0 0.55 -2.50 1.45 0.3 10.30 8A9098
+    blob 0 1.8 7.80 1.5 1.65 5.00 F2F2F2
+    blob 0 2.7 9.05 1.0 0.55 2.25 1E2630 glass
+    blob 0 1.5 10.55 1.2 0.12 2.00 D81E2A
+    box 0.9 1.2 11.30 0.18 0.08 0.02 F2F2E0 glow
+    box -0.9 1.2 11.30 0.18 0.08 0.02 F2F2E0 glow
+    box 0 3.85 -6 0.1 0.3 0.6 3A3A3E
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+    box 0 0.25 5.30 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_ICE_COACH
+    # An ICE: white with a red stripe along its windows: a coach.
+    box 0 1.95 0 1.5 1.55 12.8 F2F2F2
+    box 0 3.55 0 1.3 0.12 12.6 E8E8E8
+    box 0 2.45 0 1.51 0.32 12.3 1E2630 glass
+    box 0 2.05 0 1.512 0.07 12.7 D81E2A
+    box 0 1.25 0 1.512 0.05 12.7 D81E2A
+    box 0 0.55 0 1.45 0.3 12.6 8A9098
+    repeat 2 0 0 18
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_AVE
+    # An AVE: white with a purple and a red stripe, a long pointed nose: the power car.
+    box 0 1.95 -3.50 1.5 1.55 9.30 F2F2F2
+    box 0 3.55 -3.50 1.3 0.12 9.10 E8E8E8
+    box 0 2.45 -3.85 1.51 0.32 8.65 1E2630 glass
+    box 0 2.05 -3.50 1.512 0.07 9.30 6A2A8A
+    box 0 1.25 -3.50 1.512 0.05 9.30 C83A2A
+    box 0 0.55 -3.50 1.45 0.3 9.30 8A9098
+    blob 0 1.8 5.80 1.5 1.65 7.00 F2F2F2
+    blob 0 2.7 7.55 1.0 0.55 3.15 1E2630 glass
+    blob 0 1.5 9.65 1.2 0.12 2.80 6A2A8A
+    box 0.9 1.2 10.70 0.18 0.08 0.02 F2F2E0 glow
+    box -0.9 1.2 10.70 0.18 0.08 0.02 F2F2E0 glow
+    box 0 3.85 -6 0.1 0.3 0.6 3A3A3E
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+    box 0 0.25 3.30 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_AVE_COACH
+    # An AVE: white with a purple and a red stripe, a long pointed nose: a coach.
+    box 0 1.95 0 1.5 1.55 12.8 F2F2F2
+    box 0 3.55 0 1.3 0.12 12.6 E8E8E8
+    box 0 2.45 0 1.51 0.32 12.3 1E2630 glass
+    box 0 2.05 0 1.512 0.07 12.7 6A2A8A
+    box 0 1.25 0 1.512 0.05 12.7 C83A2A
+    box 0 0.55 0 1.45 0.3 12.6 8A9098
+    repeat 2 0 0 18
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_FRECCIAROSSA
+    # A Frecciarossa: red with a silver roof and dark windows: the power car.
+    box 0 1.95 -2.75 1.5 1.55 10.05 C81E1E
+    box 0 3.55 -2.75 1.3 0.12 9.85 B8BCC0
+    box 0 2.45 -3.10 1.51 0.32 9.40 1E2630 glass
+    box 0 2.05 -2.75 1.512 0.07 10.05 2A2A2E
+    box 0 1.25 -2.75 1.512 0.05 10.05 B8BCC0
+    box 0 0.55 -2.75 1.45 0.3 10.05 5A5E66
+    blob 0 1.8 7.30 1.5 1.65 5.50 C81E1E
+    blob 0 2.7 8.68 1.0 0.55 2.48 1E2630 glass
+    blob 0 1.5 10.33 1.2 0.12 2.20 2A2A2E
+    box 0.9 1.2 11.15 0.18 0.08 0.02 F2F2E0 glow
+    box -0.9 1.2 11.15 0.18 0.08 0.02 F2F2E0 glow
+    box 0 3.85 -6 0.1 0.3 0.6 3A3A3E
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+    box 0 0.25 4.80 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_FRECCIAROSSA_COACH
+    # A Frecciarossa: red with a silver roof and dark windows: a coach.
+    box 0 1.95 0 1.5 1.55 12.8 C81E1E
+    box 0 3.55 0 1.3 0.12 12.6 B8BCC0
+    box 0 2.45 0 1.51 0.32 12.3 1E2630 glass
+    box 0 2.05 0 1.512 0.07 12.7 2A2A2E
+    box 0 1.25 0 1.512 0.05 12.7 B8BCC0
+    box 0 0.55 0 1.45 0.3 12.6 5A5E66
+    repeat 2 0 0 18
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_KTX
+    # A KTX: white with blue and gold bands: the power car.
+    box 0 1.95 -3.00 1.5 1.55 9.80 F2F2F2
+    box 0 3.55 -3.00 1.3 0.12 9.60 E8E8E8
+    box 0 2.45 -3.35 1.51 0.32 9.15 1E2630 glass
+    box 0 2.05 -3.00 1.512 0.07 9.80 1E3A8A
+    box 0 1.25 -3.00 1.512 0.05 9.80 D8A830
+    box 0 0.55 -3.00 1.45 0.3 9.80 8A9098
+    blob 0 1.8 6.80 1.5 1.65 6.00 F2F2F2
+    blob 0 2.7 8.30 1.0 0.55 2.70 1E2630 glass
+    blob 0 1.5 10.10 1.2 0.12 2.40 1E3A8A
+    box 0.9 1.2 11.00 0.18 0.08 0.02 F2F2E0 glow
+    box -0.9 1.2 11.00 0.18 0.08 0.02 F2F2E0 glow
+    box 0 3.85 -6 0.1 0.3 0.6 3A3A3E
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+    box 0 0.25 4.30 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_KTX_COACH
+    # A KTX: white with blue and gold bands: a coach.
+    box 0 1.95 0 1.5 1.55 12.8 F2F2F2
+    box 0 3.55 0 1.3 0.12 12.6 E8E8E8
+    box 0 2.45 0 1.51 0.32 12.3 1E2630 glass
+    box 0 2.05 0 1.512 0.07 12.7 1E3A8A
+    box 0 1.25 0 1.512 0.05 12.7 D8A830
+    box 0 0.55 0 1.45 0.3 12.6 8A9098
+    repeat 2 0 0 18
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_FUXING
+    # A Fuxing bullet train: white with a red and gold band: the power car.
+    box 0 1.95 -3.25 1.5 1.55 9.55 F2F2F2
+    box 0 3.55 -3.25 1.3 0.12 9.35 E8E8E8
+    box 0 2.45 -3.60 1.51 0.32 8.90 1E2630 glass
+    box 0 2.05 -3.25 1.512 0.07 9.55 C81E2A
+    box 0 1.25 -3.25 1.512 0.05 9.55 D8A830
+    box 0 0.55 -3.25 1.45 0.3 9.55 8A9098
+    blob 0 1.8 6.30 1.5 1.65 6.50 F2F2F2
+    blob 0 2.7 7.93 1.0 0.55 2.93 1E2630 glass
+    blob 0 1.5 9.88 1.2 0.12 2.60 C81E2A
+    box 0.9 1.2 10.85 0.18 0.08 0.02 F2F2E0 glow
+    box -0.9 1.2 10.85 0.18 0.08 0.02 F2F2E0 glow
+    box 0 3.85 -6 0.1 0.3 0.6 3A3A3E
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+    box 0 0.25 3.80 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_FUXING_COACH
+    # A Fuxing bullet train: white with a red and gold band: a coach.
+    box 0 1.95 0 1.5 1.55 12.8 F2F2F2
+    box 0 3.55 0 1.3 0.12 12.6 E8E8E8
+    box 0 2.45 0 1.51 0.32 12.3 1E2630 glass
+    box 0 2.05 0 1.512 0.07 12.7 C81E2A
+    box 0 1.25 0 1.512 0.05 12.7 D8A830
+    box 0 0.55 0 1.45 0.3 12.6 8A9098
+    repeat 2 0 0 18
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_THSR
+    # A Taiwan high-speed train: white with an orange and a black stripe: the power car.
+    box 0 1.95 -3.75 1.5 1.55 9.05 F2F2F2
+    box 0 3.55 -3.75 1.3 0.12 8.85 E8E8E8
+    box 0 2.45 -4.10 1.51 0.32 8.40 1E2630 glass
+    box 0 2.05 -3.75 1.512 0.07 9.05 E8701E
+    box 0 1.25 -3.75 1.512 0.05 9.05 1E1E1E
+    box 0 0.55 -3.75 1.45 0.3 9.05 8A9098
+    blob 0 1.8 5.30 1.5 1.65 7.50 F2F2F2
+    blob 0 2.7 7.18 1.0 0.55 3.38 1E2630 glass
+    blob 0 1.5 9.43 1.2 0.12 3.00 E8701E
+    box 0.9 1.2 10.55 0.18 0.08 0.02 F2F2E0 glow
+    box -0.9 1.2 10.55 0.18 0.08 0.02 F2F2E0 glow
+    box 0 3.85 -6 0.1 0.3 0.6 3A3A3E
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+    box 0 0.25 2.80 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_THSR_COACH
+    # A Taiwan high-speed train: white with an orange and a black stripe: a coach.
+    box 0 1.95 0 1.5 1.55 12.8 F2F2F2
+    box 0 3.55 0 1.3 0.12 12.6 E8E8E8
+    box 0 2.45 0 1.51 0.32 12.3 1E2630 glass
+    box 0 2.05 0 1.512 0.07 12.7 E8701E
+    box 0 1.25 0 1.512 0.05 12.7 1E1E1E
+    box 0 0.55 0 1.45 0.3 12.6 8A9098
+    repeat 2 0 0 18
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_EUROSTAR
+    # A Eurostar: grey and white with a navy band and a yellow line: the power car.
+    box 0 1.95 -3.00 1.5 1.55 9.80 E8EAEC
+    box 0 3.55 -3.00 1.3 0.12 9.60 C8CCD0
+    box 0 2.45 -3.35 1.51 0.32 9.15 1E2630 glass
+    box 0 2.05 -3.00 1.512 0.07 9.80 1E2A5A
+    box 0 1.25 -3.00 1.512 0.05 9.80 E8C21E
+    box 0 0.55 -3.00 1.45 0.3 9.80 5A5E66
+    blob 0 1.8 6.80 1.5 1.65 6.00 E8EAEC
+    blob 0 2.7 8.30 1.0 0.55 2.70 1E2630 glass
+    blob 0 1.5 10.10 1.2 0.12 2.40 1E2A5A
+    box 0.9 1.2 11.00 0.18 0.08 0.02 F2F2E0 glow
+    box -0.9 1.2 11.00 0.18 0.08 0.02 F2F2E0 glow
+    box 0 3.85 -6 0.1 0.3 0.6 3A3A3E
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+    box 0 0.25 4.30 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_EUROSTAR_COACH
+    # A Eurostar: grey and white with a navy band and a yellow line: a coach.
+    box 0 1.95 0 1.5 1.55 12.8 E8EAEC
+    box 0 3.55 0 1.3 0.12 12.6 C8CCD0
+    box 0 2.45 0 1.51 0.32 12.3 1E2630 glass
+    box 0 2.05 0 1.512 0.07 12.7 1E2A5A
+    box 0 1.25 0 1.512 0.05 12.7 E8C21E
+    box 0 0.55 0 1.45 0.3 12.6 5A5E66
+    repeat 2 0 0 18
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_ACELA
+    # An express of the north-east: silver with a blue band: the power car.
+    box 0 1.95 -2.00 1.5 1.55 10.80 C8CCD0
+    box 0 3.55 -2.00 1.3 0.12 10.60 B8BCC0
+    box 0 2.45 -2.35 1.51 0.32 10.15 1E2630 glass
+    box 0 2.05 -2.00 1.512 0.07 10.80 1E3A8A
+    box 0 1.25 -2.00 1.512 0.05 10.80 1E3A8A
+    box 0 0.55 -2.00 1.45 0.3 10.80 5A5E66
+    blob 0 1.8 8.80 1.5 1.65 4.00 C8CCD0
+    blob 0 2.7 9.80 1.0 0.55 1.80 1E2630 glass
+    blob 0 1.5 11.00 1.2 0.12 1.60 1E3A8A
+    box 0.9 1.2 11.60 0.18 0.08 0.02 F2F2E0 glow
+    box -0.9 1.2 11.60 0.18 0.08 0.02 F2F2E0 glow
+    box 0 3.85 -6 0.1 0.3 0.6 3A3A3E
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+    box 0 0.25 6.30 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_ACELA_COACH
+    # An express of the north-east: silver with a blue band: a coach.
+    box 0 1.95 0 1.5 1.55 12.8 C8CCD0
+    box 0 3.55 0 1.3 0.12 12.6 B8BCC0
+    box 0 2.45 0 1.51 0.32 12.3 1E2630 glass
+    box 0 2.05 0 1.512 0.07 12.7 1E3A8A
+    box 0 1.25 0 1.512 0.05 12.7 1E3A8A
+    box 0 0.55 0 1.45 0.3 12.6 5A5E66
+    repeat 2 0 0 18
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_INDIAN_PACIFIC
+    # The long silver train across the continent, ribbed steel, a red-orange band: the power car.
+    box 0 1.95 -1.00 1.5 1.55 11.80 C8CCD0
+    box 0 3.55 -1.00 1.3 0.12 11.60 A8ACB0
+    box 0 2.45 -1.35 1.51 0.32 11.15 1E2630 glass
+    box 0 2.05 -1.00 1.512 0.07 11.80 C8501E
+    box 0 1.25 -1.00 1.512 0.05 11.80 C8CCD0
+    box 0 0.55 -1.00 1.45 0.3 11.80 5A5E66
+    blob 0 1.8 10.80 1.5 1.65 2.00 C8CCD0
+    blob 0 2.7 11.30 1.0 0.55 0.90 1E2630 glass
+    blob 0 1.5 11.90 1.2 0.12 0.80 C8501E
+    box 0.9 1.2 12.20 0.18 0.08 0.02 F2F2E0 glow
+    box -0.9 1.2 12.20 0.18 0.08 0.02 F2F2E0 glow
+    box 0 3.85 -6 0.1 0.3 0.6 3A3A3E
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+    box 0 0.25 8.30 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_INDIAN_PACIFIC_COACH
+    # The long silver train across the continent, ribbed steel, a red-orange band: a coach.
+    box 0 1.95 0 1.5 1.55 12.8 C8CCD0
+    box 0 3.55 0 1.3 0.12 12.6 A8ACB0
+    box 0 2.45 0 1.51 0.32 12.3 1E2630 glass
+    box 0 2.05 0 1.512 0.07 12.7 C8501E
+    box 0 1.25 0 1.512 0.05 12.7 C8CCD0
+    box 0 0.55 0 1.45 0.3 12.6 5A5E66
+    repeat 2 0 0 18
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_VANDE_BHARAT
+    # A fast Indian train: white with a blue band and a saffron line: the power car.
+    box 0 1.95 -2.25 1.5 1.55 10.55 F2F2F2
+    box 0 3.55 -2.25 1.3 0.12 10.35 E8E8E8
+    box 0 2.45 -2.60 1.51 0.32 9.90 1E2630 glass
+    box 0 2.05 -2.25 1.512 0.07 10.55 1E4AB8
+    box 0 1.25 -2.25 1.512 0.05 10.55 E8801E
+    box 0 0.55 -2.25 1.45 0.3 10.55 8A9098
+    blob 0 1.8 8.30 1.5 1.65 4.50 F2F2F2
+    blob 0 2.7 9.43 1.0 0.55 2.02 1E2630 glass
+    blob 0 1.5 10.78 1.2 0.12 1.80 1E4AB8
+    box 0.9 1.2 11.45 0.18 0.08 0.02 F2F2E0 glow
+    box -0.9 1.2 11.45 0.18 0.08 0.02 F2F2E0 glow
+    box 0 3.85 -6 0.1 0.3 0.6 3A3A3E
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+    box 0 0.25 5.80 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_VANDE_BHARAT_COACH
+    # A fast Indian train: white with a blue band and a saffron line: a coach.
+    box 0 1.95 0 1.5 1.55 12.8 F2F2F2
+    box 0 3.55 0 1.3 0.12 12.6 E8E8E8
+    box 0 2.45 0 1.51 0.32 12.3 1E2630 glass
+    box 0 2.05 0 1.512 0.07 12.7 1E4AB8
+    box 0 1.25 0 1.512 0.05 12.7 E8801E
+    box 0 0.55 0 1.45 0.3 12.6 8A9098
+    repeat 2 0 0 18
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_SAPSAN
+    # A Sapsan: white and grey with a red band: the power car.
+    box 0 1.95 -2.50 1.5 1.55 10.30 F2F2F2
+    box 0 3.55 -2.50 1.3 0.12 10.10 C8CCD0
+    box 0 2.45 -2.85 1.51 0.32 9.65 1E2630 glass
+    box 0 2.05 -2.50 1.512 0.07 10.30 C81E1E
+    box 0 1.25 -2.50 1.512 0.05 10.30 5A5E66
+    box 0 0.55 -2.50 1.45 0.3 10.30 5A5E66
+    blob 0 1.8 7.80 1.5 1.65 5.00 F2F2F2
+    blob 0 2.7 9.05 1.0 0.55 2.25 1E2630 glass
+    blob 0 1.5 10.55 1.2 0.12 2.00 C81E1E
+    box 0.9 1.2 11.30 0.18 0.08 0.02 F2F2E0 glow
+    box -0.9 1.2 11.30 0.18 0.08 0.02 F2F2E0 glow
+    box 0 3.85 -6 0.1 0.3 0.6 3A3A3E
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+    box 0 0.25 5.30 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_SAPSAN_COACH
+    # A Sapsan: white and grey with a red band: a coach.
+    box 0 1.95 0 1.5 1.55 12.8 F2F2F2
+    box 0 3.55 0 1.3 0.12 12.6 C8CCD0
+    box 0 2.45 0 1.51 0.32 12.3 1E2630 glass
+    box 0 2.05 0 1.512 0.07 12.7 C81E1E
+    box 0 1.25 0 1.512 0.05 12.7 5A5E66
+    box 0 0.55 0 1.45 0.3 12.6 5A5E66
+    repeat 2 0 0 18
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_AL_BORAQ
+    # A Moroccan high-speed train: white and grey, a red and a green line: the power car.
+    box 0 1.95 -2.75 1.5 1.55 10.05 F2F2F2
+    box 0 3.55 -2.75 1.3 0.12 9.85 C8CCD0
+    box 0 2.45 -3.10 1.51 0.32 9.40 1E2630 glass
+    box 0 2.05 -2.75 1.512 0.07 10.05 C81E2A
+    box 0 1.25 -2.75 1.512 0.05 10.05 2A6A3A
+    box 0 0.55 -2.75 1.45 0.3 10.05 5A5E66
+    blob 0 1.8 7.30 1.5 1.65 5.50 F2F2F2
+    blob 0 2.7 8.68 1.0 0.55 2.48 1E2630 glass
+    blob 0 1.5 10.33 1.2 0.12 2.20 C81E2A
+    box 0.9 1.2 11.15 0.18 0.08 0.02 F2F2E0 glow
+    box -0.9 1.2 11.15 0.18 0.08 0.02 F2F2E0 glow
+    box 0 3.85 -6 0.1 0.3 0.6 3A3A3E
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+    box 0 0.25 4.80 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_AL_BORAQ_COACH
+    # A Moroccan high-speed train: white and grey, a red and a green line: a coach.
+    box 0 1.95 0 1.5 1.55 12.8 F2F2F2
+    box 0 3.55 0 1.3 0.12 12.6 C8CCD0
+    box 0 2.45 0 1.51 0.32 12.3 1E2630 glass
+    box 0 2.05 0 1.512 0.07 12.7 C81E2A
+    box 0 1.25 0 1.512 0.05 12.7 2A6A3A
+    box 0 0.55 0 1.45 0.3 12.6 5A5E66
+    repeat 2 0 0 18
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_HARAMAIN
+    # A desert express: white with a green and a gold stripe: the power car.
+    box 0 1.95 -3.25 1.5 1.55 9.55 F2F2F2
+    box 0 3.55 -3.25 1.3 0.12 9.35 E8E8E8
+    box 0 2.45 -3.60 1.51 0.32 8.90 1E2630 glass
+    box 0 2.05 -3.25 1.512 0.07 9.55 1E6A3A
+    box 0 1.25 -3.25 1.512 0.05 9.55 D8A830
+    box 0 0.55 -3.25 1.45 0.3 9.55 8A9098
+    blob 0 1.8 6.30 1.5 1.65 6.50 F2F2F2
+    blob 0 2.7 7.93 1.0 0.55 2.93 1E2630 glass
+    blob 0 1.5 9.88 1.2 0.12 2.60 1E6A3A
+    box 0.9 1.2 10.85 0.18 0.08 0.02 F2F2E0 glow
+    box -0.9 1.2 10.85 0.18 0.08 0.02 F2F2E0 glow
+    box 0 3.85 -6 0.1 0.3 0.6 3A3A3E
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+    box 0 0.25 3.80 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_HARAMAIN_COACH
+    # A desert express: white with a green and a gold stripe: a coach.
+    box 0 1.95 0 1.5 1.55 12.8 F2F2F2
+    box 0 3.55 0 1.3 0.12 12.6 E8E8E8
+    box 0 2.45 0 1.51 0.32 12.3 1E2630 glass
+    box 0 2.05 0 1.512 0.07 12.7 1E6A3A
+    box 0 1.25 0 1.512 0.05 12.7 D8A830
+    box 0 0.55 0 1.45 0.3 12.6 8A9098
+    repeat 2 0 0 18
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_PENDOLINO
+    # A tilting express: white with red and navy stripes: the power car.
+    box 0 1.95 -2.00 1.5 1.55 10.80 F2F2F2
+    box 0 3.55 -2.00 1.3 0.12 10.60 D8DCE0
+    box 0 2.45 -2.35 1.51 0.32 10.15 1E2630 glass
+    box 0 2.05 -2.00 1.512 0.07 10.80 C81E2A
+    box 0 1.25 -2.00 1.512 0.05 10.80 1E2A5A
+    box 0 0.55 -2.00 1.45 0.3 10.80 5A5E66
+    blob 0 1.8 8.80 1.5 1.65 4.00 F2F2F2
+    blob 0 2.7 9.80 1.0 0.55 1.80 1E2630 glass
+    blob 0 1.5 11.00 1.2 0.12 1.60 C81E2A
+    box 0.9 1.2 11.60 0.18 0.08 0.02 F2F2E0 glow
+    box -0.9 1.2 11.60 0.18 0.08 0.02 F2F2E0 glow
+    box 0 3.85 -6 0.1 0.3 0.6 3A3A3E
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+    box 0 0.25 6.30 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_PENDOLINO_COACH
+    # A tilting express: white with red and navy stripes: a coach.
+    box 0 1.95 0 1.5 1.55 12.8 F2F2F2
+    box 0 3.55 0 1.3 0.12 12.6 D8DCE0
+    box 0 2.45 0 1.51 0.32 12.3 1E2630 glass
+    box 0 2.05 0 1.512 0.07 12.7 C81E2A
+    box 0 1.25 0 1.512 0.05 12.7 1E2A5A
+    box 0 0.55 0 1.45 0.3 12.6 5A5E66
+    repeat 2 0 0 18
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_X2000
+    # A Swedish express: silver-grey with a black window band: the power car.
+    box 0 1.95 -1.50 1.5 1.55 11.30 C8CCD0
+    box 0 3.55 -1.50 1.3 0.12 11.10 B8BCC0
+    box 0 2.45 -1.85 1.51 0.32 10.65 1E2630 glass
+    box 0 2.05 -1.50 1.512 0.07 11.30 2A2A2E
+    box 0 1.25 -1.50 1.512 0.05 11.30 E8E8E8
+    box 0 0.55 -1.50 1.45 0.3 11.30 5A5E66
+    blob 0 1.8 9.80 1.5 1.65 3.00 C8CCD0
+    blob 0 2.7 10.55 1.0 0.55 1.35 1E2630 glass
+    blob 0 1.5 11.45 1.2 0.12 1.20 2A2A2E
+    box 0.9 1.2 11.90 0.18 0.08 0.02 F2F2E0 glow
+    box -0.9 1.2 11.90 0.18 0.08 0.02 F2F2E0 glow
+    box 0 3.85 -6 0.1 0.3 0.6 3A3A3E
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E
+    box 0 0.25 7.30 1.1 0.25 1.6 2A2A2E
+
+shape TRAIN_X2000_COACH
+    # A Swedish express: silver-grey with a black window band: a coach.
+    box 0 1.95 0 1.5 1.55 12.8 C8CCD0
+    box 0 3.55 0 1.3 0.12 12.6 B8BCC0
+    box 0 2.45 0 1.51 0.32 12.3 1E2630 glass
+    box 0 2.05 0 1.512 0.07 12.7 2A2A2E
+    box 0 1.25 0 1.512 0.05 12.7 E8E8E8
+    box 0 0.55 0 1.45 0.3 12.6 5A5E66
+    repeat 2 0 0 18
+    box 0 0.25 -9 1.1 0.25 1.6 2A2A2E

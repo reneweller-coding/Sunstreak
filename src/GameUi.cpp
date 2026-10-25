@@ -991,6 +991,24 @@ void Game::draw()
         const float   wobble = r.m_hitTimer > 0.0f ? std::sin( r.m_hitTimer * 25.0f ) * 0.08f * r.m_hitTimer : 0.0f;
         in.m_cars.push_back( { r.m_s, r.m_x, r.m_yaw + wobble, d.m_car, d.m_paint, 1.0f } );
     }
+    if( m_train.active() && m_train.m_stretch.m_line >= 0 && static_cast<size_t>( m_train.m_stretch.m_line ) < m_models.m_trains.size() && m_track )
+    {
+        // The train on its viaduct: the power car, the coaches, a power car the other way round at the end; what is in a
+        // portal is not drawn.
+        const auto  &parts = m_models.m_trains[static_cast<size_t>( m_train.m_stretch.m_line )];
+        const int    coaches = trainLines()[static_cast<size_t>( m_train.m_stretch.m_line )].m_coaches;
+        const double from = m_train.m_stretch.m_from - RailBefore, to = m_train.m_stretch.m_to + RailAfter;
+        for( int k = 0; k <= coaches; ++k )
+        {
+            const double s = m_train.m_nose - ( static_cast<double>( k ) + 0.5 ) * CoachLength;
+            if( s < from + CoachLength * 0.5 || s > to - CoachLength * 0.5 ) continue;
+            const Mesh &mesh = k == 0 || k == coaches ? parts[0] : parts[1];
+            if( !mesh.vertexCount ) continue;
+            const TrackFrame f = m_track->frameAt( s );
+            in.m_pieces.push_back( { &mesh, railPoint( *m_track, s, m_train.m_stretch.m_side ),
+                                     std::atan2( f.m_forward.x, f.m_forward.z ) + ( k == coaches && k > 0 ? PI : 0.0f ) } );
+        }
+    }
     if( m_hero.m_state != HeroStateE::NONE ) in.m_cars.push_back( { m_hero.m_s, m_hero.m_x, m_hero.m_yaw, m_hero.m_car, m_hero.m_paint, 1.0f } );
     if( m_police.m_state != PoliceStateE::NONE && m_police.m_model >= 0 )
         in.m_police.push_back( { m_police.m_s, m_police.m_x, m_police.m_yaw, m_police.m_model,
@@ -2768,6 +2786,15 @@ void Game::drawHud()
             drawTextFx( format( "DUEL WITH %s  %s%d M  %.1f KM TO GO", m_hero.m_name.c_str(), lead >= 0.0 ? "+" : "-", static_cast<int>( std::abs( lead ) ),
                                 std::max( 0.0, m_hero.m_goal - m_car.m_s ) / 1000.0 ),
                         28.0f * u, row( 124.0f ), 12.0f * u, lead >= 0.0 ? Green : Red, AlignE::LEFT, 0.3f );
+        }
+        if( m_train.m_running && m_train.m_stretch.m_line >= 0 )
+        {
+            std::string name = trainLines()[static_cast<size_t>( m_train.m_stretch.m_line )].m_name;
+            std::replace( name.begin(), name.end(), '_', ' ' );
+            const double lead = m_car.m_s - m_train.m_nose;
+            drawTextFx( format( "RACE THE %s  %s%d M  %.1f KM TO GO", name.c_str(), lead >= 0.0 ? "+" : "-", static_cast<int>( std::abs( lead ) ),
+                                std::max( 0.0, m_train.m_stretch.m_to - m_car.m_s ) / 1000.0 ),
+                        28.0f * u, row( 160.0f ), 12.0f * u, lead >= 0.0 ? Green : Cyan, AlignE::LEFT, 0.3f );
         }
         if( m_passenger.m_state == PassengerStateE::ABOARD )
         {

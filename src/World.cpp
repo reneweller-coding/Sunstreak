@@ -9,6 +9,7 @@
 #include "Local.h"
 
 #include "Noise.h"
+#include "Train.h"
 
 #include <algorithm>
 #include <chrono>
@@ -452,6 +453,12 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
         // A ferry or a car train over the sea: from where the car drives aboard to where it drives off, the vessels'
         // decks, open water to the horizon (or the bank the train goes into) and the vessels themselves.
         const double   sj = static_cast<double>( j ) * SegmentLength;
+        // A fast train's viaduct beside the road (Train.h), from a stone portal to a stone portal; props keep clear of it.
+        TrainStretch   railway;
+        const bool     hasRailway = !tunnel && !bridge && stageTrain( track, static_cast<int>( sj / StageLength ), railway );
+        const double   viaFrom = railway.m_from - RailBefore, viaTo = railway.m_to + RailAfter;
+        const bool     viaduct = hasRailway && sj >= viaFrom - PortalLength && sj < viaTo + PortalLength;
+        const float    railL = railway.m_side * ( A.m_edge + RailOffset );
         const Crossing xc = track.crossingAt( sj );
         if( xc.m_type != CrossingE::NONE && sj >= xc.m_board && sj < xc.m_land )
         {
@@ -1360,6 +1367,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 if( railed && dist < 2.0f ) continue;
                 if( ( tunnel && dist < 7.0f ) || ( bridge && dist < 4.0f ) ) continue;
                 const float  lateral = side * ( A.m_edge + dist );
+                if( viaduct && std::abs( lateral - railL ) < 7.0f ) continue;
                 const double ps = static_cast<double>( j ) * SegmentLength + h2 * SegmentLength;
                 // Nothing where the other carriageway of a fork turns away (it is decided before this is baked).
                 if( fork.m_exists && u > ForkMedian - 60.0 && u < ForkMedian + ForkPeel + 40.0 )
@@ -1530,6 +1538,57 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             const Vector3 p = Vector3Add( at( A, l, 0.0f ), Vector3Scale( A.m_forward, SegmentLength * 0.5f ) );
             const Vector3 tiltedLeft = Vector3Normalize( Vector3{ -A.m_right.x, A.m_tanBank, -A.m_right.z } );
             ground.appendBasis( pud, tiltedLeft, Vector3{ 0, 1, 0 }, A.m_forward, p );
+        }
+
+        if( viaduct )
+        {
+            // Both windings: the viaduct is seen from below, beside and above.
+            auto face = [&]( Vector3 a, Vector3 b, Vector3 cc, Vector3 d, Color col )
+            {
+                props.quad( a, b, cc, d, col );
+                props.quad( d, cc, b, a, col );
+            };
+            const float  l = railL, w = 2.6f, h = RailHeight;
+            const Color  concrete = { 178, 174, 166, 255 }, shade = { 128, 124, 118, 255 }, steel = { 64, 60, 58, 255 }, stone = { 132, 124, 112, 255 };
+            const float  groundA = terrainHeight( track, j, l, A.m_terrain, A.m_edge );
+            if( sj >= viaFrom && sj < viaTo )
+            {
+                // The deck, its parapets and the rails.
+                face( at( A, l - w, h - 0.15f ), at( A, l + w, h - 0.15f ), at( B, l + w, h - 0.15f ), at( B, l - w, h - 0.15f ), concrete );
+                face( at( A, l - w, h - 1.4f ), at( A, l + w, h - 1.4f ), at( B, l + w, h - 1.4f ), at( B, l - w, h - 1.4f ), shade );
+                for( float edge : { -w, w } )
+                    face( at( A, l + edge, h + 0.55f ), at( B, l + edge, h + 0.55f ), at( B, l + edge, h - 1.4f ), at( A, l + edge, h - 1.4f ), concrete );
+                for( float r : { -0.75f, 0.75f } )
+                    face( at( A, l + r - 0.07f, h ), at( A, l + r + 0.07f, h ), at( B, l + r + 0.07f, h ), at( B, l + r - 0.07f, h ), steel );
+                // A pillar down to the ground every 25 m, a mast for the wire every 50.
+                if( j % 5 == 0 && groundA < h - 1.4f )
+                {
+                    props.box( at( A, l, ( groundA + h - 1.4f ) * 0.5f ), Vector3{ 0.9f, ( h - 1.4f - groundA ) * 0.5f, 0.9f }, shade );
+                    c.m_colliders.push_back( { sj, l, 1.1f } );
+                }
+                if( j % 10 == 5 )
+                {
+                    props.box( at( A, l + railway.m_side * ( w - 0.3f ), h + 3.0f ), Vector3{ 0.12f, 3.0f, 0.12f }, steel );
+                    face( at( A, l - w, h + 5.9f ), at( A, l + w, h + 5.9f ), at( A, l + w, h + 5.75f ), at( A, l - w, h + 5.75f ), steel );
+                }
+            }
+            else
+            {
+                // A portal: a block of stone the rails run into, its mouth dark.
+                const float bw = w + 1.6f, top = h + 5.0f;
+                face( at( A, l - bw, top ), at( A, l + bw, top ), at( B, l + bw, top ), at( B, l - bw, top ), stone );
+                for( float edge : { -bw, bw } ) face( at( A, l + edge, top ), at( B, l + edge, top ), at( B, l + edge, groundA ), at( A, l + edge, groundA ), stone );
+                const bool startMouth = sj < viaFrom && sj + SegmentLength >= viaFrom, endMouth = sj >= viaTo && sj - SegmentLength < viaTo;
+                if( startMouth || endMouth )
+                {
+                    const Cross &M = startMouth ? B : A;
+                    const float  push = startMouth ? 0.06f : -0.06f;
+                    auto         out = [&]( Vector3 p ) { return Vector3Add( p, Vector3Scale( M.m_forward, push ) ); };
+                    face( at( M, l - bw, top ), at( M, l + bw, top ), at( M, l + bw, groundA ), at( M, l - bw, groundA ), stone );
+                    face( out( at( M, l - w, h + 4.2f ) ), out( at( M, l + w, h + 4.2f ) ), out( at( M, l + w, h - 1.4f ) ), out( at( M, l - w, h - 1.4f ) ),
+                          Color{ 22, 20, 18, 255 } );
+                }
+            }
         }
     }
 
