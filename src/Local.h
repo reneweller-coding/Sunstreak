@@ -48,7 +48,13 @@ struct RoadCustoms
     uint8_t m_styles = 0;              ///< how its traffic drives (Style* bits)
     float  m_pollution = -1.0f;        ///< Numbeo's pollution index 0..100 (-1: not known)
     uint8_t m_lamp = 0;                ///< the light of its street lamps (Lamp* below)
+    uint8_t m_post = 0;                ///< its delineator posts (Post* below)
 };
+
+constexpr uint8_t PostPlain = 0;         ///< white with an orange cap
+constexpr uint8_t PostBand = 1;          ///< white with a black band and a reflector (Central Europe)
+constexpr uint8_t PostFlex = 2;          ///< slim and flexible, a white reflector strip on the traffic's side, a yellow one across (North America)
+constexpr uint8_t PostRedWhite = 3;      ///< white, a red reflector on the traffic's side, a white one across (Australia, New Zealand)
 
 constexpr uint8_t LampWarm = 0;          ///< warm white LEDs
 constexpr uint8_t LampSodium = 1;        ///< orange sodium vapour

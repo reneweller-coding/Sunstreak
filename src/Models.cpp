@@ -1342,8 +1342,30 @@ void Models::buildProps()
     buildWorldProps();
 
     // Road furniture.
-    m_post.box( Vector3{ 0, 0.55f, 0 }, Vector3{ 0.06f, 0.55f, 0.06f }, rgb( 236, 236, 236 ) );
-    m_post.box( Vector3{ 0, 0.95f, 0 }, Vector3{ 0.07f, 0.08f, 0.07f }, rgb( 255, 150, 40 ), Mat{ 0.7f, 0.0f } );
+    { // Delineator posts by country (PostPlain, PostBand, PostFlex, PostRedWhite), each for the traffic's own side of the
+      // road (0) and the other (1): the reflectors differ there.
+        const Color white = rgb( 236, 236, 236 ), black = rgb( 28, 28, 30 ), red = rgb( 205, 30, 30 ), yellow = rgb( 245, 196, 20 );
+        const Mat   shine{ 0.7f, 0.0f };
+        for( size_t far = 0; far < 2; ++far )
+        {
+            // The plain post: white with an orange cap.
+            m_post[far].box( Vector3{ 0, 0.55f, 0 }, Vector3{ 0.06f, 0.55f, 0.06f }, white );
+            m_post[far].box( Vector3{ 0, 0.95f, 0 }, Vector3{ 0.07f, 0.08f, 0.07f }, rgb( 255, 150, 40 ), shine );
+            // Central Europe: a white post with a black band, a reflector in the band.
+            MeshBuilder &band = m_post[2 + far];
+            band.box( Vector3{ 0, 0.5f, 0 }, Vector3{ 0.06f, 0.5f, 0.06f }, white );
+            band.box( Vector3{ 0, 0.83f, 0 }, Vector3{ 0.064f, 0.1f, 0.064f }, black );
+            band.box( Vector3{ 0, 0.83f, 0 }, Vector3{ 0.032f, 0.05f, 0.067f }, white, shine );
+            // North America: a slim flexible post, a white reflector strip on the traffic's own side, a yellow one across.
+            MeshBuilder &flex = m_post[4 + far];
+            flex.box( Vector3{ 0, 0.6f, 0 }, Vector3{ 0.026f, 0.6f, 0.012f }, white );
+            flex.box( Vector3{ 0, 1.08f, 0 }, Vector3{ 0.026f, 0.09f, 0.014f }, far ? yellow : rgb( 250, 252, 255 ), shine );
+            // Australia and New Zealand: a white post, a red reflector on the traffic's own side, a white one across.
+            MeshBuilder &oceania = m_post[6 + far];
+            oceania.box( Vector3{ 0, 0.55f, 0 }, Vector3{ 0.045f, 0.55f, 0.045f }, white );
+            oceania.box( Vector3{ 0, 0.9f, 0 }, Vector3{ 0.03f, 0.05f, 0.048f }, far ? rgb( 250, 252, 255 ) : red, shine );
+        }
+    }
     // Chevron boards in the country's colours: red and white, black and white, yellow and black.
     const Color chevronBoard[3] = { rgb( 200, 26, 26 ), rgb( 24, 24, 26 ), rgb( 245, 196, 20 ) };
     const Color chevronArrow[3] = { rgb( 250, 250, 250 ), rgb( 250, 250, 250 ), rgb( 20, 20, 20 ) };

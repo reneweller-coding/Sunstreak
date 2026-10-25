@@ -254,7 +254,7 @@ public:
      */
     void buildPlayerPlate( PlateE style, const std::string &code, const std::string &text );
 
-    MeshBuilder m_post;           ///< delineator post
+    std::array<MeshBuilder, 8> m_post;           ///< delineator post by style (Post* in Local.h) and side (the traffic's own 0, the other 1): style * 2 + side
     std::array<MeshBuilder, 3> m_chevronRight;   ///< warning board, arrow to the driver's right (CountryInfo::m_chevrons)
     std::array<MeshBuilder, 3> m_chevronLeft;    ///< warning board, arrow to the driver's left
     std::array<MeshBuilder, 3> m_lamp;           ///< street lamp, its arm along +z, by light (LampWarm, LampSodium, LampCool)

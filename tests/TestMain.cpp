@@ -430,7 +430,8 @@ int main()
                          cameras );
             check( roadErrors() == 0 && tolls >= 3 && cameras >= 3 && usa.m_mph && usa.m_board && germany.m_cameras && !germany.m_mph && france.m_plate == PlateE::EU &&
                        roadCustoms( "ITALY" ).m_tolls && !roadCustoms( nullptr ).m_tolls && france.m_lamp == LampSodium &&
-                       roadCustoms( "JAPAN" ).m_lamp == LampCool && germany.m_lamp == LampWarm,
+                       roadCustoms( "JAPAN" ).m_lamp == LampCool && germany.m_lamp == LampWarm && germany.m_post == PostBand && usa.m_post == PostFlex &&
+                       roadCustoms( "AUSTRALIA" ).m_post == PostRedWhite && france.m_post == PostPlain,
                    "road customs by country" );
         }
         { // The roads of the countries: gravel and potholes in Chad, none in Switzerland; narrow lanes in Japan, concrete somewhere.
