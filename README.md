@@ -84,7 +84,9 @@ KESTREL (a turbocharged rally hatchback that keeps its grip on gravel and sand) 
 the car: fourteen paints, seven rim finishes and seven decals (twin stripes, a side stripe, a roundel, two tones,
 chequers, a globe) in any paint's colour. Career points from every run, every race and every new place and country pay
 for them; SUN YELLOW, DEEP BLUE and CHAMPION GOLD keep their old conditions, GLOBETROTTER needs a drive round the world,
-the globe 50 countries.
+the globe 50 countries. The car carries the number plate of its HOME COUNTRY (at first the computer's region, NONE for
+no plate) in that country's style, the blue EU band with its letters included, and says what you type into it under
+NUMBER PLATE (up to eight letters, digits, spaces and dashes).
 
 Gravel, dirt and sand tracks (the Gibb River Road, the Yungas, the Sani Pass, the Road of Bones, the Sahara) have no
 markings, crunch under the tyres, throw up dust and hold less than asphalt.

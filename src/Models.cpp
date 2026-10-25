@@ -495,6 +495,52 @@ void Models::buildLivery( const Livery &livery )
     m_liveryOf = livery;
 }
 
+void Models::buildPlayerPlate( PlateE style, const std::string &code, const std::string &text )
+{
+    const std::string key = std::to_string( static_cast<int>( style ) ) + "|" + code + "|" + text;
+    if( key == m_playerPlateOf && ( m_playerPlate.vaoId || text.empty() ) ) return;
+    if( m_playerPlate.vaoId ) UnloadMesh( m_playerPlate );
+    m_playerPlate = Mesh{};
+    m_playerPlateOf = key;
+    if( text.empty() ) return;
+    // The plate as the traffic's (+x is the viewer's left from behind), its letters in the game's own strokes.
+    const bool  small = style == PlateE::US || style == PlateE::JP;
+    const float hw = small ? 0.17f : 0.26f, hh = small ? 0.08f : 0.06f;
+    const Color face = style == PlateE::UK || style == PlateE::AMBER ? rgb( 250, 206, 30 ) : style == PlateE::DARK ? rgb( 20, 20, 22 ) : rgb( 240, 240, 236 );
+    const Color ink = style == PlateE::DARK ? rgb( 240, 240, 236 ) : style == PlateE::JP ? rgb( 20, 110, 60 ) : rgb( 30, 30, 34 );
+    MeshBuilder m;
+    m.box( Vector3{ 0, 0, 0 }, Vector3{ hw, hh, 0.01f }, face, Mat{ 0.1f, 0.0f } );
+    if( style == PlateE::US ) m.box( Vector3{ 0, hh - 0.015f, -0.012f }, Vector3{ hw, 0.015f, 0.002f }, rgb( 180, 30, 40 ) );
+    auto write = [&]( const std::string &what, float left, float right, float height, float midY, Color col )
+    {
+        std::vector<std::pair<Vector2, Vector2>> lines;
+        const float width = textStrokes( what, lines );
+        if( width <= 0.0f ) return;
+        const float scale = std::min( height, ( left - right ) / width ), x0 = ( left + right ) * 0.5f + width * scale * 0.5f;
+        const float y0 = midY - scale * 0.5f, t = std::max( 0.004f, scale * 0.13f );
+        for( const auto &[a, b] : lines )
+        {
+            const Vector3 p = { x0 - a.x * scale, y0 + a.y * scale, -0.0125f }, q = { x0 - b.x * scale, y0 + b.y * scale, -0.0125f };
+            const float   dx = q.x - p.x, dy = q.y - p.y, len = std::sqrt( dx * dx + dy * dy );
+            if( len <= 0.0f ) continue;
+            const Vector3 n = { -dy / len * t * 0.5f, dx / len * t * 0.5f, 0.0f };
+            const Vector3 c[4] = { { p.x - n.x, p.y - n.y, p.z }, { q.x - n.x, q.y - n.y, q.z }, { q.x + n.x, q.y + n.y, q.z }, { p.x + n.x, p.y + n.y, p.z } };
+            m.quad( c[0], c[1], c[2], c[3], col );
+            m.quad( c[3], c[2], c[1], c[0], col );
+        }
+    };
+    float right = -hw + 0.02f;
+    float left = hw - 0.02f;
+    if( style == PlateE::EU )
+    {
+        m.box( Vector3{ hw - 0.025f, 0, -0.012f }, Vector3{ 0.025f, hh, 0.002f }, rgb( 0, 51, 153 ) );
+        if( !code.empty() ) write( code, hw - 0.006f, hw - 0.044f, 0.022f, -hh * 0.45f, rgb( 240, 240, 236 ) );
+        left = hw - 0.06f;
+    }
+    write( text, left, right, hh * 1.2f, 0.0f, ink );
+    m_playerPlate = m.upload();
+}
+
 const MeshBuilder &Models::prop( PropKindE kind, uint64_t variant ) const
 {
     static const MeshBuilder none;
@@ -2232,6 +2278,9 @@ void Models::unload()
     m_policeFlash = {};
     if( m_puddle.vaoId ) UnloadMesh( m_puddle );
     m_puddle = Mesh{};
+    if( m_playerPlate.vaoId ) UnloadMesh( m_playerPlate );
+    m_playerPlate = Mesh{};
+    m_playerPlateOf.clear();
     for( Mesh &m : m_hitchhikers )
         if( m.vaoId ) UnloadMesh( m );
     m_hitchhikers.clear();

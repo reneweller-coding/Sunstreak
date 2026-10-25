@@ -622,6 +622,8 @@ void Game::applyLivery()
     m_settings.m_decal = std::clamp( m_settings.m_decal, 0, DecalCount - 1 );
     m_settings.m_decalColor = std::clamp( m_settings.m_decalColor, 0, PaintCount - 1 );
     m_models.buildLivery( Livery{ m_carIndex, m_paintIndex, m_settings.m_rims, m_settings.m_decal, m_settings.m_decalColor } );
+    const char *home = m_settings.m_homeCountry.empty() ? nullptr : m_settings.m_homeCountry.c_str();
+    m_models.buildPlayerPlate( home ? roadCustoms( home ).m_plate : PlateE::PLAIN, home ? plateCode( home ) : "", home ? m_settings.m_plateText : std::string() );
 }
 
 void Game::earn( int64_t points )

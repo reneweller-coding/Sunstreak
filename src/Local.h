@@ -91,6 +91,21 @@ float smogOf( const BiomeDef &place );
  */
 Environment withSmog( Environment e, float smog );
 
+constexpr int PlateLength = 8;   ///< characters on the player's number plate
+
+/**
+ * @brief A country's letters in the blue band of a European plate.
+ * @param[in] country  its name
+ * @return them (empty: none)
+ */
+std::string plateCode( const char *country );
+
+/**
+ * @brief The country the computer's region setting names (for the home plate the first time).
+ * @return its name (empty: not known)
+ */
+std::string countryFromLocale();
+
 /**
  * @brief How many lines of data/roads.txt were wrong.
  * @return the count

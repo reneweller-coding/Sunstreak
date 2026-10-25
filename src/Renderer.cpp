@@ -667,6 +667,16 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
     {
         setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, in.m_player->m_s ) );
         DrawMesh( models.m_livery.vaoId ? models.m_livery : models.m_playerCars[in.m_car][in.m_paint], m_material, poseMatrix( playerPose, origin ) );
+        if( models.m_playerPlate.vertexCount )
+        {
+            // The home country's plate on the tail.
+            Pose        plate = playerPose;
+            const float back = in.m_player->m_spec.m_length * 0.5f + 0.02f;
+            plate.m_pos.m_x -= static_cast<double>( playerPose.m_forward.x * back - playerPose.m_up.x * 0.42f );
+            plate.m_pos.m_y -= static_cast<double>( playerPose.m_forward.y * back - playerPose.m_up.y * 0.42f );
+            plate.m_pos.m_z -= static_cast<double>( playerPose.m_forward.z * back - playerPose.m_up.z * 0.42f );
+            DrawMesh( models.m_playerPlate, m_material, poseMatrix( plate, origin ) );
+        }
     }
     setF( s, "objectShade", 1.0f );
     if( in.m_player )

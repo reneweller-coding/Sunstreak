@@ -8,6 +8,10 @@
 #include "Data.h"
 #include "Rng.h"
 
+#ifdef _WIN32
+extern "C" __declspec( dllimport ) int __stdcall GetUserDefaultLocaleName( wchar_t *name, int size );
+#endif
+
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
@@ -211,6 +215,56 @@ bool stagePolice( const Track &track, int stage, double &s, float &side )
         if( clearAt( track, s ) && clearAt( track, s + 60.0 ) && gravelAt( track, s ) <= 0.0f ) return true;
     }
     return false;
+}
+
+std::string plateCode( const char *country )
+{
+    static const std::pair<const char *, const char *> codes[] = {
+        { "GERMANY", "D" }, { "AUSTRIA", "A" }, { "FRANCE", "F" }, { "ITALY", "I" }, { "SPAIN", "E" }, { "PORTUGAL", "P" }, { "BELGIUM", "B" },
+        { "NETHERLANDS", "NL" }, { "LUXEMBOURG", "L" }, { "IRELAND", "IRL" }, { "POLAND", "PL" }, { "CZECHIA", "CZ" }, { "SLOVAKIA", "SK" },
+        { "SLOVENIA", "SLO" }, { "CROATIA", "HR" }, { "HUNGARY", "H" }, { "ROMANIA", "RO" }, { "BULGARIA", "BG" }, { "GREECE", "GR" },
+        { "CYPRUS", "CY" }, { "MALTA", "M" }, { "ESTONIA", "EST" }, { "LATVIA", "LV" }, { "LITHUANIA", "LT" }, { "FINLAND", "FIN" },
+        { "SWEDEN", "S" }, { "DENMARK", "DK" },
+    };
+    for( const auto &[name, code] : codes )
+        if( country && std::string( country ) == name ) return code;
+    return {};
+}
+
+std::string countryFromLocale()
+{
+    // The region of "de-DE" or "de_DE.UTF-8".
+    std::string locale;
+#ifdef _WIN32
+    wchar_t name[85] = {};
+    if( GetUserDefaultLocaleName( name, 85 ) > 0 )
+        for( const wchar_t *p = name; *p; ++p ) locale += static_cast<char>( *p );
+#else
+    for( const char *var : { "LC_ALL", "LC_MESSAGES", "LANG" } )
+        if( const char *v = std::getenv( var ); v && *v )
+        {
+            locale = v;
+            break;
+        }
+#endif
+    const size_t sep = locale.find_first_of( "-_" );
+    if( sep == std::string::npos || locale.size() < sep + 3 ) return {};
+    const std::string region = locale.substr( sep + 1, 2 );
+    static const std::pair<const char *, const char *> regions[] = {
+        { "DE", "GERMANY" }, { "AT", "AUSTRIA" }, { "CH", "SWITZERLAND" }, { "FR", "FRANCE" }, { "IT", "ITALY" }, { "ES", "SPAIN" },
+        { "PT", "PORTUGAL" }, { "BE", "BELGIUM" }, { "NL", "NETHERLANDS" }, { "LU", "LUXEMBOURG" }, { "IE", "IRELAND" }, { "GB", "ENGLAND" },
+        { "PL", "POLAND" }, { "CZ", "CZECHIA" }, { "SK", "SLOVAKIA" }, { "SI", "SLOVENIA" }, { "HR", "CROATIA" }, { "HU", "HUNGARY" },
+        { "RO", "ROMANIA" }, { "BG", "BULGARIA" }, { "GR", "GREECE" }, { "CY", "CYPRUS" }, { "MT", "MALTA" }, { "EE", "ESTONIA" },
+        { "LV", "LATVIA" }, { "LT", "LITHUANIA" }, { "FI", "FINLAND" }, { "SE", "SWEDEN" }, { "DK", "DENMARK" }, { "NO", "NORWAY" },
+        { "IS", "ICELAND" }, { "US", "USA" }, { "CA", "CANADA" }, { "MX", "MEXICO" }, { "BR", "BRAZIL" }, { "AR", "ARGENTINA" },
+        { "CL", "CHILE" }, { "AU", "AUSTRALIA" }, { "NZ", "NEW ZEALAND" }, { "JP", "JAPAN" }, { "KR", "SOUTH KOREA" }, { "CN", "CHINA" },
+        { "TW", "TAIWAN" }, { "IN", "INDIA" }, { "TR", "TURKEY" }, { "RU", "RUSSIA" }, { "UA", "UKRAINE" }, { "ZA", "SOUTH AFRICA" },
+        { "IL", "ISRAEL" }, { "AE", "UAE" }, { "SG", "SINGAPORE" }, { "TH", "THAILAND" }, { "VN", "VIETNAM" }, { "ID", "INDONESIA" },
+        { "MY", "MALAYSIA" }, { "PH", "PHILIPPINES" }, { "EG", "EGYPT" }, { "MA", "MOROCCO" },
+    };
+    for( const auto &[code, country] : regions )
+        if( region == code ) return country;
+    return {};
 }
 
 bool rainPuddleAt( const Track &track, long index, float &x )

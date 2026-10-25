@@ -231,6 +231,14 @@ public:
      */
     void buildLivery( const Livery &livery );
 
+    /**
+     * @brief Builds the player's number plate (again if it changed).
+     * @param[in] style  the plate's style (its country's)
+     * @param[in] code   the country's letters in the EU band (empty: none)
+     * @param[in] text   what it says (empty: no plate)
+     */
+    void buildPlayerPlate( PlateE style, const std::string &code, const std::string &text );
+
     MeshBuilder m_post;           ///< delineator post
     std::array<MeshBuilder, 3> m_chevronRight;   ///< warning board, arrow to the driver's right (CountryInfo::m_chevrons)
     std::array<MeshBuilder, 3> m_chevronLeft;    ///< warning board, arrow to the driver's left
@@ -248,6 +256,8 @@ public:
     std::vector<int>                                   m_policeModel;    ///< per data shape: its model if a patrol car, ambulance or fire engine (-1: none)
     std::array<Mesh, 4>                                m_policeFlash{};  ///< a flash of the light bar: red right, blue left, blue right, red left
     Mesh                                               m_puddle{};       ///< a puddle the rain left on the road, -z ahead
+    Mesh                                               m_playerPlate{};  ///< the player's number plate, facing -z (none: no vertices)
+    std::string                                        m_playerPlateOf;  ///< what m_playerPlate shows (style, code, text)
     std::vector<Mesh>                                  m_hitchhikers;    ///< the HITCHHIKER shapes, +x towards the road
     Mesh                                               m_cone{};         ///< traffic cone
     std::array<Mesh, 2>                                m_arrowBoard{};   ///< roadworks board, arrow left / right

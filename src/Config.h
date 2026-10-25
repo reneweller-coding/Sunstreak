@@ -64,6 +64,8 @@ struct Settings
     int          m_rims = 0;                           ///< its rims
     int          m_decal = 0;                          ///< its decal
     int          m_decalColor = 1;                     ///< the decal's colour (a paint)
+    std::string  m_homeCountry;                        ///< the country of the car's number plate (empty: none)
+    std::string  m_plateText = "SUN 26";               ///< what the plate says
     int64_t      m_bestScore = 0;                      ///< the highest score of an endless run
     double       m_bestDistance = 0.0;                 ///< the longest endless run in metres
 };

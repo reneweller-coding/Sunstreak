@@ -7,6 +7,7 @@
 
 #include "Biome.h"
 #include "Festival.h"
+#include "Local.h"
 #include "Music.h"
 
 #include <algorithm>
@@ -66,6 +67,8 @@ std::string configDirectory()
 
 bool loadSettings( Settings &settings )
 {
+    settings.m_homeCountry = countryFromLocale();   // the first time: the computer's region (the file says otherwise later)
+    bool          homeSet = false;
     std::ifstream in( settingsPath() );
     if( !in ) return false;
     std::string line;
@@ -110,6 +113,12 @@ bool loadSettings( Settings &settings )
             else if( key == "rims" ) settings.m_rims = std::max( 0, std::stoi( val ) );
             else if( key == "decal" ) settings.m_decal = std::max( 0, std::stoi( val ) );
             else if( key == "decal_color" ) settings.m_decalColor = std::max( 0, std::stoi( val ) );
+            else if( key == "home_country" )
+            {
+                settings.m_homeCountry = val;
+                homeSet = true;
+            }
+            else if( key == "plate_text" ) settings.m_plateText = val.substr( 0, PlateLength );
             else if( key == "best_score" ) settings.m_bestScore = std::stoll( val );
             else if( key == "best_distance" ) settings.m_bestDistance = std::stod( val );
         }
@@ -159,6 +168,8 @@ bool saveSettings( const Settings &settings )
     out << "rims=" << settings.m_rims << "\n";
     out << "decal=" << settings.m_decal << "\n";
     out << "decal_color=" << settings.m_decalColor << "\n";
+    out << "home_country=" << settings.m_homeCountry << "\n";
+    out << "plate_text=" << settings.m_plateText << "\n";
     out << "best_score=" << settings.m_bestScore << "\n";
     out << "best_distance=" << settings.m_bestDistance << "\n";
     return static_cast<bool>( out );

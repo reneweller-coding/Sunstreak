@@ -104,6 +104,8 @@ enum class GarageE
     RIMS,          ///< rim finish
     DECAL,         ///< stripes, roundels, chequers
     DECAL_COLOR,   ///< the decal's colour
+    HOME,          ///< the home country (the number plate's)
+    PLATE,         ///< what the plate says
     BACK,          ///< leave
     COUNT          ///< number of items
 };
@@ -159,6 +161,7 @@ enum class StateE
     PHOTO,       ///< the game stands still, the camera roams
     VIEWER,      ///< every landmark and creature, one at a time (F6)
     CROSSING,    ///< aboard a ferry or a car train, the clock standing still
+    PLATE_ENTRY, ///< typing the number plate
 };
 
 /** @brief What is being played. */
@@ -923,6 +926,11 @@ private:
     // Track Lab, code entry, initials.
     TrackSetup  m_lab;                ///< the lab's setup
     std::string m_codeText;           ///< the code being typed (12 characters)
+    std::string m_plateEdit;          ///< the plate being typed (PlateLength characters)
+    int         m_plateCursor = 0;    ///< where in it
+
+    /** @brief The plate editor. */
+    void drawPlateEntry();
     int         m_codeCursor = 0;     ///< the character being edited
     std::string m_codeError;          ///< why a code was refused
     std::string m_initials = "AAA";   ///< the name being entered

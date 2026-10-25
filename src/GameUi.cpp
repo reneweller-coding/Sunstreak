@@ -543,6 +543,58 @@ void Game::menus( const MenuInput &m )
         }
         break;
     }
+    case StateE::PLATE_ENTRY:
+    {
+        // The number plate: letters, digits, a space and a dash, typed or picked with the d-pad.
+        static const char *alphabet = " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-";
+        const int          last = PlateLength - 1;
+        bool               typed = false;
+        for( int c = GetCharPressed(); c > 0; c = GetCharPressed() )
+        {
+            const char ch = static_cast<char>( std::toupper( c ) );
+            if( ch && std::strchr( alphabet, ch ) )
+            {
+                m_plateEdit[static_cast<size_t>( m_plateCursor )] = ch;
+                m_plateCursor = std::min( last, m_plateCursor + 1 );
+                typed = true;
+            }
+        }
+        const bool backspace = IsKeyPressed( KEY_BACKSPACE );
+        if( backspace )
+        {
+            m_plateCursor = std::max( 0, m_plateCursor - 1 );
+            m_plateEdit[static_cast<size_t>( m_plateCursor )] = ' ';
+            typed = true;
+        }
+        if( !typed )
+        {
+            if( m.m_left ) m_plateCursor = std::max( 0, m_plateCursor - 1 );
+            if( m.m_right ) m_plateCursor = std::min( last, m_plateCursor + 1 );
+            if( m.m_up || m.m_down )
+            {
+                const int   n = static_cast<int>( std::strlen( alphabet ) );
+                const char *pos = std::strchr( alphabet, m_plateEdit[static_cast<size_t>( m_plateCursor )] );
+                const int   idx = pos ? static_cast<int>( pos - alphabet ) : 0;
+                m_plateEdit[static_cast<size_t>( m_plateCursor )] = alphabet[( idx + ( m.m_up ? 1 : n - 1 ) ) % n];
+            }
+        }
+        if( ( m.m_accept && !typed ) || ( m.m_back && !backspace ) )
+        {
+            if( m.m_accept )
+            {
+                std::string text = m_plateEdit;
+                while( !text.empty() && text.back() == ' ' ) text.pop_back();
+                while( !text.empty() && text.front() == ' ' ) text.erase( text.begin() );
+                if( !text.empty() ) m_settings.m_plateText = text;
+                applyLivery();
+                saveSettings( m_settings );
+            }
+            m_audio.play( SfxE::SELECT );
+            m_state = StateE::GARAGE;
+            m_menuIndex = static_cast<int>( GarageE::PLATE );
+        }
+        break;
+    }
     case StateE::CODE_ENTRY:
     {
         static const char *alphabet = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
@@ -676,6 +728,15 @@ void Game::menus( const MenuInput &m )
         move( static_cast<int>( GarageE::COUNT ) );
         const auto item = static_cast<GarageE>( m_menuIndex );
         if( change != 0 ) changeGarage( item, change );
+        if( m.m_accept && item == GarageE::PLATE && !m_settings.m_homeCountry.empty() )
+        {
+            m_plateEdit = m_settings.m_plateText;
+            m_plateEdit.resize( PlateLength, ' ' );
+            m_plateCursor = 0;
+            m_state = StateE::PLATE_ENTRY;
+            m_audio.play( SfxE::SELECT );
+            break;
+        }
         if( m.m_back || ( m.m_accept && item == GarageE::BACK ) )
         {
             m_audio.play( SfxE::SELECT );
@@ -999,6 +1060,10 @@ void Game::draw()
     case StateE::INITIALS: drawInitials(); break;
     case StateE::RECORDS: drawRecords(); break;
     case StateE::GARAGE: drawGarage(); break;
+    case StateE::PLATE_ENTRY:
+        drawGarage();
+        drawPlateEntry();
+        break;
     case StateE::RALLIES: drawRallies(); break;
     case StateE::REPLAY:
     {
@@ -1292,6 +1357,30 @@ void Game::drawCodeEntry()
     drawHint( hint, W * 0.5f, y + h - 40.0f * u, 12.0f * u, Dim, AlignE::CENTER );
 }
 
+void Game::drawPlateEntry()
+{
+    const float W = static_cast<float>( GetScreenWidth() ), H = static_cast<float>( GetScreenHeight() );
+    const float u = unit();
+    DrawRectangle( 0, 0, static_cast<int>( W ), static_cast<int>( H ), Color{ 0, 0, 0, 140 } );
+    const float w = 620.0f * u, h = 240.0f * u;
+    const float x = W * 0.5f - w * 0.5f, y = H * 0.25f;
+    panel( x, y, w, h );
+    drawTextFx( "YOUR NUMBER PLATE", W * 0.5f, y + 22.0f * u, 26.0f * u, Accent, AlignE::CENTER, 0.8f );
+    const float box = 44.0f * u, gap = 8.0f * u;
+    float       bx = W * 0.5f - ( PlateLength * box + ( PlateLength - 1 ) * gap ) * 0.5f;
+    for( int i = 0; i < PlateLength; ++i )
+    {
+        const bool sel = i == m_plateCursor;
+        DrawRectangleRounded( Rectangle{ bx, y + 84.0f * u, box, box * 1.3f }, 0.2f, 6,
+                              sel ? Color{ 255, 150, 40, static_cast<unsigned char>( 120 + 80 * std::sin( m_time * 8.0f ) ) } : Color{ 255, 255, 255, 30 } );
+        drawText( std::string( 1, m_plateEdit[static_cast<size_t>( i )] ), bx + box * 0.5f, y + 94.0f * u, 30.0f * u, Ink, AlignE::CENTER );
+        bx += box + gap;
+    }
+    const char *hint = m_input.m_gamepad ? "[DPAD] LETTER AND PLACE     [A] ACCEPT     [B] BACK"
+                                         : "TYPE THE PLATE     [ARROWS] EDIT     [ENTER] ACCEPT     [ESC] BACK";
+    drawHint( hint, W * 0.5f, y + h - 40.0f * u, 12.0f * u, Dim, AlignE::CENTER );
+}
+
 void Game::drawInitials()
 {
     drawHud();
@@ -1385,6 +1474,8 @@ std::string Game::garageValue( GarageE item ) const
     case GarageE::RIMS: return mark( rimName( m_settings.m_rims ), m_records.rimsUnlocked( m_settings.m_rims ) );
     case GarageE::DECAL: return mark( decalName( m_settings.m_decal ), m_records.decalUnlocked( m_settings.m_decal ) );
     case GarageE::DECAL_COLOR: return m_settings.m_decal == 0 ? std::string( "-" ) : std::string( paintName( m_settings.m_decalColor ) );
+    case GarageE::HOME: return m_settings.m_homeCountry.empty() ? std::string( "NONE" ) : m_settings.m_homeCountry;
+    case GarageE::PLATE: return m_settings.m_homeCountry.empty() ? std::string( "-" ) : m_settings.m_plateText;
     default: return "";
     }
 }
@@ -1402,6 +1493,17 @@ void Game::changeGarage( GarageE item, int dir )
     case GarageE::RIMS: m_settings.m_rims = step( m_settings.m_rims, RimCount ); break;
     case GarageE::DECAL: m_settings.m_decal = step( m_settings.m_decal, DecalCount ); break;
     case GarageE::DECAL_COLOR: m_settings.m_decalColor = step( m_settings.m_decalColor, PaintCount ); break;
+    case GarageE::HOME:
+    {
+        // NONE, then the countries in alphabetical order.
+        std::vector<std::string> names = { "" };
+        for( int c = 0; c < countryTableSize(); ++c ) names.push_back( countryAt( c ).m_name );
+        std::sort( names.begin() + 1, names.end() );
+        const auto at = std::find( names.begin(), names.end(), m_settings.m_homeCountry );
+        const int  i = at == names.end() ? 0 : static_cast<int>( at - names.begin() );
+        m_settings.m_homeCountry = names[static_cast<size_t>( step( i, static_cast<int>( names.size() ) ) )];
+        break;
+    }
     default: return;
     }
     applyLivery();
@@ -1416,9 +1518,9 @@ void Game::drawGarage()
     DrawRectangleGradientV( 0, static_cast<int>( H * 0.45f ), static_cast<int>( W ), static_cast<int>( H * 0.55f ), Color{ 0, 0, 0, 0 }, Color{ 0, 0, 0, 170 } );
     drawTextFx( "GARAGE", W * 0.5f, 26.0f * u, 34.0f * u, Accent, AlignE::CENTER, 0.8f );
     drawText( Records::pointsText( m_records.m_points ), W * 0.5f, 72.0f * u, 14.0f * u, Gold, AlignE::CENTER );
-    std::vector<std::string> labels = { "CAR", "PAINT", "RIMS", "DECAL", "DECAL COLOUR", "BACK" }, values;
+    std::vector<std::string> labels = { "CAR", "PAINT", "RIMS", "DECAL", "DECAL COLOUR", "HOME COUNTRY", "NUMBER PLATE", "BACK" }, values;
     for( int i = 0; i < static_cast<int>( GarageE::COUNT ); ++i ) values.push_back( garageValue( static_cast<GarageE>( i ) ) );
-    const float my = H - ( 90.0f + 40.0f * 6.0f + 60.0f ) * u;
+    const float my = H - ( 90.0f + 40.0f * 8.0f + 60.0f ) * u;
     drawMenu( "", labels, values, my );
 
     // Colour chips beside the paints.
