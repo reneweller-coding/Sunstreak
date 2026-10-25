@@ -63,7 +63,14 @@ constexpr size_t  PostSchemes = 6;             ///< number of schemes
 constexpr uint8_t PostBodyPlain = 0;           ///< a white post
 constexpr uint8_t PostBodyBand = 1;            ///< with a black band round the reflectors (Germany, Italy)
 constexpr uint8_t PostBodyFlex = 2;            ///< slim and flexible (North America)
-constexpr size_t  PostBodies = 3;              ///< number of bodies
+// Painted concrete and stone posts and flat boards of the photographed countries (GeoHints): they carry no reflector
+// colours of their own, so their scheme is PostSchemeSame.
+constexpr uint8_t PostBodyStripesRed = 3;      ///< a round post in red and white rings (Ghana, Bangladesh ...)
+constexpr uint8_t PostBodyStripesBlack = 4;    ///< in black and white rings (India, Indonesia, Thailand ...)
+constexpr uint8_t PostBodyStripesYellow = 5;   ///< in yellow and black rings (the Philippines)
+constexpr uint8_t PostBodyRedCap = 6;          ///< a square white post with a red top (Cambodia, Vietnam)
+constexpr uint8_t PostBodyYellowFlat = 7;      ///< a flat yellow board with white reflective strips (Iceland)
+constexpr size_t  PostBodies = 8;              ///< number of bodies
 
 /**
  * @brief The number of a post style.

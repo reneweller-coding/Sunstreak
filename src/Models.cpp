@@ -1485,6 +1485,30 @@ void Models::buildProps()
                         m.box( Vector3{ 0, 0.95f, 0 }, Vector3{ 0.07f, 0.08f, 0.07f }, rgb( 255, 150, 40 ), shine );
                         continue;
                     }
+                    if ( body >= PostBodyStripesRed )
+                    {   // The painted posts and boards of the photographed countries: they have no reflector scheme.
+                        if ( body <= PostBodyStripesYellow )
+                        {   // A round post in five rings, the top ring in the first colour.
+                            const Color ring[2] = { body == PostBodyStripesYellow ? yellow : white,
+                                                    body == PostBodyStripesRed ? red : black };
+                            for ( int i = 0; i < 5; ++i )
+                                m.cylinder( Vector3{ 0, 0.2f * static_cast<float>( i ), 0 }, 0.085f, 0.085f, 0.2f, 8,
+                                            ring[i % 2] );
+                        }
+                        else if ( body == PostBodyRedCap )
+                        {
+                            m.box( Vector3{ 0, 0.4f, 0 }, Vector3{ 0.09f, 0.4f, 0.09f }, white );
+                            m.box( Vector3{ 0, 0.9f, 0 }, Vector3{ 0.095f, 0.1f, 0.095f }, rgb( 150, 40, 36 ) );
+                        }
+                        else
+                        {   // A flat yellow board with two white reflective strips on both faces.
+                            m.box( Vector3{ 0, 0.55f, 0 }, Vector3{ 0.045f, 0.55f, 0.012f }, yellow );
+                            for ( float yy : { 0.92f, 0.72f } )
+                                for ( float z : { -0.0135f, 0.0135f } )
+                                    m.box( Vector3{ 0, yy, z }, Vector3{ 0.038f, 0.05f, 0.0025f }, bright, shine );
+                        }
+                        continue;
+                    }
                     // The body, and where the reflectors sit: height, half width and height, and the face (half depth).
                     float y = 0.8f, hx = 0.032f, hy = 0.05f, depth = 0.06f;
                     if ( body == PostBodyFlex )

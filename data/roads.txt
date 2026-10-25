@@ -13,9 +13,14 @@
 #                        keeps to its side, and across: WHITE (white; across two small round white ones), REDWHITE
 #                        (red; white across), YELLOWWHITE (yellow; two round white ones across), WHITEYELLOW (white;
 #                        yellow across), SAME (the same on both sides). BODY is PLAIN (default), BAND (a black band
-#                        round the reflectors: documented for Germany and Italy) or FLEX (slim, flexible). Czechia and
-#                        Ukraine are left out: the article contradicts itself there; the rest keep the white post with
-#                        an orange cap
+#                        round the reflectors: documented for Germany and Italy) or FLEX (slim, flexible). The painted
+#                        posts of the photographed countries have a scheme of their own, SAME, and a body: STRIPES_RED,
+#                        STRIPES_BLACK, STRIPES_YELLOW (round posts in rings), REDCAP (a white post with a red top),
+#                        YELLOWFLAT (a yellow board with white strips). The first block is from the article, the second
+#                        from the photos of geohints.com/meta/bollards (a post's first photo is the one on the side of
+#                        the traffic): only where its photos agree; Argentina, Bolivia, Brazil, Ecuador, Japan, Kenya,
+#                        Mexico, New Zealand, Peru, South Africa, South Korea and others photographed in mixed designs
+#                        keep, like every country without data, the white post with an orange cap
 # Cobbled old towns say "cobbles" in data/places.
 #
 # How the roads are built and kept:
@@ -63,6 +68,18 @@ posts YELLOWWHITE | BELGIUM, DENMARK, LITHUANIA, SPAIN
 posts WHITEYELLOW FLEX | USA, ALASKA, HAWAII, CANADA
 posts WHITEYELLOW | CHINA
 posts SAME | FRANCE, MONACO
+posts REDWHITE BAND | ALBANIA, BOSNIA, KOSOVO, MONTENEGRO, NORTH MACEDONIA, SERBIA, MALTA, SAN MARINO, GEORGIA, KAZAKHSTAN, UKRAINE, UAE
+posts REDWHITE | CYPRUS, MALAYSIA, IRELAND
+posts YELLOWWHITE BAND | CZECHIA, CHILE, COLOMBIA
+posts WHITEYELLOW | URUGUAY
+posts WHITE BAND | SINGAPORE
+posts SAME | PANAMA
+posts SAME BAND | KYRGYZSTAN
+posts SAME STRIPES_RED | GHANA, BANGLADESH, GREENLAND, MONGOLIA, RWANDA
+posts SAME STRIPES_BLACK | INDIA, INDONESIA, LAOS, GUATEMALA, NEPAL, THAILAND
+posts SAME STRIPES_YELLOW | PHILIPPINES
+posts SAME REDCAP | CAMBODIA, VIETNAM
+posts SAME YELLOWFLAT | ICELAND
 
 quality 6.5 | SINGAPORE
 quality 6.4 | NETHERLANDS

@@ -500,8 +500,11 @@ int main()
                        roadCustoms( "AUSTRALIA" ).m_post == postStyle( PostSchemeRedWhite, PostBodyPlain ) &&
                        roadCustoms( "ITALY" ).m_post == postStyle( PostSchemeRedWhite, PostBodyBand ) &&
                        france.m_post == postStyle( PostSchemeSame, PostBodyPlain ) &&
-                       roadCustoms( "CZECHIA" ).m_post == PostSchemeDefault &&
-                       roadCustoms( "NEW ZEALAND" ).m_post == PostSchemeDefault,
+                       roadCustoms( "CZECHIA" ).m_post == postStyle( PostSchemeYellowWhite, PostBodyBand ) &&
+                       roadCustoms( "ALBANIA" ).m_post == postStyle( PostSchemeRedWhite, PostBodyBand ) &&
+                       roadCustoms( "GHANA" ).m_post == postStyle( PostSchemeSame, PostBodyStripesRed ) &&
+                       roadCustoms( "ICELAND" ).m_post == postStyle( PostSchemeSame, PostBodyYellowFlat ) &&
+                       roadCustoms( "NEW ZEALAND" ).m_post == PostSchemeDefault && roadCustoms( "JAPAN" ).m_post == PostSchemeDefault,
                    "road customs by country" );
         }
         {   // The roads of the countries: gravel and potholes in Chad, none in Switzerland; narrow lanes in Japan, concrete somewhere.

@@ -74,7 +74,8 @@ const CustomsMapT &customs()
                 {
                     // posts SCHEME [BODY]
                     static const char *const schemes[] = { "-", "WHITE", "REDWHITE", "YELLOWWHITE", "WHITEYELLOW", "SAME" };
-                    static const char *const bodies[] = { "PLAIN", "BAND", "FLEX" };
+                    static const char *const bodies[] = { "PLAIN",        "BAND",         "FLEX",   "STRIPES_RED",
+                                                          "STRIPES_BLACK", "STRIPES_YELLOW", "REDCAP", "YELLOWFLAT" };
                     int                      scheme = -1, body = head.size() == 2 ? 0 : -1;
                     for ( int k = 1; k < static_cast<int>( PostSchemes ); ++k )
                         if ( head[1] == schemes[k] ) scheme = k;
