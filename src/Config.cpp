@@ -200,9 +200,9 @@ LaunchOptions parseCommandLine( int argc, char **argv )
         }
         else if( a == "--weather" )
         {
-            static const char *kinds[] = { "clear", "rain", "storm", "fog", "snow", "sand" };
+            static const char *kinds[] = { "clear", "rain", "storm", "fog", "snow", "sand", "monsoon" };
             const std::string  what = next();
-            for( int k = 0; k < 6; ++k )
+            for( int k = 0; k < static_cast<int>( std::size( kinds ) ); ++k )
                 if( what == kinds[k] ) o.m_weather = k;
         }
         else if( a == "--time" )

@@ -1175,6 +1175,8 @@ Environment blendEnvironment( const Environment &a, const Environment &b, float 
     e.m_rainbow = lerpf( a.m_rainbow, b.m_rainbow, t );
     e.m_eclipse = lerpf( a.m_eclipse, b.m_eclipse, t );
     e.m_dust = lerpf( a.m_dust, b.m_dust, t );
+    e.m_groundFog = lerpf( a.m_groundFog, b.m_groundFog, t );
+    e.m_heat = lerpf( a.m_heat, b.m_heat, t );
     e.m_underwater = lerpf( a.m_underwater, b.m_underwater, t );
     e.m_leaves = lerpf( a.m_leaves, b.m_leaves, t );
     e.m_petals = lerpf( a.m_petals, b.m_petals, t );

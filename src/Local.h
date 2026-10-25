@@ -77,6 +77,15 @@ const RoadCustoms &roadCustoms( const char *country );
 bool rainPuddleAt( const Track &track, long index, float &x );
 
 /**
+ * @brief Where the monsoon floods the road: 40 m across the whole road in one 80 m block in four (not in tunnels, on
+ *        bridges, forks or crossings).
+ * @param[in] track  the road
+ * @param[in] index  the segment
+ * @return true if flooded there
+ */
+bool floodAt( const Track &track, long index );
+
+/**
  * @brief How much smog a place's air holds.
  * @param[in] place  the place
  * @return 0 (clean, an index of 30 or less) .. 1 (an index of 90 or more)

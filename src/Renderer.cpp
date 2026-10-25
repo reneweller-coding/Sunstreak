@@ -518,6 +518,7 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
     setV3( s, "skyColor", Vector3Lerp( linearRgb( e.m_skyHorizon ), linearRgb( e.m_skyZenith ), 0.3f ) );
     setF( s, "wetness", std::max( e.m_rain, e.m_snow * 0.4f ) );
     setF( s, "slush", in.m_slush );
+    setF( s, "groundFog", e.m_groundFog );
     setF( s, "writeMirror", 0.0f );
     setF( s, "flash", in.m_flash * 0.8f );
     setF( s, "gridGlow", in.m_surface.m_gridGlow );
@@ -979,6 +980,7 @@ void Renderer::post( const SceneInput &in )
     setF( c, "flare", m_flare );
     setF( c, "aspect", static_cast<float>( m_targetW ) / static_cast<float>( m_targetH ) );
     setF( c, "lensRain", in.m_lensRain );
+    setF( c, "heat", e.m_heat );
     setF( c, "speed", clampf( m_camVel.x * m_camVel.x + m_camVel.z * m_camVel.z, 0.0f, 6400.0f ) / 6400.0f );
     setF( c, "time", std::fmod( in.m_time, 100.0f ) );
     blit( scene, m_targetW, m_targetH );

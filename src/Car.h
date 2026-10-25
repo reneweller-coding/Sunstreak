@@ -186,6 +186,8 @@ public:
     float   m_weatherGrip = 1.0f; ///< what the weather leaves of the grip (rain, snow, sand on the road)
     float   m_rain = 0.0f;        ///< 0..1 how hard it rains: puddles gather from 0.35, and the tyres float in them over 100 km/h
     float   m_aquaplane = 0.0f;   ///< 0..1 the tyres float on water
+    bool    m_monsoon = false;    ///< a monsoon falls: the road floods in stretches (floodAt)
+    bool    m_inFlood = false;    ///< driving through a flood (fountains, a drag on the speed)
     uint8_t m_unpaved = 0;        ///< the road under the car: 0 asphalt, 1 gravel, 2 sand
     long    m_lastPothole = -1;   ///< the segment of the last pothole it hit
     bool    m_frozen = false;     ///< held at the start (the engine still revs)

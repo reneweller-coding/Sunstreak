@@ -84,6 +84,7 @@ uniform vec3 headDir;
 uniform float headStrength;
 uniform float wetness;
 uniform float slush;
+uniform float groundFog;
 uniform float writeMirror;
 uniform float flash;
 uniform float gridGlow;
@@ -179,6 +180,14 @@ void main()
     fog = max(fog, smoothstep(viewDist * 0.7, viewDist, dist));
     fog *= 1.0 - 0.55 * clamp(emissive, 0.0, 1.0) * (1.0 - smoothstep(viewDist * 0.5, viewDist, dist));
     col = mix(col, fogColor, clamp(fog, 0.0, 1.0));
+    if (groundFog > 0.0)
+    {
+        // Fog lying low: thick below the road's height, thin above it, none close by.
+        float low = 1.0 - smoothstep(camPos.y - 5.0, camPos.y + 10.0, vPos.y);
+        float lf = groundFog * low * smoothstep(12.0, 160.0, dist);
+        col = mix(col, fogColor * 1.06, clamp(lf, 0.0, 0.92));
+        fog = max(fog, lf);
+    }
     float alpha = vColor.a * objectAlpha;
     if (writeMirror > 0.5)
     {
@@ -547,6 +556,7 @@ uniform float flare;
 uniform float aspect;
 uniform float lensRain;
 uniform float speed;
+uniform float heat;
 out vec4 finalColor;
 float hash12(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 vec2 rainOffset(vec2 uv)
@@ -572,6 +582,13 @@ void main()
 {
     vec2 uv = fragTexCoord;
     if (lensRain > 0.0) uv += rainOffset(uv) * lensRain;
+    if (heat > 0.0)
+    {
+        // The air shimmering over the hot road, strongest in a band at the horizon.
+        float band = smoothstep(0.36, 0.48, uv.y) * (1.0 - smoothstep(0.52, 0.64, uv.y));
+        uv.x += sin(uv.y * 520.0 + time * 9.0) * 0.0013 * heat * band;
+        uv.y += sin(uv.x * 310.0 + time * 6.0) * 0.0007 * heat * band;
+    }
     vec2 d = uv - blurCenter;
     float edge = smoothstep(0.12, 0.65, length(d * vec2(1.6, 1.0)));
     vec3 col;

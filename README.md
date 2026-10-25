@@ -181,7 +181,10 @@ downpours in the tropics, snow showers in the cold and the mountains, sandstorms
 little ahead, last a kilometre or two, and wet, snowy or sandy roads hold less. In the rain the road turns into a dark
 mirror (the cars, the trees and the street lamps stand in it), puddles gather, and over 100 km/h the tyres float on
 them: AQUAPLANING, hardly any grip until they find the road again. In the snow grey slush lies in blotches and sprays up
-behind the car. TIME OF DAY keeps each place's own light
+behind the car. In South and Southeast Asia every other tropical front is the monsoon: a downpour, and stretches where
+the road is flooded from edge to edge (fountains of water, a little drag, aquaplaning at speed). Fog lies low in the
+valleys of the temperate and cold places at dawn and dusk and in fog banks; over the deserts on clear days dust devils
+whirl beside the road, and where it is hot the air shimmers over the asphalt at the horizon. TIME OF DAY keeps each place's own light
 by default; TOUR CLOCK lets the sun follow the time zones (morning wherever the run starts, an hour more every ten
 kilometres, and the longitude of each place on top: east of you it is already evening); DAWN, DAY, DUSK and NIGHT fix
 the hour. Every place sounds like itself: the surf on the shore it lies on, wind over deserts and mountains, insects
@@ -338,7 +341,7 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
                                  portal (or inside, or before its far portal), ferry or crest
     --season spring|summer|autumn|winter   that season (testing)
     --date MM-DD                  that date, for the seasons and the festivals (testing)
-    --weather clear|rain|storm|fog|snow|sand   that weather all the way (testing)
+    --weather clear|rain|storm|fog|snow|sand|monsoon   that weather all the way (testing)
     --time place|clock|dawn|day|dusk|night     the time of day for this start
     --autopilot                   the car drives itself
     --travel                      travel: the world tour without a clock

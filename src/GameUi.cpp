@@ -976,6 +976,21 @@ void Game::draw()
         in.m_pieces.push_back( { &mesh, p.m_pos, std::atan2( p.m_forward.x, p.m_forward.z ) + ( m_passenger.m_side < 0.0f ? PI : 0.0f ) } );
     }
     in.m_puddles.clear();
+    if( m_monsoon > 0.4f && m_track )
+    {
+        // The monsoon's floods: water across the whole road.
+        const long first = static_cast<long>( ( m_car.m_s - 60.0 ) / SegmentLength ), last = static_cast<long>( ( m_car.m_s + 450.0 ) / SegmentLength );
+        for( long j = std::max( 2L, first ); j <= last; ++j )
+        {
+            if( !floodAt( *m_track, j ) ) continue;
+            const float hw = m_track->segment( j ).m_halfWidth;
+            for( float x = -hw + 0.8f; x <= hw - 0.6f; x += 2.0f )
+            {
+                const Pose p = roadPose( *m_track, ( static_cast<double>( j ) + 0.5 ) * SegmentLength, x, 0.0f );
+                in.m_puddles.push_back( { nullptr, p.m_pos, std::atan2( p.m_forward.x, p.m_forward.z ) } );
+            }
+        }
+    }
     if( in.m_env.m_rain > 0.35f && m_track )
     {
         // The puddles the rain leaves, where the car meets them too.

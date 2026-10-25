@@ -226,8 +226,10 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
     }
     // Puddles: the road's own, and in the rain the ones that gather. In the rain at speed the tyres float on them.
     float      rainX = 0.0f;
+    m_inFlood = m_monsoon && !m_airborne && floodAt( track, segIndex ) && std::abs( m_x ) < seg.m_halfWidth + 1.0f;
+    if( m_inFlood ) m_speed *= 1.0f - 0.25f * dt;   // the water holds the car back a little
     const bool puddle = ( ( seg.m_flags & SEG_PUDDLE ) && std::abs( m_x - puddleLateral( track, segIndex ) ) < 1.8f ) ||
-                        ( m_rain > 0.35f && rainPuddleAt( track, segIndex, rainX ) && std::abs( m_x - rainX ) < 1.6f );
+                        ( m_rain > 0.35f && rainPuddleAt( track, segIndex, rainX ) && std::abs( m_x - rainX ) < 1.6f ) || m_inFlood;
     if( puddle && !m_airborne )
     {
         grip *= 0.3f;

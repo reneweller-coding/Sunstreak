@@ -279,6 +279,15 @@ bool rainPuddleAt( const Track &track, long index, float &x )
     return true;
 }
 
+bool floodAt( const Track &track, long index )
+{
+    if( index < 2 || index % 16 >= 8 ) return false;
+    if( hash64( static_cast<uint64_t>( index / 16 ) * 0xA24BAED4963EE407ull + 0xF100Dull ) % 4 != 0 ) return false;
+    const Segment &seg = track.segment( index );
+    if( seg.m_flags & ( SEG_TUNNEL | SEG_BRIDGE | SEG_FORK | SEG_JUMP | SEG_START | SEG_FINISH ) ) return false;
+    return track.crossingAt( static_cast<double>( index ) * SegmentLength ).m_type == CrossingE::NONE;
+}
+
 float smogOf( const BiomeDef &place )
 {
     return place.m_underwater ? 0.0f : clampf( ( place.m_pollution - 30.0f ) / 60.0f, 0.0f, 1.0f );

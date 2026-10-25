@@ -763,6 +763,8 @@ struct Environment
     float m_petals = 0.0f;      ///< 0..1 blossom petals drifting
     float m_confetti = 0.0f;    ///< 0..1 a festival's colour in the air
     int   m_festival = -1;      ///< that festival (festivals()), -1 none
+    float m_groundFog = 0.0f;   ///< 0..1 fog lying low in the valleys (mornings and evenings, fog banks)
+    float m_heat = 0.0f;        ///< 0..1 the air shimmering over the hot road
 };
 
 /** @brief The vehicles a region adds to the everyday traffic. */

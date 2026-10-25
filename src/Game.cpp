@@ -272,7 +272,15 @@ float Game::frontAt( double s, WeatherE &type ) const
         {
         case ClimateE::ARID: type = WeatherE::SANDSTORM; break;
         case ClimateE::COLD: type = WeatherE::SNOW; break;
-        case ClimateE::TROPICAL: type = ( h >> 32 ) % 3 == 0 ? WeatherE::RAIN : WeatherE::STORM; break;
+        case ClimateE::TROPICAL:
+        {
+            // In South and Southeast Asia every other tropical front is the monsoon.
+            const BiomeDef &place = biomeDef( m_track->stageBiome( static_cast<int>( centre / StageLength ) ) );
+            const FleetE    fleet = place.m_country ? countryInfo( place.m_country ).m_fleet : FleetE::COUNT;
+            const bool      monsoon = ( fleet == FleetE::SOUTH_ASIA || fleet == FleetE::SOUTHEAST_ASIA ) && ( h >> 40 ) % 2 == 0;
+            type = monsoon ? WeatherE::MONSOON : ( h >> 32 ) % 3 == 0 ? WeatherE::RAIN : WeatherE::STORM;
+            break;
+        }
         default: type = temperate[( h >> 32 ) % 4]; break;
         }
     }
@@ -320,10 +328,19 @@ Environment Game::sceneEnvironment( double s ) const
         }
         if( f.m_aurora ) e.m_aurora = std::max( e.m_aurora, smoothstepf( 0.2f, 0.6f, e.m_stars ) );
     }
+    // Fog lying low in the valleys of the temperate and cold places when the sun is low; the air shimmering over the road
+    // where it is hot and the sun is high.
+    const ClimateE climate = biomeDef( mix.m_t < 0.5f ? mix.m_from : mix.m_to ).m_climate;
+    const float    elevation = e.m_sunElevation;
+    if( climate == ClimateE::TEMPERATE || climate == ClimateE::COLD )
+        e.m_groundFog = 0.7f * smoothstepf( -6.0f, 0.0f, elevation ) * ( 1.0f - smoothstepf( 8.0f, 16.0f, elevation ) );
+    if( climate == ClimateE::ARID || climate == ClimateE::TROPICAL )
+        e.m_heat = smoothstepf( 25.0f, 50.0f, elevation ) * ( climate == ClimateE::ARID ? 1.0f : 0.6f ) * ( 1.0f - e.m_rain ) * ( 1.0f - e.m_dust );
     WeatherE    type = WeatherE::NONE;
     const float k = frontAt( s, type );
     if( k <= 0.0f ) return e;
     auto toward = [k]( Color a, Color b, float amount ) { return lerpColor( a, b, k * amount ); };
+    e.m_heat *= 1.0f - k;
     switch( type )
     {
     case WeatherE::RAIN:
@@ -343,7 +360,21 @@ Environment Game::sceneEnvironment( double s ) const
         e.m_saturation = lerpf( e.m_saturation, 0.9f, k );
         break;
     }
+    case WeatherE::MONSOON:
+        e.m_rain = std::max( e.m_rain, k );
+        e.m_lightning = std::max( e.m_lightning, k * 0.25f );
+        e.m_cloudAmount = std::max( e.m_cloudAmount, 0.8f + 0.2f * k );
+        e.m_cloudColor = toward( e.m_cloudColor, Color{ 92, 98, 104, 255 }, 0.9f );
+        e.m_sunIntensity *= 1.0f - 0.6f * k;
+        e.m_skyZenith = toward( e.m_skyZenith, Color{ 84, 92, 100, 255 }, 0.85f );
+        e.m_skyHorizon = toward( e.m_skyHorizon, Color{ 138, 146, 150, 255 }, 0.7f );
+        e.m_fogColor = toward( e.m_fogColor, Color{ 138, 146, 150, 255 }, 0.7f );
+        e.m_fogDensity *= 1.0f + 1.6f * k;
+        e.m_headlights = std::max( e.m_headlights, 0.5f * k );
+        e.m_saturation = lerpf( e.m_saturation, 0.85f, k );
+        break;
     case WeatherE::FOG:
+        e.m_groundFog = std::max( e.m_groundFog, 0.85f * k );
         e.m_fogColor = toward( e.m_fogColor, Color{ 206, 212, 218, 255 }, 0.8f );
         e.m_skyHorizon = toward( e.m_skyHorizon, Color{ 206, 212, 218, 255 }, 0.8f );
         e.m_fogDensity = lerpf( e.m_fogDensity, 0.009f, k );
@@ -1775,12 +1806,15 @@ void Game::simulate( float dt, bool autopilotOn )
     if( !m_demo && frontAhead > 0.3f && frontStage != m_frontShown && m_state == StateE::RACE )
     {
         m_frontShown = frontStage;
-        static const char *names[] = { "", "RAIN AHEAD", "THUNDERSTORM", "FOG BANK", "SNOW SHOWERS", "SANDSTORM" };
+        static const char *names[] = { "", "RAIN AHEAD", "THUNDERSTORM", "FOG BANK", "SNOW SHOWERS", "SANDSTORM", "MONSOON" };
         popup( names[static_cast<int>( front )], "", Cyan, 0.7f, 2.6f, true );
     }
     WeatherE    here = WeatherE::NONE;
     const float wet = frontAt( m_car.m_s, here );
-    const float lose = here == WeatherE::SNOW ? 0.22f : here == WeatherE::SANDSTORM ? 0.08f : here == WeatherE::FOG || here == WeatherE::NONE ? 0.0f : 0.12f;
+    const float lose = here == WeatherE::SNOW ? 0.22f : here == WeatherE::SANDSTORM ? 0.08f : here == WeatherE::MONSOON ? 0.16f
+                     : here == WeatherE::FOG || here == WeatherE::NONE ? 0.0f : 0.12f;
+    m_monsoon = here == WeatherE::MONSOON ? wet : 0.0f;
+    m_car.m_monsoon = m_monsoon > 0.4f;
     m_car.m_weatherGrip = 1.0f - lose * wet;
 
     const Environment env = sceneEnvironment( m_car.m_s + 30.0 );
@@ -2492,11 +2526,45 @@ void Game::emitParticles( float dt )
             m_particles.emit( p );
         }
     }
+    // Dust devils over the desert on clear days, in every other stage: whirls of sand drifting beside the road.
+    const BiomeDef &land = biomeDef( m_track->stageBiome( static_cast<int>( m_car.m_s / StageLength ) ) );
+    if( land.m_climate == ClimateE::ARID && env.m_dust < 0.2f && env.m_rain < 0.1f && env.m_sunElevation > 10.0f && !m_demo &&
+        hash64( m_track->seed() * 53 + static_cast<uint64_t>( m_car.m_s / StageLength ) ) % 2 == 0 )
+    {
+        const long block = static_cast<long>( m_car.m_s / 700.0 );
+        for( long b = block; b <= block + 1; ++b )
+        {
+            const uint64_t h = hash64( m_track->seed() * 91 + static_cast<uint64_t>( b ) );
+            const double   ds = static_cast<double>( b ) * 700.0 + static_cast<double>( h % 700 ) + std::sin( m_time * 0.15f + static_cast<float>( h % 7 ) ) * 20.0;
+            const float    lateral = ( h & 1 ? 1.0f : -1.0f ) * ( 30.0f + static_cast<float>( ( h >> 8 ) % 90 ) ) + std::sin( m_time * 0.2f + static_cast<float>( h % 5 ) ) * 15.0f;
+            if( ds - m_car.m_s < 40.0 || ds - m_car.m_s > 600.0 ) continue;
+            const Vec3d foot = m_track->pointAt( ds, 0.0f, 0.0f );
+            const TrackFrame f = m_track->frameAt( ds );
+            for( int i = emitCount( 70.0f, dt, r ); i > 0; --i )
+            {
+                // Round the axis, rising and turning.
+                const float a = r.range( 0.0f, Tau ), radius = r.range( 0.4f, 2.6f );
+                Particle    p;
+                p.m_pos = foot;
+                p.m_pos.m_x += static_cast<double>( f.m_right.x * lateral + std::cos( a ) * radius );
+                p.m_pos.m_z += static_cast<double>( f.m_right.z * lateral + std::sin( a ) * radius );
+                p.m_pos.m_y += static_cast<double>( r.range( 0.0f, 2.0f ) );
+                p.m_vel = Vector3{ -std::sin( a ) * 7.0f, r.range( 4.0f, 9.0f ), std::cos( a ) * 7.0f };
+                p.m_maxLife = r.range( 2.0f, 3.2f );
+                p.m_size = 0.7f;
+                p.m_grow = 1.6f;
+                p.m_color = Color{ 196, 160, 112, 80 };
+                p.m_drag = 0.6f;
+                p.m_gravity = -0.5f;
+                m_particles.emit( p );
+            }
+        }
+    }
     const float slushy = smoothstepf( 0.05f, 0.4f, env.m_snow );
     if( ( env.m_rain > 0.4f || slushy > 0.3f || m_car.m_aquaplane > 0.0f ) && m_car.m_speed > 15.0f && !m_car.m_airborne )
     {
         // Spray: water in the rain, a sheet of it when the tyres float, grey slush in the snow.
-        const float amount = std::max( { env.m_rain, slushy, m_car.m_aquaplane * 3.0f } );
+        const float amount = std::max( { env.m_rain, slushy, m_car.m_aquaplane * 3.0f, m_car.m_inFlood ? 4.0f : 0.0f } );
         for( int i = emitCount( m_car.m_speed * 0.7f * amount, dt, r ); i > 0; --i )
         {
             Particle p;
