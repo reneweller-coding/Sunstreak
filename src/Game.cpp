@@ -2836,16 +2836,20 @@ void Game::emitParticles( float dt )
         const bool  snowy = env.m_snow > 0.5f;
         const Color ground = m_car.m_offroad > 0.3f ? surf.m_groundA : surf.m_road;
         const Color dust = snowy ? Color{ 240, 244, 250, 150 } : lerpColor( ground, Color{ 200, 180, 150, 255 }, 0.4f );
-        for ( int i = emitCount( dirt * m_car.m_speed * 1.2f, dt, r ); i > 0; --i )
+        // A dry climate raises more of it: a thicker, wider cloud in a desert, a thinner one in a wet place (not in snow).
+        const PlaceClimate *climate = placeClimate( m_track->stageBiome( static_cast<int>( m_car.m_s / StageLength ) ) );
+        const float         dusty = snowy || !climate ? 1.0f : climateDustiness( *climate );
+        for ( int i = emitCount( dirt * m_car.m_speed * 1.2f * dusty, dt, r ); i > 0; --i )
         {
             Particle p;
             p.m_pos = poseLocal( pose, r.range( -0.9f, 0.9f ), 0.2f, rearZ - 0.3f );
             p.m_vel = Vector3Add( Vector3Scale( carVel, 0.4f ),
                                   Vector3{ r.range( -2.0f, 2.0f ), r.range( 1.0f, 3.0f ), r.range( -2.0f, 2.0f ) } );
             p.m_maxLife = r.range( 0.9f, 1.6f );
-            p.m_size = 0.5f;
+            p.m_size = 0.5f * std::sqrt( dusty );
             p.m_grow = 3.0f;
-            p.m_color = Color{ dust.r, dust.g, dust.b, static_cast<unsigned char>( snowy ? 170 : 120 ) };
+            p.m_color = Color{ dust.r, dust.g, dust.b,
+                               static_cast<unsigned char>( snowy ? 170 : std::clamp( 120.0f * std::sqrt( dusty ), 80.0f, 160.0f ) ) };
             p.m_drag = 1.2f;
             p.m_gravity = 0.5f;
             m_particles.emit( p );

@@ -82,6 +82,11 @@ float climatePrecipitation( const PlaceClimate &c, float phase )
     return monthly( c.m_p, phase );
 }
 
+float climateDustiness( const PlaceClimate &c )
+{
+    return lerpf( 1.6f, 0.6f, smoothstepf( 100.0f, 1200.0f, c.m_rain ) );
+}
+
 int climateErrors()
 {
     placeClimate( static_cast<BiomeE>( 0 ) );

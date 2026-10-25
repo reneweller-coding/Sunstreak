@@ -479,6 +479,13 @@ int main()
                        agra.m_spring == 0.0f && agra.m_bare == 0.0f && monsoon > 300.0f && dry < 5.0f,
                    "the seasons and the rain follow the real climate" );
         }
+        {   // The dust behind a car: more in the desert of Huacachina than in the wet hills of Connemara.
+            const PlaceClimate *desert = placeClimate( static_cast<BiomeE>( biomeId( "HUACACHINA" ) ) );
+            const PlaceClimate *wet = placeClimate( static_cast<BiomeE>( biomeId( "CONNEMARA" ) ) );
+            const float         dusty = desert ? climateDustiness( *desert ) : 0.0f, damp = wet ? climateDustiness( *wet ) : 9.0f;
+            std::printf( "      dust: %.2f in the desert, %.2f in the wet hills\n", dusty, damp );
+            check( dusty > 1.5f && damp < 0.7f, "a dry climate raises more dust" );
+        }
         {   // The air of Delhi: thick in a winter night, thin on a monsoon afternoon; no change without a date or an hour.
             const BiomeE     delhi = static_cast<BiomeE>( biomeId( "DELHI" ) );
             const PlaceSmog *air = placeSmog( delhi );

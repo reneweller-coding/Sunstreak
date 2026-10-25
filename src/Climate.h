@@ -46,6 +46,14 @@ float climateTemperature( const PlaceClimate &c, float phase );
 float climatePrecipitation( const PlaceClimate &c, float phase );
 
 /**
+ * @brief How much dust the ground raises behind a car: the dryer the climate, the more.
+ * @param[in] c  the climate
+ * @return a factor for the number, the size and the opacity of the dust: 1.6 in a desert (under 100 mm of rain a year)
+ *         down to 0.6 in a wet place (1200 mm and more)
+ */
+float climateDustiness( const PlaceClimate &c );
+
+/**
  * @brief How many lines of data/climate.txt were wrong.
  * @return the count
  */
