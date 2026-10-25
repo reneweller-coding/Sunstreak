@@ -51,12 +51,30 @@ struct RoadCustoms
     uint8_t m_post = 0;                ///< its delineator posts (Post* below)
 };
 
-constexpr uint8_t PostPlain = 0;   ///< white with an orange cap
-constexpr uint8_t PostBand = 1;    ///< white with a black band and a reflector (Central Europe)
-constexpr uint8_t PostFlex =
-    2;   ///< slim and flexible, a white reflector strip on the traffic's side, a yellow one across (North America)
-constexpr uint8_t PostRedWhite =
-    3;   ///< white, a red reflector on the traffic's side, a white one across (Australia, New Zealand)
+// Delineator posts: a reflector scheme (the colours a post shows to the traffic of its own side and to the traffic
+// across; from the German Wikipedia's article "Leitpfosten") and a body.
+constexpr uint8_t PostSchemeDefault = 0;   ///< the countries the data does not know: white with an orange cap
+constexpr uint8_t PostSchemeWhite = 1;     ///< white, and across two small round white ones (Germany and its group)
+constexpr uint8_t PostSchemeRedWhite = 2;  ///< red, and white across (Italy, Austria, Poland ..., Great Britain, Australia)
+constexpr uint8_t PostSchemeYellowWhite = 3;   ///< yellow, and across two small round white ones (Belgium, Spain ...)
+constexpr uint8_t PostSchemeWhiteYellow = 4;   ///< white, and yellow across (USA, Canada, China)
+constexpr uint8_t PostSchemeSame = 5;          ///< the same on both sides (France, Monaco)
+constexpr size_t  PostSchemes = 6;             ///< number of schemes
+constexpr uint8_t PostBodyPlain = 0;           ///< a white post
+constexpr uint8_t PostBodyBand = 1;            ///< with a black band round the reflectors (Germany, Italy)
+constexpr uint8_t PostBodyFlex = 2;            ///< slim and flexible (North America)
+constexpr size_t  PostBodies = 3;              ///< number of bodies
+
+/**
+ * @brief The number of a post style.
+ * @param[in] scheme  PostScheme*
+ * @param[in] body    PostBody*
+ * @return its style (BiomeDef::m_postStyle)
+ */
+constexpr uint8_t postStyle( uint8_t scheme, uint8_t body )
+{
+    return static_cast<uint8_t>( scheme * PostBodies + body );
+}
 
 constexpr uint8_t LampWarm = 0;     ///< warm white LEDs
 constexpr uint8_t LampSodium = 1;   ///< orange sodium vapour

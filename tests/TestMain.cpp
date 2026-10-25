@@ -495,8 +495,13 @@ int main()
                        !germany.m_mph && france.m_plate == PlateE::EU && roadCustoms( "ITALY" ).m_tolls &&
                        !roadCustoms( nullptr ).m_tolls && france.m_lamp == LampSodium &&
                        roadCustoms( "JAPAN" ).m_lamp == LampCool && germany.m_lamp == LampWarm &&
-                       germany.m_post == PostBand && usa.m_post == PostFlex &&
-                       roadCustoms( "AUSTRALIA" ).m_post == PostRedWhite && france.m_post == PostPlain,
+                       germany.m_post == postStyle( PostSchemeWhite, PostBodyBand ) &&
+                       usa.m_post == postStyle( PostSchemeWhiteYellow, PostBodyFlex ) &&
+                       roadCustoms( "AUSTRALIA" ).m_post == postStyle( PostSchemeRedWhite, PostBodyPlain ) &&
+                       roadCustoms( "ITALY" ).m_post == postStyle( PostSchemeRedWhite, PostBodyBand ) &&
+                       france.m_post == postStyle( PostSchemeSame, PostBodyPlain ) &&
+                       roadCustoms( "CZECHIA" ).m_post == PostSchemeDefault &&
+                       roadCustoms( "NEW ZEALAND" ).m_post == PostSchemeDefault,
                    "road customs by country" );
         }
         {   // The roads of the countries: gravel and potholes in Chad, none in Switzerland; narrow lanes in Japan, concrete somewhere.

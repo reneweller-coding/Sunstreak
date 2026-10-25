@@ -258,8 +258,8 @@ public:
      */
     void buildPlayerPlate( PlateE style, const std::string &code, const std::string &text );
 
-    std::array<MeshBuilder, 8>
-        m_post;   ///< delineator post by style (Post* in Local.h) and side (the traffic's own 0, the other 1): style * 2 + side
+    std::array<MeshBuilder, 36>
+        m_post;   ///< delineator post by style (postStyle() in Local.h: scheme * 3 + body) and side (the traffic's own 0, the other 1): style * 2 + side
     std::array<MeshBuilder, 3>
         m_chevronRight;   ///< warning board, arrow to the driver's right (CountryInfo::m_chevrons)
     std::array<MeshBuilder, 3> m_chevronLeft;   ///< warning board, arrow to the driver's left

@@ -1725,7 +1725,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                     // The reflectors differ between the traffic's own side and the other.
                     const bool   keepLeft = rule.m_country && countryInfo( rule.m_country ).m_left;
                     const size_t far = ( side < 0 ) == keepLeft ? 0 : 1;
-                    props.append( models.m_post[std::min<size_t>( rule.m_postStyle, 3 ) * 2 + far],
+                    props.append( models.m_post[std::min<size_t>( rule.m_postStyle, PostSchemes * PostBodies - 1 ) * 2 + far],
                                   at( A, side * ( A.m_hw + RumbleWidth + 0.7f ), 0.0f ), A.m_heading, 1.0f );
                 }
             }

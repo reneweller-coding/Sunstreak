@@ -70,11 +70,17 @@ const CustomsMapT &customs()
                         if ( head[1] == tones[k] ) lamp = k;
                 }
                 int post = -1;
-                if ( head[0] == "posts" && head.size() == 2 )
+                if ( head[0] == "posts" && ( head.size() == 2 || head.size() == 3 ) )
                 {
-                    static const char *const kinds[] = { "PLAIN", "BAND", "FLEX", "REDWHITE" };
-                    for ( int k = 0; k < 4; ++k )
-                        if ( head[1] == kinds[k] ) post = k;
+                    // posts SCHEME [BODY]
+                    static const char *const schemes[] = { "-", "WHITE", "REDWHITE", "YELLOWWHITE", "WHITEYELLOW", "SAME" };
+                    static const char *const bodies[] = { "PLAIN", "BAND", "FLEX" };
+                    int                      scheme = -1, body = head.size() == 2 ? 0 : -1;
+                    for ( int k = 1; k < static_cast<int>( PostSchemes ); ++k )
+                        if ( head[1] == schemes[k] ) scheme = k;
+                    for ( int k = 0; k < static_cast<int>( PostBodies ) && head.size() == 3; ++k )
+                        if ( head[2] == bodies[k] ) body = k;
+                    if ( scheme > 0 && body >= 0 ) post = postStyle( static_cast<uint8_t>( scheme ), static_cast<uint8_t>( body ) );
                 }
                 const std::string &key = head[0];
                 const float        value = head.size() > 1 ? std::strtof( head[1].c_str(), nullptr ) : 0.0f;

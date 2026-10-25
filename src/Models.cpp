@@ -1464,32 +1464,56 @@ void Models::buildProps()
     buildWorldProps();
 
     // Road furniture.
-    {   // Delineator posts by country (PostPlain, PostBand, PostFlex, PostRedWhite), each for the traffic's own side of the
-        // road (0) and the other (1): the reflectors differ there.
+    {   // Delineator posts by country: a body (plain, with a black band, slim and flexible) and the reflectors of a scheme
+        // (see Local.h), one mesh for a post on the traffic's own side of the road and one for the post across. Every post
+        // shows one colour towards the traffic that keeps to its side and the other towards the traffic coming the other way.
         const Color white = rgb( 236, 236, 236 ), black = rgb( 28, 28, 30 ), red = rgb( 205, 30, 30 ),
-                    yellow = rgb( 245, 196, 20 );
+                    yellow = rgb( 245, 196, 20 ), bright = rgb( 250, 252, 255 );
         const Mat   shine{ 0.7f, 0.0f };
-        for ( size_t far = 0; far < 2; ++far )
-        {
-            // The plain post: white with an orange cap.
-            m_post[far].box( Vector3{ 0, 0.55f, 0 }, Vector3{ 0.06f, 0.55f, 0.06f }, white );
-            m_post[far].box( Vector3{ 0, 0.95f, 0 }, Vector3{ 0.07f, 0.08f, 0.07f }, rgb( 255, 150, 40 ), shine );
-            // Central Europe: a white post with a black band, a reflector in the band.
-            MeshBuilder &band = m_post[2 + far];
-            band.box( Vector3{ 0, 0.5f, 0 }, Vector3{ 0.06f, 0.5f, 0.06f }, white );
-            band.box( Vector3{ 0, 0.83f, 0 }, Vector3{ 0.064f, 0.1f, 0.064f }, black );
-            band.box( Vector3{ 0, 0.83f, 0 }, Vector3{ 0.032f, 0.05f, 0.067f }, white, shine );
-            // North America: a slim flexible post, a white reflector strip on the traffic's own side, a yellow one across.
-            MeshBuilder &flex = m_post[4 + far];
-            flex.box( Vector3{ 0, 0.6f, 0 }, Vector3{ 0.026f, 0.6f, 0.012f }, white );
-            flex.box( Vector3{ 0, 1.08f, 0 }, Vector3{ 0.026f, 0.09f, 0.014f }, far ? yellow : rgb( 250, 252, 255 ),
-                      shine );
-            // Australia and New Zealand: a white post, a red reflector on the traffic's own side, a white one across.
-            MeshBuilder &oceania = m_post[6 + far];
-            oceania.box( Vector3{ 0, 0.55f, 0 }, Vector3{ 0.045f, 0.55f, 0.045f }, white );
-            oceania.box( Vector3{ 0, 0.9f, 0 }, Vector3{ 0.03f, 0.05f, 0.048f }, far ? rgb( 250, 252, 255 ) : red,
-                         shine );
-        }
+        // The reflector the post shows to the traffic of its own side, and the one it shows to the traffic across, by scheme.
+        const Color nearColour[PostSchemes] = { bright, bright, red, yellow, bright, bright };
+        const Color farColour[PostSchemes] = { bright, bright, bright, bright, yellow, bright };
+        const bool  farRound[PostSchemes] = { false, true, false, true, false, false };   // two small round ones
+        for ( size_t scheme = 0; scheme < PostSchemes; ++scheme )
+            for ( size_t body = 0; body < PostBodies; ++body )
+                for ( size_t far = 0; far < 2; ++far )
+                {
+                    MeshBuilder &m = m_post[( scheme * PostBodies + body ) * 2 + far];
+                    if ( scheme == 0 && body == 0 )
+                    {   // The posts of the countries the data does not know: white with an orange cap.
+                        m.box( Vector3{ 0, 0.55f, 0 }, Vector3{ 0.06f, 0.55f, 0.06f }, white );
+                        m.box( Vector3{ 0, 0.95f, 0 }, Vector3{ 0.07f, 0.08f, 0.07f }, rgb( 255, 150, 40 ), shine );
+                        continue;
+                    }
+                    // The body, and where the reflectors sit: height, half width and height, and the face (half depth).
+                    float y = 0.8f, hx = 0.032f, hy = 0.05f, depth = 0.06f;
+                    if ( body == PostBodyFlex )
+                    {
+                        m.box( Vector3{ 0, 0.6f, 0 }, Vector3{ 0.026f, 0.6f, 0.012f }, white );
+                        y = 1.05f, hx = 0.024f, hy = 0.08f, depth = 0.012f;
+                    }
+                    else
+                    {
+                        m.box( Vector3{ 0, 0.5f, 0 }, Vector3{ 0.06f, 0.5f, 0.06f }, white );
+                        if ( body == PostBodyBand )
+                        {
+                            m.box( Vector3{ 0, 0.83f, 0 }, Vector3{ 0.064f, 0.125f, 0.064f }, black );
+                            y = 0.83f, depth = 0.064f;
+                        }
+                    }
+                    // The face towards the traffic of the post's own side (-z, towards the car) and the one behind it (+z).
+                    auto face = [&]( float z, const Color &c, bool round )
+                    {
+                        if ( round )
+                            for ( float dy : { -0.55f, 0.55f } )
+                                m.box( Vector3{ 0, y + dy * hy, z }, Vector3{ hx * 0.55f, hy * 0.42f, 0.003f }, c, shine );
+                        else m.box( Vector3{ 0, y, z }, Vector3{ hx, hy, 0.003f }, c, shine );
+                    };
+                    const bool nearPost = far == 0;
+                    face( -( depth + 0.0015f ), nearPost ? nearColour[scheme] : farColour[scheme],
+                          !nearPost && farRound[scheme] );
+                    face( depth + 0.0015f, nearPost ? farColour[scheme] : nearColour[scheme], nearPost && farRound[scheme] );
+                }
     }
     // Chevron boards in the country's colours: red and white, black and white, yellow and black.
     const Color chevronBoard[3] = { rgb( 200, 26, 26 ), rgb( 24, 24, 26 ), rgb( 245, 196, 20 ) };

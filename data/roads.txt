@@ -8,11 +8,14 @@
 #   lamps TONE | ...     the light of the street lamps: SODIUM (orange), COOL (white-blue LEDs and tubes); the rest warm
 #                        white. An estimate of what most of a country's street lighting does, not a measurement
 #                        (OpenStreetMap hardly tags it)
-#   posts STYLE | ...    the delineator posts, only where the design is known: BAND (white with a black band and a
-#                        reflector: Germany, Austria, Switzerland and its neighbours), FLEX (slim and flexible, a white
-#                        reflector on the side of the traffic, a yellow one across: North America), REDWHITE (a red
-#                        reflector on the side of the traffic, a white one across: Australia, New Zealand); the rest
-#                        keep the plain white post with an orange cap
+#   posts SCHEME [BODY] | ...   the delineator posts, only where the design is known (German Wikipedia, "Leitpfosten",
+#                        and for Italy Art. 173 of its road code). SCHEME is the colour a post shows to the traffic that
+#                        keeps to its side, and across: WHITE (white; across two small round white ones), REDWHITE
+#                        (red; white across), YELLOWWHITE (yellow; two round white ones across), WHITEYELLOW (white;
+#                        yellow across), SAME (the same on both sides). BODY is PLAIN (default), BAND (a black band
+#                        round the reflectors: documented for Germany and Italy) or FLEX (slim, flexible). Czechia and
+#                        Ukraine are left out: the article contradicts itself there; the rest keep the white post with
+#                        an orange cap
 # Cobbled old towns say "cobbles" in data/places.
 #
 # How the roads are built and kept:
@@ -52,9 +55,14 @@ plates JP | JAPAN
 plates BLACK | MALAYSIA, BRUNEI
 lamps SODIUM | FRANCE, SPAIN, ITALY, PORTUGAL, GREECE, MALTA, CYPRUS, CROATIA, SERBIA, ALBANIA, BOSNIA, MONTENEGRO, NORTH MACEDONIA, KOSOVO, BULGARIA, ROMANIA, MOLDOVA, UKRAINE, BELARUS, RUSSIA, GEORGIA, ARMENIA, AZERBAIJAN, TURKEY, MEXICO, GUATEMALA, BELIZE, HONDURAS, EL SALVADOR, NICARAGUA, COSTA RICA, PANAMA, CUBA, DOMINICAN REPUBLIC, HAITI, JAMAICA, COLOMBIA, VENEZUELA, ECUADOR, PERU, BOLIVIA, BRAZIL, PARAGUAY, URUGUAY, ARGENTINA, CHILE, INDIA, PAKISTAN, BANGLADESH, SRI LANKA, NEPAL, EGYPT, MOROCCO, ALGERIA, TUNISIA, LIBYA, IRAN, IRAQ, JORDAN, LEBANON, SYRIA, SAUDI ARABIA, OMAN, KUWAIT, YEMEN, SOUTH AFRICA, KENYA, NIGERIA, GHANA, ETHIOPIA
 lamps COOL | JAPAN, CHINA, SOUTH KOREA, NORTH KOREA, TAIWAN, SINGAPORE, THAILAND, VIETNAM, MALAYSIA, INDONESIA, PHILIPPINES, CAMBODIA, LAOS, MYANMAR, BRUNEI, MONGOLIA, ISRAEL, UAE, QATAR
-posts BAND | GERMANY, AUSTRIA, SWITZERLAND, LIECHTENSTEIN, LUXEMBOURG, CZECHIA, SLOVAKIA, HUNGARY, SLOVENIA
-posts FLEX | USA, ALASKA, HAWAII, CANADA
-posts REDWHITE | AUSTRALIA, NEW ZEALAND
+posts WHITE BAND | GERMANY, ESTONIA, FINLAND, LATVIA, LIECHTENSTEIN, LUXEMBOURG, NORWAY, PORTUGAL, SWEDEN, SWITZERLAND
+posts WHITE | ISRAEL, NORTH KOREA
+posts REDWHITE BAND | ITALY
+posts REDWHITE | NETHERLANDS, AUSTRIA, SLOVAKIA, HUNGARY, SLOVENIA, CROATIA, GREECE, RUSSIA, BELARUS, POLAND, ROMANIA, BULGARIA, TURKEY, ENGLAND, SCOTLAND, WALES, NORTHERN IRELAND, AUSTRALIA
+posts YELLOWWHITE | BELGIUM, DENMARK, LITHUANIA, SPAIN
+posts WHITEYELLOW FLEX | USA, ALASKA, HAWAII, CANADA
+posts WHITEYELLOW | CHINA
+posts SAME | FRANCE, MONACO
 
 quality 6.5 | SINGAPORE
 quality 6.4 | NETHERLANDS
