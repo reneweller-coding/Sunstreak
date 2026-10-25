@@ -1,0 +1,37 @@
+Sunstreak - credits and licences
+================================
+
+Sunstreak is written by Rene Weller. Everything you see and hear is made by the program itself; what it is made
+from comes from these:
+
+Libraries
+---------
+- raylib 5.5 (https://www.raylib.com), zlib/libpng licence, Copyright (c) 2013-2024 Ramon Santamaria and
+  contributors; with the libraries it carries: GLFW (zlib licence), miniaudio and the stb libraries (public domain
+  or MIT-0).
+- SDL2 (https://www.libsdl.org) for the gamepad rumble, zlib licence, Copyright (c) 1997-2024 Sam Lantinga.
+
+Fonts
+-----
+- The place names in their own scripts are traced from the Noto fonts, Copyright the Noto Project Authors, under
+  the SIL Open Font License 1.1 (OFL-Noto.txt beside this file); so are the traced strokes.
+
+Data
+----
+- The roadside of the places (data/roadside.txt: the poles of the power lines, the street lamps, the guard rails,
+  the gravel and concrete roads) is derived from OpenStreetMap data, (c) OpenStreetMap contributors, under the Open
+  Database License (ODbL) 1.0, https://www.openstreetmap.org/copyright. The derived database data/roadside.txt is
+  available under the ODbL as well.
+- The heights of the places (data/altitudes.txt): ASTER GDEM, a product of METI and NASA, through the OpenTopoData
+  API (https://www.opentopodata.org).
+- The outlines of the passport's map: Natural Earth (https://www.naturalearthdata.com), public domain.
+- The climate of the places (data/climate.txt): NASA POWER, thirty-year climatology. These data were obtained from
+  the NASA Langley Research Center (LaRC) POWER Project funded through the NASA Earth Science/Applied Science
+  Program (https://power.larc.nasa.gov).
+- The smog through the year and the day (data/smog.txt): Open-Meteo Air Quality (https://open-meteo.com, CC BY 4.0),
+  which contains modified Copernicus Atmosphere Monitoring Service information 2024.
+- The quality of the roads: World Economic Forum, Global Competitiveness Report 2019.
+- The traffic and the pollution of the countries and cities: Numbeo (https://www.numbeo.com), traffic index and
+  pollution index.
+
+All drivers, local heroes and hitchhikers are fictional.

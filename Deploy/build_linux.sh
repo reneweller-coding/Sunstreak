@@ -1,6 +1,7 @@
 #!/bin/bash
 # Builds Sunstreak for Linux, runs the tests and packs dist/Sunstreak-<version>-linux-x86_64.tar.gz (the game, the
-# README and an empty music folder for the player's own music, the station MY MUSIC).
+# README, the manual, the licence, the credits, the Noto fonts' licence and an empty music folder for the player's own music, the
+# station MY MUSIC).
 #
 #   Deploy/build_linux.sh [build directory]      default: ~/sunstreak-build (a Linux file system builds faster)
 #
@@ -37,7 +38,7 @@ rm -rf "$BUILD/stage"
 mkdir -p "$STAGE"
 cp "$BUILD/Sunstreak" "$STAGE/"
 strip "$STAGE/Sunstreak"
-cp "$SRC/README.md" "$STAGE/"
+cp "$SRC/README.md" "$SRC/LICENSE" "$SRC/docs/manual/Sunstreak-Manual.pdf" "$SRC/docs/CREDITS.txt" "$SRC/docs/OFL-Noto.txt" "$STAGE/"
 mkdir -p "$STAGE/music"
 echo "Put your own music here (.ogg, .mp3, .flac, .wav, .xm, .mod): it plays as the radio station MY MUSIC." > "$STAGE/music/README.txt"
 mkdir -p "$SRC/dist"

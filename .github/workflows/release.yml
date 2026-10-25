@@ -35,7 +35,7 @@ jobs:
           $version = (Select-String -Path CMakeLists.txt -Pattern 'project\( Sunstreak VERSION ([0-9.]+)').Matches[0].Groups[1].Value
           $name = "Sunstreak-$version-windows-x64"
           New-Item -ItemType Directory -Force "stage/$name", dist | Out-Null
-          Copy-Item build/Release/Sunstreak.exe, README.md "stage/$name"
+          Copy-Item build/Release/Sunstreak.exe, README.md, LICENSE, docs/manual/Sunstreak-Manual.pdf, docs/CREDITS.txt, docs/OFL-Noto.txt "stage/$name"
           Compress-Archive -Path "stage/$name/*" -DestinationPath "dist/$name.zip"
 
       - uses: actions/upload-artifact@v4
@@ -82,4 +82,8 @@ jobs:
         run: |
           gh release view "$GITHUB_REF_NAME" -R "$GITHUB_REPOSITORY" > /dev/null 2>&1 ||
             gh release create "$GITHUB_REF_NAME" -R "$GITHUB_REPOSITORY" --title "Sunstreak ${GITHUB_REF_NAME#v}" --generate-notes
-          gh release upload "$GITHUB_REF_NAME" dist/* -R "$GITHUB_REPOSITORY" --clobber
+          # Only what the release lacks: the assets published with Deploy/publish_release.ps1 (and their checksums)
+          # stay; this build is then the check that the tag builds and passes its tests on clean machines.
+          for f in dist/*; do
+            gh release upload "$GITHUB_REF_NAME" "$f" -R "$GITHUB_REPOSITORY" || echo "kept the release's own $(basename "$f")"
+          done

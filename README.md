@@ -1,12 +1,73 @@
+<img src="res/sunstreak.png" width="96" align="left" alt="Sunstreak" />
+
 # Sunstreak
 
-An arcade racer in the spirit of *Lotus III: The Ultimate Challenge*: a low camera, a road that bends, climbs and
-throws you over crests, traffic to slice through and a clock that only checkpoints refill. The endless mode drives a
-track generated from a seed, one biome per 15 km stage, and it grows curvier, denser and stricter as you go. By
-default it is a world tour: 781 places in all 202 countries and territories it visits, every member of the United
-Nations among them, the big countries state by state and province by province, round the globe, through the seasons
-and their festivals. At the borders the road forks and you choose where to go next; between continents and to the
-islands you drive along the sea floor in a glass tunnel, or onto a ferry or the car train under the Channel.
+An arcade racer in the spirit of *Lotus III: The Ultimate Challenge*, round the whole world: a low camera, a road that
+bends, climbs and throws you over crests, traffic to slice through and a clock that only checkpoints refill. The road
+is generated as you drive, five metres at a time, and it carries you through 781 places in all 202 countries and
+territories, every member of the United Nations among them, the big countries state by state and province by
+province, through the seasons and their festivals. At the borders the road forks and you choose where to go next;
+between continents and to the islands you drive along the sea floor in a glass tunnel, or onto a ferry or the car
+train under the Channel.
+
+**Windows, Linux and the Steam Deck**, free and open source under the AGPL-3.0. Everything you see and hear is made by
+the program itself: the low-poly world, the sky, the stroke font, the engines and thirty-one radio stations that
+compose their music as you listen. No textures, no samples, no recordings: the game is one file of 9 MB.
+
+<br clear="left" />
+
+![Tokyo at night: stage one of a world tour](docs/screenshots/tokyo-night.jpg)
+
+## Download
+
+**[Sunstreak-1.0.0-windows-x64.zip](https://github.com/reneweller-coding/Sunstreak/releases/download/v1.0.0/Sunstreak-1.0.0-windows-x64.zip)**
+for Windows 10 and 11: unpack it anywhere and start `Sunstreak.exe`, nothing to install. The
+**[Linux archive](https://github.com/reneweller-coding/Sunstreak/releases/download/v1.0.0/Sunstreak-1.0.0-linux-x86_64.tar.gz)**
+runs on any x86-64 distribution with glibc 2.35 or newer, SteamOS included: on the Steam Deck copy it over and add
+`Sunstreak` to Steam as a non-Steam game. The
+**[manual](https://github.com/reneweller-coding/Sunstreak/releases/download/v1.0.0/Sunstreak-Manual.pdf)** (also in
+both archives) shows every screen and mode with pictures the game took itself.
+
+Requirements: a graphics card with OpenGL 3.3, a gamepad or the keyboard. Put your own music (`.ogg`, `.mp3`, `.flac`,
+`.wav`, `.xm`, `.mod`) into the `music` folder beside the game and it plays as the station MY MUSIC. The program is not
+code-signed: Windows' SmartScreen may warn once ("More info", "Run anyway").
+
+## Pictures
+
+| | |
+|:---:|:---:|
+| ![The hairpins of the Grossglockner from above](docs/screenshots/grossglockner-hairpins.jpg) | ![Tornante 25 on the way up the Stelvio](docs/screenshots/stelvio-tornante.jpg) |
+| The hairpins of the Grossglockner from above | Tornante 25 on the way up the Stelvio |
+| ![In the glass tunnel under the North Atlantic](docs/screenshots/glass-tunnel.jpg) | ![The cockpit in Tokyo at night](docs/screenshots/cockpit-tokyo.jpg) |
+| Under the North Atlantic in a glass tunnel | The cockpit in Tokyo at night |
+| ![A local hero challenges you on the Isle of Skye](docs/screenshots/local-hero-duel.jpg) | ![Christmas lights on the Romantic Road](docs/screenshots/christmas-lights.jpg) |
+| A local hero's duel in the rain of Skye | Christmas lights on the Romantic Road |
+| ![An airliner landing across the road on Saint Lucia](docs/screenshots/pitons-landing.jpg) | ![The passport: the map of the tour](docs/screenshots/passport-map.jpg) |
+| An airliner lands across the road on Saint Lucia | The passport: every place driven, on the map |
+
+## Highlights
+
+- **The whole world.** 781 places, from the white cliffs of Dover to the moai, each with its own landscape,
+  landmarks, houses, roadside stands and wildlife, its weather from thirty years of real climate (NASA POWER), its
+  sun where it really stands, and its smog through the year.
+- **Every country drives its own way:** the side of the road, the markings, the signs (place names in their own
+  scripts too), the number plates, the speed cameras and tolls, the police in its livery, the ambulances, the traffic
+  (Numbeo's index: scooter swarms, chaos, tractors, road trains), the road quality, and from OpenStreetMap the poles,
+  lamps and guard rails of each place.
+- **Real heights.** The road climbs and falls between the places to how high they really lie, from the Dead Sea
+  400 m below the sea to the Himalaya above 5000 m. Twenty-eight legendary roads, from the Stelvio to the Road of
+  Bones, each with its signature: the passes climb in numbered hairpins to the height on their sign.
+- **Two ways round the world.** The world tour follows the map from neighbour to neighbour; the random tour leaps to
+  another part of the world after every stage, each country once a round. Between landmasses: a glass tunnel on the
+  sea floor, a ferry, the car train.
+- **Life on the road.** Hitchhikers and courier jobs, local heroes who challenge you in their own language, patrol
+  cars that give chase, fast trains to race along their viaducts, airliners landing across the road, festivals from
+  Holi to the Christmas markets, monsoon floods and snow walls.
+- **Thirty-one radio stations,** every track composed from its own seed (koto, bollywood, samba, tango, gamelan,
+  schlager ...), engines of four, eight and twelve cylinders with the Doppler of the traffic, 69 awards, a
+  championship, rallies and journeys, a Track Lab whose codes friends can share, ghosts of your best drives.
+- **Steam Deck ready:** Gaming Mode, gamepad glyphs and rumble, performance profiles; about 1.5 ms a frame on a
+  desktop PC.
 
 Beside the endless run there is a championship against eleven rivals, a Track Lab that turns any setting into a
 shareable track code, a ghost of your best drive on every code and a top ten.
@@ -460,3 +521,14 @@ viewer, every landmark and creature alone under its first place's sky, to turn a
   are the strokes (`docs/OFL-Noto.txt`). Run it again after changing a `local` step.
 
 The icon (`res/sunstreak.ico` for the Windows program, `src/IconPng.h` for the window) is drawn by `tools/make_icon.py`.
+
+## Credits and licences
+
+`docs/CREDITS.txt` lists what Sunstreak is made from: raylib and SDL2 (zlib licence), the Noto fonts (SIL Open Font
+License 1.1, `docs/OFL-Noto.txt`), OpenStreetMap data (c) OpenStreetMap contributors under the ODbL (the derived
+`data/roadside.txt` is available under the ODbL as well), ASTER GDEM (METI and NASA) through OpenTopoData, Natural
+Earth, NASA POWER, Open-Meteo Air Quality with Copernicus Atmosphere Monitoring Service information, the World
+Economic Forum and Numbeo. The release packages carry it beside the game, with OFL-Noto.txt and the manual.
+
+Sunstreak itself is free software under the GNU Affero General Public License 3.0 (`LICENSE`): use it, change it,
+pass it on, with the source of what you change.

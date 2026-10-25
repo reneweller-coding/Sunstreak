@@ -5,8 +5,9 @@
 .DESCRIPTION
     .\Deploy\build_release.ps1 [-NoBuild] [-NoLinux]
 
-    Builds and tests the Release (build.ps1 -Test), stages the game, this README and an empty music folder (for the
-    player's own music, the station MY MUSIC) in work\release and zips them into dist. The Linux archive comes from
+    Builds and tests the Release (build.ps1 -Test), stages the game, this README, the manual (PDF), the licence, the
+    credits and the Noto fonts' licence, and an empty music folder (for the player's own music, the station MY MUSIC) in
+    work\release and zips them into dist. The Linux archive comes from
     Deploy/build_linux.sh in the WSL distribution Ubuntu-22.04 (GCC 11, runs on glibc 2.35 and newer, the Steam Deck
     included); without WSL it is skipped. GitHub builds the same archives from .github/workflows/release.yml.
 
@@ -37,6 +38,7 @@ if (Test-Path $stage) { Remove-Item -Recurse -Force $stage }
 New-Item -ItemType Directory -Force $stage | Out-Null
 Copy-Item (Join-Path $root "bin\msvc\Sunstreak.exe") $stage
 Copy-Item (Join-Path $root "README.md") $stage
+foreach ($doc in "LICENSE", "docs\manual\Sunstreak-Manual.pdf", "docs\CREDITS.txt", "docs\OFL-Noto.txt") { Copy-Item (Join-Path $root $doc) $stage }
 New-Item -ItemType Directory -Force (Join-Path $stage "music") | Out-Null
 Set-Content -Path (Join-Path $stage "music\README.txt") -Encoding utf8 `
     -Value "Put your own music here (.ogg, .mp3, .flac, .wav, .xm, .mod): it plays as the radio station MY MUSIC."
