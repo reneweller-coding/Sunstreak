@@ -49,6 +49,7 @@ Track::Track( uint64_t seed, const TrackParams &params, int startBiome )
         auto       it = std::find( m_stageBiomes.begin(), end, want );
         if ( it != end ) std::iter_swap( m_stageBiomes.begin(), it );
     }
+    m_genPos.m_y = heightGoal( 0.0 );   // the start already as high as its place
     generateTo( 1000.0 );
 }
 
@@ -161,6 +162,26 @@ long Track::stageSegment( int stage ) const
 long Track::stageSegments( int stage ) const
 {
     return stageSegment( stage + 1 ) - stageSegment( stage );
+}
+
+double Track::placeAltitude( int stage ) const
+{
+    const BiomeDef &d = biomeDef( stageBiome( stage ) );
+    if ( d.m_underwater || d.m_crossing != CrossingE::NONE ) return 0.0;
+    if ( d.m_summitHeight > 0 ) return std::max( d.m_altitude, static_cast<float>( d.m_summitHeight ) - SummitRise );
+    return d.m_altitude;
+}
+
+double Track::heightGoal( double s ) const
+{
+    const int    stage = stageAt( std::max( 0.0, s ) );
+    const double here = placeAltitude( stage );
+    if ( m_tour && fork( stage ).m_exists ) return here;   // which place comes next is chosen only at the fork
+    const double next = placeAltitude( stage + 1 ), end = stageStart( stage + 1 );
+    const double reach = std::clamp( std::abs( next - here ) / 0.06, 1500.0, 12000.0 );
+    return here +
+           ( next - here ) * static_cast<double>( smoothstepf( static_cast<float>( end - reach ),
+                                                               static_cast<float>( end ), static_cast<float>( s ) ) );
 }
 
 RouteFork Track::stepFork( size_t k ) const
@@ -626,8 +647,10 @@ void Track::appendSegment()
 
     float curvy = 0, sharp = 0, hilly = 0;
     styleAt( s, curvy, sharp, hilly );
-    const float pull = clampf( static_cast<float>( m_genPos.m_y ) / 2500.0f, -0.03f, 0.03f );
-    seg.m_grade = bend.m_fixed ? extraGrade : hillGrade( s, hilly ) + extraGrade - pull;
+    // Towards the height of the place's roads, at most MaxClimb, the hills on top (and no steeper than 12 % in all).
+    const float toward =
+        clampf( static_cast<float>( ( heightGoal( s ) - m_genPos.m_y ) / 600.0 ), -MaxClimb, MaxClimb );
+    seg.m_grade = bend.m_fixed ? extraGrade : clampf( hillGrade( s, hilly ) + toward, -0.12f, 0.12f ) + extraGrade;
     if ( s < m_params.m_startLine + 60.0 ) seg.m_grade *= static_cast<float>( s / ( m_params.m_startLine + 60.0 ) );
     if ( m_tour )
     {
@@ -854,21 +877,21 @@ bool Track::planSerpentine( double s )
 
     // The grades: into the climb, up, over the summit, down to where it began, out of it. The descent is as steep as
     // it must be to come down again (within reason; the rest the road loses afterwards).
-    constexpr float GradeUp = 0.09f;
-    auto            grades = [&]( float gradeDown )
+    float gradeUp = 0.09f;
+    auto  grades = [&]( float gradeDown )
     {
         std::vector<float> g( n );
         for ( size_t i = 0; i < n; ++i )
         {
             if ( i < climbFrom )
-                g[i] = GradeUp *
+                g[i] = gradeUp *
                        smoothstepf( 0.0f, 1.0f,
                                     static_cast<float>( i ) / static_cast<float>( std::max<size_t>( 1, climbFrom ) ) );
             else if ( i < summitFrom )
-                g[i] = GradeUp;
+                g[i] = gradeUp;
             else if ( i < summitTo )
                 g[i] = lerpf(
-                    GradeUp, -gradeDown,
+                    gradeUp, -gradeDown,
                     smoothstepf( 0.0f, 1.0f,
                                  static_cast<float>( i - summitFrom ) / static_cast<float>( summitTo - summitFrom ) ) );
             else if ( i < descentTo )
@@ -881,6 +904,18 @@ bool Track::planSerpentine( double s )
         }
         return g;
     };
+    if ( place.m_summitHeight > 0 )
+    {
+        // A pass climbs to its height on the sign (as steep as it must be, within reason): the rise at a grade of one,
+        // scaled.
+        gradeUp = 1.0f;
+        const std::vector<float> g = grades( 0.0f );
+        float                    unit = 0.0f;
+        for ( size_t i = 0; i < ( summitFrom + summitTo ) / 2; ++i ) unit += g[i] * SegmentLength;
+        gradeUp = clampf( ( static_cast<float>( place.m_summitHeight ) - static_cast<float>( m_genPos.m_y ) ) /
+                              std::max( 1.0f, unit ),
+                          0.05f, 0.12f );
+    }
     float gradeDown = 0.08f;
     for ( int pass = 0; pass < 2; ++pass )
     {

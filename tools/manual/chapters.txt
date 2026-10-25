@@ -43,7 +43,7 @@ The gamepad hints on screen show the buttons as glyphs (on the Steam Deck its ow
 
 [shot hud] Driving through Tuscany.
 
-- **Top left**: the score, the kilometres driven, and the stage line: the stage, the place, its region and its country.
+- **Top left**: the score, the kilometres driven and the height above the sea (ALT; in feet with MPH), and the stage line: the stage, the place, its region and its country.
 - **Top middle**: the clock. When it reaches zero, the run ends; in TRAVEL it shows the time on the road instead.
 - **Top right**: the best score so far, your overtakes and, after near misses, the combo.
 - **Left**: messages as they come (a front ahead, a hitchhiker waiting, a duel on), the distance to the next checkpoint, and the minimap with the road ahead.
@@ -155,7 +155,7 @@ Where two places lie on different landmasses that no land joins (Africa and Asia
 
 ## Legendary roads
 
-[stat legends] of the places are legendary roads. A banner announces them when they begin, the game keeps your best time over each from end to end, and each has its signature. The passes climb in hairpins, numbered on the outside and counting down to the top, where the pass's name and height stand on a board. All the legs of a climb lie on one mountainside, and the legs below stay in sight. Other high mountains climb in hairpins now and then too. The Atlantic Road has its humped bridges over the sea that seem to end in the air.
+[stat legends] of the places are legendary roads. A banner announces them when they begin, the game keeps your best time over each from end to end, and each has its signature. The passes climb in hairpins, numbered on the outside and counting down to the top, where the pass's name and height stand on a board, and the road is as high as the board says. Everywhere the road lies as high as the place's roads really do: it climbs and falls between the places, from the Dead Sea 400 m below the sea to the Altiplano at almost 4000 m and the Himalaya above 5000. All the legs of a climb lie on one mountainside, and the legs below stay in sight. Other high mountains climb in hairpins now and then too. The Atlantic Road has its humped bridges over the sea that seem to end in the air.
 
 [table legends]
 

@@ -113,7 +113,11 @@ boost, grip, crash_keep, time, traffic, rivals. Change a value and restart; dele
 Alps, Italy, Iberia, Morocco, West, East and Southern Africa, Arabia, Egypt and the Levant, Turkey, Greece and the
 Balkans, Central and Eastern Europe, Central Asia, India and the Himalaya, Southeast and East Asia, Australia, New
 Zealand and the Pacific, South and Central America, Mexico, the United States and Canada, Russia, the Baltic,
-Scandinavia, Greenland and Iceland, and back to Ireland. Each stage shows its place and country: Tuscany, the
+Scandinavia, Greenland and Iceland, and back to Ireland. The road lies as high as each place's roads do
+(data/altitudes.txt, from the ASTER elevation model by `tools/make_altitudes.py`): it climbs and falls towards the
+next place at up to 8 %, already before the border where no fork comes first, from the Dead Sea at -400 m to La Paz at
+3850 m and the Himalaya above 5000; a pass climbs in its hairpins to the height on its sign, and the HUD shows the
+height (ALT, in feet with MPH). Each stage shows its place and country: Tuscany, the
 Serengeti with its herds, Cappadocia under balloons, Ha Long Bay, the Avenue of Baobabs, Route 66, Las Vegas and
 Tokyo at night, the Great Wall, Uluru, the moai, the Florida Keys and seven hundred more. The big countries are
 driven region by region, each with its own landscape and sights, and the stage line names the place, its state and
@@ -430,6 +434,8 @@ viewer, every landmark and creature alone under its first place's sky, to turn a
 - `seas.txt`: the seas and points in them; a crossing goes under the sea nearest the middle between the nearest places
   of the two lands.
 - `landlinks.txt`: landmasses joined by land (AFRICA EURASIA over Sinai); between them the tour stays on land.
+- `altitudes.txt`: how high each place's roads lie above the sea, written by `tools/make_altitudes.py` (the third
+  lowest of nine points round the place in the ASTER GDEM, through the OpenTopoData API); a line may be corrected.
 - `landmarks/*.txt` and `creatures/*.txt`: shapes in a small language (`00-language.txt` describes it): boxes, tapered
   boxes, columns, cones, rods, balls, domes, roofs, windows, arches, rings, repeated, turned and mirrored. The creatures
   swim round the undersea tunnels; the ferry, the car train, the festivals' stalls and tents and the regional houses

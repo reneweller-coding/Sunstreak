@@ -946,6 +946,7 @@ struct BiomeDef
     const char           *m_hairpinWord = nullptr;   ///< the word on their boards before the number ("TORNANTE")
     const char           *m_summit = nullptr;        ///< the pass's name on the board at the top
     int                   m_summitHeight = 0;        ///< and its altitude (m)
+    float                 m_altitude = 0.0f;         ///< how high its roads lie above the sea (m, data/altitudes.txt)
     const char           *m_legend = nullptr;        ///< a legendary road: what the banner says of it
     uint8_t               m_humps = 0;               ///< humped bridges over the sea per stage (the Atlantic Road)
     const char *m_local = nullptr;    ///< its name in its own script (UTF-8; the signs draw data/script-names.txt)
@@ -1014,6 +1015,12 @@ void addDataPlaces( std::vector<BiomeDef> &table );
  * @param[in,out] table  the places
  */
 void strewLitter( std::vector<BiomeDef> &table );
+
+/**
+ * @brief Gives the places the heights of their roads (data/altitudes.txt; a line naming no place is a data error).
+ * @param[in,out] table  the places
+ */
+void applyAltitudes( std::vector<BiomeDef> &table );
 
 /**
  * @brief How many steps, names and lines the data files got wrong (0 for a clean world).

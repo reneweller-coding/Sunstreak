@@ -3092,8 +3092,18 @@ void Game::drawHud()
         txt( "SCORE", 28.0f * u, row( 14.0f ), 13.0f * u, Dim );
         drawTextFx( format( "%lld", static_cast<long long>( m_score ) ), 28.0f * u, row( 34.0f ), 28.0f * u, Ink,
                     AlignE::LEFT, 0.3f );
-        txt( format( "%.2f KM", ( m_car.m_s - m_startS ) / 1000.0 ), 28.0f * u, row( 74.0f ), 15.0f * u, Ink );
-        const BiomeE biome = m_track->stageBiome( m_track->stageAt( m_car.m_s ) );
+        const BiomeE    biome = m_track->stageBiome( m_track->stageAt( m_car.m_s ) );
+        const BiomeDef &ground = biomeDef( biome );
+        std::string     distance = format( "%.2f KM", ( m_car.m_s - m_startS ) / 1000.0 );
+        if ( ground.m_country && !ground.m_underwater && ground.m_crossing == CrossingE::NONE )
+        {
+            // How high the car is above the sea, in feet where the speed is in miles.
+            const bool feet = m_settings.m_units == UnitsE::MPH;
+            distance += format( "   ALT %d %s",
+                                static_cast<int>( std::lround( m_car.m_y * ( feet ? 3.28084 : 1.0 ) / 10.0 ) * 10 ),
+                                feet ? "FT" : "M" );
+        }
+        txt( distance, 28.0f * u, row( 74.0f ), 15.0f * u, Ink );
         std::string stageLine = format( "STAGE %d  %s", m_track->stageAt( m_car.m_s ) + 1, placeName( biome ).c_str() );
         if ( m_settings.m_timeOfDay == 1 && m_hour >= 0.0f )
             stageLine += format( "  %02d:%02d", static_cast<int>( m_hour ),

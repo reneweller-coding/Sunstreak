@@ -1457,6 +1457,30 @@ void addHomes( std::vector<BiomeDef> &table, const std::vector<Header> &places, 
 
 }   // namespace
 
+void applyAltitudes( std::vector<BiomeDef> &table )
+{
+    std::unordered_map<std::string, float> heights;
+    for ( const std::string &line : dataLines( dataText( "altitudes.txt" ) ) )
+    {
+        const std::vector<std::string> p = splitLine( line, ' ' );
+        if ( p.size() != 2 )
+        {
+            ++g_errors;
+            continue;
+        }
+        heights[p[0]] = std::strtof( p[1].c_str(), nullptr );
+    }
+    size_t used = 0;
+    for ( size_t i = 0; i < table.size(); ++i )
+    {
+        const auto it = heights.find( biomeKeyAt( i ) );
+        if ( it == heights.end() ) continue;
+        table[i].m_altitude = it->second;
+        ++used;
+    }
+    g_errors += static_cast<int>( heights.size() - used );
+}
+
 void strewLitter( std::vector<BiomeDef> &table )
 {
     // What each litter shape says: its chance, its distances, whether it is solid, the fleets that have it.

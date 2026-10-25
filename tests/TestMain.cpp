@@ -61,7 +61,7 @@ int main()
                "same seed, same track" );
         check( std::abs( sa.m_pos.m_x - sc.m_pos.m_x ) > 1.0, "different seed, different track" );
     }
-    {   // 300 km: the heading stays near north, the height bounded, checkpoints where they belong.
+    {   // 300 km: the heading stays near north, the height within the places', checkpoints where they belong.
         Track  t( 777 );
         float  maxHeading = 0.0f, maxGrade = 0.0f;
         double minY = 0.0, maxY = 0.0;
@@ -92,7 +92,15 @@ int main()
             maxHeading, maxGrade, minY, maxY, checkpoints, jumps, works );
         check( maxHeading < 1.45f, "heading within +-83 degrees" );
         check( maxGrade < 0.3f, "grades below 30 % (crest ramps included)" );
-        check( maxY - minY < 600.0, "height bounded" );
+        // Between the lowest and the highest place driven through (a pass climbing above its road).
+        double low = 1e9, high = -1e9;
+        for ( int k = 0; k <= t.stageAt( 300000.0 ); ++k )
+        {
+            const double a = t.placeAltitude( k );
+            low = std::min( low, a );
+            high = std::max( high, a + ( biomeDef( t.stageBiome( k ) ).m_summitHeight > 0 ? SummitRise : 0.0f ) );
+        }
+        check( minY > low - 150.0 && maxY < high + 250.0, "height within the heights of the places" );
         check( checkpoints == 119, "a checkpoint every 2.5 km" );
         check( jumps >= 2 && works > 5,
                "crests and roadworks appear" );   // fewer crests where passes climb in hairpins
@@ -375,6 +383,30 @@ int main()
                          madagascar >= 0 ? biomeDef( static_cast<BiomeE>( madagascar ) ).m_name : "-" );
             check( crossings >= 20 && seas == crossings && channel && shorter && overland && madagascar == channel2,
                    "under the sea between landmasses, a third as long" );
+        }
+        {   // Real heights: La Paz lies high from the start; the Stelvio's hairpins climb to the pass on the sign.
+            TrackParams paz;
+            paz.m_biome = biomeId( "LA_PAZ" );
+            TrackParams pass;
+            pass.m_biome = biomeId( "STELVIO" );
+            double high = 0.0, top = -1e9;
+            if ( paz.m_biome >= 0 && pass.m_biome >= 0 )
+            {
+                Track road( 5, paz );
+                road.generateTo( 6000.0 );
+                high = road.segment( 1000 ).m_pos.m_y;
+                Track st( 3, pass );
+                st.generateTo( StageLength );
+                for ( long j = 0; j < static_cast<long>( StageLength / SegmentLength ) - 2; ++j )
+                    top = std::max( top, st.segment( j ).m_pos.m_y );
+            }
+            std::printf( "      La Paz at %.0f m (data %.0f), the Stelvio's top at %.0f m (sign %d)\n", high,
+                         paz.m_biome >= 0 ? biomeDef( static_cast<BiomeE>( paz.m_biome ) ).m_altitude : 0.0f, top,
+                         pass.m_biome >= 0 ? biomeDef( static_cast<BiomeE>( pass.m_biome ) ).m_summitHeight : 0 );
+            check( paz.m_biome >= 0 && pass.m_biome >= 0 &&
+                       std::abs( high - biomeDef( static_cast<BiomeE>( paz.m_biome ) ).m_altitude ) < 150.0 &&
+                       std::abs( top - biomeDef( static_cast<BiomeE>( pass.m_biome ) ).m_summitHeight ) < 200.0,
+                   "real heights: the place's, and up to the pass" );
         }
         {   // The random tour: every country once, each in another part of the world, a fork between two, the sea
             // floor or a ferry between landmasses; the countries of earlier runs left out.

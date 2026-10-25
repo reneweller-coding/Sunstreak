@@ -69,6 +69,7 @@ void addWorldBiomes( std::vector<BiomeDef> &b )
     b[static_cast<size_t>( BiomeT::VOLCANO )].m_island = "HAWAII";
 
     addDataPlaces( b );
+    applyAltitudes( b );
     applyRoadCustoms( b );
     applyRoadside( b );
     strewLitter( b );
@@ -148,7 +149,8 @@ float sunHeightAt( float latitude, float phase, float hour )
     constexpr float rad = 0.0174532925f;
     const float     declination = 23.44f * std::sin( ( phase * 365.0f - 81.0f ) * 6.2831853f / 365.0f ) * rad;
     const float     lat = latitude * rad, angle = ( hour - 12.0f ) * 15.0f * rad;
-    const float     s = std::sin( lat ) * std::sin( declination ) + std::cos( lat ) * std::cos( declination ) * std::cos( angle );
+    const float     s =
+        std::sin( lat ) * std::sin( declination ) + std::cos( lat ) * std::cos( declination ) * std::cos( angle );
     return std::asin( std::clamp( s, -1.0f, 1.0f ) ) / rad;
 }
 

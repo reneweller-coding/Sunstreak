@@ -33,6 +33,8 @@ constexpr float  RumbleWidth = 0.9f;           ///< the kerb outside the road ed
 constexpr float  ShoulderWidth = 2.2f;         ///< gravel beside the kerb
 constexpr double StageLength = 15000.0;        ///< one biome
 constexpr double SeaStageLength = 5000.0;      ///< a stage on the sea floor or a ferry's: a third of one on land
+constexpr float  MaxClimb = 0.08f;             ///< the steepest the road climbs or falls towards a place's height
+constexpr float  SummitRise = 700.0f;          ///< about what a pass's hairpins climb: its road lies this far below
 constexpr double CheckpointSpacing = 2500.0;   ///< metres between checkpoints
 constexpr double BlendLength = 500.0;          ///< the crossfade between two biomes
 constexpr double StartLine = 40.0;             ///< where the start gantry stands
@@ -320,6 +322,22 @@ public:
      * @return the count
      */
     long stageSegments( int stage ) const;
+
+    /**
+     * @brief How high the road of a stage lies above the sea: its place's (data/altitudes.txt), a pass's below its
+     *        summit by what the hairpins climb, the sea's at 0.
+     * @param[in] stage  the stage number
+     * @return metres
+     */
+    double placeAltitude( int stage ) const;
+
+    /**
+     * @brief The height the road makes for at a distance: its place's, and before the next place where the way there is
+     *        certain (no fork before it) already towards that one's, at about 6 %.
+     * @param[in] s  the distance along the road
+     * @return metres above the sea
+     */
+    double heightGoal( double s ) const;
 
     /**
      * @brief The world tour's fork in a stage (copies of the track share the choices).
