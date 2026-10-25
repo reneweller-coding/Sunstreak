@@ -104,6 +104,17 @@ bool floodAt( const Track &track, long index );
 float smogOf( const BiomeDef &place );
 
 /**
+ * @brief How much smog a place's air holds at a time of year and of day: its index (smogOf) times how thick the air is
+ *        then (data/smog.txt: thicker in the heating season, thinner in the monsoon, thickest at night), where the data
+ *        knows the place.
+ * @param[in] place  the biome
+ * @param[in] phase  the time of year (0: 1 January), or below 0 for no seasonal change
+ * @param[in] hour   the local hour (0..24), or below 0 for no daily change
+ * @return 0 (clean) .. 1
+ */
+float smogAt( BiomeE place, float phase, float hour );
+
+/**
  * @brief The air of a polluted place: a thicker haze turning brown, a paler sky, paler colours, a weaker, yellower sun.
  * @param[in] e    the air as it would be
  * @param[in] smog 0..1 (smogOf)

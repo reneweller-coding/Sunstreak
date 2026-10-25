@@ -405,6 +405,16 @@ int main()
                        agra.m_spring == 0.0f && agra.m_bare == 0.0f && monsoon > 300.0f && dry < 5.0f,
                    "the seasons and the rain follow the real climate" );
         }
+        { // The air of Delhi: thick in a winter night, thin on a monsoon afternoon; no change without a date or an hour.
+            const BiomeE delhi = static_cast<BiomeE>( biomeId( "DELHI" ) );
+            const PlaceSmog *air = placeSmog( delhi );
+            const float      winter = smogAt( delhi, dateFromText( "12-15" ), 22.0f ), monsoon = smogAt( delhi, dateFromText( "08-15" ), 15.0f );
+            const float      plain = smogAt( delhi, -1.0f, -1.0f ), base = smogOf( biomeDef( delhi ) );
+            std::printf( "      Delhi smog: %.2f on a December night, %.2f on an August afternoon, %.2f without date and hour; %d broken lines\n", winter,
+                         monsoon, plain, smogProfileErrors() );
+            check( smogProfileErrors() == 0 && air && winter > monsoon + 0.3f && plain == base && smogAt( BiomeE::BAVARIA, 0.5f, 12.0f ) <= 1.0f,
+                   "the smog follows the month and the hour" );
+        }
         { // Road customs: miles and boards in the USA, cameras in Germany, EU plates in France, toll plazas in Italy.
             const RoadCustoms &usa = roadCustoms( "USA" ), &germany = roadCustoms( "GERMANY" ), &france = roadCustoms( "FRANCE" );
             int tolls = 0, cameras = 0;

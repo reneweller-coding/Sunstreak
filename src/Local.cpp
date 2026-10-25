@@ -5,6 +5,7 @@
  */
 #include "Local.h"
 
+#include "Climate.h"
 #include "Data.h"
 #include "Rng.h"
 
@@ -307,6 +308,14 @@ bool floodAt( const Track &track, long index )
 float smogOf( const BiomeDef &place )
 {
     return place.m_underwater ? 0.0f : clampf( ( place.m_pollution - 30.0f ) / 60.0f, 0.0f, 1.0f );
+}
+
+float smogAt( BiomeE place, float phase, float hour )
+{
+    const float base = smogOf( biomeDef( place ) );
+    if( base <= 0.0f ) return 0.0f;
+    const PlaceSmog *profile = placeSmog( place );
+    return profile ? clampf( base * smogFactor( *profile, phase, hour ), 0.0f, 1.0f ) : base;
 }
 
 Environment withSmog( Environment e, float smog )

@@ -316,10 +316,12 @@ Environment Game::sceneEnvironment( double s ) const
     // On the sea floor the hour does not reach: the sea keeps its own light.
     if( m_hour >= 0.0f ) e = blendEnvironment( environmentAtHour( e, m_hour ), e, under );
     e.m_underwater = smoothstepf( 0.35f, 0.65f, under );
-    // Dirty air where the place's pollution index is high.
-    e = withSmog( e, lerpf( smogOf( biomeDef( mix.m_from ) ), smogOf( biomeDef( mix.m_to ) ), mix.m_t ) );
+    // Dirty air where the place's pollution index is high: thicker in the heating season and at night, thinner in the
+    // monsoon and in the afternoon, where the data knows the place's air (the month counts with the seasons on, the hour
+    // with the sky on the clock).
+    const float phase = seasonClock().phaseAt( s );
+    e = withSmog( e, lerpf( smogAt( mix.m_from, phase, m_hour ), smogAt( mix.m_to, phase, m_hour ), mix.m_t ) );
     // The season: snow falling in winter, leaves in autumn, petals in spring.
-    const float      phase = seasonClock().phaseAt( s );
     const SeasonLook la = seasonAt( mix.m_from, phase ), lb = seasonAt( mix.m_to, phase );
     const bool       cold = biomeDef( mix.m_t < 0.5f ? mix.m_from : mix.m_to ).m_climate == ClimateE::COLD;
     e.m_snow = std::max( e.m_snow, lerpf( la.m_winter, lb.m_winter, mix.m_t ) * ( cold ? 0.55f : 0.3f ) );

@@ -1,7 +1,8 @@
 /**
  * @file Climate.h
  * @brief The climate of the places (data/climate.txt): twelve monthly temperatures and rain sums each, from which the
- *        seasons and the showers of a place follow.
+ *        seasons and the showers of a place follow; and how their air changes with the month and the hour
+ *        (data/smog.txt).
  * @author reneweller
  */
 #pragma once
@@ -49,5 +50,35 @@ float climatePrecipitation( const PlaceClimate &c, float phase );
  * @return the count
  */
 int climateErrors();
+
+/** @brief How the air of a place changes with the month and the hour of the day (data/smog.txt): factors averaging 1. */
+struct PlaceSmog
+{
+    bool  m_known = false;   ///< the data file has a line for the place
+    float m_month[12] = {};  ///< per month (January first): 2 is twice as thick as the year's mean
+    float m_hour[24] = {};   ///< per hour of the local day (midnight first)
+};
+
+/**
+ * @brief A place's air profile.
+ * @param[in] place  the biome
+ * @return its profile, or nullptr if the data has none
+ */
+const PlaceSmog *placeSmog( BiomeE place );
+
+/**
+ * @brief How thick the air is at a time of year and a time of day compared with the year's mean.
+ * @param[in] s      the profile
+ * @param[in] phase  the time of year (0: 1 January), or below 0 for no seasonal change
+ * @param[in] hour   the local hour (0..24), or below 0 for no daily change
+ * @return a factor, 0.2 .. 3
+ */
+float smogFactor( const PlaceSmog &s, float phase, float hour );
+
+/**
+ * @brief How many lines of data/smog.txt were wrong.
+ * @return the count
+ */
+int smogProfileErrors();
 
 } // namespace sunstreak
