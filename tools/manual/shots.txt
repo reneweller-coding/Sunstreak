@@ -1,0 +1,36 @@
+# The manual's pictures: NAME | the game's command line. tools/manual/make_shots.ps1 takes each into
+# docs/manual/shots/NAME.png (muted, windowed, 1600 x 900).
+cover       | --play --autopilot --biome TOKYO --time night --seed 5 --quit-after 18
+title       | --quit-after 6
+hud         | --play --autopilot --biome TUSCANY --time day --seed 7 --quit-after 24
+cockpit     | --play --autopilot --biome TOKYO --time night --camera 3 --seed 3 --quit-after 20
+fork        | --play --autopilot --find fork --time day --seed 3 --quit-after 15
+undersea    | --play --autopilot --biome NORTH_ATLANTIC --time day --seed 3 --quit-after 14
+ferry       | --play --autopilot --find ferry --time day --seed 3 --quit-after 15
+hairpins    | --play --autopilot --travel --biome STELVIO --time day --seed 3 --quit-after 70
+aerial      | --play --autopilot --travel --camera 4 --biome GROSSGLOCKNER --time day --seed 4 --quit-after 150
+summit      | --play --autopilot --travel --find summit --biome STELVIO --time day --seed 3 --quit-after 10
+sign        | --play --biome TOKYO --time day --seed 3 --quit-after 2
+hump        | --play --autopilot --travel --find hump --biome ATLANTIC_ROAD --time day --seed 3 --quit-after 9
+city        | --play --autopilot --travel --biome NEW_YORK --time night --seed 3 --quit-after 14
+village     | --play --autopilot --travel --biome BLACK_FOREST --season summer --time day --seed 3 --quit-after 12
+stands      | --play --autopilot --travel --biome FURANO --time day --seed 3 --quit-after 30
+rain        | --play --autopilot --travel --biome GLENCOE --weather rain --time day --seed 3 --quit-after 18
+snow        | --play --autopilot --travel --biome AOMORI --season winter --weather snow --time day --seed 3 --quit-after 20
+monsoon     | --play --autopilot --travel --biome KERALA --weather monsoon --time day --seed 3 --quit-after 25
+christmas   | --play --autopilot --travel --biome ROMANTIC_ROAD --date 12-12 --time night --seed 3 --quit-after 14
+hitchhiker  | --play --autopilot --travel --find hitchhiker --time day --seed 3 --quit-after 8
+hero        | --play --autopilot --travel --find hero --time day --seed 3 --quit-after 20
+train       | --play --autopilot --travel --find train --time day --seed 3 --quit-after 14
+plane       | --play --autopilot --travel --find runway --camera 4 --biome PITONS --time day --seed 3 --quit-after 17
+garage      | --screen garage --quit-after 4
+passport    | --screen passport --quit-after 5
+stamps      | --screen stamps --quit-after 4
+regions     | --screen regions --quit-after 4
+postcards   | --screen postcards --quit-after 4
+album       | --screen album --quit-after 4
+awards      | --screen awards --quit-after 4
+records     | --screen records --quit-after 4
+lab         | --screen lab --quit-after 4
+settings    | --screen settings --quit-after 4
+rallies     | --screen rallies --quit-after 4

@@ -1,0 +1,317 @@
+# Welcome
+
+Sunstreak is an arcade racer in the spirit of the old 16-bit road games: a low camera, a road that bends, climbs and throws you over crests, traffic to slice through, and a clock that only the checkpoints refill. The road is never the same twice. It is generated as you drive, five metres at a time, from a seed, and it carries you round the world: [stat places] places in [stat countries] countries and territories, every member of the United Nations among them, the big countries state by state and province by province, through the seasons and their festivals, across the seas in glass tunnels on the sea floor and over the passes in numbered hairpins.
+
+Everything you see and hear is made by the program itself: the low-poly world, the sky, the stroke font, the engines with four, eight or twelve cylinders, and thirty-one radio stations that compose their tracks as you listen.
+
+This manual tells you how to drive, what the screen shows, what the modes are, and what you will meet on the road. The pictures are taken by the game itself.
+
+[shot title] The title screen. Left and right on ENDLESS RUN choose between resuming the world tour where you stopped and starting a new one.
+
+# Getting started
+
+## Installing
+
+- **Windows**: unpack `Sunstreak-<version>-windows-x64.zip` anywhere and start `Sunstreak.exe`. The game starts in a window; F11 or Alt+Enter switches to fullscreen.
+- **Linux**: unpack `Sunstreak-<version>-linux-x86_64.tar.gz` and start `Sunstreak`. The program needs only the C library; OpenGL and X11 are loaded when it runs.
+- **Steam Deck**: copy the Linux program onto the Deck and add it to Steam as a non-Steam game. It runs in Gaming Mode and starts fullscreen, with the BALANCED profile and the text a size larger.
+
+Your own music can come along: put `.ogg`, `.mp3`, `.flac`, `.wav`, `.xm` or `.mod` files into the `music` folder beside the game, and they play as the station MY MUSIC.
+
+## The title screen
+
+| Entry | What it does |
+|---|---|
+| ENDLESS RUN | The world tour against the clock, from where the last run stopped (or a NEW TOUR) |
+| TRAVEL | The world tour without a clock, for the places, the passport and the postcards |
+| DAILY CHALLENGE | Today's track, the same all day, with a twist |
+| RALLIES | Ten long-distance routes and the journeys between two places |
+| CHAMPIONSHIP | Five races against eleven rivals |
+| TRACK LAB | Build a track from its settings, or type in a code |
+| GARAGE | Your car, its paint, rims, decals and number plate |
+| PASSPORT | The map of the tour, stamps, regions, postcards, album and awards |
+| RECORDS | The top ten, your kilometres, titles and progress |
+| SETTINGS | Picture, sound, assists, the world's weather and seasons |
+
+# Controls
+
+[table controls]
+
+The gamepad hints on screen show the buttons as glyphs (on the Steam Deck its own), with a keyboard they show the keys. Gamepads rumble on hits, crashes, landings, boosts and gear changes and buzz on kerbs and gravel; VIBRATION in the settings turns it down or off.
+
+# The screen
+
+[shot hud] Driving through Tuscany.
+
+- **Top left**: the score, the kilometres driven, and the stage line: the stage, the place, its region and its country.
+- **Top middle**: the clock. When it reaches zero, the run ends; in TRAVEL it shows the time on the road instead.
+- **Top right**: the best score so far, your overtakes and, after near misses, the combo.
+- **Left**: messages as they come (a front ahead, a hitchhiker waiting, a duel on), the distance to the next checkpoint, and the minimap with the road ahead.
+- **Bottom right**: the gear, the speed, the rev band and the boost tank.
+- **Middle**: big news: a checkpoint and its bonus, a new stage, a speed camera, a fine.
+
+C changes the camera: chase, far, bumper and cockpit. The cockpit puts you in the driver's seat, on the left, or on the right where they keep left, with live dials and what the country's drivers hang from the mirror.
+
+[shot cockpit] The cockpit at night in Tokyo, the beckoning cat on the dashboard.
+
+# Driving
+
+## The car
+
+Accelerate, brake and steer. In a bend the road pushes the car outwards, the more the faster you go: steer against it, and brake before the tight ones. The minimap and the chevron boards show what is coming; the yellow diamonds and triangles warn of crests, and a crest taken fast throws the car into the air.
+
+The **boost** (Space, B on a gamepad) adds speed while the tank lasts. The tank fills with **near misses**: pass traffic close and fast. Every near miss also raises the **combo**, which multiplies what the next ones are worth.
+
+GEARS in the settings switches between the automatic and a manual gearbox (Q and E, or the shoulder buttons).
+
+## The road
+
+Asphalt holds best. Gravel, dirt and sand hold less and throw up dust; the Gibb River Road, the Yungas, the Sani Pass, the Road of Bones and the Sahara have no asphalt at all, and the country's road quality decides how much gravel, how many patches and potholes a road has elsewhere. Wet roads, snow and sand hold less; in a downpour, puddles gather, and over 100 km/h the tyres float on them: AQUAPLANING, hardly any grip until they find the road again. Cobbles shake.
+
+Hitting traffic, a sign or a stand costs speed; a crash costs more. The barriers along bridges, tunnels and galleries keep you on the road.
+
+## Help
+
+STEER ASSIST (light or strong) steers where your hands are idle, keeps the road and goes round the traffic; BRAKE ASSIST brakes for bends and obstacles taken too fast. DIFFICULTY (easy, normal, hard) scales the grip, the clock, the traffic and the rivals. The handling itself is in the file `tuning.ini` beside the settings, written with comments on the first start: change a value and restart, delete the file for the defaults.
+
+# The clock and the score
+
+The clock starts at 55 seconds. Every checkpoint (one every 2.5 km) adds time, a little less each stage; where the road climbs a pass in hairpins, the checkpoint counts the slow bends in. The run ends when the clock reaches zero, and the results show the track code to drive the same road again.
+
+The score grows with speed and distance, overtakes and near misses (times the combo), and the bonuses of the road:
+
+| What | Bonus |
+|---|---|
+| A checkpoint | +1000 and its time |
+| Getting away from the police (400 m ahead) | +2500 |
+| Letting an ambulance or a fire engine through | +1000 |
+| A hitchhiker or a courier job delivered | +3000 and five seconds |
+| Beating a fast train to the end of its viaduct | +4000 and five seconds |
+| Beating a local hero to the next checkpoint | +5000 and five seconds |
+| Caught by the police | five seconds off |
+| A speed camera, passed too fast | two seconds off |
+
+In TRAVEL there is no clock, and the fines are taken in points.
+
+# The modes
+
+## Endless run
+
+The world tour against the clock. It continues where the last endless run stopped; NEW TOUR (left and right on the title) starts again from the beginning. SAVE AND QUIT in the pause menu keeps the run as it stands, the place on the road, the clock and the score; RESUME on the title drives on from there. With SCENERY set to ALL MIXED, every stage is another biome, the twelve fantasy biomes included: Night Metro, Storm Marsh, Neon Horizon, Neon Rain, Dawn Expressway, Lunar Highway (with low gravity), Red Planet, Crystal Desert, Fungal Glade, Cloud Highway, Pumpkin Hollow and Total Eclipse.
+
+## Travel
+
+The world tour without a clock, on and on from where the last tour stopped: for the places, the passport and the postcards. Speed cameras and the police still fine you, in points.
+
+## Daily challenge
+
+Today's track, the same for everybody all day: a world tour from a seed of the date, with a twist such as rush hour, roadworks everywhere or all bends. The best score of the day is kept.
+
+## Rallies and journeys
+
+Ten long-distance routes driven in one go against a clock that counts up, place after place: Paris - Dakar, the Panamericana from Alaska to Patagonia, Route 66, the Silk Road, Cape to Cairo, the Alpine passes, the Outback, a Himalayan raid, the Nordkapp and the Mekong Express. Each finished rally keeps its best time.
+
+The journeys run from one place of the tour to another: London - Paris, Venice - Rome, Osaka - Tokyo, up to Lisbon - Tokyo, half the world. Here the forks matter: before each, the screen shows how many stages the goal is either way, the shorter in gold; the other may be a detour or a shortcut. Each journey keeps its best time and its ghost.
+
+[shot rallies] The rallies and journeys.
+
+## Championship
+
+Five races on generated tracks against eleven rivals, from the back of the grid. Points go 10-8-6-5-4-3-2-1 per race, and the standings come after each. The rivals draft in your slipstream, and you in theirs.
+
+## Track Lab
+
+Every track is a combination of settings: the mode (time attack or a race against the eleven), the scenery (the world tour, all mixed, or one place you have driven through), curves, sharpness, hills, traffic and obstacles (0 to 9, or AUTO), the length (2.5 to 37.5 km, or endless in time attack) and the seed. Each combination is a code of fifteen characters, such as `K3ZQ8-M2TVX-41P0R`, with a check symbol against typos. CODE types one in; the results of every run show its code. Send a code to a friend, and you drive the same road. The best drive on each code is kept as a ghost car that races along the next time.
+
+[shot lab] The Track Lab.
+
+## Replay and photo mode
+
+After a run, WATCH REPLAY plays the last minute again from roadside cameras, a helicopter and the chase camera. PHOTO MODE in the pause menu stops the game and lets the camera roam round the car; a photo is saved in the `photos` folder beside the settings and becomes the place's postcard.
+
+# The world tour
+
+## Stages and places
+
+The tour runs east from Ireland, round the world and back: the British Isles, France, Germany and the Alps, Italy and Iberia, Africa, Arabia and the Levant, Turkey and the Balkans, Eastern Europe, Central Asia, India and the Himalaya, Southeast and East Asia, Australia and the Pacific, South and Central America, Mexico, the United States and Canada, Russia, Scandinavia, Iceland. Every 15 km a new stage begins with a new place, and the stage line names it with its region and country: HILL COUNTRY - TEXAS - USA.
+
+Each place greets you with its name on a sign in the national style. Where the country writes in its own script, the sign is bilingual, the name in that script above the Latin one: Cyrillic, Greek, Georgian, Armenian, Hebrew, Arabic and Persian, the scripts of India state by state, Sinhala, Thaana, Thai, Lao, Khmer, Burmese, Ge'ez, Chinese, Japanese and Korean. Where a state or province begins, a board says so; where the country changes, there is a border post with both flags.
+
+[shot sign] The place sign of Tokyo, in Japanese and in Latin letters.
+
+## The forks
+
+At most borders the road forks. Almost two kilometres ahead, two boards on the screen show where each side goes (the place, its region and country, the distance counting down) and light the side you are on. Gantries announce it on the road, the road widens into two carriageways, and a barrier with a crash cushion divides them: the side you are on at its nose decides. The next stage is the place you chose.
+
+[shot fork] Keep left for Mexico City, right for Morelos.
+
+## Across the seas
+
+Where two places lie on different landmasses, a stage on the sea floor lies between them: a glass tunnel of steel ribs, the light of the sea instead of the sun, shoals, sharks, whales, mantas and jellyfish swimming along the glass, a wreck or a research station on the floor. Forty-two seas have their own floor and their own life. Seven seas are crossed aboard instead: the Channel on the car train, the Irish Sea, the Baltic, the Strait of Gibraltar, the Aegean, the Balearic Sea and the Java Sea on a ferry. You drive aboard yourself, the clock stands still on the crossing, and you drive off at the far quay.
+
+[shot undersea] In the glass tunnel under the North Atlantic.
+
+[shot ferry] On the ferry across the Irish Sea.
+
+## Legendary roads
+
+[stat legends] of the places are legendary roads. A banner announces them when they begin, the game keeps your best time over each from end to end, and each has its signature. The passes climb in hairpins, numbered on the outside and counting down to the top, where the pass's name and height stand on a board. All the legs of a climb lie on one mountainside, and the legs below stay in sight. Other high mountains climb in hairpins now and then too. The Atlantic Road has its humped bridges over the sea that seem to end in the air.
+
+[table legends]
+
+[shot hairpins] Tornante 25 on the way up the Stelvio.
+
+[shot aerial] The hairpins of the Grossglockner from above.
+
+[shot summit] The top of the Stelvio, 2757 m.
+
+[shot hump] A humped bridge of the Atlantic Road.
+
+## Cities, villages and the roadside
+
+Cities stand on plots in rows some 300 m back from the road, cross streets between their blocks; in the country the houses gather in villages of two or three rows, with lone farms between. The houses are the region's own: canal houses in the Low Countries, machiya in Japan, white Cycladic cubes, falu-red cottages in Scandinavia, izbas in Russia, azulejo facades in Portugal, stilt houses in Southeast Asia, Queenslanders, the tower houses of Yemen and many more.
+
+[shot city] New York at night.
+
+[shot village] A village in the Black Forest.
+
+Where a region sells by the road, its stands stand there, built its way, as many as it has and in their season: honesty boxes at farm gates, strawberry kiosks in early summer, pumpkins in an American autumn, melon cages in Russia, chai stalls and dhabas in India, fruit stalls on bamboo in Thailand, unmanned vegetable shelves and vending machines in Japan, charcoal sacks in East Africa, fruit carts under parasols in Latin America, sixty kinds in all. Wind farms turn where the wind blows; there are landmarks once per stage (Big Ben, the Colosseum, the Statue of Liberty, the Taj Mahal, Machu Picchu and over two hundred more), and the Hill of Crosses, the towers of Svaneti, Bhutan's dzongs, Bali's meru towers, funfairs, Dutch lift bridges, truck stops and refineries along the way.
+
+[shot stands] Vending machines by a road in Hokkaido.
+
+## Bridges, tunnels and galleries
+
+Bridges are built the way the region builds them: concrete beams, tall viaducts over Alpine gorges, stone arches, steel trusses, suspension bridges over the Bosphorus and in New York, cable-stayed spans, covered wooden bridges, causeways over the sea. Tunnels go through the hills; on Alpine roads, avalanche galleries roof the road against the mountain, open to the valley.
+
+# Life on the road
+
+## Traffic
+
+The traffic drives the country's way, and as much of it as the country has: swarms of scooters in Vietnam, Indonesia and India; cars weaving across the lines and honking in India, Egypt or Nigeria; tractors on the country roads of Europe; road trains in the outback. The vehicles are the region's own, with the country's number plates: yellow cabs and big rigs in North America, black cabs and double-deckers in Britain, painted chicken buses in Latin America, auto rickshaws and decorated trucks in South Asia, jeepneys and tuk-tuks in Southeast Asia, kei trucks in Japan, matatus in Africa. Where they drive on the left, the slow traffic keeps left and you start in the left lane. Out in the country the animals of the place cross the road: cattle, sheep, kangaroos, moose, camels, elephants, llamas, reindeer and more.
+
+Every few kilometres an ambulance or a fire engine of the country comes along on a run, lights flashing and siren going. The traffic ahead of it pulls over; keep out of its way when it overtakes and you earn +1000. Sirens and horns are Doppler-shifted: higher as they come nearer, lower as they go.
+
+## The police
+
+About one stage in ten, a patrol car of the country's police waits at the roadside, in its own livery. Pass it too fast and it gives chase with its lights and siren. Get 400 m ahead and you have escaped (+2500); let it pull up beside you and the fine is five seconds. Hold B (the right stick pressed in) to look back. POLICE in the settings turns them off. Speed cameras flash in Germany, Austria, Switzerland, France, the Low Countries, Italy and Britain; the limit stands before them.
+
+## Hitchhikers and courier jobs
+
+Now and then someone waits by the road, thumb out. Slow down beside them and they get in, with a hello in their language; take them to the next place before their patience runs out (+3000 and five seconds, and their thanks). Sometimes it is a courier job instead:
+
+- a courier with a fragile parcel for the next place: hit nothing on the way, or it breaks;
+- a paramedic with an organ for the hospital at the next checkpoint: hurry;
+- a police officer whose car was just stolen: catch the thief by staying close beside or behind it for a moment before it reaches the next checkpoint.
+
+[shot hitchhiker] A hitchhiker ahead.
+
+## Local heroes
+
+Now and then a local driver pulls up beside you before a checkpoint, in a car of your class, and challenges you to the next one in their language. Beat them there for +5000 and five seconds (and a grumble); let them win and they taunt you.
+
+[shot hero] Ewan of the Isle of Skye wants a race.
+
+## Fast trains
+
+In half the stages of countries with a fast train (the Shinkansen, the TGV, the ICE, the AVE, the Frecciarossa, the KTX, the Indian Pacific and ten more) a viaduct runs beside the road for a few kilometres, out of a stone portal and into another, and the train races you along it. Pass its nose before the stretch ends for +4000 and five seconds.
+
+[shot train] Racing a train along its viaduct.
+
+## Something to see
+
+Now and then the sky has something to show: an airliner coming in to land low across the road near the big airports and over the Caribbean islands, its runway beside the road; fighter jets in the deserts of the American west and the Emirates; hot-air balloons over Cappadocia, Bagan, Luxor and the Serengeti; a container ship on the Panama Canal; an airship over southern Germany.
+
+[shot plane] An airliner coming in over the sea of Antigua, its runway beside the road.
+
+# Weather, light and seasons
+
+## Weather
+
+Weather fronts pass over the tour: showers, fog banks and thunderstorms in temperate places, downpours in the tropics, snow showers in the cold and the mountains, sandstorms in the deserts. They are announced a little ahead and last a kilometre or two. In the rain the road turns into a dark mirror with the cars, the trees and the street lamps standing in it. In South and Southeast Asia every other tropical front is the monsoon, with stretches where the road is flooded from edge to edge. In the snow, grey slush lies in blotches and sprays up behind the car. Fog lies low in the valleys at dawn and dusk; over the deserts dust devils whirl, and where it is hot the air shimmers over the asphalt. WEATHER in the settings chooses between the fronts and each place's own weather.
+
+[shot rain] Rain in Glencoe, and a speed camera.
+
+[shot monsoon] The monsoon in Kerala.
+
+## Light
+
+TIME OF DAY keeps each place's own light by default. TOUR CLOCK lets the sun follow the time zones: morning wherever the run starts, an hour more every ten kilometres, and the longitude of each place on top, so east of you it is already evening. DAWN, DAY, DUSK and NIGHT fix the hour.
+
+## Seasons and festivals
+
+SEASONS follows today's date (AS TODAY), turns a year every 400 km (AS YOU TRAVEL), or stays OFF. In autumn the broadleaf trees, hedges and vines turn orange, red and gold and leaves blow across the road; in winter snow lies on the land and on everything that faces up, and it snows; in spring the green is fresh and some trees blossom. When the seasons come follows each place's real climate: snow lies where the air stayed below freezing, so Patagonia is white in July, while the tropics and the deserts keep their one look. On the roads of Aomori, Logan Pass, the Grossglockner, the Furka, the Stelvio and Trollstigen, walls of snow line the road in winter and spring.
+
+[shot snow] Between the walls of snow in Aomori.
+
+On their dates, the festivals come:
+
+[table festivals]
+
+[shot christmas] Lights over the road on a December night on the Romantic Road.
+
+## The air
+
+The air is as clean or as dirty as the place's pollution index says: over Delhi, Kathmandu, Lagos or Cairo the haze thickens and browns, and litter lies by the road, while Helsinki and Reykjavik stay clear.
+
+# The radio
+
+Thirty-one generated stations, every track composed from its own seed and named: its tempo, key and scale (from major and minor to Hijaz, Bhairav, hirajoshi and pelog), its chord progression, two melodies, a lead instrument and an arrangement of 32 to 64 bars with fills and risers.
+
+- **Genres**: Sunset FM (synthwave), Turbo House, Amiga Techno, Trance Gate, Jungle Pressure (drum and bass), 8-Bit Racer (chiptune), Fusion Drive, Big Beat, Route 66 Radio and Lo-Fi Cruise.
+- **Regions**: City Pop FM, Koto Wave, Bollywood Express, Desert Caravan, Afro Highway, Samba Avenida, Tango Turbo, Andes Wind, Caribbean Steel, Mariachi Motor, Celtic Coast, Balkan Brass, Gamelan Drive, Outback Drone, Steppe Rider, Nordic Night, K-Pop Neon, Fado Noite, Schlager Express, Polka Parade and Afrobeat Lagos.
+
+In AUTO, the station follows the place: the countryside plays its region, cities and motorways their genre, and driving into a new region the station sings its jingle and says where it plays from. M switches the station, N skips to the next track. With little time left, or on the last kilometre of a race, a driving layer joins in, and checkpoint, stage and finish cues land on the next beat.
+
+# The garage
+
+[shot garage] The garage.
+
+[table cars]
+
+The GARAGE dresses the car: fourteen paints, seven rim finishes and seven decals (twin stripes, a side stripe, a roundel, two tones, chequers, a globe) in any paint's colour. Career points from every run, every race and every new place and country pay for them; some keep conditions of their own (GLOBETROTTER needs a drive round the world, the globe 50 countries). The car carries the number plate of your HOME COUNTRY (at first your computer's region, NONE for no plate) in that country's style, and says what you type under NUMBER PLATE: up to eight letters, digits, spaces and dashes.
+
+# Passport and records
+
+## The passport
+
+The passport shows the world tour on a map: the countries you have been to lit, every place a dot, the way you drove as a line, and the twelve slices of the globe as a bar (all twelve is a drive round the world). STAMPS has a stamp for every country; REGIONS shows the states and provinces of the big countries with how many you have seen; POSTCARDS has a card from every new place, taken in sight of its landmark; the ALBUM a photo of every landmark you have passed.
+
+[shot passport] The map.
+
+[shot stamps] The stamps.
+
+[shot postcards] Postcards.
+
+## Awards
+
+[table awards]
+
+[shot awards] The awards in the passport.
+
+## Records
+
+The top ten with your initials, your total kilometres, titles, places and countries seen, and the best times of the rallies and journeys. The best drive on each track code is kept as a ghost.
+
+[shot records] The records.
+
+# Settings
+
+[table settings]
+
+On the Steam Deck, or wherever frames matter, PROFILE switches the performance in one go: BATTERY (40 frames at 70 % resolution, no shadows), BALANCED (60 frames at 85 %, no shadows) or QUALITY (full resolution, shadows, as fast as the display). F3 shows the frame's cost in milliseconds, for the processor and the graphics card.
+
+The settings and the records live in `%APPDATA%\Sunstreak\settings.ini` on Windows and in `~/.config/sunstreak` on Linux.
+
+# For tinkerers
+
+## The data files
+
+The world lives in the folder `data` as plain text, built into the program: every place with its light, land, road and what stands beside it; the countries with their road customs; the route of the tour; the seas; the landmarks and creatures in a small shape language; the festivals, the climate, the roadside. Set the environment variable `SUNSTREAK_DATA` to a copy of the folder to try changes without building; F5 reads the files again while the game runs, F6 opens the landmark viewer, every landmark and creature alone under its place's sky.
+
+## The command line
+
+[table options]
+
+# Credits and licences
+
+Sunstreak is written in C++ on raylib (zlib licence), with SDL2 for the rumble (zlib licence). The outlines of the passport's map come from Natural Earth (public domain). The place names in their own scripts are traced from the Noto fonts (SIL Open Font License 1.1). The climate of the places comes from NASA POWER's thirty-year climatology; the road quality from the World Economic Forum's index; traffic and pollution from Numbeo's indices. All drivers, heroes and hitchhikers are fictional.

@@ -6,3 +6,5 @@ out/
 bin/
 dist/
 work/
+# The manual's pictures: tools/manual/make_shots.ps1 takes them again.
+docs/manual/shots/

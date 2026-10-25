@@ -11,6 +11,10 @@ islands you drive along the sea floor in a glass tunnel, or onto a ferry or the 
 Beside the endless run there is a championship against eleven rivals, a Track Lab that turns any setting into a
 shareable track code, a ghost of your best drive on every code and a top ten.
 
+The manual is [docs/manual/Sunstreak-Manual.pdf](docs/manual/Sunstreak-Manual.pdf) (and `.html`), with pictures
+the game takes itself: `tools/manual/make_shots.ps1` retakes them into `docs/manual/shots` and
+`tools/manual/make_manual.py` writes both files from `tools/manual/chapters.txt`, the place data and the sources.
+
 C++20 on [raylib 5.5](https://github.com/raysan5/raylib) (fetched by CMake). Everything you see and hear is made in
 code: the low-poly models, the sky, the stroke font, the engines (four, eight and twelve cylinders), and the
 soundtrack.
