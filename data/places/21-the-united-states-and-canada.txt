@@ -6,6 +6,7 @@
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
 place ROUTE_66 | ROUTE 66 | USA | GOLDEN | ARIZONA
+    legend THE MOTHER ROAD
     land C8A47A BC9872 B89A7A
     drive 2 0.4 1.0 7
     bends 0.15 0.2 0.2
@@ -61,6 +62,7 @@ place JOSHUA_TREE | JOSHUA TREE | USA | GOLDEN | CALIFORNIA
     p ROCK 0.06 3 60
 
 place BIG_SUR | BIG SUR | USA | MORNING | CALIFORNIA
+    legend HIGHWAY 1 ON THE CLIFFS OF BIG SUR
     fog 0.0018
     sea 1 0 -40
     water 1E5A8A
@@ -427,6 +429,8 @@ place SEATTLE | SEATTLE | USA | RAIN | WASHINGTON
     floating
 
 place GOING_TO_THE_SUN | GOING TO THE SUN ROAD | USA | ALPINE | MONTANA
+    summit 2026 LOGAN PASS
+    legend OVER THE CONTINENTAL DIVIDE
     land 6A9A48 609040 6E8E58
     verge 8A8478
     ranges 4A5464 E8ECF4 14
@@ -500,6 +504,9 @@ place WHITE_SANDS | WHITE SANDS | USA | NOON | NEW MEXICO
     p AGAVE 0.03 3 60 0.6 0.9
 
 place PIKES_PEAK | PIKES PEAK | USA | ALPINE | COLORADO
+    serpentine 16
+    summit 4302 PIKES PEAK
+    legend 156 TURNS UP TO 4302 M
     land 7A8A58 6E7E50 8A7A66
     verge A87A5A
     ranges 5A5E70 E8ECF4 9
@@ -514,6 +521,9 @@ place PIKES_PEAK | PIKES PEAK | USA | ALPINE | COLORADO
     p SNOWBANK 0.05 1 6
 
 place MILLION_DOLLAR | MILLION DOLLAR HIGHWAY | USA | ALPINE | COLORADO
+    serpentine 8
+    summit 3358 RED MOUNTAIN PASS
+    legend NO GUARD RAILS AT 3358 M
     land 6A9A48 609040 6E8E58
     verge 9A6A4A
     ranges 4A5464 E8ECF4 13
@@ -579,6 +589,7 @@ place NEW_ORLEANS | LAKE PONTCHARTRAIN | USA | HAZE | LOUISIANA
     floating
 
 place TAIL_OF_THE_DRAGON | TAIL OF THE DRAGON | USA | MORNING | NORTH CAROLINA
+    legend 318 CURVES IN 11 MILES
     land 5E8A44 56803E 4E7A48
     hills 30 14 10
     drive 2 0.4 0.98 24
@@ -625,6 +636,7 @@ place WASHINGTON_DC | WASHINGTON | USA | MORNING | DISTRICT OF COLUMBIA
     c 5A8A40
 
 place HANA | ROAD TO HANA | USA | TROPICAL | HAWAII
+    legend 620 CURVES AND 59 BRIDGES
     island HAWAII
     sea 0 1 -20
     water 1E7AB0
@@ -642,6 +654,7 @@ place HANA | ROAD TO HANA | USA | TROPICAL | HAWAII
     p TREE_FERN 0.08 2 30
 
 place DALTON | DALTON HIGHWAY | USA | ARCTIC | ALASKA
+    legend 666 KM TO THE ARCTIC OCEAN
     land 8A9A58 7E8E50 8A8A60
     verge 8A8478
     road 8A8680 8A8680

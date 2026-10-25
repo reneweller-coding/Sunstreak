@@ -962,6 +962,7 @@ void Game::draw()
     in.m_windStreaks = smoothstepf( 0.62f, 0.95f, m_car.m_speed / m_car.m_spec.m_topSpeed ) + ( m_car.m_boosting ? 0.5f : 0.0f );
     in.m_drawPlayer = !( m_settings.m_camera >= 2 && !m_demo && m_state != StateE::PHOTO && m_state != StateE::REPLAY );
     if( m_lookingBack || m_state == StateE::REPLAY || m_state == StateE::PHOTO ) in.m_behind = 1.0e6f;
+    else if( m_track ) in.m_behind = std::max( in.m_behind, static_cast<float>( World::keptBehind( *m_track, m_car.m_s ) ) - 40.0f );
     in.m_shadows = m_settings.m_shadows;
     in.m_lensRain = m_settings.m_camera >= 2 && !m_demo ? in.m_env.m_rain : in.m_env.m_rain * 0.5f;
     in.m_slush = smoothstepf( 0.05f, 0.4f, in.m_env.m_snow );

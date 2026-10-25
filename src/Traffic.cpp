@@ -397,6 +397,12 @@ void Traffic::update( float dt, const Track &track, PlayerCar &player, const Mod
         }
         if( c.m_lane >= lanes ) c.m_lane = lanes - 1;
         float want = c.m_cruise;
+        // Slow in time for the tight bends ahead (the hairpins of a pass).
+        for( double d = 0.0; d < 200.0; d += SegmentLength )
+        {
+            const float k = std::abs( track.segment( static_cast<long>( ( c.m_s + d ) / SegmentLength ) ).m_curve );
+            if( k > 0.004f ) want = std::min( want, std::sqrt( 4.0f / k + 3.2f * static_cast<float>( d ) ) );
+        }
         // The siren keeps to the fast lane, the others pull over to the slow side's edge.
         const int   fastLane = keepLeft ? lanes - 1 : 0, slowLane = lanes - 1 - fastLane;
         const float slowSide = keepLeft ? -1.0f : 1.0f;

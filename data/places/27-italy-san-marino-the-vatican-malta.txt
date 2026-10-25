@@ -6,6 +6,9 @@
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
 place STELVIO | STELVIO PASS | ITALY | ALPINE | LOMBARDY
+    serpentine 48 TORNANTE
+    summit 2757 PASSO DELLO STELVIO
+    legend 48 HAIRPINS UP TO 2757 M
     land 7A9858 6E8C50 8A8C80
     verge 8A8884
     ranges 5E6676 F2F4F8 15

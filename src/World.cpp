@@ -275,6 +275,19 @@ float World::terrainHeight( const Track &track, long index, float lateral, const
     const bool     left = lateral < 0.0f;
     const double   s = static_cast<double>( index ) * SegmentLength;
     const uint64_t seed = track.seed();
+    if( const Serpentine *sp = track.serpentineAt( index ) )
+    {
+        // A pass in hairpins: one mountainside for all its legs (Track.h, Serpentine), so the land at a point lies as
+        // high whichever leg it is seen from; near the road it comes down to the shoulder.
+        const Segment &seg = track.segment( index );
+        const Vector3  r = headingRight( seg.m_heading );
+        const double   x = seg.m_pos.m_x + static_cast<double>( r.x * lateral ), z = seg.m_pos.m_z + static_cast<double>( r.z * lateral );
+        const float    bankL = clampf( lateral, -seg.m_halfWidth - RumbleWidth, seg.m_halfWidth + RumbleWidth );
+        const float    road = static_cast<float>( seg.m_pos.m_y ) - bankL * std::tan( seg.m_bank );
+        const float    rough = 6.0f * ( valueNoise( x * 0.012, z * 0.012, seed + 31 ) - 0.5f ) * smoothstepf( 15.0f, 70.0f, a );
+        const float    side = static_cast<float>( sp->height( x, z ) ) - road + rough;
+        return lerpf( -0.35f * smoothstepf( 0.0f, 4.0f, a ), side, smoothstepf( 2.0f, 9.0f, a ) );
+    }
     // Round a fork the land lies flat and level with the road, far out to where the other carriageway goes.
     const float    keep = 1.0f - track.segment( index ).m_flat * ( 1.0f - smoothstepf( 160.0f, 260.0f, a ) );
     float          h = -0.35f * smoothstepf( 0.0f, 4.0f, a ) * keep;
@@ -385,10 +398,18 @@ void World::upload( BakedChunk &baked )
     ++m_buildCount;
 }
 
+double World::keptBehind( const Track &track, double s )
+{
+    for( double back : { 0.0, 600.0 } )
+        if( const Serpentine *sp = track.serpentineAt( static_cast<long>( std::max( 0.0, s - back ) / SegmentLength ) ) )
+            return std::max( KeepBehind, std::min( 1500.0, s - static_cast<double>( sp->m_first ) * SegmentLength ) );
+    return KeepBehind;
+}
+
 void World::update( Track &track, double s, int maxBuilds )
 {
     const auto t0 = std::chrono::steady_clock::now();
-    const long firstWanted = std::max( 0L, static_cast<long>( std::floor( ( s - KeepBehind ) / ChunkLength ) ) );
+    const long firstWanted = std::max( 0L, static_cast<long>( std::floor( ( s - keptBehind( track, s ) ) / ChunkLength ) ) );
     const long lastWanted = static_cast<long>( std::floor( ( s + ViewDistance ) / ChunkLength ) );
     while( !m_chunks.empty() && m_chunks.front().m_index < firstWanted )
     {
@@ -803,10 +824,17 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
         constexpr int      offsetCount = static_cast<int>( sizeof( offsets ) / sizeof( offsets[0] ) );
         for( float side : { -1.0f, 1.0f } )
         {
+            // In a serpentine the land ends where the next leg's begins.
+            auto squeeze = [&]( const Cross &x )
+            {
+                const float reach = side < 0.0f ? x.m_seg->m_reachL : x.m_seg->m_reachR;
+                return reach > 0.0f ? clampf( ( reach - x.m_edge ) / offsets[offsetCount - 1], 0.0f, 1.0f ) : 1.0f;
+            };
+            const float fa = squeeze( A ), fb = squeeze( B );
             for( int k = 0; k + 1 < offsetCount; ++k )
             {
-                const float la0 = side * ( A.m_edge + offsets[k] ), la1 = side * ( A.m_edge + offsets[k + 1] );
-                const float lb0 = side * ( B.m_edge + offsets[k] ), lb1 = side * ( B.m_edge + offsets[k + 1] );
+                const float la0 = side * ( A.m_edge + offsets[k] * fa ), la1 = side * ( A.m_edge + offsets[k + 1] * fa );
+                const float lb0 = side * ( B.m_edge + offsets[k] * fb ), lb1 = side * ( B.m_edge + offsets[k + 1] * fb );
                 const float h[4] = { terrainHeight( track, j, la0, A.m_terrain, A.m_edge ),
                                      terrainHeight( track, j, la1, A.m_terrain, A.m_edge ),
                                      terrainHeight( track, j + 1, lb1, B.m_terrain, B.m_edge ),
@@ -1394,6 +1422,26 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 }
             }
 
+            // The hairpins of a famous pass are numbered on the outside, counting down to the top, where its name and
+            // height stand.
+            if( seg.m_hairpin > 0 && side * track.segment( j + 4 ).m_curve < 0.0f )
+            {
+                MeshBuilder sign;
+                buildPlaceSign( sign, ( rule.m_hairpinWord ? std::string( rule.m_hairpinWord ) + " " : std::string() ) + std::to_string( seg.m_hairpin ), 0,
+                                0.42f, 1.2f );
+                const float l = side * ( A.m_edge + 1.8f );
+                props.append( sign, at( A, l, 0.0f ), A.m_heading, 1.0f );
+                c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, l, 0.5f } );
+            }
+            if( ( seg.m_flags & SEG_SUMMIT ) && rule.m_summit && side == ( signs.m_left ? -1.0f : 1.0f ) )
+            {
+                MeshBuilder sign;
+                buildPlaceSign( sign, std::string( rule.m_summit ) + "  " + std::to_string( rule.m_summitHeight ) + " M", signs.m_townSign, 0.5f, 1.8f );
+                const float l = side * ( A.m_edge + 2.6f );
+                props.append( sign, at( A, l, 0.0f ), A.m_heading, 1.0f );
+                c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, l, 0.6f } );
+            }
+
             const bool forkClear = ( seg.m_flags & SEG_FORK ) && ( u < 250.0 || u > ForkMedian - 150.0 );   // the gore and the peel
             if( rule.m_postSpacing > 0.0f && !railed && !tunnel && !bridge && !forkClear )
             {
@@ -1448,6 +1496,8 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 if( ( tunnel && dist < 7.0f ) || ( bridge && dist < 4.0f ) ) return;
                 const float  lateral = side * ( A.m_edge + dist );
                 if( viaduct && std::abs( lateral - railL ) < 7.0f ) return;
+                const float reach = side < 0.0f ? seg.m_reachL : seg.m_reachR;
+                if( reach > 0.0f && std::abs( lateral ) > reach - 3.0f ) return;   // the next leg's land
                 const double ps = static_cast<double>( j ) * SegmentLength + h2 * SegmentLength;
                 // Nothing where the other carriageway of a fork turns away (it is decided before this is baked).
                 if( fork.m_exists && u > ForkMedian - 60.0 && u < ForkMedian + ForkPeel + 40.0 )
@@ -1554,7 +1604,8 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             // One plot per few segments and row; a city leaves every fourth free for a cross street, a village thins out
             // towards its back.
             const long plotSegs = std::max( 2L, std::lround( plots.m_along / SegmentLength ) ), plot = j / plotSegs;
-            if( built && j % plotSegs == plotSegs / 2 && !( plots.m_city && plot % 4 == 0 ) )
+            const bool wet = ( side < 0.0f ? A.m_terrain.m_waterLeft : A.m_terrain.m_waterRight ) > 0.5f;   // no plots in the sea
+            if( built && !wet && j % plotSegs == plotSegs / 2 && !( plots.m_city && plot % 4 == 0 ) )
                 for( int row = 0; row < plots.m_rows; ++row )
                 {
                     const uint64_t key = seed ^ ( sideKey * 37 + static_cast<uint64_t>( row ) * 104729 + 0x9107ull );

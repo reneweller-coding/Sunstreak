@@ -974,6 +974,8 @@ private:
     double m_clockStart = 9.0;        ///< tour clock: the universal hour at the run's start
     float  m_hour = -1.0f;            ///< the local hour the sky shows (smoothed, -1: the place's own)
     long   m_frontShown = -1;         ///< the stage whose front was announced
+    int    m_legendStage = -1;        ///< the legendary road being timed (its stage; -1 none)
+    float  m_legendStart = 0.0f;      ///< the race time when it began
 
     // Weather and effects.
     float m_flash = 0.0f;             ///< lightning brightness

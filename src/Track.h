@@ -17,6 +17,7 @@
 #include "MathUtil.h"
 #include "Rng.h"
 
+#include <algorithm>
 #include <cstdint>
 #include <deque>
 #include <memory>
@@ -53,6 +54,7 @@ enum SegmentFlagE : uint16_t
     SEG_BRIDGE = 1 << 12,      ///< on a bridge over a valley
     SEG_FORK = 1 << 13,        ///< near a fork of the world tour: flat land, no tunnels, bridges, crests or roadworks
     SEG_MEDIAN = 1 << 14,      ///< a barrier down the middle: two carriageways to two places
+    SEG_SUMMIT = 1 << 15,      ///< the top of a pass (its board stands here)
 };
 
 constexpr double ForkAt = StageLength - 2600.0;   ///< where in its stage a fork's carriageways part (the choice; the border is 2.6 km on)
@@ -122,6 +124,39 @@ struct Segment
     int      m_stage = 0;         ///< the stage this segment belongs to
     float    m_flat = 0.0f;       ///< 0..1 how flat the land beside it lies (a fork's surroundings)
     float    m_trench = 0.0f;     ///< metres the land stands over the road in the cutting to an undersea tunnel
+    float    m_reachL = 0.0f;     ///< in a serpentine: how far left of the centre line the land is this segment's (0: all)
+    float    m_reachR = 0.0f;     ///< and right (the rest belongs to the legs above and below)
+    uint8_t  m_hairpin = 0;       ///< the number on the board of the hairpin that begins here (0: none)
+};
+
+/**
+ * @brief A pass climbed in hairpins: the land beside all its legs is one mountainside, rising along the climb to a
+ *        ridge at the summit and falling beyond, so that it lies as high whichever leg it is seen from.
+ */
+struct Serpentine
+{
+    long   m_first = 0;      ///< its first segment
+    long   m_last = 0;       ///< and its last
+    Vec3d  m_origin;         ///< where it begins
+    float  m_axisX = 0.0f;   ///< the way it climbs (horizontal unit vector)
+    float  m_axisZ = 1.0f;   ///< (north part)
+    float  m_up = 0.0f;      ///< the mountainside's rise per metre along the axis up to the summit
+    float  m_down = 0.0f;    ///< its fall per metre beyond
+    float  m_summit = 0.0f;  ///< the summit's distance along the axis
+    float  m_top = 0.0f;     ///< and its height over the origin
+    float  m_end = 0.0f;     ///< the last segment's distance along the axis
+
+    /**
+     * @brief The mountainside's height at a point.
+     * @param[in] x  east
+     * @param[in] z  north
+     * @return its height (world)
+     */
+    double height( double x, double z ) const
+    {
+        const float d = std::clamp( static_cast<float>( ( x - m_origin.m_x ) * m_axisX + ( z - m_origin.m_z ) * m_axisZ ), -120.0f, m_end + 120.0f );
+        return m_origin.m_y + static_cast<double>( std::min( m_up * d, m_top - m_down * ( d - m_summit ) ) );
+    }
 };
 
 /** @brief The road at a point: position and orientation, interpolated. */
@@ -194,6 +229,13 @@ public:
      * @return the segment
      */
     const Segment &segment( long index ) const;
+
+    /**
+     * @brief The serpentine a segment belongs to.
+     * @param[in] index  the segment
+     * @return it, or nullptr
+     */
+    const Serpentine *serpentineAt( long index ) const;
 
     /**
      * @brief The road at a distance.
@@ -311,6 +353,21 @@ private:
     void planShape();
 
     /**
+     * @brief Plans a stage's pass in hairpins, if it has one and this is where it begins: the climb, the summit, the
+     *        descent, and how far each segment's land reaches between the legs.
+     * @param[in] s  where the next segment begins
+     * @return true if planned
+     */
+    bool planSerpentine( double s );
+
+    /**
+     * @brief Plans a humped bridge over the sea, now and then where the place has them.
+     * @param[in] s  where the next segment begins
+     * @return true if planned
+     */
+    bool planHump( double s );
+
+    /**
      * @brief Turns a planned feature into a tunnel or a bridge now and then.
      * @param[in] from  the first pending segment of the feature
      */
@@ -347,6 +404,20 @@ private:
     std::deque<float>            m_pendingGrade;        ///< planned extra grade (crests)
     std::deque<uint16_t>         m_pendingFlags;        ///< planned flags
     std::deque<uint8_t>          m_pendingBlocked;      ///< planned closed lanes
+
+    /** @brief What a planned segment of a serpentine carries besides its shape. */
+    struct Bend
+    {
+        bool    m_fixed = false;   ///< its grade is the whole grade (no rolling hills, no pull back to sea level)
+        uint8_t m_hairpin = 0;     ///< Segment::m_hairpin
+        float   m_reachL = 0.0f;   ///< Segment::m_reachL
+        float   m_reachR = 0.0f;   ///< Segment::m_reachR
+    };
+    std::deque<Bend>             m_pendingBend;         ///< planned serpentine details
+    std::vector<Serpentine>      m_serpentines;         ///< the serpentines planned and still held
+    int                          m_serpentineStage = -1; ///< the last stage whose pass was decided
+    int                          m_humpStage = -1;      ///< the stage of the humps counted in m_humpsLeft
+    int                          m_humpsLeft = 0;       ///< humped bridges still to come in it
     Vec3d                        m_genPos;              ///< where the next segment starts
     float                        m_genHeading = 0.0f;   ///< its heading
     float                        m_hillPhase[3]{};      ///< phases of the rolling hills

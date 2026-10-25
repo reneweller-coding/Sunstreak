@@ -90,7 +90,7 @@ int main()
         check( maxGrade < 0.3f, "grades below 30 % (crest ramps included)" );
         check( maxY - minY < 600.0, "height bounded" );
         check( checkpoints == 119, "a checkpoint every 2.5 km" );
-        check( jumps > 2 && works > 5, "crests and roadworks appear" );
+        check( jumps >= 2 && works > 5, "crests and roadworks appear" );   // fewer crests where passes climb in hairpins
     }
     { // Stages never repeat a biome back to back.
         Track t( 99 );

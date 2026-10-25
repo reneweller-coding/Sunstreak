@@ -352,6 +352,7 @@ void Track::planShape()
         m_pendingGrade.push_back( grade );
         m_pendingFlags.push_back( flags );
         m_pendingBlocked.push_back( blocked );
+        m_pendingBend.emplace_back();
     };
 
     auto straight = [&]( float length, bool allowSpecials )
@@ -436,6 +437,8 @@ void Track::planShape()
         return;
     }
 
+    if( planSerpentine( s ) || planHump( s ) ) return;
+
     const float h = m_genHeading;
     auto chooseDir = [&]()
     {
@@ -508,11 +511,16 @@ void Track::appendSegment()
     m_pendingGrade.pop_front();
     m_pendingFlags.pop_front();
     m_pendingBlocked.pop_front();
+    const Bend bend = m_pendingBend.front();
+    m_pendingBend.pop_front();
+    seg.m_hairpin = bend.m_hairpin;
+    seg.m_reachL = bend.m_reachL;
+    seg.m_reachR = bend.m_reachR;
 
     float curvy = 0, sharp = 0, hilly = 0;
     styleAt( s, curvy, sharp, hilly );
     const float pull = clampf( static_cast<float>( m_genPos.m_y ) / 2500.0f, -0.03f, 0.03f );
-    seg.m_grade = hillGrade( s, hilly ) + extraGrade - pull;
+    seg.m_grade = bend.m_fixed ? extraGrade : hillGrade( s, hilly ) + extraGrade - pull;
     if( s < m_params.m_startLine + 60.0 ) seg.m_grade *= static_cast<float>( s / ( m_params.m_startLine + 60.0 ) );
     if( m_tour )
     {
@@ -618,6 +626,251 @@ void Track::discardBefore( double s )
         m_segments.pop_front();
         ++m_first;
     }
+    while( !m_serpentines.empty() && m_serpentines.front().m_last < m_first ) m_serpentines.erase( m_serpentines.begin() );
+}
+
+const Serpentine *Track::serpentineAt( long index ) const
+{
+    for( const Serpentine &sp : m_serpentines )
+        if( index >= sp.m_first && index <= sp.m_last ) return &sp;
+    return nullptr;
+}
+
+bool Track::planSerpentine( double s )
+{
+    const int    stage = static_cast<int>( s / StageLength );
+    const double stageStart = static_cast<double>( stage ) * StageLength;
+    if( stage == m_serpentineStage || s - stageStart < 900.0 || s - stageStart > 2600.0 ) return false;
+    m_serpentineStage = stage;
+    const BiomeMix  mix = biomeMix( s );
+    const BiomeDef &place = biomeDef( mix.m_t < 0.5f ? mix.m_from : mix.m_to );
+    int             up = place.m_hairpins;
+    const bool      numbered = up > 0;
+    if( !numbered )
+    {
+        // High mountains climb in hairpins now and then.
+        if( !mayClimbHairpins( place ) || !m_rng.chance( 0.5f ) ) return false;
+        up = m_rng.rangeInt( 6, 10 );
+    }
+    // Room up to where the fork's road widens, the finish, or the next place.
+    const Fork fk = m_tour ? fork( stage ) : Fork{};
+    double     end = fk.m_exists ? fk.m_at - ForkWiden - 400.0 : stageStart + StageLength - 700.0;
+    if( m_params.m_length > 0.0 ) end = std::min( end, m_params.m_length - 300.0 );
+    if( end - s < 2500.0 ) return false;
+    for( double t = s; t < end + 200.0; t += 200.0 )
+    {
+        if( nearSeaPortal( t, 200.0 ) ) return false;
+        if( m_tour )
+        {
+            const Crossing xc = crossingAt( t );
+            if( xc.m_type != CrossingE::NONE && t > xc.m_board - 400.0 && t < xc.m_land + 400.0 ) return false;
+        }
+    }
+
+    // Legs at +-Theta from north, hairpins between them; the climb takes most of the room, the descent the rest.
+    constexpr float Theta = 1.2f, Radius = 26.0f, Turn = 80.0f;
+    const float     room = static_cast<float>( end - s ) - 600.0f;
+    const float     arc = 2.0f * Theta * Radius;
+    const int       down = std::max( 3, up / 4 );
+    while( up > 4 && room * 0.62f / static_cast<float>( up ) - arc < 40.0f ) --up;
+    const float legUp = clampf( room * 0.62f / static_cast<float>( up ) - arc, 40.0f, 220.0f );
+    const float legDown = clampf( room * 0.34f / static_cast<float>( down ) - arc, 80.0f, 320.0f );
+
+    std::vector<float>    curve;
+    std::vector<uint16_t> flags;
+    std::vector<uint8_t>  pin;
+    auto bendBy = [&]( float dir, float radius, float angle, float ease, int number )
+    {
+        const int          n = std::max( 6, static_cast<int>( std::lround( angle * radius / SegmentLength ) ) );
+        std::vector<float> w( static_cast<size_t>( n ) );
+        float              sum = 0.0f;
+        for( int j = 0; j < n; ++j )
+        {
+            const float u = ( static_cast<float>( j ) + 0.5f ) / static_cast<float>( n );
+            w[static_cast<size_t>( j )] = smoothstepf( 0.0f, 1.0f, std::min( u, 1.0f - u ) / ease );
+            sum += w[static_cast<size_t>( j )];
+        }
+        for( int j = 0; j < n; ++j )
+        {
+            const float k = w[static_cast<size_t>( j )];
+            curve.push_back( dir * angle * k / ( sum * SegmentLength ) );
+            flags.push_back( static_cast<uint16_t>( radius < 330.0f && k > 0.25f ? ( dir > 0 ? SEG_CHEVRON_L : SEG_CHEVRON_R ) : 0 ) );
+            pin.push_back( static_cast<uint8_t>( j == 0 ? number : 0 ) );
+        }
+    };
+    auto leg = [&]( float length )
+    {
+        for( int j = std::max( 2, static_cast<int>( std::lround( length / SegmentLength ) ) ); j > 0; --j )
+        {
+            curve.push_back( 0.0f );
+            flags.push_back( 0 );
+            pin.push_back( 0 );
+        }
+    };
+    const float h0 = m_genHeading;
+    float       d = h0 > 0.05f ? 1.0f : h0 < -0.05f ? -1.0f : m_rng.sign();
+    if( std::abs( d * Theta - h0 ) > 0.02f ) bendBy( d * Theta > h0 ? 1.0f : -1.0f, Turn, std::abs( d * Theta - h0 ), 0.32f, 0 );
+    const size_t climbFrom = curve.size();
+    size_t       summitFrom = 0, summitTo = 0;
+    for( int k = 0; k < up + down; ++k )
+    {
+        if( k == up )
+        {
+            summitFrom = curve.size();
+            leg( std::max( 140.0f, legUp ) );
+            summitTo = curve.size();
+        }
+        else
+        {
+            leg( k < up ? legUp : legDown );
+        }
+        bendBy( -d, Radius, 2.0f * Theta, 0.18f, numbered && k < up ? up - k : 0 );
+        d = -d;
+    }
+    leg( legDown );
+    const size_t descentTo = curve.size();
+    bendBy( -d, Turn, Theta, 0.32f, 0 );
+    const size_t n = curve.size();
+
+    // The grades: into the climb, up, over the summit, down to where it began, out of it. The descent is as steep as
+    // it must be to come down again (within reason; the rest the road loses afterwards).
+    constexpr float GradeUp = 0.09f;
+    auto grades = [&]( float gradeDown )
+    {
+        std::vector<float> g( n );
+        for( size_t i = 0; i < n; ++i )
+        {
+            if( i < climbFrom ) g[i] = GradeUp * smoothstepf( 0.0f, 1.0f, static_cast<float>( i ) / static_cast<float>( std::max<size_t>( 1, climbFrom ) ) );
+            else if( i < summitFrom ) g[i] = GradeUp;
+            else if( i < summitTo )
+                g[i] = lerpf( GradeUp, -gradeDown, smoothstepf( 0.0f, 1.0f, static_cast<float>( i - summitFrom ) / static_cast<float>( summitTo - summitFrom ) ) );
+            else if( i < descentTo ) g[i] = -gradeDown;
+            else g[i] = -gradeDown * ( 1.0f - smoothstepf( 0.0f, 1.0f, static_cast<float>( i - descentTo ) / static_cast<float>( n - descentTo ) ) );
+        }
+        return g;
+    };
+    float gradeDown = 0.08f;
+    for( int pass = 0; pass < 2; ++pass )
+    {
+        const std::vector<float> g = grades( gradeDown );
+        float rise = 0.0f, fall = 0.0f;
+        for( size_t i = 0; i < n; ++i ) ( i < ( summitFrom + summitTo ) / 2 ? rise : fall ) += g[i] * SegmentLength;
+        if( fall < -1.0f ) gradeDown = clampf( gradeDown * rise / -fall, 0.04f, 0.13f );
+    }
+    const std::vector<float> grade = grades( gradeDown );
+
+    // Where every segment will lie.
+    std::vector<double> px( n ), pz( n ), py( n );
+    std::vector<float>  hd( n );
+    {
+        double x = m_genPos.m_x, z = m_genPos.m_z, y = m_genPos.m_y;
+        float  h = h0;
+        for( size_t i = 0; i < n; ++i )
+        {
+            px[i] = x;
+            pz[i] = z;
+            py[i] = y;
+            hd[i] = h;
+            const Vector3 f = headingForward( h + curve[i] * SegmentLength * 0.5f );
+            x += static_cast<double>( f.x ) * SegmentLength;
+            z += static_cast<double>( f.z ) * SegmentLength;
+            y += static_cast<double>( grade[i] ) * SegmentLength;
+            h += curve[i] * SegmentLength;
+        }
+    }
+
+    // How far each segment's land reaches: as long as a point is nearer to it than to the rest of the road (the legs
+    // above and below, the road before), so the land of the legs meets halfway and never overlaps.
+    const size_t        tail = std::min<size_t>( m_segments.size(), 120 );
+    std::vector<double> tx( tail ), tz( tail );
+    for( size_t t = 0; t < tail; ++t )
+    {
+        const Segment &sg = m_segments[m_segments.size() - tail + t];
+        tx[t] = sg.m_pos.m_x;
+        tz[t] = sg.m_pos.m_z;
+    }
+    // (Along a ray from the road the boundary with another road point at offset d lies at |d|^2 / 2 (n.d); the nearest
+    // such boundary of the points round it is the reach, up to the land's 700 m.)
+    const long window = 6 * static_cast<long>( std::lround( ( std::max( legUp, legDown ) + arc ) / SegmentLength ) ) + 12;
+    std::vector<float> reach[2] = { std::vector<float>( n, 0.0f ), std::vector<float>( n, 0.0f ) };
+    for( size_t i = 0; i < n; ++i )
+        for( int side = 0; side < 2; ++side )
+        {
+            const Vector3 r = headingRight( hd[i] );
+            const double  nx = side ? r.x : -r.x, nz = side ? r.z : -r.z;
+            double        best = 700.0;
+            auto          meet = [&]( double qx, double qz )
+            {
+                const double dx = qx - px[i], dz = qz - pz[i], dot = dx * nx + dz * nz;
+                if( dot > 1e-6 ) best = std::min( best, ( dx * dx + dz * dz ) / ( 2.0 * dot ) );
+            };
+            const long lo = std::max( 0L, static_cast<long>( i ) - window ), hi = std::min( static_cast<long>( n ) - 1, static_cast<long>( i ) + window );
+            for( long j = lo; j <= hi; ++j )
+                if( std::abs( j - static_cast<long>( i ) ) > 6 ) meet( px[static_cast<size_t>( j )], pz[static_cast<size_t>( j )] );
+            for( size_t t = 0; t < tail; ++t )
+                if( static_cast<long>( i ) + static_cast<long>( tail - t ) > 6 ) meet( tx[t], tz[t] );
+            if( best < 699.0 ) reach[side][i] = std::max( static_cast<float>( best ) - 1.0f, 9.0f );
+        }
+
+    // The mountainside: rising along the climb to the summit, falling beyond.
+    const size_t top = ( summitFrom + summitTo ) / 2;
+    Serpentine   sp;
+    sp.m_first = endIndex();
+    sp.m_last = sp.m_first + static_cast<long>( n ) - 1;
+    sp.m_origin = m_genPos;
+    const double ax = px[n - 1] - px[0], az = pz[n - 1] - pz[0], al = std::max( 1.0, std::sqrt( ax * ax + az * az ) );
+    sp.m_axisX = static_cast<float>( ax / al );
+    sp.m_axisZ = static_cast<float>( az / al );
+    auto along = [&]( size_t i ) { return static_cast<float>( ( px[i] - px[0] ) * sp.m_axisX + ( pz[i] - pz[0] ) * sp.m_axisZ ); };
+    sp.m_summit = std::max( 50.0f, along( top ) );
+    sp.m_top = static_cast<float>( py[top] - py[0] );
+    sp.m_end = std::max( sp.m_summit + 50.0f, along( n - 1 ) );
+    sp.m_up = sp.m_top / sp.m_summit;
+    sp.m_down = static_cast<float>( py[top] - py[n - 1] ) / ( sp.m_end - sp.m_summit );
+    m_serpentines.push_back( sp );
+
+    for( size_t i = 0; i < n; ++i )
+    {
+        m_pendingCurve.push_back( curve[i] );
+        m_pendingGrade.push_back( grade[i] );
+        m_pendingFlags.push_back( static_cast<uint16_t>( flags[i] | ( i == top ? SEG_SUMMIT : 0 ) ) );
+        m_pendingBlocked.push_back( 0 );
+        m_pendingBend.push_back( Bend{ true, pin[i], reach[0][i], reach[1][i] } );
+    }
+    m_lastSpecial = sp.m_last;
+    return true;
+}
+
+bool Track::planHump( double s )
+{
+    const int stage = static_cast<int>( s / StageLength );
+    if( stage != m_humpStage )
+    {
+        m_humpStage = stage;
+        const BiomeMix mix = biomeMix( s + 200.0 );
+        m_humpsLeft = biomeDef( mix.m_t < 0.5f ? mix.m_from : mix.m_to ).m_humps;
+    }
+    const long startIndex = endIndex() + static_cast<long>( m_pendingFlags.size() );
+    const double local = s - static_cast<double>( stage ) * StageLength;
+    if( m_humpsLeft <= 0 || local < 1200.0 || local > StageLength - 3200.0 || startIndex - m_lastSpecial < 120 || !m_rng.chance( 0.12f ) ) return false;
+    if( inForkZone( s, 400.0 ) || nearSeaPortal( s, 500.0 ) ) return false;
+    // A steep hump over the sea (the Storseisundet bridge seems to end in the air), turning a little at its top.
+    --m_humpsLeft;
+    constexpr float Length = 380.0f, Rise = 0.17f;
+    const int       n = static_cast<int>( Length / SegmentLength );
+    const float     dir = m_genHeading > 0.3f ? -1.0f : m_genHeading < -0.3f ? 1.0f : m_rng.sign();
+    for( int j = 0; j < n; ++j )
+    {
+        const float u = ( static_cast<float>( j ) + 0.5f ) / static_cast<float>( n );
+        const float turn = smoothstepf( 0.3f, 0.5f, u ) * ( 1.0f - smoothstepf( 0.5f, 0.7f, u ) );
+        m_pendingCurve.push_back( dir * turn * 0.45f / ( 0.2f * Length ) );
+        m_pendingGrade.push_back( Rise * std::cos( Tau * 0.5f * u ) * smoothstepf( 0.0f, 0.08f, u ) * smoothstepf( 0.0f, 0.08f, 1.0f - u ) );
+        m_pendingFlags.push_back( static_cast<uint16_t>( j >= 3 && j < n - 3 ? SEG_BRIDGE : 0 ) );
+        m_pendingBlocked.push_back( 0 );
+        m_pendingBend.emplace_back();
+    }
+    m_lastSpecial = startIndex + n;
+    return true;
 }
 
 const Segment &Track::segment( long index ) const

@@ -84,6 +84,7 @@ struct Records
     int                      m_heroLosses = 0;   ///< local heroes who got there first
     int                      m_trainWins = 0;    ///< fast trains beaten
     int                      m_jobs = 0;         ///< courier jobs done (parcels, organs, thieves)
+    std::vector<std::pair<std::string, double>> m_legendBest;   ///< the best time over each legendary road driven whole (place ID, seconds)
     std::vector<std::string> m_achieved;         ///< the achievements earned (their keys, Achievements.h)
 
     /**

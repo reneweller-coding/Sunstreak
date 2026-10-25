@@ -65,6 +65,7 @@ bool stageTrain( const Track &track, int stage, TrainStretch &out )
     if( stage < 0 ) return false;
     const BiomeDef &place = biomeDef( track.stageBiome( stage ) );
     if( !place.m_country || place.m_underwater || place.m_crossing != CrossingE::NONE || place.m_surface.m_lineGlow > 0.0f ) return false;
+    if( mayClimbHairpins( place ) || place.m_humps > 0 ) return false;   // a viaduct beside would fold over the legs, or stay low beside a hump
     const auto &lines = trainLines();
     int         line = -1;
     for( size_t i = 0; i < lines.size() && line < 0; ++i )

@@ -119,7 +119,13 @@ province of South Africa, and many of Russia, Japan, Indonesia and some forty mo
 begins, a sign says so. The famous roads have their
 own: the Stelvio, the Transfagarasan, the Atlantic Road, Trollstigen, the Nordschleife, the Yungas Road, the Road of
 Bones, the Dalton Highway beside its pipeline, the Nullarbor with its kangaroo, camel and cow signs, Bonneville, the
-Tail of the Dragon and the Road to Hana. The roads follow their country: yellow down the middle in the Americas,
+Tail of the Dragon and the Road to Hana. Twenty-eight of them are legendary roads: a banner when they begin, your best
+time over each from end to end, and their signature. The passes climb in hairpins, numbered on the outside and
+counting down to the top where the pass's name and height stand (48 TORNANTE up to the Passo dello Stelvio at 2757 m,
+36 KEHRE up the Grossglockner, Trollstigen, the Transfagarasan, Irohazaka, Pikes Peak, Tianmen, the Gata Loops), on
+one mountainside whose land lies the same seen from every leg; the legs below stay in sight. Other high mountains climb
+in hairpins now and then too. The Atlantic Road has its humped bridges over the sea that seem to end in the air.
+Traffic slows for the hairpins, and the checkpoint time counts them in. The roads follow their country: yellow down the middle in the Americas,
 Scandinavia, China, Korea and mainland Southeast Asia, a yellow edge on the centre side in Arabia and on the outer edge
 in Ireland and southern Africa; lanes from 3.65 m wide in North America to 3 m in Japan; paved shoulders, the plain
 verge or the painted kerbs of the towns (black and white in Malaysia and Russia, red and white in Thailand, black and
@@ -342,8 +348,8 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --shape NAME                  the landmark the viewer opens on (with --screen country: the country)
     --shape-tour N                with --screen viewer: photograph N models from there on, one picture each, saved
                                   as the --screenshot prefix followed by the model's name
-    --camera 0..3                 chase, far, bumper or cockpit camera
-    --find tunnel|bridge|landmark|landmark2|fork|sea|seain|seaout|ferry|jump|hitchhiker|hero|train|sky
+    --camera 0..4                 chase, far, bumper or cockpit camera; 4 from above (screenshots)
+    --find tunnel|bridge|landmark|landmark2|fork|sea|seain|seaout|ferry|jump|hitchhiker|hero|train|sky|summit|hump
                                  start just before the first tunnel, bridge, landmark (or the second), fork, undersea
                                  portal (or inside, or before its far portal), ferry or crest
     --season spring|summer|autumn|winter   that season (testing)

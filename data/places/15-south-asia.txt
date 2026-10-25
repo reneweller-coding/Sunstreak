@@ -6,6 +6,7 @@
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
 place KARAKORAM | KARAKORAM HIGHWAY | PAKISTAN | MORNING | GILGIT-BALTISTAN
+    legend UP TO 4693 M AT THE KHUNJERAB PASS
     land 9A8A70 8E7E66 8A8070
     verge 8A7A66
     hills 50 40 0
@@ -242,6 +243,9 @@ place SPITI | SPITI VALLEY | INDIA | ALPINE | HIMACHAL PRADESH
     p ROCK 0.12 3 60
 
 place MANALI | MANALI HIGHWAY | INDIA | ALPINE | HIMACHAL PRADESH
+    serpentine 21
+    summit 4739 NAKEE LA
+    legend THE 21 GATA LOOPS
     land 6A9A48 609040 6E8E58
     ranges 5A6476 F0F2F6 14
     hills 50 40 -30

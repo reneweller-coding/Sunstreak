@@ -95,6 +95,8 @@ const std::vector<Achievement> &achievements()
         { "hero25", "LEGEND OF THE ROADS", "BEAT 25 LOCAL HEROES" },
         { "train1", "FASTER THAN THE TRAIN", "BEAT A FAST TRAIN TO THE END OF ITS VIADUCT" },
         { "jobs10", "COURIER OF THE WORLD", "TEN COURIER JOBS: PARCELS, ORGANS, THIEVES" },
+        { "legend1", "LEGENDARY", "DRIVE A LEGENDARY ROAD FROM END TO END" },
+        { "legendall", "ALL THE LEGENDS", "DRIVE EVERY LEGENDARY ROAD FROM END TO END" },
         { "aqua", "SURF'S UP", "AQUAPLANE IN A DOWNPOUR" },
         { "cards50", "POSTCARD COLLECTOR", "50 POSTCARDS IN THE ALBUM" },
         { "album25", "PHOTOGRAPHER", "PHOTOGRAPH 25 LANDMARKS" },
@@ -136,6 +138,13 @@ AchievementProgress achievementProgress( const Records &r, size_t index )
     if( key == "hero25" ) return upTo( r.m_heroWins, 25 );
     if( key == "train1" ) return upTo( r.m_trainWins, 1 );
     if( key == "jobs10" ) return upTo( r.m_jobs, 10 );
+    if( key == "legend1" ) return upTo( static_cast<int>( r.m_legendBest.size() ), 1 );
+    if( key == "legendall" )
+    {
+        int legends = 0;
+        for( int i = 0; i < biomeCount(); ++i ) legends += biomeDef( static_cast<BiomeE>( i ) ).m_legend != nullptr;
+        return upTo( static_cast<int>( r.m_legendBest.size() ), legends );
+    }
     if( key == "aqua" ) return upTo( r.m_aquaplanes, 1 );
     if( key == "cards50" ) return upTo( static_cast<int>( r.m_postcards.count() ), 50 );
     if( key == "album25" ) return upTo( static_cast<int>( r.m_album.size() ), 25 );

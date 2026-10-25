@@ -350,6 +350,17 @@ void Records::load( const std::string &path )
                 m_trainWins = std::atoi( v[7].c_str() );
                 m_jobs = std::atoi( v[8].c_str() );
             }
+            else if( key == "legends" )
+            {
+                std::stringstream ss( val );
+                std::string       item;
+                m_legendBest.clear();
+                while( std::getline( ss, item, ',' ) )
+                {
+                    const auto bar = item.find( '|' );
+                    if( bar != std::string::npos ) m_legendBest.emplace_back( item.substr( 0, bar ), std::atof( item.c_str() + bar + 1 ) );
+                }
+            }
             else if( key == "escaped" || key == "hitchfrom" || key == "achieved" )
             {
                 std::vector<std::string> &list = key == "escaped" ? m_escapedFrom : key == "hitchfrom" ? m_hitchFrom : m_achieved;
@@ -429,6 +440,9 @@ void Records::save( const std::string &path ) const
     writeNames( out, m_postcards );
     out << "stats=" << m_escapes << "|" << m_caught << "|" << m_delivered << "|" << m_gaveWay << "|" << m_aquaplanes << "|" << m_heroWins << "|"
         << m_heroLosses << "|" << m_trainWins << "|" << m_jobs << "\n";
+    out << "legends=";
+    for( size_t i = 0; i < m_legendBest.size(); ++i ) out << ( i ? "," : "" ) << m_legendBest[i].first << "|" << m_legendBest[i].second;
+    out << "\n";
     for( const auto &[name, list] : { std::pair{ "escaped", &m_escapedFrom }, std::pair{ "hitchfrom", &m_hitchFrom }, std::pair{ "achieved", &m_achieved } } )
     {
         out << name << "=";

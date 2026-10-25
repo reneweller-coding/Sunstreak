@@ -121,6 +121,15 @@ public:
     void update( Track &track, double s, int maxBuilds );
 
     /**
+     * @brief How far behind a point chunks are kept and drawn: in a pass in hairpins the legs below lie beside the road,
+     *        so they stay (up to 1.5 km back) while it lasts and a little after.
+     * @param[in] track  the track
+     * @param[in] s      the distance along the road
+     * @return metres behind
+     */
+    static double keptBehind( const Track &track, double s );
+
+    /**
      * @brief The chunks held, nearest first.
      * @return the chunks
      */

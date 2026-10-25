@@ -626,6 +626,54 @@ public:
     }
 
     /**
+     * @brief Climbs a pass in numbered hairpins once per stage.
+     * @param[in] hairpins  how many (counted down to 1 at the top)
+     * @param[in] word      the word on their boards before the number (nullptr: the number alone)
+     * @return this
+     */
+    W &serpentine( int hairpins, const char *word )
+    {
+        m_d.m_hairpins = static_cast<uint8_t>( std::clamp( hairpins, 0, 60 ) );
+        m_d.m_hairpinWord = word;
+        return *this;
+    }
+
+    /**
+     * @brief Names the pass on the board at its top.
+     * @param[in] height  its altitude (m)
+     * @param[in] name    its name
+     * @return this
+     */
+    W &summit( int height, const char *name )
+    {
+        m_d.m_summitHeight = height;
+        m_d.m_summit = name;
+        return *this;
+    }
+
+    /**
+     * @brief Makes the place a legendary road: a banner when it begins, a best time over it.
+     * @param[in] text  what the banner says of it
+     * @return this
+     */
+    W &legend( const char *text )
+    {
+        m_d.m_legend = text;
+        return *this;
+    }
+
+    /**
+     * @brief Humped bridges over the sea.
+     * @param[in] count  per stage
+     * @return this
+     */
+    W &humps( int count )
+    {
+        m_d.m_humps = static_cast<uint8_t>( std::clamp( count, 0, 8 ) );
+        return *this;
+    }
+
+    /**
      * @brief Sets the bridges.
      * @param[in] chance  per suitable straight
      * @param[in] style   how they are built

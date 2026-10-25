@@ -925,7 +925,7 @@ struct BiomeDef
     const char           *m_region = nullptr;                     ///< its state or province (none: the whole country)
     uint8_t               m_lampTone = 0;                         ///< the light of its street lamps (LampWarm, LampSodium, LampCool in Local.h)
     uint8_t               m_postStyle = 0;                        ///< its delineator posts (PostPlain, PostBand, PostFlex, PostRedWhite in Local.h)
-    const char           *m_island = nullptr;                     ///< an island of its own (none: the country's landmass)
+    const char           *m_island = nullptr;                    ///< an island of its own (none: the country's landmass)
     bool                  m_underwater = false;                   ///< a glass tunnel on the sea floor
     std::vector<SwimRule> m_swim;                                 ///< what swims round the tunnel
     CrossingE             m_crossing = CrossingE::NONE;           ///< a sea crossed aboard a ferry or a car train instead
@@ -937,7 +937,23 @@ struct BiomeDef
     float                 m_pollution = -1.0f;                    ///< Numbeo's pollution index 0..100 (-1: as its country says)
     bool                  m_concrete = false;                     ///< concrete slabs, a joint every segment
     bool                  m_studs = false;                        ///< reflecting studs along the lines
+    uint8_t               m_hairpins = 0;                         ///< a pass climbed in this many numbered hairpins, once per stage
+    const char           *m_hairpinWord = nullptr;                ///< the word on their boards before the number ("TORNANTE")
+    const char           *m_summit = nullptr;                     ///< the pass's name on the board at the top
+    int                   m_summitHeight = 0;                     ///< and its altitude (m)
+    const char           *m_legend = nullptr;                     ///< a legendary road: what the banner says of it
+    uint8_t               m_humps = 0;                            ///< humped bridges over the sea per stage (the Atlantic Road)
 };
+
+/**
+ * @brief Whether a place may climb a pass in hairpins: its own numbered ones, or now and then in high mountains.
+ * @param[in] b  the place
+ * @return true if it may
+ */
+inline bool mayClimbHairpins( const BiomeDef &b )
+{
+    return b.m_hairpins > 0 || ( b.m_sharpness >= 0.95f && b.m_hilliness >= 0.95f );
+}
 
 /**
  * @brief Where the world tour crosses the sea between two places, the stage on the sea floor (data/seas.txt).

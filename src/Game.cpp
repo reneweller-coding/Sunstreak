@@ -44,6 +44,35 @@ float checkpointBonus( int k )
 }
 
 /**
+ * @brief The seconds a stretch's tight bends add to its checkpoint time (the hairpins of a pass): a speed profile
+ *        braking into them and accelerating out, against the pace the checkpoint time expects.
+ * @param[in,out] track  the road (generated as far as the stretch)
+ * @param[in]     from   where the stretch begins
+ * @param[in]     to     and ends
+ * @param[in]     k      the checkpoints passed (the pace)
+ * @return the extra seconds
+ */
+float bendTime( Track &track, double from, double to, int k )
+{
+    track.generateTo( to + 20.0 );
+    const float        pace = std::min( 64.0f, 48.0f + 2.0f * static_cast<float>( k ) );
+    const long         first = static_cast<long>( from / SegmentLength ), n = std::max( 1L, static_cast<long>( ( to - from ) / SegmentLength ) );
+    std::vector<float> v( static_cast<size_t>( n ) );
+    for( long i = 0; i < n; ++i )
+    {
+        const float curve = std::abs( track.segment( first + i ).m_curve );
+        v[static_cast<size_t>( i )] = curve > 1e-4f ? std::min( pace, std::sqrt( 16.0f / curve ) ) : pace;
+    }
+    for( long i = n - 2; i >= 0; --i )   // braking at 9 m/s2
+        v[static_cast<size_t>( i )] = std::min( v[static_cast<size_t>( i )], std::sqrt( v[static_cast<size_t>( i + 1 )] * v[static_cast<size_t>( i + 1 )] + 2.0f * 9.0f * SegmentLength ) );
+    for( long i = 1; i < n; ++i )        // accelerating at 5 m/s2
+        v[static_cast<size_t>( i )] = std::min( v[static_cast<size_t>( i )], std::sqrt( v[static_cast<size_t>( i - 1 )] * v[static_cast<size_t>( i - 1 )] + 2.0f * 5.0f * SegmentLength ) );
+    float extra = 0.0f;
+    for( float s : v ) extra += SegmentLength * ( 1.0f / std::max( s, 5.0f ) - 1.0f / pace );
+    return extra * tuning().m_time;
+}
+
+/**
  * @brief A point in a pose's frame.
  * @param[in] p  the pose
  * @param[in] x  metres to the left
@@ -1243,14 +1272,15 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
     }
     if( m_options.m_find != 0 )
     {
-        // Testing: start shortly before the first tunnel, bridge or crest.
+        // Testing: start shortly before the first tunnel, bridge, crest or pass summit.
         Track          probe( setup.m_seed, params, m_options.m_startBiome );
-        const uint16_t want = m_options.m_find == 1 ? SEG_TUNNEL : m_options.m_find == 10 ? SEG_JUMP : SEG_BRIDGE;
+        const uint16_t want = m_options.m_find == 1 ? SEG_TUNNEL : m_options.m_find == 10 ? SEG_JUMP : m_options.m_find == 15 ? SEG_SUMMIT : SEG_BRIDGE;
+        const float    steep = m_options.m_find == 16 ? 0.1f : -1.0f;   // a humped bridge
         for( double s = 0.0; s < 60000.0; s += 1000.0 )
         {
             probe.generateTo( s + 1000.0 );
             for( long i = static_cast<long>( s / SegmentLength ); i < static_cast<long>( ( s + 1000.0 ) / SegmentLength ); ++i )
-                if( probe.segment( i ).m_flags & want )
+                if( ( probe.segment( i ).m_flags & want ) && probe.segment( i ).m_grade > steep )
                 {
                     startS = std::max( params.m_startLine - 9.0, static_cast<double>( i ) * SegmentLength - ( want == SEG_JUMP ? 30.0 : 160.0 ) );
                     s = 1e9;
@@ -1311,6 +1341,7 @@ void Game::beginCountdown()
     m_score = 0.0;
     m_checkpoints = static_cast<int>( m_car.m_s / CheckpointSpacing );
     m_nextCheckpoint = ( m_checkpoints + 1 ) * CheckpointSpacing;
+    m_timeLeft += bendTime( *m_track, m_car.m_s, m_nextCheckpoint, m_checkpoints );
     m_stage = static_cast<int>( m_car.m_s / StageLength );
     m_overtakes = 0;
     m_nearMisses = 0;
@@ -1334,6 +1365,7 @@ void Game::beginCountdown()
     m_earned = 0;
     m_postcardWanted = -1;
     m_frontShown = -1;
+    m_legendStage = -1;
     m_replay.clear();
     m_replayNext = 0.0f;
     m_newRecord = false;
@@ -2162,7 +2194,7 @@ void Game::timeAttackRules( float h )
         ++m_checkpoints;
         if( !m_timeUp && m_mode != ModeE::TRAVEL )
         {
-            const float bonus = checkpointBonus( m_checkpoints );
+            const float bonus = checkpointBonus( m_checkpoints ) + bendTime( *m_track, m_nextCheckpoint, m_nextCheckpoint + CheckpointSpacing, m_checkpoints );
             m_timeLeft += bonus;
             m_score += 1000.0;
             bonusText = format( "+%.1f SEC", bonus );
@@ -2174,8 +2206,32 @@ void Game::timeAttackRules( float h )
     if( stage != m_stage )
     {
         m_stage = stage;
-        popup( format( "STAGE %d", stage + 1 ) + ( bonusText.empty() ? std::string() : "   " + bonusText ), placeName( track.stageBiome( stage ) ), Accent, 1.0f,
-               3.0f );
+        // A legendary road driven from end to end: its time against the best.
+        if( m_legendStage == stage - 1 && !m_demo )
+        {
+            const BiomeE       was = track.stageBiome( stage - 1 );
+            const std::string &id = biomeKey( was );
+            const float        t = m_raceTime - m_legendStart;
+            auto               it = std::find_if( m_records.m_legendBest.begin(), m_records.m_legendBest.end(), [&]( const auto &p ) { return p.first == id; } );
+            const bool         best = it == m_records.m_legendBest.end() || t < it->second;
+            const double       before = it == m_records.m_legendBest.end() ? 0.0 : it->second;
+            if( best && it == m_records.m_legendBest.end() ) m_records.m_legendBest.emplace_back( id, t );
+            else if( best ) it->second = t;
+            auto clock = []( double s ) { return format( "%d:%04.1f", static_cast<int>( s / 60.0 ), std::fmod( s, 60.0 ) ); };
+            popup( placeName( was ) + "   " + clock( t ), best ? ( before > 0.0 ? "NEW BEST, WAS " + clock( before ) : std::string( "YOUR FIRST TIME OVER IT" ) ) : "BEST " + clock( before ),
+                   Gold, 0.9f, 4.0f, true );
+            checkAchievements();
+        }
+        m_legendStage = -1;
+        const BiomeDef &place = biomeDef( track.stageBiome( stage ) );
+        if( place.m_legend )
+        {
+            m_legendStage = stage;
+            m_legendStart = m_raceTime;
+        }
+        popup( format( place.m_legend ? "STAGE %d   LEGENDARY ROAD" : "STAGE %d", stage + 1 ) + ( bonusText.empty() ? std::string() : "   " + bonusText ),
+               placeName( track.stageBiome( stage ) ) + ( place.m_legend ? std::string( "  -  " ) + place.m_legend : std::string() ), place.m_legend ? Gold : Accent,
+               1.0f, place.m_legend ? 4.5f : 3.0f );
         bonusText.clear();
         // A new region or country: the radio's jingle, and where it plays from.
         const BiomeDef &now = biomeDef( track.stageBiome( stage ) );
@@ -2642,7 +2698,15 @@ void Game::updateCamera( float dt )
     m_swingVel += ( ( swingTo - m_swing ) * 38.0f - m_swingVel * 2.2f ) * dt + ( m_car.m_shake > 0.2f ? std::sin( m_time * 53.0f ) * m_car.m_shake * 6.0f * dt : 0.0f );
     m_swing = clampf( m_swing + m_swingVel * dt, -1.1f, 1.1f );
     m_cockpit = mode == 3;
-    if( mode == 3 )
+    if( mode == 4 )
+    {
+        // From above (--camera 4, for screenshots of the road's shape): high behind the car, looking down at it.
+        const Pose p = m_car.pose( track );
+        m_cam.m_pos = poseLocal( p, 0.0f, 120.0f, -150.0f );
+        m_cam.m_forward = Vector3Normalize( relativeTo( poseLocal( p, 0.0f, 0.0f, 60.0f ), m_cam.m_pos ) );
+        m_cam.m_up = Vector3{ 0.0f, 1.0f, 0.0f };
+    }
+    else if( mode == 3 )
     {
         const Pose p = m_car.pose( track );
         m_cam.m_pos = poseLocal( p, 0.36f * m_seat, 1.08f, -0.35f );

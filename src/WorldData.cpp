@@ -243,6 +243,18 @@ struct Args
         static const std::string none;
         return i < m_w.size() ? m_w[i] : none;
     }
+
+    /**
+     * @brief The words from one on, joined by spaces.
+     * @param[in] i  the first
+     * @return them, or empty
+     */
+    std::string rest( size_t i ) const
+    {
+        std::string out;
+        for( size_t k = i; k < m_w.size(); ++k ) out += ( out.empty() ? "" : " " ) + m_w[k];
+        return out;
+    }
 };
 
 using Step = std::function<void( W &, const Args & )>;
@@ -293,6 +305,11 @@ const std::unordered_map<std::string, Step> &steps()
         { "gantries", []( W &w, const Args &a ) { w.gantries( a.f( 0 ) ); } },
         { "rails", []( W &w, const Args & ) { w.rails(); } },
         { "tunnels", []( W &w, const Args &a ) { w.tunnels( a.f( 0 ) ); } },
+        { "serpentine",
+          []( W &w, const Args &a ) { w.serpentine( static_cast<int>( a.f( 0 ) ), a.rest( 1 ).empty() ? nullptr : keep( a.rest( 1 ) ) ); } },
+        { "summit", []( W &w, const Args &a ) { w.summit( static_cast<int>( a.f( 0 ) ), keep( a.rest( 1 ) ) ); } },
+        { "legend", []( W &w, const Args &a ) { w.legend( keep( a.rest( 0 ) ) ); } },
+        { "humps", []( W &w, const Args &a ) { w.humps( static_cast<int>( a.f( 0 ) ) ); } },
         { "bridges",
           []( W &w, const Args &a )
           {
