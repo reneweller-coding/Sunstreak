@@ -188,6 +188,13 @@ private:
      */
     static void blit( const Texture2D &tex, int w, int h );
 
+    /**
+     * @brief Draws one mesh at many places with the world shader: instanced from three on (cones, puddles, shadows).
+     * @param[in] mesh        the mesh
+     * @param[in] transforms  where (relative to the floating origin)
+     */
+    void drawMany( const Mesh &mesh, const std::vector<Matrix> &transforms );
+
     Program  m_world;       ///< lit world
     Program  m_sky;         ///< sky
     Program  m_particle;    ///< sprites
@@ -199,6 +206,7 @@ private:
     Program  m_mirror;      ///< reflections on the wet road and in puddles
     GpuTimer m_gpu;         ///< GPU time per pass
     Material m_material{};  ///< carries the world shader
+    int      m_instanceAttrib = -1;   ///< the world shader's instanceTransform attribute
     Material m_depthMaterial{};   ///< carries the depth shader
 
     RenderTexture2D m_shadowMap{};       ///< depth from the sun

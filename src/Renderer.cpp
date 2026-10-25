@@ -179,6 +179,24 @@ float inTunnel( const Track &track, double s )
 
 } // namespace
 
+void Renderer::drawMany( const Mesh &mesh, const std::vector<Matrix> &transforms )
+{
+    if( !mesh.vertexCount || transforms.empty() ) return;
+    if( transforms.size() < 3 || m_instanceAttrib < 0 )
+    {
+        for( const Matrix &m : transforms ) DrawMesh( mesh, m_material, m );
+        return;
+    }
+    // raylib 5.5 feeds the instances to the attribute in the model matrix's slot, which otherwise holds the uniform.
+    int &slot = m_material.shader.locs[SHADER_LOC_MATRIX_MODEL];
+    const int uniform = slot;
+    slot = m_instanceAttrib;
+    setF( m_world.m_shader, "instanced", 1.0f );
+    DrawMeshInstanced( mesh, m_material, transforms.data(), static_cast<int>( transforms.size() ) );
+    setF( m_world.m_shader, "instanced", 0.0f );
+    slot = uniform;
+}
+
 void Renderer::init()
 {
     m_gpu.init();
@@ -191,6 +209,7 @@ void Renderer::init()
     m_fxaa.m_shader = LoadShaderFromMemory( shaders::ScreenVs, shaders::FxaaFs );
     m_depth.m_shader = LoadShaderFromMemory( shaders::DepthVs, shaders::DepthFs );
     m_mirror.m_shader = LoadShaderFromMemory( shaders::ScreenVs, shaders::MirrorFs );
+    m_instanceAttrib = GetShaderLocationAttrib( m_world.m_shader, "instanceTransform" );
     m_material = LoadMaterialDefault();
     m_material.shader = m_world.m_shader;
     m_depthMaterial = LoadMaterialDefault();
@@ -567,11 +586,15 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
             if( shown( c ) && c.m_ground.vertexCount ) DrawMesh( c.m_ground, m_material, MatrixTranslate( o.x, o.y, o.z ) );
         }
     if( in.m_models && in.m_models->m_puddle.vertexCount )
+    {
+        std::vector<Matrix> puddles;
         for( const ScenePiece &p : in.m_puddles )
         {
             const Vector3 o = relativeTo( p.m_pos, origin );
-            DrawMesh( in.m_models->m_puddle, m_material, MatrixMultiply( MatrixRotateY( p.m_yaw ), MatrixTranslate( o.x, o.y, o.z ) ) );
+            puddles.push_back( MatrixMultiply( MatrixRotateY( p.m_yaw ), MatrixTranslate( o.x, o.y, o.z ) ) );
         }
+        drawMany( in.m_models->m_puddle, puddles );
+    }
     setF( s, "writeMirror", 0.0f );
     rlEnableColorBlend();
     if( in.m_world )
@@ -633,20 +656,24 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
             }
             if( c.m_lift < 0.5f && !c.m_swim ) shadows.push_back( { p, c.m_width, c.m_length } );
         }
+        // Cones and arrow boards, one draw per kind (roadworks are never in a tunnel).
+        std::vector<Matrix> obstacles[3];
         for( const Obstacle &o : in.m_traffic->m_obstacles )
         {
-            const Mesh &mesh = o.m_kind == 0 ? models.m_cone : models.m_arrowBoard[o.m_kind == 1 ? 0 : 1];
             if( o.m_knocked )
             {
                 const Vector3 rel = relativeTo( o.m_pos, origin );
-                const Matrix  m = MatrixMultiply( MatrixRotate( o.m_axis, o.m_angle ), MatrixTranslate( rel.x, rel.y, rel.z ) );
-                DrawMesh( mesh, m_material, m );
+                obstacles[std::clamp( o.m_kind, 0, 2 )].push_back( MatrixMultiply( MatrixRotate( o.m_axis, o.m_angle ), MatrixTranslate( rel.x, rel.y, rel.z ) ) );
             }
             else
             {
-                DrawMesh( mesh, m_material, poseMatrix( roadPose( track, o.m_s, o.m_x, 0.0f ), origin ) );
+                obstacles[std::clamp( o.m_kind, 0, 2 )].push_back( poseMatrix( roadPose( track, o.m_s, o.m_x, 0.0f ), origin ) );
             }
         }
+        setF( s, "objectShade", 1.0f );
+        drawMany( models.m_cone, obstacles[0] );
+        drawMany( models.m_arrowBoard[0], obstacles[1] );
+        drawMany( models.m_arrowBoard[1], obstacles[2] );
     }
     for( const PoliceDraw &c : in.m_police )
     {
@@ -696,13 +723,14 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
     }
 
     rlDisableDepthMask();
+    std::vector<Matrix> shadowMatrices;
     for( const Shadow &sh : shadows )
     {
         const Vector3 pos = Vector3Add( relativeTo( sh.m_pose.m_pos, origin ), Vector3Scale( sh.m_pose.m_up, 0.06f ) );
-        const Matrix  m = basisMatrix( Vector3Scale( sh.m_pose.m_left, sh.m_w * 0.98f ), sh.m_pose.m_up,
-                                       Vector3Scale( sh.m_pose.m_forward, sh.m_l * 0.92f ), pos );
-        DrawMesh( models.m_shadow, m_material, m );
+        shadowMatrices.push_back( basisMatrix( Vector3Scale( sh.m_pose.m_left, sh.m_w * 0.98f ), sh.m_pose.m_up,
+                                               Vector3Scale( sh.m_pose.m_forward, sh.m_l * 0.92f ), pos ) );
     }
+    drawMany( models.m_shadow, shadowMatrices );
     // Ghosts: see-through, after everything solid.
     for( const CarDraw &c : in.m_cars )
     {

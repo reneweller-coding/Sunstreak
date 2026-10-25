@@ -20,9 +20,11 @@ in vec2 vertexTexCoord;
 in vec3 vertexNormal;
 in vec4 vertexColor;
 in vec2 vertexTexCoord2;
+in mat4 instanceTransform;
 uniform mat4 matModel;
 uniform mat4 matView;
 uniform mat4 matProjection;
+uniform float instanced;
 uniform vec3 camPos;
 uniform float bend;
 uniform float time;
@@ -37,7 +39,8 @@ out float vShade;
 out vec3 vFlat;
 void main()
 {
-    vec4 wp = matModel * vec4(vertexPosition, 1.0);
+    mat4 model = instanced > 0.5 ? instanceTransform : matModel;
+    vec4 wp = model * vec4(vertexPosition, 1.0);
     float sway = vertexTexCoord2.y;
     if (sway > 0.0)
     {
@@ -51,7 +54,7 @@ void main()
     vec2 d = wp.xz - camPos.xz;
     wp.y -= bend * dot(d, d);
     vPos = wp.xyz;
-    vNormal = mat3(matModel) * vertexNormal;
+    vNormal = mat3(model) * vertexNormal;
     vColor = vertexColor;
     vMat = vertexTexCoord;
     gl_Position = matProjection * matView * wp;
