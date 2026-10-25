@@ -1407,7 +1407,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 if( j % k == ( side > 0 ? 0 : k / 2 ) )
                 {
                     const float l = side * ( A.m_hw + RumbleWidth + 1.0f );
-                    props.append( models.m_lamp, at( A, l, 0.0f ), A.m_heading + ( side > 0 ? -0.5f : 0.5f ) * Tau * 0.5f, 1.0f );
+                    props.append( models.m_lamp[std::min<size_t>( rule.m_lampTone, 2 )], at( A, l, 0.0f ), A.m_heading + ( side > 0 ? -0.5f : 0.5f ) * Tau * 0.5f, 1.0f );
                     c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, l, 0.35f } );
                 }
             }

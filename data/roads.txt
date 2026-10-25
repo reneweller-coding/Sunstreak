@@ -5,6 +5,9 @@
 #   cameras | ...        speed cameras: they flash, and cost time
 #   plates STYLE | ...   number plates: EU (white with a blue band), UK (yellow behind), US (white, a coloured top),
 #                        YELLOW, BLACK, JP (white with green letters); the rest white
+#   lamps TONE | ...     the light of the street lamps: SODIUM (orange), COOL (white-blue LEDs and tubes); the rest warm
+#                        white. An estimate of what most of a country's street lighting does, not a measurement
+#                        (OpenStreetMap hardly tags it)
 # Cobbled old towns say "cobbles" in data/places.
 #
 # How the roads are built and kept:
@@ -42,6 +45,8 @@ plates YELLOW | NETHERLANDS, LUXEMBOURG, ISRAEL, SURINAME
 plates US | USA, ALASKA, HAWAII, CANADA
 plates JP | JAPAN
 plates BLACK | MALAYSIA, BRUNEI
+lamps SODIUM | FRANCE, SPAIN, ITALY, PORTUGAL, GREECE, MALTA, CYPRUS, CROATIA, SERBIA, ALBANIA, BOSNIA, MONTENEGRO, NORTH MACEDONIA, KOSOVO, BULGARIA, ROMANIA, MOLDOVA, UKRAINE, BELARUS, RUSSIA, GEORGIA, ARMENIA, AZERBAIJAN, TURKEY, MEXICO, GUATEMALA, BELIZE, HONDURAS, EL SALVADOR, NICARAGUA, COSTA RICA, PANAMA, CUBA, DOMINICAN REPUBLIC, HAITI, JAMAICA, COLOMBIA, VENEZUELA, ECUADOR, PERU, BOLIVIA, BRAZIL, PARAGUAY, URUGUAY, ARGENTINA, CHILE, INDIA, PAKISTAN, BANGLADESH, SRI LANKA, NEPAL, EGYPT, MOROCCO, ALGERIA, TUNISIA, LIBYA, IRAN, IRAQ, JORDAN, LEBANON, SYRIA, SAUDI ARABIA, OMAN, KUWAIT, YEMEN, SOUTH AFRICA, KENYA, NIGERIA, GHANA, ETHIOPIA
+lamps COOL | JAPAN, CHINA, SOUTH KOREA, NORTH KOREA, TAIWAN, SINGAPORE, THAILAND, VIETNAM, MALAYSIA, INDONESIA, PHILIPPINES, CAMBODIA, LAOS, MYANMAR, BRUNEI, MONGOLIA, ISRAEL, UAE, QATAR
 
 quality 6.5 | SINGAPORE
 quality 6.4 | NETHERLANDS

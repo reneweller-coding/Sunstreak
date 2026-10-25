@@ -923,6 +923,7 @@ struct BiomeDef
     ClimateE              m_climate = ClimateE::NONE;             ///< the weather fronts it gets
     uint8_t               m_unpaved = 0;                          ///< 0 asphalt, 1 gravel or dirt, 2 sand
     const char           *m_region = nullptr;                     ///< its state or province (none: the whole country)
+    uint8_t               m_lampTone = 0;                         ///< the light of its street lamps (LampWarm, LampSodium, LampCool in Local.h)
     const char           *m_island = nullptr;                     ///< an island of its own (none: the country's landmass)
     bool                  m_underwater = false;                   ///< a glass tunnel on the sea floor
     std::vector<SwimRule> m_swim;                                 ///< what swims round the tunnel

@@ -429,7 +429,8 @@ int main()
             std::printf( "      road customs: %d broken lines; of 8 drives %d with a toll plaza, %d with a speed camera\n", roadErrors(), tolls,
                          cameras );
             check( roadErrors() == 0 && tolls >= 3 && cameras >= 3 && usa.m_mph && usa.m_board && germany.m_cameras && !germany.m_mph && france.m_plate == PlateE::EU &&
-                       roadCustoms( "ITALY" ).m_tolls && !roadCustoms( nullptr ).m_tolls,
+                       roadCustoms( "ITALY" ).m_tolls && !roadCustoms( nullptr ).m_tolls && france.m_lamp == LampSodium &&
+                       roadCustoms( "JAPAN" ).m_lamp == LampCool && germany.m_lamp == LampWarm,
                    "road customs by country" );
         }
         { // The roads of the countries: gravel and potholes in Chad, none in Switzerland; narrow lanes in Japan, concrete somewhere.

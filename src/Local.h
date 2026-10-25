@@ -47,7 +47,12 @@ struct RoadCustoms
     float  m_traffic = 0.0f;           ///< Numbeo's traffic index (0: not known)
     uint8_t m_styles = 0;              ///< how its traffic drives (Style* bits)
     float  m_pollution = -1.0f;        ///< Numbeo's pollution index 0..100 (-1: not known)
+    uint8_t m_lamp = 0;                ///< the light of its street lamps (Lamp* below)
 };
+
+constexpr uint8_t LampWarm = 0;          ///< warm white LEDs
+constexpr uint8_t LampSodium = 1;        ///< orange sodium vapour
+constexpr uint8_t LampCool = 2;          ///< cool white LEDs and tubes
 
 constexpr uint8_t StyleScooters = 1;     ///< swarms of scooters
 constexpr uint8_t StyleChaos = 2;        ///< weaving, lanes changed on a whim, horns

@@ -1361,11 +1361,18 @@ void Models::buildProps()
                 boardLine( m, Vector2{ s * 0.2f + off, 1.6f }, Vector2{ -s * 0.2f + off, 1.25f }, -0.07f, 0.17f, chevronArrow[style], Mat{ 0.45f, 0.0f } );
             }
         }
-    m_lamp.tube( Vector3{ 0, 0, 0 }, Vector3{ 0, 8.6f, 0 }, 0.14f, 6, rgb( 110, 112, 122 ) );
-    m_lamp.tube( Vector3{ 0, 8.4f, 0 }, Vector3{ 0, 8.7f, 2.6f }, 0.09f, 5, rgb( 110, 112, 122 ) );
-    m_lamp.box( Vector3{ 0, 8.65f, 2.9f }, Vector3{ 0.28f, 0.1f, 0.62f }, rgb( 70, 72, 80 ) );
-    m_lamp.quad( Vector3{ -0.24f, 8.54f, 2.35f }, Vector3{ 0.24f, 8.54f, 2.35f }, Vector3{ 0.24f, 8.54f, 3.45f },
-                 Vector3{ -0.24f, 8.54f, 3.45f }, rgb( 255, 226, 170 ), Glow );
+    { // Street lamps in the three lights of the world: warm white, orange sodium, cool white LEDs.
+        const Color glow[3] = { rgb( 255, 226, 170 ), rgb( 255, 150, 50 ), rgb( 214, 230, 255 ) };
+        for( size_t tone = 0; tone < 3; ++tone )
+        {
+            MeshBuilder &lamp = m_lamp[tone];
+            lamp.tube( Vector3{ 0, 0, 0 }, Vector3{ 0, 8.6f, 0 }, 0.14f, 6, rgb( 110, 112, 122 ) );
+            lamp.tube( Vector3{ 0, 8.4f, 0 }, Vector3{ 0, 8.7f, 2.6f }, 0.09f, 5, rgb( 110, 112, 122 ) );
+            lamp.box( Vector3{ 0, 8.65f, 2.9f }, Vector3{ 0.28f, 0.1f, 0.62f }, rgb( 70, 72, 80 ) );
+            lamp.quad( Vector3{ -0.24f, 8.54f, 2.35f }, Vector3{ 0.24f, 8.54f, 2.35f }, Vector3{ 0.24f, 8.54f, 3.45f },
+                       Vector3{ -0.24f, 8.54f, 3.45f }, glow[tone], Glow );
+        }
+    }
     for( size_t style : { size_t{ 0 }, size_t{ 1 }, size_t{ 3 } } )
     { // A crest triangle: red on white, red on yellow, black on yellow.
         MeshBuilder &crest = m_jumpSign[style];
