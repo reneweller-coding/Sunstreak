@@ -16,59 +16,61 @@ namespace sunstreak
 /** @brief Number plates. */
 enum class PlateE : uint8_t
 {
-    PLAIN,    ///< plain white
-    EU,       ///< white with a blue band
-    UK,       ///< yellow behind
-    US,       ///< white with a coloured top
-    AMBER,    ///< yellow
-    JP,       ///< small, white with green letters
-    DARK,     ///< black with white letters
-    COUNT     ///< number of styles
+    PLAIN,   ///< plain white
+    EU,      ///< white with a blue band
+    UK,      ///< yellow behind
+    US,      ///< white with a coloured top
+    AMBER,   ///< yellow
+    JP,      ///< small, white with green letters
+    DARK,    ///< black with white letters
+    COUNT    ///< number of styles
 };
 
 /** @brief How a country's roads are run. */
 struct RoadCustoms
 {
-    bool   m_mph = false;              ///< speed limits in miles per hour
-    bool   m_board = false;            ///< speed limits on a white board
-    bool   m_tolls = false;            ///< toll plazas
-    bool   m_cameras = false;          ///< speed cameras
-    PlateE m_plate = PlateE::PLAIN;    ///< number plates
-    float  m_quality = 4.5f;           ///< 1..7 how good its roads are
-    float  m_width = 3.5f;             ///< metres per lane
-    bool   m_shoulders = false;        ///< a paved shoulder beyond the edge line
-    bool   m_kerbs = false;            ///< its towns paint their kerbs
-    Color  m_kerbA{};                  ///< in this colour
-    Color  m_kerbB{};                  ///< and this one
-    bool   m_studs = false;            ///< reflecting studs along the lines
-    float  m_concrete = 0.0f;          ///< 0..1 of its places paved with concrete slabs
-    int    m_concreteLanes = 0;        ///< only roads of so many lanes or more
-    float  m_gravel = 0.0f;            ///< 0..1 of a country road on gravel or dirt
-    float  m_traffic = 0.0f;           ///< Numbeo's traffic index (0: not known)
+    bool    m_mph = false;             ///< speed limits in miles per hour
+    bool    m_board = false;           ///< speed limits on a white board
+    bool    m_tolls = false;           ///< toll plazas
+    bool    m_cameras = false;         ///< speed cameras
+    PlateE  m_plate = PlateE::PLAIN;   ///< number plates
+    float   m_quality = 4.5f;          ///< 1..7 how good its roads are
+    float   m_width = 3.5f;            ///< metres per lane
+    bool    m_shoulders = false;       ///< a paved shoulder beyond the edge line
+    bool    m_kerbs = false;           ///< its towns paint their kerbs
+    Color   m_kerbA{};                 ///< in this colour
+    Color   m_kerbB{};                 ///< and this one
+    bool    m_studs = false;           ///< reflecting studs along the lines
+    float   m_concrete = 0.0f;         ///< 0..1 of its places paved with concrete slabs
+    int     m_concreteLanes = 0;       ///< only roads of so many lanes or more
+    float   m_gravel = 0.0f;           ///< 0..1 of a country road on gravel or dirt
+    float   m_traffic = 0.0f;          ///< Numbeo's traffic index (0: not known)
     uint8_t m_styles = 0;              ///< how its traffic drives (Style* bits)
-    float  m_pollution = -1.0f;        ///< Numbeo's pollution index 0..100 (-1: not known)
+    float   m_pollution = -1.0f;       ///< Numbeo's pollution index 0..100 (-1: not known)
     uint8_t m_lamp = 0;                ///< the light of its street lamps (Lamp* below)
     uint8_t m_post = 0;                ///< its delineator posts (Post* below)
 };
 
-constexpr uint8_t PostPlain = 0;         ///< white with an orange cap
-constexpr uint8_t PostBand = 1;          ///< white with a black band and a reflector (Central Europe)
-constexpr uint8_t PostFlex = 2;          ///< slim and flexible, a white reflector strip on the traffic's side, a yellow one across (North America)
-constexpr uint8_t PostRedWhite = 3;      ///< white, a red reflector on the traffic's side, a white one across (Australia, New Zealand)
+constexpr uint8_t PostPlain = 0;   ///< white with an orange cap
+constexpr uint8_t PostBand = 1;    ///< white with a black band and a reflector (Central Europe)
+constexpr uint8_t PostFlex =
+    2;   ///< slim and flexible, a white reflector strip on the traffic's side, a yellow one across (North America)
+constexpr uint8_t PostRedWhite =
+    3;   ///< white, a red reflector on the traffic's side, a white one across (Australia, New Zealand)
 
-constexpr uint8_t LampWarm = 0;          ///< warm white LEDs
-constexpr uint8_t LampSodium = 1;        ///< orange sodium vapour
-constexpr uint8_t LampCool = 2;          ///< cool white LEDs and tubes
+constexpr uint8_t LampWarm = 0;     ///< warm white LEDs
+constexpr uint8_t LampSodium = 1;   ///< orange sodium vapour
+constexpr uint8_t LampCool = 2;     ///< cool white LEDs and tubes
 
 constexpr uint8_t StyleScooters = 1;     ///< swarms of scooters
 constexpr uint8_t StyleChaos = 2;        ///< weaving, lanes changed on a whim, horns
 constexpr uint8_t StyleTractors = 4;     ///< tractors on the country roads
 constexpr uint8_t StyleRoadTrains = 8;   ///< road trains in the outback
 
-constexpr double CameraAt = 650.0;   ///< where in its stage a speed camera stands (or the first clear spot after)
-constexpr double LimitAt = 300.0;    ///< and the speed limit before it
-constexpr double TollAt = 1300.0;    ///< where in its stage a toll plaza stands (or the first clear spot after)
-constexpr double PoliceAt = 2500.0;  ///< a stage's patrol car waits somewhere from here on (if it has one)
+constexpr double CameraAt = 650.0;    ///< where in its stage a speed camera stands (or the first clear spot after)
+constexpr double LimitAt = 300.0;     ///< and the speed limit before it
+constexpr double TollAt = 1300.0;     ///< where in its stage a toll plaza stands (or the first clear spot after)
+constexpr double PoliceAt = 2500.0;   ///< a stage's patrol car waits somewhere from here on (if it has one)
 
 /**
  * @brief A country's road customs.
@@ -199,10 +201,10 @@ void applyRoadCustoms( std::vector<BiomeDef> &table );
 /** @brief What OpenStreetMap shows round a place (data/roadside.txt). */
 struct PlaceRoadside
 {
-    uint8_t m_pole = 0;          ///< the poles of its overhead lines: 0 none known, 1 wood, 2 concrete, 3 steel
-    int8_t  m_lamp = -1;         ///< its street lamps: -1 not known, 0 LEDs, 1 sodium
-    float   m_unpaved = -1.0f;   ///< 0..1 the share of its main roads on gravel or dirt (-1: not known)
-    float   m_concrete = -1.0f;  ///< 0..1 the share on concrete slabs (-1: not known)
+    uint8_t m_pole = 0;           ///< the poles of its overhead lines: 0 none known, 1 wood, 2 concrete, 3 steel
+    int8_t  m_lamp = -1;          ///< its street lamps: -1 not known, 0 LEDs, 1 sodium
+    float   m_unpaved = -1.0f;    ///< 0..1 the share of its main roads on gravel or dirt (-1: not known)
+    float   m_concrete = -1.0f;   ///< 0..1 the share on concrete slabs (-1: not known)
 };
 
 /**
@@ -236,4 +238,4 @@ float gravelAt( const Track &track, double s );
  */
 bool potholeAt( const Track &track, long j, float &x, float &r );
 
-} // namespace sunstreak
+}   // namespace sunstreak

@@ -16,8 +16,8 @@ namespace sunstreak
 /** @brief How the seasons run in a drive. */
 struct SeasonClock
 {
-    int   m_mode = 0;        ///< 0 as today, 1 as the tour goes on (a year every 400 km), 2 off
-    float m_today = 0.0f;    ///< the time of year at the start (0: 1 January)
+    int   m_mode = 0;       ///< 0 as today, 1 as the tour goes on (a year every 400 km), 2 off
+    float m_today = 0.0f;   ///< the time of year at the start (0: 1 January)
 
     /**
      * @brief The time of year at a distance.
@@ -55,4 +55,4 @@ SeasonLook seasonAt( BiomeE place, float phase );
  */
 void seasonSurface( Surface &s, const SeasonLook &look );
 
-} // namespace sunstreak
+}   // namespace sunstreak

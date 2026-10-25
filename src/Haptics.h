@@ -57,15 +57,15 @@ private:
         float m_length = 1.0f;   ///< its length
     };
 
-    bool  m_ok = false;                       ///< SDL runs
-    void *m_pad = nullptr;                    ///< the SDL_GameController
-    float m_scan = 0.0f;                      ///< seconds until the next look for a pad
-    Pulse m_pulses[8];                        ///< fading pulses
-    float m_steadyLow = 0.0f;                 ///< this frame's buzz, the low motor
-    float m_steadyHigh = 0.0f;                ///< and the high one
-    int   m_sentLow = 0;                      ///< what the low motor was told last
-    int   m_sentHigh = 0;                     ///< and the high one
-    float m_resend = 0.0f;                    ///< seconds until the strength is sent again
+    bool  m_ok = false;          ///< SDL runs
+    void *m_pad = nullptr;       ///< the SDL_GameController
+    float m_scan = 0.0f;         ///< seconds until the next look for a pad
+    Pulse m_pulses[8];           ///< fading pulses
+    float m_steadyLow = 0.0f;    ///< this frame's buzz, the low motor
+    float m_steadyHigh = 0.0f;   ///< and the high one
+    int   m_sentLow = 0;         ///< what the low motor was told last
+    int   m_sentHigh = 0;        ///< and the high one
+    float m_resend = 0.0f;       ///< seconds until the strength is sent again
 };
 
-} // namespace sunstreak
+}   // namespace sunstreak

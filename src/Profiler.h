@@ -67,4 +67,4 @@ private:
     int      m_count = 0;              ///< frames summed
 };
 
-} // namespace sunstreak
+}   // namespace sunstreak

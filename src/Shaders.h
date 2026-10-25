@@ -679,4 +679,4 @@ void main()
 }
 )";
 
-} // namespace sunstreak::shaders
+}   // namespace sunstreak::shaders

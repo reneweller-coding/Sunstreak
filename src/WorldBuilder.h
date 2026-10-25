@@ -21,7 +21,6 @@ namespace sunstreak
 namespace
 {
 
-
 /**
  * @brief A colour from 0xRRGGBB.
  * @param[in] v  the value
@@ -29,27 +28,28 @@ namespace
  */
 constexpr Color hx( uint32_t v )
 {
-    return Color{ static_cast<unsigned char>( v >> 16 ), static_cast<unsigned char>( ( v >> 8 ) & 255 ), static_cast<unsigned char>( v & 255 ), 255 };
+    return Color{ static_cast<unsigned char>( v >> 16 ), static_cast<unsigned char>( ( v >> 8 ) & 255 ),
+                  static_cast<unsigned char>( v & 255 ), 255 };
 }
 
 /** @brief Light presets: time of day and weather. */
 enum class SkyE
 {
-    MORNING,   ///< temperate, clear, the sun still low
-    NOON,      ///< high sun, deep blue
-    HAZE,      ///< humid, milky
-    DESERT,    ///< hot, pale horizon
-    GOLDEN,    ///< late afternoon
-    SUNSET,    ///< the sun on the horizon
-    DUSK,      ///< the blue hour, lights on
-    NIGHT,     ///< a city at night
-    OVERCAST,  ///< grey, soft light
-    RAIN,      ///< grey and wet
-    MIST,      ///< morning mist
-    ALPINE,    ///< thin, crisp mountain air
-    ARCTIC,    ///< a low polar sun
-    TROPICAL,  ///< bright, cumulus
-    WINTER,    ///< snow falling from a white sky
+    MORNING,    ///< temperate, clear, the sun still low
+    NOON,       ///< high sun, deep blue
+    HAZE,       ///< humid, milky
+    DESERT,     ///< hot, pale horizon
+    GOLDEN,     ///< late afternoon
+    SUNSET,     ///< the sun on the horizon
+    DUSK,       ///< the blue hour, lights on
+    NIGHT,      ///< a city at night
+    OVERCAST,   ///< grey, soft light
+    RAIN,       ///< grey and wet
+    MIST,       ///< morning mist
+    ALPINE,     ///< thin, crisp mountain air
+    ARCTIC,     ///< a low polar sun
+    TROPICAL,   ///< bright, cumulus
+    WINTER,     ///< snow falling from a white sky
 };
 
 /**
@@ -70,8 +70,8 @@ Environment preset( SkyE s )
     e.m_mountainHeight = 4.0f;
     e.m_cloudAmount = 0.35f;
     e.m_sunAzimuth = 25.0f;
-    auto set = [&]( uint32_t zenith, uint32_t horizon, uint32_t sun, float intensity, float elevation, uint32_t top, uint32_t bottom, uint32_t fog,
-                    float density, uint32_t nearR, uint32_t farR )
+    auto set = [&]( uint32_t zenith, uint32_t horizon, uint32_t sun, float intensity, float elevation, uint32_t top,
+                    uint32_t bottom, uint32_t fog, float density, uint32_t nearR, uint32_t farR )
     {
         e.m_skyZenith = hx( zenith );
         e.m_skyHorizon = hx( horizon );
@@ -85,7 +85,7 @@ Environment preset( SkyE s )
         e.m_mountainNear = hx( nearR );
         e.m_mountainFar = hx( farR );
     };
-    switch( s )
+    switch ( s )
     {
     case SkyE::MORNING:
         set( 0x3C7AD6, 0xBED6EC, 0xFFF0D6, 1.2f, 28.0f, 0x7896BE, 0x5A6448, 0xBCD2E6, 0.0011f, 0x648282, 0x96AFCD );
@@ -205,7 +205,8 @@ public:
      * @param[in]  country  its country
      * @param[in]  sky      its light
      */
-    W( BiomeDef *table, BiomeE id, const char *name, const char *country, SkyE sky ) : m_d( table[static_cast<size_t>( id )] )
+    W( BiomeDef *table, BiomeE id, const char *name, const char *country, SkyE sky )
+        : m_d( table[static_cast<size_t>( id )] )
     {
         m_d = BiomeDef{};
         m_d.m_name = name;
@@ -228,12 +229,12 @@ public:
         m_d.m_lanes = 2;
         m_d.m_traffic = 0.8f;
         m_d.m_postSpacing = 40.0f;
-        if( sky == SkyE::NIGHT || sky == SkyE::DUSK )
+        if ( sky == SkyE::NIGHT || sky == SkyE::DUSK )
         {
             m_windows = hx( 0xFFD696 );
             m_d.m_lampSpacing = 35.0f;
         }
-        switch( sky )
+        switch ( sky )
         {
         case SkyE::DESERT: m_d.m_climate = ClimateE::ARID; break;
         case SkyE::ARCTIC:
@@ -280,7 +281,7 @@ public:
     W &fog( float density, uint32_t color = 0 )
     {
         m_d.m_env.m_fogDensity = density;
-        if( color ) m_d.m_env.m_fogColor = hx( color );
+        if ( color ) m_d.m_env.m_fogColor = hx( color );
         return *this;
     }
 
@@ -293,7 +294,7 @@ public:
     W &clouds( float amount, uint32_t color = 0 )
     {
         m_d.m_env.m_cloudAmount = amount;
-        if( color ) m_d.m_env.m_cloudColor = hx( color );
+        if ( color ) m_d.m_env.m_cloudColor = hx( color );
         return *this;
     }
 
@@ -410,8 +411,8 @@ public:
         m_d.m_surface.m_road = hx( asphalt );
         m_d.m_surface.m_roadAlt = scaleColor( hx( asphalt ), 0.93f );
         m_d.m_surface.m_line = hx( line );
-        if( line == asphalt )
-        { // No markings: a gravel or dirt road, its edges of the same stuff.
+        if ( line == asphalt )
+        {   // No markings: a gravel or dirt road, its edges of the same stuff.
             m_d.m_unpaved = 1;
             m_d.m_surface.m_rumbleA = scaleColor( hx( asphalt ), 0.88f );
             m_d.m_surface.m_rumbleB = scaleColor( hx( asphalt ), 1.06f );
@@ -707,7 +708,7 @@ public:
     {
         m_d.m_bridges = chance;
         m_d.m_bridge = style;
-        if( color ) m_d.m_bridgeColor = hx( color );
+        if ( color ) m_d.m_bridgeColor = hx( color );
         return *this;
     }
 
@@ -726,7 +727,7 @@ public:
     W &p( PropKindE kind, float chance, float nearest, float farthest, float smin = 0.8f, float smax = 1.2f )
     {
         PropRule r{ kind, chance, nearest, farthest, smin, smax };
-        if( m_windows.a ) r.m_c = m_windows;
+        if ( m_windows.a ) r.m_c = m_windows;
         m_d.m_props.push_back( r );
         return *this;
     }
@@ -742,8 +743,8 @@ public:
     {
         PropRule &r = m_d.m_props.back();
         r.m_a = hx( a );
-        if( b ) r.m_b = hx( b );
-        if( c ) r.m_c = hx( c );
+        if ( b ) r.m_b = hx( b );
+        if ( c ) r.m_c = hx( c );
         return *this;
     }
 
@@ -818,7 +819,7 @@ public:
         m_d.m_country = country;
         m_d.m_region = region;
         m_d.m_island = island;
-        if( !keepLight )
+        if ( !keepLight )
         {
             m_d.m_env = env;
             m_d.m_climate = climate;
@@ -835,8 +836,8 @@ public:
     W &drop( PropKindE kind, int variant = -1 )
     {
         auto &rules = m_d.m_props;
-        rules.erase( std::remove_if( rules.begin(), rules.end(),
-                                     [&]( const PropRule &r ) { return r.m_kind == kind && ( variant < 0 || r.m_variant == variant ); } ),
+        rules.erase( std::remove_if( rules.begin(), rules.end(), [&]( const PropRule &r )
+                                     { return r.m_kind == kind && ( variant < 0 || r.m_variant == variant ); } ),
                      rules.end() );
         return *this;
     }
@@ -936,10 +937,10 @@ public:
     }
 
 private:
-    BiomeDef &m_d;            ///< the place
-    Color     m_windows{};    ///< window light for the rules that follow (alpha 0: dark)
+    BiomeDef &m_d;           ///< the place
+    Color     m_windows{};   ///< window light for the rules that follow (alpha 0: dark)
 };
 
-} // namespace
+}   // namespace
 
-} // namespace sunstreak
+}   // namespace sunstreak

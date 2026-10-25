@@ -180,4 +180,4 @@ inline Matrix basisMatrix( Vector3 left, Vector3 up, Vector3 forward, Vector3 po
     return m;
 }
 
-} // namespace sunstreak
+}   // namespace sunstreak

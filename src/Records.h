@@ -25,10 +25,10 @@ namespace sunstreak
 /** @brief A track as the Track Lab defines it. */
 struct TrackSetup
 {
-    uint64_t    m_seed = 1;         ///< 29 bits used
-    TrackParams m_params;           ///< overrides (-1 automatic)
-    bool        m_race = false;     ///< against rivals instead of the clock
-    int         m_startBiome = -1;  ///< where a continued world tour begins (not in track codes; -1: as the seed says)
+    uint64_t    m_seed = 1;          ///< 29 bits used
+    TrackParams m_params;            ///< overrides (-1 automatic)
+    bool        m_race = false;      ///< against rivals instead of the clock
+    int         m_startBiome = -1;   ///< where a continued world tour begins (not in track codes; -1: as the seed says)
 };
 
 /**
@@ -49,30 +49,30 @@ bool decodeTrack( const std::string &code, TrackSetup &setup );
 /** @brief A line of the top-ten table. */
 struct ScoreEntry
 {
-    std::string m_initials;        ///< three letters
-    int64_t     m_score = 0;       ///< points
-    double      m_distance = 0.0;  ///< metres
-    std::string m_code;            ///< the track
+    std::string m_initials;         ///< three letters
+    int64_t     m_score = 0;        ///< points
+    double      m_distance = 0.0;   ///< metres
+    std::string m_code;             ///< the track
 };
 
 /** @brief The game's long memory. */
 struct Records
 {
-    std::vector<ScoreEntry> m_top;              ///< endless top ten, best first
-    double                  m_totalKm = 0.0;    ///< kilometres driven in all modes
-    int                     m_titles = 0;       ///< championships won
-    int                     m_bestPlace = 0;    ///< best championship place (0: none)
-    std::bitset<MaxBiomes>  m_seen;             ///< a bit per biome driven through (saved by name)
-    std::bitset<MaxBiomes>  m_postcards;        ///< a bit per place with a postcard in the album (saved by name)
-    int64_t                 m_points = 0;       ///< career points: scores, race results, discoveries (the garage's currency)
-    int                     m_dailyDate = 0;    ///< the day of the daily challenge driven last (YYYYMMDD)
-    int64_t                 m_dailyBest = 0;    ///< its best score
-    int                     m_dailyDays = 0;    ///< days with a daily challenge driven
-    std::vector<double>     m_rallyBest;        ///< the best time per rally in seconds (0: not finished)
-    std::vector<std::string> m_journey;         ///< the travel journal: the world tour's places in the order driven (IDs)
-    std::string             m_tourAt;           ///< where the endless world tour stopped (an ID; empty: never driven)
-    std::vector<std::string> m_album;           ///< the landmarks photographed, in the order they were (names)
-    std::vector<double>     m_journeyBest;      ///< the best time per journey in seconds (0: not finished)
+    std::vector<ScoreEntry> m_top;             ///< endless top ten, best first
+    double                  m_totalKm = 0.0;   ///< kilometres driven in all modes
+    int                     m_titles = 0;      ///< championships won
+    int                     m_bestPlace = 0;   ///< best championship place (0: none)
+    std::bitset<MaxBiomes>  m_seen;            ///< a bit per biome driven through (saved by name)
+    std::bitset<MaxBiomes>  m_postcards;       ///< a bit per place with a postcard in the album (saved by name)
+    int64_t             m_points = 0;      ///< career points: scores, race results, discoveries (the garage's currency)
+    int                 m_dailyDate = 0;   ///< the day of the daily challenge driven last (YYYYMMDD)
+    int64_t             m_dailyBest = 0;   ///< its best score
+    int                 m_dailyDays = 0;   ///< days with a daily challenge driven
+    std::vector<double> m_rallyBest;       ///< the best time per rally in seconds (0: not finished)
+    std::vector<std::string> m_journey;    ///< the travel journal: the world tour's places in the order driven (IDs)
+    std::string              m_tourAt;     ///< where the endless world tour stopped (an ID; empty: never driven)
+    std::vector<std::string> m_album;      ///< the landmarks photographed, in the order they were (names)
+    std::vector<double>      m_journeyBest;      ///< the best time per journey in seconds (0: not finished)
     int                      m_escapes = 0;      ///< patrol cars got away from
     int                      m_caught = 0;       ///< times caught by one
     std::vector<std::string> m_escapedFrom;      ///< the police liveries got away from (shape names)
@@ -84,8 +84,9 @@ struct Records
     int                      m_heroLosses = 0;   ///< local heroes who got there first
     int                      m_trainWins = 0;    ///< fast trains beaten
     int                      m_jobs = 0;         ///< courier jobs done (parcels, organs, thieves)
-    std::vector<std::pair<std::string, double>> m_legendBest;   ///< the best time over each legendary road driven whole (place ID, seconds)
-    std::vector<std::string> m_achieved;         ///< the achievements earned (their keys, Achievements.h)
+    std::vector<std::pair<std::string, double>>
+        m_legendBest;                      ///< the best time over each legendary road driven whole (place ID, seconds)
+    std::vector<std::string> m_achieved;   ///< the achievements earned (their keys, Achievements.h)
 
     /**
      * @brief Reads the records file.
@@ -252,14 +253,14 @@ public:
      */
     bool at( float t, double &s, float &x, float &yaw ) const;
 
-    int    m_car = 0;          ///< the ghost's car
-    int    m_paint = 1;        ///< and paint
-    double m_metric = -1e300;  ///< the stored drive's result
+    int    m_car = 0;           ///< the ghost's car
+    int    m_paint = 1;         ///< and paint
+    double m_metric = -1e300;   ///< the stored drive's result
 
 private:
-    std::vector<GhostSample> m_recording;   ///< this drive
-    std::vector<GhostSample> m_best;        ///< the stored drive
+    std::vector<GhostSample> m_recording;           ///< this drive
+    std::vector<GhostSample> m_best;                ///< the stored drive
     float                    m_nextSample = 0.0f;   ///< time of the next sample
 };
 
-} // namespace sunstreak
+}   // namespace sunstreak

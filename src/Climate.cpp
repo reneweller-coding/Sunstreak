@@ -35,38 +35,39 @@ float monthly( const float ( &v )[12], float phase )
     return lerpf( v[i], v[( i + 1 ) % 12], f - whole );
 }
 
-} // namespace
+}   // namespace
 
 const PlaceClimate *placeClimate( BiomeE place )
 {
     static DataCache<std::vector<PlaceClimate>> cache;
-    const auto &all = cache.get( []
-    {
-        g_climateErrors = 0;
-        std::vector<PlaceClimate> out( static_cast<size_t>( biomeCount() ) );
-        for( const std::string &line : dataLines( dataText( "climate.txt" ) ) )
+    const auto                                 &all = cache.get(
+        []
         {
-            // climate PLACE t1 .. t12 p1 .. p12
-            const std::vector<std::string> w = splitLine( line, ' ' );
-            const int                      id = w.size() == 26 && w[0] == "climate" ? biomeId( w[1] ) : -1;
-            if( id < 0 )
+            g_climateErrors = 0;
+            std::vector<PlaceClimate> out( static_cast<size_t>( biomeCount() ) );
+            for ( const std::string &line : dataLines( dataText( "climate.txt" ) ) )
             {
-                ++g_climateErrors;
-                continue;
+                // climate PLACE t1 .. t12 p1 .. p12
+                const std::vector<std::string> w = splitLine( line, ' ' );
+                const int                      id = w.size() == 26 && w[0] == "climate" ? biomeId( w[1] ) : -1;
+                if ( id < 0 )
+                {
+                    ++g_climateErrors;
+                    continue;
+                }
+                PlaceClimate &c = out[static_cast<size_t>( id )];
+                for ( size_t m = 0; m < 12; ++m )
+                {
+                    c.m_t[m] = std::strtof( w[2 + m].c_str(), nullptr );
+                    c.m_p[m] = std::max( 0.0f, std::strtof( w[14 + m].c_str(), nullptr ) );
+                }
+                c.m_cold = *std::min_element( c.m_t, c.m_t + 12 );
+                c.m_rain = 0.0f;
+                for ( float p : c.m_p ) c.m_rain += p;
+                c.m_known = true;
             }
-            PlaceClimate &c = out[static_cast<size_t>( id )];
-            for( size_t m = 0; m < 12; ++m )
-            {
-                c.m_t[m] = std::strtof( w[2 + m].c_str(), nullptr );
-                c.m_p[m] = std::max( 0.0f, std::strtof( w[14 + m].c_str(), nullptr ) );
-            }
-            c.m_cold = *std::min_element( c.m_t, c.m_t + 12 );
-            c.m_rain = 0.0f;
-            for( float p : c.m_p ) c.m_rain += p;
-            c.m_known = true;
-        }
-        return out;
-    } );
+            return out;
+        } );
     const size_t i = static_cast<size_t>( place );
     return i < all.size() && all[i].m_known ? &all[i] : nullptr;
 }
@@ -90,27 +91,30 @@ int climateErrors()
 const PlaceSmog *placeSmog( BiomeE place )
 {
     static DataCache<std::vector<PlaceSmog>> cache;
-    const auto &all = cache.get( []
-    {
-        g_smogErrors = 0;
-        std::vector<PlaceSmog> out( static_cast<size_t>( biomeCount() ) );
-        for( const std::string &line : dataLines( dataText( "smog.txt" ) ) )
+    const auto                              &all = cache.get(
+        []
         {
-            // smog PLACE m1 .. m12 h0 .. h23
-            const std::vector<std::string> w = splitLine( line, ' ' );
-            const int                      id = w.size() == 38 && w[0] == "smog" ? biomeId( w[1] ) : -1;
-            if( id < 0 )
+            g_smogErrors = 0;
+            std::vector<PlaceSmog> out( static_cast<size_t>( biomeCount() ) );
+            for ( const std::string &line : dataLines( dataText( "smog.txt" ) ) )
             {
-                ++g_smogErrors;
-                continue;
+                // smog PLACE m1 .. m12 h0 .. h23
+                const std::vector<std::string> w = splitLine( line, ' ' );
+                const int                      id = w.size() == 38 && w[0] == "smog" ? biomeId( w[1] ) : -1;
+                if ( id < 0 )
+                {
+                    ++g_smogErrors;
+                    continue;
+                }
+                PlaceSmog &s = out[static_cast<size_t>( id )];
+                for ( size_t m = 0; m < 12; ++m )
+                    s.m_month[m] = std::max( 0.0f, std::strtof( w[2 + m].c_str(), nullptr ) );
+                for ( size_t h = 0; h < 24; ++h )
+                    s.m_hour[h] = std::max( 0.0f, std::strtof( w[14 + h].c_str(), nullptr ) );
+                s.m_known = true;
             }
-            PlaceSmog &s = out[static_cast<size_t>( id )];
-            for( size_t m = 0; m < 12; ++m ) s.m_month[m] = std::max( 0.0f, std::strtof( w[2 + m].c_str(), nullptr ) );
-            for( size_t h = 0; h < 24; ++h ) s.m_hour[h] = std::max( 0.0f, std::strtof( w[14 + h].c_str(), nullptr ) );
-            s.m_known = true;
-        }
-        return out;
-    } );
+            return out;
+        } );
     const size_t i = static_cast<size_t>( place );
     return i < all.size() && all[i].m_known ? &all[i] : nullptr;
 }
@@ -118,8 +122,8 @@ const PlaceSmog *placeSmog( BiomeE place )
 float smogFactor( const PlaceSmog &s, float phase, float hour )
 {
     float k = 1.0f;
-    if( phase >= 0.0f ) k *= monthly( s.m_month, phase );
-    if( hour >= 0.0f )
+    if ( phase >= 0.0f ) k *= monthly( s.m_month, phase );
+    if ( hour >= 0.0f )
     {
         const float whole = std::floor( hour );
         const int   i = ( ( static_cast<int>( whole ) % 24 ) + 24 ) % 24;
@@ -134,4 +138,4 @@ int smogProfileErrors()
     return g_smogErrors;
 }
 
-} // namespace sunstreak
+}   // namespace sunstreak

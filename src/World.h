@@ -27,12 +27,12 @@
 namespace sunstreak
 {
 
-constexpr int    ChunkSegments = 16;                                ///< segments per chunk
-constexpr double ChunkLength = ChunkSegments * SegmentLength;       ///< metres per chunk
-constexpr double ViewDistance = 1150.0;                             ///< how far ahead chunks exist
-constexpr double KeepBehind = 320.0;                                ///< how far behind chunks stay (looking back)
-constexpr double LodDistance = 320.0;                               ///< chunks further ahead show their scenery from afar
-constexpr float  LodLateral = 130.0f;                               ///< scenery further from the road is always far
+constexpr int    ChunkSegments = 16;                            ///< segments per chunk
+constexpr double ChunkLength = ChunkSegments * SegmentLength;   ///< metres per chunk
+constexpr double ViewDistance = 1150.0;                         ///< how far ahead chunks exist
+constexpr double KeepBehind = 320.0;                            ///< how far behind chunks stay (looking back)
+constexpr double LodDistance = 320.0;                           ///< chunks further ahead show their scenery from afar
+constexpr float  LodLateral = 130.0f;                           ///< scenery further from the road is always far
 
 /** @brief Something solid beside the road. */
 struct Collider
@@ -45,28 +45,28 @@ struct Collider
 /** @brief One baked piece of the world. */
 struct Chunk
 {
-    long                  m_index = 0;   ///< chunk number (first segment / ChunkSegments)
-    Vec3d                 m_origin;      ///< world position of the first segment's centre
-    Mesh                  m_ground{};    ///< road and land
-    Mesh                  m_props{};     ///< everything standing that belongs to the road (signs, gantries, bridges)
-    Mesh                  m_scenery{};   ///< the scattered props: trees, rocks, houses, towers
+    long                  m_index = 0;      ///< chunk number (first segment / ChunkSegments)
+    Vec3d                 m_origin;         ///< world position of the first segment's centre
+    Mesh                  m_ground{};       ///< road and land
+    Mesh                  m_props{};        ///< everything standing that belongs to the road (signs, gantries, bridges)
+    Mesh                  m_scenery{};      ///< the scattered props: trees, rocks, houses, towers
     Mesh                  m_sceneryFar{};   ///< the same as seen from afar (LOD)
-    Mesh                  m_glass{};     ///< see-through panes (undersea tunnels), drawn after everything solid
-    std::vector<Collider> m_colliders;   ///< solid props near the road
+    Mesh                  m_glass{};        ///< see-through panes (undersea tunnels), drawn after everything solid
+    std::vector<Collider> m_colliders;      ///< solid props near the road
 };
 
 /** @brief A chunk's triangles before they reach the GPU. */
 struct BakedChunk
 {
-    long                  m_index = 0;   ///< chunk number
-    Vec3d                 m_origin;      ///< world position of the first segment's centre
-    MeshBuilder           m_ground;      ///< road and land
-    MeshBuilder           m_props;       ///< everything standing that belongs to the road
-    MeshBuilder           m_scenery;     ///< the scattered props
-    MeshBuilder           m_sceneryFar;  ///< the same from afar
-    MeshBuilder           m_glass;       ///< see-through panes
-    std::vector<Collider> m_colliders;   ///< solid props near the road
-    float                 m_ms = 0.0f;   ///< how long the baking took
+    long                  m_index = 0;    ///< chunk number
+    Vec3d                 m_origin;       ///< world position of the first segment's centre
+    MeshBuilder           m_ground;       ///< road and land
+    MeshBuilder           m_props;        ///< everything standing that belongs to the road
+    MeshBuilder           m_scenery;      ///< the scattered props
+    MeshBuilder           m_sceneryFar;   ///< the same from afar
+    MeshBuilder           m_glass;        ///< see-through panes
+    std::vector<Collider> m_colliders;    ///< solid props near the road
+    float                 m_ms = 0.0f;    ///< how long the baking took
 };
 
 /**
@@ -135,12 +135,12 @@ public:
      */
     const std::deque<Chunk> &chunks() const { return m_chunks; }
 
-    float  m_buildMs = 0.0f;        ///< milliseconds the main thread spent on chunks in the last update
-    float  m_buildPeakMs = 0.0f;    ///< the slowest update lately (decays)
-    float  m_buildMaxMs = 0.0f;     ///< the slowest single chunk
-    double m_buildTotalMs = 0.0;    ///< all chunk builds together (worker time)
-    int    m_buildCount = 0;        ///< chunks built
-    int    m_syncBuilds = 0;        ///< chunks the main thread had to bake itself (the worker fell behind)
+    float  m_buildMs = 0.0f;       ///< milliseconds the main thread spent on chunks in the last update
+    float  m_buildPeakMs = 0.0f;   ///< the slowest update lately (decays)
+    float  m_buildMaxMs = 0.0f;    ///< the slowest single chunk
+    double m_buildTotalMs = 0.0;   ///< all chunk builds together (worker time)
+    int    m_buildCount = 0;       ///< chunks built
+    int    m_syncBuilds = 0;       ///< chunks the main thread had to bake itself (the worker fell behind)
 
     /**
      * @brief The colliders near a distance.
@@ -170,10 +170,10 @@ private:
     void buildChunk( Track &track, BakedChunk &c ) const;
 
 public:
-    SeasonClock m_seasons;   ///< how the seasons run (set while the worker stands still: before building, after clear())
+    SeasonClock
+        m_seasons;   ///< how the seasons run (set while the worker stands still: before building, after clear())
 
 private:
-
     /**
      * @brief Uploads a baked chunk and appends it.
      * @param[in,out] baked  the triangles (moved from)
@@ -186,18 +186,18 @@ private:
     const Models     *m_models = nullptr;   ///< prop prototypes
     std::deque<Chunk> m_chunks;             ///< ordered by index
 
-    std::thread                 m_thread;               ///< the worker
-    std::mutex                  m_mutex;                ///< guards everything below
-    std::condition_variable     m_wake;                 ///< jobs arrived, or quit
-    std::condition_variable     m_idle;                 ///< the worker finished a chunk
-    std::deque<long>            m_jobs;                 ///< chunks to bake
-    std::deque<BakedChunk>      m_done;                 ///< baked, waiting for the upload
-    std::unique_ptr<Track>      m_workerTrack;          ///< the worker's copy of the track (none: bake on the main thread)
-    bool                        m_busy = false;         ///< the worker is baking
-    bool                        m_quit = false;         ///< the worker should end
-    uint64_t                    m_generation = 0;       ///< bumped by clear(): older results are dropped
-    long                        m_requested = -1;       ///< the last chunk asked for
-    std::map<long, BakedChunk>  m_ready;                ///< baked chunks that arrived before their predecessors
+    std::thread                m_thread;           ///< the worker
+    std::mutex                 m_mutex;            ///< guards everything below
+    std::condition_variable    m_wake;             ///< jobs arrived, or quit
+    std::condition_variable    m_idle;             ///< the worker finished a chunk
+    std::deque<long>           m_jobs;             ///< chunks to bake
+    std::deque<BakedChunk>     m_done;             ///< baked, waiting for the upload
+    std::unique_ptr<Track>     m_workerTrack;      ///< the worker's copy of the track (none: bake on the main thread)
+    bool                       m_busy = false;     ///< the worker is baking
+    bool                       m_quit = false;     ///< the worker should end
+    uint64_t                   m_generation = 0;   ///< bumped by clear(): older results are dropped
+    long                       m_requested = -1;   ///< the last chunk asked for
+    std::map<long, BakedChunk> m_ready;            ///< baked chunks that arrived before their predecessors
 };
 
-} // namespace sunstreak
+}   // namespace sunstreak

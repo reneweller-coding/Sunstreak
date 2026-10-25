@@ -57,16 +57,18 @@ enum SegmentFlagE : uint16_t
     SEG_SUMMIT = 1 << 15,      ///< the top of a pass (its board stands here)
 };
 
-constexpr double ForkAt = StageLength - 2600.0;   ///< where in its stage a fork's carriageways part (the choice; the border is 2.6 km on)
+constexpr double ForkAt =
+    StageLength - 2600.0;   ///< where in its stage a fork's carriageways part (the choice; the border is 2.6 km on)
 constexpr double ForkWiden = 300.0;     ///< the road widens to two carriageways before it
 constexpr double ForkMedian = 1300.0;   ///< then they run side by side, beyond the sight of the choice
 constexpr double ForkPeel = 300.0;      ///< then the other one turns away and the road narrows again
 
-constexpr double CrossingQuay = 350.0;  ///< the quay of a ferry or a car train stands this far before its sea (and after)
-constexpr double CrossingReach = 700.0; ///< how far before and after its sea a crossing shapes the road
-constexpr float  CrossingTime = 9.0f;   ///< seconds the crossing takes (the clock stands still)
-constexpr float  SeaDipDepth = 12.0f;   ///< how far the road sinks below the land to an undersea tunnel
-constexpr double SeaRamp = 320.0;       ///< the ramp down to an undersea tunnel's portal, and up from the other
+constexpr double CrossingQuay =
+    350.0;   ///< the quay of a ferry or a car train stands this far before its sea (and after)
+constexpr double CrossingReach = 700.0;   ///< how far before and after its sea a crossing shapes the road
+constexpr float  CrossingTime = 9.0f;     ///< seconds the crossing takes (the clock stands still)
+constexpr float  SeaDipDepth = 12.0f;     ///< how far the road sinks below the land to an undersea tunnel
+constexpr double SeaRamp = 320.0;         ///< the ramp down to an undersea tunnel's portal, and up from the other
 
 /** @brief A sea crossed aboard a ferry or a car train: the car drives aboard at the quay and off at the far one. */
 struct Crossing
@@ -81,11 +83,11 @@ struct Crossing
 /** @brief A fork of the world tour: the road splits, each carriageway towards another country or state. */
 struct Fork
 {
-    bool   m_exists = false;            ///< this stage has one
-    double m_at = 0.0;                  ///< where the barrier between the carriageways begins (absolute)
-    BiomeE m_left = BiomeE::MEADOW;     ///< where the left carriageway leads
-    BiomeE m_right = BiomeE::MEADOW;    ///< where the right one leads
-    int    m_chosen = 0;                ///< -1 left, +1 right, 0 not yet
+    bool   m_exists = false;           ///< this stage has one
+    double m_at = 0.0;                 ///< where the barrier between the carriageways begins (absolute)
+    BiomeE m_left = BiomeE::MEADOW;    ///< where the left carriageway leads
+    BiomeE m_right = BiomeE::MEADOW;   ///< where the right one leads
+    int    m_chosen = 0;               ///< -1 left, +1 right, 0 not yet
 };
 
 /** @brief What the Track Lab (and a race) asks of the generator; -1 leaves a value to the biomes. */
@@ -95,40 +97,40 @@ constexpr int SceneryWorld = -2;   ///< TrackParams::m_biome: the world tour, st
 /** @brief The settings of a track the Track Lab can change (-1: as the biomes and the stages say). */
 struct TrackParams
 {
-    int    m_curvy = -1;              ///< 0..9 how often the road bends
-    int    m_sharp = -1;              ///< 0..9 how tight
-    int    m_hilly = -1;              ///< 0..9 how much it climbs
-    int    m_traffic = -1;            ///< 0..9 traffic density
-    int    m_obstacles = -1;          ///< 0..9 roadworks and puddles
-    int    m_biome = -1;              ///< one biome all the way, or SceneryMixed / SceneryWorld
-    double m_length = 0.0;            ///< the finish (m), 0 endless
-    double m_startLine = StartLine;   ///< where the start gantry stands
+    int                   m_curvy = -1;              ///< 0..9 how often the road bends
+    int                   m_sharp = -1;              ///< 0..9 how tight
+    int                   m_hilly = -1;              ///< 0..9 how much it climbs
+    int                   m_traffic = -1;            ///< 0..9 traffic density
+    int                   m_obstacles = -1;          ///< 0..9 roadworks and puddles
+    int                   m_biome = -1;              ///< one biome all the way, or SceneryMixed / SceneryWorld
+    double                m_length = 0.0;            ///< the finish (m), 0 endless
+    double                m_startLine = StartLine;   ///< where the start gantry stands
     std::vector<uint16_t> m_stages;   ///< a rally's places, stage by stage (empty: as m_biome says; not in track codes)
 };
 
 /** @brief One 5 m piece of road. */
 struct Segment
 {
-    Vec3d    m_pos;               ///< centre line at the segment's start
-    float    m_heading = 0;       ///< yaw at the start (0 north, positive turned right)
-    float    m_curve = 0;         ///< curvature over the segment (1/m, positive bends right)
-    float    m_grade = 0;         ///< rise per metre over the segment
-    float    m_bank = 0;          ///< roll at the start (positive: the right side lower)
-    float    m_halfWidth = 0;     ///< half the paved width at the start (lanes only)
-    uint8_t  m_lanes = 3;         ///< lanes
-    uint16_t m_biome = 0;         ///< the biome blended from
-    uint16_t m_biomeTo = 0;       ///< the biome blended to
-    uint8_t  m_blockedLanes = 0;  ///< bit per closed lane (roadworks)
-    float    m_blend = 0;         ///< 0..1 between m_biome and m_biomeTo
-    uint16_t m_flags = 0;         ///< SegmentFlagE
-    int      m_stage = 0;         ///< the stage this segment belongs to
-    float    m_flat = 0.0f;       ///< 0..1 how flat the land beside it lies (a fork's surroundings)
-    float    m_trench = 0.0f;     ///< metres the land stands over the road in the cutting to an undersea tunnel
-    float    m_reachL = 0.0f;     ///< in a serpentine: how far left of the centre line the land is this segment's (0: all)
-    float    m_reachR = 0.0f;     ///< and right (the rest belongs to the legs above and below)
-    uint8_t  m_hairpin = 0;       ///< the number on the board of the hairpin that begins here (0: none)
-    int8_t   m_gallery = 0;       ///< under an avalanche gallery: the side its back wall stands on (-1 left, 1 right; 0 none)
-    float    m_runway = 0.0f;     ///< beside a landing plane's runway: how flat its land lies, signed by its side (-1..1)
+    Vec3d    m_pos;                ///< centre line at the segment's start
+    float    m_heading = 0;        ///< yaw at the start (0 north, positive turned right)
+    float    m_curve = 0;          ///< curvature over the segment (1/m, positive bends right)
+    float    m_grade = 0;          ///< rise per metre over the segment
+    float    m_bank = 0;           ///< roll at the start (positive: the right side lower)
+    float    m_halfWidth = 0;      ///< half the paved width at the start (lanes only)
+    uint8_t  m_lanes = 3;          ///< lanes
+    uint16_t m_biome = 0;          ///< the biome blended from
+    uint16_t m_biomeTo = 0;        ///< the biome blended to
+    uint8_t  m_blockedLanes = 0;   ///< bit per closed lane (roadworks)
+    float    m_blend = 0;          ///< 0..1 between m_biome and m_biomeTo
+    uint16_t m_flags = 0;          ///< SegmentFlagE
+    int      m_stage = 0;          ///< the stage this segment belongs to
+    float    m_flat = 0.0f;        ///< 0..1 how flat the land beside it lies (a fork's surroundings)
+    float    m_trench = 0.0f;      ///< metres the land stands over the road in the cutting to an undersea tunnel
+    float   m_reachL = 0.0f;   ///< in a serpentine: how far left of the centre line the land is this segment's (0: all)
+    float   m_reachR = 0.0f;   ///< and right (the rest belongs to the legs above and below)
+    uint8_t m_hairpin = 0;     ///< the number on the board of the hairpin that begins here (0: none)
+    int8_t m_gallery = 0;   ///< under an avalanche gallery: the side its back wall stands on (-1 left, 1 right; 0 none)
+    float  m_runway = 0.0f;   ///< beside a landing plane's runway: how flat its land lies, signed by its side (-1..1)
 };
 
 /**
@@ -137,16 +139,16 @@ struct Segment
  */
 struct Serpentine
 {
-    long   m_first = 0;      ///< its first segment
-    long   m_last = 0;       ///< and its last
-    Vec3d  m_origin;         ///< where it begins
-    float  m_axisX = 0.0f;   ///< the way it climbs (horizontal unit vector)
-    float  m_axisZ = 1.0f;   ///< (north part)
-    float  m_up = 0.0f;      ///< the mountainside's rise per metre along the axis up to the summit
-    float  m_down = 0.0f;    ///< its fall per metre beyond
-    float  m_summit = 0.0f;  ///< the summit's distance along the axis
-    float  m_top = 0.0f;     ///< and its height over the origin
-    float  m_end = 0.0f;     ///< the last segment's distance along the axis
+    long  m_first = 0;       ///< its first segment
+    long  m_last = 0;        ///< and its last
+    Vec3d m_origin;          ///< where it begins
+    float m_axisX = 0.0f;    ///< the way it climbs (horizontal unit vector)
+    float m_axisZ = 1.0f;    ///< (north part)
+    float m_up = 0.0f;       ///< the mountainside's rise per metre along the axis up to the summit
+    float m_down = 0.0f;     ///< its fall per metre beyond
+    float m_summit = 0.0f;   ///< the summit's distance along the axis
+    float m_top = 0.0f;      ///< and its height over the origin
+    float m_end = 0.0f;      ///< the last segment's distance along the axis
 
     /**
      * @brief The mountainside's height at a point.
@@ -156,7 +158,9 @@ struct Serpentine
      */
     double height( double x, double z ) const
     {
-        const float d = std::clamp( static_cast<float>( ( x - m_origin.m_x ) * m_axisX + ( z - m_origin.m_z ) * m_axisZ ), -120.0f, m_end + 120.0f );
+        const float d =
+            std::clamp( static_cast<float>( ( x - m_origin.m_x ) * m_axisX + ( z - m_origin.m_z ) * m_axisZ ), -120.0f,
+                        m_end + 120.0f );
         return m_origin.m_y + static_cast<double>( std::min( m_up * d, m_top - m_down * ( d - m_summit ) ) );
     }
 };
@@ -164,15 +168,15 @@ struct Serpentine
 /** @brief The road at a point: position and orientation, interpolated. */
 struct TrackFrame
 {
-    Vec3d   m_pos;              ///< centre line
-    float   m_heading = 0;      ///< yaw
-    float   m_grade = 0;        ///< rise per metre
-    float   m_bank = 0;         ///< roll
-    float   m_curve = 0;        ///< curvature
-    float   m_halfWidth = 0;    ///< half the paved width
-    Vector3 m_forward{};        ///< along the road, with the grade
-    Vector3 m_right{};          ///< horizontal right
-    Vector3 m_up{};             ///< road normal, with the bank
+    Vec3d   m_pos;             ///< centre line
+    float   m_heading = 0;     ///< yaw
+    float   m_grade = 0;       ///< rise per metre
+    float   m_bank = 0;        ///< roll
+    float   m_curve = 0;       ///< curvature
+    float   m_halfWidth = 0;   ///< half the paved width
+    Vector3 m_forward{};       ///< along the road, with the grade
+    Vector3 m_right{};         ///< horizontal right
+    Vector3 m_up{};            ///< road normal, with the bank
 };
 
 /** @brief The biomes on both sides of a crossfade. */
@@ -395,17 +399,17 @@ private:
      */
     void styleAt( double s, float &curvy, float &sharp, float &hilly ) const;
 
-    uint64_t                     m_seed;                ///< the seed
-    TrackParams                  m_params;              ///< overrides
-    Rng                          m_rng;                 ///< the feature planner's generator
-    mutable std::vector<uint16_t> m_stageBiomes;        ///< biome per stage, extended on demand (world tour: a detour first)
-    int                          m_routeStart = 0;      ///< the world tour's first place (index in worldRoute())
-    std::deque<Segment>          m_segments;            ///< the segments held
-    long                         m_first = 0;           ///< absolute index of m_segments.front()
-    std::deque<float>            m_pendingCurve;        ///< planned curvature per future segment
-    std::deque<float>            m_pendingGrade;        ///< planned extra grade (crests)
-    std::deque<uint16_t>         m_pendingFlags;        ///< planned flags
-    std::deque<uint8_t>          m_pendingBlocked;      ///< planned closed lanes
+    uint64_t                      m_seed;          ///< the seed
+    TrackParams                   m_params;        ///< overrides
+    Rng                           m_rng;           ///< the feature planner's generator
+    mutable std::vector<uint16_t> m_stageBiomes;   ///< biome per stage, extended on demand (world tour: a detour first)
+    int                           m_routeStart = 0;   ///< the world tour's first place (index in worldRoute())
+    std::deque<Segment>           m_segments;         ///< the segments held
+    long                          m_first = 0;        ///< absolute index of m_segments.front()
+    std::deque<float>             m_pendingCurve;     ///< planned curvature per future segment
+    std::deque<float>             m_pendingGrade;     ///< planned extra grade (crests)
+    std::deque<uint16_t>          m_pendingFlags;     ///< planned flags
+    std::deque<uint8_t>           m_pendingBlocked;   ///< planned closed lanes
 
     /** @brief What a planned segment of a serpentine carries besides its shape. */
     struct Bend
@@ -416,17 +420,17 @@ private:
         float   m_reachR = 0.0f;   ///< Segment::m_reachR
         int8_t  m_gallery = 0;     ///< Segment::m_gallery
     };
-    std::deque<Bend>             m_pendingBend;         ///< planned serpentine details
-    std::vector<Serpentine>      m_serpentines;         ///< the serpentines planned and still held
-    int                          m_serpentineStage = -1; ///< the last stage whose pass was decided
-    int                          m_humpStage = -1;      ///< the stage of the humps counted in m_humpsLeft
-    int                          m_humpsLeft = 0;       ///< humped bridges still to come in it
-    Vec3d                        m_genPos;              ///< where the next segment starts
-    float                        m_genHeading = 0.0f;   ///< its heading
-    float                        m_hillPhase[3]{};      ///< phases of the rolling hills
-    long                         m_lastJump = -1000;    ///< segment of the last crest
-    long                         m_lastWorks = -1000;   ///< segment of the last roadworks
-    long                         m_lastSpecial = -1000; ///< segment of the last tunnel or bridge
+    std::deque<Bend>        m_pendingBend;            ///< planned serpentine details
+    std::vector<Serpentine> m_serpentines;            ///< the serpentines planned and still held
+    int                     m_serpentineStage = -1;   ///< the last stage whose pass was decided
+    int                     m_humpStage = -1;         ///< the stage of the humps counted in m_humpsLeft
+    int                     m_humpsLeft = 0;          ///< humped bridges still to come in it
+    Vec3d                   m_genPos;                 ///< where the next segment starts
+    float                   m_genHeading = 0.0f;      ///< its heading
+    float                   m_hillPhase[3]{};         ///< phases of the rolling hills
+    long                    m_lastJump = -1000;       ///< segment of the last crest
+    long                    m_lastWorks = -1000;      ///< segment of the last roadworks
+    long                    m_lastSpecial = -1000;    ///< segment of the last tunnel or bridge
 
     /** @brief The world tour's way: the route position of every stage and the choices at its forks (shared by copies). */
     struct Tour
@@ -436,7 +440,7 @@ private:
         std::vector<int>    m_sea;      ///< per stage: the sea crossed on the way to m_pos (-1: a place on land)
         std::vector<int8_t> m_choice;   ///< per stage: -1 left, +1 right, 0 not yet
     };
-    std::shared_ptr<Tour> m_tour;       ///< the world tour's way (null in other modes)
+    std::shared_ptr<Tour> m_tour;   ///< the world tour's way (null in other modes)
 
     /**
      * @brief The route position of a world tour stage (after the detour), following the choices made.
@@ -480,4 +484,4 @@ inline int laneOf( float x, int lanes, float halfWidth )
     return std::clamp( static_cast<int>( std::floor( ( x + halfWidth ) / w ) ), 0, lanes - 1 );
 }
 
-} // namespace sunstreak
+}   // namespace sunstreak

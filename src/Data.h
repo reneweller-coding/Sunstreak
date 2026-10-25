@@ -61,11 +61,12 @@ std::vector<std::string> splitLine( const std::string &line, char sep );
 /** @brief A landmark's shape from data/landmarks/: its name and the lines that build it (ModelsWorld.cpp reads them). */
 struct DataShape
 {
-    std::string              m_name;    ///< what the places call it ("landmark NAME ...")
-    std::vector<std::string> m_lines;   ///< one primitive or modifier per line
+    std::string              m_name;               ///< what the places call it ("landmark NAME ...")
+    std::vector<std::string> m_lines;              ///< one primitive or modifier per line
     bool                     m_creature = false;   ///< from data/creatures: it swims (a traffic model too)
-    std::vector<std::string> m_homes;   ///< its "home" lines: the countries and regions whose places strew it (WorldData.cpp)
-    std::string              m_litter;  ///< its "litter" line: CHANCE NEAREST FARTHEST [solid] FLEETS, for polluted places
+    std::vector<std::string>
+                m_homes;    ///< its "home" lines: the countries and regions whose places strew it (WorldData.cpp)
+    std::string m_litter;   ///< its "litter" line: CHANCE NEAREST FARTHEST [solid] FLEETS, for polluted places
 };
 
 /**
@@ -103,10 +104,10 @@ public:
     const T &get( BuildT build )
     {
         const int g = dataGeneration();
-        if( m_generation.load( std::memory_order_acquire ) != g )
+        if ( m_generation.load( std::memory_order_acquire ) != g )
         {
             std::lock_guard<std::mutex> lock( m_mutex );
-            if( m_generation.load( std::memory_order_relaxed ) != g )
+            if ( m_generation.load( std::memory_order_relaxed ) != g )
             {
                 m_value = build();
                 m_generation.store( g, std::memory_order_release );
@@ -116,9 +117,9 @@ public:
     }
 
 private:
-    T                m_value{};              ///< the value
-    std::atomic<int> m_generation{ -1 };     ///< the data generation it was built from
-    std::mutex       m_mutex;                ///< one builder at a time
+    T                m_value{};            ///< the value
+    std::atomic<int> m_generation{ -1 };   ///< the data generation it was built from
+    std::mutex       m_mutex;              ///< one builder at a time
 };
 
-} // namespace sunstreak
+}   // namespace sunstreak

@@ -66,4 +66,4 @@ std::vector<bool> areasWith( const std::vector<MapArea> &areas, const std::vecto
  */
 Image paintWorldMap( int w, int h, float latTop, float latBottom, const std::vector<GeoPoint> &seen );
 
-} // namespace sunstreak
+}   // namespace sunstreak

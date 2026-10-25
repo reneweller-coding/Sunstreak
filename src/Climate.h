@@ -54,9 +54,9 @@ int climateErrors();
 /** @brief How the air of a place changes with the month and the hour of the day (data/smog.txt): factors averaging 1. */
 struct PlaceSmog
 {
-    bool  m_known = false;   ///< the data file has a line for the place
-    float m_month[12] = {};  ///< per month (January first): 2 is twice as thick as the year's mean
-    float m_hour[24] = {};   ///< per hour of the local day (midnight first)
+    bool  m_known = false;    ///< the data file has a line for the place
+    float m_month[12] = {};   ///< per month (January first): 2 is twice as thick as the year's mean
+    float m_hour[24] = {};    ///< per hour of the local day (midnight first)
 };
 
 /**
@@ -81,4 +81,4 @@ float smogFactor( const PlaceSmog &s, float phase, float hour );
  */
 int smogProfileErrors();
 
-} // namespace sunstreak
+}   // namespace sunstreak

@@ -41,7 +41,7 @@ uint64_t nibble( int v )
  */
 bool fromNibble( uint64_t bits, int &v )
 {
-    if( bits == 15 )
+    if ( bits == 15 )
     {
         v = -1;
         return true;
@@ -88,7 +88,7 @@ struct Bits
     uint64_t symbol( int i ) const
     {
         const int s = 5 * i;
-        if( s >= 64 ) return ( m_hi >> ( s - 64 ) ) & 31;
+        if ( s >= 64 ) return ( m_hi >> ( s - 64 ) ) & 31;
         return ( ( m_lo >> s ) | ( s ? m_hi << ( 64 - s ) : 0 ) ) & 31;
     }
 
@@ -122,14 +122,14 @@ bool decodeLegacy( uint64_t v, TrackSetup &setup )
     const uint64_t biome = v & 63u;
     v >>= 6;
     int values[5];
-    for( int i = 4; i >= 0; --i )
+    for ( int i = 4; i >= 0; --i )
     {
-        if( !fromNibble( v & 15u, values[i] ) ) return false;
+        if ( !fromNibble( v & 15u, values[i] ) ) return false;
         v >>= 4;
     }
     out.m_seed = v & 0x1FFFFFFFull;
-    if( out.m_seed == 0 ) out.m_seed = 1;
-    if( biome != 63 && biome >= static_cast<uint64_t>( biomeCount() ) ) return false;
+    if ( out.m_seed == 0 ) out.m_seed = 1;
+    if ( biome != 63 && biome >= static_cast<uint64_t>( biomeCount() ) ) return false;
     out.m_params.m_curvy = values[0];
     out.m_params.m_sharp = values[1];
     out.m_params.m_hilly = values[2];
@@ -137,34 +137,40 @@ bool decodeLegacy( uint64_t v, TrackSetup &setup )
     out.m_params.m_obstacles = values[4];
     out.m_params.m_biome = biome == 63 ? SceneryMixed : static_cast<int>( biome );
     out.m_params.m_length = static_cast<double>( len ) * 2500.0;
-    if( out.m_race && len == 0 ) return false;
+    if ( out.m_race && len == 0 ) return false;
     setup = out;
     return true;
 }
 
-} // namespace
+}   // namespace
 
 std::string encodeTrack( const TrackSetup &setup )
 {
     const TrackParams &p = setup.m_params;
     // The places past the nine-bit field take the long code; everything else keeps the codes of earlier versions.
-    const bool         wide = p.m_biome >= static_cast<int>( CodeWorld );
-    Bits               b;
-    if( wide ) b.push( 0, 2 );
+    const bool wide = p.m_biome >= static_cast<int>( CodeWorld );
+    Bits       b;
+    if ( wide ) b.push( 0, 2 );
     b.push( wide ? CodeVersion2 : CodeVersion, 4 );
     b.push( setup.m_seed & 0x1FFFFFFFull, 29 );
-    for( int v : { p.m_curvy, p.m_sharp, p.m_hilly, p.m_traffic, p.m_obstacles } ) b.push( nibble( v ), 4 );
-    if( wide ) b.push( static_cast<uint64_t>( std::min( p.m_biome, MaxBiomes - 3 ) ), 12 );
-    else b.push( p.m_biome >= 0 ? static_cast<uint64_t>( p.m_biome ) : p.m_biome == SceneryWorld ? CodeWorld : CodeMixed, 9 );
-    b.push( p.m_length > 0.0 ? static_cast<uint64_t>( std::clamp( std::lround( p.m_length / 2500.0 ), 1L, 15L ) ) : 0u, 4 );
+    for ( int v : { p.m_curvy, p.m_sharp, p.m_hilly, p.m_traffic, p.m_obstacles } ) b.push( nibble( v ), 4 );
+    if ( wide )
+        b.push( static_cast<uint64_t>( std::min( p.m_biome, MaxBiomes - 3 ) ), 12 );
+    else
+        b.push( p.m_biome >= 0              ? static_cast<uint64_t>( p.m_biome )
+                : p.m_biome == SceneryWorld ? CodeWorld
+                                            : CodeMixed,
+                9 );
+    b.push( p.m_length > 0.0 ? static_cast<uint64_t>( std::clamp( std::lround( p.m_length / 2500.0 ), 1L, 15L ) ) : 0u,
+            4 );
     b.push( setup.m_race ? 1u : 0u, 1 );
     b.push( b.check(), 8 );
     std::string s;
     const int   symbols = wide ? 16 : 15;
-    for( int i = symbols - 1; i >= 0; --i )
+    for ( int i = symbols - 1; i >= 0; --i )
     {
         s += Alphabet[b.symbol( i )];
-        if( wide ? ( i == 12 || i == 8 || i == 4 ) : ( i == 10 || i == 5 ) ) s += '-';
+        if ( wide ? ( i == 12 || i == 8 || i == 4 ) : ( i == 10 || i == 5 ) ) s += '-';
     }
     return s;
 }
@@ -174,44 +180,46 @@ bool decodeTrack( const std::string &code, TrackSetup &setup )
     Bits     b;
     uint64_t legacy = 0;
     int      n = 0;
-    for( char c : code )
+    for ( char c : code )
     {
-        if( c == '-' || c == ' ' ) continue;
+        if ( c == '-' || c == ' ' ) continue;
         c = static_cast<char>( std::toupper( static_cast<unsigned char>( c ) ) );
-        if( c == 'O' ) c = '0';
-        if( c == 'I' || c == 'L' ) c = '1';
+        if ( c == 'O' ) c = '0';
+        if ( c == 'I' || c == 'L' ) c = '1';
         const char *pos = std::strchr( Alphabet, c );
-        if( !pos || c == 0 ) return false;
+        if ( !pos || c == 0 ) return false;
         b.push( static_cast<uint64_t>( pos - Alphabet ), 5 );
         legacy = ( legacy << 5 ) | static_cast<uint64_t>( pos - Alphabet );
-        if( ++n > 16 ) return false;
+        if ( ++n > 16 ) return false;
     }
-    if( n == 12 ) return decodeLegacy( legacy, setup );
-    if( n != 15 && n != 16 ) return false;
+    if ( n == 12 ) return decodeLegacy( legacy, setup );
+    if ( n != 15 && n != 16 ) return false;
     const bool     wide = n == 16;
     const uint64_t check = b.pop( 8 );
-    if( check != b.check() ) return false;
+    if ( check != b.check() ) return false;
     TrackSetup out;
     out.m_race = b.pop( 1 );
     const uint64_t len = b.pop( 4 );
     const uint64_t scenery = b.pop( wide ? 12 : 9 );
     int            values[5];
-    for( int i = 4; i >= 0; --i )
-        if( !fromNibble( b.pop( 4 ), values[i] ) ) return false;
+    for ( int i = 4; i >= 0; --i )
+        if ( !fromNibble( b.pop( 4 ), values[i] ) ) return false;
     out.m_seed = b.pop( 29 );
-    if( b.pop( 4 ) != static_cast<uint64_t>( wide ? CodeVersion2 : CodeVersion ) ) return false;
-    if( wide && b.pop( 2 ) != 0 ) return false;
-    if( out.m_seed == 0 ) out.m_seed = 1;
+    if ( b.pop( 4 ) != static_cast<uint64_t>( wide ? CodeVersion2 : CodeVersion ) ) return false;
+    if ( wide && b.pop( 2 ) != 0 ) return false;
+    if ( out.m_seed == 0 ) out.m_seed = 1;
     const uint64_t world = wide ? CodeWorld2 : CodeWorld, mixed = wide ? CodeMixed2 : CodeMixed;
-    if( scenery < world && scenery >= static_cast<uint64_t>( biomeCount() ) ) return false;
+    if ( scenery < world && scenery >= static_cast<uint64_t>( biomeCount() ) ) return false;
     out.m_params.m_curvy = values[0];
     out.m_params.m_sharp = values[1];
     out.m_params.m_hilly = values[2];
     out.m_params.m_traffic = values[3];
     out.m_params.m_obstacles = values[4];
-    out.m_params.m_biome = scenery == world ? SceneryWorld : scenery == mixed ? SceneryMixed : static_cast<int>( scenery );
+    out.m_params.m_biome = scenery == world   ? SceneryWorld
+                           : scenery == mixed ? SceneryMixed
+                                              : static_cast<int>( scenery );
     out.m_params.m_length = static_cast<double>( len ) * 2500.0;
-    if( out.m_race && len == 0 ) return false;
+    if ( out.m_race && len == 0 ) return false;
     setup = out;
     return true;
 }
@@ -227,11 +235,12 @@ namespace
 void readBits( const std::string &val, std::bitset<MaxBiomes> &bits )
 {
     const size_t n = std::min<size_t>( val.size(), 128 );
-    for( size_t i = 0; i < n; ++i )
+    for ( size_t i = 0; i < n; ++i )
     {
-        const int d = std::isdigit( static_cast<unsigned char>( val[i] ) ) ? val[i] - '0' : std::toupper( val[i] ) - 'A' + 10;
-        for( int k = 0; k < 4; ++k )
-            if( d & ( 8 >> k ) ) bits.set( n * 4 - 1 - i * 4 - static_cast<size_t>( k ) );
+        const int d =
+            std::isdigit( static_cast<unsigned char>( val[i] ) ) ? val[i] - '0' : std::toupper( val[i] ) - 'A' + 10;
+        for ( int k = 0; k < 4; ++k )
+            if ( d & ( 8 >> k ) ) bits.set( n * 4 - 1 - i * 4 - static_cast<size_t>( k ) );
     }
 }
 
@@ -244,10 +253,10 @@ void readNames( const std::string &val, std::bitset<MaxBiomes> &bits )
 {
     std::stringstream ss( val );
     std::string       name;
-    while( std::getline( ss, name, ',' ) )
+    while ( std::getline( ss, name, ',' ) )
     {
         const int id = biomeId( name );
-        if( id >= 0 && id < MaxBiomes ) bits.set( static_cast<size_t>( id ) );
+        if ( id >= 0 && id < MaxBiomes ) bits.set( static_cast<size_t>( id ) );
     }
 }
 
@@ -259,9 +268,9 @@ void readNames( const std::string &val, std::bitset<MaxBiomes> &bits )
 void writeNames( std::ostream &out, const std::bitset<MaxBiomes> &bits )
 {
     bool first = true;
-    for( int i = 0; i < biomeCount() && i < MaxBiomes; ++i )
+    for ( int i = 0; i < biomeCount() && i < MaxBiomes; ++i )
     {
-        if( !bits.test( static_cast<size_t>( i ) ) ) continue;
+        if ( !bits.test( static_cast<size_t>( i ) ) ) continue;
         out << ( first ? "" : "," ) << biomeKey( static_cast<BiomeE>( i ) );
         first = false;
     }
@@ -269,10 +278,15 @@ void writeNames( std::ostream &out, const std::bitset<MaxBiomes> &bits )
 }
 
 /** @brief What the paints from SUN YELLOW on cost, in career points (0: unlocked otherwise). */
-constexpr int64_t PaintPoints[PaintCount] = { 0, 0, 0, 0, 0, 25000, 50000, 75000, 100000, 150000, 200000, 300000, 400000, 0 };
-constexpr int64_t RimPoints[RimCount] = { 0, 10000, 30000, 60000, 120000, 180000, 250000 };      ///< rims, in career points
-constexpr int64_t DecalPoints[DecalCount] = { 0, 20000, 40000, 80000, 120000, 200000, 0 };      ///< decals, in career points
-constexpr int     GlobeCountries = 50;   ///< countries seen for the GLOBE decal
+constexpr int64_t PaintPoints[PaintCount] = { 0,     0,      0,      0,      0,      25000,  50000,
+                                              75000, 100000, 150000, 200000, 300000, 400000, 0 };
+constexpr int64_t RimPoints[RimCount] = {
+    0, 10000, 30000, 60000, 120000, 180000, 250000
+};   ///< rims, in career points
+constexpr int64_t DecalPoints[DecalCount] = {
+    0, 20000, 40000, 80000, 120000, 200000, 0
+};                                   ///< decals, in career points
+constexpr int GlobeCountries = 50;   ///< countries seen for the GLOBE decal
 
 /**
  * @brief A number of points as text.
@@ -282,64 +296,73 @@ constexpr int     GlobeCountries = 50;   ///< countries seen for the GLOBE decal
 std::string groupedPoints( int64_t points )
 {
     std::string digits = std::to_string( points ), out;
-    for( size_t i = 0; i < digits.size(); ++i )
+    for ( size_t i = 0; i < digits.size(); ++i )
     {
-        if( i > 0 && ( digits.size() - i ) % 3 == 0 ) out += ' ';
+        if ( i > 0 && ( digits.size() - i ) % 3 == 0 ) out += ' ';
         out += digits[i];
     }
     return out + " POINTS";
 }
 
-} // namespace
+}   // namespace
 
 void Records::load( const std::string &path )
 {
     std::ifstream in( path );
     std::string   line;
-    while( std::getline( in, line ) )
+    while ( std::getline( in, line ) )
     {
         const auto eq = line.find( '=' );
-        if( eq == std::string::npos ) continue;
+        if ( eq == std::string::npos ) continue;
         const std::string key = line.substr( 0, eq ), val = line.substr( eq + 1 );
         try
         {
-            if( key == "total_km" ) m_totalKm = std::stod( val );
-            else if( key == "titles" ) m_titles = std::stoi( val );
-            else if( key == "best_place" ) m_bestPlace = std::stoi( val );
-            else if( key == "seen" ) m_seen |= std::bitset<MaxBiomes>( std::stoull( val ) );
-            else if( key == "seen2" ) readBits( val, m_seen );
-            else if( key == "postcards" ) readBits( val, m_postcards );
-            else if( key == "seen3" ) readNames( val, m_seen );
-            else if( key == "tourat" ) m_tourAt = val;
-            else if( key == "album" )
+            if ( key == "total_km" )
+                m_totalKm = std::stod( val );
+            else if ( key == "titles" )
+                m_titles = std::stoi( val );
+            else if ( key == "best_place" )
+                m_bestPlace = std::stoi( val );
+            else if ( key == "seen" )
+                m_seen |= std::bitset<MaxBiomes>( std::stoull( val ) );
+            else if ( key == "seen2" )
+                readBits( val, m_seen );
+            else if ( key == "postcards" )
+                readBits( val, m_postcards );
+            else if ( key == "seen3" )
+                readNames( val, m_seen );
+            else if ( key == "tourat" )
+                m_tourAt = val;
+            else if ( key == "album" )
             {
                 std::stringstream ss( val );
                 std::string       name;
                 m_album.clear();
-                while( std::getline( ss, name, ',' ) )
-                    if( !name.empty() ) m_album.push_back( name );
+                while ( std::getline( ss, name, ',' ) )
+                    if ( !name.empty() ) m_album.push_back( name );
             }
-            else if( key == "journeys15" )
+            else if ( key == "journeys15" )
             {
                 std::stringstream ss( val );
                 std::string       t;
                 m_journeyBest.clear();
-                while( std::getline( ss, t, ',' ) ) m_journeyBest.push_back( std::atof( t.c_str() ) );
+                while ( std::getline( ss, t, ',' ) ) m_journeyBest.push_back( std::atof( t.c_str() ) );
             }
-            else if( key == "journey" )
+            else if ( key == "journey" )
             {
                 std::stringstream ss( val );
                 std::string       name;
                 m_journey.clear();
-                while( std::getline( ss, name, ',' ) )
-                    if( !name.empty() ) m_journey.push_back( name );
+                while ( std::getline( ss, name, ',' ) )
+                    if ( !name.empty() ) m_journey.push_back( name );
             }
-            else if( key == "cards3" ) readNames( val, m_postcards );
-            else if( key == "stats" )
+            else if ( key == "cards3" )
+                readNames( val, m_postcards );
+            else if ( key == "stats" )
             {
                 std::stringstream ss( val );
                 std::string       v[9];
-                for( std::string &s : v ) std::getline( ss, s, '|' );
+                for ( std::string &s : v ) std::getline( ss, s, '|' );
                 m_escapes = std::atoi( v[0].c_str() );
                 m_caught = std::atoi( v[1].c_str() );
                 m_delivered = std::atoi( v[2].c_str() );
@@ -350,28 +373,32 @@ void Records::load( const std::string &path )
                 m_trainWins = std::atoi( v[7].c_str() );
                 m_jobs = std::atoi( v[8].c_str() );
             }
-            else if( key == "legends" )
+            else if ( key == "legends" )
             {
                 std::stringstream ss( val );
                 std::string       item;
                 m_legendBest.clear();
-                while( std::getline( ss, item, ',' ) )
+                while ( std::getline( ss, item, ',' ) )
                 {
                     const auto bar = item.find( '|' );
-                    if( bar != std::string::npos ) m_legendBest.emplace_back( item.substr( 0, bar ), std::atof( item.c_str() + bar + 1 ) );
+                    if ( bar != std::string::npos )
+                        m_legendBest.emplace_back( item.substr( 0, bar ), std::atof( item.c_str() + bar + 1 ) );
                 }
             }
-            else if( key == "escaped" || key == "hitchfrom" || key == "achieved" )
+            else if ( key == "escaped" || key == "hitchfrom" || key == "achieved" )
             {
-                std::vector<std::string> &list = key == "escaped" ? m_escapedFrom : key == "hitchfrom" ? m_hitchFrom : m_achieved;
+                std::vector<std::string> &list = key == "escaped"     ? m_escapedFrom
+                                                 : key == "hitchfrom" ? m_hitchFrom
+                                                                      : m_achieved;
                 std::stringstream         ss( val );
                 std::string               name;
                 list.clear();
-                while( std::getline( ss, name, ',' ) )
-                    if( !name.empty() ) list.push_back( name );
+                while ( std::getline( ss, name, ',' ) )
+                    if ( !name.empty() ) list.push_back( name );
             }
-            else if( key == "points" ) m_points = std::max<int64_t>( 0, std::stoll( val ) );
-            else if( key == "daily" )
+            else if ( key == "points" )
+                m_points = std::max<int64_t>( 0, std::stoll( val ) );
+            else if ( key == "daily" )
             {
                 std::stringstream ss( val );
                 std::string       date, best, days;
@@ -382,17 +409,17 @@ void Records::load( const std::string &path )
                 m_dailyBest = std::stoll( best );
                 m_dailyDays = std::stoi( days );
             }
-            else if( key == "rally15" )
+            else if ( key == "rally15" )
             {
                 const auto   bar = val.find( '|' );
                 const size_t i = static_cast<size_t>( std::stoi( val.substr( 0, bar ) ) );
-                if( i < 64 )
+                if ( i < 64 )
                 {
-                    if( m_rallyBest.size() <= i ) m_rallyBest.resize( i + 1, 0.0 );
+                    if ( m_rallyBest.size() <= i ) m_rallyBest.resize( i + 1, 0.0 );
                     m_rallyBest[i] = std::stod( val.substr( bar + 1 ) );
                 }
             }
-            else if( key == "top" && m_top.size() < 10 )
+            else if ( key == "top" && m_top.size() < 10 )
             {
                 std::stringstream ss( val );
                 ScoreEntry        e;
@@ -406,7 +433,7 @@ void Records::load( const std::string &path )
                 m_top.push_back( e );
             }
         }
-        catch( ... )
+        catch ( ... )
         {
             // A broken line is skipped.
         }
@@ -422,66 +449,69 @@ void Records::save( const std::string &path ) const
     out << "best_place=" << m_bestPlace << "\n";
     out << "points=" << m_points << "\n";
     out << "daily=" << m_dailyDate << "|" << m_dailyBest << "|" << m_dailyDays << "\n";
-    for( size_t i = 0; i < m_rallyBest.size(); ++i )
-        if( m_rallyBest[i] > 0.0 ) out << "rally15=" << i << "|" << m_rallyBest[i] << "\n";
+    for ( size_t i = 0; i < m_rallyBest.size(); ++i )
+        if ( m_rallyBest[i] > 0.0 ) out << "rally15=" << i << "|" << m_rallyBest[i] << "\n";
     out << "seen3=";
     writeNames( out, m_seen );
-    if( !m_tourAt.empty() ) out << "tourat=" << m_tourAt << "\n";
+    if ( !m_tourAt.empty() ) out << "tourat=" << m_tourAt << "\n";
     out << "album=";
-    for( size_t i = 0; i < m_album.size(); ++i ) out << ( i ? "," : "" ) << m_album[i];
+    for ( size_t i = 0; i < m_album.size(); ++i ) out << ( i ? "," : "" ) << m_album[i];
     out << "\n";
     out << "journeys15=";
-    for( size_t i = 0; i < m_journeyBest.size(); ++i ) out << ( i ? "," : "" ) << m_journeyBest[i];
+    for ( size_t i = 0; i < m_journeyBest.size(); ++i ) out << ( i ? "," : "" ) << m_journeyBest[i];
     out << "\n";
     out << "journey=";
-    for( size_t i = 0; i < m_journey.size(); ++i ) out << ( i ? "," : "" ) << m_journey[i];
+    for ( size_t i = 0; i < m_journey.size(); ++i ) out << ( i ? "," : "" ) << m_journey[i];
     out << "\n";
     out << "cards3=";
     writeNames( out, m_postcards );
-    out << "stats=" << m_escapes << "|" << m_caught << "|" << m_delivered << "|" << m_gaveWay << "|" << m_aquaplanes << "|" << m_heroWins << "|"
-        << m_heroLosses << "|" << m_trainWins << "|" << m_jobs << "\n";
+    out << "stats=" << m_escapes << "|" << m_caught << "|" << m_delivered << "|" << m_gaveWay << "|" << m_aquaplanes
+        << "|" << m_heroWins << "|" << m_heroLosses << "|" << m_trainWins << "|" << m_jobs << "\n";
     out << "legends=";
-    for( size_t i = 0; i < m_legendBest.size(); ++i ) out << ( i ? "," : "" ) << m_legendBest[i].first << "|" << m_legendBest[i].second;
+    for ( size_t i = 0; i < m_legendBest.size(); ++i )
+        out << ( i ? "," : "" ) << m_legendBest[i].first << "|" << m_legendBest[i].second;
     out << "\n";
-    for( const auto &[name, list] : { std::pair{ "escaped", &m_escapedFrom }, std::pair{ "hitchfrom", &m_hitchFrom }, std::pair{ "achieved", &m_achieved } } )
+    for ( const auto &[name, list] : { std::pair{ "escaped", &m_escapedFrom }, std::pair{ "hitchfrom", &m_hitchFrom },
+                                       std::pair{ "achieved", &m_achieved } } )
     {
         out << name << "=";
-        for( size_t i = 0; i < list->size(); ++i ) out << ( i ? "," : "" ) << ( *list )[i];
+        for ( size_t i = 0; i < list->size(); ++i ) out << ( i ? "," : "" ) << ( *list )[i];
         out << "\n";
     }
-    for( const ScoreEntry &e : m_top ) out << "top=" << e.m_initials << "|" << e.m_score << "|" << e.m_distance << "|" << e.m_code << "\n";
+    for ( const ScoreEntry &e : m_top )
+        out << "top=" << e.m_initials << "|" << e.m_score << "|" << e.m_distance << "|" << e.m_code << "\n";
 }
 
 int Records::rankOf( int64_t score ) const
 {
-    if( score <= 0 ) return -1;
-    for( size_t i = 0; i < m_top.size(); ++i )
-        if( score > m_top[i].m_score ) return static_cast<int>( i );
+    if ( score <= 0 ) return -1;
+    for ( size_t i = 0; i < m_top.size(); ++i )
+        if ( score > m_top[i].m_score ) return static_cast<int>( i );
     return m_top.size() < 10 ? static_cast<int>( m_top.size() ) : -1;
 }
 
 void Records::insert( const ScoreEntry &entry )
 {
     const int rank = rankOf( entry.m_score );
-    if( rank < 0 ) return;
+    if ( rank < 0 ) return;
     m_top.insert( m_top.begin() + rank, entry );
-    if( m_top.size() > 10 ) m_top.resize( 10 );
+    if ( m_top.size() > 10 ) m_top.resize( 10 );
 }
 
 bool Records::carUnlocked( int car ) const
 {
-    if( car == 1 ) return m_totalKm >= 30.0;
-    if( car == 2 ) return m_totalKm >= 100.0 || m_titles > 0;
-    if( car == 3 ) return countriesSeen() >= 40;
+    if ( car == 1 ) return m_totalKm >= 30.0;
+    if ( car == 2 ) return m_totalKm >= 100.0 || m_titles > 0;
+    if ( car == 3 ) return countriesSeen() >= 40;
     return true;
 }
 
 bool Records::paintUnlocked( int paint ) const
 {
-    if( paint == 2 ) return m_totalKm >= 15.0;
-    if( paint == 3 ) return m_totalKm >= 50.0;
-    if( paint == 4 ) return m_titles > 0;
-    if( paint == PaintCount - 1 ) return circumnavigated();
+    if ( paint == 2 ) return m_totalKm >= 15.0;
+    if ( paint == 3 ) return m_totalKm >= 50.0;
+    if ( paint == 4 ) return m_titles > 0;
+    if ( paint == PaintCount - 1 ) return circumnavigated();
     return m_points >= PaintPoints[std::clamp( paint, 0, PaintCount - 1 )];
 }
 
@@ -492,7 +522,7 @@ bool Records::rimsUnlocked( int rims ) const
 
 bool Records::decalUnlocked( int decal ) const
 {
-    if( decal == DecalCount - 1 ) return countriesSeen() >= GlobeCountries;
+    if ( decal == DecalCount - 1 ) return countriesSeen() >= GlobeCountries;
     return m_points >= DecalPoints[std::clamp( decal, 0, DecalCount - 1 )];
 }
 
@@ -503,10 +533,10 @@ std::string Records::carRequirement( int car )
 
 std::string Records::paintRequirement( int paint )
 {
-    if( paint == 2 ) return "15 KM";
-    if( paint == 3 ) return "50 KM";
-    if( paint == 4 ) return "WIN A CHAMPIONSHIP";
-    if( paint == PaintCount - 1 ) return "DRIVE ROUND THE WORLD";
+    if ( paint == 2 ) return "15 KM";
+    if ( paint == 3 ) return "50 KM";
+    if ( paint == 4 ) return "WIN A CHAMPIONSHIP";
+    if ( paint == PaintCount - 1 ) return "DRIVE ROUND THE WORLD";
     const int64_t p = PaintPoints[std::clamp( paint, 0, PaintCount - 1 )];
     return p > 0 ? pointsText( p ) : "";
 }
@@ -519,7 +549,7 @@ std::string Records::rimsRequirement( int rims )
 
 std::string Records::decalRequirement( int decal )
 {
-    if( decal == DecalCount - 1 ) return std::to_string( GlobeCountries ) + " COUNTRIES";
+    if ( decal == DecalCount - 1 ) return std::to_string( GlobeCountries ) + " COUNTRIES";
     const int64_t p = DecalPoints[std::clamp( decal, 0, DecalCount - 1 )];
     return p > 0 ? pointsText( p ) : "";
 }
@@ -532,10 +562,10 @@ std::string Records::pointsText( int64_t points )
 int Records::sectorsSeen() const
 {
     std::bitset<LongitudeSectors> sectors;
-    for( int i = 0; i < biomeCount(); ++i )
+    for ( int i = 0; i < biomeCount(); ++i )
     {
         GeoPoint where;
-        if( m_seen.test( static_cast<size_t>( i ) ) && placeLocation( static_cast<BiomeE>( i ), where ) )
+        if ( m_seen.test( static_cast<size_t>( i ) ) && placeLocation( static_cast<BiomeE>( i ), where ) )
             sectors.set( static_cast<size_t>( longitudeSector( where.m_lon ) ) );
     }
     return static_cast<int>( sectors.count() );
@@ -549,10 +579,11 @@ int Records::seenCount() const
 int Records::countriesSeen() const
 {
     std::vector<std::string> countries;
-    for( int i = 0; i < biomeCount(); ++i )
+    for ( int i = 0; i < biomeCount(); ++i )
     {
         const char *c = biomeDef( static_cast<BiomeE>( i ) ).m_country;
-        if( c && m_seen.test( static_cast<size_t>( i ) ) && std::find( countries.begin(), countries.end(), c ) == countries.end() )
+        if ( c && m_seen.test( static_cast<size_t>( i ) ) &&
+             std::find( countries.begin(), countries.end(), c ) == countries.end() )
             countries.push_back( c );
     }
     return static_cast<int>( countries.size() );
@@ -566,7 +597,7 @@ void Ghost::startRecording()
 
 void Ghost::record( float t, const PlayerCar &car )
 {
-    if( t < m_nextSample ) return;
+    if ( t < m_nextSample ) return;
     m_nextSample = t + 0.1f;
     m_recording.push_back( { t, car.m_s, car.m_x, car.m_yawVisual + car.m_spin } );
 }
@@ -578,21 +609,24 @@ bool Ghost::load( const std::string &dir, const std::string &code )
     std::string name = code;
     std::erase( name, '-' );
     FILE *f = std::fopen( ( dir + "/" + name + ".ghost" ).c_str(), "rb" );
-    if( !f ) return false;
+    if ( !f ) return false;
     char     magic[4] = {};
     uint32_t count = 0;
     bool     ok = std::fread( magic, 1, 4, f ) == 4 && std::equal( magic, magic + 4, "SSG1" ) &&
-              std::fread( &m_car, sizeof( m_car ), 1, f ) == 1 && std::fread( &m_paint, sizeof( m_paint ), 1, f ) == 1 &&
-              std::fread( &m_metric, sizeof( m_metric ), 1, f ) == 1 && std::fread( &count, sizeof( count ), 1, f ) == 1 && count < 200000;
-    if( ok )
+                  std::fread( &m_car, sizeof( m_car ), 1, f ) == 1 &&
+                  std::fread( &m_paint, sizeof( m_paint ), 1, f ) == 1 &&
+                  std::fread( &m_metric, sizeof( m_metric ), 1, f ) == 1 &&
+                  std::fread( &count, sizeof( count ), 1, f ) == 1 && count < 200000;
+    if ( ok )
     {
         m_best.resize( count );
-        for( GhostSample &g : m_best )
-            ok = ok && std::fread( &g.m_t, sizeof( g.m_t ), 1, f ) == 1 && std::fread( &g.m_s, sizeof( g.m_s ), 1, f ) == 1 &&
-                 std::fread( &g.m_x, sizeof( g.m_x ), 1, f ) == 1 && std::fread( &g.m_yaw, sizeof( g.m_yaw ), 1, f ) == 1;
+        for ( GhostSample &g : m_best )
+            ok = ok && std::fread( &g.m_t, sizeof( g.m_t ), 1, f ) == 1 &&
+                 std::fread( &g.m_s, sizeof( g.m_s ), 1, f ) == 1 && std::fread( &g.m_x, sizeof( g.m_x ), 1, f ) == 1 &&
+                 std::fread( &g.m_yaw, sizeof( g.m_yaw ), 1, f ) == 1;
     }
     std::fclose( f );
-    if( !ok )
+    if ( !ok )
     {
         m_best.clear();
         m_metric = -1e300;
@@ -604,20 +638,20 @@ bool Ghost::load( const std::string &dir, const std::string &code )
 
 bool Ghost::saveIfBest( const std::string &dir, const std::string &code, double metric, int car, int paint )
 {
-    if( metric <= m_metric || m_recording.size() < 20 ) return false;
+    if ( metric <= m_metric || m_recording.size() < 20 ) return false;
     std::error_code ec;
     std::filesystem::create_directories( dir, ec );
     std::string name = code;
     std::erase( name, '-' );
     FILE *f = std::fopen( ( dir + "/" + name + ".ghost" ).c_str(), "wb" );
-    if( !f ) return false;
+    if ( !f ) return false;
     const uint32_t count = static_cast<uint32_t>( m_recording.size() );
     std::fwrite( "SSG1", 1, 4, f );
     std::fwrite( &car, sizeof( car ), 1, f );
     std::fwrite( &paint, sizeof( paint ), 1, f );
     std::fwrite( &metric, sizeof( metric ), 1, f );
     std::fwrite( &count, sizeof( count ), 1, f );
-    for( const GhostSample &g : m_recording )
+    for ( const GhostSample &g : m_recording )
     {
         std::fwrite( &g.m_t, sizeof( g.m_t ), 1, f );
         std::fwrite( &g.m_s, sizeof( g.m_s ), 1, f );
@@ -634,9 +668,10 @@ bool Ghost::saveIfBest( const std::string &dir, const std::string &code, double 
 
 bool Ghost::at( float t, double &s, float &x, float &yaw ) const
 {
-    if( m_best.size() < 2 || t < 0.0f || t > m_best.back().m_t ) return false;
-    const auto it = std::lower_bound( m_best.begin(), m_best.end(), t, []( const GhostSample &g, float v ) { return g.m_t < v; } );
-    if( it == m_best.begin() )
+    if ( m_best.size() < 2 || t < 0.0f || t > m_best.back().m_t ) return false;
+    const auto it =
+        std::lower_bound( m_best.begin(), m_best.end(), t, []( const GhostSample &g, float v ) { return g.m_t < v; } );
+    if ( it == m_best.begin() )
     {
         s = it->m_s;
         x = it->m_x;
@@ -652,4 +687,4 @@ bool Ghost::at( float t, double &s, float &x, float &yaw ) const
     return true;
 }
 
-} // namespace sunstreak
+}   // namespace sunstreak

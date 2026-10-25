@@ -36,4 +36,4 @@ const Phrases &phrasesOf( const char *country );
  */
 int phraseErrors();
 
-} // namespace sunstreak
+}   // namespace sunstreak

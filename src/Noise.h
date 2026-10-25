@@ -20,7 +20,9 @@ namespace sunstreak
  */
 inline float latticeValue( int64_t x, int64_t y, uint64_t seed )
 {
-    return hashFloat( seed, static_cast<uint64_t>( x ) * 0x9E3779B1ull + static_cast<uint64_t>( y ) * 0x85EBCA77ull ) * 2.0f - 1.0f;
+    return hashFloat( seed, static_cast<uint64_t>( x ) * 0x9E3779B1ull + static_cast<uint64_t>( y ) * 0x85EBCA77ull ) *
+               2.0f -
+           1.0f;
 }
 
 /**
@@ -55,4 +57,4 @@ inline float fbm( double x, double y, uint64_t seed )
            0.14f * valueNoise( x * 4.1, y * 4.1, seed + 2 );
 }
 
-} // namespace sunstreak
+}   // namespace sunstreak

@@ -76,4 +76,4 @@ void drawText( std::string_view text, float x, float y, float size, Color color,
 void drawTextFx( std::string_view text, float x, float y, float size, Color color, AlignE align = AlignE::LEFT,
                  float glow = 0.5f );
 
-} // namespace sunstreak
+}   // namespace sunstreak

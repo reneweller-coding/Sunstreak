@@ -56,4 +56,4 @@ std::vector<size_t> earnAchievements( Records &records );
  */
 int policeLiveries();
 
-} // namespace sunstreak
+}   // namespace sunstreak

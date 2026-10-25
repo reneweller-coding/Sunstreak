@@ -60,4 +60,4 @@ private:
     std::vector<Particle> m_items;   ///< live particles
 };
 
-} // namespace sunstreak
+}   // namespace sunstreak

@@ -131,7 +131,8 @@ void drawHint( std::string_view text, float x, float y, float size, Color color,
  */
 inline float unit()
 {
-    return std::min( static_cast<float>( GetScreenHeight() ) / 720.0f, static_cast<float>( GetScreenWidth() ) / 1150.0f );
+    return std::min( static_cast<float>( GetScreenHeight() ) / 720.0f,
+                     static_cast<float>( GetScreenWidth() ) / 1150.0f );
 }
 
-} // namespace sunstreak::ui
+}   // namespace sunstreak::ui

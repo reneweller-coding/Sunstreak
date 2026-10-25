@@ -19,22 +19,22 @@
 namespace sunstreak
 {
 
-constexpr int   GearCount = 6;          ///< forward gears
-constexpr float Gravity = 9.81f * 1.7f; ///< arcade gravity (shorter, punchier jumps)
+constexpr int   GearCount = 6;            ///< forward gears
+constexpr float Gravity = 9.81f * 1.7f;   ///< arcade gravity (shorter, punchier jumps)
 
 /** @brief The handling's knobs: tuning.ini sets them, the difficulty scales them. */
 struct Tuning
 {
-    float m_steer = 15.0f;        ///< sideways speed at full lock (m/s)
-    float m_centrifugal = 0.42f;  ///< outward push per curvature and speed squared
-    float m_accel = 11.5f;        ///< acceleration in first gear (m/s^2)
-    float m_brake = 24.0f;        ///< braking (m/s^2)
-    float m_boost = 6.5f;         ///< extra acceleration while boosting (m/s^2)
-    float m_grip = 1.0f;          ///< grip factor
-    float m_crashKeep = 0.22f;    ///< share of the speed a crash leaves
-    float m_time = 1.0f;          ///< time bonus factor (endless)
-    float m_traffic = 1.0f;       ///< traffic density factor
-    float m_rivals = 1.0f;        ///< rivals' pace factor (championship)
+    float m_steer = 15.0f;         ///< sideways speed at full lock (m/s)
+    float m_centrifugal = 0.42f;   ///< outward push per curvature and speed squared
+    float m_accel = 11.5f;         ///< acceleration in first gear (m/s^2)
+    float m_brake = 24.0f;         ///< braking (m/s^2)
+    float m_boost = 6.5f;          ///< extra acceleration while boosting (m/s^2)
+    float m_grip = 1.0f;           ///< grip factor
+    float m_crashKeep = 0.22f;     ///< share of the speed a crash leaves
+    float m_time = 1.0f;           ///< time bonus factor (endless)
+    float m_traffic = 1.0f;        ///< traffic density factor
+    float m_rivals = 1.0f;         ///< rivals' pace factor (championship)
 };
 
 /** @brief Difficulty levels. */
@@ -100,12 +100,12 @@ Pose roadPose( const Track &track, double s, float x, float yaw );
 /** @brief What the driver does. */
 struct CarInput
 {
-    float m_throttle = 0.0f;    ///< 0..1
-    float m_brake = 0.0f;       ///< 0..1
-    float m_steer = 0.0f;       ///< -1 left .. 1 right
-    bool  m_boost = false;      ///< boost held
-    bool  m_shiftUp = false;    ///< pressed this frame (manual gears)
-    bool  m_shiftDown = false;  ///< pressed this frame
+    float m_throttle = 0.0f;     ///< 0..1
+    float m_brake = 0.0f;        ///< 0..1
+    float m_steer = 0.0f;        ///< -1 left .. 1 right
+    bool  m_boost = false;       ///< boost held
+    bool  m_shiftUp = false;     ///< pressed this frame (manual gears)
+    bool  m_shiftDown = false;   ///< pressed this frame
 };
 
 /** @brief The player's car. */
@@ -158,33 +158,34 @@ public:
     Pose pose( const Track &track ) const;
 
     // State. Public on purpose: the game, the renderer and the audio read it every frame.
-    CarSpec m_spec{};             ///< which car
-    double  m_s = 0.0;            ///< distance along the road
-    float   m_x = 0.0f;           ///< lateral offset (right positive)
-    double  m_y = 0.0;            ///< world height of the car's base
-    float   m_vy = 0.0f;          ///< vertical speed
-    float   m_speed = 0.0f;       ///< m/s along the road
-    float   m_vx = 0.0f;          ///< lateral speed from steering
-    float   m_drift = 0.0f;       ///< lateral speed from the bend (outwards)
-    float   m_steer = 0.0f;       ///< smoothed steering
-    int     m_gear = 0;           ///< 0..GearCount-1
-    float   m_rpm = 0.1f;         ///< 0..1.15 of the redline
-    float   m_shiftTimer = 0.0f;  ///< seconds left in a shift
-    float   m_boostTank = 0.6f;   ///< 0..1
-    bool    m_boosting = false;   ///< boost active this step
-    float   m_throttle = 0.0f;    ///< smoothed throttle (sound)
-    bool    m_airborne = false;   ///< off the ground
-    float   m_airTime = 0.0f;     ///< seconds in the air
-    float   m_slip = 0.0f;        ///< 0..1 tyre squeal
-    float   m_offroad = 0.0f;     ///< 0..1 off the tarmac
-    float   m_rumble = 0.0f;      ///< 0..1 on the kerb
-    float   m_yawVisual = 0.0f;   ///< drawn yaw against the road (rad)
-    float   m_spin = 0.0f;        ///< crash spin angle (rad)
-    float   m_crashTimer = 0.0f;  ///< seconds of crash left
-    float   m_shake = 0.0f;       ///< camera shake 0..1
-    float   m_wetGrip = 1.0f;     ///< grip of the surface under the car
-    float   m_weatherGrip = 1.0f; ///< what the weather leaves of the grip (rain, snow, sand on the road)
-    float   m_rain = 0.0f;        ///< 0..1 how hard it rains: puddles gather from 0.35, and the tyres float in them over 100 km/h
+    CarSpec m_spec{};               ///< which car
+    double  m_s = 0.0;              ///< distance along the road
+    float   m_x = 0.0f;             ///< lateral offset (right positive)
+    double  m_y = 0.0;              ///< world height of the car's base
+    float   m_vy = 0.0f;            ///< vertical speed
+    float   m_speed = 0.0f;         ///< m/s along the road
+    float   m_vx = 0.0f;            ///< lateral speed from steering
+    float   m_drift = 0.0f;         ///< lateral speed from the bend (outwards)
+    float   m_steer = 0.0f;         ///< smoothed steering
+    int     m_gear = 0;             ///< 0..GearCount-1
+    float   m_rpm = 0.1f;           ///< 0..1.15 of the redline
+    float   m_shiftTimer = 0.0f;    ///< seconds left in a shift
+    float   m_boostTank = 0.6f;     ///< 0..1
+    bool    m_boosting = false;     ///< boost active this step
+    float   m_throttle = 0.0f;      ///< smoothed throttle (sound)
+    bool    m_airborne = false;     ///< off the ground
+    float   m_airTime = 0.0f;       ///< seconds in the air
+    float   m_slip = 0.0f;          ///< 0..1 tyre squeal
+    float   m_offroad = 0.0f;       ///< 0..1 off the tarmac
+    float   m_rumble = 0.0f;        ///< 0..1 on the kerb
+    float   m_yawVisual = 0.0f;     ///< drawn yaw against the road (rad)
+    float   m_spin = 0.0f;          ///< crash spin angle (rad)
+    float   m_crashTimer = 0.0f;    ///< seconds of crash left
+    float   m_shake = 0.0f;         ///< camera shake 0..1
+    float   m_wetGrip = 1.0f;       ///< grip of the surface under the car
+    float   m_weatherGrip = 1.0f;   ///< what the weather leaves of the grip (rain, snow, sand on the road)
+    float   m_rain =
+        0.0f;   ///< 0..1 how hard it rains: puddles gather from 0.35, and the tyres float in them over 100 km/h
     float   m_aquaplane = 0.0f;   ///< 0..1 the tyres float on water
     bool    m_monsoon = false;    ///< a monsoon falls: the road floods in stretches (floodAt)
     bool    m_inFlood = false;    ///< driving through a flood (fountains, a drag on the speed)
@@ -194,11 +195,11 @@ public:
     bool    m_coasting = false;   ///< time is up: no throttle any more
 
     // Events of the last update, for sound and particles.
-    bool  m_eventShift = false;     ///< a gear change
-    bool  m_eventLanded = false;    ///< touched down
-    float m_landImpact = 0.0f;      ///< how hard (m/s)
-    bool  m_eventBackfire = false;  ///< lifted off at high revs
-    bool  m_eventAquaplane = false; ///< the tyres began to float
+    bool  m_eventShift = false;       ///< a gear change
+    bool  m_eventLanded = false;      ///< touched down
+    float m_landImpact = 0.0f;        ///< how hard (m/s)
+    bool  m_eventBackfire = false;    ///< lifted off at high revs
+    bool  m_eventAquaplane = false;   ///< the tyres began to float
 
 private:
     /**
@@ -208,8 +209,8 @@ private:
      */
     float gearTop( int gear ) const;
 
-    double m_prevRoadY = 0.0;   ///< the road's height last step
-    float  m_lastThrottle = 0;  ///< raw throttle last step (backfires)
+    double m_prevRoadY = 0.0;    ///< the road's height last step
+    float  m_lastThrottle = 0;   ///< raw throttle last step (backfires)
 };
 
-} // namespace sunstreak
+}   // namespace sunstreak

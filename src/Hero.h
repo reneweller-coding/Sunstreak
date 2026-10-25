@@ -24,10 +24,10 @@ constexpr int    HeroBonus = 5000;       ///< points for beating them (and five 
 /** @brief What the hero is doing. */
 enum class HeroStateE : uint8_t
 {
-    NONE,     ///< nobody
-    CLOSING,  ///< coming up beside the car before the checkpoint
-    DUEL,     ///< racing it to the next checkpoint
-    AFTER,    ///< it is decided: driving off
+    NONE,      ///< nobody
+    CLOSING,   ///< coming up beside the car before the checkpoint
+    DUEL,      ///< racing it to the next checkpoint
+    AFTER,     ///< it is decided: driving off
 };
 
 /** @brief What happened this update. */
@@ -64,7 +64,8 @@ public:
      * @param[in]     enabled  a duel may begin (not in races or the demo, not in a police chase, not once time is up)
      * @param[out]    ev       what happened
      */
-    void update( float dt, const Track &track, PlayerCar &player, const Traffic &traffic, bool enabled, HeroEvents &ev );
+    void update( float dt, const Track &track, PlayerCar &player, const Traffic &traffic, bool enabled,
+                 HeroEvents &ev );
 
     /**
      * @brief Drives off as a car thief ahead of the car; caught when the car stays close beside or behind it for a moment
@@ -96,4 +97,4 @@ private:
     float m_hitTimer = 0.0f;   ///< seconds since a bump (no second shove at once)
 };
 
-} // namespace sunstreak
+}   // namespace sunstreak

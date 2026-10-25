@@ -17,19 +17,19 @@ namespace sunstreak
 class Models;
 class Traffic;
 
-constexpr double PoliceSpawn = 900.0;   ///< the patrol car appears this far before its spot
-constexpr double PoliceEscape = 400.0;  ///< this far ahead of it, the car has got away
-constexpr float  PoliceGiveUp = 90.0f;  ///< and after so many seconds of chasing in any case
-constexpr float  PoliceFine = 5.0f;     ///< seconds a catch costs
-constexpr float  PolicePace = 0.9f;     ///< its top speed against the car's
+constexpr double PoliceSpawn = 900.0;    ///< the patrol car appears this far before its spot
+constexpr double PoliceEscape = 400.0;   ///< this far ahead of it, the car has got away
+constexpr float  PoliceGiveUp = 90.0f;   ///< and after so many seconds of chasing in any case
+constexpr float  PoliceFine = 5.0f;      ///< seconds a catch costs
+constexpr float  PolicePace = 0.9f;      ///< its top speed against the car's
 
 /** @brief What the patrol car is doing. */
 enum class PoliceStateE : uint8_t
 {
-    NONE,     ///< no patrol car near
-    PARKED,   ///< waiting at the roadside
-    CHASE,    ///< lights and siren, after the car
-    STOPPED,  ///< caught it, or gave up: pulls over and is left behind
+    NONE,      ///< no patrol car near
+    PARKED,    ///< waiting at the roadside
+    CHASE,     ///< lights and siren, after the car
+    STOPPED,   ///< caught it, or gave up: pulls over and is left behind
 };
 
 /** @brief What happened this update. */
@@ -60,8 +60,8 @@ public:
      * @param[in]  enabled  traps wait on this road (the world tour outside races)
      * @param[out] ev       what happened
      */
-    void update( float dt, const Track &track, double s, float x, float speed, float top, const Traffic &traffic, const Models &models,
-                 bool enabled, PoliceEvents &ev );
+    void update( float dt, const Track &track, double s, float x, float speed, float top, const Traffic &traffic,
+                 const Models &models, bool enabled, PoliceEvents &ev );
 
     /**
      * @brief How far the car is ahead of the patrol car.
@@ -81,10 +81,10 @@ public:
     float        m_beside = 0.0f;                ///< seconds it has been level with the car
 
 private:
-    int    m_trapStage = -1;     ///< the stage of the trap it belongs to
-    double m_trapS = 0.0;        ///< where it waits
-    int    m_doneStage = -1;     ///< the last stage whose trap is spent
-    double m_lastS = 0.0;        ///< the player's distance last update
+    int    m_trapStage = -1;   ///< the stage of the trap it belongs to
+    double m_trapS = 0.0;      ///< where it waits
+    int    m_doneStage = -1;   ///< the last stage whose trap is spent
+    double m_lastS = 0.0;      ///< the player's distance last update
 };
 
 /**
@@ -95,4 +95,4 @@ private:
  */
 int policeModel( const Models &models, const BiomeDef &place );
 
-} // namespace sunstreak
+}   // namespace sunstreak

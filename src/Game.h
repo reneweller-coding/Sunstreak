@@ -51,51 +51,51 @@ namespace sunstreak
 /** @brief The items of the settings menu, in order. */
 enum class SettingE
 {
-    PROFILE,      ///< battery, balanced or quality in one go
-    DISPLAY,      ///< window or fullscreen
-    RESOLUTION,   ///< 3D resolution
-    SHADOWS,      ///< sun shadows
-    VSYNC,        ///< vertical sync
-    FRAME_LIMIT,  ///< frame rate cap
-    DIFFICULTY,   ///< easy, normal, hard
-    SCENERY,      ///< endless runs: the world tour or all mixed
-    TIME_OF_DAY,  ///< as the place, the tour clock, or a fixed hour
-    WEATHER,      ///< weather fronts or the place's own weather
-    SEASONS,      ///< as today, as the tour goes on, or none
-    POLICE,       ///< patrol cars that give chase
-    STEER_ASSIST, ///< help with the steering
-    BRAKE_ASSIST, ///< help with the brakes
-    COLOUR_BLIND, ///< a palette for colour blindness
-    TEXT_SIZE,    ///< larger text
-    GEARS,        ///< automatic or manual
-    UNITS,        ///< km/h or mph
-    CAMERA,       ///< chase, far, bumper
-    BLUR,         ///< speed blur
-    VIBRATION,    ///< rumble
-    MUSIC,        ///< music volume
-    EFFECTS,      ///< effects volume
-    RADIO,        ///< radio station
-    RESET,        ///< every setting to its default
-    ERASE,        ///< forget everything driven
-    BACK,         ///< leave
-    COUNT         ///< number of items
+    PROFILE,        ///< battery, balanced or quality in one go
+    DISPLAY,        ///< window or fullscreen
+    RESOLUTION,     ///< 3D resolution
+    SHADOWS,        ///< sun shadows
+    VSYNC,          ///< vertical sync
+    FRAME_LIMIT,    ///< frame rate cap
+    DIFFICULTY,     ///< easy, normal, hard
+    SCENERY,        ///< endless runs: the world tour or all mixed
+    TIME_OF_DAY,    ///< as the place, the tour clock, or a fixed hour
+    WEATHER,        ///< weather fronts or the place's own weather
+    SEASONS,        ///< as today, as the tour goes on, or none
+    POLICE,         ///< patrol cars that give chase
+    STEER_ASSIST,   ///< help with the steering
+    BRAKE_ASSIST,   ///< help with the brakes
+    COLOUR_BLIND,   ///< a palette for colour blindness
+    TEXT_SIZE,      ///< larger text
+    GEARS,          ///< automatic or manual
+    UNITS,          ///< km/h or mph
+    CAMERA,         ///< chase, far, bumper
+    BLUR,           ///< speed blur
+    VIBRATION,      ///< rumble
+    MUSIC,          ///< music volume
+    EFFECTS,        ///< effects volume
+    RADIO,          ///< radio station
+    RESET,          ///< every setting to its default
+    ERASE,          ///< forget everything driven
+    BACK,           ///< leave
+    COUNT           ///< number of items
 };
 
 /** @brief The items of the title menu, in order. */
 enum class TitleE
 {
-    ENDLESS,       ///< endless run
-    TRAVEL,        ///< the world tour without a clock
-    DAILY,         ///< the daily challenge
-    RALLIES,       ///< long-distance routes
-    CHAMPIONSHIP,  ///< five races
-    TRACK_LAB,     ///< build or enter a track
-    GARAGE,        ///< car, paint, rims, decals
-    PASSPORT,      ///< world map, stamps, postcards
-    RECORDS,       ///< top ten and progress
-    SETTINGS,      ///< settings
-    QUIT,          ///< leave the game
-    COUNT          ///< number of items
+    ENDLESS,        ///< endless run
+    TRAVEL,         ///< the world tour without a clock
+    DAILY,          ///< the daily challenge
+    RALLIES,        ///< long-distance routes
+    CHAMPIONSHIP,   ///< five races
+    TRACK_LAB,      ///< build or enter a track
+    GARAGE,         ///< car, paint, rims, decals
+    PASSPORT,       ///< world map, stamps, postcards
+    RECORDS,        ///< top ten and progress
+    SETTINGS,       ///< settings
+    QUIT,           ///< leave the game
+    COUNT           ///< number of items
 };
 
 /** @brief The items of the garage, in order. */
@@ -115,13 +115,13 @@ enum class GarageE
 /** @brief The pages of the passport. */
 enum class PassportE
 {
-    MAP,        ///< the world tour on a map
-    STAMPS,     ///< a stamp per country
-    REGIONS,    ///< the states and provinces of the big countries
-    POSTCARDS,  ///< a picture per place
-    ALBUM,      ///< a photo per landmark
-    AWARDS,     ///< the achievements
-    COUNT       ///< number of pages
+    MAP,         ///< the world tour on a map
+    STAMPS,      ///< a stamp per country
+    REGIONS,     ///< the states and provinces of the big countries
+    POSTCARDS,   ///< a picture per place
+    ALBUM,       ///< a photo per landmark
+    AWARDS,      ///< the achievements
+    COUNT        ///< number of pages
 };
 
 /** @brief The items of the Track Lab, in order. */
@@ -145,36 +145,36 @@ enum class LabE
 /** @brief Where the game is. */
 enum class StateE
 {
-    TITLE,       ///< title menu over a demo drive
-    SETTINGS,    ///< settings menu
-    COUNTDOWN,   ///< 3, 2, 1, GO
-    RACE,        ///< driving
-    PAUSED,      ///< pause menu
-    GAMEOVER,    ///< results of a time attack
-    RESULTS,     ///< results of a race, then the standings
-    LAB,         ///< the Track Lab
-    CODE_ENTRY,  ///< typing a track code
-    INITIALS,    ///< entering a name into the top ten
-    RECORDS,     ///< the records screen
-    GARAGE,      ///< dressing the car
-    PASSPORT,    ///< map, stamps and postcards
-    RALLIES,     ///< choosing a rally
-    REPLAY,      ///< the last minute again, from the roadside
-    PHOTO,       ///< the game stands still, the camera roams
-    VIEWER,      ///< every landmark and creature, one at a time (F6)
-    CROSSING,    ///< aboard a ferry or a car train, the clock standing still
-    PLATE_ENTRY, ///< typing the number plate
+    TITLE,         ///< title menu over a demo drive
+    SETTINGS,      ///< settings menu
+    COUNTDOWN,     ///< 3, 2, 1, GO
+    RACE,          ///< driving
+    PAUSED,        ///< pause menu
+    GAMEOVER,      ///< results of a time attack
+    RESULTS,       ///< results of a race, then the standings
+    LAB,           ///< the Track Lab
+    CODE_ENTRY,    ///< typing a track code
+    INITIALS,      ///< entering a name into the top ten
+    RECORDS,       ///< the records screen
+    GARAGE,        ///< dressing the car
+    PASSPORT,      ///< map, stamps and postcards
+    RALLIES,       ///< choosing a rally
+    REPLAY,        ///< the last minute again, from the roadside
+    PHOTO,         ///< the game stands still, the camera roams
+    VIEWER,        ///< every landmark and creature, one at a time (F6)
+    CROSSING,      ///< aboard a ferry or a car train, the clock standing still
+    PLATE_ENTRY,   ///< typing the number plate
 };
 
 /** @brief What is being played. */
 enum class ModeE
 {
-    ENDLESS,       ///< the endless time attack
-    CHAMPIONSHIP,  ///< five races against rivals
-    CUSTOM,        ///< a Track Lab track (time attack or a single race)
-    DAILY,         ///< today's track, the same for everyone
-    RALLY,         ///< a long-distance route against the clock
-    TRAVEL,        ///< the world tour without a clock: on and on, where the last tour stopped
+    ENDLESS,        ///< the endless time attack
+    CHAMPIONSHIP,   ///< five races against rivals
+    CUSTOM,         ///< a Track Lab track (time attack or a single race)
+    DAILY,          ///< today's track, the same for everyone
+    RALLY,          ///< a long-distance route against the clock
+    TRAVEL,         ///< the world tour without a clock: on and on, where the last tour stopped
 };
 
 /** @brief A moment of the drive, recorded for the replay. */
@@ -183,26 +183,26 @@ struct ReplayFrame
     /** @brief Another car at that moment. */
     struct Other
     {
-        double m_s;      ///< distance along the road
-        float  m_x;      ///< lateral offset
-        float  m_yaw;    ///< drawn yaw
-        int    m_model;  ///< traffic model, or the rival's driver
+        double m_s;             ///< distance along the road
+        float  m_x;             ///< lateral offset
+        float  m_yaw;           ///< drawn yaw
+        int    m_model;         ///< traffic model, or the rival's driver
         float  m_lift = 0.0f;   ///< height above the road (swimmers)
     };
-    float              m_t = 0;          ///< race time
-    double             m_s = 0;          ///< the player's distance
-    float              m_x = 0;          ///< lateral offset
-    double             m_y = 0;          ///< height
-    float              m_yaw = 0;        ///< drawn yaw
-    float              m_spin = 0;       ///< spin after a crash
-    float              m_vy = 0;         ///< vertical speed
-    float              m_speed = 0;      ///< m/s
-    float              m_rpm = 0;        ///< engine
-    float              m_throttle = 0;   ///< pedal
-    bool               m_airborne = false; ///< over a crest
-    bool               m_boost = false;  ///< boosting
-    std::vector<Other> m_traffic;        ///< the traffic around
-    std::vector<Other> m_rivals;         ///< the rivals
+    float              m_t = 0;              ///< race time
+    double             m_s = 0;              ///< the player's distance
+    float              m_x = 0;              ///< lateral offset
+    double             m_y = 0;              ///< height
+    float              m_yaw = 0;            ///< drawn yaw
+    float              m_spin = 0;           ///< spin after a crash
+    float              m_vy = 0;             ///< vertical speed
+    float              m_speed = 0;          ///< m/s
+    float              m_rpm = 0;            ///< engine
+    float              m_throttle = 0;       ///< pedal
+    bool               m_airborne = false;   ///< over a crest
+    bool               m_boost = false;      ///< boosting
+    std::vector<Other> m_traffic;            ///< the traffic around
+    std::vector<Other> m_rivals;             ///< the rivals
 };
 
 /** @brief A weather front passing over the road. */
@@ -220,12 +220,12 @@ enum class WeatherE
 /** @brief A message in the middle of the screen. */
 struct Popup
 {
-    std::string m_text;       ///< the big line
-    std::string m_sub;        ///< the small line
-    Color       m_color{};    ///< colour of the big line
-    float       m_age = 0;    ///< seconds shown
-    float       m_life = 2;   ///< seconds to show
-    float       m_size = 1;   ///< size factor
+    std::string m_text;            ///< the big line
+    std::string m_sub;             ///< the small line
+    Color       m_color{};         ///< colour of the big line
+    float       m_age = 0;         ///< seconds shown
+    float       m_life = 2;        ///< seconds to show
+    float       m_size = 1;        ///< size factor
     bool        m_minor = false;   ///< news (stamps, postcards, unlocks): the ticker on the left, not the middle
 };
 
@@ -305,7 +305,8 @@ private:
      * @param[in] params   the generator's parameters
      * @param[in] choices  the world tour's choices at its forks so far (nullptr: none made)
      */
-    void setupTrack( uint64_t seed, double startS, const TrackParams &params, const std::vector<int8_t> *choices = nullptr );
+    void setupTrack( uint64_t seed, double startS, const TrackParams &params,
+                     const std::vector<int8_t> *choices = nullptr );
 
     /** @brief Resets the run's counters and starts the countdown. */
     void beginCountdown();
@@ -383,7 +384,8 @@ private:
      * @param[in] life   seconds
      * @param[in] minor  news for the ticker on the left instead of the middle of the screen
      */
-    void popup( const std::string &text, const std::string &sub, Color color, float size = 1.0f, float life = 2.2f, bool minor = false );
+    void popup( const std::string &text, const std::string &sub, Color color, float size = 1.0f, float life = 2.2f,
+                bool minor = false );
 
     /** @brief Switches between window and fullscreen. */
     void toggleFullscreen();
@@ -588,7 +590,8 @@ private:
      * @param[in] y      top of the menu
      * @param[in] rows   row height against the usual (long menus a little tighter)
      */
-    void drawMenu( const char *title, const std::vector<std::string> &items, const std::vector<std::string> &values, float y, float rows = 1.0f );
+    void drawMenu( const char *title, const std::vector<std::string> &items, const std::vector<std::string> &values,
+                   float y, float rows = 1.0f );
 
     /** @brief Draws the title screen. */
     void drawTitle();
@@ -803,231 +806,233 @@ private:
 
     // ---- State -------------------------------------------------------------------------------------------
 
-    Settings     &m_settings;      ///< the player's settings
-    Tuning        m_tuningBase;    ///< tuning.ini before the difficulty
-    LaunchOptions m_options;       ///< the command line
-    Records       m_records;       ///< top ten, kilometres, unlocks
-    Ghost         m_ghost;         ///< the best drive of the current track
+    Settings     &m_settings;     ///< the player's settings
+    Tuning        m_tuningBase;   ///< tuning.ini before the difficulty
+    LaunchOptions m_options;      ///< the command line
+    Records       m_records;      ///< top ten, kilometres, unlocks
+    Ghost         m_ghost;        ///< the best drive of the current track
 
-    Models                 m_models;       ///< meshes
-    Renderer               m_renderer;     ///< drawing
-    World                  m_world;        ///< chunks
-    std::unique_ptr<Track> m_track;        ///< the road
-    PlayerCar              m_car;          ///< the player
-    Traffic                m_traffic;      ///< the others
-    Police                 m_police;       ///< the patrol car of the world tour
-    Passenger              m_passenger;    ///< the hitchhiker of the moment
-    LocalHero              m_hero;         ///< the local hero of the moment
-    LocalHero              m_thief;        ///< the car thief of a police officer's job
-    TrainRace              m_train;        ///< the race against a fast train
-    Spectacle              m_sky;          ///< the spectacle over the road
-    int                    m_delivered = 0;   ///< hitchhikers taken where they wanted to go this run
-    Race                   m_race;         ///< rivals and the championship
-    Particles              m_particles;    ///< effects
-    Audio                  m_audio;        ///< sound
-    Input                  m_input;        ///< controls
-    Haptics                m_haptics;      ///< rumble
-    bool                   m_showStats = false;   ///< the F3 overlay
-    float                  m_frameMsPeak = 0.0f;  ///< the slowest frame lately
-    float                  m_cpuUpdateMs = 0.0f;  ///< CPU: the game's step, smoothed
-    float                  m_cpuDrawMs = 0.0f;    ///< CPU: building and sending the picture, smoothed
-    float                  m_cpuRenderMs = 0.0f;  ///< CPU: of that, the renderer sending the 3D picture, smoothed
-    float                  m_cpuOverlayMs = 0.0f; ///< CPU: of that, the 2D layer on top (HUD, popups, menus), smoothed
-    double                 m_overlayStart = 0.0;  ///< when this frame's 2D layer began (GetTime)
-    float                  m_cpuSwapMs = 0.0f;    ///< CPU: waiting in the buffer swap, smoothed
-    double                 m_frameStart = 0.0;    ///< when this frame began (GetTime)
+    Models                 m_models;               ///< meshes
+    Renderer               m_renderer;             ///< drawing
+    World                  m_world;                ///< chunks
+    std::unique_ptr<Track> m_track;                ///< the road
+    PlayerCar              m_car;                  ///< the player
+    Traffic                m_traffic;              ///< the others
+    Police                 m_police;               ///< the patrol car of the world tour
+    Passenger              m_passenger;            ///< the hitchhiker of the moment
+    LocalHero              m_hero;                 ///< the local hero of the moment
+    LocalHero              m_thief;                ///< the car thief of a police officer's job
+    TrainRace              m_train;                ///< the race against a fast train
+    Spectacle              m_sky;                  ///< the spectacle over the road
+    int                    m_delivered = 0;        ///< hitchhikers taken where they wanted to go this run
+    Race                   m_race;                 ///< rivals and the championship
+    Particles              m_particles;            ///< effects
+    Audio                  m_audio;                ///< sound
+    Input                  m_input;                ///< controls
+    Haptics                m_haptics;              ///< rumble
+    bool                   m_showStats = false;    ///< the F3 overlay
+    float                  m_frameMsPeak = 0.0f;   ///< the slowest frame lately
+    float                  m_cpuUpdateMs = 0.0f;   ///< CPU: the game's step, smoothed
+    float                  m_cpuDrawMs = 0.0f;     ///< CPU: building and sending the picture, smoothed
+    float                  m_cpuRenderMs = 0.0f;   ///< CPU: of that, the renderer sending the 3D picture, smoothed
+    float  m_cpuOverlayMs = 0.0f;                  ///< CPU: of that, the 2D layer on top (HUD, popups, menus), smoothed
+    double m_overlayStart = 0.0;                   ///< when this frame's 2D layer began (GetTime)
+    float  m_cpuSwapMs = 0.0f;                     ///< CPU: waiting in the buffer swap, smoothed
+    double m_frameStart = 0.0;                     ///< when this frame began (GetTime)
 
     /** @brief A benchmark's sums (--bench). */
     struct Bench
     {
-        bool               m_on = false;          ///< measuring has begun
-        std::vector<float> m_frames;              ///< every frame's milliseconds
-        double             m_update = 0.0;        ///< CPU milliseconds of the updates, summed
-        double             m_draw = 0.0;          ///< of the drawing
-        double             m_render = 0.0;        ///< of the 3D part of it
-        double             m_overlay = 0.0;       ///< of the 2D part
-        double             m_swap = 0.0;          ///< of the buffer swaps
-        double             m_triangles = 0.0;     ///< the chunks' triangles summed
-        int                m_traffic = 0;         ///< vehicles summed
-    } m_bench;   ///< the benchmark's sums
+        bool               m_on = false;        ///< measuring has begun
+        std::vector<float> m_frames;            ///< every frame's milliseconds
+        double             m_update = 0.0;      ///< CPU milliseconds of the updates, summed
+        double             m_draw = 0.0;        ///< of the drawing
+        double             m_render = 0.0;      ///< of the 3D part of it
+        double             m_overlay = 0.0;     ///< of the 2D part
+        double             m_swap = 0.0;        ///< of the buffer swaps
+        double             m_triangles = 0.0;   ///< the chunks' triangles summed
+        int                m_traffic = 0;       ///< vehicles summed
+    } m_bench;                                  ///< the benchmark's sums
 
     /** @brief Writes the benchmark's report (--bench). */
     void writeBench() const;
-    bool                   m_audioOk = false;   ///< sound works
+    bool m_audioOk = false;   ///< sound works
 
-    StateE m_state = StateE::TITLE;   ///< where the game is
-    ModeE  m_mode = ModeE::ENDLESS;   ///< what is being played
+    StateE m_state = StateE::TITLE;            ///< where the game is
+    ModeE  m_mode = ModeE::ENDLESS;            ///< what is being played
     StateE m_settingsReturn = StateE::TITLE;   ///< where the settings menu returns to
     StateE m_pauseReturn = StateE::RACE;       ///< where the pause menu returns to
     int    m_returnIndex = 0;                  ///< menu item to restore after the settings
-    float  m_stateTime = 0.0f;        ///< seconds in this state
-    float  m_time = 0.0f;             ///< seconds since start
-    float  m_dt = 0.0f;               ///< this frame's time
-    int    m_menuIndex = 0;           ///< selected menu item
-    int    m_carIndex = 0;            ///< chosen car
-    int    m_paintIndex = 0;          ///< chosen paint
-    bool   m_quit = false;            ///< close the game
-    bool   m_demo = true;             ///< the run is the title's demo
-    int    m_endlessStart = 0;        ///< the title's endless run: 0 resume the saved run, 1 from where the tour stopped, 2 a new tour
-    std::string m_savedPlace;         ///< where the saved run stands (an ID; empty: none saved)
-    int    m_armed = -1;              ///< the settings item waiting for a second press (SettingE; -1 none)
-    float  m_armedAt = 0.0f;          ///< when it was pressed
-    int         m_viewerIndex = 0;             ///< the landmark viewer's model (a LANDMARK variant)
-    int         m_viewerBuilt = -1;            ///< the model its meshes show (-1: none)
-    Mesh        m_viewerMesh{};                ///< that model
-    Mesh        m_viewerGround{};              ///< the ground under it
-    int         m_viewerPlace = -1;            ///< the place whose sky and ground it shows (-1: none uses it)
-    std::vector<const char *> m_viewerPlaces;  ///< the places that show it
-    Vector3     m_viewerSize{};                ///< its half sizes
-    float       m_viewerCenterY = 0.0f;        ///< the height the camera looks at
-    float       m_viewerYaw = 0.6f;            ///< the camera round it
-    float       m_viewerPitch = 0.22f;         ///< and above it
-    float       m_viewerZoom = 1.0f;           ///< and how near
-    int         m_tourShots = 0;               ///< testing (--shape-tour): pictures saved so far
-    int         m_tourFrames = 0;              ///< frames the current model has stood
-    StateE      m_viewerReturn = StateE::TITLE;   ///< where it goes back to
-    Crossing    m_crossing;                    ///< the ferry or car train the car is aboard
-    Environment m_crossEnvA{};                 ///< the light at the quay
-    Environment m_crossEnvB{};                 ///< and at the far one
-    Mesh        m_crossVessel{};               ///< the ship or the train
-    Mesh        m_crossWater{};                ///< the sea (the tunnel for a train)
-    Mesh        m_crossCoastA{};               ///< the coast left behind
-    Mesh        m_crossCoastB{};               ///< the coast ahead
-    Mesh        m_crossGull{};                 ///< a gull
-    float       m_fireworkIn = 0.0f;           ///< seconds to the next firework
-    int         m_albumWanted = -1;            ///< the landmark to photograph on the next frame (a LANDMARK variant)
-    std::map<std::string, Texture2D> m_albumTex;   ///< photos loaded for the passport
-    int         m_journey = -1;                ///< the journey driven (with ModeE::RALLY), -1 none
+    float  m_stateTime = 0.0f;                 ///< seconds in this state
+    float  m_time = 0.0f;                      ///< seconds since start
+    float  m_dt = 0.0f;                        ///< this frame's time
+    int    m_menuIndex = 0;                    ///< selected menu item
+    int    m_carIndex = 0;                     ///< chosen car
+    int    m_paintIndex = 0;                   ///< chosen paint
+    bool   m_quit = false;                     ///< close the game
+    bool   m_demo = true;                      ///< the run is the title's demo
+    int    m_endlessStart =
+        0;   ///< the title's endless run: 0 resume the saved run, 1 from where the tour stopped, 2 a new tour
+    std::string               m_savedPlace;        ///< where the saved run stands (an ID; empty: none saved)
+    int                       m_armed = -1;        ///< the settings item waiting for a second press (SettingE; -1 none)
+    float                     m_armedAt = 0.0f;    ///< when it was pressed
+    int                       m_viewerIndex = 0;   ///< the landmark viewer's model (a LANDMARK variant)
+    int                       m_viewerBuilt = -1;       ///< the model its meshes show (-1: none)
+    Mesh                      m_viewerMesh{};           ///< that model
+    Mesh                      m_viewerGround{};         ///< the ground under it
+    int                       m_viewerPlace = -1;       ///< the place whose sky and ground it shows (-1: none uses it)
+    std::vector<const char *> m_viewerPlaces;           ///< the places that show it
+    Vector3                   m_viewerSize{};           ///< its half sizes
+    float                     m_viewerCenterY = 0.0f;   ///< the height the camera looks at
+    float                     m_viewerYaw = 0.6f;       ///< the camera round it
+    float                     m_viewerPitch = 0.22f;    ///< and above it
+    float                     m_viewerZoom = 1.0f;      ///< and how near
+    int                       m_tourShots = 0;          ///< testing (--shape-tour): pictures saved so far
+    int                       m_tourFrames = 0;         ///< frames the current model has stood
+    StateE                    m_viewerReturn = StateE::TITLE;   ///< where it goes back to
+    Crossing                  m_crossing;                       ///< the ferry or car train the car is aboard
+    Environment               m_crossEnvA{};                    ///< the light at the quay
+    Environment               m_crossEnvB{};                    ///< and at the far one
+    Mesh                      m_crossVessel{};                  ///< the ship or the train
+    Mesh                      m_crossWater{};                   ///< the sea (the tunnel for a train)
+    Mesh                      m_crossCoastA{};                  ///< the coast left behind
+    Mesh                      m_crossCoastB{};                  ///< the coast ahead
+    Mesh                      m_crossGull{};                    ///< a gull
+    float                     m_fireworkIn = 0.0f;              ///< seconds to the next firework
+    int m_albumWanted = -1;   ///< the landmark to photograph on the next frame (a LANDMARK variant)
+    std::map<std::string, Texture2D> m_albumTex;       ///< photos loaded for the passport
+    int                              m_journey = -1;   ///< the journey driven (with ModeE::RALLY), -1 none
 
     // The track being driven.
-    TrackSetup  m_setup;              ///< its setup
-    std::string m_code;               ///< its code
-    uint64_t    m_seed = 1;           ///< its seed
+    TrackSetup  m_setup;      ///< its setup
+    std::string m_code;       ///< its code
+    uint64_t    m_seed = 1;   ///< its seed
 
     // A time attack.
-    float    m_timeLeft = 0.0f;       ///< seconds on the clock
-    bool     m_timeUp = false;        ///< the clock reached zero
-    float    m_timeUpFor = 0.0f;      ///< seconds since then
-    double   m_score = 0.0;           ///< points
-    double   m_lastS = 0.0;           ///< distance at the last step (scoring)
-    double   m_startS = 0.0;          ///< where the run began
-    double   m_nextCheckpoint = 0.0;  ///< distance of the next checkpoint
-    int      m_checkpoints = 0;       ///< checkpoints passed
-    int      m_stage = 0;             ///< current stage
-    int      m_overtakes = 0;         ///< cars passed
-    int      m_nearMisses = 0;        ///< close passes
-    int      m_combo = 1;             ///< score multiplier
-    float    m_comboTimer = 0.0f;     ///< seconds until the combo resets
-    float    m_topSpeed = 0.0f;       ///< fastest speed of the run (m/s)
-    bool     m_newBest = false;       ///< the run beat the record
-    bool     m_newGhost = false;      ///< the run became the track's ghost
-    int      m_rank = -1;             ///< place in the top ten (-1 none)
-    bool     m_finishedTrack = false; ///< a fixed-length time attack reached its finish
-    int      m_lastWarning = 99;      ///< last second a warning beeped
-    int      m_lastCount = 4;         ///< last countdown number shown
+    float  m_timeLeft = 0.0f;         ///< seconds on the clock
+    bool   m_timeUp = false;          ///< the clock reached zero
+    float  m_timeUpFor = 0.0f;        ///< seconds since then
+    double m_score = 0.0;             ///< points
+    double m_lastS = 0.0;             ///< distance at the last step (scoring)
+    double m_startS = 0.0;            ///< where the run began
+    double m_nextCheckpoint = 0.0;    ///< distance of the next checkpoint
+    int    m_checkpoints = 0;         ///< checkpoints passed
+    int    m_stage = 0;               ///< current stage
+    int    m_overtakes = 0;           ///< cars passed
+    int    m_nearMisses = 0;          ///< close passes
+    int    m_combo = 1;               ///< score multiplier
+    float  m_comboTimer = 0.0f;       ///< seconds until the combo resets
+    float  m_topSpeed = 0.0f;         ///< fastest speed of the run (m/s)
+    bool   m_newBest = false;         ///< the run beat the record
+    bool   m_newGhost = false;        ///< the run became the track's ghost
+    int    m_rank = -1;               ///< place in the top ten (-1 none)
+    bool   m_finishedTrack = false;   ///< a fixed-length time attack reached its finish
+    int    m_lastWarning = 99;        ///< last second a warning beeped
+    int    m_lastCount = 4;           ///< last countdown number shown
 
     // A race.
-    float                   m_raceTime = 0.0f;    ///< seconds since the start
-    bool                    m_finished = false;   ///< the player crossed the line
-    float                   m_finishedFor = 0.0f; ///< seconds since
-    int                     m_place = 0;          ///< the player's final place
-    std::vector<ResultLine> m_results;            ///< the race's result
-    int                     m_resultPage = 0;     ///< 0 result, 1 standings, 2 championship end
-    RaceEvents              m_raceEv;             ///< rival events this frame
+    float                   m_raceTime = 0.0f;      ///< seconds since the start
+    bool                    m_finished = false;     ///< the player crossed the line
+    float                   m_finishedFor = 0.0f;   ///< seconds since
+    int                     m_place = 0;            ///< the player's final place
+    std::vector<ResultLine> m_results;              ///< the race's result
+    int                     m_resultPage = 0;       ///< 0 result, 1 standings, 2 championship end
+    RaceEvents              m_raceEv;               ///< rival events this frame
 
     // Track Lab, code entry, initials.
-    TrackSetup  m_lab;                ///< the lab's setup
-    std::string m_codeText;           ///< the code being typed (12 characters)
-    std::string m_plateEdit;          ///< the plate being typed (PlateLength characters)
-    int         m_plateCursor = 0;    ///< where in it
+    TrackSetup  m_lab;               ///< the lab's setup
+    std::string m_codeText;          ///< the code being typed (12 characters)
+    std::string m_plateEdit;         ///< the plate being typed (PlateLength characters)
+    int         m_plateCursor = 0;   ///< where in it
 
     /** @brief The plate editor. */
     void drawPlateEntry();
-    int         m_codeCursor = 0;     ///< the character being edited
-    std::string m_codeError;          ///< why a code was refused
-    std::string m_initials = "AAA";   ///< the name being entered
-    int         m_initialCursor = 0;  ///< the letter being edited
+    int         m_codeCursor = 0;      ///< the character being edited
+    std::string m_codeError;           ///< why a code was refused
+    std::string m_initials = "AAA";    ///< the name being entered
+    int         m_initialCursor = 0;   ///< the letter being edited
 
     // Collected during the physics steps.
-    TrafficEvents m_ev;               ///< traffic events this frame
-    float         m_crash = 0.0f;     ///< crash strength this frame
-    bool          m_scraping = false; ///< touching a guard rail
-    bool          m_wasScraping = false;   ///< ... last frame
-    float         m_scrapeSide = 0.0f;     ///< which side
-    bool          m_landed = false;   ///< touched down this frame
-    float         m_landImpact = 0.0f;///< how hard
-    bool          m_shifted = false;  ///< changed gear this frame
-    bool          m_backfire = false; ///< lifted off at high revs this frame
-    bool          m_wasBoosting = false;   ///< boosting last frame
-    std::vector<const Collider *> m_colliders;   ///< scratch list
+    TrafficEvents                 m_ev;                    ///< traffic events this frame
+    float                         m_crash = 0.0f;          ///< crash strength this frame
+    bool                          m_scraping = false;      ///< touching a guard rail
+    bool                          m_wasScraping = false;   ///< ... last frame
+    float                         m_scrapeSide = 0.0f;     ///< which side
+    bool                          m_landed = false;        ///< touched down this frame
+    float                         m_landImpact = 0.0f;     ///< how hard
+    bool                          m_shifted = false;       ///< changed gear this frame
+    bool                          m_backfire = false;      ///< lifted off at high revs this frame
+    bool                          m_wasBoosting = false;   ///< boosting last frame
+    std::vector<const Collider *> m_colliders;             ///< scratch list
 
     // Camera.
-    CameraView m_cam;                 ///< the view
-    float      m_camX = 0.0f;         ///< smoothed lateral offset
-    double     m_camY = 0.0;          ///< smoothed height
-    bool       m_lookingBack = false; ///< the look-back key is held: the camera faces backwards
-    bool       m_cockpit = false;     ///< the camera sits in the driver's seat: the interior is drawn over the picture
-    float      m_seat = 1.0f;         ///< where the driver sits: 1 on the left, -1 on the right (the country's side; it slides over)
-    float      m_swing = 0.0f;        ///< the ornament at the mirror: its angle (radians, + to the right)
-    float      m_swingVel = 0.0f;     ///< and how fast it swings
-    Environment m_lastEnv{};          ///< the light of the last picture (the mirror shows its sky)
-    float      m_fov = 60.0f;         ///< smoothed field of view
-    bool       m_camInit = false;     ///< the camera has a position
-    float      m_blur = 0.0f;         ///< smoothed speed blur
-    float      m_aberration = 0.0f;   ///< smoothed boost fringes
+    CameraView m_cam;                   ///< the view
+    float      m_camX = 0.0f;           ///< smoothed lateral offset
+    double     m_camY = 0.0;            ///< smoothed height
+    bool       m_lookingBack = false;   ///< the look-back key is held: the camera faces backwards
+    bool       m_cockpit = false;   ///< the camera sits in the driver's seat: the interior is drawn over the picture
+    float      m_seat =
+        1.0f;   ///< where the driver sits: 1 on the left, -1 on the right (the country's side; it slides over)
+    float       m_swing = 0.0f;        ///< the ornament at the mirror: its angle (radians, + to the right)
+    float       m_swingVel = 0.0f;     ///< and how fast it swings
+    Environment m_lastEnv{};           ///< the light of the last picture (the mirror shows its sky)
+    float       m_fov = 60.0f;         ///< smoothed field of view
+    bool        m_camInit = false;     ///< the camera has a position
+    float       m_blur = 0.0f;         ///< smoothed speed blur
+    float       m_aberration = 0.0f;   ///< smoothed boost fringes
 
     // Time of day and weather.
-    double m_clockStart = 9.0;        ///< tour clock: the universal hour at the run's start
-    float  m_hour = -1.0f;            ///< the local hour the sky shows (smoothed, -1: the place's own)
-    long   m_frontShown = -1;         ///< the stage whose front was announced
-    int    m_legendStage = -1;        ///< the legendary road being timed (its stage; -1 none)
-    float  m_legendStart = 0.0f;      ///< the race time when it began
+    double m_clockStart = 9.0;     ///< tour clock: the universal hour at the run's start
+    float  m_hour = -1.0f;         ///< the local hour the sky shows (smoothed, -1: the place's own)
+    long   m_frontShown = -1;      ///< the stage whose front was announced
+    int    m_legendStage = -1;     ///< the legendary road being timed (its stage; -1 none)
+    float  m_legendStart = 0.0f;   ///< the race time when it began
 
     // Weather and effects.
-    float m_flash = 0.0f;             ///< lightning brightness
-    float m_thunderIn = -1.0f;        ///< seconds until thunder (-1: none)
-    float m_aquaShown = -100.0f;      ///< when AQUAPLANING was last shown
-    float m_monsoon = 0.0f;           ///< 0..1 how hard the monsoon falls where the car is (floods from 0.4)
+    float m_flash = 0.0f;          ///< lightning brightness
+    float m_thunderIn = -1.0f;     ///< seconds until thunder (-1: none)
+    float m_aquaShown = -100.0f;   ///< when AQUAPLANING was last shown
+    float m_monsoon = 0.0f;        ///< 0..1 how hard the monsoon falls where the car is (floods from 0.4)
 
-    std::vector<Popup> m_popups;      ///< messages
+    std::vector<Popup> m_popups;   ///< messages
 
     // Daily challenge, rallies, replay, photos.
-    int                     m_rally = -1;            ///< the rally driven
-    int                     m_dailyTwist = 0;        ///< today's twist
-    double                  m_finalDistance = 0.0;   ///< the run's distance when it ended
-    bool                    m_newRecord = false;     ///< a daily or rally best
-    std::deque<ReplayFrame> m_replay;                ///< the last minute
-    float                   m_replayNext = 0.0f;     ///< race time of the next recorded frame
-    float                   m_replayT = 0.0f;        ///< replay clock
-    size_t                  m_replayCursor = 0;      ///< the frame before the clock
+    int                     m_rally = -1;                        ///< the rally driven
+    int                     m_dailyTwist = 0;                    ///< today's twist
+    double                  m_finalDistance = 0.0;               ///< the run's distance when it ended
+    bool                    m_newRecord = false;                 ///< a daily or rally best
+    std::deque<ReplayFrame> m_replay;                            ///< the last minute
+    float                   m_replayNext = 0.0f;                 ///< race time of the next recorded frame
+    float                   m_replayT = 0.0f;                    ///< replay clock
+    size_t                  m_replayCursor = 0;                  ///< the frame before the clock
     StateE                  m_replayReturn = StateE::GAMEOVER;   ///< where the replay returns to
-    int                     m_replayIndex = 0;       ///< the menu item to restore
-    float                   m_photoYaw = 0.6f;       ///< photo camera: around the car
-    float                   m_photoPitch = 0.25f;    ///< above it
-    float                   m_photoDist = 8.0f;      ///< distance
-    bool                    m_photoWanted = false;   ///< take one after this frame's render
+    int                     m_replayIndex = 0;                   ///< the menu item to restore
+    float                   m_photoYaw = 0.6f;                   ///< photo camera: around the car
+    float                   m_photoPitch = 0.25f;                ///< above it
+    float                   m_photoDist = 8.0f;                  ///< distance
+    bool                    m_photoWanted = false;               ///< take one after this frame's render
 
     // Garage, passport, postcards, points.
-    int64_t                    m_earned = 0;            ///< career points of this run
-    int                        m_passportPage = 0;      ///< the passport's page (PassportE)
-    int                        m_passportSheet = 0;     ///< which sheet of stamps or postcards
-    int                        m_passportPick = 0;      ///< the country picked on the regions page
-    int                        m_passportCountry = -1;  ///< the country opened on the regions page (-1: the list)
-    Texture2D                  m_mapTex{};              ///< the passport's map, painted (countries, provinces, borders)
-    int                        m_mapSeen = -1;          ///< how many places had been seen when it was painted
-    int                        m_mapW = 0;              ///< its width
-    int                        m_mapH = 0;              ///< its height
-    int                        m_postcardWanted = -1;   ///< the place whose postcard is due (-1: none)
-    double                     m_postcardAt = 0.0;      ///< taken once the car passes this distance
-    std::map<int, Texture2D>   m_postcardTex;           ///< pictures loaded for the passport
-    std::future<void>          m_postcardJob;           ///< the last postcard being written
+    int64_t                  m_earned = 0;             ///< career points of this run
+    int                      m_passportPage = 0;       ///< the passport's page (PassportE)
+    int                      m_passportSheet = 0;      ///< which sheet of stamps or postcards
+    int                      m_passportPick = 0;       ///< the country picked on the regions page
+    int                      m_passportCountry = -1;   ///< the country opened on the regions page (-1: the list)
+    Texture2D                m_mapTex{};               ///< the passport's map, painted (countries, provinces, borders)
+    int                      m_mapSeen = -1;           ///< how many places had been seen when it was painted
+    int                      m_mapW = 0;               ///< its width
+    int                      m_mapH = 0;               ///< its height
+    int                      m_postcardWanted = -1;    ///< the place whose postcard is due (-1: none)
+    double                   m_postcardAt = 0.0;       ///< taken once the car passes this distance
+    std::map<int, Texture2D> m_postcardTex;            ///< pictures loaded for the passport
+    std::future<void>        m_postcardJob;            ///< the last postcard being written
 
     // The radio.
-    int         m_playingStation = -1;  ///< the station that plays
-    uint64_t    m_trackSeed = 0;        ///< the track that plays
-    int         m_musicStage = -1;      ///< the stage the radio last looked at
-    std::string m_nowPlaying;           ///< "STATION - TITLE"
-    float       m_nowTimer = 99.0f;     ///< seconds since the track started (the toast fades)
+    int         m_playingStation = -1;   ///< the station that plays
+    uint64_t    m_trackSeed = 0;         ///< the track that plays
+    int         m_musicStage = -1;       ///< the stage the radio last looked at
+    std::string m_nowPlaying;            ///< "STATION - TITLE"
+    float       m_nowTimer = 99.0f;      ///< seconds since the track started (the toast fades)
 };
 
-} // namespace sunstreak
+}   // namespace sunstreak

@@ -30,8 +30,8 @@ using namespace ui;
 namespace
 {
 
-constexpr float PhysicsStep = 1.0f / 120.0f;    ///< fixed physics step
-constexpr float StartTime = 55.0f;              ///< seconds on the clock at the start
+constexpr float PhysicsStep = 1.0f / 120.0f;   ///< fixed physics step
+constexpr float StartTime = 55.0f;             ///< seconds on the clock at the start
 
 /**
  * @brief The time a checkpoint adds.
@@ -40,7 +40,8 @@ constexpr float StartTime = 55.0f;              ///< seconds on the clock at the
  */
 float checkpointBonus( int k )
 {
-    return static_cast<float>( CheckpointSpacing ) / std::min( 64.0f, 48.0f + 2.0f * static_cast<float>( k ) ) * tuning().m_time;
+    return static_cast<float>( CheckpointSpacing ) / std::min( 64.0f, 48.0f + 2.0f * static_cast<float>( k ) ) *
+           tuning().m_time;
 }
 
 /**
@@ -56,19 +57,24 @@ float bendTime( Track &track, double from, double to, int k )
 {
     track.generateTo( to + 20.0 );
     const float        pace = std::min( 64.0f, 48.0f + 2.0f * static_cast<float>( k ) );
-    const long         first = static_cast<long>( from / SegmentLength ), n = std::max( 1L, static_cast<long>( ( to - from ) / SegmentLength ) );
+    const long         first = static_cast<long>( from / SegmentLength ),
+                       n = std::max( 1L, static_cast<long>( ( to - from ) / SegmentLength ) );
     std::vector<float> v( static_cast<size_t>( n ) );
-    for( long i = 0; i < n; ++i )
+    for ( long i = 0; i < n; ++i )
     {
         const float curve = std::abs( track.segment( first + i ).m_curve );
         v[static_cast<size_t>( i )] = curve > 1e-4f ? std::min( pace, std::sqrt( 16.0f / curve ) ) : pace;
     }
-    for( long i = n - 2; i >= 0; --i )   // braking at 9 m/s2
-        v[static_cast<size_t>( i )] = std::min( v[static_cast<size_t>( i )], std::sqrt( v[static_cast<size_t>( i + 1 )] * v[static_cast<size_t>( i + 1 )] + 2.0f * 9.0f * SegmentLength ) );
-    for( long i = 1; i < n; ++i )        // accelerating at 5 m/s2
-        v[static_cast<size_t>( i )] = std::min( v[static_cast<size_t>( i )], std::sqrt( v[static_cast<size_t>( i - 1 )] * v[static_cast<size_t>( i - 1 )] + 2.0f * 5.0f * SegmentLength ) );
+    for ( long i = n - 2; i >= 0; --i )   // braking at 9 m/s2
+        v[static_cast<size_t>( i )] = std::min(
+            v[static_cast<size_t>( i )], std::sqrt( v[static_cast<size_t>( i + 1 )] * v[static_cast<size_t>( i + 1 )] +
+                                                    2.0f * 9.0f * SegmentLength ) );
+    for ( long i = 1; i < n; ++i )   // accelerating at 5 m/s2
+        v[static_cast<size_t>( i )] = std::min(
+            v[static_cast<size_t>( i )], std::sqrt( v[static_cast<size_t>( i - 1 )] * v[static_cast<size_t>( i - 1 )] +
+                                                    2.0f * 5.0f * SegmentLength ) );
     float extra = 0.0f;
-    for( float s : v ) extra += SegmentLength * ( 1.0f / std::max( s, 5.0f ) - 1.0f / pace );
+    for ( float s : v ) extra += SegmentLength * ( 1.0f / std::max( s, 5.0f ) - 1.0f / pace );
     return extra * tuning().m_time;
 }
 
@@ -110,14 +116,17 @@ std::string ghostDir()
     return configDirectory() + "/ghosts";
 }
 
-} // namespace
+}   // namespace
 
-Game::Game( Settings &settings, const LaunchOptions &options ) : m_settings( settings ), m_options( options ), m_showStats( options.m_stats ) {}
+Game::Game( Settings &settings, const LaunchOptions &options )
+    : m_settings( settings ), m_options( options ), m_showStats( options.m_stats )
+{
+}
 
 void Game::init()
 {
-    if( m_options.m_camera >= 0 ) m_settings.m_camera = m_options.m_camera;
-    if( m_options.m_timeOfDay >= 0 ) m_settings.m_timeOfDay = m_options.m_timeOfDay;
+    if ( m_options.m_camera >= 0 ) m_settings.m_camera = m_options.m_camera;
+    if ( m_options.m_timeOfDay >= 0 ) m_settings.m_timeOfDay = m_options.m_timeOfDay;
     setColourBlind( m_settings.m_colourBlind );
     setTextScale( 1.0f + 0.15f * static_cast<float>( m_settings.m_textSize ) );
     m_tuningBase = loadTuning( configDirectory() + "/tuning.ini" );
@@ -127,8 +136,8 @@ void Game::init()
     {
         std::ifstream run( configDirectory() + "/run.txt" );
         std::string   line;
-        while( run && std::getline( run, line ) )
-            if( line.rfind( "place=", 0 ) == 0 ) m_savedPlace = line.substr( 6 );
+        while ( run && std::getline( run, line ) )
+            if ( line.rfind( "place=", 0 ) == 0 ) m_savedPlace = line.substr( 6 );
     }
     m_models.build();
     m_carIndex = std::clamp( m_settings.m_car, 0, CarCount - 1 );
@@ -137,41 +146,42 @@ void Game::init()
     applyLivery();
     m_renderer.init();
     m_world.init( &m_models );
-    const std::vector<std::string> dirs = { std::string( GetApplicationDirectory() ) + "music", configDirectory() + "/music" };
+    const std::vector<std::string> dirs = { std::string( GetApplicationDirectory() ) + "music",
+                                            configDirectory() + "/music" };
     m_audioOk = !m_options.m_mute && m_audio.init( dirs );
     m_audio.setVolumes( m_settings.m_musicVolume, m_settings.m_sfxVolume );
     m_haptics.init();
     m_lab.m_seed = randomSeed();
     m_lab.m_params.m_biome = SceneryWorld;
     TrackSetup fromCode;
-    if( !m_options.m_code.empty() && decodeTrack( m_options.m_code, fromCode ) )
+    if ( !m_options.m_code.empty() && decodeTrack( m_options.m_code, fromCode ) )
     {
         startTrack( fromCode, ModeE::CUSTOM );
     }
-    else if( m_options.m_championship )
+    else if ( m_options.m_championship )
     {
         startChampionship();
     }
-    else if( m_options.m_rally >= 0 )
+    else if ( m_options.m_rally >= 0 )
     {
         startRally( m_options.m_rally );
     }
-    else if( m_options.m_journey >= 0 )
+    else if ( m_options.m_journey >= 0 )
     {
         startJourney( m_options.m_journey );
     }
-    else if( m_options.m_resume && resumeRun() )
+    else if ( m_options.m_resume && resumeRun() )
     {
     }
-    else if( m_options.m_travel )
+    else if ( m_options.m_travel )
     {
         startTravel();
     }
-    else if( m_options.m_daily )
+    else if ( m_options.m_daily )
     {
         startDaily();
     }
-    else if( m_options.m_skipMenu )
+    else if ( m_options.m_skipMenu )
     {
         TrackSetup endless;
         endless.m_seed = m_options.m_seed ? ( ( m_options.m_seed & 0x1FFFFFFFull ) | 1ull ) : randomSeed();
@@ -181,30 +191,30 @@ void Game::init()
     else
     {
         startDemo();
-        if( m_options.m_screen == "lab" ) m_state = StateE::LAB;
-        if( m_options.m_screen == "records" ) m_state = StateE::RECORDS;
-        if( m_options.m_screen == "garage" ) m_state = StateE::GARAGE;
-        if( m_options.m_screen == "rallies" ) m_state = StateE::RALLIES;
-        if( m_options.m_screen == "passport" ) m_state = StateE::PASSPORT;
-        if( m_options.m_screen == "settings" ) m_state = StateE::SETTINGS;
-        if( m_options.m_screen == "country" )
+        if ( m_options.m_screen == "lab" ) m_state = StateE::LAB;
+        if ( m_options.m_screen == "records" ) m_state = StateE::RECORDS;
+        if ( m_options.m_screen == "garage" ) m_state = StateE::GARAGE;
+        if ( m_options.m_screen == "rallies" ) m_state = StateE::RALLIES;
+        if ( m_options.m_screen == "passport" ) m_state = StateE::PASSPORT;
+        if ( m_options.m_screen == "settings" ) m_state = StateE::SETTINGS;
+        if ( m_options.m_screen == "country" )
         {
             // Testing: the regions page with a country opened (--shape names it).
             m_state = StateE::PASSPORT;
             m_passportPage = static_cast<int>( PassportE::REGIONS );
             const auto rows = regionRows();
-            for( size_t i = 0; i < rows.size(); ++i )
-                if( m_options.m_shape == rows[i].m_country ) m_passportPick = static_cast<int>( i );
+            for ( size_t i = 0; i < rows.size(); ++i )
+                if ( m_options.m_shape == rows[i].m_country ) m_passportPick = static_cast<int>( i );
             m_passportCountry = m_passportPick;
         }
-        if( m_options.m_screen == "viewer" )
+        if ( m_options.m_screen == "viewer" )
         {
             openViewer();
             m_viewerIndex = std::max( 0, landmarkByName( m_options.m_shape ) );
-            if( m_options.m_shapeTour > 0 ) m_viewerYaw = 0.9f;
+            if ( m_options.m_shapeTour > 0 ) m_viewerYaw = 0.9f;
         }
-        if( m_options.m_screen == "stamps" || m_options.m_screen == "regions" || m_options.m_screen == "postcards" || m_options.m_screen == "album" ||
-            m_options.m_screen == "awards" )
+        if ( m_options.m_screen == "stamps" || m_options.m_screen == "regions" || m_options.m_screen == "postcards" ||
+             m_options.m_screen == "album" || m_options.m_screen == "awards" )
         {
             m_state = StateE::PASSPORT;
             m_passportPage = static_cast<int>( m_options.m_screen == "stamps"    ? PassportE::STAMPS
@@ -213,7 +223,7 @@ void Game::init()
                                                : m_options.m_screen == "awards"  ? PassportE::AWARDS
                                                                                  : PassportE::POSTCARDS );
         }
-        if( m_options.m_screen == "code" )
+        if ( m_options.m_screen == "code" )
         {
             m_codeText = encodeTrack( m_lab );
             std::erase( m_codeText, '-' );
@@ -225,42 +235,47 @@ void Game::init()
 void Game::writeBench() const
 {
     std::vector<float> f = m_bench.m_frames;
-    if( f.empty() ) return;
+    if ( f.empty() ) return;
     std::sort( f.begin(), f.end() );
     double sum = 0.0;
-    for( float v : f ) sum += v;
-    const double n = static_cast<double>( f.size() );
-    const auto   pct = [&]( double p ) { return f[std::min( f.size() - 1, static_cast<size_t>( p * n ) )]; };
+    for ( float v : f ) sum += v;
+    const double    n = static_cast<double>( f.size() );
+    const auto      pct = [&]( double p ) { return f[std::min( f.size() - 1, static_cast<size_t>( p * n ) )]; };
     const GpuTimer &g = const_cast<Renderer &>( m_renderer ).gpu();
     const BiomeE    here = m_track->stageBiome( static_cast<int>( m_car.m_s / StageLength ) );
     std::ofstream   out( m_options.m_bench );
     out << "place " << placeName( here ) << "\n";
-    out << "screen " << GetScreenWidth() << "x" << GetScreenHeight() << " scale " << m_settings.m_renderScale << " shadows " << ( m_settings.m_shadows ? 1 : 0 )
-        << " camera " << m_settings.m_camera << "\n";
-    out << format( "frames %d  avg %.3f ms  median %.3f  p95 %.3f  p99 %.3f  max %.3f  fps %.0f\n", static_cast<int>( n ), sum / n, pct( 0.5 ), pct( 0.95 ), pct( 0.99 ),
-                   f.back(), 1000.0 * n / sum );
-    out << format( "cpu update %.3f  draw %.3f (3d %.3f, 2d %.3f)  swap %.3f ms\n", m_bench.m_update / n, m_bench.m_draw / n, m_bench.m_render / n,
-                   m_bench.m_overlay / n, m_bench.m_swap / n );
-    out << format( "gpu shadows %.3f  scene %.3f  mirror %.3f  bloom %.3f  post %.3f  hud %.3f  sum %.3f ms\n", g.average( GpuTimer::SHADOWS ),
-                   g.average( GpuTimer::SCENE ), g.average( GpuTimer::MIRROR ), g.average( GpuTimer::BLOOM ), g.average( GpuTimer::POST ),
-                   g.average( GpuTimer::HUD ),
-                   g.average( GpuTimer::SHADOWS ) + g.average( GpuTimer::SCENE ) + g.average( GpuTimer::MIRROR ) + g.average( GpuTimer::BLOOM ) +
-                       g.average( GpuTimer::POST ) + g.average( GpuTimer::HUD ) );
-    out << format( "world %d chunks  %.0fK triangles  %.1f vehicles  chunk bake avg %.2f ms  slowest %.2f ms  on the main thread %d\n",
-                   static_cast<int>( m_world.chunks().size() ), m_bench.m_triangles / n / 1000.0, static_cast<double>( m_bench.m_traffic ) / n,
-                   m_world.m_buildCount ? m_world.m_buildTotalMs / m_world.m_buildCount : 0.0f, m_world.m_buildMaxMs, m_world.m_syncBuilds );
+    out << "screen " << GetScreenWidth() << "x" << GetScreenHeight() << " scale " << m_settings.m_renderScale
+        << " shadows " << ( m_settings.m_shadows ? 1 : 0 ) << " camera " << m_settings.m_camera << "\n";
+    out << format( "frames %d  avg %.3f ms  median %.3f  p95 %.3f  p99 %.3f  max %.3f  fps %.0f\n",
+                   static_cast<int>( n ), sum / n, pct( 0.5 ), pct( 0.95 ), pct( 0.99 ), f.back(), 1000.0 * n / sum );
+    out << format( "cpu update %.3f  draw %.3f (3d %.3f, 2d %.3f)  swap %.3f ms\n", m_bench.m_update / n,
+                   m_bench.m_draw / n, m_bench.m_render / n, m_bench.m_overlay / n, m_bench.m_swap / n );
+    out << format( "gpu shadows %.3f  scene %.3f  mirror %.3f  bloom %.3f  post %.3f  hud %.3f  sum %.3f ms\n",
+                   g.average( GpuTimer::SHADOWS ), g.average( GpuTimer::SCENE ), g.average( GpuTimer::MIRROR ),
+                   g.average( GpuTimer::BLOOM ), g.average( GpuTimer::POST ), g.average( GpuTimer::HUD ),
+                   g.average( GpuTimer::SHADOWS ) + g.average( GpuTimer::SCENE ) + g.average( GpuTimer::MIRROR ) +
+                       g.average( GpuTimer::BLOOM ) + g.average( GpuTimer::POST ) + g.average( GpuTimer::HUD ) );
+    out << format(
+        "world %d chunks  %.0fK triangles  %.1f vehicles  chunk bake avg %.2f ms  slowest %.2f ms  on the main thread %d\n",
+        static_cast<int>( m_world.chunks().size() ), m_bench.m_triangles / n / 1000.0,
+        static_cast<double>( m_bench.m_traffic ) / n,
+        m_world.m_buildCount ? m_world.m_buildTotalMs / m_world.m_buildCount : 0.0f, m_world.m_buildMaxMs,
+        m_world.m_syncBuilds );
 }
 
 void Game::shutdown()
 {
-    if( !m_options.m_bench.empty() ) writeBench();
+    if ( !m_options.m_bench.empty() ) writeBench();
     saveRecords();
-    if( m_postcardJob.valid() ) m_postcardJob.wait();
+    if ( m_postcardJob.valid() ) m_postcardJob.wait();
     unloadPostcards();
-    if( m_world.m_buildCount > 0 )
-        TraceLog( LOG_INFO, "SUNSTREAK: %d chunks built, %.2f ms on average, %.2f ms the slowest, %d on the main thread, frame part peak %.2f ms",
-                  m_world.m_buildCount, m_world.m_buildTotalMs / m_world.m_buildCount, m_world.m_buildMaxMs, m_world.m_syncBuilds,
-                  m_world.m_buildPeakMs );
+    if ( m_world.m_buildCount > 0 )
+        TraceLog(
+            LOG_INFO,
+            "SUNSTREAK: %d chunks built, %.2f ms on average, %.2f ms the slowest, %d on the main thread, frame part peak %.2f ms",
+            m_world.m_buildCount, m_world.m_buildTotalMs / m_world.m_buildCount, m_world.m_buildMaxMs,
+            m_world.m_syncBuilds, m_world.m_buildPeakMs );
     m_audio.stopMusic();
     m_audio.shutdown();
     m_world.clear();
@@ -276,37 +291,42 @@ void Game::saveRecords() const
 float Game::frontAt( double s, WeatherE &type ) const
 {
     type = WeatherE::NONE;
-    if( m_options.m_weather >= 0 )
+    if ( m_options.m_weather >= 0 )
     {
         type = static_cast<WeatherE>( m_options.m_weather );
         return type == WeatherE::NONE ? 0.0f : 1.0f;
     }
-    if( m_settings.m_weather != 0 || !m_track ) return 0.0f;
+    if ( m_settings.m_weather != 0 || !m_track ) return 0.0f;
     // A front may come every 5 km, its weather that of the place it is over.
     constexpr double frontSpacing = 5000.0;
     const long       slot = static_cast<long>( s / frontSpacing );
     float            best = 0.0f;
-    for( long st = std::max( 0L, slot - 1 ); st <= slot + 1; ++st )
+    for ( long st = std::max( 0L, slot - 1 ); st <= slot + 1; ++st )
     {
         const uint64_t h = hash64( m_seed * 977 + static_cast<uint64_t>( st ) * 131 + 17 );
-        const double   centre = ( static_cast<double>( st ) + 0.25 + 0.5 * static_cast<double>( ( h >> 8 ) % 1000 ) / 1000.0 ) * frontSpacing;
+        const double   centre =
+            ( static_cast<double>( st ) + 0.25 + 0.5 * static_cast<double>( ( h >> 8 ) % 1000 ) / 1000.0 ) *
+            frontSpacing;
         const BiomeE   stage = m_track->stageBiome( static_cast<int>( centre / StageLength ) );
         const ClimateE climate = biomeDef( stage ).m_climate;
-        if( climate == ClimateE::NONE ) continue;
+        if ( climate == ClimateE::NONE ) continue;
         // Where the data knows the place's real climate, its rain of the month decides how often a front comes (a third
         // of the stretches in an average month, hardly any in the dry season) and its temperature whether it snows;
         // the deserts keep their sandstorms.
-        const PlaceClimate *real = seasonClock().phaseAt( centre ) >= 0.0f && climate != ClimateE::ARID ? placeClimate( stage ) : nullptr;
-        const float         date = seasonClock().dateAt( centre );
-        const float         warmth = real ? climateTemperature( *real, date ) : 10.0f;
-        const float         chance = real ? clampf( 34.0f * std::pow( climatePrecipitation( *real, date ) / 60.0f, 0.8f ), 3.0f, 70.0f ) : 34.0f;
-        if( static_cast<float>( h % 100 ) >= chance ) continue;
+        const PlaceClimate *real =
+            seasonClock().phaseAt( centre ) >= 0.0f && climate != ClimateE::ARID ? placeClimate( stage ) : nullptr;
+        const float date = seasonClock().dateAt( centre );
+        const float warmth = real ? climateTemperature( *real, date ) : 10.0f;
+        const float chance =
+            real ? clampf( 34.0f * std::pow( climatePrecipitation( *real, date ) / 60.0f, 0.8f ), 3.0f, 70.0f ) : 34.0f;
+        if ( static_cast<float>( h % 100 ) >= chance ) continue;
         const double half = 700.0 + static_cast<double>( ( h >> 20 ) % 900 );
-        const float  k = 1.0f - smoothstepf( static_cast<float>( half * 0.5 ), static_cast<float>( half ), static_cast<float>( std::abs( s - centre ) ) );
-        if( k <= best ) continue;
+        const float  k = 1.0f - smoothstepf( static_cast<float>( half * 0.5 ), static_cast<float>( half ),
+                                             static_cast<float>( std::abs( s - centre ) ) );
+        if ( k <= best ) continue;
         best = k;
         static const WeatherE temperate[4] = { WeatherE::RAIN, WeatherE::RAIN, WeatherE::FOG, WeatherE::STORM };
-        switch( climate )
+        switch ( climate )
         {
         case ClimateE::ARID: type = WeatherE::SANDSTORM; break;
         case ClimateE::COLD: type = real && warmth > 1.5f ? temperate[( h >> 32 ) % 4] : WeatherE::SNOW; break;
@@ -315,7 +335,8 @@ float Game::frontAt( double s, WeatherE &type ) const
             // In South and Southeast Asia every other tropical front is the monsoon.
             const BiomeDef &place = biomeDef( m_track->stageBiome( static_cast<int>( centre / StageLength ) ) );
             const FleetE    fleet = place.m_country ? countryInfo( place.m_country ).m_fleet : FleetE::COUNT;
-            const bool      monsoon = ( fleet == FleetE::SOUTH_ASIA || fleet == FleetE::SOUTHEAST_ASIA ) && ( h >> 40 ) % 2 == 0;
+            const bool      monsoon =
+                ( fleet == FleetE::SOUTH_ASIA || fleet == FleetE::SOUTHEAST_ASIA ) && ( h >> 40 ) % 2 == 0;
             type = monsoon ? WeatherE::MONSOON : ( h >> 32 ) % 3 == 0 ? WeatherE::RAIN : WeatherE::STORM;
             break;
         }
@@ -328,11 +349,11 @@ float Game::frontAt( double s, WeatherE &type ) const
 float Game::wantedHour() const
 {
     static const float fixed[4] = { 6.6f, 12.5f, 19.6f, 23.0f };
-    if( m_settings.m_timeOfDay >= 2 ) return fixed[std::clamp( m_settings.m_timeOfDay - 2, 0, 3 )];
-    if( m_settings.m_timeOfDay != 1 || !m_track ) return -1.0f;
+    if ( m_settings.m_timeOfDay >= 2 ) return fixed[std::clamp( m_settings.m_timeOfDay - 2, 0, 3 )];
+    if ( m_settings.m_timeOfDay != 1 || !m_track ) return -1.0f;
     // Local solar time: the universal hour (an hour per ten kilometres) plus the place's longitude.
     GeoPoint where;
-    if( !placeLocation( m_track->biomeMix( m_car.m_s ).m_from, where ) ) return -1.0f;
+    if ( !placeLocation( m_track->biomeMix( m_car.m_s ).m_from, where ) ) return -1.0f;
     const double utc = m_clockStart + ( m_car.m_s - m_startS ) / 10000.0;
     return static_cast<float>( std::fmod( utc + where.m_lon / 15.0 + 48.0, 24.0 ) );
 }
@@ -341,9 +362,10 @@ Environment Game::sceneEnvironment( double s ) const
 {
     Environment    e = environmentAt( *m_track, s );
     const BiomeMix mix = m_track->biomeMix( s );
-    const float    under = ( biomeDef( mix.m_from ).m_underwater ? 1.0f - mix.m_t : 0.0f ) + ( biomeDef( mix.m_to ).m_underwater ? mix.m_t : 0.0f );
+    const float    under = ( biomeDef( mix.m_from ).m_underwater ? 1.0f - mix.m_t : 0.0f ) +
+                           ( biomeDef( mix.m_to ).m_underwater ? mix.m_t : 0.0f );
     // On the sea floor the hour does not reach: the sea keeps its own light.
-    if( m_hour >= 0.0f ) e = blendEnvironment( environmentAtHour( e, m_hour ), e, under );
+    if ( m_hour >= 0.0f ) e = blendEnvironment( environmentAtHour( e, m_hour ), e, under );
     e.m_underwater = smoothstepf( 0.35f, 0.65f, under );
     // Dirty air where the place's pollution index is high: thicker in the heating season and at night, thinner in the
     // monsoon and in the afternoon, where the data knows the place's air (the month counts with the seasons on, the hour
@@ -358,30 +380,31 @@ Environment Game::sceneEnvironment( double s ) const
     e.m_petals = lerpf( la.m_spring, lb.m_spring, mix.m_t ) * 0.4f;
     // A festival: colour in the air, the northern lights once it is dark.
     const int fest = festivalAt( mix.m_t < 0.5f ? mix.m_from : mix.m_to, seasonClock().dateAt( s ) );
-    if( fest >= 0 )
+    if ( fest >= 0 )
     {
         const Festival &f = festivals()[static_cast<size_t>( fest )];
-        if( !f.m_confetti.empty() )
+        if ( !f.m_confetti.empty() )
         {
             e.m_confetti = 0.6f;
             e.m_festival = fest;
         }
-        if( f.m_aurora ) e.m_aurora = std::max( e.m_aurora, smoothstepf( 0.2f, 0.6f, e.m_stars ) );
+        if ( f.m_aurora ) e.m_aurora = std::max( e.m_aurora, smoothstepf( 0.2f, 0.6f, e.m_stars ) );
     }
     // Fog lying low in the valleys of the temperate and cold places when the sun is low; the air shimmering over the road
     // where it is hot and the sun is high.
     const ClimateE climate = biomeDef( mix.m_t < 0.5f ? mix.m_from : mix.m_to ).m_climate;
     const float    elevation = e.m_sunElevation;
-    if( climate == ClimateE::TEMPERATE || climate == ClimateE::COLD )
+    if ( climate == ClimateE::TEMPERATE || climate == ClimateE::COLD )
         e.m_groundFog = 0.7f * smoothstepf( -6.0f, 0.0f, elevation ) * ( 1.0f - smoothstepf( 8.0f, 16.0f, elevation ) );
-    if( climate == ClimateE::ARID || climate == ClimateE::TROPICAL )
-        e.m_heat = smoothstepf( 25.0f, 50.0f, elevation ) * ( climate == ClimateE::ARID ? 1.0f : 0.6f ) * ( 1.0f - e.m_rain ) * ( 1.0f - e.m_dust );
+    if ( climate == ClimateE::ARID || climate == ClimateE::TROPICAL )
+        e.m_heat = smoothstepf( 25.0f, 50.0f, elevation ) * ( climate == ClimateE::ARID ? 1.0f : 0.6f ) *
+                   ( 1.0f - e.m_rain ) * ( 1.0f - e.m_dust );
     WeatherE    type = WeatherE::NONE;
     const float k = frontAt( s, type );
-    if( k <= 0.0f ) return e;
+    if ( k <= 0.0f ) return e;
     auto toward = [k]( Color a, Color b, float amount ) { return lerpColor( a, b, k * amount ); };
     e.m_heat *= 1.0f - k;
-    switch( type )
+    switch ( type )
     {
     case WeatherE::RAIN:
     case WeatherE::STORM:
@@ -465,14 +488,14 @@ void Game::startDaily()
     s.m_seed = ( hash64( 0xDA11ull + static_cast<uint64_t>( date ) ) & 0x1FFFFFFFull ) | 1ull;
     s.m_params.m_biome = SceneryWorld;
     m_dailyTwist = static_cast<int>( hash64( static_cast<uint64_t>( date ) * 7 ) % 4 );
-    if( m_dailyTwist == 1 ) s.m_params.m_traffic = 8;
-    if( m_dailyTwist == 2 ) s.m_params.m_obstacles = 7;
-    if( m_dailyTwist == 3 )
+    if ( m_dailyTwist == 1 ) s.m_params.m_traffic = 8;
+    if ( m_dailyTwist == 2 ) s.m_params.m_obstacles = 7;
+    if ( m_dailyTwist == 3 )
     {
         s.m_params.m_curvy = 8;
         s.m_params.m_sharp = 7;
     }
-    if( m_records.m_dailyDate != date )
+    if ( m_records.m_dailyDate != date )
     {
         m_records.m_dailyDate = date;
         m_records.m_dailyBest = 0;
@@ -486,13 +509,14 @@ void Game::startDaily()
 void Game::startRally( int index )
 {
     const auto &list = rallies();
-    if( index < 0 || index >= static_cast<int>( list.size() ) ) return;
+    if ( index < 0 || index >= static_cast<int>( list.size() ) ) return;
     m_rally = index;
     m_journey = -1;
     TrackSetup s;
     s.m_seed = ( hash64( 0xBA11ull + static_cast<uint64_t>( index ) * 977 ) & 0x1FFFFFFFull ) | 1ull;
     s.m_params.m_biome = SceneryWorld;
-    for( BiomeE b : list[static_cast<size_t>( index )].m_stages ) s.m_params.m_stages.push_back( static_cast<uint16_t>( b ) );
+    for ( BiomeE b : list[static_cast<size_t>( index )].m_stages )
+        s.m_params.m_stages.push_back( static_cast<uint16_t>( b ) );
     s.m_params.m_length = static_cast<double>( s.m_params.m_stages.size() ) * StageLength;
     startTrack( s, ModeE::RALLY );
     m_code = "RALLY-" + std::to_string( index + 1 );
@@ -502,7 +526,7 @@ void Game::startRally( int index )
 
 std::vector<std::string> Game::gameOverItems() const
 {
-    switch( m_mode )
+    switch ( m_mode )
     {
     case ModeE::ENDLESS: return { "RETRY SAME TRACK", "NEW TRACK", "WATCH REPLAY", "TITLE" };
     case ModeE::DAILY: return { "RETRY", "WATCH REPLAY", "TITLE" };
@@ -513,7 +537,7 @@ std::vector<std::string> Game::gameOverItems() const
 
 void Game::startReplay( StateE back )
 {
-    if( m_replay.size() < 20 )
+    if ( m_replay.size() < 20 )
     {
         popup( "NO REPLAY", "", Red, 0.8f, 1.5f );
         return;
@@ -525,7 +549,8 @@ void Game::startReplay( StateE back )
     const auto         choices = m_track ? m_track->tourChoices() : std::vector<int8_t>();
     setupTrack( m_seed, first.m_s, m_setup.m_params, &choices );
     m_race.m_rivals.resize( static_cast<size_t>( rivals ) );
-    for( int i = 0; i < rivals; ++i ) m_race.m_rivals[static_cast<size_t>( i )].m_driver = first.m_rivals[static_cast<size_t>( i )].m_model;
+    for ( int i = 0; i < rivals; ++i )
+        m_race.m_rivals[static_cast<size_t>( i )].m_driver = first.m_rivals[static_cast<size_t>( i )].m_model;
     m_replayT = first.m_t;
     m_replayCursor = 0;
     m_state = StateE::REPLAY;
@@ -542,8 +567,8 @@ void Game::endReplay()
 void Game::replayStep( float dt )
 {
     m_replayT += dt;
-    while( m_replayCursor + 1 < m_replay.size() && m_replay[m_replayCursor + 1].m_t <= m_replayT ) ++m_replayCursor;
-    if( m_replayCursor + 1 >= m_replay.size() )
+    while ( m_replayCursor + 1 < m_replay.size() && m_replay[m_replayCursor + 1].m_t <= m_replayT ) ++m_replayCursor;
+    if ( m_replayCursor + 1 >= m_replay.size() )
     {
         endReplay();
         return;
@@ -562,7 +587,7 @@ void Game::replayStep( float dt )
     m_car.m_airborne = a.m_airborne;
     m_car.m_boosting = a.m_boost;
     m_traffic.m_cars.clear();
-    for( const ReplayFrame::Other &o : a.m_traffic )
+    for ( const ReplayFrame::Other &o : a.m_traffic )
     {
         TrafficCar c;
         c.m_s = o.m_s;
@@ -575,7 +600,7 @@ void Game::replayStep( float dt )
         c.m_swim = o.m_lift > 0.0f;
         m_traffic.m_cars.push_back( c );
     }
-    for( size_t i = 0; i < a.m_rivals.size() && i < m_race.m_rivals.size() && i < b.m_rivals.size(); ++i )
+    for ( size_t i = 0; i < a.m_rivals.size() && i < m_race.m_rivals.size() && i < b.m_rivals.size(); ++i )
     {
         Rival &r = m_race.m_rivals[i];
         r.m_s = a.m_rivals[i].m_s + ( b.m_rivals[i].m_s - a.m_rivals[i].m_s ) * k;
@@ -599,22 +624,23 @@ bool Game::replayCamera()
     const long     post = static_cast<long>( ( m_car.m_s + 40.0 ) / 150.0 );
     const uint64_t h = hash64( m_seed * 31 + static_cast<uint64_t>( post ) );
     const int      kind = static_cast<int>( h % 5 );
-    if( kind == 4 ) return false;
-    const Pose    p = m_car.pose( track );
-    const Vec3d   target = poseLocal( p, 0.0f, 0.6f, 0.0f );
-    if( kind == 3 )
+    if ( kind == 4 ) return false;
+    const Pose  p = m_car.pose( track );
+    const Vec3d target = poseLocal( p, 0.0f, 0.6f, 0.0f );
+    if ( kind == 3 )
     {
         m_cam.m_pos = poseLocal( p, 0.0f, 16.0f, -24.0f );
         m_cam.m_fovY = 46.0f;
     }
     else
     {
-        const double     camS = static_cast<double>( post ) * 150.0 + 110.0;
-        const Segment   &seg = track.segment( static_cast<long>( camS / SegmentLength ) );
-        const float      side = ( h >> 8 ) & 1 ? 1.0f : -1.0f;
+        const double   camS = static_cast<double>( post ) * 150.0 + 110.0;
+        const Segment &seg = track.segment( static_cast<long>( camS / SegmentLength ) );
+        const float    side = ( h >> 8 ) & 1 ? 1.0f : -1.0f;
         // On a pole at the edge of the shoulder, clear of the houses that crowd a city street.
-        Vec3d            pos = track.pointAt( camS, side * ( seg.m_halfWidth + RumbleWidth + 1.3f ), 0.0f );
-        pos.m_y = std::max( pos.m_y, track.pointAt( camS, 0.0f, 0.0f ).m_y ) + 2.2 + static_cast<double>( ( h >> 12 ) % 3 );
+        Vec3d pos = track.pointAt( camS, side * ( seg.m_halfWidth + RumbleWidth + 1.3f ), 0.0f );
+        pos.m_y =
+            std::max( pos.m_y, track.pointAt( camS, 0.0f, 0.0f ).m_y ) + 2.2 + static_cast<double>( ( h >> 12 ) % 3 );
         m_cam.m_pos = pos;
         const Vector3 d = relativeTo( target, pos );
         const float   dist = std::max( 5.0f, Vector3Length( d ) );
@@ -630,17 +656,24 @@ bool Game::replayCamera()
 void Game::photoStep( float dt )
 {
     const bool  pad = IsGamepadAvailable( 0 );
-    const float turn = ( IsKeyDown( KEY_RIGHT ) ? 1.0f : 0.0f ) - ( IsKeyDown( KEY_LEFT ) ? 1.0f : 0.0f ) + ( pad ? GetGamepadAxisMovement( 0, GAMEPAD_AXIS_LEFT_X ) : 0.0f );
-    const float tilt = ( IsKeyDown( KEY_UP ) ? 1.0f : 0.0f ) - ( IsKeyDown( KEY_DOWN ) ? 1.0f : 0.0f ) - ( pad ? GetGamepadAxisMovement( 0, GAMEPAD_AXIS_LEFT_Y ) : 0.0f );
-    float       zoom = ( IsKeyDown( KEY_MINUS ) || IsKeyDown( KEY_KP_SUBTRACT ) || IsKeyDown( KEY_PAGE_DOWN ) ? 1.0f : 0.0f ) -
-                 ( IsKeyDown( KEY_EQUAL ) || IsKeyDown( KEY_KP_ADD ) || IsKeyDown( KEY_PAGE_UP ) ? 1.0f : 0.0f );
-    if( pad ) zoom += ( GetGamepadAxisMovement( 0, GAMEPAD_AXIS_LEFT_TRIGGER ) - GetGamepadAxisMovement( 0, GAMEPAD_AXIS_RIGHT_TRIGGER ) ) * 0.5f;
+    const float turn = ( IsKeyDown( KEY_RIGHT ) ? 1.0f : 0.0f ) - ( IsKeyDown( KEY_LEFT ) ? 1.0f : 0.0f ) +
+                       ( pad ? GetGamepadAxisMovement( 0, GAMEPAD_AXIS_LEFT_X ) : 0.0f );
+    const float tilt = ( IsKeyDown( KEY_UP ) ? 1.0f : 0.0f ) - ( IsKeyDown( KEY_DOWN ) ? 1.0f : 0.0f ) -
+                       ( pad ? GetGamepadAxisMovement( 0, GAMEPAD_AXIS_LEFT_Y ) : 0.0f );
+    float       zoom =
+        ( IsKeyDown( KEY_MINUS ) || IsKeyDown( KEY_KP_SUBTRACT ) || IsKeyDown( KEY_PAGE_DOWN ) ? 1.0f : 0.0f ) -
+        ( IsKeyDown( KEY_EQUAL ) || IsKeyDown( KEY_KP_ADD ) || IsKeyDown( KEY_PAGE_UP ) ? 1.0f : 0.0f );
+    if ( pad )
+        zoom += ( GetGamepadAxisMovement( 0, GAMEPAD_AXIS_LEFT_TRIGGER ) -
+                  GetGamepadAxisMovement( 0, GAMEPAD_AXIS_RIGHT_TRIGGER ) ) *
+                0.5f;
     m_photoYaw += turn * 1.4f * dt;
     m_photoPitch = clampf( m_photoPitch + tilt * 0.8f * dt, -0.08f, 1.35f );
     m_photoDist = clampf( m_photoDist * ( 1.0f + zoom * 1.2f * dt ), 3.2f, 45.0f );
-    const Pose p = m_car.pose( *m_track );
+    const Pose  p = m_car.pose( *m_track );
     const float c = std::cos( m_photoPitch );
-    m_cam.m_pos = poseLocal( p, std::sin( m_photoYaw ) * c * m_photoDist, 0.6f + std::sin( m_photoPitch ) * m_photoDist, -std::cos( m_photoYaw ) * c * m_photoDist );
+    m_cam.m_pos = poseLocal( p, std::sin( m_photoYaw ) * c * m_photoDist, 0.6f + std::sin( m_photoPitch ) * m_photoDist,
+                             -std::cos( m_photoYaw ) * c * m_photoDist );
     m_cam.m_forward = Vector3Normalize( relativeTo( poseLocal( p, 0.0f, 0.65f, 0.0f ), m_cam.m_pos ) );
     m_cam.m_up = Vector3{ 0, 1, 0 };
     m_cam.m_fovY = 50.0f;
@@ -657,16 +690,17 @@ void Game::takePhoto()
     std::string place = biomeDef( static_cast<BiomeE>( biome ) ).m_name;
     std::replace( place.begin(), place.end(), ' ', '_' );
     const std::string dir = configDirectory();
-    const std::string photo = dir + "/photos/" + place + "-" + std::to_string( static_cast<long long>( std::time( nullptr ) ) ) + ".png";
+    const std::string photo =
+        dir + "/photos/" + place + "-" + std::to_string( static_cast<long long>( std::time( nullptr ) ) ) + ".png";
     const std::string card = dir + "/postcards/" + std::to_string( biome ) + ".png";
     m_records.m_postcards.set( static_cast<size_t>( biome ) );
     const auto old = m_postcardTex.find( biome );
-    if( old != m_postcardTex.end() )
+    if ( old != m_postcardTex.end() )
     {
         UnloadTexture( old->second );
         m_postcardTex.erase( old );
     }
-    if( m_postcardJob.valid() ) m_postcardJob.wait();
+    if ( m_postcardJob.valid() ) m_postcardJob.wait();
     m_postcardJob = std::async( std::launch::async,
                                 [full, dir, photo, card]() mutable
                                 {
@@ -675,7 +709,8 @@ void Game::takePhoto()
                                     std::filesystem::create_directories( dir + "/postcards", ec );
                                     ExportImage( full, photo.c_str() );
                                     const int ch = std::min( full.height, full.width * 9 / 16 ), cw = ch * 16 / 9;
-                                    ImageCrop( &full, Rectangle{ static_cast<float>( full.width - cw ) * 0.5f, static_cast<float>( full.height - ch ) * 0.5f,
+                                    ImageCrop( &full, Rectangle{ static_cast<float>( full.width - cw ) * 0.5f,
+                                                                 static_cast<float>( full.height - ch ) * 0.5f,
                                                                  static_cast<float>( cw ), static_cast<float>( ch ) } );
                                     ImageResize( &full, 480, 270 );
                                     ExportImage( full, card.c_str() );
@@ -692,14 +727,16 @@ void Game::applyLivery()
     m_settings.m_rims = std::clamp( m_settings.m_rims, 0, RimCount - 1 );
     m_settings.m_decal = std::clamp( m_settings.m_decal, 0, DecalCount - 1 );
     m_settings.m_decalColor = std::clamp( m_settings.m_decalColor, 0, PaintCount - 1 );
-    m_models.buildLivery( Livery{ m_carIndex, m_paintIndex, m_settings.m_rims, m_settings.m_decal, m_settings.m_decalColor } );
+    m_models.buildLivery(
+        Livery{ m_carIndex, m_paintIndex, m_settings.m_rims, m_settings.m_decal, m_settings.m_decalColor } );
     const char *home = m_settings.m_homeCountry.empty() ? nullptr : m_settings.m_homeCountry.c_str();
-    m_models.buildPlayerPlate( home ? roadCustoms( home ).m_plate : PlateE::PLAIN, home ? plateCode( home ) : "", home ? m_settings.m_plateText : std::string() );
+    m_models.buildPlayerPlate( home ? roadCustoms( home ).m_plate : PlateE::PLAIN, home ? plateCode( home ) : "",
+                               home ? m_settings.m_plateText : std::string() );
 }
 
 void Game::earn( int64_t points )
 {
-    if( points <= 0 || m_demo ) return;
+    if ( points <= 0 || m_demo ) return;
     m_earned += points;
     m_records.m_points += points;
 }
@@ -714,12 +751,13 @@ void Game::takePostcard( BiomeE biome )
     Image             img = { rlReadScreenPixels( w, h ), w, h, 1, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 };
     const std::string dir = configDirectory() + "/postcards";
     const std::string file = dir + "/" + std::to_string( static_cast<int>( biome ) ) + ".png";
-    if( m_postcardJob.valid() ) m_postcardJob.wait();
+    if ( m_postcardJob.valid() ) m_postcardJob.wait();
     m_postcardJob = std::async( std::launch::async,
                                 [img, dir, file]() mutable
                                 {
                                     const int ch = std::min( img.height, img.width * 9 / 16 ), cw = ch * 16 / 9;
-                                    ImageCrop( &img, Rectangle{ static_cast<float>( img.width - cw ) * 0.5f, static_cast<float>( img.height - ch ) * 0.5f,
+                                    ImageCrop( &img, Rectangle{ static_cast<float>( img.width - cw ) * 0.5f,
+                                                                static_cast<float>( img.height - ch ) * 0.5f,
                                                                 static_cast<float>( cw ), static_cast<float>( ch ) } );
                                     ImageResize( &img, 480, 270 );
                                     std::error_code ec;
@@ -728,7 +766,7 @@ void Game::takePostcard( BiomeE biome )
                                     UnloadImage( img );
                                 } );
     const auto old = m_postcardTex.find( static_cast<int>( biome ) );
-    if( old != m_postcardTex.end() )
+    if ( old != m_postcardTex.end() )
     {
         UnloadTexture( old->second );
         m_postcardTex.erase( old );
@@ -738,11 +776,11 @@ void Game::takePostcard( BiomeE biome )
 
 void Game::unloadPostcards()
 {
-    for( auto &[biome, tex] : m_postcardTex ) UnloadTexture( tex );
+    for ( auto &[biome, tex] : m_postcardTex ) UnloadTexture( tex );
     m_postcardTex.clear();
-    for( auto &[name, tex] : m_albumTex ) UnloadTexture( tex );
+    for ( auto &[name, tex] : m_albumTex ) UnloadTexture( tex );
     m_albumTex.clear();
-    if( m_mapTex.id ) UnloadTexture( m_mapTex );
+    if ( m_mapTex.id ) UnloadTexture( m_mapTex );
     m_mapTex = Texture2D{};
     m_mapSeen = -1;
 }
@@ -751,7 +789,7 @@ void Game::takeAlbumPhoto()
 {
     const std::string name = landmarkName( m_albumWanted );
     m_albumWanted = -1;
-    if( name.empty() ) return;
+    if ( name.empty() ) return;
     m_records.m_album.push_back( name );
     // Read what the renderer drew (the HUD comes after); scale and save it on a worker, by the landmark's name.
     rlDrawRenderBatchActive();
@@ -759,12 +797,13 @@ void Game::takeAlbumPhoto()
     Image             img = { rlReadScreenPixels( w, h ), w, h, 1, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 };
     const std::string dir = configDirectory() + "/album";
     const std::string file = dir + "/" + name + ".png";
-    if( m_postcardJob.valid() ) m_postcardJob.wait();
+    if ( m_postcardJob.valid() ) m_postcardJob.wait();
     m_postcardJob = std::async( std::launch::async,
                                 [img, dir, file]() mutable
                                 {
                                     const int ch = std::min( img.height, img.width * 9 / 16 ), cw = ch * 16 / 9;
-                                    ImageCrop( &img, Rectangle{ static_cast<float>( img.width - cw ) * 0.5f, static_cast<float>( img.height - ch ) * 0.5f,
+                                    ImageCrop( &img, Rectangle{ static_cast<float>( img.width - cw ) * 0.5f,
+                                                                static_cast<float>( img.height - ch ) * 0.5f,
                                                                 static_cast<float>( cw ), static_cast<float>( ch ) } );
                                     ImageResize( &img, 480, 270 );
                                     std::error_code ec;
@@ -780,7 +819,7 @@ void Game::takeAlbumPhoto()
 void Game::startJourney( int index )
 {
     const auto &list = journeys();
-    if( index < 0 || index >= static_cast<int>( list.size() ) ) return;
+    if ( index < 0 || index >= static_cast<int>( list.size() ) ) return;
     m_rally = -1;
     TrackSetup s;
     s.m_seed = ( hash64( 0x70A9ull + static_cast<uint64_t>( index ) * 1013 ) & 0x1FFFFFFFull ) | 1ull;
@@ -803,12 +842,14 @@ SeasonClock Game::seasonClock() const
 
 void Game::fireworks( float dt )
 {
-    const double    s = m_car.m_s + 250.0;
-    const BiomeMix  mix = m_track->biomeMix( s );
-    const int       fest = festivalAt( mix.m_t < 0.5f ? mix.m_from : mix.m_to, seasonClock().dateAt( s ) );
-    if( fest < 0 || festivals()[static_cast<size_t>( fest )].m_fireworks.empty() || sceneEnvironment( s ).m_stars < 0.3f ) return;
+    const double   s = m_car.m_s + 250.0;
+    const BiomeMix mix = m_track->biomeMix( s );
+    const int      fest = festivalAt( mix.m_t < 0.5f ? mix.m_from : mix.m_to, seasonClock().dateAt( s ) );
+    if ( fest < 0 || festivals()[static_cast<size_t>( fest )].m_fireworks.empty() ||
+         sceneEnvironment( s ).m_stars < 0.3f )
+        return;
     m_fireworkIn -= dt;
-    if( m_fireworkIn > 0.0f ) return;
+    if ( m_fireworkIn > 0.0f ) return;
     Rng &r = m_particles.m_rng;
     m_fireworkIn = r.range( 0.4f, 1.8f );
     // A burst high over the land ahead, to one side or the other.
@@ -817,9 +858,10 @@ void Game::fireworks( float dt )
     const float side = r.chance( 0.5f ) ? 1.0f : -1.0f;
     Pose        at = roadPose( *m_track, m_car.m_s + r.range( 180.0f, 330.0f ), side * r.range( 40.0f, 160.0f ), 0.0f );
     at.m_pos.m_y += r.range( 55.0f, 110.0f );
-    for( int i = 0; i < 80; ++i )
+    for ( int i = 0; i < 80; ++i )
     {
-        const float a = r.range( 0.0f, Tau ), z = r.range( -1.0f, 1.0f ), q = std::sqrt( 1.0f - z * z ), v = r.range( 15.0f, 21.0f );
+        const float a = r.range( 0.0f, Tau ), z = r.range( -1.0f, 1.0f ), q = std::sqrt( 1.0f - z * z ),
+                    v = r.range( 15.0f, 21.0f );
         Particle    p;
         p.m_pos = at.m_pos;
         p.m_vel = Vector3{ std::cos( a ) * q * v, z * v, std::sin( a ) * q * v };
@@ -837,7 +879,7 @@ void Game::startCrossing( const Crossing &xc )
 {
     m_crossing = xc;
     m_records.m_seen.set( static_cast<size_t>( xc.m_sea ) );
-    if( m_demo )
+    if ( m_demo )
     {
         finishCrossing();
         return;
@@ -870,17 +912,17 @@ void Game::finishCrossing()
     m_sky.reset();
     m_delivered = 0;
     m_particles.clear();
-    for( Rival &r : m_race.m_rivals )
-        if( r.m_s < xc.m_land ) r.m_s += xc.m_land - xc.m_board;
+    for ( Rival &r : m_race.m_rivals )
+        if ( r.m_s < xc.m_land ) r.m_s += xc.m_land - xc.m_board;
     m_lastS = s;
-    while( m_nextCheckpoint <= s )
+    while ( m_nextCheckpoint <= s )
     {
         ++m_checkpoints;
         m_nextCheckpoint += CheckpointSpacing;
     }
     m_camInit = false;
     unloadCrossingScene();
-    if( !m_demo )
+    if ( !m_demo )
     {
         m_state = StateE::RACE;
         m_stateTime = 0.0f;
@@ -891,7 +933,7 @@ void Game::crossingStep( const MenuInput &mi )
 {
     // The far side is built while the vessel crosses.
     m_world.update( *m_track, m_crossing.m_land - 30.0, 2 );
-    if( m_stateTime >= CrossingTime || ( ( mi.m_accept || mi.m_back ) && m_stateTime > 1.0f ) ) finishCrossing();
+    if ( m_stateTime >= CrossingTime || ( ( mi.m_accept || mi.m_back ) && m_stateTime > 1.0f ) ) finishCrossing();
 }
 
 namespace
@@ -906,7 +948,7 @@ std::string runPath()
     return configDirectory() + "/run.txt";
 }
 
-} // namespace
+}   // namespace
 
 void Game::saveRun()
 {
@@ -914,10 +956,12 @@ void Game::saveRun()
     std::ofstream out( runPath() );
     out << "seed=" << m_setup.m_seed << "\n";
     out << "scenery=" << m_setup.m_params.m_biome << "\n";
-    out << "start=" << ( m_setup.m_startBiome >= 0 ? biomeKey( static_cast<BiomeE>( m_setup.m_startBiome ) ) : std::string() ) << "\n";
+    out << "start="
+        << ( m_setup.m_startBiome >= 0 ? biomeKey( static_cast<BiomeE>( m_setup.m_startBiome ) ) : std::string() )
+        << "\n";
     out << "choices=";
     const std::vector<int8_t> choices = m_track->tourChoices();
-    for( size_t i = 0; i < choices.size(); ++i ) out << ( i ? "," : "" ) << static_cast<int>( choices[i] );
+    for ( size_t i = 0; i < choices.size(); ++i ) out << ( i ? "," : "" ) << static_cast<int>( choices[i] );
     out << "\n";
     out << "s=" << m_car.m_s << "\n";
     out << "time=" << m_timeLeft << "\n";
@@ -941,19 +985,19 @@ void Game::saveRun()
 bool Game::resumeRun()
 {
     std::ifstream in( runPath() );
-    if( !in ) return false;
+    if ( !in ) return false;
     std::map<std::string, std::string> v;
     std::string                        line;
-    while( std::getline( in, line ) )
+    while ( std::getline( in, line ) )
     {
         const auto eq = line.find( '=' );
-        if( eq != std::string::npos ) v[line.substr( 0, eq )] = line.substr( eq + 1 );
+        if ( eq != std::string::npos ) v[line.substr( 0, eq )] = line.substr( eq + 1 );
     }
     in.close();
     std::error_code ec;
     std::filesystem::remove( runPath(), ec );
     m_savedPlace.clear();
-    if( v["seed"].empty() || v["s"].empty() ) return false;
+    if ( v["seed"].empty() || v["s"].empty() ) return false;
     TrackSetup s;
     s.m_seed = std::strtoull( v["seed"].c_str(), nullptr, 10 );
     s.m_params = endlessParams();
@@ -962,8 +1006,8 @@ bool Game::resumeRun()
     std::vector<int8_t> choices;
     std::stringstream   ss( v["choices"] );
     std::string         c;
-    while( std::getline( ss, c, ',' ) )
-        if( !c.empty() ) choices.push_back( static_cast<int8_t>( std::atoi( c.c_str() ) ) );
+    while ( std::getline( ss, c, ',' ) )
+        if ( !c.empty() ) choices.push_back( static_cast<int8_t>( std::atoi( c.c_str() ) ) );
     const double at = std::atof( v["s"].c_str() );
     m_demo = false;
     m_mode = ModeE::ENDLESS;
@@ -975,7 +1019,7 @@ bool Game::resumeRun()
     m_score = std::atof( v["score"].c_str() );
     m_startS = std::atof( v["starts"].c_str() );
     m_raceTime = static_cast<float>( std::atof( v["racetime"].c_str() ) );
-    if( !v["clock"].empty() ) m_clockStart = std::atof( v["clock"].c_str() );
+    if ( !v["clock"].empty() ) m_clockStart = std::atof( v["clock"].c_str() );
     m_overtakes = std::atoi( v["overtakes"].c_str() );
     m_nearMisses = std::atoi( v["nearmisses"].c_str() );
     m_topSpeed = static_cast<float>( std::atof( v["topspeed"].c_str() ) );
@@ -985,10 +1029,10 @@ bool Game::resumeRun()
 
 void Game::checkAchievements()
 {
-    if( m_demo ) return;
+    if ( m_demo ) return;
     const std::vector<size_t> now = earnAchievements( m_records );
-    for( size_t i : now ) popup( "ACHIEVEMENT", achievements()[i].m_title, Gold, 1.0f, 3.6f, true );
-    if( !now.empty() )
+    for ( size_t i : now ) popup( "ACHIEVEMENT", achievements()[i].m_title, Gold, 1.0f, 3.6f, true );
+    if ( !now.empty() )
     {
         m_audio.playOnBeat( SfxE::CHECKPOINT );
         saveRecords();
@@ -1001,8 +1045,9 @@ void Game::startTravel()
     s.m_seed = m_options.m_seed ? ( ( m_options.m_seed & 0x1FFFFFFFull ) | 1ull ) : randomSeed();
     s.m_params = endlessParams();
     s.m_params.m_biome = SceneryWorld;
-    if( !m_records.m_tourAt.empty() && biomeId( m_records.m_tourAt ) >= 0 ) s.m_startBiome = biomeId( m_records.m_tourAt );
-    if( m_options.m_startBiome >= 0 ) s.m_startBiome = m_options.m_startBiome;
+    if ( !m_records.m_tourAt.empty() && biomeId( m_records.m_tourAt ) >= 0 )
+        s.m_startBiome = biomeId( m_records.m_tourAt );
+    if ( m_options.m_startBiome >= 0 ) s.m_startBiome = m_options.m_startBiome;
     startTrack( s, ModeE::TRAVEL );
     popup( "TRAVEL", "NO CLOCK, JUST THE ROAD", Accent, 1.0f, 3.0f );
 }
@@ -1010,7 +1055,7 @@ void Game::startTravel()
 std::vector<std::string> Game::pauseItems() const
 {
     std::vector<std::string> items = { "RESUME", "RESTART", "PHOTO MODE", "NEXT SONG", "SETTINGS" };
-    if( m_mode == ModeE::ENDLESS && !m_demo && !m_timeUp && !m_finishedTrack ) items.push_back( "SAVE AND QUIT" );
+    if ( m_mode == ModeE::ENDLESS && !m_demo && !m_timeUp && !m_finishedTrack ) items.push_back( "SAVE AND QUIT" );
     items.push_back( "QUIT TO TITLE" );
     return items;
 }
@@ -1031,10 +1076,13 @@ void Game::resetSettings()
     setTextScale( 1.0f + 0.15f * static_cast<float>( m_settings.m_textSize ) );
     tuning() = applyDifficulty( m_tuningBase, m_settings.m_difficulty );
     m_audio.setVolumes( m_settings.m_musicVolume, m_settings.m_sfxVolume );
-    if( m_settings.m_vsync ) SetWindowState( FLAG_VSYNC_HINT );
-    else ClearWindowState( FLAG_VSYNC_HINT );
+    if ( m_settings.m_vsync )
+        SetWindowState( FLAG_VSYNC_HINT );
+    else
+        ClearWindowState( FLAG_VSYNC_HINT );
     SetTargetFPS( m_settings.m_fpsLimit ? m_settings.m_fpsLimit : ( m_settings.m_vsync ? 0 : 240 ) );
-    if( IsWindowState( FLAG_BORDERLESS_WINDOWED_MODE ) != ( m_settings.m_display == DisplayModeE::FULLSCREEN ) ) toggleFullscreen();
+    if ( IsWindowState( FLAG_BORDERLESS_WINDOWED_MODE ) != ( m_settings.m_display == DisplayModeE::FULLSCREEN ) )
+        toggleFullscreen();
     m_world.clear();
     m_world.m_seasons = seasonClock();
     settingsChanged();
@@ -1045,7 +1093,8 @@ void Game::eraseProgress()
     m_records = Records();
     saveRecords();
     std::error_code ec;
-    for( const char *dir : { "/postcards", "/album", "/photos", "/ghosts" } ) std::filesystem::remove_all( configDirectory() + dir, ec );
+    for ( const char *dir : { "/postcards", "/album", "/photos", "/ghosts" } )
+        std::filesystem::remove_all( configDirectory() + dir, ec );
     std::filesystem::remove( runPath(), ec );
     m_savedPlace.clear();
     unloadPostcards();
@@ -1067,9 +1116,11 @@ void Game::reloadGameData()
 {
     // Places are numbered anew: the records go by name through their file, the chosen places by their IDs.
     m_records.save( configDirectory() + "/records.txt" );
-    auto key = []( int id ) { return id >= 0 && id < biomeCount() ? biomeKey( static_cast<BiomeE>( id ) ) : std::string(); };
-    auto id = []( const std::string &k, int old ) { return k.empty() ? old : biomeId( k ); };
-    const std::string startKey = key( m_setup.m_startBiome ), optionKey = key( m_options.m_startBiome ), sceneryKey = key( m_setup.m_params.m_biome );
+    auto key = []( int id )
+    { return id >= 0 && id < biomeCount() ? biomeKey( static_cast<BiomeE>( id ) ) : std::string(); };
+    auto                      id = []( const std::string &k, int old ) { return k.empty() ? old : biomeId( k ); };
+    const std::string         startKey = key( m_setup.m_startBiome ), optionKey = key( m_options.m_startBiome ),
+                              sceneryKey = key( m_setup.m_params.m_biome );
     const std::vector<int8_t> choices = m_track ? m_track->tourChoices() : std::vector<int8_t>();
     m_world.clear();
     const std::string from = reloadData( GetApplicationDirectory() );
@@ -1083,12 +1134,15 @@ void Game::reloadGameData()
     m_options.m_startBiome = id( optionKey, m_options.m_startBiome );
     m_setup.m_params.m_biome = id( sceneryKey, m_setup.m_params.m_biome );
     const StateE state = m_state;
-    if( m_demo ) startDemo();
-    else setupTrack( m_seed, m_car.m_s, m_setup.m_params, &choices );
+    if ( m_demo )
+        startDemo();
+    else
+        setupTrack( m_seed, m_car.m_s, m_setup.m_params, &choices );
     m_state = state;
     m_viewerBuilt = -1;
-    popup( "DATA RELOADED", format( "%d PLACES   %d SHAPES   %d ERRORS   %s", biomeCount(), static_cast<int>( dataShapes().size() ), errors,
-                                    from.empty() ? "BUILT IN" : "FROM FILES" ),
+    popup( "DATA RELOADED",
+           format( "%d PLACES   %d SHAPES   %d ERRORS   %s", biomeCount(), static_cast<int>( dataShapes().size() ),
+                   errors, from.empty() ? "BUILT IN" : "FROM FILES" ),
            errors ? Red : Green, 0.7f, 3.5f, true );
 }
 
@@ -1097,13 +1151,17 @@ void Game::setupTrack( uint64_t seed, double startS, const TrackParams &params, 
     m_seed = seed;
     m_world.clear();
     m_world.m_seasons = seasonClock();
-    m_track = std::make_unique<Track>( seed, params, m_setup.m_startBiome >= 0 ? m_setup.m_startBiome : m_options.m_startBiome );
-    if( choices ) m_track->setTourChoices( *choices );
+    m_track = std::make_unique<Track>( seed, params,
+                                       m_setup.m_startBiome >= 0 ? m_setup.m_startBiome : m_options.m_startBiome );
+    if ( choices ) m_track->setTourChoices( *choices );
     m_track->generateTo( startS + ViewDistance + 600.0 );
     const Segment &seg = m_track->segment( static_cast<long>( startS / SegmentLength ) );
     // Start in the slow lane's neighbour: right of the middle, or left of it where they drive on the left.
-    const bool keepLeft = countryInfo( biomeDef( m_track->stageBiome( static_cast<int>( startS / StageLength ) ) ).m_country ).m_left;
-    m_car.reset( carSpec( m_carIndex ), startS, laneCenter( keepLeft ? ( seg.m_lanes - 1 ) / 2 : seg.m_lanes / 2, seg.m_lanes, seg.m_halfWidth ), *m_track );
+    const bool keepLeft =
+        countryInfo( biomeDef( m_track->stageBiome( static_cast<int>( startS / StageLength ) ) ).m_country ).m_left;
+    m_car.reset( carSpec( m_carIndex ), startS,
+                 laneCenter( keepLeft ? ( seg.m_lanes - 1 ) / 2 : seg.m_lanes / 2, seg.m_lanes, seg.m_halfWidth ),
+                 *m_track );
     m_traffic.reset( seed, startS );
     m_traffic.m_density = params.m_traffic < 0 ? 1.0f : static_cast<float>( params.m_traffic ) / 4.5f;
     m_police.reset();
@@ -1126,7 +1184,7 @@ TrackParams Game::endlessParams() const
 {
     TrackParams p;
     p.m_biome = m_settings.m_scenery ? SceneryMixed : SceneryWorld;
-    if( m_options.m_scenery >= SceneryWorld && m_options.m_scenery < biomeCount() ) p.m_biome = m_options.m_scenery;
+    if ( m_options.m_scenery >= SceneryWorld && m_options.m_scenery < biomeCount() ) p.m_biome = m_options.m_scenery;
     return p;
 }
 
@@ -1155,81 +1213,81 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
     m_setup = setup;
     m_code = encodeTrack( setup );
     TrackParams params = setup.m_params;
-    if( setup.m_race )
+    if ( setup.m_race )
     {
         params.m_startLine = 100.0;
-        if( params.m_traffic < 0 ) params.m_traffic = 0;
-        if( params.m_length <= 0.0 ) params.m_length = 10000.0;
+        if ( params.m_traffic < 0 ) params.m_traffic = 0;
+        if ( params.m_length <= 0.0 ) params.m_length = 10000.0;
         m_setup.m_params = params;
     }
     double startS = params.m_startLine - 9.0;
-    if( m_options.m_startDistance > 0.0f )
+    if ( m_options.m_startDistance > 0.0f )
     {
         startS = m_options.m_startDistance;
         m_options.m_startDistance = 0.0f;
     }
-    if( m_options.m_find == 5 )
+    if ( m_options.m_find == 5 )
     {
         // Testing: start before the first fork of the world tour.
         Track probe( setup.m_seed, params, m_options.m_startBiome );
-        for( int st = 0; st < 40; ++st )
-            if( probe.fork( st ).m_exists )
+        for ( int st = 0; st < 40; ++st )
+            if ( probe.fork( st ).m_exists )
             {
                 startS = probe.fork( st ).m_at - 700.0;
                 break;
             }
         m_options.m_find = 0;
     }
-    if( m_options.m_find == 18 )
+    if ( m_options.m_find == 18 )
     {
         // Testing: start before the first runway of a landing plane.
         Track  probe( setup.m_seed, params, m_options.m_startBiome );
         double cross = 0.0;
         float  side = 0.0f;
-        for( int st = 0; st < 60; ++st )
-            if( stageRunway( probe, st, cross, side ) )
+        for ( int st = 0; st < 60; ++st )
+            if ( stageRunway( probe, st, cross, side ) )
             {
                 startS = std::max( startS, cross - RunwayAhead - 20.0 );
                 break;
             }
         m_options.m_find = 0;
     }
-    if( m_options.m_find == 14 )
+    if ( m_options.m_find == 14 )
     {
         // Testing: start a little before the first spectacle.
         Track  probe( setup.m_seed, params, m_options.m_startBiome );
         SkyE   kind = SkyE::COUNT;
         double at = 0.0;
-        for( int st = 0; st < 40; ++st )
-            if( stageSpectacle( probe, st, kind, at ) )
+        for ( int st = 0; st < 40; ++st )
+            if ( stageSpectacle( probe, st, kind, at ) )
             {
                 startS = std::max( startS, at - 300.0 );
                 break;
             }
         m_options.m_find = 0;
     }
-    if( m_options.m_find == 13 )
+    if ( m_options.m_find == 13 )
     {
         // Testing: start a little before the first train race.
         Track        probe( setup.m_seed, params, m_options.m_startBiome );
         TrainStretch t;
-        for( int st = 0; st < 40; ++st )
-            if( stageTrain( probe, st, t ) )
+        for ( int st = 0; st < 40; ++st )
+            if ( stageTrain( probe, st, t ) )
             {
                 startS = t.m_from - 400.0;
                 break;
             }
         m_options.m_find = 0;
     }
-    if( m_options.m_find == 12 )
+    if ( m_options.m_find == 12 )
     {
         // Testing: start a little before the first local hero's checkpoint.
         Track  probe( setup.m_seed, params, m_options.m_startBiome );
         double cp = 0.0;
-        for( int st = 0; st < 40; ++st )
+        for ( int st = 0; st < 40; ++st )
         {
             probe.generateTo( static_cast<double>( st + 1 ) * StageLength + 3000.0 );
-            if( stageHero( probe, st, cp ) )
+            if ( stageHero( probe, st, cp ) )
             {
                 startS = cp - 650.0;
                 break;
@@ -1237,16 +1295,16 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
         }
         m_options.m_find = 0;
     }
-    if( m_options.m_find == 11 )
+    if ( m_options.m_find == 11 )
     {
         // Testing: start a little before the first hitchhiker.
-        Track probe( setup.m_seed, params, m_options.m_startBiome );
+        Track  probe( setup.m_seed, params, m_options.m_startBiome );
         double spot = 0.0;
         float  side = 0.0f;
-        for( int st = 0; st < 40; ++st )
+        for ( int st = 0; st < 40; ++st )
         {
             probe.generateTo( static_cast<double>( st + 1 ) * StageLength + 200.0 );
-            if( stageHitchhiker( probe, st, spot, side ) )
+            if ( stageHitchhiker( probe, st, spot, side ) )
             {
                 startS = spot - 170.0;
                 break;
@@ -1254,49 +1312,60 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
         }
         m_options.m_find = 0;
     }
-    if( m_options.m_find >= 6 && m_options.m_find <= 9 )
+    if ( m_options.m_find >= 6 && m_options.m_find <= 9 )
     {
         // Testing: start before the first undersea tunnel's portal, inside it, or before its far portal; or before the
         // first ferry.
         Track probe( setup.m_seed, params, m_options.m_startBiome );
-        for( int st = 1; st < 400; ++st )
-            if( m_options.m_find == 9 ? biomeDef( probe.stageBiome( st ) ).m_crossing == CrossingE::FERRY : biomeDef( probe.stageBiome( st ) ).m_underwater )
+        for ( int st = 1; st < 400; ++st )
+            if ( m_options.m_find == 9 ? biomeDef( probe.stageBiome( st ) ).m_crossing == CrossingE::FERRY
+                                       : biomeDef( probe.stageBiome( st ) ).m_underwater )
             {
                 const double portal = static_cast<double>( st ) * StageLength;
-                startS = m_options.m_find == 6 || m_options.m_find == 9 ? portal - 800.0 : m_options.m_find == 7 ? portal + 300.0 : portal + StageLength - 260.0;
+                startS = m_options.m_find == 6 || m_options.m_find == 9 ? portal - 800.0
+                         : m_options.m_find == 7                        ? portal + 300.0
+                                                                        : portal + StageLength - 260.0;
                 break;
             }
         m_options.m_find = 0;
     }
-    if( m_options.m_find == 3 || m_options.m_find == 4 )
+    if ( m_options.m_find == 3 || m_options.m_find == 4 )
     {
         // Testing: start shortly before the first stage's first (or second) landmark.
         Track           probe( setup.m_seed, params, m_options.m_startBiome );
         const BiomeDef &def = biomeDef( probe.stageBiome( 0 ) );
         int             skip = m_options.m_find - 3;
-        for( size_t r = 0; r < def.m_props.size(); ++r )
-            if( def.m_props[r].m_perStage > 0 && skip-- == 0 )
+        for ( size_t r = 0; r < def.m_props.size(); ++r )
+            if ( def.m_props[r].m_perStage > 0 && skip-- == 0 )
             {
                 bool       right = false;
                 const long local = landmarkSpot( setup.m_seed, r, 0, 0, right );
-                startS = std::max( params.m_startLine - 9.0, static_cast<double>( local ) * SegmentLength - 260.0 - def.m_props[r].m_farthest );
+                startS = std::max( params.m_startLine - 9.0,
+                                   static_cast<double>( local ) * SegmentLength - 260.0 - def.m_props[r].m_farthest );
                 break;
             }
         m_options.m_find = 0;
     }
-    if( m_options.m_find != 0 )
+    if ( m_options.m_find != 0 )
     {
         // Testing: start shortly before the first tunnel, bridge, crest or pass summit.
         Track          probe( setup.m_seed, params, m_options.m_startBiome );
-        const uint16_t want = m_options.m_find == 1 ? SEG_TUNNEL : m_options.m_find == 10 ? SEG_JUMP : m_options.m_find == 15 ? SEG_SUMMIT : SEG_BRIDGE;
+        const uint16_t want = m_options.m_find == 1    ? SEG_TUNNEL
+                              : m_options.m_find == 10 ? SEG_JUMP
+                              : m_options.m_find == 15 ? SEG_SUMMIT
+                                                       : SEG_BRIDGE;
         const float    steep = m_options.m_find == 16 ? 0.1f : -1.0f;   // a humped bridge
-        for( double s = 0.0; s < 60000.0; s += 1000.0 )
+        for ( double s = 0.0; s < 60000.0; s += 1000.0 )
         {
             probe.generateTo( s + 1000.0 );
-            for( long i = static_cast<long>( s / SegmentLength ); i < static_cast<long>( ( s + 1000.0 ) / SegmentLength ); ++i )
-                if( m_options.m_find == 17 ? probe.segment( i ).m_gallery != 0 : ( probe.segment( i ).m_flags & want ) && probe.segment( i ).m_grade > steep )
+            for ( long i = static_cast<long>( s / SegmentLength );
+                  i < static_cast<long>( ( s + 1000.0 ) / SegmentLength ); ++i )
+                if ( m_options.m_find == 17
+                         ? probe.segment( i ).m_gallery != 0
+                         : ( probe.segment( i ).m_flags & want ) && probe.segment( i ).m_grade > steep )
                 {
-                    startS = std::max( params.m_startLine - 9.0, static_cast<double>( i ) * SegmentLength - ( want == SEG_JUMP ? 30.0 : 160.0 ) );
+                    startS = std::max( params.m_startLine - 9.0,
+                                       static_cast<double>( i ) * SegmentLength - ( want == SEG_JUMP ? 30.0 : 160.0 ) );
                     s = 1e9;
                     break;
                 }
@@ -1305,13 +1374,13 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
         m_options.m_find = 0;
     }
     setupTrack( setup.m_seed, startS, params );
-    if( setup.m_race )
+    if ( setup.m_race )
     {
         m_race.newChampionship( setup.m_seed );
         m_race.grid( *m_track, m_car, tuning().m_rivals );
     }
     beginCountdown();
-    if( setup.m_race )
+    if ( setup.m_race )
         popup( "RACE", placeName( m_track->stageBiome( 0 ) ), Accent, 1.0f, 3.0f );
     else
         popup( format( "STAGE %d", m_stage + 1 ), placeName( m_track->stageBiome( m_stage ) ), Accent, 1.0f, 3.0f );
@@ -1337,13 +1406,16 @@ void Game::startRound( int round )
     setupTrack( setup.m_seed, setup.m_params.m_startLine - 9.0, setup.m_params );
     m_race.grid( *m_track, m_car, tuning().m_rivals );
     beginCountdown();
-    popup( format( "RACE %d OF %d", round + 1, RoundCount ), placeName( m_track->stageBiome( 0 ) ), Accent, 1.0f, 3.0f );
+    popup( format( "RACE %d OF %d", round + 1, RoundCount ), placeName( m_track->stageBiome( 0 ) ), Accent, 1.0f,
+           3.0f );
 }
 
 void Game::restart()
 {
-    if( m_mode == ModeE::CHAMPIONSHIP ) startRound( m_race.m_round );
-    else startTrack( m_setup, m_mode );
+    if ( m_mode == ModeE::CHAMPIONSHIP )
+        startRound( m_race.m_round );
+    else
+        startTrack( m_setup, m_mode );
 }
 
 void Game::beginCountdown()
@@ -1385,9 +1457,10 @@ void Game::beginCountdown()
     m_newRecord = false;
     // The tour clock: the morning, give or take, wherever the run starts.
     GeoPoint where;
-    m_clockStart = placeLocation( m_track->biomeMix( m_car.m_s ).m_from, where )
-                       ? 7.5 + static_cast<double>( hash64( m_seed + 3 ) % 40 ) * 0.1 - static_cast<double>( where.m_lon ) / 15.0
-                       : 9.0;
+    m_clockStart =
+        placeLocation( m_track->biomeMix( m_car.m_s ).m_from, where )
+            ? 7.5 + static_cast<double>( hash64( m_seed + 3 ) % 40 ) * 0.1 - static_cast<double>( where.m_lon ) / 15.0
+            : 9.0;
     m_hour = -1.0f;
     m_state = StateE::COUNTDOWN;
     m_stateTime = 0.0f;
@@ -1400,9 +1473,10 @@ void Game::popup( const std::string &text, const std::string &sub, Color color, 
     // The middle shows at most two messages, the ticker four: the oldest of the same kind makes room.
     const size_t most = minor ? 4 : 2;
     size_t       same = 0;
-    for( const Popup &q : m_popups ) same += q.m_minor == minor ? 1 : 0;
-    if( same >= most )
-        m_popups.erase( std::find_if( m_popups.begin(), m_popups.end(), [&]( const Popup &q ) { return q.m_minor == minor; } ) );
+    for ( const Popup &q : m_popups ) same += q.m_minor == minor ? 1 : 0;
+    if ( same >= most )
+        m_popups.erase(
+            std::find_if( m_popups.begin(), m_popups.end(), [&]( const Popup &q ) { return q.m_minor == minor; } ) );
     Popup p;
     p.m_minor = minor;
     p.m_text = text;
@@ -1416,15 +1490,16 @@ void Game::popup( const std::string &text, const std::string &sub, Color color, 
 void Game::toggleFullscreen()
 {
     ToggleBorderlessWindowed();
-    m_settings.m_display = IsWindowState( FLAG_BORDERLESS_WINDOWED_MODE ) ? DisplayModeE::FULLSCREEN : DisplayModeE::WINDOWED;
+    m_settings.m_display =
+        IsWindowState( FLAG_BORDERLESS_WINDOWED_MODE ) ? DisplayModeE::FULLSCREEN : DisplayModeE::WINDOWED;
     settingsChanged();
 }
 
 int Game::wantedStation() const
 {
-    if( m_settings.m_station >= StationCount ) return m_audio.hasFileMusic() ? StationCount : 0;
-    if( m_settings.m_station >= 0 ) return m_settings.m_station;
-    if( !m_track ) return 0;
+    if ( m_settings.m_station >= StationCount ) return m_audio.hasFileMusic() ? StationCount : 0;
+    if ( m_settings.m_station >= 0 ) return m_settings.m_station;
+    if ( !m_track ) return 0;
     return biomeDef( m_track->stageBiome( static_cast<int>( m_car.m_s / StageLength ) ) ).m_station;
 }
 
@@ -1434,13 +1509,14 @@ void Game::playMusic( uint64_t seed, int station )
     m_playingStation = station;
     m_trackSeed = seed;
     m_nowTimer = 0.0f;
-    m_nowPlaying = station >= StationCount ? std::string( "MY MUSIC" ) : std::string( stationName( station ) ) + "  -  " + trackTitle( seed );
+    m_nowPlaying = station >= StationCount ? std::string( "MY MUSIC" )
+                                           : std::string( stationName( station ) ) + "  -  " + trackTitle( seed );
 }
 
 std::string Game::radioName() const
 {
-    if( m_settings.m_station < 0 ) return "AUTO";
-    if( m_settings.m_station >= StationCount ) return "MY MUSIC";
+    if ( m_settings.m_station < 0 ) return "AUTO";
+    if ( m_settings.m_station >= StationCount ) return "MY MUSIC";
     return stationName( m_settings.m_station );
 }
 
@@ -1460,51 +1536,55 @@ void Game::settingsChanged()
 
 void Game::progress( double ds )
 {
-    if( ds <= 0.0 || ds > 500.0 ) return;
+    if ( ds <= 0.0 || ds > 500.0 ) return;
     bool cars[CarCount], paints[PaintCount];
-    for( int i = 0; i < CarCount; ++i ) cars[i] = m_records.carUnlocked( i );
-    for( int i = 0; i < PaintCount; ++i ) paints[i] = m_records.paintUnlocked( i );
+    for ( int i = 0; i < CarCount; ++i ) cars[i] = m_records.carUnlocked( i );
+    for ( int i = 0; i < PaintCount; ++i ) paints[i] = m_records.paintUnlocked( i );
     m_records.m_totalKm += ds / 1000.0;
     const BiomeMix mix = m_track->biomeMix( m_car.m_s );
     const BiomeE   here = mix.m_t < 0.5f ? mix.m_from : mix.m_to;
     const size_t   bit = static_cast<size_t>( here );
     // The album: a photo of each landmark, the first time it comes into view ahead.
-    if( !m_demo && m_albumWanted < 0 )
+    if ( !m_demo && m_albumWanted < 0 )
     {
         const int       stage = static_cast<int>( m_car.m_s / StageLength );
         const BiomeDef &def = biomeDef( m_track->stageBiome( stage ) );
         const long      stageSegs = static_cast<long>( StageLength / SegmentLength );
-        for( size_t r = 0; r < def.m_props.size() && m_albumWanted < 0; ++r )
+        for ( size_t r = 0; r < def.m_props.size() && m_albumWanted < 0; ++r )
         {
             const PropRule &pr = def.m_props[r];
-            if( pr.m_kind != PropKindE::LANDMARK || pr.m_perStage <= 0 || pr.m_variant < 0 ) continue;
+            if ( pr.m_kind != PropKindE::LANDMARK || pr.m_perStage <= 0 || pr.m_variant < 0 ) continue;
             const std::string name = landmarkName( pr.m_variant );
-            if( name.empty() || std::find( m_records.m_album.begin(), m_records.m_album.end(), name ) != m_records.m_album.end() ) continue;
-            for( int k = 0; k < pr.m_perStage; ++k )
+            if ( name.empty() ||
+                 std::find( m_records.m_album.begin(), m_records.m_album.end(), name ) != m_records.m_album.end() )
+                continue;
+            for ( int k = 0; k < pr.m_perStage; ++k )
             {
                 bool         right = false;
                 const long   local = landmarkSpot( m_track->seed(), r, k, stage, right );
-                const double ahead = static_cast<double>( static_cast<long>( stage ) * stageSegs + local ) * SegmentLength - m_car.m_s;
+                const double ahead =
+                    static_cast<double>( static_cast<long>( stage ) * stageSegs + local ) * SegmentLength - m_car.m_s;
                 // In view a little to the side: about as far ahead as twice its distance from the road.
                 const double aside = 0.5 * ( pr.m_nearest + pr.m_farthest );
-                if( ahead > 1.6 * aside + 30.0 && ahead < 2.6 * aside + 90.0 ) m_albumWanted = pr.m_variant;
+                if ( ahead > 1.6 * aside + 30.0 && ahead < 2.6 * aside + 90.0 ) m_albumWanted = pr.m_variant;
             }
         }
     }
     // The travel journal: the world tour's places as they are reached, and where the endless tour stands.
     GeoPoint where;
-    if( !m_demo && m_setup.m_params.m_biome == SceneryWorld && ( m_mode == ModeE::ENDLESS || m_mode == ModeE::DAILY || m_mode == ModeE::TRAVEL ) &&
-        placeLocation( here, where ) )
+    if ( !m_demo && m_setup.m_params.m_biome == SceneryWorld &&
+         ( m_mode == ModeE::ENDLESS || m_mode == ModeE::DAILY || m_mode == ModeE::TRAVEL ) &&
+         placeLocation( here, where ) )
     {
         const std::string &key = biomeKey( here );
-        if( !key.empty() && ( m_records.m_journey.empty() || m_records.m_journey.back() != key ) )
+        if ( !key.empty() && ( m_records.m_journey.empty() || m_records.m_journey.back() != key ) )
         {
             m_records.m_journey.push_back( key );
-            if( m_records.m_journey.size() > 4000 ) m_records.m_journey.erase( m_records.m_journey.begin() );
+            if ( m_records.m_journey.size() > 4000 ) m_records.m_journey.erase( m_records.m_journey.begin() );
         }
-        if( ( m_mode == ModeE::ENDLESS || m_mode == ModeE::TRAVEL ) && !key.empty() ) m_records.m_tourAt = key;
+        if ( ( m_mode == ModeE::ENDLESS || m_mode == ModeE::TRAVEL ) && !key.empty() ) m_records.m_tourAt = key;
     }
-    if( !m_records.m_seen.test( bit ) )
+    if ( !m_records.m_seen.test( bit ) )
     {
         // A new place: points, and a stamp for a new country.
         const int  countries = m_records.countriesSeen();
@@ -1512,38 +1592,42 @@ void Game::progress( double ds )
         const bool globe = m_records.decalUnlocked( DecalCount - 1 );
         m_records.m_seen.set( bit );
         earn( 2000 );
-        if( m_records.countriesSeen() > countries )
+        if ( m_records.countriesSeen() > countries )
         {
             earn( 5000 );
             const char *country = biomeDef( here ).m_country;
             popup( "NEW STAMP", country ? country : "", Gold, 0.8f, 3.0f, true );
         }
-        if( !round && m_records.circumnavigated() ) popup( "ROUND THE WORLD", "NEW PAINT  GLOBETROTTER", Gold, 1.2f, 4.5f, true );
-        if( !globe && m_records.decalUnlocked( DecalCount - 1 ) ) popup( "NEW DECAL", "GLOBE", Gold, 0.9f, 3.0f, true );
+        if ( !round && m_records.circumnavigated() )
+            popup( "ROUND THE WORLD", "NEW PAINT  GLOBETROTTER", Gold, 1.2f, 4.5f, true );
+        if ( !globe && m_records.decalUnlocked( DecalCount - 1 ) )
+            popup( "NEW DECAL", "GLOBE", Gold, 0.9f, 3.0f, true );
         checkAchievements();
     }
-    if( !m_records.m_postcards.test( bit ) && m_postcardWanted != static_cast<int>( here ) && mix.m_from == mix.m_to )
+    if ( !m_records.m_postcards.test( bit ) && m_postcardWanted != static_cast<int>( here ) && mix.m_from == mix.m_to )
     {
         // A postcard of a new place: in sight of its landmark, or a stretch into its stage.
         const long      stage = static_cast<long>( m_car.m_s / StageLength );
         const BiomeDef &def = biomeDef( here );
         double          at = static_cast<double>( stage ) * StageLength + 1400.0;
-        for( size_t r = 0; r < def.m_props.size(); ++r )
-            if( def.m_props[r].m_perStage > 0 )
+        for ( size_t r = 0; r < def.m_props.size(); ++r )
+            if ( def.m_props[r].m_perStage > 0 )
             {
-                bool          right = false;
+                bool            right = false;
                 const PropRule &pr = def.m_props[r];
-                const double  spot = ( static_cast<double>( stage ) * ( StageLength / SegmentLength ) + landmarkSpot( m_seed, r, 0, stage, right ) ) * SegmentLength;
+                const double    spot = ( static_cast<double>( stage ) * ( StageLength / SegmentLength ) +
+                                         landmarkSpot( m_seed, r, 0, stage, right ) ) *
+                                       SegmentLength;
                 at = spot - ( ( pr.m_nearest + pr.m_farthest ) * 0.75 + 40.0 );
                 break;
             }
         m_postcardWanted = static_cast<int>( here );
         m_postcardAt = std::max( at, m_car.m_s + 60.0 );
     }
-    for( int i = 0; i < CarCount; ++i )
-        if( !cars[i] && m_records.carUnlocked( i ) ) popup( "NEW CAR", carSpec( i ).m_name, Gold, 0.9f, 3.0f, true );
-    for( int i = 0; i < PaintCount; ++i )
-        if( !paints[i] && m_records.paintUnlocked( i ) ) popup( "NEW PAINT", paintName( i ), Gold, 0.8f, 3.0f, true );
+    for ( int i = 0; i < CarCount; ++i )
+        if ( !cars[i] && m_records.carUnlocked( i ) ) popup( "NEW CAR", carSpec( i ).m_name, Gold, 0.9f, 3.0f, true );
+    for ( int i = 0; i < PaintCount; ++i )
+        if ( !paints[i] && m_records.paintUnlocked( i ) ) popup( "NEW PAINT", paintName( i ), Gold, 0.8f, 3.0f, true );
 }
 
 void Game::frame( float dt )
@@ -1553,16 +1637,17 @@ void Game::frame( float dt )
     m_time += dt;
     m_stateTime += dt;
     m_input.update();
-    if( m_options.m_lookBack ) m_input.m_lookBack = true;
-    if( m_input.m_fullscreen ) toggleFullscreen();
-    if( m_input.m_stats ) m_showStats = !m_showStats;
-    const bool busy = m_state == StateE::REPLAY || m_state == StateE::PHOTO || m_state == StateE::INITIALS || m_state == StateE::CODE_ENTRY;
-    if( m_input.m_reload && !busy ) reloadGameData();
-    if( m_input.m_viewer && !busy ) m_state == StateE::VIEWER ? closeViewer() : openViewer();
+    if ( m_options.m_lookBack ) m_input.m_lookBack = true;
+    if ( m_input.m_fullscreen ) toggleFullscreen();
+    if ( m_input.m_stats ) m_showStats = !m_showStats;
+    const bool busy = m_state == StateE::REPLAY || m_state == StateE::PHOTO || m_state == StateE::INITIALS ||
+                      m_state == StateE::CODE_ENTRY;
+    if ( m_input.m_reload && !busy ) reloadGameData();
+    if ( m_input.m_viewer && !busy ) m_state == StateE::VIEWER ? closeViewer() : openViewer();
     m_frameMsPeak = std::max( dt * 1000.0f, m_frameMsPeak * 0.995f );
     const MenuInput mi = m_input.menu();
 
-    switch( m_state )
+    switch ( m_state )
     {
     case StateE::TITLE:
     case StateE::LAB:
@@ -1574,19 +1659,21 @@ void Game::frame( float dt )
     {
         const StateE before = m_state;
         menus( mi );
-        if( m_state == before || m_state == StateE::SETTINGS || m_state == StateE::LAB || m_state == StateE::TITLE ||
-            m_state == StateE::RECORDS || m_state == StateE::CODE_ENTRY || m_state == StateE::GARAGE || m_state == StateE::PASSPORT ||
-            m_state == StateE::RALLIES )
-            if( m_demo ) simulate( dt, true );
+        if ( m_state == before || m_state == StateE::SETTINGS || m_state == StateE::LAB || m_state == StateE::TITLE ||
+             m_state == StateE::RECORDS || m_state == StateE::CODE_ENTRY || m_state == StateE::GARAGE ||
+             m_state == StateE::PASSPORT || m_state == StateE::RALLIES )
+            if ( m_demo ) simulate( dt, true );
         break;
     }
     case StateE::REPLAY:
-        if( ( mi.m_accept || mi.m_back ) && m_stateTime > 0.5f ) endReplay();
-        else replayStep( dt );
+        if ( ( mi.m_accept || mi.m_back ) && m_stateTime > 0.5f )
+            endReplay();
+        else
+            replayStep( dt );
         break;
     case StateE::PHOTO:
-        if( mi.m_accept ) m_photoWanted = true;
-        if( mi.m_back || m_input.m_pause )
+        if ( mi.m_accept ) m_photoWanted = true;
+        if ( mi.m_back || m_input.m_pause )
         {
             m_state = StateE::PAUSED;
             m_menuIndex = 2;
@@ -1596,13 +1683,13 @@ void Game::frame( float dt )
         break;
     case StateE::SETTINGS:
         menus( mi );
-        if( m_demo ) simulate( dt, true );
+        if ( m_demo ) simulate( dt, true );
         break;
     case StateE::VIEWER: viewerStep( mi, dt ); break;
     case StateE::CROSSING: crossingStep( mi ); break;
     case StateE::COUNTDOWN:
     {
-        if( m_input.m_pause )
+        if ( m_input.m_pause )
         {
             m_pauseReturn = StateE::COUNTDOWN;
             m_state = StateE::PAUSED;
@@ -1610,12 +1697,12 @@ void Game::frame( float dt )
             break;
         }
         const int n = 3 - static_cast<int>( m_stateTime );
-        if( n != m_lastCount && n >= 1 && n <= 3 )
+        if ( n != m_lastCount && n >= 1 && n <= 3 )
         {
             m_lastCount = n;
             m_audio.play( SfxE::BEEP );
         }
-        if( m_stateTime >= 3.0f )
+        if ( m_stateTime >= 3.0f )
         {
             m_state = StateE::RACE;
             m_stateTime = 0.0f;
@@ -1627,7 +1714,7 @@ void Game::frame( float dt )
         break;
     }
     case StateE::RACE:
-        if( m_input.m_pause )
+        if ( m_input.m_pause )
         {
             m_pauseReturn = StateE::RACE;
             m_state = StateE::PAUSED;
@@ -1636,20 +1723,20 @@ void Game::frame( float dt )
             break;
         }
         simulate( dt, m_options.m_autopilot || m_finished || m_finishedTrack );
-        if( !m_options.m_action.empty() && m_raceTime >= m_options.m_actionAt )
+        if ( !m_options.m_action.empty() && m_raceTime >= m_options.m_actionAt )
         {
             // Testing: the replay or the photo mode, without a key.
-            if( m_options.m_action == "replay" ) startReplay( StateE::GAMEOVER );
-            if( m_options.m_action == "photo" ) m_state = StateE::PHOTO;
-            if( m_options.m_action == "reload" ) reloadGameData();
-            if( m_options.m_action == "save" ) saveRun();
-            if( m_options.m_action == "siren" ) m_traffic.sirenNow();
+            if ( m_options.m_action == "replay" ) startReplay( StateE::GAMEOVER );
+            if ( m_options.m_action == "photo" ) m_state = StateE::PHOTO;
+            if ( m_options.m_action == "reload" ) reloadGameData();
+            if ( m_options.m_action == "save" ) saveRun();
+            if ( m_options.m_action == "siren" ) m_traffic.sirenNow();
             m_options.m_action.clear();
             break;
         }
-        if( m_setup.m_race )
+        if ( m_setup.m_race )
         {
-            if( m_finished && m_finishedFor > 2.5f )
+            if ( m_finished && m_finishedFor > 2.5f )
             {
                 m_state = StateE::RESULTS;
                 m_stateTime = 0.0f;
@@ -1657,7 +1744,8 @@ void Game::frame( float dt )
                 m_resultPage = 0;
             }
         }
-        else if( ( m_timeUp && ( m_car.m_speed < 0.5f || m_timeUpFor > 5.0f ) ) || ( m_finishedTrack && m_finishedFor > 2.5f ) )
+        else if ( ( m_timeUp && ( m_car.m_speed < 0.5f || m_timeUpFor > 5.0f ) ) ||
+                  ( m_finishedTrack && m_finishedFor > 2.5f ) )
         {
             endTimeAttack();
         }
@@ -1669,20 +1757,20 @@ void Game::frame( float dt )
     {
         const StateE before = m_state;
         menus( mi );
-        if( m_state == before ) simulate( dt, true );
+        if ( m_state == before ) simulate( dt, true );
         break;
     }
     }
-    if( m_input.m_nextStation ) nextStation();
-    if( m_input.m_nextTrack && m_state != StateE::CODE_ENTRY && m_state != StateE::INITIALS )
+    if ( m_input.m_nextStation ) nextStation();
+    if ( m_input.m_nextTrack && m_state != StateE::CODE_ENTRY && m_state != StateE::INITIALS )
         playMusic( hash64( m_trackSeed + 31 ), m_playingStation );
     m_nowTimer += dt;
-    if( m_input.m_camera && ( m_state == StateE::RACE || m_state == StateE::COUNTDOWN ) )
+    if ( m_input.m_camera && ( m_state == StateE::RACE || m_state == StateE::COUNTDOWN ) )
     {
         m_settings.m_camera = ( m_settings.m_camera + 1 ) % 4;
         settingsChanged();
     }
-    for( Popup &p : m_popups ) p.m_age += dt;
+    for ( Popup &p : m_popups ) p.m_age += dt;
     std::erase_if( m_popups, []( const Popup &p ) { return p.m_age > p.m_life; } );
     updateAudio();
     m_audio.update();
@@ -1690,10 +1778,10 @@ void Game::frame( float dt )
     const double drawStart = GetTime();
     m_cpuUpdateMs += ( static_cast<float>( ( drawStart - m_frameStart ) * 1000.0 ) - m_cpuUpdateMs ) * 0.05f;
     draw();
-    if( !m_options.m_bench.empty() && m_state == StateE::RACE && m_stateTime > 6.0f )
+    if ( !m_options.m_bench.empty() && m_state == StateE::RACE && m_stateTime > 6.0f )
     {
         // Measuring: from six seconds into the drive (the first chunks are baked by then).
-        if( !m_bench.m_on ) m_renderer.gpu().resetTotals();
+        if ( !m_bench.m_on ) m_renderer.gpu().resetTotals();
         m_bench.m_on = true;
         m_bench.m_frames.push_back( dt * 1000.0f );
         m_bench.m_update += ( drawStart - m_frameStart ) * 1000.0;
@@ -1702,9 +1790,10 @@ void Game::frame( float dt )
         m_bench.m_overlay += m_cpuOverlayMs;
         m_bench.m_swap += m_cpuSwapMs;
         size_t triangles = 0;
-        for( const Chunk &c : m_world.chunks() )
-            triangles += static_cast<size_t>( c.m_ground.triangleCount + c.m_props.triangleCount +
-                                              ( upClose( c, m_car.m_s ) ? c.m_scenery : c.m_sceneryFar ).triangleCount );
+        for ( const Chunk &c : m_world.chunks() )
+            triangles +=
+                static_cast<size_t>( c.m_ground.triangleCount + c.m_props.triangleCount +
+                                     ( upClose( c, m_car.m_s ) ? c.m_scenery : c.m_sceneryFar ).triangleCount );
         m_bench.m_triangles += static_cast<double>( triangles );
         m_bench.m_traffic += static_cast<int>( m_traffic.m_cars.size() );
     }
@@ -1721,28 +1810,30 @@ void Game::endTimeAttack()
     m_rank = m_mode == ModeE::ENDLESS ? m_records.rankOf( score ) : -1;
     m_finalDistance = dist;
     earn( score );
-    if( m_mode == ModeE::DAILY && score > m_records.m_dailyBest )
+    if ( m_mode == ModeE::DAILY && score > m_records.m_dailyBest )
     {
         m_records.m_dailyBest = score;
         m_newRecord = true;
     }
-    if( m_mode == ModeE::RALLY && m_finishedTrack && m_journey >= 0 )
+    if ( m_mode == ModeE::RALLY && m_finishedTrack && m_journey >= 0 )
     {
-        if( m_records.m_journeyBest.size() <= static_cast<size_t>( m_journey ) ) m_records.m_journeyBest.resize( static_cast<size_t>( m_journey ) + 1, 0.0 );
+        if ( m_records.m_journeyBest.size() <= static_cast<size_t>( m_journey ) )
+            m_records.m_journeyBest.resize( static_cast<size_t>( m_journey ) + 1, 0.0 );
         double &best = m_records.m_journeyBest[static_cast<size_t>( m_journey )];
-        if( best <= 0.0 ) earn( 15000 );
-        if( best <= 0.0 || m_raceTime < best )
+        if ( best <= 0.0 ) earn( 15000 );
+        if ( best <= 0.0 || m_raceTime < best )
         {
             best = m_raceTime;
             m_newRecord = true;
         }
     }
-    if( m_mode == ModeE::RALLY && m_finishedTrack && m_rally >= 0 )
+    if ( m_mode == ModeE::RALLY && m_finishedTrack && m_rally >= 0 )
     {
-        if( m_records.m_rallyBest.size() <= static_cast<size_t>( m_rally ) ) m_records.m_rallyBest.resize( static_cast<size_t>( m_rally ) + 1, 0.0 );
+        if ( m_records.m_rallyBest.size() <= static_cast<size_t>( m_rally ) )
+            m_records.m_rallyBest.resize( static_cast<size_t>( m_rally ) + 1, 0.0 );
         double &best = m_records.m_rallyBest[static_cast<size_t>( m_rally )];
-        if( best <= 0.0 ) earn( 25000 );
-        if( best <= 0.0 || m_raceTime < best )
+        if ( best <= 0.0 ) earn( 25000 );
+        if ( best <= 0.0 || m_raceTime < best )
         {
             best = m_raceTime;
             m_newRecord = true;
@@ -1761,12 +1852,13 @@ void Game::crossFinish()
     m_finished = true;
     m_finishedFor = 0.0f;
     m_results = m_race.finish( m_raceTime );
-    for( size_t i = 0; i < m_results.size(); ++i )
-        if( m_results[i].m_driver < 0 ) m_place = static_cast<int>( i ) + 1;
+    for ( size_t i = 0; i < m_results.size(); ++i )
+        if ( m_results[i].m_driver < 0 ) m_place = static_cast<int>( i ) + 1;
     m_newGhost = m_ghost.saveIfBest( ghostDir(), m_code, -static_cast<double>( m_raceTime ), m_carIndex, m_paintIndex );
     static const int64_t byPlace[8] = { 12000, 9000, 7000, 5500, 4500, 3500, 2500, 1500 };
     earn( m_place >= 1 && m_place <= 8 ? byPlace[m_place - 1] : 800 );
-    popup( m_place == 1 ? "YOU WIN!" : format( "P%d", m_place ), "FINISH  " + clockText( m_raceTime ), m_place <= 3 ? Gold : Ink, 1.4f, 3.5f );
+    popup( m_place == 1 ? "YOU WIN!" : format( "P%d", m_place ), "FINISH  " + clockText( m_raceTime ),
+           m_place <= 3 ? Gold : Ink, 1.4f, 3.5f );
     m_audio.playOnBeat( m_place <= 3 ? SfxE::VICTORY : SfxE::STAGE );
     saveRecords();
 }
@@ -1788,24 +1880,25 @@ void Game::simulate( float dt, bool autopilotOn )
     m_shifted = false;
     m_backfire = false;
     CarInput in = autopilotOn ? autopilot() : m_input.car();
-    if( !autopilotOn && !m_demo && m_state == StateE::RACE && ( m_settings.m_steerAssist > 0 || m_settings.m_brakeAssist ) )
+    if ( !autopilotOn && !m_demo && m_state == StateE::RACE &&
+         ( m_settings.m_steerAssist > 0 || m_settings.m_brakeAssist ) )
     {
         // The assists borrow the demo driver: steering where the hands are idle, braking for what comes too fast.
         const CarInput ai = autopilot();
-        if( m_settings.m_steerAssist > 0 )
+        if ( m_settings.m_steerAssist > 0 )
         {
             const float k = m_settings.m_steerAssist == 1 ? 0.35f : 0.7f;
             const float idle = 1.0f - std::min( 1.0f, std::abs( in.m_steer ) * 2.0f );
             in.m_steer = clampf( in.m_steer + ai.m_steer * k * idle, -1.0f, 1.0f );
         }
-        if( m_settings.m_brakeAssist && ai.m_brake > 0.3f && in.m_throttle > 0.0f )
+        if ( m_settings.m_brakeAssist && ai.m_brake > 0.3f && in.m_throttle > 0.0f )
         {
             in.m_brake = std::max( in.m_brake, ai.m_brake * 0.85f );
             in.m_throttle = std::min( in.m_throttle, 1.0f - ai.m_brake );
         }
     }
-    float    remaining = dt;
-    while( remaining > 1e-6f )
+    float remaining = dt;
+    while ( remaining > 1e-6f )
     {
         const float h = std::min( remaining, PhysicsStep );
         step( h, in );
@@ -1814,12 +1907,13 @@ void Game::simulate( float dt, bool autopilotOn )
         remaining -= h;
     }
     handleEvents();
-    if( !m_demo ) progress( m_car.m_s - before );
+    if ( !m_demo ) progress( m_car.m_s - before );
     const int musicStage = static_cast<int>( m_car.m_s / StageLength );
-    if( musicStage != m_musicStage )
+    if ( musicStage != m_musicStage )
     {
         m_musicStage = musicStage;
-        if( m_settings.m_station < 0 && wantedStation() != m_playingStation ) playMusic( hash64( m_seed * 31 + musicStage ), wantedStation() );
+        if ( m_settings.m_station < 0 && wantedStation() != m_playingStation )
+            playMusic( hash64( m_seed * 31 + musicStage ), wantedStation() );
     }
     emitParticles( dt );
     fireworks( dt );
@@ -1827,7 +1921,7 @@ void Game::simulate( float dt, bool autopilotOn )
     updateCamera( dt );
 
     // The replay keeps the last minute, twenty frames a second.
-    if( !m_demo && m_state == StateE::RACE && m_raceTime >= m_replayNext )
+    if ( !m_demo && m_state == StateE::RACE && m_raceTime >= m_replayNext )
     {
         m_replayNext = m_raceTime + 0.05f;
         ReplayFrame f;
@@ -1843,17 +1937,20 @@ void Game::simulate( float dt, bool autopilotOn )
         f.m_throttle = m_car.m_throttle;
         f.m_airborne = m_car.m_airborne;
         f.m_boost = m_car.m_boosting;
-        for( const TrafficCar &c : m_traffic.m_cars )
-            if( std::abs( c.m_s - m_car.m_s ) < 400.0 ) f.m_traffic.push_back( { c.m_s, c.m_x, c.m_yaw, c.m_model, c.m_lift } );
-        for( const Rival &r : m_race.m_rivals ) f.m_rivals.push_back( { r.m_s, r.m_x, r.m_yaw, r.m_driver } );
+        for ( const TrafficCar &c : m_traffic.m_cars )
+            if ( std::abs( c.m_s - m_car.m_s ) < 400.0 )
+                f.m_traffic.push_back( { c.m_s, c.m_x, c.m_yaw, c.m_model, c.m_lift } );
+        for ( const Rival &r : m_race.m_rivals ) f.m_rivals.push_back( { r.m_s, r.m_x, r.m_yaw, r.m_driver } );
         m_replay.push_back( std::move( f ) );
-        while( m_replay.size() > 1200 ) m_replay.pop_front();
+        while ( m_replay.size() > 1200 ) m_replay.pop_front();
     }
 
     // The hour the sky shows follows the time zones smoothly; fronts are announced as they come.
     const float hour = wantedHour();
-    if( hour < 0.0f ) m_hour = -1.0f;
-    else if( m_hour < 0.0f ) m_hour = hour;
+    if ( hour < 0.0f )
+        m_hour = -1.0f;
+    else if ( m_hour < 0.0f )
+        m_hour = hour;
     else
     {
         const float d = std::remainder( hour - m_hour, 24.0f );
@@ -1862,16 +1959,20 @@ void Game::simulate( float dt, bool autopilotOn )
     WeatherE    front = WeatherE::NONE;
     const float frontAhead = frontAt( m_car.m_s + 450.0, front );
     const long  frontStage = static_cast<long>( ( m_car.m_s + 450.0 ) / StageLength );
-    if( !m_demo && frontAhead > 0.3f && frontStage != m_frontShown && m_state == StateE::RACE )
+    if ( !m_demo && frontAhead > 0.3f && frontStage != m_frontShown && m_state == StateE::RACE )
     {
         m_frontShown = frontStage;
-        static const char *names[] = { "", "RAIN AHEAD", "THUNDERSTORM", "FOG BANK", "SNOW SHOWERS", "SANDSTORM", "MONSOON" };
+        static const char *names[] = { "",          "RAIN AHEAD", "THUNDERSTORM", "FOG BANK", "SNOW SHOWERS",
+                                       "SANDSTORM", "MONSOON" };
         popup( names[static_cast<int>( front )], "", Cyan, 0.7f, 2.6f, true );
     }
     WeatherE    here = WeatherE::NONE;
     const float wet = frontAt( m_car.m_s, here );
-    const float lose = here == WeatherE::SNOW ? 0.22f : here == WeatherE::SANDSTORM ? 0.08f : here == WeatherE::MONSOON ? 0.16f
-                     : here == WeatherE::FOG || here == WeatherE::NONE ? 0.0f : 0.12f;
+    const float lose = here == WeatherE::SNOW                            ? 0.22f
+                       : here == WeatherE::SANDSTORM                     ? 0.08f
+                       : here == WeatherE::MONSOON                       ? 0.16f
+                       : here == WeatherE::FOG || here == WeatherE::NONE ? 0.0f
+                                                                         : 0.12f;
     m_monsoon = here == WeatherE::MONSOON ? wet : 0.0f;
     m_car.m_monsoon = m_monsoon > 0.4f;
     m_car.m_weatherGrip = 1.0f - lose * wet;
@@ -1880,17 +1981,17 @@ void Game::simulate( float dt, bool autopilotOn )
     m_car.m_rain = env.m_rain;
     // Slush where it snows: less grip.
     m_car.m_weatherGrip *= 1.0f - 0.12f * smoothstepf( 0.05f, 0.4f, env.m_snow );
-    Rng              &r = m_particles.m_rng;
-    if( env.m_lightning > 0.05f && r.uniform() < dt * 0.12f * env.m_lightning )
+    Rng &r = m_particles.m_rng;
+    if ( env.m_lightning > 0.05f && r.uniform() < dt * 0.12f * env.m_lightning )
     {
         m_flash = 1.0f;
         m_thunderIn = r.range( 0.4f, 1.8f );
     }
     m_flash = approach( m_flash, 0.0f, 7.0f, dt );
-    if( m_thunderIn > 0.0f )
+    if ( m_thunderIn > 0.0f )
     {
         m_thunderIn -= dt;
-        if( m_thunderIn <= 0.0f )
+        if ( m_thunderIn <= 0.0f )
         {
             m_audio.play( SfxE::CRASH, 0.4f, r.range( -0.6f, 0.6f ) );
             m_thunderIn = -1.0f;
@@ -1905,7 +2006,7 @@ void Game::step( float h, const CarInput &in )
     m_car.update( in, track, h, manual );
     m_shifted = m_shifted || m_car.m_eventShift;
     m_backfire = m_backfire || m_car.m_eventBackfire;
-    if( m_car.m_eventLanded )
+    if ( m_car.m_eventLanded )
     {
         m_landed = true;
         m_landImpact = std::max( m_landImpact, m_car.m_landImpact );
@@ -1914,68 +2015,77 @@ void Game::step( float h, const CarInput &in )
     {
         // The police: a patrol car of the country now and then; too fast past it, a chase until caught or away.
         PoliceEvents pe;
-        const bool   enabled = m_settings.m_police && !m_demo && !m_setup.m_race && m_state == StateE::RACE && !m_timeUp;
-        m_police.update( h, track, m_car.m_s, m_car.m_x, m_car.m_speed, m_car.m_spec.m_topSpeed, m_traffic, m_models, enabled, pe );
-        if( pe.m_chase )
+        const bool enabled = m_settings.m_police && !m_demo && !m_setup.m_race && m_state == StateE::RACE && !m_timeUp;
+        m_police.update( h, track, m_car.m_s, m_car.m_x, m_car.m_speed, m_car.m_spec.m_topSpeed, m_traffic, m_models,
+                         enabled, pe );
+        if ( pe.m_chase )
         {
             popup( "POLICE", "PULL OVER!", Red, 1.0f, 2.4f );
             m_audio.play( SfxE::WARNING );
         }
-        if( pe.m_caught )
+        if ( pe.m_caught )
         {
             ++m_records.m_caught;
             // The fine: seconds off the clock, or points where there is none.
             const bool travel = m_mode == ModeE::TRAVEL;
-            if( travel ) m_score = std::max( 0.0, m_score - static_cast<double>( PoliceFine ) * 100.0 );
-            else m_timeLeft = std::max( 0.0f, m_timeLeft - PoliceFine );
+            if ( travel )
+                m_score = std::max( 0.0, m_score - static_cast<double>( PoliceFine ) * 100.0 );
+            else
+                m_timeLeft = std::max( 0.0f, m_timeLeft - PoliceFine );
             m_car.m_speed *= 0.5f;
-            popup( "CAUGHT", travel ? format( "-%d  FINE", static_cast<int>( PoliceFine * 100.0f ) ) : format( "-%d SEC  FINE", static_cast<int>( PoliceFine ) ), Red,
-                   1.0f, 2.8f );
+            popup( "CAUGHT",
+                   travel ? format( "-%d  FINE", static_cast<int>( PoliceFine * 100.0f ) )
+                          : format( "-%d SEC  FINE", static_cast<int>( PoliceFine ) ),
+                   Red, 1.0f, 2.8f );
             m_audio.play( SfxE::BUMP, 0.6f );
         }
-        if( pe.m_escaped )
+        if ( pe.m_escaped )
         {
             ++m_records.m_escapes;
-            for( size_t i = 0; i < m_models.m_policeModel.size() && i < dataShapes().size(); ++i )
-                if( m_models.m_policeModel[i] == m_police.m_model && std::find( m_records.m_escapedFrom.begin(), m_records.m_escapedFrom.end(),
-                                                                                 dataShapes()[i].m_name ) == m_records.m_escapedFrom.end() )
+            for ( size_t i = 0; i < m_models.m_policeModel.size() && i < dataShapes().size(); ++i )
+                if ( m_models.m_policeModel[i] == m_police.m_model &&
+                     std::find( m_records.m_escapedFrom.begin(), m_records.m_escapedFrom.end(),
+                                dataShapes()[i].m_name ) == m_records.m_escapedFrom.end() )
                     m_records.m_escapedFrom.push_back( dataShapes()[i].m_name );
             m_score += 2500.0;
             popup( "ESCAPED", "+2500", Green, 1.0f, 2.4f );
             m_audio.play( SfxE::NEAR_MISS );
         }
-        if( pe.m_caught || pe.m_escaped ) checkAchievements();
+        if ( pe.m_caught || pe.m_escaped ) checkAchievements();
     }
     {
         // Something to see: an airliner coming in, jets, balloons, a ship, an airship.
         SkyEvents ev;
         m_sky.update( h, track, m_car, !m_demo && m_state == StateE::RACE, ev );
-        if( ev.m_roar ) m_audio.play( SfxE::JET, 1.0f, ev.m_pan );
+        if ( ev.m_roar ) m_audio.play( SfxE::JET, 1.0f, ev.m_pan );
     }
     {
         // A fast train on its viaduct beside the road: pass its nose before the stretch ends.
         TrainEvents ev;
         const bool  enabled = !m_demo && !m_setup.m_race && m_state == StateE::RACE && !m_timeUp && !m_finishedTrack;
         m_train.update( h, track, m_car, enabled, ev );
-        const std::string name = m_train.m_stretch.m_line >= 0 ? trainLines()[static_cast<size_t>( m_train.m_stretch.m_line )].m_name : std::string();
+        const std::string name = m_train.m_stretch.m_line >= 0
+                                     ? trainLines()[static_cast<size_t>( m_train.m_stretch.m_line )].m_name
+                                     : std::string();
         std::string       shown = name;
         std::replace( shown.begin(), shown.end(), '_', ' ' );
-        if( ev.m_start )
+        if ( ev.m_start )
         {
             popup( shown + "!", "PASS ITS NOSE BEFORE THE VIADUCT ENDS", Cyan, 1.0f, 3.2f );
             m_audio.play( SfxE::HORN, 0.5f, m_train.m_stretch.m_side );
         }
-        if( ev.m_won )
+        if ( ev.m_won )
         {
             const bool travel = m_mode == ModeE::TRAVEL;
             m_score += TrainBonus;
-            if( !travel ) m_timeLeft += 5.0f;
+            if ( !travel ) m_timeLeft += 5.0f;
             ++m_records.m_trainWins;
-            popup( "YOU BEAT THE " + shown, travel ? format( "+%d", TrainBonus ) : format( "+%d  +5 SEC", TrainBonus ), Green, 1.1f, 3.0f );
+            popup( "YOU BEAT THE " + shown, travel ? format( "+%d", TrainBonus ) : format( "+%d  +5 SEC", TrainBonus ),
+                   Green, 1.1f, 3.0f );
             m_audio.playOnBeat( SfxE::CHECKPOINT );
             checkAchievements();
         }
-        if( ev.m_lost ) popup( "THE " + shown + " WINS", "", Red, 1.0f, 2.6f );
+        if ( ev.m_lost ) popup( "THE " + shown + " WINS", "", Red, 1.0f, 2.6f );
     }
     {
         // The local hero: a duel to the next checkpoint, with words in their language.
@@ -1985,24 +2095,26 @@ void Game::step( float h, const CarInput &in )
         m_hero.update( h, track, m_car, m_traffic, enabled, ev );
         const Phrases &words = phrasesOf( m_hero.m_country.empty() ? nullptr : m_hero.m_country.c_str() );
         const float    pan = clampf( ( m_hero.m_x - m_car.m_x ) / 6.0f, -1.0f, 1.0f );
-        if( ev.m_start )
+        if ( ev.m_start )
         {
-            popup( words.m_challenge, m_hero.m_name + ", LOCAL HERO:  FIRST TO THE NEXT CHECKPOINT", Accent, 1.0f, 3.4f );
+            popup( words.m_challenge, m_hero.m_name + ", LOCAL HERO:  FIRST TO THE NEXT CHECKPOINT", Accent, 1.0f,
+                   3.4f );
             m_audio.play( SfxE::HORN, 0.9f, pan );
         }
-        if( ev.m_won )
+        if ( ev.m_won )
         {
             const bool travel = m_mode == ModeE::TRAVEL;
             m_score += HeroBonus;
-            if( !travel ) m_timeLeft += 5.0f;
+            if ( !travel ) m_timeLeft += 5.0f;
             ++m_records.m_heroWins;
-            popup( words.m_grumble, travel ? format( "YOU BEAT %s  +%d", m_hero.m_name.c_str(), HeroBonus )
-                                          : format( "YOU BEAT %s  +%d  +5 SEC", m_hero.m_name.c_str(), HeroBonus ),
+            popup( words.m_grumble,
+                   travel ? format( "YOU BEAT %s  +%d", m_hero.m_name.c_str(), HeroBonus )
+                          : format( "YOU BEAT %s  +%d  +5 SEC", m_hero.m_name.c_str(), HeroBonus ),
                    Green, 1.1f, 3.2f );
             m_audio.playOnBeat( SfxE::CHECKPOINT );
             checkAchievements();
         }
-        if( ev.m_lost )
+        if ( ev.m_lost )
         {
             ++m_records.m_heroLosses;
             popup( words.m_taunt, m_hero.m_name + " GOT THERE FIRST", Red, 1.1f, 3.2f );
@@ -2012,49 +2124,59 @@ void Game::step( float h, const CarInput &in )
     {
         // Hitchhikers: stop beside them, take them to the next place in time, and they thank you in their language.
         PassengerEvents pe;
-        const bool      enabled = !m_demo && !m_setup.m_race && m_state == StateE::RACE && !m_timeUp && !m_finishedTrack;
+        const bool enabled = !m_demo && !m_setup.m_race && m_state == StateE::RACE && !m_timeUp && !m_finishedTrack;
         m_passenger.update( h, track, m_car.m_s, m_car.m_x, m_car.m_speed, enabled, pe );
         const char *from = m_passenger.m_from.empty() ? nullptr : m_passenger.m_from.c_str();
         const JobE  job = m_passenger.m_job;
         const char *to = biomeDef( m_passenger.m_to ).m_name;
-        if( pe.m_pickedUp )
+        if ( pe.m_pickedUp )
         {
-            if( job == JobE::FRAGILE ) popup( "FRAGILE!", std::string( "A PARCEL FOR " ) + ( to ? to : "" ) + ": HIT NOTHING ON THE WAY", Accent, 1.0f, 3.2f );
-            else if( job == JobE::ORGAN ) popup( "URGENT!", std::string( "AN ORGAN FOR THE HOSPITAL IN " ) + ( to ? to : "" ), Red, 1.0f, 3.2f );
-            else popup( std::string( helloIn( from ) ) + "!", "TO " + placeName( m_passenger.m_to ), Accent, 1.0f, 3.2f );
+            if ( job == JobE::FRAGILE )
+                popup( "FRAGILE!", std::string( "A PARCEL FOR " ) + ( to ? to : "" ) + ": HIT NOTHING ON THE WAY",
+                       Accent, 1.0f, 3.2f );
+            else if ( job == JobE::ORGAN )
+                popup( "URGENT!", std::string( "AN ORGAN FOR THE HOSPITAL IN " ) + ( to ? to : "" ), Red, 1.0f, 3.2f );
+            else
+                popup( std::string( helloIn( from ) ) + "!", "TO " + placeName( m_passenger.m_to ), Accent, 1.0f,
+                       3.2f );
             m_audio.play( SfxE::SELECT );
         }
-        if( pe.m_thief )
+        if ( pe.m_thief )
         {
             m_thief.startThief( track, m_car, m_passenger.m_destS );
             popup( "STOP THAT CAR!", "CATCH THE THIEF BEFORE THE NEXT CHECKPOINT", Red, 1.0f, 3.2f );
             m_audio.play( SfxE::WARNING );
         }
-        if( pe.m_delivered )
+        if ( pe.m_delivered )
         {
             const bool travel = m_mode == ModeE::TRAVEL;
             const int  base = job == JobE::ORGAN ? 5000 : job == JobE::FRAGILE ? 4000 : 3000;
             const int  points = base + static_cast<int>( m_passenger.m_timeLeft ) * 20;
             m_score += points;
-            if( !travel ) m_timeLeft += 5.0f;
+            if ( !travel ) m_timeLeft += 5.0f;
             ++m_delivered;
-            const std::string title = job == JobE::ORGAN ? std::string( "IN TIME!" ) : job == JobE::FRAGILE ? std::string( "DELIVERED IN ONE PIECE" )
-                                                                                                          : std::string( thanksIn( from ) ) + "!";
+            const std::string title = job == JobE::ORGAN     ? std::string( "IN TIME!" )
+                                      : job == JobE::FRAGILE ? std::string( "DELIVERED IN ONE PIECE" )
+                                                             : std::string( thanksIn( from ) ) + "!";
             popup( title, travel ? format( "+%d", points ) : format( "+%d  +5 SEC", points ), Green, 1.1f, 3.2f );
             m_audio.playOnBeat( SfxE::CHECKPOINT );
         }
-        if( pe.m_late )
+        if ( pe.m_late )
         {
-            popup( "TOO LATE", job == JobE::HITCHHIKER ? "YOUR PASSENGER GOT OUT" : job == JobE::ORGAN ? "THE HOSPITAL HAD TO WAIT" : "THE PARCEL WAS NOT THERE IN TIME",
+            popup( "TOO LATE",
+                   job == JobE::HITCHHIKER ? "YOUR PASSENGER GOT OUT"
+                   : job == JobE::ORGAN    ? "THE HOSPITAL HAD TO WAIT"
+                                           : "THE PARCEL WAS NOT THERE IN TIME",
                    Red, 0.9f, 2.6f );
             m_audio.play( SfxE::WARNING );
         }
-        if( pe.m_delivered )
+        if ( pe.m_delivered )
         {
-            if( job == JobE::HITCHHIKER )
+            if ( job == JobE::HITCHHIKER )
             {
                 ++m_records.m_delivered;
-                if( from && std::find( m_records.m_hitchFrom.begin(), m_records.m_hitchFrom.end(), from ) == m_records.m_hitchFrom.end() )
+                if ( from && std::find( m_records.m_hitchFrom.begin(), m_records.m_hitchFrom.end(), from ) ==
+                                 m_records.m_hitchFrom.end() )
                     m_records.m_hitchFrom.push_back( from );
             }
             else
@@ -2068,34 +2190,35 @@ void Game::step( float h, const CarInput &in )
         // The thief of a police officer's job: stay close beside or behind it for a moment to catch it.
         HeroEvents ev;
         m_thief.update( h, track, m_car, m_traffic, false, ev );
-        if( ev.m_won )
+        if ( ev.m_won )
         {
             const bool travel = m_mode == ModeE::TRAVEL;
             m_score += 5000;
-            if( !travel ) m_timeLeft += 5.0f;
+            if ( !travel ) m_timeLeft += 5.0f;
             ++m_records.m_jobs;
-            popup( "CAUGHT THE THIEF", travel ? std::string( "+5000" ) : std::string( "+5000  +5 SEC" ), Green, 1.1f, 3.0f );
+            popup( "CAUGHT THE THIEF", travel ? std::string( "+5000" ) : std::string( "+5000  +5 SEC" ), Green, 1.1f,
+                   3.0f );
             m_audio.playOnBeat( SfxE::CHECKPOINT );
             checkAchievements();
         }
-        if( ev.m_lost ) popup( "THE THIEF GOT AWAY", "", Red, 1.0f, 2.6f );
+        if ( ev.m_lost ) popup( "THE THIEF GOT AWAY", "", Red, 1.0f, 2.6f );
     }
     const bool racing = m_setup.m_race && !m_demo;
-    if( racing ) m_race.update( h, m_raceTime, track, m_car, m_raceEv, m_state == StateE::RACE );
+    if ( racing ) m_race.update( h, m_raceTime, track, m_car, m_raceEv, m_state == StateE::RACE );
 
     // Solid things beside the road.
     const double height = m_car.m_y - track.surfaceHeight( m_car.m_s, m_car.m_x );
-    if( m_car.m_crashTimer <= 0.0f && height < 1.5 )
+    if ( m_car.m_crashTimer <= 0.0f && height < 1.5 )
     {
         m_colliders.clear();
         m_world.collidersNear( m_car.m_s, 10.0, m_colliders );
-        for( const Collider *c : m_colliders )
+        for ( const Collider *c : m_colliders )
         {
             const double ds = m_car.m_s - c->m_s;
             const float  dx = m_car.m_x - c->m_x;
             const float  rl = m_car.m_spec.m_length * 0.5f + c->m_radius * 0.8f;
             const float  rw = m_car.m_spec.m_width * 0.5f + c->m_radius * 0.8f;
-            if( std::abs( ds ) < rl && std::abs( dx ) < rw )
+            if ( std::abs( ds ) < rl && std::abs( dx ) < rw )
             {
                 const float toRoad = c->m_x > 0.0f ? -1.0f : 1.0f;
                 m_car.crash( tuning().m_crashKeep, c->m_x + toRoad * ( rw + 0.3f ) - m_car.m_x );
@@ -2108,18 +2231,19 @@ void Game::step( float h, const CarInput &in )
     // Guard rails.
     const Segment   &seg = track.segment( static_cast<long>( m_car.m_s / SegmentLength ) );
     const TrackFrame f = track.frameAt( m_car.m_s );
-    if( seg.m_flags & SEG_MEDIAN )
+    if ( seg.m_flags & SEG_MEDIAN )
     {
         // The barrier between a fork's carriageways keeps the car on the side it took.
         const Fork  fork = track.fork( seg.m_stage );
-        const float side = fork.m_chosen != 0 ? static_cast<float>( fork.m_chosen ) : ( m_car.m_x < 0.0f ? -1.0f : 1.0f );
+        const float side =
+            fork.m_chosen != 0 ? static_cast<float>( fork.m_chosen ) : ( m_car.m_x < 0.0f ? -1.0f : 1.0f );
         const float wall = 0.3f + m_car.m_spec.m_width * 0.5f;
-        if( m_car.m_x * side < wall )
+        if ( m_car.m_x * side < wall )
         {
             const float into = -( m_car.m_vx - m_car.m_drift ) * side;
             m_car.m_x = side * wall;
-            if( into > 0.0f ) m_car.m_vx = m_car.m_drift + side * into * 0.35f;
-            if( !m_wasScraping && into > 3.0f )
+            if ( into > 0.0f ) m_car.m_vx = m_car.m_drift + side * into * 0.35f;
+            if ( !m_wasScraping && into > 3.0f )
             {
                 m_crash = std::max( m_crash, std::min( 1.0f, into / 15.0f ) * 0.6f );
                 m_car.m_speed *= 0.95f;
@@ -2129,14 +2253,14 @@ void Game::step( float h, const CarInput &in )
             m_scrapeSide = -side;
         }
     }
-    const float      railX = f.m_halfWidth + RumbleWidth + 0.45f - m_car.m_spec.m_width * 0.5f;
-    for( float side : { -1.0f, 1.0f } )
+    const float railX = f.m_halfWidth + RumbleWidth + 0.45f - m_car.m_spec.m_width * 0.5f;
+    for ( float side : { -1.0f, 1.0f } )
     {
-        if( !( seg.m_flags & ( side < 0 ? SEG_RAIL_L : SEG_RAIL_R ) ) || m_car.m_x * side <= railX ) continue;
+        if ( !( seg.m_flags & ( side < 0 ? SEG_RAIL_L : SEG_RAIL_R ) ) || m_car.m_x * side <= railX ) continue;
         const float into = ( m_car.m_vx - m_car.m_drift ) * side;
         m_car.m_x = side * railX;
-        if( into > 0.0f ) m_car.m_vx = m_car.m_drift - side * into * 0.35f;
-        if( !m_wasScraping && into > 3.0f )
+        if ( into > 0.0f ) m_car.m_vx = m_car.m_drift - side * into * 0.35f;
+        if ( !m_wasScraping && into > 3.0f )
         {
             m_crash = std::max( m_crash, std::min( 1.0f, into / 15.0f ) * 0.6f );
             m_car.m_speed *= 0.95f;
@@ -2146,14 +2270,14 @@ void Game::step( float h, const CarInput &in )
         m_scrapeSide = side;
     }
 
-    if( m_state != StateE::RACE || m_demo ) return;
+    if ( m_state != StateE::RACE || m_demo ) return;
     m_raceTime += h;
-    if( !m_finished && !m_finishedTrack ) m_ghost.record( m_raceTime, m_car );
+    if ( !m_finished && !m_finishedTrack ) m_ghost.record( m_raceTime, m_car );
     m_topSpeed = std::max( m_topSpeed, m_car.m_speed );
-    if( racing )
+    if ( racing )
     {
-        if( !m_finished && m_race.m_finishS > 0.0 && m_car.m_s >= m_race.m_finishS ) crossFinish();
-        if( m_finished ) m_finishedFor += h;
+        if ( !m_finished && m_race.m_finishS > 0.0 && m_car.m_s >= m_race.m_finishS ) crossFinish();
+        if ( m_finished ) m_finishedFor += h;
         return;
     }
     timeAttackRules( h );
@@ -2162,7 +2286,7 @@ void Game::step( float h, const CarInput &in )
 void Game::timeAttackRules( float h )
 {
     const Track &track = *m_track;
-    if( m_finishedTrack )
+    if ( m_finishedTrack )
     {
         m_finishedFor += h;
         return;
@@ -2170,26 +2294,30 @@ void Game::timeAttackRules( float h )
     const double length = m_setup.m_params.m_length;
     // A journey ends where its goal's stage begins, whichever way the forks led there.
     bool arrived = false;
-    if( m_mode == ModeE::RALLY && m_journey >= 0 && m_journey < static_cast<int>( journeys().size() ) )
+    if ( m_mode == ModeE::RALLY && m_journey >= 0 && m_journey < static_cast<int>( journeys().size() ) )
     {
         const int st = static_cast<int>( m_car.m_s / StageLength );
-        arrived = track.stageBiome( st ) == journeys()[static_cast<size_t>( m_journey )].m_to && m_car.m_s - static_cast<double>( st ) * StageLength > 200.0;
+        arrived = track.stageBiome( st ) == journeys()[static_cast<size_t>( m_journey )].m_to &&
+                  m_car.m_s - static_cast<double>( st ) * StageLength > 200.0;
     }
-    if( ( length > 0.0 && m_car.m_s >= length ) || arrived )
+    if ( ( length > 0.0 && m_car.m_s >= length ) || arrived )
     {
         m_finishedTrack = true;
         m_finishedFor = 0.0f;
         m_score += static_cast<double>( m_timeLeft ) * 100.0;
         m_car.m_coasting = true;
-        if( m_mode == ModeE::RALLY ) popup( "FINISH", clockText( m_raceTime ), Gold, 1.4f, 3.5f );
-        else popup( "FINISH", format( "%.1f SEC LEFT  +%d", m_timeLeft, static_cast<int>( m_timeLeft * 100.0f ) ), Gold, 1.4f, 3.5f );
+        if ( m_mode == ModeE::RALLY )
+            popup( "FINISH", clockText( m_raceTime ), Gold, 1.4f, 3.5f );
+        else
+            popup( "FINISH", format( "%.1f SEC LEFT  +%d", m_timeLeft, static_cast<int>( m_timeLeft * 100.0f ) ), Gold,
+                   1.4f, 3.5f );
         m_audio.playOnBeat( SfxE::CHECKPOINT );
         return;
     }
-    if( !m_timeUp && m_mode != ModeE::RALLY && m_mode != ModeE::TRAVEL )
+    if ( !m_timeUp && m_mode != ModeE::RALLY && m_mode != ModeE::TRAVEL )
     {
         m_timeLeft -= h;
-        if( m_timeLeft <= 0.0f )
+        if ( m_timeLeft <= 0.0f )
         {
             m_timeLeft = 0.0f;
             m_timeUp = true;
@@ -2203,12 +2331,14 @@ void Game::timeAttackRules( float h )
         m_timeUpFor += h;
     }
     std::string bonusText;
-    while( m_car.m_s >= m_nextCheckpoint )
+    while ( m_car.m_s >= m_nextCheckpoint )
     {
         ++m_checkpoints;
-        if( !m_timeUp && m_mode != ModeE::TRAVEL )
+        if ( !m_timeUp && m_mode != ModeE::TRAVEL )
         {
-            const float bonus = checkpointBonus( m_checkpoints ) + bendTime( *m_track, m_nextCheckpoint, m_nextCheckpoint + CheckpointSpacing, m_checkpoints );
+            const float bonus =
+                checkpointBonus( m_checkpoints ) +
+                bendTime( *m_track, m_nextCheckpoint, m_nextCheckpoint + CheckpointSpacing, m_checkpoints );
             m_timeLeft += bonus;
             m_score += 1000.0;
             bonusText = format( "+%.1f SEC", bonus );
@@ -2217,74 +2347,94 @@ void Game::timeAttackRules( float h )
         m_nextCheckpoint += CheckpointSpacing;
     }
     const int stage = static_cast<int>( m_car.m_s / StageLength );
-    if( stage != m_stage )
+    if ( stage != m_stage )
     {
         m_stage = stage;
         // A legendary road driven from end to end: its time against the best.
-        if( m_legendStage == stage - 1 && !m_demo )
+        if ( m_legendStage == stage - 1 && !m_demo )
         {
             const BiomeE       was = track.stageBiome( stage - 1 );
             const std::string &id = biomeKey( was );
             const float        t = m_raceTime - m_legendStart;
-            auto               it = std::find_if( m_records.m_legendBest.begin(), m_records.m_legendBest.end(), [&]( const auto &p ) { return p.first == id; } );
+            auto               it = std::find_if( m_records.m_legendBest.begin(), m_records.m_legendBest.end(),
+                                                  [&]( const auto &p ) { return p.first == id; } );
             const bool         best = it == m_records.m_legendBest.end() || t < it->second;
             const double       before = it == m_records.m_legendBest.end() ? 0.0 : it->second;
-            if( best && it == m_records.m_legendBest.end() ) m_records.m_legendBest.emplace_back( id, t );
-            else if( best ) it->second = t;
-            auto clock = []( double s ) { return format( "%d:%04.1f", static_cast<int>( s / 60.0 ), std::fmod( s, 60.0 ) ); };
-            popup( placeName( was ) + "   " + clock( t ), best ? ( before > 0.0 ? "NEW BEST, WAS " + clock( before ) : std::string( "YOUR FIRST TIME OVER IT" ) ) : "BEST " + clock( before ),
-                   Gold, 0.9f, 4.0f, true );
+            if ( best && it == m_records.m_legendBest.end() )
+                m_records.m_legendBest.emplace_back( id, t );
+            else if ( best )
+                it->second = t;
+            auto clock = []( double s )
+            { return format( "%d:%04.1f", static_cast<int>( s / 60.0 ), std::fmod( s, 60.0 ) ); };
+            popup(
+                placeName( was ) + "   " + clock( t ),
+                best ? ( before > 0.0 ? "NEW BEST, WAS " + clock( before ) : std::string( "YOUR FIRST TIME OVER IT" ) )
+                     : "BEST " + clock( before ),
+                Gold, 0.9f, 4.0f, true );
             checkAchievements();
         }
         m_legendStage = -1;
         const BiomeDef &place = biomeDef( track.stageBiome( stage ) );
-        if( place.m_legend )
+        if ( place.m_legend )
         {
             m_legendStage = stage;
             m_legendStart = m_raceTime;
         }
-        popup( format( place.m_legend ? "STAGE %d   LEGENDARY ROAD" : "STAGE %d", stage + 1 ) + ( bonusText.empty() ? std::string() : "   " + bonusText ),
-               placeName( track.stageBiome( stage ) ) + ( place.m_legend ? std::string( "  -  " ) + place.m_legend : std::string() ), place.m_legend ? Gold : Accent,
-               1.0f, place.m_legend ? 4.5f : 3.0f );
+        popup( format( place.m_legend ? "STAGE %d   LEGENDARY ROAD" : "STAGE %d", stage + 1 ) +
+                   ( bonusText.empty() ? std::string() : "   " + bonusText ),
+               placeName( track.stageBiome( stage ) ) +
+                   ( place.m_legend ? std::string( "  -  " ) + place.m_legend : std::string() ),
+               place.m_legend ? Gold : Accent, 1.0f, place.m_legend ? 4.5f : 3.0f );
         bonusText.clear();
         // A new region or country: the radio's jingle, and where it plays from.
         const BiomeDef &now = biomeDef( track.stageBiome( stage ) );
         const BiomeDef &was = biomeDef( track.stageBiome( std::max( 0, stage - 1 ) ) );
-        auto            differ = []( const char *a, const char *b ) { return ( a == nullptr ) != ( b == nullptr ) || ( a && b && std::strcmp( a, b ) != 0 ); };
-        if( stage > 0 && now.m_country && !m_demo && ( differ( now.m_country, was.m_country ) || differ( now.m_region, was.m_region ) ) )
+        auto            differ = []( const char *a, const char *b )
+        { return ( a == nullptr ) != ( b == nullptr ) || ( a && b && std::strcmp( a, b ) != 0 ); };
+        if ( stage > 0 && now.m_country && !m_demo &&
+             ( differ( now.m_country, was.m_country ) || differ( now.m_region, was.m_region ) ) )
         {
             const int station = wantedStation();
             m_audio.play( SfxE::JINGLE, 0.8f + 0.1f * static_cast<float>( std::max( 0, station ) % 4 ) );
             m_nowTimer = 0.0f;
-            m_nowPlaying = std::string( "LIVE FROM " ) + ( now.m_region ? now.m_region : now.m_name ? now.m_name : "" ) + ",  " + now.m_country;
+            m_nowPlaying = std::string( "LIVE FROM " ) +
+                           ( now.m_region ? now.m_region
+                             : now.m_name ? now.m_name
+                                          : "" ) +
+                           ",  " + now.m_country;
         }
         const int fest = festivalAt( track.stageBiome( stage ), seasonClock().dateAt( m_car.m_s ) );
-        if( fest >= 0 ) popup( festivals()[static_cast<size_t>( fest )].m_name, festivals()[static_cast<size_t>( fest )].m_what, Gold, 0.9f, 3.4f, true );
+        if ( fest >= 0 )
+            popup( festivals()[static_cast<size_t>( fest )].m_name, festivals()[static_cast<size_t>( fest )].m_what,
+                   Gold, 0.9f, 3.4f, true );
         m_audio.playOnBeat( SfxE::STAGE );
     }
-    if( !bonusText.empty() ) popup( "CHECKPOINT", bonusText, Green, 1.0f, 2.2f );
+    if ( !bonusText.empty() ) popup( "CHECKPOINT", bonusText, Green, 1.0f, 2.2f );
     {
         // A speed camera: too fast past it, it flashes and costs time. A toll plaza: just passed.
         const double before = m_lastS;
         double       cs = 0.0, ts = 0.0;
         int          limit = 0;
         bool         mph = false;
-        if( !m_demo && stageCamera( track, stage, cs, limit, mph ) && before < cs && m_car.m_s >= cs )
+        if ( !m_demo && stageCamera( track, stage, cs, limit, mph ) && before < cs && m_car.m_s >= cs )
         {
             const float allowed = static_cast<float>( limit ) * ( mph ? 0.44704f : 1.0f / 3.6f ) * 1.1f;
-            if( m_car.m_speed > allowed && !m_timeUp )
+            if ( m_car.m_speed > allowed && !m_timeUp )
             {
                 m_flash = 1.0f;
                 const bool travel = m_mode == ModeE::TRAVEL;
-                if( travel ) m_score = std::max( 0.0, m_score - 200.0 );
-                else m_timeLeft = std::max( 0.0f, m_timeLeft - 2.0f );
+                if ( travel )
+                    m_score = std::max( 0.0, m_score - 200.0 );
+                else
+                    m_timeLeft = std::max( 0.0f, m_timeLeft - 2.0f );
                 popup( "SPEED CAMERA",
-                       format( travel ? "-200   %d %s" : "-2 SEC   %d %s", static_cast<int>( m_car.m_speed * ( mph ? 2.23694f : 3.6f ) ), mph ? "MPH" : "KM/H" ), Red,
-                       1.0f, 2.6f );
+                       format( travel ? "-200   %d %s" : "-2 SEC   %d %s",
+                               static_cast<int>( m_car.m_speed * ( mph ? 2.23694f : 3.6f ) ), mph ? "MPH" : "KM/H" ),
+                       Red, 1.0f, 2.6f );
                 m_audio.play( SfxE::WARNING );
             }
         }
-        if( !m_demo && stageToll( track, stage, ts ) && before < ts && m_car.m_s >= ts )
+        if ( !m_demo && stageToll( track, stage, ts ) && before < ts && m_car.m_s >= ts )
         {
             popup( "TOLL", "", Accent, 0.8f, 1.6f, true );
             m_audio.play( SfxE::TICK );
@@ -2293,7 +2443,8 @@ void Game::timeAttackRules( float h )
     {
         // A ferry or a car train: aboard, the crossing begins.
         const Crossing xc = track.crossingAt( m_car.m_s );
-        if( xc.m_type != CrossingE::NONE && ( m_state == StateE::RACE || m_demo ) && m_car.m_s >= xc.m_board + 14.0 && m_car.m_s < xc.m_land - xc.m_length )
+        if ( xc.m_type != CrossingE::NONE && ( m_state == StateE::RACE || m_demo ) && m_car.m_s >= xc.m_board + 14.0 &&
+             m_car.m_s < xc.m_land - xc.m_length )
         {
             startCrossing( xc );
             return;
@@ -2302,27 +2453,29 @@ void Game::timeAttackRules( float h )
     {
         // A fork of the world tour: the carriageway the car is on where the barrier begins decides the way on.
         const Fork fork = track.fork( stage );
-        if( fork.m_exists && fork.m_chosen == 0 && m_car.m_s >= fork.m_at )
+        if ( fork.m_exists && fork.m_chosen == 0 && m_car.m_s >= fork.m_at )
         {
             const int side = m_car.m_x < 0.0f ? -1 : 1;
             m_track->choose( stage, side );
             std::string nameL, nameR;
             forkNames( fork.m_left, fork.m_right, track.stageBiome( stage ), nameL, nameR );
             popup( "NEXT", placeName( side < 0 ? fork.m_left : fork.m_right ), Accent, 0.9f, 2.6f );
-            if( m_mode == ModeE::RALLY && m_journey >= 0 && m_journey < static_cast<int>( journeys().size() ) )
+            if ( m_mode == ModeE::RALLY && m_journey >= 0 && m_journey < static_cast<int>( journeys().size() ) )
             {
                 const Journey &j = journeys()[static_cast<size_t>( m_journey )];
                 const int      left = routeStages( side < 0 ? fork.m_left : fork.m_right, j.m_to );
-                if( left > 0 ) popup( format( "%d %s TO %s", left, left == 1 ? "STAGE" : "STAGES", biomeDef( j.m_to ).m_name ), "", Gold, 0.7f, 3.0f, true );
+                if ( left > 0 )
+                    popup( format( "%d %s TO %s", left, left == 1 ? "STAGE" : "STAGES", biomeDef( j.m_to ).m_name ), "",
+                           Gold, 0.7f, 3.0f, true );
             }
         }
     }
     const double ds = m_car.m_s - m_lastS;
     m_lastS = m_car.m_s;
     const float sn = m_car.m_speed / m_car.m_spec.m_topSpeed;
-    if( !m_timeUp ) m_score += ds * ( 0.5 + 1.5 * static_cast<double>( sn * sn ) ) * m_combo;
+    if ( !m_timeUp ) m_score += ds * ( 0.5 + 1.5 * static_cast<double>( sn * sn ) ) * m_combo;
     m_comboTimer -= h;
-    if( m_comboTimer <= 0.0f ) m_combo = 1;
+    if ( m_comboTimer <= 0.0f ) m_combo = 1;
 }
 
 CarInput Game::autopilot() const
@@ -2336,31 +2489,37 @@ CarInput Game::autopilot() const
     int   best = current;
     float bestCost = 1e9f;
     int   forkSide = 0;
-    if( seg.m_flags & SEG_FORK )
+    if ( seg.m_flags & SEG_FORK )
     {
         const Fork fork = track.fork( seg.m_stage );
-        forkSide = fork.m_chosen != 0 ? fork.m_chosen : ( hash64( m_seed * 31 + static_cast<uint64_t>( seg.m_stage ) ) & 1 ) ? 1 : -1;
-        if( fork.m_chosen == 0 && m_car.m_s > fork.m_at - 150.0 ) forkSide = m_car.m_x < 0.0f ? -1 : 1;
+        forkSide = fork.m_chosen != 0                                                     ? fork.m_chosen
+                   : ( hash64( m_seed * 31 + static_cast<uint64_t>( seg.m_stage ) ) & 1 ) ? 1
+                                                                                          : -1;
+        if ( fork.m_chosen == 0 && m_car.m_s > fork.m_at - 150.0 ) forkSide = m_car.m_x < 0.0f ? -1 : 1;
     }
-    for( int lane = 0; lane < lanes; ++lane )
+    for ( int lane = 0; lane < lanes; ++lane )
     {
-        float cost = std::abs( static_cast<float>( lane - current ) ) * 6.0f + std::abs( static_cast<float>( lane ) - ( lanes - 1 ) * 0.5f );
-        if( forkSide != 0 && lanes >= 2 && ( lane * 2 < lanes ) != ( forkSide < 0 ) ) cost += 400.0f;
-        for( long i = 0; i < 30; ++i )
-            if( track.segment( static_cast<long>( m_car.m_s / SegmentLength ) + i ).m_blockedLanes & ( 1u << lane ) ) cost += 200.0f;
-        for( const TrafficCar &c : m_traffic.m_cars )
+        float cost = std::abs( static_cast<float>( lane - current ) ) * 6.0f +
+                     std::abs( static_cast<float>( lane ) - ( lanes - 1 ) * 0.5f );
+        if ( forkSide != 0 && lanes >= 2 && ( lane * 2 < lanes ) != ( forkSide < 0 ) ) cost += 400.0f;
+        for ( long i = 0; i < 30; ++i )
+            if ( track.segment( static_cast<long>( m_car.m_s / SegmentLength ) + i ).m_blockedLanes & ( 1u << lane ) )
+                cost += 200.0f;
+        for ( const TrafficCar &c : m_traffic.m_cars )
         {
             const double gap = c.m_s - m_car.m_s;
-            if( gap < -6.0 || gap > 90.0 || c.m_swim ) continue;
-            if( laneOf( c.m_x, lanes, seg.m_halfWidth ) == lane ) cost += 120.0f * static_cast<float>( 1.0 - gap / 100.0 );
+            if ( gap < -6.0 || gap > 90.0 || c.m_swim ) continue;
+            if ( laneOf( c.m_x, lanes, seg.m_halfWidth ) == lane )
+                cost += 120.0f * static_cast<float>( 1.0 - gap / 100.0 );
         }
-        for( const Rival &r : m_race.m_rivals )
+        for ( const Rival &r : m_race.m_rivals )
         {
             const double gap = r.m_s - m_car.m_s;
-            if( gap < -6.0 || gap > 60.0 || r.m_speed > m_car.m_speed + 2.0f ) continue;
-            if( laneOf( r.m_x, lanes, seg.m_halfWidth ) == lane ) cost += 90.0f * static_cast<float>( 1.0 - gap / 70.0 );
+            if ( gap < -6.0 || gap > 60.0 || r.m_speed > m_car.m_speed + 2.0f ) continue;
+            if ( laneOf( r.m_x, lanes, seg.m_halfWidth ) == lane )
+                cost += 90.0f * static_cast<float>( 1.0 - gap / 70.0 );
         }
-        if( cost < bestCost )
+        if ( cost < bestCost )
         {
             bestCost = cost;
             best = lane;
@@ -2372,27 +2531,28 @@ CarInput Game::autopilot() const
     const float grip = m_car.m_spec.m_grip * m_car.m_wetGrip;
     float       maxK = 0.0f;
     const float look = 40.0f + m_car.m_speed * 2.6f;
-    for( float d = 0.0f; d < look; d += SegmentLength )
-        maxK = std::max( maxK, std::abs( track.segment( static_cast<long>( ( m_car.m_s + d ) / SegmentLength ) ).m_curve ) );
+    for ( float d = 0.0f; d < look; d += SegmentLength )
+        maxK = std::max( maxK,
+                         std::abs( track.segment( static_cast<long>( ( m_car.m_s + d ) / SegmentLength ) ).m_curve ) );
     const float limit = steerLimit( std::max( m_car.m_speed, 25.0f ), m_car.m_spec.m_topSpeed ) * grip * 0.8f;
     const float vMax = std::max( 15.0f, std::sqrt( limit / ( tuning().m_centrifugal * maxK + 1e-6f ) ) );
 
     // Follow a car that blocks the lane until there is room to pass.
     float follow = 1e9f;
-    for( const TrafficCar &c : m_traffic.m_cars )
+    for ( const TrafficCar &c : m_traffic.m_cars )
     {
         const double gap = c.m_s - m_car.m_s - ( c.m_length + m_car.m_spec.m_length ) * 0.5;
-        if( gap < 0.0 || gap > 25.0 + m_car.m_speed * 1.2 || c.m_swim ) continue;
+        if ( gap < 0.0 || gap > 25.0 + m_car.m_speed * 1.2 || c.m_swim ) continue;
         const float dx = std::abs( c.m_x - m_car.m_x );
         const float tx = std::abs( c.m_x - targetX );
-        if( dx < ( c.m_width + m_car.m_spec.m_width ) * 0.6f || tx < 1.5f )
+        if ( dx < ( c.m_width + m_car.m_spec.m_width ) * 0.6f || tx < 1.5f )
             follow = std::min( follow, c.m_speed + static_cast<float>( gap ) * 0.35f - 3.0f );
     }
-    for( const Rival &r : m_race.m_rivals )
+    for ( const Rival &r : m_race.m_rivals )
     {
         const double gap = r.m_s - m_car.m_s - m_car.m_spec.m_length;
-        if( gap < 0.0 || gap > 15.0 + m_car.m_speed * 0.8 ) continue;
-        if( std::abs( r.m_x - m_car.m_x ) < 2.0f || std::abs( r.m_x - targetX ) < 1.5f )
+        if ( gap < 0.0 || gap > 15.0 + m_car.m_speed * 0.8 ) continue;
+        if ( std::abs( r.m_x - m_car.m_x ) < 2.0f || std::abs( r.m_x - targetX ) < 1.5f )
             follow = std::min( follow, r.m_speed + static_cast<float>( gap ) * 0.4f - 1.0f );
     }
     const float want = std::min( vMax, std::max( 0.0f, follow ) );
@@ -2409,9 +2569,9 @@ CarInput Game::autopilot() const
 
 void Game::sparks( const Vec3d &at, int count, float speed )
 {
-    Rng &r = m_particles.m_rng;
+    Rng             &r = m_particles.m_rng;
     const TrackFrame f = m_track->frameAt( m_car.m_s );
-    for( int i = 0; i < count; ++i )
+    for ( int i = 0; i < count; ++i )
     {
         Particle p;
         p.m_pos = at;
@@ -2432,31 +2592,31 @@ void Game::handleEvents()
 {
     const bool scoring = m_state == StateE::RACE && !m_demo && !m_timeUp && !m_setup.m_race && !m_finishedTrack;
     const Pose pose = m_car.pose( *m_track );
-    if( m_ev.m_overtakes > 0 )
+    if ( m_ev.m_overtakes > 0 )
     {
-        if( scoring )
+        if ( scoring )
         {
             m_overtakes += m_ev.m_overtakes;
             m_score += 100.0 * m_combo * m_ev.m_overtakes;
         }
         m_car.m_boostTank = std::min( 1.0f, m_car.m_boostTank + 0.03f * static_cast<float>( m_ev.m_overtakes ) );
     }
-    if( ( m_ev.m_hit > 0.25f || m_car.m_crashTimer > 0.0f || m_crash > 0.3f ) && m_passenger.breakCargo() )
+    if ( ( m_ev.m_hit > 0.25f || m_car.m_crashTimer > 0.0f || m_crash > 0.3f ) && m_passenger.breakCargo() )
     {
         popup( "CRASH!", "THE PARCEL IS BROKEN", Red, 1.0f, 2.6f );
         m_audio.play( SfxE::CRASH, 0.5f );
     }
-    if( m_ev.m_gaveWay > 0 && scoring )
+    if ( m_ev.m_gaveWay > 0 && scoring )
     {
         m_records.m_gaveWay += m_ev.m_gaveWay;
         checkAchievements();
         m_score += 1000.0;
         popup( "GAVE WAY", "+1000", Green, 0.8f, 1.8f );
     }
-    for( int i = 0; i < m_ev.m_nearMisses; ++i )
+    for ( int i = 0; i < m_ev.m_nearMisses; ++i )
     {
         m_car.m_boostTank = std::min( 1.0f, m_car.m_boostTank + 0.12f );
-        if( !scoring ) continue;
+        if ( !scoring ) continue;
         ++m_nearMisses;
         m_combo = std::min( m_combo + 1, 8 );
         m_comboTimer = 4.0f;
@@ -2464,77 +2624,82 @@ void Game::handleEvents()
         popup( "NEAR MISS", format( "+%d  X%d", 500 * m_combo, m_combo ), Cyan, 0.7f, 1.3f, true );
         m_audio.play( SfxE::NEAR_MISS, 0.8f );
     }
-    if( m_ev.m_whoosh > 0.0f ) m_audio.play( SfxE::WHOOSH, m_ev.m_whoosh, m_ev.m_whooshPan, m_ev.m_whooshPitch );
-    if( m_car.m_eventAquaplane && !m_demo && m_state == StateE::RACE )
+    if ( m_ev.m_whoosh > 0.0f ) m_audio.play( SfxE::WHOOSH, m_ev.m_whoosh, m_ev.m_whooshPan, m_ev.m_whooshPitch );
+    if ( m_car.m_eventAquaplane && !m_demo && m_state == StateE::RACE )
     {
         ++m_records.m_aquaplanes;
-        if( m_records.m_aquaplanes == 1 ) checkAchievements();
-        if( m_time - m_aquaShown > 20.0f ) popup( "AQUAPLANING", "", Cyan, 0.7f, 1.4f, true );
+        if ( m_records.m_aquaplanes == 1 ) checkAchievements();
+        if ( m_time - m_aquaShown > 20.0f ) popup( "AQUAPLANING", "", Cyan, 0.7f, 1.4f, true );
         m_aquaShown = m_time;
         m_audio.play( SfxE::WHOOSH, 0.8f );
         m_haptics.pulse( 0.3f, 0.6f, 0.4f );
     }
-    if( m_ev.m_horn > 0.0f && !m_demo ) m_audio.play( SfxE::HORN, m_ev.m_horn, m_ev.m_hornPan, m_ev.m_hornPitch );
-    if( m_raceEv.m_whoosh > 0.0f ) m_audio.play( SfxE::WHOOSH, m_raceEv.m_whoosh, m_raceEv.m_whooshPan );
-    if( m_raceEv.m_hit > 0.0f )
+    if ( m_ev.m_horn > 0.0f && !m_demo ) m_audio.play( SfxE::HORN, m_ev.m_horn, m_ev.m_hornPan, m_ev.m_hornPitch );
+    if ( m_raceEv.m_whoosh > 0.0f ) m_audio.play( SfxE::WHOOSH, m_raceEv.m_whoosh, m_raceEv.m_whooshPan );
+    if ( m_raceEv.m_hit > 0.0f )
     {
         m_audio.play( m_raceEv.m_hit > 0.6f ? SfxE::CRASH : SfxE::BUMP, m_raceEv.m_hit );
         m_haptics.pulse( 0.5f * m_raceEv.m_hit, 0.35f * m_raceEv.m_hit, 0.25f );
         sparks( poseLocal( pose, 0.0f, 0.5f, 1.0f ), 10, 5.0f );
     }
-    if( m_ev.m_animal >= 0 && !m_demo && m_state == StateE::RACE )
+    if ( m_ev.m_animal >= 0 && !m_demo && m_state == StateE::RACE )
     {
         static const std::pair<PropKindE, const char *> names[] = {
-            { PropKindE::COW, "CATTLE ON THE ROAD" },  { PropKindE::SHEEP, "SHEEP ON THE ROAD" }, { PropKindE::HORSE, "HORSES CROSSING" },
-            { PropKindE::CAMEL, "CAMELS CROSSING" },   { PropKindE::ELEPHANT, "ELEPHANTS!" },     { PropKindE::GIRAFFE, "GIRAFFES CROSSING" },
-            { PropKindE::ZEBRA, "ZEBRAS CROSSING" },   { PropKindE::KANGAROO, "KANGAROOS!" },     { PropKindE::LLAMA, "LLAMAS CROSSING" },
-            { PropKindE::BISON, "BISON ON THE ROAD" }, { PropKindE::MOOSE, "MOOSE CROSSING" },    { PropKindE::REINDEER, "REINDEER CROSSING" },
-            { PropKindE::YAK, "YAKS ON THE ROAD" } };
-        for( const auto &[kind, text] : names )
-            if( static_cast<int>( kind ) == m_ev.m_animal ) popup( text, "", Gold, 0.75f, 2.2f );
+            { PropKindE::COW, "CATTLE ON THE ROAD" }, { PropKindE::SHEEP, "SHEEP ON THE ROAD" },
+            { PropKindE::HORSE, "HORSES CROSSING" },  { PropKindE::CAMEL, "CAMELS CROSSING" },
+            { PropKindE::ELEPHANT, "ELEPHANTS!" },    { PropKindE::GIRAFFE, "GIRAFFES CROSSING" },
+            { PropKindE::ZEBRA, "ZEBRAS CROSSING" },  { PropKindE::KANGAROO, "KANGAROOS!" },
+            { PropKindE::LLAMA, "LLAMAS CROSSING" },  { PropKindE::BISON, "BISON ON THE ROAD" },
+            { PropKindE::MOOSE, "MOOSE CROSSING" },   { PropKindE::REINDEER, "REINDEER CROSSING" },
+            { PropKindE::YAK, "YAKS ON THE ROAD" }
+        };
+        for ( const auto &[kind, text] : names )
+            if ( static_cast<int>( kind ) == m_ev.m_animal ) popup( text, "", Gold, 0.75f, 2.2f );
     }
-    if( m_ev.m_hit > 0.0f )
+    if ( m_ev.m_hit > 0.0f )
     {
         m_audio.play( m_ev.m_hit > 0.6f ? SfxE::CRASH : SfxE::BUMP, m_ev.m_hit );
         m_haptics.pulse( 0.7f * m_ev.m_hit, 0.4f * m_ev.m_hit, 0.3f );
         sparks( poseLocal( pose, 0.0f, 0.5f, 2.0f ), 14, 6.0f );
         m_combo = 1;
     }
-    for( int i = 0; i < std::min( m_ev.m_cones, 3 ); ++i ) m_audio.play( SfxE::CONE, 0.9f, m_particles.m_rng.range( -0.4f, 0.4f ) );
-    if( m_ev.m_cones > 0 ) m_haptics.pulse( 0.15f, 0.4f, 0.12f );
-    if( m_crash > 0.0f )
+    for ( int i = 0; i < std::min( m_ev.m_cones, 3 ); ++i )
+        m_audio.play( SfxE::CONE, 0.9f, m_particles.m_rng.range( -0.4f, 0.4f ) );
+    if ( m_ev.m_cones > 0 ) m_haptics.pulse( 0.15f, 0.4f, 0.12f );
+    if ( m_crash > 0.0f )
     {
         m_audio.play( SfxE::CRASH, m_crash );
         m_haptics.pulse( std::min( 1.0f, 0.6f + m_crash ), 0.6f, 0.6f );
         sparks( poseLocal( pose, 0.0f, 0.6f, 1.5f ), 36, 9.0f );
         m_combo = 1;
     }
-    if( m_scraping )
+    if ( m_scraping )
     {
         sparks( poseLocal( pose, -m_scrapeSide * m_car.m_spec.m_width * 0.5f, 0.4f, 0.5f ), 2, 4.0f );
-        if( !m_wasScraping ) m_audio.play( SfxE::BUMP, 0.5f, m_scrapeSide );
+        if ( !m_wasScraping ) m_audio.play( SfxE::BUMP, 0.5f, m_scrapeSide );
         m_haptics.steady( 0.12f, 0.45f );
     }
     m_wasScraping = m_scraping;
-    if( m_landed && m_landImpact > 3.0f )
+    if ( m_landed && m_landImpact > 3.0f )
     {
         m_audio.play( SfxE::LAND, std::min( 1.0f, m_landImpact / 12.0f ) );
         m_haptics.pulse( std::min( 1.0f, m_landImpact / 12.0f ) * 0.8f, 0.2f, 0.25f );
     }
-    if( m_shifted && !m_demo )
+    if ( m_shifted && !m_demo )
     {
         m_audio.play( SfxE::SHIFT, 0.5f );
         m_haptics.pulse( 0.18f, 0.0f, 0.08f );
     }
-    if( m_backfire && !m_demo )
+    if ( m_backfire && !m_demo )
     {
         m_audio.play( SfxE::BACKFIRE, 0.8f );
         Rng &r = m_particles.m_rng;
-        for( int i = 0; i < 6; ++i )
+        for ( int i = 0; i < 6; ++i )
         {
             Particle p;
             p.m_pos = poseLocal( pose, r.range( -0.4f, 0.4f ), 0.35f, -m_car.m_spec.m_length * 0.5f - 0.1f );
-            p.m_vel = Vector3Add( Vector3Scale( pose.m_forward, m_car.m_speed - r.range( 3.0f, 8.0f ) ), Vector3{ 0, r.range( 0, 1 ), 0 } );
+            p.m_vel = Vector3Add( Vector3Scale( pose.m_forward, m_car.m_speed - r.range( 3.0f, 8.0f ) ),
+                                  Vector3{ 0, r.range( 0, 1 ), 0 } );
             p.m_maxLife = r.range( 0.06f, 0.14f );
             p.m_size = r.range( 0.15f, 0.3f );
             p.m_color = Color{ 255, 140, 40, 255 };
@@ -2542,22 +2707,22 @@ void Game::handleEvents()
             m_particles.emit( p );
         }
     }
-    if( m_car.m_boosting && !m_wasBoosting && !m_demo )
+    if ( m_car.m_boosting && !m_wasBoosting && !m_demo )
     {
         m_audio.play( SfxE::BOOST, 0.8f );
         m_haptics.pulse( 0.3f, 0.15f, 0.45f );
     }
     m_wasBoosting = m_car.m_boosting;
-    if( m_state == StateE::RACE && !m_timeUp && !m_setup.m_race && !m_finishedTrack && m_timeLeft < 10.0f )
+    if ( m_state == StateE::RACE && !m_timeUp && !m_setup.m_race && !m_finishedTrack && m_timeLeft < 10.0f )
     {
         const int sec = static_cast<int>( std::ceil( m_timeLeft ) );
-        if( sec != m_lastWarning )
+        if ( sec != m_lastWarning )
         {
             m_lastWarning = sec;
             m_audio.play( SfxE::WARNING, 0.8f );
         }
     }
-    else if( m_timeLeft >= 10.0f )
+    else if ( m_timeLeft >= 10.0f )
     {
         m_lastWarning = 99;
     }
@@ -2573,13 +2738,14 @@ void Game::emitParticles( float dt )
     const Vector3     carVel = Vector3Scale( pose.m_forward, m_car.m_speed );
     const float       rearZ = -m_car.m_spec.m_length * 0.3f;
 
-    if( m_car.m_slip > 0.25f )
+    if ( m_car.m_slip > 0.25f )
     {
-        for( int i = emitCount( m_car.m_slip * 70.0f, dt, r ); i > 0; --i )
+        for ( int i = emitCount( m_car.m_slip * 70.0f, dt, r ); i > 0; --i )
         {
             Particle p;
             p.m_pos = poseLocal( pose, ( i % 2 ? 0.8f : -0.8f ), 0.25f, rearZ );
-            p.m_vel = Vector3Add( Vector3Scale( carVel, 0.3f ), Vector3{ r.range( -1.5f, 1.5f ), r.range( 0.4f, 1.4f ), r.range( -1.5f, 1.5f ) } );
+            p.m_vel = Vector3Add( Vector3Scale( carVel, 0.3f ),
+                                  Vector3{ r.range( -1.5f, 1.5f ), r.range( 0.4f, 1.4f ), r.range( -1.5f, 1.5f ) } );
             p.m_maxLife = r.range( 0.8f, 1.4f );
             p.m_size = 0.4f;
             p.m_grow = 2.2f;
@@ -2589,17 +2755,18 @@ void Game::emitParticles( float dt )
         }
     }
     const float dirt = std::max( m_car.m_offroad, m_car.m_unpaved && !m_car.m_airborne ? 0.75f : 0.0f );
-    if( dirt > 0.3f && m_car.m_speed > 5.0f )
+    if ( dirt > 0.3f && m_car.m_speed > 5.0f )
     {
         // Off the road, or on gravel and sand: a cloud of the ground's colour (the road's own on a dirt track).
         const bool  snowy = env.m_snow > 0.5f;
         const Color ground = m_car.m_offroad > 0.3f ? surf.m_groundA : surf.m_road;
         const Color dust = snowy ? Color{ 240, 244, 250, 150 } : lerpColor( ground, Color{ 200, 180, 150, 255 }, 0.4f );
-        for( int i = emitCount( dirt * m_car.m_speed * 1.2f, dt, r ); i > 0; --i )
+        for ( int i = emitCount( dirt * m_car.m_speed * 1.2f, dt, r ); i > 0; --i )
         {
             Particle p;
             p.m_pos = poseLocal( pose, r.range( -0.9f, 0.9f ), 0.2f, rearZ - 0.3f );
-            p.m_vel = Vector3Add( Vector3Scale( carVel, 0.4f ), Vector3{ r.range( -2.0f, 2.0f ), r.range( 1.0f, 3.0f ), r.range( -2.0f, 2.0f ) } );
+            p.m_vel = Vector3Add( Vector3Scale( carVel, 0.4f ),
+                                  Vector3{ r.range( -2.0f, 2.0f ), r.range( 1.0f, 3.0f ), r.range( -2.0f, 2.0f ) } );
             p.m_maxLife = r.range( 0.9f, 1.6f );
             p.m_size = 0.5f;
             p.m_grow = 3.0f;
@@ -2611,19 +2778,21 @@ void Game::emitParticles( float dt )
     }
     // Dust devils over the desert on clear days, in every other stage: whirls of sand drifting beside the road.
     const BiomeDef &land = biomeDef( m_track->stageBiome( static_cast<int>( m_car.m_s / StageLength ) ) );
-    if( land.m_climate == ClimateE::ARID && env.m_dust < 0.2f && env.m_rain < 0.1f && env.m_sunElevation > 10.0f && !m_demo &&
-        hash64( m_track->seed() * 53 + static_cast<uint64_t>( m_car.m_s / StageLength ) ) % 2 == 0 )
+    if ( land.m_climate == ClimateE::ARID && env.m_dust < 0.2f && env.m_rain < 0.1f && env.m_sunElevation > 10.0f &&
+         !m_demo && hash64( m_track->seed() * 53 + static_cast<uint64_t>( m_car.m_s / StageLength ) ) % 2 == 0 )
     {
         const long block = static_cast<long>( m_car.m_s / 700.0 );
-        for( long b = block; b <= block + 1; ++b )
+        for ( long b = block; b <= block + 1; ++b )
         {
             const uint64_t h = hash64( m_track->seed() * 91 + static_cast<uint64_t>( b ) );
-            const double   ds = static_cast<double>( b ) * 700.0 + static_cast<double>( h % 700 ) + std::sin( m_time * 0.15f + static_cast<float>( h % 7 ) ) * 20.0;
-            const float    lateral = ( h & 1 ? 1.0f : -1.0f ) * ( 30.0f + static_cast<float>( ( h >> 8 ) % 90 ) ) + std::sin( m_time * 0.2f + static_cast<float>( h % 5 ) ) * 15.0f;
-            if( ds - m_car.m_s < 40.0 || ds - m_car.m_s > 600.0 ) continue;
-            const Vec3d foot = m_track->pointAt( ds, 0.0f, 0.0f );
+            const double   ds = static_cast<double>( b ) * 700.0 + static_cast<double>( h % 700 ) +
+                                std::sin( m_time * 0.15f + static_cast<float>( h % 7 ) ) * 20.0;
+            const float    lateral = ( h & 1 ? 1.0f : -1.0f ) * ( 30.0f + static_cast<float>( ( h >> 8 ) % 90 ) ) +
+                                     std::sin( m_time * 0.2f + static_cast<float>( h % 5 ) ) * 15.0f;
+            if ( ds - m_car.m_s < 40.0 || ds - m_car.m_s > 600.0 ) continue;
+            const Vec3d      foot = m_track->pointAt( ds, 0.0f, 0.0f );
             const TrackFrame f = m_track->frameAt( ds );
-            for( int i = emitCount( 70.0f, dt, r ); i > 0; --i )
+            for ( int i = emitCount( 70.0f, dt, r ); i > 0; --i )
             {
                 // Round the axis, rising and turning.
                 const float a = r.range( 0.0f, Tau ), radius = r.range( 0.4f, 2.6f );
@@ -2644,15 +2813,19 @@ void Game::emitParticles( float dt )
         }
     }
     const float slushy = smoothstepf( 0.05f, 0.4f, env.m_snow );
-    if( ( env.m_rain > 0.4f || slushy > 0.3f || m_car.m_aquaplane > 0.0f ) && m_car.m_speed > 15.0f && !m_car.m_airborne )
+    if ( ( env.m_rain > 0.4f || slushy > 0.3f || m_car.m_aquaplane > 0.0f ) && m_car.m_speed > 15.0f &&
+         !m_car.m_airborne )
     {
         // Spray: water in the rain, a sheet of it when the tyres float, grey slush in the snow.
-        const float amount = std::max( { env.m_rain, slushy, m_car.m_aquaplane * 3.0f, m_car.m_inFlood ? 4.0f : 0.0f } );
-        for( int i = emitCount( m_car.m_speed * 0.7f * amount, dt, r ); i > 0; --i )
+        const float amount =
+            std::max( { env.m_rain, slushy, m_car.m_aquaplane * 3.0f, m_car.m_inFlood ? 4.0f : 0.0f } );
+        for ( int i = emitCount( m_car.m_speed * 0.7f * amount, dt, r ); i > 0; --i )
         {
             Particle p;
             p.m_pos = poseLocal( pose, ( i % 2 ? 0.8f : -0.8f ), 0.2f, rearZ - 0.2f );
-            p.m_vel = Vector3Add( Vector3Scale( carVel, 0.55f ), Vector3{ r.range( -1.0f, 1.0f ), r.range( 0.5f, 1.5f ) + m_car.m_aquaplane * 2.0f, r.range( -1.0f, 1.0f ) } );
+            p.m_vel = Vector3Add( Vector3Scale( carVel, 0.55f ),
+                                  Vector3{ r.range( -1.0f, 1.0f ), r.range( 0.5f, 1.5f ) + m_car.m_aquaplane * 2.0f,
+                                           r.range( -1.0f, 1.0f ) } );
             p.m_maxLife = r.range( 0.5f, 0.8f );
             p.m_size = 0.45f;
             p.m_grow = 4.0f;
@@ -2661,13 +2834,14 @@ void Game::emitParticles( float dt )
             m_particles.emit( p );
         }
     }
-    if( m_car.m_boosting )
+    if ( m_car.m_boosting )
     {
-        for( int i = emitCount( 90.0f, dt, r ); i > 0; --i )
+        for ( int i = emitCount( 90.0f, dt, r ); i > 0; --i )
         {
             Particle p;
             p.m_pos = poseLocal( pose, ( i % 2 ? 0.35f : -0.35f ), 0.32f, -m_car.m_spec.m_length * 0.5f - 0.05f );
-            p.m_vel = Vector3Add( Vector3Scale( pose.m_forward, m_car.m_speed - 7.0f ), Vector3{ r.range( -0.4f, 0.4f ), r.range( -0.2f, 0.4f ), 0.0f } );
+            p.m_vel = Vector3Add( Vector3Scale( pose.m_forward, m_car.m_speed - 7.0f ),
+                                  Vector3{ r.range( -0.4f, 0.4f ), r.range( -0.2f, 0.4f ), 0.0f } );
             p.m_maxLife = r.range( 0.07f, 0.13f );
             p.m_size = r.range( 0.12f, 0.22f );
             p.m_color = Color{ 110, 170, 255, 255 };
@@ -2675,13 +2849,14 @@ void Game::emitParticles( float dt )
             m_particles.emit( p );
         }
     }
-    if( m_landed && m_landImpact > 4.0f )
+    if ( m_landed && m_landImpact > 4.0f )
     {
-        for( int i = 0; i < 16; ++i )
+        for ( int i = 0; i < 16; ++i )
         {
             Particle p;
             p.m_pos = poseLocal( pose, r.range( -1.0f, 1.0f ), 0.1f, r.range( -2.0f, 2.0f ) );
-            p.m_vel = Vector3Add( Vector3Scale( carVel, 0.5f ), Vector3{ r.range( -3.0f, 3.0f ), r.range( 0.5f, 2.0f ), r.range( -3.0f, 3.0f ) } );
+            p.m_vel = Vector3Add( Vector3Scale( carVel, 0.5f ),
+                                  Vector3{ r.range( -3.0f, 3.0f ), r.range( 0.5f, 2.0f ), r.range( -3.0f, 3.0f ) } );
             p.m_maxLife = 1.0f;
             p.m_size = 0.5f;
             p.m_grow = 2.5f;
@@ -2697,11 +2872,14 @@ void Game::updateCamera( float dt )
     const Track &track = *m_track;
     const int    mode = m_demo ? 1 : m_settings.m_camera;
     const float  sn = m_car.m_speed / m_car.m_spec.m_topSpeed;
-    const float  fovTarget = ( mode == 2 ? 66.0f : mode == 3 ? 62.0f : 58.0f ) + 20.0f * std::pow( sn, 1.4f ) + ( m_car.m_boosting ? 9.0f : 0.0f );
+    const float  fovTarget = ( mode == 2   ? 66.0f
+                               : mode == 3 ? 62.0f
+                                           : 58.0f ) +
+                             20.0f * std::pow( sn, 1.4f ) + ( m_car.m_boosting ? 9.0f : 0.0f );
     m_fov = m_camInit ? approach( m_fov, fovTarget, 3.0f, dt ) : fovTarget;
     const TrackFrame f = track.frameAt( m_car.m_s );
-    const double surfaceAtCar = track.surfaceHeight( m_car.m_s, m_car.m_x );
-    const float  lift = static_cast<float>( m_car.m_y - surfaceAtCar );
+    const double     surfaceAtCar = track.surfaceHeight( m_car.m_s, m_car.m_x );
+    const float      lift = static_cast<float>( m_car.m_y - surfaceAtCar );
 
     // The driver sits on the side the country's cars have the wheel (on the right where they keep left).
     const BiomeDef &here = biomeDef( track.stageBiome( static_cast<int>( m_car.m_s / StageLength ) ) );
@@ -2709,10 +2887,11 @@ void Game::updateCamera( float dt )
     m_seat = m_camInit ? approach( m_seat, seatTarget, 2.0f, dt ) : seatTarget;
     // The ornament at the mirror swings out of the bends and jumps on the bumps.
     const float swingTo = -m_car.m_steer * std::min( 1.0f, sn * 1.6f ) * 0.5f;
-    m_swingVel += ( ( swingTo - m_swing ) * 38.0f - m_swingVel * 2.2f ) * dt + ( m_car.m_shake > 0.2f ? std::sin( m_time * 53.0f ) * m_car.m_shake * 6.0f * dt : 0.0f );
+    m_swingVel += ( ( swingTo - m_swing ) * 38.0f - m_swingVel * 2.2f ) * dt +
+                  ( m_car.m_shake > 0.2f ? std::sin( m_time * 53.0f ) * m_car.m_shake * 6.0f * dt : 0.0f );
     m_swing = clampf( m_swing + m_swingVel * dt, -1.1f, 1.1f );
     m_cockpit = mode == 3;
-    if( mode == 4 )
+    if ( mode == 4 )
     {
         // From above (--camera 4, for screenshots of the road's shape): high behind the car, looking down at it.
         const Pose p = m_car.pose( track );
@@ -2720,19 +2899,21 @@ void Game::updateCamera( float dt )
         m_cam.m_forward = Vector3Normalize( relativeTo( poseLocal( p, 0.0f, 0.0f, 60.0f ), m_cam.m_pos ) );
         m_cam.m_up = Vector3{ 0.0f, 1.0f, 0.0f };
     }
-    else if( mode == 3 )
+    else if ( mode == 3 )
     {
         const Pose p = m_car.pose( track );
         m_cam.m_pos = poseLocal( p, 0.36f * m_seat, 1.08f, -0.35f );
-        const Vector3 fwd = Vector3Normalize( Vector3Add( Vector3Scale( f.m_forward, 0.5f ), Vector3Scale( p.m_forward, 0.5f ) ) );
+        const Vector3 fwd =
+            Vector3Normalize( Vector3Add( Vector3Scale( f.m_forward, 0.5f ), Vector3Scale( p.m_forward, 0.5f ) ) );
         m_cam.m_forward = fwd;
         m_cam.m_up = p.m_up;
     }
-    else if( mode == 2 )
+    else if ( mode == 2 )
     {
         const Pose p = m_car.pose( track );
         m_cam.m_pos = poseLocal( p, 0.0f, 1.02f, 0.3f );
-        const Vector3 fwd = Vector3Normalize( Vector3Add( Vector3Scale( f.m_forward, 0.6f ), Vector3Scale( p.m_forward, 0.4f ) ) );
+        const Vector3 fwd =
+            Vector3Normalize( Vector3Add( Vector3Scale( f.m_forward, 0.6f ), Vector3Scale( p.m_forward, 0.4f ) ) );
         m_cam.m_forward = fwd;
         m_cam.m_up = p.m_up;
     }
@@ -2740,7 +2921,7 @@ void Game::updateCamera( float dt )
     {
         float back = ( mode == 0 ? 6.4f : 9.2f ) + sn * 0.9f;
         float height = mode == 0 ? 2.1f : 3.1f;
-        if( m_demo ) back += 2.0f * std::sin( m_time * 0.15f );
+        if ( m_demo ) back += 2.0f * std::sin( m_time * 0.15f );
         m_camX = m_camInit ? approach( m_camX, m_car.m_x * 0.82f, 5.0f, dt ) : m_car.m_x * 0.82f;
         const double camS = m_car.m_s - back;
         Vec3d        pos = track.pointAt( camS, m_camX, 0.0f );
@@ -2754,16 +2935,17 @@ void Game::updateCamera( float dt )
         const Vector3 up = Vector3Normalize( Vector3Lerp( Vector3{ 0, 1, 0 }, f.m_up, 0.5f ) );
         const float   roll = -m_car.m_steer * 0.025f - clampf( m_car.m_drift * 0.002f, -0.03f, 0.03f );
         const Vector3 right = Vector3Normalize( Vector3CrossProduct( m_cam.m_forward, up ) );
-        m_cam.m_up = Vector3Normalize( Vector3Add( Vector3Scale( up, std::cos( roll ) ), Vector3Scale( right, std::sin( roll ) ) ) );
+        m_cam.m_up = Vector3Normalize(
+            Vector3Add( Vector3Scale( up, std::cos( roll ) ), Vector3Scale( right, std::sin( roll ) ) ) );
     }
     // Looking back while the key is held: over the car's roof (from the driver's seat in the bumper view) down the road behind.
     m_lookingBack = m_input.m_lookBack && !m_demo && ( m_state == StateE::RACE || m_state == StateE::COUNTDOWN );
-    if( m_lookingBack )
+    if ( m_lookingBack )
     {
         const Pose p = m_car.pose( track );
         Vec3d      look;
         m_cockpit = false;
-        if( mode >= 2 )
+        if ( mode >= 2 )
         {
             m_cam.m_pos = poseLocal( p, 0.0f, 1.05f, -0.4f );
             look = track.pointAt( m_car.m_s - 30.0, m_car.m_x, 1.0f );
@@ -2781,17 +2963,18 @@ void Game::updateCamera( float dt )
         m_blur = 0.0f;
         return;
     }
-    if( m_state == StateE::REPLAY && replayCamera() )
+    if ( m_state == StateE::REPLAY && replayCamera() )
     {
         m_cockpit = false;
         return;
     }
-    if( m_state == StateE::GARAGE )
-    { // The showroom: round and round the car.
+    if ( m_state == StateE::GARAGE )
+    {   // The showroom: round and round the car.
         m_cockpit = false;
         const Pose  p = m_car.pose( track );
         const float a = m_time * 0.3f;
-        m_cam.m_pos = poseLocal( p, std::sin( a ) * 6.5f, 1.7f + 0.4f * std::sin( m_time * 0.21f ), std::cos( a ) * 6.5f );
+        m_cam.m_pos =
+            poseLocal( p, std::sin( a ) * 6.5f, 1.7f + 0.4f * std::sin( m_time * 0.21f ), std::cos( a ) * 6.5f );
         m_cam.m_forward = Vector3Normalize( relativeTo( poseLocal( p, 0.0f, 0.55f, 0.0f ), m_cam.m_pos ) );
         m_cam.m_up = p.m_up;
         m_cam.m_fovY = 50.0f;
@@ -2800,7 +2983,7 @@ void Game::updateCamera( float dt )
     }
     // Shake: kerbs, verge, landings, hits, and a faint tremor at top speed.
     const float shake = m_car.m_shake + std::pow( sn, 3.0f ) * 0.15f;
-    if( shake > 0.001f )
+    if ( shake > 0.001f )
     {
         const float t = m_time;
         const float sx = ( std::sin( t * 37.1f ) * 0.6f + std::sin( t * 61.7f ) * 0.4f ) * shake * 0.07f;
@@ -2812,7 +2995,8 @@ void Game::updateCamera( float dt )
     }
     m_cam.m_fovY = m_fov;
     m_camInit = true;
-    const float blurTarget = m_settings.m_speedBlur ? smoothstepf( 0.55f, 1.0f, sn ) * 0.9f + ( m_car.m_boosting ? 0.45f : 0.0f ) : 0.0f;
+    const float blurTarget =
+        m_settings.m_speedBlur ? smoothstepf( 0.55f, 1.0f, sn ) * 0.9f + ( m_car.m_boosting ? 0.45f : 0.0f ) : 0.0f;
     m_blur = approach( m_blur, blurTarget, 4.0f, dt );
     m_aberration = 0.0f;   // colour fringes turned bright lamps and stars green; left off
 }
@@ -2827,7 +3011,8 @@ void Game::updateAudio()
     s.m_slip = s.m_active ? m_car.m_slip : 0.0f;
     s.m_offroad = s.m_active ? std::max( m_car.m_offroad, m_car.m_unpaved ? 0.5f : 0.0f ) : 0.0f;
     s.m_rumble = s.m_active ? m_car.m_rumble : 0.0f;
-    m_haptics.steady( s.m_rumble * 0.25f + s.m_offroad * std::min( 1.0f, s.m_speed / 30.0f ) * 0.2f, s.m_rumble * 0.35f );
+    m_haptics.steady( s.m_rumble * 0.25f + s.m_offroad * std::min( 1.0f, s.m_speed / 30.0f ) * 0.2f,
+                      s.m_rumble * 0.35f );
     s.m_boost = s.m_active && m_car.m_boosting;
     s.m_limiter = s.m_active && m_car.m_rpm > 0.985f && m_car.m_throttle > 0.5f && !m_car.m_boosting;
     s.m_shifting = m_car.m_shiftTimer > 0.0f;
@@ -2839,7 +3024,7 @@ void Game::updateAudio()
 
     // The place's own sounds: the sea, the wind, the jungle, the city, rain, bridges and tunnels.
     Ambience a;
-    if( !m_demo && ( m_state == StateE::RACE || m_state == StateE::COUNTDOWN ) )
+    if ( !m_demo && ( m_state == StateE::RACE || m_state == StateE::COUNTDOWN ) )
     {
         const BiomeMix  mix = m_track->biomeMix( m_car.m_s );
         const BiomeDef &def = biomeDef( mix.m_t < 0.5f ? mix.m_from : mix.m_to );
@@ -2848,16 +3033,23 @@ void Game::updateAudio()
         const bool      city = def.m_lanes >= 3;
         WeatherE        front = WeatherE::NONE;
         const float     k = frontAt( m_car.m_s, front );
-        a.m_surf = std::max( land.m_waterLeft, land.m_waterRight ) > 0.5f ? ( land.m_seaLevel > -12.0f ? 1.0f : 0.55f ) : 0.0f;
+        a.m_surf =
+            std::max( land.m_waterLeft, land.m_waterRight ) > 0.5f ? ( land.m_seaLevel > -12.0f ? 1.0f : 0.55f ) : 0.0f;
         a.m_surfPan = clampf( land.m_waterRight - land.m_waterLeft, -1.0f, 1.0f );
         a.m_city = city ? 0.85f : def.m_lampSpacing > 0.0f ? 0.3f : 0.0f;
-        a.m_jungle = city ? 0.0f : def.m_climate == ClimateE::TROPICAL ? 0.8f : def.m_climate == ClimateE::TEMPERATE ? 0.2f : 0.0f;
-        a.m_wind = ( def.m_climate == ClimateE::ARID ? 0.7f : def.m_climate == ClimateE::COLD ? 0.55f : 0.22f ) +
-                   ( front == WeatherE::SANDSTORM || front == WeatherE::SNOW || front == WeatherE::STORM ? 0.6f * k : 0.0f );
+        a.m_jungle = city                                   ? 0.0f
+                     : def.m_climate == ClimateE::TROPICAL  ? 0.8f
+                     : def.m_climate == ClimateE::TEMPERATE ? 0.2f
+                                                            : 0.0f;
+        a.m_wind =
+            ( def.m_climate == ClimateE::ARID   ? 0.7f
+              : def.m_climate == ClimateE::COLD ? 0.55f
+                                                : 0.22f ) +
+            ( front == WeatherE::SANDSTORM || front == WeatherE::SNOW || front == WeatherE::STORM ? 0.6f * k : 0.0f );
         a.m_rain = sceneEnvironment( m_car.m_s ).m_rain;
         a.m_bridge = flags & SEG_BRIDGE ? 1.0f : 0.0f;
-        if( flags & SEG_TUNNEL ) a = Ambience{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f };
-        if( m_state == StateE::CROSSING )
+        if ( flags & SEG_TUNNEL ) a = Ambience{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f };
+        if ( m_state == StateE::CROSSING )
         {
             // Waves and wind on the ferry; in the train the tunnel rushing past.
             const bool ferry = m_crossing.m_type == CrossingE::FERRY;
@@ -2867,44 +3059,50 @@ void Game::updateAudio()
             a.m_tunnel = ferry ? 0.0f : 0.8f;
         }
         // Under the sea: the world muffled behind glass and water, the tube's echo, whales.
-        const float under = ( biomeDef( mix.m_from ).m_underwater ? 1.0f - mix.m_t : 0.0f ) + ( biomeDef( mix.m_to ).m_underwater ? mix.m_t : 0.0f );
-        if( under > 0.5f )
+        const float under = ( biomeDef( mix.m_from ).m_underwater ? 1.0f - mix.m_t : 0.0f ) +
+                            ( biomeDef( mix.m_to ).m_underwater ? mix.m_t : 0.0f );
+        if ( under > 0.5f )
         {
             a = Ambience{};
             a.m_tunnel = 0.35f;
             a.m_underwater = 1.0f;
         }
     }
-    if( !m_demo && ( m_state == StateE::RACE || m_state == StateE::COUNTDOWN ) )
-        for( const TrafficCar &c : m_traffic.m_cars )
+    if ( !m_demo && ( m_state == StateE::RACE || m_state == StateE::COUNTDOWN ) )
+        for ( const TrafficCar &c : m_traffic.m_cars )
         {
             // An ambulance or a fire engine on its run, louder as it nears.
-            if( !c.m_siren ) continue;
-            const float loud = clampf( 1.0f - static_cast<float>( std::abs( c.m_s - m_car.m_s ) / SirenRange ), 0.0f, 1.0f );
-            if( loud <= a.m_siren ) continue;
+            if ( !c.m_siren ) continue;
+            const float loud =
+                clampf( 1.0f - static_cast<float>( std::abs( c.m_s - m_car.m_s ) / SirenRange ), 0.0f, 1.0f );
+            if ( loud <= a.m_siren ) continue;
             a.m_siren = loud;
             a.m_sirenPan = clampf( ( c.m_x - m_car.m_x ) / 6.0f, -1.0f, 1.0f );
             a.m_sirenKind = c.m_siren - 1;
             a.m_sirenPitch = doppler( c.m_s < m_car.m_s ? c.m_speed - m_car.m_speed : m_car.m_speed - c.m_speed );
         }
-    if( !m_demo && m_police.m_state == PoliceStateE::CHASE )
+    if ( !m_demo && m_police.m_state == PoliceStateE::CHASE )
     {
         // The siren of the patrol car behind, louder as it nears.
         a.m_siren = clampf( 1.0f - static_cast<float>( std::abs( m_police.gap( m_car.m_s ) ) ) / 600.0f, 0.0f, 1.0f );
         a.m_sirenPan = clampf( ( m_police.m_x - m_car.m_x ) / 6.0f, -1.0f, 1.0f );
         a.m_sirenKind = m_police.m_siren;
-        a.m_sirenPitch = doppler( m_police.m_s < m_car.m_s ? m_police.m_speed - m_car.m_speed : m_car.m_speed - m_police.m_speed );
+        a.m_sirenPitch =
+            doppler( m_police.m_s < m_car.m_s ? m_police.m_speed - m_car.m_speed : m_car.m_speed - m_police.m_speed );
     }
     m_audio.setAmbience( a );
 
     // The soundtrack's mood: tension when time runs short or the finish nears, drive with the speed.
     float tension = 0.0f;
-    if( !m_demo && m_state == StateE::RACE )
+    if ( !m_demo && m_state == StateE::RACE )
     {
-        if( m_setup.m_race ) tension = m_finished ? 0.0f : smoothstepf( 1200.0f, 300.0f, static_cast<float>( m_race.m_finishS - m_car.m_s ) );
-        else if( !m_timeUp && !m_finishedTrack ) tension = smoothstepf( 12.0f, 4.0f, m_timeLeft );
+        if ( m_setup.m_race )
+            tension =
+                m_finished ? 0.0f : smoothstepf( 1200.0f, 300.0f, static_cast<float>( m_race.m_finishS - m_car.m_s ) );
+        else if ( !m_timeUp && !m_finishedTrack )
+            tension = smoothstepf( 12.0f, 4.0f, m_timeLeft );
     }
     m_audio.setMood( tension, m_demo ? 0.6f : m_car.m_speed / m_car.m_spec.m_topSpeed );
 }
 
-} // namespace sunstreak
+}   // namespace sunstreak

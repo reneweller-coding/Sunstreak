@@ -15,17 +15,17 @@ namespace
 
 constexpr size_t MaxParticles = 2500;   ///< pool size
 
-} // namespace
+}   // namespace
 
 void Particles::emit( const Particle &p )
 {
-    if( m_items.size() >= MaxParticles ) m_items.erase( m_items.begin() );
+    if ( m_items.size() >= MaxParticles ) m_items.erase( m_items.begin() );
     m_items.push_back( p );
 }
 
 void Particles::update( float dt )
 {
-    for( Particle &p : m_items )
+    for ( Particle &p : m_items )
     {
         p.m_life += dt;
         p.m_vel.y -= p.m_gravity * dt;
@@ -39,4 +39,4 @@ void Particles::update( float dt )
     std::erase_if( m_items, []( const Particle &p ) { return p.m_life >= p.m_maxLife; } );
 }
 
-} // namespace sunstreak
+}   // namespace sunstreak

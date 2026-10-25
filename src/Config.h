@@ -50,24 +50,24 @@ struct Settings
     int          m_fpsLimit = 0;                       ///< frame rate cap (0: none beyond vsync)
     bool         m_vibration = true;                   ///< gamepad rumble
     int          m_scenery = 0;                        ///< endless runs: 0 the world tour, 1 every biome mixed
-    int          m_timeOfDay = 0;                      ///< 0 as the place, 1 the tour clock (time zones), 2 dawn, 3 day, 4 dusk, 5 night
-    int          m_weather = 0;                        ///< 0 weather fronts pass, 1 as the place
-    int          m_seasons = 0;                        ///< 0 as today, 1 as the tour goes on, 2 off
-    bool         m_police = true;                      ///< patrol cars wait at the roadside and chase the car too fast past them
-    int          m_steerAssist = 0;                    ///< 0 off, 1 light, 2 strong: helps keep the road and miss the traffic
-    bool         m_brakeAssist = false;                ///< brakes for bends and obstacles taken too fast
-    bool         m_colourBlind = false;                ///< the HUD's red and green become orange and blue
-    int          m_textSize = 0;                       ///< 0 100 %, 1 115 %, 2 130 %
-    int          m_profile = 0;                        ///< 0 custom, 1 battery, 2 balanced, 3 quality
-    int          m_car = 0;                            ///< the chosen car
-    int          m_paint = 0;                          ///< its paint
-    int          m_rims = 0;                           ///< its rims
-    int          m_decal = 0;                          ///< its decal
-    int          m_decalColor = 1;                     ///< the decal's colour (a paint)
-    std::string  m_homeCountry;                        ///< the country of the car's number plate (empty: none)
-    std::string  m_plateText = "SUN 26";               ///< what the plate says
-    int64_t      m_bestScore = 0;                      ///< the highest score of an endless run
-    double       m_bestDistance = 0.0;                 ///< the longest endless run in metres
+    int          m_timeOfDay = 0;     ///< 0 as the place, 1 the tour clock (time zones), 2 dawn, 3 day, 4 dusk, 5 night
+    int          m_weather = 0;       ///< 0 weather fronts pass, 1 as the place
+    int          m_seasons = 0;       ///< 0 as today, 1 as the tour goes on, 2 off
+    bool         m_police = true;     ///< patrol cars wait at the roadside and chase the car too fast past them
+    int          m_steerAssist = 0;   ///< 0 off, 1 light, 2 strong: helps keep the road and miss the traffic
+    bool         m_brakeAssist = false;    ///< brakes for bends and obstacles taken too fast
+    bool         m_colourBlind = false;    ///< the HUD's red and green become orange and blue
+    int          m_textSize = 0;           ///< 0 100 %, 1 115 %, 2 130 %
+    int          m_profile = 0;            ///< 0 custom, 1 battery, 2 balanced, 3 quality
+    int          m_car = 0;                ///< the chosen car
+    int          m_paint = 0;              ///< its paint
+    int          m_rims = 0;               ///< its rims
+    int          m_decal = 0;              ///< its decal
+    int          m_decalColor = 1;         ///< the decal's colour (a paint)
+    std::string  m_homeCountry;            ///< the country of the car's number plate (empty: none)
+    std::string  m_plateText = "SUN 26";   ///< what the plate says
+    int64_t      m_bestScore = 0;          ///< the highest score of an endless run
+    double       m_bestDistance = 0.0;     ///< the longest endless run in metres
 };
 
 /** @brief What the command line asked for (testing and screenshots included). */
@@ -76,7 +76,7 @@ struct LaunchOptions
     int         m_forceDisplay = -1;   ///< -1 as the settings say, 0 windowed, 1 fullscreen
     uint64_t    m_seed = 0;            ///< 0: a new random track
     int         m_startBiome = -1;     ///< -1 as the seed says, else the first stage's biome
-    int         m_scenery = -3;        ///< endless runs: a biome, -1 all mixed, -2 the world tour (-3: as the settings say)
+    int         m_scenery = -3;   ///< endless runs: a biome, -1 all mixed, -2 the world tour (-3: as the settings say)
     bool        m_autopilot = false;   ///< drive by itself (demo and screenshots)
     bool        m_lookBack = false;    ///< look back all the time (screenshots)
     bool        m_skipMenu = false;    ///< start a run at once
@@ -88,24 +88,27 @@ struct LaunchOptions
     int         m_height = 0;          ///< its height
     bool        m_mute = false;        ///< no sound at all (test runs)
     std::string m_audioTest;           ///< render a test drive's sound to this WAV and quit
-    int         m_find = 0;            ///< start before the first 1 tunnel, 2 bridge, 3/4 landmark, 5 fork, 6 sea portal, 7 in it, 8 its far portal, 9 ferry (testing)
-    int         m_weather = -1;        ///< a weather front all the way (WeatherE, testing; -1: as it comes)
-    int         m_timeOfDay = -1;      ///< the time of day for this start (Settings::m_timeOfDay; -1: the settings')
-    int         m_rally = -1;          ///< start this rally (0-based; -1: none)
-    int         m_journey = -1;        ///< start this journey (0-based; -1: none)
-    bool        m_resume = false;      ///< continue the saved endless run
-    bool        m_daily = false;       ///< start the daily challenge
-    bool        m_travel = false;      ///< start travelling (the world tour without a clock)
-    std::string m_action;              ///< testing: replay, photo, reload (the data files) or save (and quit) after m_actionAt seconds of racing
-    float       m_actionAt = 0.0f;     ///< when
-    int         m_camera = -1;         ///< a camera for this run only (-1: the settings')
-    std::string m_code;                ///< start this track code at once
-    bool        m_championship = false;///< start a championship at once
-    std::string m_screen;              ///< open a menu screen at once: lab, records, code (screenshots)
-    std::string m_shape;               ///< the landmark the viewer opens on (--screen viewer)
-    bool        m_stats = false;       ///< testing: start with the F3 performance overlay shown
-    int         m_shapeTour = 0;       ///< testing: the viewer saves this many models from there on, one picture each, named after them after the --screenshot prefix
-    float       m_season = -1.0f;      ///< testing: the time of year (0: 1 January), -1 today's
+    int         m_find =
+        0;   ///< start before the first 1 tunnel, 2 bridge, 3/4 landmark, 5 fork, 6 sea portal, 7 in it, 8 its far portal, 9 ferry (testing)
+    int  m_weather = -1;     ///< a weather front all the way (WeatherE, testing; -1: as it comes)
+    int  m_timeOfDay = -1;   ///< the time of day for this start (Settings::m_timeOfDay; -1: the settings')
+    int  m_rally = -1;       ///< start this rally (0-based; -1: none)
+    int  m_journey = -1;     ///< start this journey (0-based; -1: none)
+    bool m_resume = false;   ///< continue the saved endless run
+    bool m_daily = false;    ///< start the daily challenge
+    bool m_travel = false;   ///< start travelling (the world tour without a clock)
+    std::string
+        m_action;   ///< testing: replay, photo, reload (the data files) or save (and quit) after m_actionAt seconds of racing
+    float       m_actionAt = 0.0f;        ///< when
+    int         m_camera = -1;            ///< a camera for this run only (-1: the settings')
+    std::string m_code;                   ///< start this track code at once
+    bool        m_championship = false;   ///< start a championship at once
+    std::string m_screen;                 ///< open a menu screen at once: lab, records, code (screenshots)
+    std::string m_shape;                  ///< the landmark the viewer opens on (--screen viewer)
+    bool        m_stats = false;          ///< testing: start with the F3 performance overlay shown
+    int         m_shapeTour =
+        0;   ///< testing: the viewer saves this many models from there on, one picture each, named after them after the --screenshot prefix
+    float m_season = -1.0f;   ///< testing: the time of year (0: 1 January), -1 today's
 };
 
 /**
@@ -142,4 +145,4 @@ LaunchOptions parseCommandLine( int argc, char **argv );
  */
 bool runningOnSteamDeck();
 
-} // namespace sunstreak
+}   // namespace sunstreak

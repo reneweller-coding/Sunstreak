@@ -246,12 +246,12 @@ public:
     MeshBuilder simplified( float minEdge ) const;
 
 private:
-    std::vector<float>         m_pos;   ///< xyz per vertex
-    std::vector<float>         m_nrm;   ///< normal per vertex
-    std::vector<unsigned char> m_col;   ///< rgba per vertex
-    std::vector<float>         m_uv;    ///< emissive, gloss per vertex
-    std::vector<float>         m_uv2;   ///< shade, sway per vertex
+    std::vector<float>         m_pos;            ///< xyz per vertex
+    std::vector<float>         m_nrm;            ///< normal per vertex
+    std::vector<unsigned char> m_col;            ///< rgba per vertex
+    std::vector<float>         m_uv;             ///< emissive, gloss per vertex
+    std::vector<float>         m_uv2;            ///< shade, sway per vertex
     float                      m_shade = 1.0f;   ///< shade for new vertices
 };
 
-} // namespace sunstreak
+}   // namespace sunstreak

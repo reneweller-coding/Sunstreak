@@ -11,9 +11,9 @@ namespace sunstreak
 void Input::update()
 {
     m_pad = -1;
-    for( int i = 0; i < 4; ++i )
+    for ( int i = 0; i < 4; ++i )
     {
-        if( IsGamepadAvailable( i ) )
+        if ( IsGamepadAvailable( i ) )
         {
             m_pad = i;
             break;
@@ -21,7 +21,7 @@ void Input::update()
     }
     m_gamepad = m_pad >= 0;
 
-    CarInput c;
+    CarInput   c;
     const bool up = IsKeyDown( KEY_UP ) || IsKeyDown( KEY_W );
     const bool down = IsKeyDown( KEY_DOWN ) || IsKeyDown( KEY_S );
     const bool left = IsKeyDown( KEY_LEFT ) || IsKeyDown( KEY_A );
@@ -50,24 +50,24 @@ void Input::update()
     m_viewer = IsKeyPressed( KEY_F6 );
     const bool alt = IsKeyDown( KEY_LEFT_ALT ) || IsKeyDown( KEY_RIGHT_ALT );
     m_fullscreen = IsKeyPressed( KEY_F11 ) || ( alt && IsKeyPressed( KEY_ENTER ) );
-    if( alt && IsKeyPressed( KEY_ENTER ) ) m.m_accept = false;
+    if ( alt && IsKeyPressed( KEY_ENTER ) ) m.m_accept = false;
 
-    if( m_pad >= 0 )
+    if ( m_pad >= 0 )
     {
-        const int p = m_pad;
-        float     sx = GetGamepadAxisMovement( p, GAMEPAD_AXIS_LEFT_X );
+        const int   p = m_pad;
+        float       sx = GetGamepadAxisMovement( p, GAMEPAD_AXIS_LEFT_X );
         const float dead = 0.14f;
         sx = std::abs( sx ) < dead ? 0.0f : ( sx - std::copysign( dead, sx ) ) / ( 1.0f - dead );
         sx = std::copysign( std::pow( std::abs( sx ), 1.4f ), sx );
-        if( IsGamepadButtonDown( p, GAMEPAD_BUTTON_LEFT_FACE_LEFT ) ) sx = -1.0f;
-        if( IsGamepadButtonDown( p, GAMEPAD_BUTTON_LEFT_FACE_RIGHT ) ) sx = 1.0f;
-        if( std::abs( sx ) > std::abs( c.m_steer ) ) c.m_steer = sx;
+        if ( IsGamepadButtonDown( p, GAMEPAD_BUTTON_LEFT_FACE_LEFT ) ) sx = -1.0f;
+        if ( IsGamepadButtonDown( p, GAMEPAD_BUTTON_LEFT_FACE_RIGHT ) ) sx = 1.0f;
+        if ( std::abs( sx ) > std::abs( c.m_steer ) ) c.m_steer = sx;
 
         // Triggers rest at -1; until one has been seen at rest its value is not trusted (some drivers start at 0).
         const float rt = GetGamepadAxisMovement( p, GAMEPAD_AXIS_RIGHT_TRIGGER );
         const float lt = GetGamepadAxisMovement( p, GAMEPAD_AXIS_LEFT_TRIGGER );
-        if( rt < -0.5f ) m_rtSeen = true;
-        if( lt < -0.5f ) m_ltSeen = true;
+        if ( rt < -0.5f ) m_rtSeen = true;
+        if ( lt < -0.5f ) m_ltSeen = true;
         const float throttle = m_rtSeen ? clampf( ( rt + 1.0f ) * 0.5f, 0.0f, 1.0f ) : 0.0f;
         const float brake = m_ltSeen ? clampf( ( lt + 1.0f ) * 0.5f, 0.0f, 1.0f ) : 0.0f;
         c.m_throttle = std::max( { c.m_throttle, throttle > 0.05f ? throttle : 0.0f,
@@ -93,12 +93,16 @@ void Input::update()
         const float sy = GetGamepadAxisMovement( p, GAMEPAD_AXIS_LEFT_Y );
         const float smx = GetGamepadAxisMovement( p, GAMEPAD_AXIS_LEFT_X );
         int         dir = 0;
-        if( sy < -0.6f ) dir = 1;
-        else if( sy > 0.6f ) dir = 2;
-        else if( smx < -0.6f ) dir = 3;
-        else if( smx > 0.6f ) dir = 4;
+        if ( sy < -0.6f )
+            dir = 1;
+        else if ( sy > 0.6f )
+            dir = 2;
+        else if ( smx < -0.6f )
+            dir = 3;
+        else if ( smx > 0.6f )
+            dir = 4;
         m_repeat -= GetFrameTime();
-        if( dir != 0 && ( dir != m_stickDir || m_repeat <= 0.0f ) )
+        if ( dir != 0 && ( dir != m_stickDir || m_repeat <= 0.0f ) )
         {
             m_repeat = dir != m_stickDir ? 0.4f : 0.15f;
             m.m_up = m.m_up || dir == 1;
@@ -112,4 +116,4 @@ void Input::update()
     m_menu = m;
 }
 
-} // namespace sunstreak
+}   // namespace sunstreak

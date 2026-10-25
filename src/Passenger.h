@@ -24,11 +24,11 @@ constexpr float  HitchStop = 9.0f;     ///< slower than this (m/s) beside them, 
 /** @brief What the one by the road wants. */
 enum class JobE : uint8_t
 {
-    HITCHHIKER,  ///< a ride to the next place
-    FRAGILE,     ///< a fragile parcel for the next place: hit nothing
-    ORGAN,       ///< an organ for the hospital at the next checkpoint: hurry
-    THIEF,       ///< a stolen car to catch before the next checkpoint
-    COUNT        ///< number of jobs
+    HITCHHIKER,   ///< a ride to the next place
+    FRAGILE,      ///< a fragile parcel for the next place: hit nothing
+    ORGAN,        ///< an organ for the hospital at the next checkpoint: hurry
+    THIEF,        ///< a stolen car to catch before the next checkpoint
+    COUNT         ///< number of jobs
 };
 
 constexpr float OrganPace = 50.0f;   ///< the pace (m/s) the organ's time is reckoned at
@@ -36,9 +36,9 @@ constexpr float OrganPace = 50.0f;   ///< the pace (m/s) the organ's time is rec
 /** @brief What the hitchhiker is doing. */
 enum class PassengerStateE : uint8_t
 {
-    NONE,     ///< nobody near
-    WAITING,  ///< by the road, thumb out
-    ABOARD,   ///< riding along to the next place
+    NONE,      ///< nobody near
+    WAITING,   ///< by the road, thumb out
+    ABOARD,    ///< riding along to the next place
 };
 
 /** @brief What happened this update. */
@@ -47,7 +47,8 @@ struct PassengerEvents
     bool m_pickedUp = false;    ///< they got in
     bool m_delivered = false;   ///< they got there in time
     bool m_late = false;        ///< too late: they got out at the roadside, a little cross
-    bool m_thief = false;       ///< the officer's thief drives off: the chase begins (m_destS is where it must be caught by)
+    bool m_thief =
+        false;   ///< the officer's thief drives off: the chase begins (m_destS is where it must be caught by)
 };
 
 /**
@@ -113,4 +114,4 @@ public:
     int             m_lastStage = -1;                  ///< the last stage whose hitchhiker came along
 };
 
-} // namespace sunstreak
+}   // namespace sunstreak

@@ -45,25 +45,25 @@ public:
      */
     MenuInput menu() const { return m_menu; }
 
-    bool m_pause = false;        ///< pause pressed
-    bool m_camera = false;       ///< camera switch pressed
-    bool m_lookBack = false;     ///< B or the right stick pressed in: looking back while held
-    bool m_stats = false;        ///< F3: the performance overlay
-    bool m_fullscreen = false;   ///< F11 or Alt+Enter pressed
-    bool m_nextStation = false;  ///< M or the View button: the next radio station
-    bool m_nextTrack = false;    ///< N: the next track
-    bool m_reload = false;       ///< F5: read the data files again
-    bool m_viewer = false;       ///< F6: the landmark viewer
-    bool m_gamepad = false;      ///< a gamepad is connected
+    bool m_pause = false;         ///< pause pressed
+    bool m_camera = false;        ///< camera switch pressed
+    bool m_lookBack = false;      ///< B or the right stick pressed in: looking back while held
+    bool m_stats = false;         ///< F3: the performance overlay
+    bool m_fullscreen = false;    ///< F11 or Alt+Enter pressed
+    bool m_nextStation = false;   ///< M or the View button: the next radio station
+    bool m_nextTrack = false;     ///< N: the next track
+    bool m_reload = false;        ///< F5: read the data files again
+    bool m_viewer = false;        ///< F6: the landmark viewer
+    bool m_gamepad = false;       ///< a gamepad is connected
 
 private:
-    CarInput  m_car;             ///< driving
-    MenuInput m_menu;            ///< menus
-    int       m_pad = -1;        ///< the gamepad in use
-    bool      m_rtSeen = false;  ///< the right trigger has reported its rest position
-    bool      m_ltSeen = false;  ///< the left trigger too
-    float     m_repeat = 0.0f;   ///< stick repeat timer for menus
-    int       m_stickDir = 0;    ///< last stick direction in menus
+    CarInput  m_car;              ///< driving
+    MenuInput m_menu;             ///< menus
+    int       m_pad = -1;         ///< the gamepad in use
+    bool      m_rtSeen = false;   ///< the right trigger has reported its rest position
+    bool      m_ltSeen = false;   ///< the left trigger too
+    float     m_repeat = 0.0f;    ///< stick repeat timer for menus
+    int       m_stickDir = 0;     ///< last stick direction in menus
 };
 
-} // namespace sunstreak
+}   // namespace sunstreak

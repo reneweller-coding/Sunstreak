@@ -17,15 +17,15 @@ namespace sunstreak
 namespace
 {
 
-constexpr float Bend = 2.2e-5f;            ///< how fast the ground drops with distance (1/m)
-constexpr int   DropCount = 1600;          ///< rain drops or snowflakes around the camera
-constexpr int   StreakCount = 90;          ///< air streaks around the camera
-constexpr int   ShaftCount = 16;           ///< light shafts round the camera under the sea
-constexpr float NearPlane = 0.3f;          ///< near clip (m)
-constexpr float FarPlane = 2600.0f;        ///< far clip (m)
-constexpr int   ShadowSize = 2048;         ///< shadow map resolution
-constexpr float ShadowExtent = 160.0f;     ///< the shadow map's side (m)
-constexpr int   ShadowSlot = 10;           ///< texture unit of the shadow map
+constexpr float Bend = 2.2e-5f;          ///< how fast the ground drops with distance (1/m)
+constexpr int   DropCount = 1600;        ///< rain drops or snowflakes around the camera
+constexpr int   StreakCount = 90;        ///< air streaks around the camera
+constexpr int   ShaftCount = 16;         ///< light shafts round the camera under the sea
+constexpr float NearPlane = 0.3f;        ///< near clip (m)
+constexpr float FarPlane = 2600.0f;      ///< far clip (m)
+constexpr int   ShadowSize = 2048;       ///< shadow map resolution
+constexpr float ShadowExtent = 160.0f;   ///< the shadow map's side (m)
+constexpr int   ShadowSlot = 10;         ///< texture unit of the shadow map
 
 /**
  * @brief A render target, optionally half-float and with depth.
@@ -47,7 +47,7 @@ RenderTexture2D loadTarget( int w, int h, bool hdr, bool depth )
     t.texture.format = format;
     t.texture.mipmaps = 1;
     rlFramebufferAttach( t.id, t.texture.id, RL_ATTACHMENT_COLOR_CHANNEL0, RL_ATTACHMENT_TEXTURE2D, 0 );
-    if( depth )
+    if ( depth )
     {
         t.depth.id = rlLoadTextureDepth( w, h, true );
         t.depth.width = w;
@@ -56,7 +56,7 @@ RenderTexture2D loadTarget( int w, int h, bool hdr, bool depth )
         t.depth.mipmaps = 1;
         rlFramebufferAttach( t.id, t.depth.id, RL_ATTACHMENT_DEPTH, RL_ATTACHMENT_RENDERBUFFER, 0 );
     }
-    if( !rlFramebufferComplete( t.id ) ) TraceLog( LOG_WARNING, "render target %dx%d is incomplete", w, h );
+    if ( !rlFramebufferComplete( t.id ) ) TraceLog( LOG_WARNING, "render target %dx%d is incomplete", w, h );
     rlDisableFramebuffer();
     SetTextureFilter( t.texture, TEXTURE_FILTER_BILINEAR );
     SetTextureWrap( t.texture, TEXTURE_WRAP_CLAMP );
@@ -178,18 +178,18 @@ float inTunnel( const Track &track, double s )
     return ( seg.m_flags & SEG_TUNNEL ) ? 1.0f : seg.m_gallery != 0 ? 0.5f : 0.0f;
 }
 
-} // namespace
+}   // namespace
 
 void Renderer::drawMany( const Mesh &mesh, const std::vector<Matrix> &transforms )
 {
-    if( !mesh.vertexCount || transforms.empty() ) return;
-    if( transforms.size() < 3 || m_instanceAttrib < 0 )
+    if ( !mesh.vertexCount || transforms.empty() ) return;
+    if ( transforms.size() < 3 || m_instanceAttrib < 0 )
     {
-        for( const Matrix &m : transforms ) DrawMesh( mesh, m_material, m );
+        for ( const Matrix &m : transforms ) DrawMesh( mesh, m_material, m );
         return;
     }
     // raylib 5.5 feeds the instances to the attribute in the model matrix's slot, which otherwise holds the uniform.
-    int &slot = m_material.shader.locs[SHADER_LOC_MATRIX_MODEL];
+    int      &slot = m_material.shader.locs[SHADER_LOC_MATRIX_MODEL];
     const int uniform = slot;
     slot = m_instanceAttrib;
     setF( m_world.m_shader, "instanced", 1.0f );
@@ -225,22 +225,22 @@ void Renderer::init()
     m_shadowMap.depth.format = 19;
     m_shadowMap.depth.mipmaps = 1;
     rlFramebufferAttach( m_shadowMap.id, m_shadowMap.depth.id, RL_ATTACHMENT_DEPTH, RL_ATTACHMENT_TEXTURE2D, 0 );
-    if( !rlFramebufferComplete( m_shadowMap.id ) ) TraceLog( LOG_WARNING, "shadow map framebuffer incomplete" );
+    if ( !rlFramebufferComplete( m_shadowMap.id ) ) TraceLog( LOG_WARNING, "shadow map framebuffer incomplete" );
     rlDisableFramebuffer();
     Rng r( 77 );
     m_drops.resize( DropCount );
-    for( Vector3 &d : m_drops ) d = Vector3{ r.range( -30, 30 ), r.range( -6, 16 ), r.range( -12, 48 ) };
+    for ( Vector3 &d : m_drops ) d = Vector3{ r.range( -30, 30 ), r.range( -6, 16 ), r.range( -12, 48 ) };
     m_streaks.resize( StreakCount );
-    for( Vector3 &d : m_streaks ) d = Vector3{ r.range( -12, 12 ), r.range( -1.5f, 4.0f ), r.range( -20, 60 ) };
+    for ( Vector3 &d : m_streaks ) d = Vector3{ r.range( -12, 12 ), r.range( -1.5f, 4.0f ), r.range( -20, 60 ) };
     m_shafts.resize( ShaftCount );
-    for( Vector3 &d : m_shafts ) d = Vector3{ r.range( -45, 45 ), -3.0f, r.range( -40, 100 ) };
+    for ( Vector3 &d : m_shafts ) d = Vector3{ r.range( -45, 45 ), -3.0f, r.range( -40, 100 ) };
 }
 
 void Renderer::unloadTargets()
 {
-    for( RenderTexture2D *t : { &m_scene, &m_bloomA, &m_bloomB, &m_bloomC, &m_bloomD, &m_ldr, &m_mirrored } )
+    for ( RenderTexture2D *t : { &m_scene, &m_bloomA, &m_bloomB, &m_bloomC, &m_bloomD, &m_ldr, &m_mirrored } )
     {
-        if( t->id ) UnloadRenderTexture( *t );
+        if ( t->id ) UnloadRenderTexture( *t );
         *t = RenderTexture2D{};
     }
 }
@@ -248,7 +248,9 @@ void Renderer::unloadTargets()
 void Renderer::unload()
 {
     unloadTargets();
-    for( Program *p : { &m_world, &m_sky, &m_particle, &m_bright, &m_blur, &m_composite, &m_fxaa, &m_depth, &m_mirror } ) UnloadShader( p->m_shader );
+    for ( Program *p :
+          { &m_world, &m_sky, &m_particle, &m_bright, &m_blur, &m_composite, &m_fxaa, &m_depth, &m_mirror } )
+        UnloadShader( p->m_shader );
     MemFree( m_material.maps );
     m_material.maps = nullptr;
     MemFree( m_depthMaterial.maps );
@@ -261,7 +263,7 @@ void Renderer::ensureTargets( int w, int h, float scale )
 {
     const int tw = std::max( 64, static_cast<int>( static_cast<float>( w ) * scale ) );
     const int th = std::max( 64, static_cast<int>( static_cast<float>( h ) * scale ) );
-    if( tw == m_targetW && th == m_targetH && w == m_screenW && h == m_screenH && m_scene.id ) return;
+    if ( tw == m_targetW && th == m_targetH && w == m_screenW && h == m_screenH && m_scene.id ) return;
     unloadTargets();
     m_targetW = tw;
     m_targetH = th;
@@ -289,24 +291,24 @@ void Renderer::render( const SceneInput &in, const CameraView &cam, float render
 
     // Camera motion for the weather, which lives in the camera's neighbourhood.
     Vector3 delta{};
-    if( m_haveLastCam )
+    if ( m_haveLastCam )
     {
         delta = relativeTo( cam.m_pos, m_lastCam );
-        if( Vector3Length( delta ) > 60.0f ) delta = Vector3{};
+        if ( Vector3Length( delta ) > 60.0f ) delta = Vector3{};
     }
     m_camVel = in.m_dt > 0.0f ? Vector3Scale( delta, 1.0f / in.m_dt ) : Vector3{};
     m_lastCam = cam.m_pos;
     m_haveLastCam = true;
     const Vector3 flatFwd = Vector3Normalize( Vector3{ cam.m_forward.x, 0.0f, cam.m_forward.z } );
     const Vector3 boxCenter = Vector3Scale( flatFwd, 18.0f );
-    for( size_t i = 0; i < m_drops.size(); ++i )
+    for ( size_t i = 0; i < m_drops.size(); ++i )
     {
         Vector3 &d = m_drops[i];
         d = Vector3Subtract( d, delta );
-        if( in.m_env.m_underwater > 0.3f )
-        { // Under the sea: every fourth a bubble rising, the rest the sea's snow drifting down.
+        if ( in.m_env.m_underwater > 0.3f )
+        {   // Under the sea: every fourth a bubble rising, the rest the sea's snow drifting down.
             const float fi = static_cast<float>( i );
-            if( i % 4 == 0 )
+            if ( i % 4 == 0 )
             {
                 d.y += ( 1.3f + 0.5f * std::sin( fi * 1.7f ) ) * in.m_dt;
                 d.x += std::sin( in.m_time * 3.0f + fi ) * 0.35f * in.m_dt;
@@ -317,19 +319,20 @@ void Renderer::render( const SceneInput &in, const CameraView &cam, float render
                 d.x += std::sin( in.m_time * 0.6f + fi * 0.7f ) * 0.3f * in.m_dt;
             }
         }
-        else if( std::max( { in.m_env.m_leaves, in.m_env.m_petals, in.m_env.m_confetti } ) > std::max( in.m_env.m_rain, in.m_env.m_snow ) )
-        { // Leaves and petals: drifting down, swaying.
+        else if ( std::max( { in.m_env.m_leaves, in.m_env.m_petals, in.m_env.m_confetti } ) >
+                  std::max( in.m_env.m_rain, in.m_env.m_snow ) )
+        {   // Leaves and petals: drifting down, swaying.
             const float fi = static_cast<float>( i );
             d.y -= ( 0.9f + 0.4f * std::sin( fi * 2.3f ) ) * in.m_dt;
             d.x += std::sin( in.m_time * 1.7f + fi ) * 1.1f * in.m_dt;
             d.z += std::cos( in.m_time * 1.3f + fi * 0.7f ) * 0.6f * in.m_dt;
         }
-        else if( in.m_env.m_dust > std::max( in.m_env.m_rain, in.m_env.m_snow ) )
-        { // Sand driven across the road by the wind.
+        else if ( in.m_env.m_dust > std::max( in.m_env.m_rain, in.m_env.m_snow ) )
+        {   // Sand driven across the road by the wind.
             d.x += ( 13.0f + 4.0f * std::sin( in.m_time * 0.7f + static_cast<float>( i ) * 0.3f ) ) * in.m_dt;
             d.y += std::sin( in.m_time * 2.1f + static_cast<float>( i ) ) * 0.8f * in.m_dt;
         }
-        else if( in.m_env.m_snow > in.m_env.m_rain )
+        else if ( in.m_env.m_snow > in.m_env.m_rain )
         {
             d.y -= 1.6f * in.m_dt;
             d.x += std::sin( in.m_time * 1.3f + static_cast<float>( i ) ) * 0.5f * in.m_dt;
@@ -339,27 +342,48 @@ void Renderer::render( const SceneInput &in, const CameraView &cam, float render
             d.y -= 19.0f * in.m_dt;
         }
         Vector3 rel = Vector3Subtract( d, boxCenter );
-        if( rel.x > 30 ) d.x -= 60; else if( rel.x < -30 ) d.x += 60;
-        if( rel.z > 30 ) d.z -= 60; else if( rel.z < -30 ) d.z += 60;
-        if( d.y < -6 ) d.y += 22; else if( d.y > 16 ) d.y -= 22;
-        if( in.m_env.m_dust > 0.02f && d.y > 7.0f ) d.y -= 13.0f;   // blowing sand stays low
+        if ( rel.x > 30 )
+            d.x -= 60;
+        else if ( rel.x < -30 )
+            d.x += 60;
+        if ( rel.z > 30 )
+            d.z -= 60;
+        else if ( rel.z < -30 )
+            d.z += 60;
+        if ( d.y < -6 )
+            d.y += 22;
+        else if ( d.y > 16 )
+            d.y -= 22;
+        if ( in.m_env.m_dust > 0.02f && d.y > 7.0f ) d.y -= 13.0f;   // blowing sand stays low
     }
     const Vector3 shaftCenter = Vector3Scale( flatFwd, 30.0f );
-    for( Vector3 &d : m_shafts )
+    for ( Vector3 &d : m_shafts )
     {
         d = Vector3Subtract( d, delta );
         d.y = -3.0f;
         Vector3 rel = Vector3Subtract( d, shaftCenter );
-        if( rel.x > 45 ) d.x -= 90; else if( rel.x < -45 ) d.x += 90;
-        if( rel.z > 70 ) d.z -= 140; else if( rel.z < -70 ) d.z += 140;
+        if ( rel.x > 45 )
+            d.x -= 90;
+        else if ( rel.x < -45 )
+            d.x += 90;
+        if ( rel.z > 70 )
+            d.z -= 140;
+        else if ( rel.z < -70 )
+            d.z += 140;
     }
     const Vector3 streakCenter = Vector3Scale( flatFwd, 22.0f );
-    for( Vector3 &d : m_streaks )
+    for ( Vector3 &d : m_streaks )
     {
         d = Vector3Subtract( d, delta );
         Vector3 rel = Vector3Subtract( d, streakCenter );
-        if( rel.x > 14 ) d.x -= 28; else if( rel.x < -14 ) d.x += 28;
-        if( rel.z > 40 ) d.z -= 80; else if( rel.z < -40 ) d.z += 80;
+        if ( rel.x > 14 )
+            d.x -= 28;
+        else if ( rel.x < -14 )
+            d.x += 28;
+        if ( rel.z > 40 )
+            d.z -= 80;
+        else if ( rel.z < -40 )
+            d.z += 80;
     }
 
     const Vec3d origin = cam.m_pos;
@@ -369,7 +393,8 @@ void Renderer::render( const SceneInput &in, const CameraView &cam, float render
     // Where the sun stands on screen, for the lens flare.
     m_flare = 0.0f;
     const Vector3 sun = sunDirection( in.m_env );
-    if( Vector3DotProduct( sun, Vector3Normalize( cam.m_forward ) ) > 0.2f && in.m_env.m_sunIntensity > 0.5f && in.m_env.m_eclipse < 0.5f )
+    if ( Vector3DotProduct( sun, Vector3Normalize( cam.m_forward ) ) > 0.2f && in.m_env.m_sunIntensity > 0.5f &&
+         in.m_env.m_eclipse < 0.5f )
     {
         Camera3D c3{};
         c3.position = Vector3{ 0, 0, 0 };
@@ -379,7 +404,7 @@ void Renderer::render( const SceneInput &in, const CameraView &cam, float render
         c3.projection = CAMERA_PERSPECTIVE;
         const Vector2 p = GetWorldToScreenEx( Vector3Scale( sun, 500.0f ), c3, m_targetW, m_targetH );
         m_sunUv = Vector2{ p.x / static_cast<float>( m_targetW ), 1.0f - p.y / static_cast<float>( m_targetH ) };
-        if( m_sunUv.x > -0.1f && m_sunUv.x < 1.1f && m_sunUv.y > -0.1f && m_sunUv.y < 1.1f )
+        if ( m_sunUv.x > -0.1f && m_sunUv.x < 1.1f && m_sunUv.y > -0.1f && m_sunUv.y < 1.1f )
             m_flare = std::min( 1.0f, in.m_env.m_sunIntensity ) * ( 1.0f - in.m_env.m_cloudAmount * 0.6f );
     }
 
@@ -396,10 +421,11 @@ void Renderer::drawShadows( const SceneInput &in, const CameraView &cam, const V
 {
     const Environment &e = in.m_env;
     const Vector3      sun = sunDirection( e );
-    m_shadowStrength = in.m_shadows && sun.y > 0.07f && e.m_sunIntensity > 0.4f && e.m_eclipse < 0.5f
-                           ? clampf( ( e.m_sunIntensity - 0.4f ) * 1.5f, 0.0f, 0.85f ) * ( 1.0f - e.m_cloudAmount * 0.5f )
-                           : 0.0f;
-    if( m_shadowStrength <= 0.0f || !in.m_track || ( !in.m_world && !in.m_showcase ) ) return;
+    m_shadowStrength =
+        in.m_shadows && sun.y > 0.07f && e.m_sunIntensity > 0.4f && e.m_eclipse < 0.5f
+            ? clampf( ( e.m_sunIntensity - 0.4f ) * 1.5f, 0.0f, 0.85f ) * ( 1.0f - e.m_cloudAmount * 0.5f )
+            : 0.0f;
+    if ( m_shadowStrength <= 0.0f || !in.m_track || ( !in.m_world && !in.m_showcase ) ) return;
     auto pieceMatrix = [&]( const ScenePiece &p )
     {
         const Vector3 o = relativeTo( p.m_pos, origin );
@@ -408,7 +434,7 @@ void Renderer::drawShadows( const SceneInput &in, const CameraView &cam, const V
 
     // The box follows the camera, snapped to the map's texels so the shadows do not shimmer.
     const Vector3 flatFwd = Vector3Normalize( Vector3{ cam.m_forward.x, 0.0f, cam.m_forward.z } );
-    Vector3       center = in.m_showcase ? relativeTo( in.m_focus, origin ) : Vector3Scale( flatFwd, ShadowExtent * 0.3f );
+    Vector3 center = in.m_showcase ? relativeTo( in.m_focus, origin ) : Vector3Scale( flatFwd, ShadowExtent * 0.3f );
     const Vector3 lightFwd = Vector3Negate( sun );
     const Vector3 lightRight = Vector3Normalize( Vector3CrossProduct( lightFwd, Vector3{ 0, 1, 0 } ) );
     const Vector3 lightUp = Vector3CrossProduct( lightRight, lightFwd );
@@ -434,34 +460,36 @@ void Renderer::drawShadows( const SceneInput &in, const CameraView &cam, const V
     rlDisableBackfaceCulling();
     const Track &track = *in.m_track;
     const double playerS = in.m_player ? in.m_player->m_s : 0.0;
-    if( in.m_world )
-        for( const Chunk &c : in.m_world->chunks() )
+    if ( in.m_world )
+        for ( const Chunk &c : in.m_world->chunks() )
         {
             const double c0 = static_cast<double>( c.m_index ) * ChunkLength;
-            if( c0 > playerS + ShadowExtent || c0 + ChunkLength < playerS - 60.0 ) continue;
+            if ( c0 > playerS + ShadowExtent || c0 + ChunkLength < playerS - 60.0 ) continue;
             const Vector3 o = relativeTo( c.m_origin, origin );
-            if( c.m_props.vertexCount ) DrawMesh( c.m_props, m_depthMaterial, MatrixTranslate( o.x, o.y, o.z ) );
-            if( c.m_scenery.vertexCount ) DrawMesh( c.m_scenery, m_depthMaterial, MatrixTranslate( o.x, o.y, o.z ) );
+            if ( c.m_props.vertexCount ) DrawMesh( c.m_props, m_depthMaterial, MatrixTranslate( o.x, o.y, o.z ) );
+            if ( c.m_scenery.vertexCount ) DrawMesh( c.m_scenery, m_depthMaterial, MatrixTranslate( o.x, o.y, o.z ) );
         }
-    for( const ScenePiece &p : in.m_pieces )
-        if( p.m_mesh && p.m_mesh->vertexCount ) DrawMesh( *p.m_mesh, m_depthMaterial, pieceMatrix( p ) );
-    if( in.m_traffic )
-        for( const TrafficCar &t : in.m_traffic->m_cars )
-            if( std::abs( t.m_s - playerS ) < ShadowExtent )
+    for ( const ScenePiece &p : in.m_pieces )
+        if ( p.m_mesh && p.m_mesh->vertexCount ) DrawMesh( *p.m_mesh, m_depthMaterial, pieceMatrix( p ) );
+    if ( in.m_traffic )
+        for ( const TrafficCar &t : in.m_traffic->m_cars )
+            if ( std::abs( t.m_s - playerS ) < ShadowExtent )
             {
                 Pose p = roadPose( track, t.m_s, t.m_x, t.m_yaw );
                 p.m_pos.m_y += static_cast<double>( t.m_lift );
                 DrawMesh( in.m_models->m_traffic[t.m_model].m_mesh, m_depthMaterial, poseMatrix( p, origin ) );
             }
-    for( const PoliceDraw &c : in.m_police )
-        if( std::abs( c.m_s - playerS ) < ShadowExtent )
-            DrawMesh( in.m_models->m_traffic[static_cast<size_t>( c.m_model )].m_mesh, m_depthMaterial, poseMatrix( roadPose( track, c.m_s, c.m_x, c.m_yaw ), origin ) );
-    for( const CarDraw &c : in.m_cars )
-        if( c.m_alpha >= 1.0f && std::abs( c.m_s - playerS ) < ShadowExtent )
-            DrawMesh( in.m_models->m_playerCars[c.m_car][c.m_paint], m_depthMaterial, poseMatrix( roadPose( track, c.m_s, c.m_x, c.m_yaw ), origin ) );
-    if( in.m_player )
-        DrawMesh( in.m_models->m_livery.vaoId ? in.m_models->m_livery : in.m_models->m_playerCars[in.m_car][in.m_paint], m_depthMaterial,
-                  poseMatrix( in.m_player->pose( track ), origin ) );
+    for ( const PoliceDraw &c : in.m_police )
+        if ( std::abs( c.m_s - playerS ) < ShadowExtent )
+            DrawMesh( in.m_models->m_traffic[static_cast<size_t>( c.m_model )].m_mesh, m_depthMaterial,
+                      poseMatrix( roadPose( track, c.m_s, c.m_x, c.m_yaw ), origin ) );
+    for ( const CarDraw &c : in.m_cars )
+        if ( c.m_alpha >= 1.0f && std::abs( c.m_s - playerS ) < ShadowExtent )
+            DrawMesh( in.m_models->m_playerCars[c.m_car][c.m_paint], m_depthMaterial,
+                      poseMatrix( roadPose( track, c.m_s, c.m_x, c.m_yaw ), origin ) );
+    if ( in.m_player )
+        DrawMesh( in.m_models->m_livery.vaoId ? in.m_models->m_livery : in.m_models->m_playerCars[in.m_car][in.m_paint],
+                  m_depthMaterial, poseMatrix( in.m_player->pose( track ), origin ) );
     rlEnableBackfaceCulling();
     EndMode3D();
     EndTextureMode();
@@ -503,7 +531,8 @@ void Renderer::drawSky( const SceneInput &in, const CameraView &cam )
     setF( s, "rainbow", e.m_rainbow );
     setF( s, "eclipse", e.m_eclipse );
     const float pe = e.m_planetElevation * DEG2RAD, pa = e.m_planetAzimuth * DEG2RAD;
-    setV3( s, "planetDir", Vector3{ -std::sin( pa ) * std::cos( pe ), std::sin( pe ), std::cos( pa ) * std::cos( pe ) } );
+    setV3( s, "planetDir",
+           Vector3{ -std::sin( pa ) * std::cos( pe ), std::sin( pe ), std::cos( pa ) * std::cos( pe ) } );
     setF( s, "planetRadius", e.m_planetSize * DEG2RAD );
     setV3( s, "planetColor", linearRgb( e.m_planetColor ) );
     DrawRectangle( 0, 0, m_targetW, m_targetH, WHITE );
@@ -545,7 +574,8 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
     setF( s, "gridGlow", in.m_surface.m_gridGlow );
     setF( s, "time", std::fmod( in.m_time, 1000.0f ) );
     setF( s, "wind", 1.0f + in.m_env.m_rain * 1.5f + in.m_env.m_lightning * 0.8f + in.m_env.m_snow * 0.5f );
-    setV2( s, "swayOffset", static_cast<float>( std::fmod( origin.m_x, 450.0 ) ), static_cast<float>( std::fmod( origin.m_z, 450.0 ) ) );
+    setV2( s, "swayOffset", static_cast<float>( std::fmod( origin.m_x, 450.0 ) ),
+           static_cast<float>( std::fmod( origin.m_z, 450.0 ) ) );
     setF( s, "objectShade", 1.0f );
     setF( s, "objectAlpha", 1.0f );
     setF( s, "shadowStrength", m_shadowStrength );
@@ -559,14 +589,18 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
         SetShaderValue( s, GetShaderLocation( s, "shadowMap" ), &slot, SHADER_UNIFORM_INT );
     }
     setV3( s, "gridColor", Vector3{ 0.02f, 0.75f, 1.0f } );
-    setV2( s, "gridOffset", static_cast<float>( std::fmod( origin.m_x, 12.0 ) ), static_cast<float>( std::fmod( origin.m_z, 12.0 ) ) );
+    setV2( s, "gridOffset", static_cast<float>( std::fmod( origin.m_x, 12.0 ) ),
+           static_cast<float>( std::fmod( origin.m_z, 12.0 ) ) );
     Pose playerPose{};
-    if( in.m_player )
+    if ( in.m_player )
     {
         playerPose = in.m_player->pose( track );
         const Vector3 pos = relativeTo( playerPose.m_pos, origin );
-        setV3( s, "headPos", Vector3Add( Vector3Add( pos, Vector3Scale( playerPose.m_forward, 2.3f ) ), Vector3Scale( playerPose.m_up, 0.7f ) ) );
-        setV3( s, "headDir", Vector3Normalize( Vector3Subtract( playerPose.m_forward, Vector3Scale( playerPose.m_up, 0.07f ) ) ) );
+        setV3( s, "headPos",
+               Vector3Add( Vector3Add( pos, Vector3Scale( playerPose.m_forward, 2.3f ) ),
+                           Vector3Scale( playerPose.m_up, 0.7f ) ) );
+        setV3( s, "headDir",
+               Vector3Normalize( Vector3Subtract( playerPose.m_forward, Vector3Scale( playerPose.m_up, 0.07f ) ) ) );
         setF( s, "headStrength", std::max( e.m_headlights, inTunnel( track, in.m_player->m_s ) ) );
     }
     else
@@ -576,20 +610,22 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
 
     // The chunks (those kept behind the car for looking back only when looking back). The ground first, unblended: its
     // alpha says how much it mirrors (the wet road, the puddles), for the mirror pass.
-    auto shown = [&]( const Chunk &c ) { return !in.m_player || static_cast<double>( c.m_index + 1 ) * ChunkLength >= in.m_player->m_s - in.m_behind; };
+    auto shown = [&]( const Chunk &c )
+    { return !in.m_player || static_cast<double>( c.m_index + 1 ) * ChunkLength >= in.m_player->m_s - in.m_behind; };
     rlDrawRenderBatchActive();
     rlDisableColorBlend();
     setF( s, "writeMirror", 1.0f );
-    if( in.m_world )
-        for( const Chunk &c : in.m_world->chunks() )
+    if ( in.m_world )
+        for ( const Chunk &c : in.m_world->chunks() )
         {
             const Vector3 o = relativeTo( c.m_origin, origin );
-            if( shown( c ) && c.m_ground.vertexCount ) DrawMesh( c.m_ground, m_material, MatrixTranslate( o.x, o.y, o.z ) );
+            if ( shown( c ) && c.m_ground.vertexCount )
+                DrawMesh( c.m_ground, m_material, MatrixTranslate( o.x, o.y, o.z ) );
         }
-    if( in.m_models && in.m_models->m_puddle.vertexCount )
+    if ( in.m_models && in.m_models->m_puddle.vertexCount )
     {
         std::vector<Matrix> puddles;
-        for( const ScenePiece &p : in.m_puddles )
+        for ( const ScenePiece &p : in.m_puddles )
         {
             const Vector3 o = relativeTo( p.m_pos, origin );
             puddles.push_back( MatrixMultiply( MatrixRotateY( p.m_yaw ), MatrixTranslate( o.x, o.y, o.z ) ) );
@@ -598,20 +634,21 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
     }
     setF( s, "writeMirror", 0.0f );
     rlEnableColorBlend();
-    if( in.m_world )
-        for( const Chunk &c : in.m_world->chunks() )
+    if ( in.m_world )
+        for ( const Chunk &c : in.m_world->chunks() )
         {
             const Vector3 o = relativeTo( c.m_origin, origin );
-            if( !shown( c ) ) continue;
-            if( c.m_props.vertexCount ) DrawMesh( c.m_props, m_material, MatrixTranslate( o.x, o.y, o.z ) );
+            if ( !shown( c ) ) continue;
+            if ( c.m_props.vertexCount ) DrawMesh( c.m_props, m_material, MatrixTranslate( o.x, o.y, o.z ) );
             // The scenery from afar beyond LodDistance.
-            const Mesh &scenery = upClose( c, in.m_player ? in.m_player->m_s : cam.m_pos.m_z ) ? c.m_scenery : c.m_sceneryFar;
-            if( scenery.vertexCount ) DrawMesh( scenery, m_material, MatrixTranslate( o.x, o.y, o.z ) );
+            const Mesh &scenery =
+                upClose( c, in.m_player ? in.m_player->m_s : cam.m_pos.m_z ) ? c.m_scenery : c.m_sceneryFar;
+            if ( scenery.vertexCount ) DrawMesh( scenery, m_material, MatrixTranslate( o.x, o.y, o.z ) );
         }
     // Lone models (the landmark viewer, a crossing).
-    for( const ScenePiece &p : in.m_pieces )
+    for ( const ScenePiece &p : in.m_pieces )
     {
-        if( !p.m_mesh || !p.m_mesh->vertexCount ) continue;
+        if ( !p.m_mesh || !p.m_mesh->vertexCount ) continue;
         const Vector3 o = relativeTo( p.m_pos, origin );
         DrawMesh( *p.m_mesh, m_material, MatrixMultiply( MatrixRotateY( p.m_yaw ), MatrixTranslate( o.x, o.y, o.z ) ) );
     }
@@ -624,17 +661,17 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
         float m_w, m_l;
     };
     std::vector<Shadow> shadows;
-    if( in.m_traffic )
+    if ( in.m_traffic )
     {
-        for( const TrafficCar &c : in.m_traffic->m_cars )
+        for ( const TrafficCar &c : in.m_traffic->m_cars )
         {
-            if( c.m_s - playerS > ViewDistance ) continue;
+            if ( c.m_s - playerS > ViewDistance ) continue;
             const float wobble = c.m_hitTimer > 0.0f ? std::sin( c.m_hitTimer * 25.0f ) * 0.08f * c.m_hitTimer : 0.0f;
             Pose        p = roadPose( track, c.m_s, c.m_x, c.m_yaw + wobble );
             p.m_pos.m_y += static_cast<double>( c.m_lift );
             setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, c.m_s ) );
             DrawMesh( models.m_traffic[c.m_model].m_mesh, m_material, poseMatrix( p, origin ) );
-            if( c.m_siren )
+            if ( c.m_siren )
             {
                 // On a run: the light bar flashes, and the lamps on the back answer it.
                 const VehicleModel &vm = models.m_traffic[c.m_model];
@@ -642,33 +679,36 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
                 const Matrix        m = poseMatrix( p, origin );
                 DrawMesh( models.m_policeFlash[static_cast<size_t>( flashMesh( vm.m_lamps, phase ) )], m_material,
                           MatrixMultiply( MatrixTranslate( vm.m_light.x, vm.m_light.y, vm.m_light.z ), m ) );
-                DrawMesh( models.m_policeFlash[static_cast<size_t>( flashMesh( vm.m_lamps, 1 - phase ) )], m_material,
-                          MatrixMultiply( MatrixTranslate( 0.0f, vm.m_light.y - 0.12f, -vm.m_length * 0.5f + 0.15f ), m ) );
+                DrawMesh(
+                    models.m_policeFlash[static_cast<size_t>( flashMesh( vm.m_lamps, 1 - phase ) )], m_material,
+                    MatrixMultiply( MatrixTranslate( 0.0f, vm.m_light.y - 0.12f, -vm.m_length * 0.5f + 0.15f ), m ) );
             }
-            if( !c.m_animal && c.m_s > playerS - 10.0 && c.m_s - playerS < 90.0 && c.m_plate < models.m_plates.size() )
+            if ( !c.m_animal && c.m_s > playerS - 10.0 && c.m_s - playerS < 90.0 && c.m_plate < models.m_plates.size() )
             {
                 // Its number plate behind, in the country's style.
-                Pose plate = p;
+                Pose        plate = p;
                 const float back = c.m_length * 0.5f + 0.02f;
                 plate.m_pos.m_x -= static_cast<double>( p.m_forward.x * back - p.m_up.x * 0.5f );
                 plate.m_pos.m_y -= static_cast<double>( p.m_forward.y * back - p.m_up.y * 0.5f );
                 plate.m_pos.m_z -= static_cast<double>( p.m_forward.z * back - p.m_up.z * 0.5f );
                 DrawMesh( models.m_plates[c.m_plate], m_material, poseMatrix( plate, origin ) );
             }
-            if( c.m_lift < 0.5f && !c.m_swim ) shadows.push_back( { p, c.m_width, c.m_length } );
+            if ( c.m_lift < 0.5f && !c.m_swim ) shadows.push_back( { p, c.m_width, c.m_length } );
         }
         // Cones and arrow boards, one draw per kind (roadworks are never in a tunnel).
         std::vector<Matrix> obstacles[3];
-        for( const Obstacle &o : in.m_traffic->m_obstacles )
+        for ( const Obstacle &o : in.m_traffic->m_obstacles )
         {
-            if( o.m_knocked )
+            if ( o.m_knocked )
             {
                 const Vector3 rel = relativeTo( o.m_pos, origin );
-                obstacles[std::clamp( o.m_kind, 0, 2 )].push_back( MatrixMultiply( MatrixRotate( o.m_axis, o.m_angle ), MatrixTranslate( rel.x, rel.y, rel.z ) ) );
+                obstacles[std::clamp( o.m_kind, 0, 2 )].push_back(
+                    MatrixMultiply( MatrixRotate( o.m_axis, o.m_angle ), MatrixTranslate( rel.x, rel.y, rel.z ) ) );
             }
             else
             {
-                obstacles[std::clamp( o.m_kind, 0, 2 )].push_back( poseMatrix( roadPose( track, o.m_s, o.m_x, 0.0f ), origin ) );
+                obstacles[std::clamp( o.m_kind, 0, 2 )].push_back(
+                    poseMatrix( roadPose( track, o.m_s, o.m_x, 0.0f ), origin ) );
             }
         }
         setF( s, "objectShade", 1.0f );
@@ -676,32 +716,35 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
         drawMany( models.m_arrowBoard[0], obstacles[1] );
         drawMany( models.m_arrowBoard[1], obstacles[2] );
     }
-    for( const PoliceDraw &c : in.m_police )
+    for ( const PoliceDraw &c : in.m_police )
     {
-        if( c.m_s - playerS > ViewDistance || c.m_model < 0 || c.m_model >= static_cast<int>( models.m_traffic.size() ) ) continue;
+        if ( c.m_s - playerS > ViewDistance || c.m_model < 0 ||
+             c.m_model >= static_cast<int>( models.m_traffic.size() ) )
+            continue;
         const VehicleModel &vm = models.m_traffic[static_cast<size_t>( c.m_model )];
         const Pose          p = roadPose( track, c.m_s, c.m_x, c.m_yaw );
         const Matrix        m = poseMatrix( p, origin );
         setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, c.m_s ) );
         DrawMesh( vm.m_mesh, m_material, m );
-        if( c.m_flash >= 0 )
+        if ( c.m_flash >= 0 )
             DrawMesh( models.m_policeFlash[static_cast<size_t>( flashMesh( vm.m_lamps, c.m_flash & 1 ) )], m_material,
                       MatrixMultiply( MatrixTranslate( vm.m_light.x, vm.m_light.y, vm.m_light.z ), m ) );
         shadows.push_back( { p, vm.m_width, vm.m_length } );
     }
-    for( const CarDraw &c : in.m_cars )
+    for ( const CarDraw &c : in.m_cars )
     {
-        if( c.m_alpha < 1.0f || c.m_s - playerS > ViewDistance ) continue;
+        if ( c.m_alpha < 1.0f || c.m_s - playerS > ViewDistance ) continue;
         const Pose p = roadPose( track, c.m_s, c.m_x, c.m_yaw );
         setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, c.m_s ) );
         DrawMesh( models.m_playerCars[c.m_car][c.m_paint], m_material, poseMatrix( p, origin ) );
         shadows.push_back( { p, carSpec( c.m_car ).m_width, carSpec( c.m_car ).m_length } );
     }
-    if( in.m_player && in.m_drawPlayer )
+    if ( in.m_player && in.m_drawPlayer )
     {
         setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, in.m_player->m_s ) );
-        DrawMesh( models.m_livery.vaoId ? models.m_livery : models.m_playerCars[in.m_car][in.m_paint], m_material, poseMatrix( playerPose, origin ) );
-        if( models.m_playerPlate.vertexCount )
+        DrawMesh( models.m_livery.vaoId ? models.m_livery : models.m_playerCars[in.m_car][in.m_paint], m_material,
+                  poseMatrix( playerPose, origin ) );
+        if ( models.m_playerPlate.vertexCount )
         {
             // The home country's plate on the tail.
             Pose        plate = playerPose;
@@ -713,7 +756,7 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
         }
     }
     setF( s, "objectShade", 1.0f );
-    if( in.m_player )
+    if ( in.m_player )
     {
         // The shadow stays on the road while the car flies, and shrinks.
         const PlayerCar &pc = *in.m_player;
@@ -725,7 +768,7 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
 
     rlDisableDepthMask();
     std::vector<Matrix> shadowMatrices;
-    for( const Shadow &sh : shadows )
+    for ( const Shadow &sh : shadows )
     {
         const Vector3 pos = Vector3Add( relativeTo( sh.m_pose.m_pos, origin ), Vector3Scale( sh.m_pose.m_up, 0.06f ) );
         shadowMatrices.push_back( basisMatrix( Vector3Scale( sh.m_pose.m_left, sh.m_w * 0.98f ), sh.m_pose.m_up,
@@ -733,20 +776,21 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
     }
     drawMany( models.m_shadow, shadowMatrices );
     // Ghosts: see-through, after everything solid.
-    for( const CarDraw &c : in.m_cars )
+    for ( const CarDraw &c : in.m_cars )
     {
-        if( c.m_alpha >= 1.0f ) continue;
+        if ( c.m_alpha >= 1.0f ) continue;
         setF( s, "objectAlpha", c.m_alpha );
         setF( s, "objectShade", 1.0f );
-        DrawMesh( models.m_playerCars[c.m_car][c.m_paint], m_material, poseMatrix( roadPose( track, c.m_s, c.m_x, c.m_yaw ), origin ) );
+        DrawMesh( models.m_playerCars[c.m_car][c.m_paint], m_material,
+                  poseMatrix( roadPose( track, c.m_s, c.m_x, c.m_yaw ), origin ) );
     }
     // The glass of undersea tunnels: tinted panes, shiny, seen through.
     setF( s, "objectAlpha", 0.24f );
     setF( s, "objectShade", 1.0f );
-    if( in.m_world )
-        for( const Chunk &c : in.m_world->chunks() )
+    if ( in.m_world )
+        for ( const Chunk &c : in.m_world->chunks() )
         {
-            if( !c.m_glass.vertexCount ) continue;
+            if ( !c.m_glass.vertexCount ) continue;
             const Vector3 o = relativeTo( c.m_origin, origin );
             DrawMesh( c.m_glass, m_material, MatrixTranslate( o.x, o.y, o.z ) );
         }
@@ -763,11 +807,11 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
 
 void Renderer::drawParticles( const SceneInput &in, const CameraView &cam, const Vec3d &origin )
 {
-    const Shader     &s = m_particle.m_shader;
+    const Shader      &s = m_particle.m_shader;
     const Environment &e = in.m_env;
-    const Vector3     fwd = Vector3Normalize( cam.m_forward );
-    const Vector3     right = Vector3Normalize( Vector3CrossProduct( fwd, cam.m_up ) );
-    const Vector3     up = Vector3CrossProduct( right, fwd );
+    const Vector3      fwd = Vector3Normalize( cam.m_forward );
+    const Vector3      right = Vector3Normalize( Vector3CrossProduct( fwd, cam.m_up ) );
+    const Vector3      up = Vector3CrossProduct( right, fwd );
 
     auto billboard = [&]( Vector3 c, float size, Color col )
     {
@@ -780,9 +824,10 @@ void Renderer::drawParticles( const SceneInput &in, const CameraView &cam, const
         const Vector3 dir = Vector3Subtract( b, a );
         Vector3       side = Vector3CrossProduct( dir, a );
         const float   len = Vector3Length( side );
-        if( len < 1e-6f ) return;
+        if ( len < 1e-6f ) return;
         side = Vector3Scale( side, width * 0.5f / len );
-        quad( Vector3Add( a, side ), Vector3Subtract( a, side ), Vector3Subtract( b, side ), Vector3Add( b, side ), col );
+        quad( Vector3Add( a, side ), Vector3Subtract( a, side ), Vector3Subtract( b, side ), Vector3Add( b, side ),
+              col );
     };
 
     rlDisableDepthMask();
@@ -796,14 +841,15 @@ void Renderer::drawParticles( const SceneInput &in, const CameraView &cam, const
     setF( s, "intensity", 1.0f );
     setF( s, "roundSprite", 1.0f );
     rlBegin( RL_QUADS );
-    if( in.m_particles )
+    if ( in.m_particles )
     {
-        for( const Particle &p : in.m_particles->items() )
+        for ( const Particle &p : in.m_particles->items() )
         {
-            if( p.m_glow > 1.0f ) continue;
+            if ( p.m_glow > 1.0f ) continue;
             const float t = p.m_life / p.m_maxLife;
             Color       c = p.m_color;
-            c.a = static_cast<unsigned char>( static_cast<float>( c.a ) * ( 1.0f - t ) * std::min( 1.0f, p.m_life * 8.0f ) );
+            c.a = static_cast<unsigned char>( static_cast<float>( c.a ) * ( 1.0f - t ) *
+                                              std::min( 1.0f, p.m_life * 8.0f ) );
             billboard( relativeTo( p.m_pos, origin ), p.m_size, c );
         }
     }
@@ -814,16 +860,16 @@ void Renderer::drawParticles( const SceneInput &in, const CameraView &cam, const
     BeginBlendMode( BLEND_ADDITIVE );
     setF( s, "intensity", 6.0f );
     rlBegin( RL_QUADS );
-    if( in.m_particles )
+    if ( in.m_particles )
     {
-        for( const Particle &p : in.m_particles->items() )
+        for ( const Particle &p : in.m_particles->items() )
         {
-            if( p.m_glow <= 1.0f ) continue;
-            const float   t = p.m_life / p.m_maxLife;
-            Color         c = p.m_color;
+            if ( p.m_glow <= 1.0f ) continue;
+            const float t = p.m_life / p.m_maxLife;
+            Color       c = p.m_color;
             c.a = static_cast<unsigned char>( static_cast<float>( c.a ) * ( 1.0f - t ) );
             const Vector3 pos = relativeTo( p.m_pos, origin );
-            if( p.m_streak )
+            if ( p.m_streak )
                 ribbon( pos, Vector3Subtract( pos, Vector3Scale( p.m_vel, 0.03f ) ), p.m_size, c );
             else
                 billboard( pos, p.m_size, c );
@@ -835,7 +881,7 @@ void Renderer::drawParticles( const SceneInput &in, const CameraView &cam, const
 
     // Rain, snow or blowing sand, and air streaks at speed; under the sea shafts of light, its snow and bubbles.
     const float rain = e.m_rain, snow = e.m_snow;
-    if( e.m_underwater > 0.3f )
+    if ( e.m_underwater > 0.3f )
     {
         // Shafts from the surface, a little slanted, brightest above, flickering with the waves.
         BeginBlendMode( BLEND_ADDITIVE );
@@ -843,7 +889,7 @@ void Renderer::drawParticles( const SceneInput &in, const CameraView &cam, const
         setF( s, "roundSprite", 1.0f );
         rlBegin( RL_QUADS );
         const Vector3 slant = Vector3Normalize( Vector3{ 0.3f, -1.0f, 0.15f } );
-        for( size_t i = 0; i < m_shafts.size(); ++i )
+        for ( size_t i = 0; i < m_shafts.size(); ++i )
         {
             const float   fi = static_cast<float>( i );
             const float   flicker = 0.55f + 0.45f * std::sin( in.m_time * ( 0.5f + 0.07f * fi ) + fi * 1.7f );
@@ -852,10 +898,11 @@ void Renderer::drawParticles( const SceneInput &in, const CameraView &cam, const
             const Vector3 dir = Vector3Subtract( foot, top );
             Vector3       side = Vector3CrossProduct( dir, top );
             const float   len = Vector3Length( side );
-            if( len < 1e-6f ) continue;
+            if ( len < 1e-6f ) continue;
             side = Vector3Scale( side, ( 2.0f + 1.3f * static_cast<float>( i % 4 ) ) / len );
-            quad2( Vector3Add( top, side ), Vector3Subtract( top, side ), Vector3Subtract( foot, side ), Vector3Add( foot, side ),
-                   Color{ 190, 236, 255, static_cast<unsigned char>( a ) }, Color{ 150, 220, 240, static_cast<unsigned char>( a * 0.35f ) } );
+            quad2( Vector3Add( top, side ), Vector3Subtract( top, side ), Vector3Subtract( foot, side ),
+                   Vector3Add( foot, side ), Color{ 190, 236, 255, static_cast<unsigned char>( a ) },
+                   Color{ 150, 220, 240, static_cast<unsigned char>( a * 0.35f ) } );
         }
         rlEnd();
         rlDrawRenderBatchActive();
@@ -865,44 +912,51 @@ void Renderer::drawParticles( const SceneInput &in, const CameraView &cam, const
         rlBegin( RL_QUADS );
         const Vector3 across = Vector3Normalize( Vector3CrossProduct( fwd, Vector3{ 0, 1, 0 } ) );
         const int     n = static_cast<int>( static_cast<float>( m_drops.size() ) * 0.7f * e.m_underwater );
-        for( int i = 0; i < n; ++i )
+        for ( int i = 0; i < n; ++i )
         {
             const Vector3 p = m_drops[static_cast<size_t>( i )];
-            if( std::abs( Vector3DotProduct( p, across ) ) < 8.5f && p.y < 7.0f ) continue;
-            if( i % 4 == 0 ) billboard( p, 0.05f + 0.03f * static_cast<float>( i % 3 ), Color{ 215, 245, 255, 160 } );
-            else billboard( p, 0.03f, Color{ 190, 214, 220, 100 } );
+            if ( std::abs( Vector3DotProduct( p, across ) ) < 8.5f && p.y < 7.0f ) continue;
+            if ( i % 4 == 0 )
+                billboard( p, 0.05f + 0.03f * static_cast<float>( i % 3 ), Color{ 215, 245, 255, 160 } );
+            else
+                billboard( p, 0.03f, Color{ 190, 214, 220, 100 } );
         }
         rlEnd();
         rlDrawRenderBatchActive();
     }
-    else if( std::max( { e.m_leaves, e.m_petals, e.m_confetti } ) > std::max( 0.02f, std::max( rain, snow ) ) )
+    else if ( std::max( { e.m_leaves, e.m_petals, e.m_confetti } ) > std::max( 0.02f, std::max( rain, snow ) ) )
     {
         // Autumn leaves in their colours, blossom petals, or a festival's confetti.
-        const bool  leaves = e.m_leaves >= e.m_petals;
-        Color       colors[4] = { leaves ? Color{ 214, 120, 40, 230 } : Color{ 250, 196, 214, 220 }, leaves ? Color{ 190, 62, 40, 230 } : Color{ 250, 244, 240, 220 },
-                                  leaves ? Color{ 226, 182, 60, 230 } : Color{ 244, 176, 200, 220 }, leaves ? Color{ 150, 100, 52, 230 } : Color{ 252, 210, 224, 220 } };
-        const bool  confetti = e.m_confetti > std::max( e.m_leaves, e.m_petals ) && e.m_festival >= 0 && e.m_festival < static_cast<int>( festivals().size() );
-        if( confetti )
+        const bool leaves = e.m_leaves >= e.m_petals;
+        Color      colors[4] = { leaves ? Color{ 214, 120, 40, 230 } : Color{ 250, 196, 214, 220 },
+                                 leaves ? Color{ 190, 62, 40, 230 } : Color{ 250, 244, 240, 220 },
+                                 leaves ? Color{ 226, 182, 60, 230 } : Color{ 244, 176, 200, 220 },
+                                 leaves ? Color{ 150, 100, 52, 230 } : Color{ 252, 210, 224, 220 } };
+        const bool confetti = e.m_confetti > std::max( e.m_leaves, e.m_petals ) && e.m_festival >= 0 &&
+                              e.m_festival < static_cast<int>( festivals().size() );
+        if ( confetti )
         {
             const auto &palette = festivals()[static_cast<size_t>( e.m_festival )].m_confetti;
-            for( size_t k = 0; k < 4 && !palette.empty(); ++k ) colors[k] = palette[k % palette.size()];
+            for ( size_t k = 0; k < 4 && !palette.empty(); ++k ) colors[k] = palette[k % palette.size()];
         }
         setF( s, "intensity", 1.2f );
         setF( s, "roundSprite", leaves ? 0.0f : 1.0f );
         rlBegin( RL_QUADS );
-        const int n = static_cast<int>( static_cast<float>( m_drops.size() ) * 0.35f * std::max( { e.m_leaves, e.m_petals, e.m_confetti } ) );
-        for( int i = 0; i < n; ++i ) billboard( m_drops[static_cast<size_t>( i )], leaves ? 0.07f : 0.05f, colors[i & 3] );
+        const int n = static_cast<int>( static_cast<float>( m_drops.size() ) * 0.35f *
+                                        std::max( { e.m_leaves, e.m_petals, e.m_confetti } ) );
+        for ( int i = 0; i < n; ++i )
+            billboard( m_drops[static_cast<size_t>( i )], leaves ? 0.07f : 0.05f, colors[i & 3] );
         rlEnd();
         rlDrawRenderBatchActive();
     }
-    else if( e.m_dust > std::max( 0.02f, std::max( rain, snow ) ) )
+    else if ( e.m_dust > std::max( 0.02f, std::max( rain, snow ) ) )
     {
         setF( s, "intensity", 1.1f );
         setF( s, "roundSprite", 0.0f );
         rlBegin( RL_QUADS );
         const int     n = static_cast<int>( static_cast<float>( m_drops.size() ) * e.m_dust );
         const Vector3 blow = Vector3Subtract( Vector3{ 14.0f, 0.0f, 0.0f }, m_camVel );
-        for( int i = 0; i < n; ++i )
+        for ( int i = 0; i < n; ++i )
         {
             const Vector3 p = m_drops[static_cast<size_t>( i )];
             ribbon( p, Vector3Subtract( p, Vector3Scale( blow, 0.035f ) ), 0.04f, Color{ 222, 178, 120, 120 } );
@@ -910,7 +964,7 @@ void Renderer::drawParticles( const SceneInput &in, const CameraView &cam, const
         rlEnd();
         rlDrawRenderBatchActive();
     }
-    else if( rain > 0.02f || snow > 0.02f )
+    else if ( rain > 0.02f || snow > 0.02f )
     {
         const bool snowing = snow > rain;
         setF( s, "intensity", snowing ? 1.4f : 1.2f );
@@ -919,10 +973,10 @@ void Renderer::drawParticles( const SceneInput &in, const CameraView &cam, const
         const int     n = static_cast<int>( static_cast<float>( m_drops.size() ) * ( snowing ? snow * 0.7f : rain ) );
         const Vector3 fall = snowing ? Vector3{ 0, -1.6f, 0 } : Vector3{ 0, -19.0f, 0 };
         const Vector3 rel = Vector3Subtract( fall, m_camVel );
-        for( int i = 0; i < n; ++i )
+        for ( int i = 0; i < n; ++i )
         {
             const Vector3 p = m_drops[static_cast<size_t>( i )];
-            if( snowing )
+            if ( snowing )
                 billboard( p, 0.07f, Color{ 245, 248, 255, 210 } );
             else
                 ribbon( p, Vector3Subtract( p, Vector3Scale( rel, 0.03f ) ), 0.025f, Color{ 190, 200, 220, 110 } );
@@ -930,15 +984,15 @@ void Renderer::drawParticles( const SceneInput &in, const CameraView &cam, const
         rlEnd();
         rlDrawRenderBatchActive();
     }
-    if( in.m_windStreaks > 0.01f )
+    if ( in.m_windStreaks > 0.01f )
     {
         setF( s, "intensity", 1.6f );
         setF( s, "roundSprite", 0.0f );
         rlBegin( RL_QUADS );
         const unsigned char a = static_cast<unsigned char>( 80.0f * std::min( 1.0f, in.m_windStreaks ) );
-        for( const Vector3 &p : m_streaks )
+        for ( const Vector3 &p : m_streaks )
         {
-            if( std::abs( p.x ) < 2.0f && std::abs( p.z ) < 2.0f ) continue;
+            if ( std::abs( p.x ) < 2.0f && std::abs( p.z ) < 2.0f ) continue;
             ribbon( p, Vector3Subtract( p, Vector3Scale( m_camVel, 0.05f ) ), 0.03f, Color{ 230, 240, 255, a } );
         }
         rlEnd();
@@ -968,7 +1022,8 @@ void Renderer::post( const SceneInput &in )
 
     BeginTextureMode( m_bloomA );
     BeginShaderMode( m_bright.m_shader );
-    setV2( m_bright.m_shader, "texel", 1.0f / static_cast<float>( m_targetW ) * 2.0f, 1.0f / static_cast<float>( m_targetH ) * 2.0f );
+    setV2( m_bright.m_shader, "texel", 1.0f / static_cast<float>( m_targetW ) * 2.0f,
+           1.0f / static_cast<float>( m_targetH ) * 2.0f );
     setF( m_bright.m_shader, "threshold", 1.0f );
     blit( scene, bw, bh );
     EndShaderMode();
@@ -978,12 +1033,13 @@ void Renderer::post( const SceneInput &in )
     {
         BeginTextureMode( dst );
         BeginShaderMode( m_blur.m_shader );
-        setV2( m_blur.m_shader, "dir", dx / static_cast<float>( src.texture.width ), dy / static_cast<float>( src.texture.height ) );
+        setV2( m_blur.m_shader, "dir", dx / static_cast<float>( src.texture.width ),
+               dy / static_cast<float>( src.texture.height ) );
         blit( src.texture, dst.texture.width, dst.texture.height );
         EndShaderMode();
         EndTextureMode();
     };
-    for( float k : { 1.0f, 2.0f } )
+    for ( float k : { 1.0f, 2.0f } )
     {
         blurPass( m_bloomA, m_bloomB, k, 0.0f );
         blurPass( m_bloomB, m_bloomA, 0.0f, k );
@@ -991,7 +1047,7 @@ void Renderer::post( const SceneInput &in )
     BeginTextureMode( m_bloomC );
     blit( m_bloomA.texture, cw, ch );
     EndTextureMode();
-    for( float k : { 1.0f, 2.0f } )
+    for ( float k : { 1.0f, 2.0f } )
     {
         blurPass( m_bloomC, m_bloomD, k, 0.0f );
         blurPass( m_bloomD, m_bloomC, 0.0f, k );
@@ -1028,4 +1084,4 @@ void Renderer::post( const SceneInput &in )
     m_gpu.mark( GpuTimer::POST );
 }
 
-} // namespace sunstreak
+}   // namespace sunstreak

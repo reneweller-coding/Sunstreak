@@ -15,8 +15,8 @@ namespace sunstreak
 
 Haptics::~Haptics()
 {
-    if( m_pad ) SDL_GameControllerClose( static_cast<SDL_GameController *>( m_pad ) );
-    if( m_ok ) SDL_Quit();
+    if ( m_pad ) SDL_GameControllerClose( static_cast<SDL_GameController *>( m_pad ) );
+    if ( m_ok ) SDL_Quit();
 }
 
 bool Haptics::init()
@@ -32,8 +32,8 @@ bool Haptics::init()
 void Haptics::pulse( float low, float high, float seconds )
 {
     Pulse *slot = &m_pulses[0];
-    for( Pulse &p : m_pulses )
-        if( p.m_left < slot->m_left ) slot = &p;
+    for ( Pulse &p : m_pulses )
+        if ( p.m_left < slot->m_left ) slot = &p;
     *slot = Pulse{ std::clamp( low, 0.0f, 1.0f ), std::clamp( high, 0.0f, 1.0f ), seconds, std::max( 0.01f, seconds ) };
 }
 
@@ -47,49 +47,49 @@ void Haptics::update( float dt, bool enabled )
 {
     float low = m_steadyLow, high = m_steadyHigh;
     m_steadyLow = m_steadyHigh = 0.0f;
-    for( Pulse &p : m_pulses )
+    for ( Pulse &p : m_pulses )
     {
-        if( p.m_left <= 0.0f ) continue;
+        if ( p.m_left <= 0.0f ) continue;
         const float k = p.m_left / p.m_length;
         low = std::max( low, p.m_low * k );
         high = std::max( high, p.m_high * k );
         p.m_left -= dt;
-        if( !enabled ) p.m_left = 0.0f;
+        if ( !enabled ) p.m_left = 0.0f;
     }
-    if( !enabled ) low = high = 0.0f;
-    if( !m_ok ) return;
+    if ( !enabled ) low = high = 0.0f;
+    if ( !m_ok ) return;
 
     // Pads come and go: drop a lost one, look for a new one once a second.
     SDL_PumpEvents();
     SDL_FlushEvents( SDL_FIRSTEVENT, SDL_LASTEVENT );
     auto *pad = static_cast<SDL_GameController *>( m_pad );
-    if( pad && !SDL_GameControllerGetAttached( pad ) )
+    if ( pad && !SDL_GameControllerGetAttached( pad ) )
     {
         SDL_GameControllerClose( pad );
         pad = nullptr;
     }
     m_scan -= dt;
-    if( !pad && m_scan <= 0.0f )
+    if ( !pad && m_scan <= 0.0f )
     {
         m_scan = 1.0f;
-        for( int i = 0; i < SDL_NumJoysticks() && !pad; ++i )
-            if( SDL_IsGameController( i ) ) pad = SDL_GameControllerOpen( i );
+        for ( int i = 0; i < SDL_NumJoysticks() && !pad; ++i )
+            if ( SDL_IsGameController( i ) ) pad = SDL_GameControllerOpen( i );
         m_sentLow = m_sentHigh = -1;
     }
     m_pad = pad;
-    if( !pad ) return;
+    if ( !pad ) return;
 
     // In steps of 1/32, sent when it changes and refreshed while it lasts.
     const int l = static_cast<int>( low * 32.0f + 0.5f ), h = static_cast<int>( high * 32.0f + 0.5f );
     m_resend -= dt;
-    if( l != m_sentLow || h != m_sentHigh || ( ( l || h ) && m_resend <= 0.0f ) )
+    if ( l != m_sentLow || h != m_sentHigh || ( ( l || h ) && m_resend <= 0.0f ) )
     {
-        SDL_GameControllerRumble( pad, static_cast<Uint16>( std::min( 65535, l * 2048 ) ), static_cast<Uint16>( std::min( 65535, h * 2048 ) ),
-                                  l || h ? 200 : 0 );
+        SDL_GameControllerRumble( pad, static_cast<Uint16>( std::min( 65535, l * 2048 ) ),
+                                  static_cast<Uint16>( std::min( 65535, h * 2048 ) ), l || h ? 200 : 0 );
         m_sentLow = l;
         m_sentHigh = h;
         m_resend = 0.1f;
     }
 }
 
-} // namespace sunstreak
+}   // namespace sunstreak

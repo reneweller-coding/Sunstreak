@@ -20,8 +20,8 @@ namespace sunstreak
 namespace
 {
 
-constexpr float Slant = 0.22f;     ///< italic lean (x per y)
-constexpr float Advance = 5.6f;    ///< glyph advance in grid units (glyphs are 4 wide, 6 high)
+constexpr float Slant = 0.22f;    ///< italic lean (x per y)
+constexpr float Advance = 5.6f;   ///< glyph advance in grid units (glyphs are 4 wide, 6 high)
 
 /** @brief A glyph: polylines on a 4 x 6 grid, y up. */
 using GlyphT = std::vector<std::vector<Vector2>>;
@@ -33,23 +33,24 @@ using GlyphT = std::vector<std::vector<Vector2>>;
  */
 GlyphT parse( const char *spec )
 {
-    GlyphT                g( 1 );
-    std::string          token;
-    const std::string    s = spec;
-    size_t               i = 0;
-    while( i <= s.size() )
+    GlyphT            g( 1 );
+    std::string       token;
+    const std::string s = spec;
+    size_t            i = 0;
+    while ( i <= s.size() )
     {
         const char ch = i < s.size() ? s[i] : ' ';
-        if( ch == '|' )
+        if ( ch == '|' )
         {
             g.emplace_back();
         }
-        else if( ch == ' ' )
+        else if ( ch == ' ' )
         {
-            if( !token.empty() )
+            if ( !token.empty() )
             {
                 const auto comma = token.find( ',' );
-                g.back().push_back( Vector2{ std::stof( token.substr( 0, comma ) ), std::stof( token.substr( comma + 1 ) ) } );
+                g.back().push_back(
+                    Vector2{ std::stof( token.substr( 0, comma ) ), std::stof( token.substr( comma + 1 ) ) } );
                 token.clear();
             }
         }
@@ -71,7 +72,7 @@ const std::array<GlyphT, 128> &glyphs()
     static const std::array<GlyphT, 128> table = []
     {
         std::array<GlyphT, 128> t{};
-        auto set = [&]( char c, const char *spec ) { t[static_cast<size_t>( c )] = parse( spec ); };
+        auto                    set = [&]( char c, const char *spec ) { t[static_cast<size_t>( c )] = parse( spec ); };
         set( '0', "0,1 0,5 1,6 3,6 4,5 4,1 3,0 1,0 0,1 | 1,1.5 3,4.5" );
         set( '1', "1,5 2,6 2,0 | 1,0 3,0" );
         set( '2', "0,5 1,6 3,6 4,5 4,4 0,0 4,0" );
@@ -150,42 +151,43 @@ void strokes( std::string_view text, float x, float y, float size, Color color, 
     const float r = thick * 0.5f;
     const int   segs = r < 1.5f ? 6 : r < 3.0f ? 8 : r < 6.0f ? 12 : 16;
     Vector2     ring[17];
-    for( int k = 0; k <= segs; ++k )
+    for ( int k = 0; k <= segs; ++k )
     {
         const float a = Tau * static_cast<float>( k ) / static_cast<float>( segs );
         ring[k] = Vector2{ std::cos( a ) * r, std::sin( a ) * r };
     }
     float pen = x;
-    for( char raw : text )
+    for ( char raw : text )
     {
         char c = raw;
-        if( c >= 'a' && c <= 'z' ) c = static_cast<char>( c - 'a' + 'A' );
+        if ( c >= 'a' && c <= 'z' ) c = static_cast<char>( c - 'a' + 'A' );
         const auto idx = static_cast<unsigned char>( c );
-        if( idx < 128 )
+        if ( idx < 128 )
         {
-            for( const auto &line : table[idx] )
+            for ( const auto &line : table[idx] )
             {
                 const size_t n = line.size();
-                rlCheckRenderBatchLimit( static_cast<int>( ( n > 1 ? ( n - 1 ) * 6 : 0 ) + ( round ? n * static_cast<size_t>( segs ) * 3 : 0 ) ) );
+                rlCheckRenderBatchLimit( static_cast<int>( ( n > 1 ? ( n - 1 ) * 6 : 0 ) +
+                                                           ( round ? n * static_cast<size_t>( segs ) * 3 : 0 ) ) );
                 rlBegin( RL_TRIANGLES );
                 rlColor4ub( color.r, color.g, color.b, color.a );
                 Vector2 prev{};
-                for( size_t i = 0; i < n; ++i )
+                for ( size_t i = 0; i < n; ++i )
                 {
                     const Vector2 p = { pen + ( line[i].x + line[i].y * Slant ) * u, y + ( 6.0f - line[i].y ) * u };
-                    if( round )
-                        for( int k = 0; k < segs; ++k )
+                    if ( round )
+                        for ( int k = 0; k < segs; ++k )
                         {
                             rlVertex2f( p.x, p.y );
                             rlVertex2f( p.x + ring[k + 1].x, p.y + ring[k + 1].y );
                             rlVertex2f( p.x + ring[k].x, p.y + ring[k].y );
                         }
-                    if( i > 0 )
+                    if ( i > 0 )
                     {
                         // The segment from the last point: a quad of two triangles, as DrawLineEx builds it.
                         const Vector2 d = { p.x - prev.x, p.y - prev.y };
                         const float   len = std::sqrt( d.x * d.x + d.y * d.y );
-                        if( len > 0.0f )
+                        if ( len > 0.0f )
                         {
                             const float   s = thick / ( 2.0f * len );
                             const Vector2 h = { -s * d.y, s * d.x };
@@ -208,21 +210,22 @@ void strokes( std::string_view text, float x, float y, float size, Color color, 
     }
 }
 
-} // namespace
+}   // namespace
 
 float textStrokes( std::string_view text, std::vector<std::pair<Vector2, Vector2>> &lines )
 {
     const auto &table = glyphs();
     float       pen = 0.0f;
-    for( char raw : text )
+    for ( char raw : text )
     {
         char c = raw;
-        if( c >= 'a' && c <= 'z' ) c = static_cast<char>( c - 'a' + 'A' );
+        if ( c >= 'a' && c <= 'z' ) c = static_cast<char>( c - 'a' + 'A' );
         const auto idx = static_cast<unsigned char>( c );
-        if( idx < 128 )
-            for( const auto &line : table[idx] )
-                for( size_t i = 0; i + 1 < line.size(); ++i )
-                    lines.push_back( { Vector2{ ( pen + line[i].x ) / 6.0f, line[i].y / 6.0f }, Vector2{ ( pen + line[i + 1].x ) / 6.0f, line[i + 1].y / 6.0f } } );
+        if ( idx < 128 )
+            for ( const auto &line : table[idx] )
+                for ( size_t i = 0; i + 1 < line.size(); ++i )
+                    lines.push_back( { Vector2{ ( pen + line[i].x ) / 6.0f, line[i].y / 6.0f },
+                                       Vector2{ ( pen + line[i + 1].x ) / 6.0f, line[i + 1].y / 6.0f } } );
         pen += Advance;
     }
     return text.empty() ? 0.0f : ( pen - ( Advance - 4.0f ) ) / 6.0f;
@@ -241,12 +244,12 @@ float g_textScale = 1.0f;   ///< the UI's text scale
  */
 float rawWidth( std::string_view text, float size )
 {
-    if( text.empty() ) return 0.0f;
+    if ( text.empty() ) return 0.0f;
     const float u = size / 6.0f;
     return ( static_cast<float>( text.size() ) * Advance - ( Advance - 4.0f ) ) * u + 6.0f * Slant * u;
 }
 
-} // namespace
+}   // namespace
 
 void setTextScale( float scale )
 {
@@ -267,8 +270,10 @@ void drawText( std::string_view text, float x, float y, float size, Color color,
 {
     size *= g_textScale;
     const float w = rawWidth( text, size );
-    if( align == AlignE::CENTER ) x -= w * 0.5f;
-    else if( align == AlignE::RIGHT ) x -= w;
+    if ( align == AlignE::CENTER )
+        x -= w * 0.5f;
+    else if ( align == AlignE::RIGHT )
+        x -= w;
     strokes( text, x, y, size, color, std::max( 1.2f, size * weight ) );
 }
 
@@ -276,10 +281,12 @@ void drawTextFx( std::string_view text, float x, float y, float size, Color colo
 {
     size *= g_textScale;
     const float w = rawWidth( text, size );
-    if( align == AlignE::CENTER ) x -= w * 0.5f;
-    else if( align == AlignE::RIGHT ) x -= w;
+    if ( align == AlignE::CENTER )
+        x -= w * 0.5f;
+    else if ( align == AlignE::RIGHT )
+        x -= w;
     const float thick = std::max( 1.2f, size * 0.13f );
-    if( glow > 0.0f )
+    if ( glow > 0.0f )
     {
         Color g = color;
         g.a = static_cast<unsigned char>( 22.0f * glow * static_cast<float>( color.a ) / 255.0f );
@@ -291,4 +298,4 @@ void drawTextFx( std::string_view text, float x, float y, float size, Color colo
     strokes( text, x, y, size, color, thick );
 }
 
-} // namespace sunstreak
+}   // namespace sunstreak

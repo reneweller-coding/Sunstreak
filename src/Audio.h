@@ -64,33 +64,33 @@ inline float doppler( float closing )
 /** @brief What the engine and the tyres are doing. */
 struct EngineState
 {
-    bool  m_active = false;    ///< a car is running
-    float m_rpm = 0.1f;        ///< 0..1.15 of the redline
-    float m_throttle = 0.0f;   ///< 0..1
-    float m_speed = 0.0f;      ///< m/s
-    float m_slip = 0.0f;       ///< 0..1 squeal
-    float m_offroad = 0.0f;    ///< 0..1 gravel
-    float m_rumble = 0.0f;     ///< 0..1 kerb
-    bool  m_boost = false;     ///< boosting
-    bool  m_limiter = false;   ///< on the rev limiter
-    bool  m_shifting = false;  ///< in a gear change (ignition cut)
-    int   m_cylinders = 8;     ///< engine layout: 4, 8 (cross-plane V8) or 12
-    float m_idle = 900.0f;     ///< idle rpm
-    float m_redline = 7800.0f; ///< redline rpm
-    float m_bright = 1.0f;     ///< tone brightness
+    bool  m_active = false;      ///< a car is running
+    float m_rpm = 0.1f;          ///< 0..1.15 of the redline
+    float m_throttle = 0.0f;     ///< 0..1
+    float m_speed = 0.0f;        ///< m/s
+    float m_slip = 0.0f;         ///< 0..1 squeal
+    float m_offroad = 0.0f;      ///< 0..1 gravel
+    float m_rumble = 0.0f;       ///< 0..1 kerb
+    bool  m_boost = false;       ///< boosting
+    bool  m_limiter = false;     ///< on the rev limiter
+    bool  m_shifting = false;    ///< in a gear change (ignition cut)
+    int   m_cylinders = 8;       ///< engine layout: 4, 8 (cross-plane V8) or 12
+    float m_idle = 900.0f;       ///< idle rpm
+    float m_redline = 7800.0f;   ///< redline rpm
+    float m_bright = 1.0f;       ///< tone brightness
 };
 
 /** @brief The sounds of the place around the car (set once per frame; the synthesis glides between them). */
 struct Ambience
 {
-    float m_surf = 0.0f;      ///< 0..1 waves on a shore
-    float m_surfPan = 0.0f;   ///< -1 left .. 1 right: where the water is
-    float m_wind = 0.0f;      ///< 0..1 wind over open land
-    float m_jungle = 0.0f;    ///< 0..1 insects and birds
-    float m_city = 0.0f;      ///< 0..1 traffic hum and distant horns
-    float m_rain = 0.0f;      ///< 0..1 rain on the car
-    float m_tunnel = 0.0f;    ///< 0..1 inside a tunnel: the engine echoes
-    float m_bridge = 0.0f;    ///< 0..1 on a bridge: the expansion joints thump
+    float m_surf = 0.0f;         ///< 0..1 waves on a shore
+    float m_surfPan = 0.0f;      ///< -1 left .. 1 right: where the water is
+    float m_wind = 0.0f;         ///< 0..1 wind over open land
+    float m_jungle = 0.0f;       ///< 0..1 insects and birds
+    float m_city = 0.0f;         ///< 0..1 traffic hum and distant horns
+    float m_rain = 0.0f;         ///< 0..1 rain on the car
+    float m_tunnel = 0.0f;       ///< 0..1 inside a tunnel: the engine echoes
+    float m_bridge = 0.0f;       ///< 0..1 on a bridge: the expansion joints thump
     float m_underwater = 0.0f;   ///< 0..1 in a glass tunnel under the sea: muffled, a hum, whales
     float m_siren = 0.0f;        ///< 0..1 a police siren, louder as it nears
     float m_sirenPan = 0.0f;     ///< -1 left .. 1 right: where it is
@@ -188,15 +188,15 @@ public:
     static bool renderTest( const std::string &path, float seconds, int station = -1 );
 
 private:
-    bool                     m_ok = false;          ///< the device is open
-    AudioStream              m_stream{};            ///< the synthesis stream
-    std::vector<std::string> m_files;               ///< music files found
-    size_t                   m_fileIndex = 0;       ///< the next file
-    Music                    m_music{};             ///< the playing file
-    bool                     m_musicLoaded = false; ///< m_music is valid
-    bool                     m_musicOn = false;     ///< the soundtrack should play
-    bool                     m_fileMode = false;    ///< music files instead of the radio
-    float                    m_musicVolume = 0.7f;  ///< 0..1
+    bool                     m_ok = false;            ///< the device is open
+    AudioStream              m_stream{};              ///< the synthesis stream
+    std::vector<std::string> m_files;                 ///< music files found
+    size_t                   m_fileIndex = 0;         ///< the next file
+    Music                    m_music{};               ///< the playing file
+    bool                     m_musicLoaded = false;   ///< m_music is valid
+    bool                     m_musicOn = false;       ///< the soundtrack should play
+    bool                     m_fileMode = false;      ///< music files instead of the radio
+    float                    m_musicVolume = 0.7f;    ///< 0..1
 };
 
-} // namespace sunstreak
+}   // namespace sunstreak

@@ -44,15 +44,15 @@ int serviceModel( const Models &models, const BiomeDef &place, std::string_view 
  */
 inline int flashMesh( uint8_t lamps, int phase )
 {
-    if( lamps == 2 ) return phase ? 1 : 2;
-    if( lamps == 1 ) return phase ? 3 : 0;
+    if ( lamps == 2 ) return phase ? 1 : 2;
+    if ( lamps == 1 ) return phase ? 3 : 0;
     return phase ? 1 : 0;
 }
 
-constexpr int CarCount = 4;     ///< cars the player can choose
-constexpr int PaintCount = 14;  ///< paints per car
-constexpr int RimCount = 7;     ///< rim finishes
-constexpr int DecalCount = 7;   ///< decals (0: none)
+constexpr int CarCount = 4;      ///< cars the player can choose
+constexpr int PaintCount = 14;   ///< paints per car
+constexpr int RimCount = 7;      ///< rim finishes
+constexpr int DecalCount = 7;    ///< decals (0: none)
 
 /** @brief How the player's car looks: the garage's choices. */
 struct Livery
@@ -74,17 +74,17 @@ struct Livery
 /** @brief A car the player can drive. */
 struct CarSpec
 {
-    const char *m_name;       ///< shown in the menu
-    float       m_topSpeed;   ///< m/s without boost
-    float       m_accel;      ///< acceleration factor
-    float       m_grip;       ///< steering grip factor
-    float       m_length;     ///< metres
-    float       m_width;      ///< metres
-    int         m_cylinders;  ///< engine cylinders (sound)
-    float       m_idle;       ///< idle rpm
-    float       m_redline;    ///< redline rpm
-    float       m_bright;     ///< engine tone brightness (1 neutral)
-    float       m_dirt;       ///< grip on gravel and sand against asphalt
+    const char *m_name;        ///< shown in the menu
+    float       m_topSpeed;    ///< m/s without boost
+    float       m_accel;       ///< acceleration factor
+    float       m_grip;        ///< steering grip factor
+    float       m_length;      ///< metres
+    float       m_width;       ///< metres
+    int         m_cylinders;   ///< engine cylinders (sound)
+    float       m_idle;        ///< idle rpm
+    float       m_redline;     ///< redline rpm
+    float       m_bright;      ///< engine tone brightness (1 neutral)
+    float       m_dirt;        ///< grip on gravel and sand against asphalt
 };
 
 /**
@@ -133,17 +133,17 @@ enum class FacingE : uint8_t
 /** @brief A traffic vehicle's mesh and size. */
 struct VehicleModel
 {
-    Mesh      m_mesh{};                     ///< on the GPU
-    float     m_length = 4;                 ///< metres
-    float     m_width = 1.8f;               ///< metres
-    bool      m_truck = false;              ///< slow and long
-    uint32_t  m_fleets = 0;                 ///< the regions it belongs to (a bit per FleetE; 0: everywhere)
-    uint8_t   m_where = 0;                  ///< 0 anywhere, 1 in cities, 2 in the country
-    float     m_pace = 1.0f;                ///< its speed against an ordinary car
-    PropKindE m_animal = PropKindE::COUNT;  ///< an animal crossing the road (COUNT: a vehicle)
-    bool      m_police = false;             ///< a patrol car, an ambulance or a fire engine (never spawned as everyday traffic)
-    Vector3   m_light{};                    ///< the middle of its light bar
-    uint8_t   m_lamps = 0;                  ///< its lamps: 1 red, 2 blue, 3 both
+    Mesh      m_mesh{};                      ///< on the GPU
+    float     m_length = 4;                  ///< metres
+    float     m_width = 1.8f;                ///< metres
+    bool      m_truck = false;               ///< slow and long
+    uint32_t  m_fleets = 0;                  ///< the regions it belongs to (a bit per FleetE; 0: everywhere)
+    uint8_t   m_where = 0;                   ///< 0 anywhere, 1 in cities, 2 in the country
+    float     m_pace = 1.0f;                 ///< its speed against an ordinary car
+    PropKindE m_animal = PropKindE::COUNT;   ///< an animal crossing the road (COUNT: a vehicle)
+    bool      m_police = false;   ///< a patrol car, an ambulance or a fire engine (never spawned as everyday traffic)
+    Vector3   m_light{};          ///< the middle of its light bar
+    uint8_t   m_lamps = 0;        ///< its lamps: 1 red, 2 blue, 3 both
 };
 
 /**
@@ -156,8 +156,8 @@ struct VehicleModel
  * @param[in]  posts  stand it on posts
  * @param[in]  local  the name in the country's own script, above the Latin one (nullptr: none)
  */
-void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float cap = 0.42f, float lift = 1.4f, bool posts = true,
-                     const ScriptName *local = nullptr );
+void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float cap = 0.42f, float lift = 1.4f,
+                     bool posts = true, const ScriptName *local = nullptr );
 
 /**
  * @brief The gantry before a fork of the world tour: a green board over each carriageway with where it leads.
@@ -258,35 +258,41 @@ public:
      */
     void buildPlayerPlate( PlateE style, const std::string &code, const std::string &text );
 
-    std::array<MeshBuilder, 8> m_post;           ///< delineator post by style (Post* in Local.h) and side (the traffic's own 0, the other 1): style * 2 + side
-    std::array<MeshBuilder, 3> m_chevronRight;   ///< warning board, arrow to the driver's right (CountryInfo::m_chevrons)
-    std::array<MeshBuilder, 3> m_chevronLeft;    ///< warning board, arrow to the driver's left
-    std::array<MeshBuilder, 3> m_lamp;           ///< street lamp, its arm along +z, by light (LampWarm, LampSodium, LampCool)
-    std::array<MeshBuilder, 3> m_utilityPole;    ///< pole of an overhead line, its arm across the road: wood, concrete, steel (BiomeDef::m_poleKind - 1)
-    std::array<MeshBuilder, 4> m_jumpSign;       ///< crest warning by CountryInfo::m_warn: red triangle, on yellow, yellow diamond, black on yellow
-    std::vector<MeshBuilder>   m_flags;          ///< a flag on its pole per country (countryAt order), facing -z
-    MeshBuilder                m_borderPost;     ///< customs booth and raised barrier, front (+x) to the road
+    std::array<MeshBuilder, 8>
+        m_post;   ///< delineator post by style (Post* in Local.h) and side (the traffic's own 0, the other 1): style * 2 + side
+    std::array<MeshBuilder, 3>
+        m_chevronRight;   ///< warning board, arrow to the driver's right (CountryInfo::m_chevrons)
+    std::array<MeshBuilder, 3> m_chevronLeft;   ///< warning board, arrow to the driver's left
+    std::array<MeshBuilder, 3> m_lamp;   ///< street lamp, its arm along +z, by light (LampWarm, LampSodium, LampCool)
+    std::array<MeshBuilder, 3>
+        m_utilityPole;   ///< pole of an overhead line, its arm across the road: wood, concrete, steel (BiomeDef::m_poleKind - 1)
+    std::array<MeshBuilder, 4>
+        m_jumpSign;   ///< crest warning by CountryInfo::m_warn: red triangle, on yellow, yellow diamond, black on yellow
+    std::vector<MeshBuilder> m_flags;        ///< a flag on its pole per country (countryAt order), facing -z
+    MeshBuilder              m_borderPost;   ///< customs booth and raised barrier, front (+x) to the road
 
-    std::array<std::array<Mesh, PaintCount>, CarCount> m_playerCars{};   ///< the player's cars in plain paint (rivals, ghosts)
-    Mesh                                               m_livery{};       ///< the player's own car, dressed in the garage
-    Livery                                             m_liveryOf{};     ///< what m_livery shows
-    std::vector<VehicleModel>                          m_traffic;        ///< traffic, paints included
-    std::vector<int>                                   m_creatureModel;  ///< per data shape: its traffic model if it swims (-1: none)
-    size_t                                             m_creatureFirst = 0;   ///< the first creature in m_traffic (they come last)
-    std::vector<int>                                   m_policeModel;    ///< per data shape: its model if a patrol car, ambulance or fire engine (-1: none)
-    std::array<Mesh, 4>                                m_policeFlash{};  ///< a flash of the light bar: red right, blue left, blue right, red left
-    Mesh                                               m_puddle{};       ///< a puddle the rain left on the road, -z ahead
-    Mesh                                               m_playerPlate{};  ///< the player's number plate, facing -z (none: no vertices)
-    std::string                                        m_playerPlateOf;  ///< what m_playerPlate shows (style, code, text)
-    std::vector<Mesh>                                  m_hitchhikers;    ///< the HITCHHIKER shapes, +x towards the road
-    std::array<Mesh, 3>                                m_couriers{};     ///< COURIER_PARCEL, COURIER_MEDIC, COURIER_OFFICER
-    std::vector<std::array<Mesh, 2>>                   m_trains;         ///< per train (trainLines()): its power car and a coach, +z ahead
-    std::vector<Mesh>                                  m_sky;            ///< the spectacles' SKY_ shapes (SkyModelE order)
-    Mesh                                               m_cone{};         ///< traffic cone
-    std::array<Mesh, 2>                                m_arrowBoard{};   ///< roadworks board, arrow left / right
-    Mesh                                               m_shadow{};       ///< unit blob shadow
-    std::array<Mesh, 7>                                m_plates{};       ///< number plates by style (PlateE), facing -z
-    MeshBuilder                                        m_camera;         ///< a speed camera on its post, facing -z
+    std::array<std::array<Mesh, PaintCount>, CarCount>
+                              m_playerCars{};        ///< the player's cars in plain paint (rivals, ghosts)
+    Mesh                      m_livery{};            ///< the player's own car, dressed in the garage
+    Livery                    m_liveryOf{};          ///< what m_livery shows
+    std::vector<VehicleModel> m_traffic;             ///< traffic, paints included
+    std::vector<int>          m_creatureModel;       ///< per data shape: its traffic model if it swims (-1: none)
+    size_t                    m_creatureFirst = 0;   ///< the first creature in m_traffic (they come last)
+    std::vector<int>
+        m_policeModel;   ///< per data shape: its model if a patrol car, ambulance or fire engine (-1: none)
+    std::array<Mesh, 4> m_policeFlash{};   ///< a flash of the light bar: red right, blue left, blue right, red left
+    Mesh                m_puddle{};        ///< a puddle the rain left on the road, -z ahead
+    Mesh                m_playerPlate{};   ///< the player's number plate, facing -z (none: no vertices)
+    std::string         m_playerPlateOf;   ///< what m_playerPlate shows (style, code, text)
+    std::vector<Mesh>   m_hitchhikers;     ///< the HITCHHIKER shapes, +x towards the road
+    std::array<Mesh, 3> m_couriers{};      ///< COURIER_PARCEL, COURIER_MEDIC, COURIER_OFFICER
+    std::vector<std::array<Mesh, 2>> m_trains;   ///< per train (trainLines()): its power car and a coach, +z ahead
+    std::vector<Mesh>                m_sky;      ///< the spectacles' SKY_ shapes (SkyModelE order)
+    Mesh                             m_cone{};   ///< traffic cone
+    std::array<Mesh, 2>              m_arrowBoard{};   ///< roadworks board, arrow left / right
+    Mesh                             m_shadow{};       ///< unit blob shadow
+    std::array<Mesh, 7>              m_plates{};       ///< number plates by style (PlateE), facing -z
+    MeshBuilder                      m_camera;         ///< a speed camera on its post, facing -z
 
 private:
     /** @brief Builds the props. */
@@ -309,19 +315,18 @@ public:
     void reloadDataShapes();
 
 private:
-
     /** @brief Builds the traffic models of what swims (the creatures of the data files). */
     void buildCreatures();
 
     /** @brief Builds a flag per country of the data files. */
     void buildFlags();
 
-    std::array<std::vector<MeshBuilder>, static_cast<size_t>( PropKindE::COUNT )> m_props;    ///< variants per kind
-    std::array<std::vector<MeshBuilder>, static_cast<size_t>( PropKindE::COUNT )> m_propsFar;  ///< the same from afar
-    std::array<float, static_cast<size_t>( PropKindE::COUNT )>                    m_footprint{};  ///< widths on the ground
-    std::array<float, static_cast<size_t>( PropKindE::COUNT )>                    m_radius{};  ///< collision radii
-    std::array<std::array<Color, 3>, static_cast<size_t>( PropKindE::COUNT )>     m_keys{};    ///< default key colours
-    std::array<FacingE, static_cast<size_t>( PropKindE::COUNT )>                  m_facing{};  ///< which way they turn
+    std::array<std::vector<MeshBuilder>, static_cast<size_t>( PropKindE::COUNT )> m_props;      ///< variants per kind
+    std::array<std::vector<MeshBuilder>, static_cast<size_t>( PropKindE::COUNT )> m_propsFar;   ///< the same from afar
+    std::array<float, static_cast<size_t>( PropKindE::COUNT )>                m_footprint{};   ///< widths on the ground
+    std::array<float, static_cast<size_t>( PropKindE::COUNT )>                m_radius{};      ///< collision radii
+    std::array<std::array<Color, 3>, static_cast<size_t>( PropKindE::COUNT )> m_keys{};        ///< default key colours
+    std::array<FacingE, static_cast<size_t>( PropKindE::COUNT )>              m_facing{};      ///< which way they turn
 };
 
-} // namespace sunstreak
+}   // namespace sunstreak

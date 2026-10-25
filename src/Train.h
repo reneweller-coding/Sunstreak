@@ -16,20 +16,20 @@
 namespace sunstreak
 {
 
-constexpr float  RailOffset = 14.0f;     ///< the viaduct's middle, this far beyond the road's outer edge
-constexpr float  RailHeight = 5.5f;      ///< the rails this high over the road
-constexpr float  CoachLength = 25.6f;    ///< a coach (and the power car)
-constexpr double RailBefore = 400.0;     ///< the viaduct begins this far before the race
-constexpr double RailAfter = 900.0;      ///< and ends this far after it
-constexpr double PortalLength = 30.0;    ///< the stone portals at its ends
-constexpr float  TrainPace = 0.93f;      ///< the train's top speed against the car's, at most
-constexpr int    TrainBonus = 4000;      ///< points for beating it (and five seconds where the clock runs)
+constexpr float  RailOffset = 14.0f;    ///< the viaduct's middle, this far beyond the road's outer edge
+constexpr float  RailHeight = 5.5f;     ///< the rails this high over the road
+constexpr float  CoachLength = 25.6f;   ///< a coach (and the power car)
+constexpr double RailBefore = 400.0;    ///< the viaduct begins this far before the race
+constexpr double RailAfter = 900.0;     ///< and ends this far after it
+constexpr double PortalLength = 30.0;   ///< the stone portals at its ends
+constexpr float  TrainPace = 0.93f;     ///< the train's top speed against the car's, at most
+constexpr int    TrainBonus = 4000;     ///< points for beating it (and five seconds where the clock runs)
 
 /** @brief A train of data/trains.txt. */
 struct TrainLine
 {
-    std::string              m_name;        ///< its shapes are TRAIN_NAME and TRAIN_NAME_COACH
-    std::vector<std::string> m_countries;   ///< where it runs
+    std::string              m_name;            ///< its shapes are TRAIN_NAME and TRAIN_NAME_COACH
+    std::vector<std::string> m_countries;       ///< where it runs
     float                    m_speed = 80.0f;   ///< top speed (m/s)
     int                      m_coaches = 8;     ///< coaches behind the power car
 };
@@ -49,10 +49,10 @@ int trainErrors();
 /** @brief Where a stage's train races, if it has one. */
 struct TrainStretch
 {
-    double m_from = 0.0;   ///< the race begins (the viaduct RailBefore earlier)
-    double m_to = 0.0;     ///< and ends (the viaduct RailAfter later)
-    float  m_side = 1.0f;  ///< 1 right of the road, -1 left
-    int    m_line = -1;    ///< which train (trainLines())
+    double m_from = 0.0;    ///< the race begins (the viaduct RailBefore earlier)
+    double m_to = 0.0;      ///< and ends (the viaduct RailAfter later)
+    float  m_side = 1.0f;   ///< 1 right of the road, -1 left
+    int    m_line = -1;     ///< which train (trainLines())
 };
 
 /**
@@ -123,4 +123,4 @@ public:
     int          m_lastStage = -1;    ///< the last stage whose train ran
 };
 
-} // namespace sunstreak
+}   // namespace sunstreak

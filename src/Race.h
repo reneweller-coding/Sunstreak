@@ -21,9 +21,9 @@
 namespace sunstreak
 {
 
-constexpr int RivalCount = 11;      ///< rivals on the grid (twelve cars with the player)
-constexpr int RoundCount = 5;       ///< races in a championship
-constexpr int QualifyPlace = 8;     ///< the worst place that qualifies for the next round
+constexpr int RivalCount = 11;    ///< rivals on the grid (twelve cars with the player)
+constexpr int RoundCount = 5;     ///< races in a championship
+constexpr int QualifyPlace = 8;   ///< the worst place that qualifies for the next round
 
 /** @brief A rival driver and the car on the track. */
 struct Rival
@@ -44,28 +44,28 @@ struct Rival
 /** @brief A driver of the championship. */
 struct Driver
 {
-    std::string m_name;          ///< e.g. "K. VOSS"
-    int         m_car = 0;       ///< car model
-    int         m_paint = 0;     ///< paint
-    float       m_skill = 1.0f;  ///< pace factor
-    int         m_points = 0;    ///< championship points
+    std::string m_name;           ///< e.g. "K. VOSS"
+    int         m_car = 0;        ///< car model
+    int         m_paint = 0;      ///< paint
+    float       m_skill = 1.0f;   ///< pace factor
+    int         m_points = 0;     ///< championship points
 };
 
 /** @brief One line of a race result. */
 struct ResultLine
 {
-    int   m_driver = -1;         ///< -1 the player, else a driver
-    float m_time = 0;            ///< finish time (s), or a projection for those still running
-    int   m_points = 0;          ///< points scored
+    int   m_driver = -1;   ///< -1 the player, else a driver
+    float m_time = 0;      ///< finish time (s), or a projection for those still running
+    int   m_points = 0;    ///< points scored
 };
 
 /** @brief What happened between the player and the rivals this step. */
 struct RaceEvents
 {
-    float m_hit = 0.0f;          ///< contact strength
-    float m_whoosh = 0.0f;       ///< a rival rushing past
-    float m_whooshPan = 0.0f;    ///< its side
-    int   m_passed = 0;          ///< rivals the player passed (net)
+    float m_hit = 0.0f;         ///< contact strength
+    float m_whoosh = 0.0f;      ///< a rival rushing past
+    float m_whooshPan = 0.0f;   ///< its side
+    int   m_passed = 0;         ///< rivals the player passed (net)
 };
 
 /** @brief A championship and its current race. */
@@ -131,12 +131,12 @@ public:
      */
     std::vector<std::pair<int, int>> standings() const;
 
-    std::vector<Rival>              m_rivals;          ///< the field
-    std::array<Driver, RivalCount>  m_drivers{};       ///< the championship's drivers
-    int                             m_playerPoints = 0;///< the player's points
-    int                             m_round = 0;       ///< current round
-    uint64_t                        m_seed = 1;        ///< championship seed
-    double                          m_finishS = 0.0;   ///< the finish line of the current race
+    std::vector<Rival>             m_rivals;             ///< the field
+    std::array<Driver, RivalCount> m_drivers{};          ///< the championship's drivers
+    int                            m_playerPoints = 0;   ///< the player's points
+    int                            m_round = 0;          ///< current round
+    uint64_t                       m_seed = 1;           ///< championship seed
+    double                         m_finishS = 0.0;      ///< the finish line of the current race
 
 private:
     /**
@@ -158,4 +158,4 @@ private:
  */
 int pointsFor( int place );
 
-} // namespace sunstreak
+}   // namespace sunstreak

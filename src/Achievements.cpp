@@ -27,12 +27,13 @@ namespace
 AchievementProgress countriesWhere( const Records &records, const std::function<bool( const char * )> &in )
 {
     std::vector<std::string> all, seen;
-    for( int i = 0; i < biomeCount(); ++i )
+    for ( int i = 0; i < biomeCount(); ++i )
     {
         const char *c = biomeDef( static_cast<BiomeE>( i ) ).m_country;
-        if( !c || !in( c ) ) continue;
-        if( std::find( all.begin(), all.end(), c ) == all.end() ) all.push_back( c );
-        if( records.m_seen.test( static_cast<size_t>( i ) ) && std::find( seen.begin(), seen.end(), c ) == seen.end() ) seen.push_back( c );
+        if ( !c || !in( c ) ) continue;
+        if ( std::find( all.begin(), all.end(), c ) == all.end() ) all.push_back( c );
+        if ( records.m_seen.test( static_cast<size_t>( i ) ) && std::find( seen.begin(), seen.end(), c ) == seen.end() )
+            seen.push_back( c );
     }
     return { static_cast<int>( seen.size() ), std::max( 1, static_cast<int>( all.size() ) ) };
 }
@@ -60,12 +61,12 @@ bool landIs( const char *country, const char *land )
     return l && std::strcmp( l, land ) == 0;
 }
 
-} // namespace
+}   // namespace
 
 int policeLiveries()
 {
     int n = 0;
-    for( const DataShape &d : dataShapes() ) n += d.m_name.rfind( "POLICE_CAR_", 0 ) == 0 ? 1 : 0;
+    for ( const DataShape &d : dataShapes() ) n += d.m_name.rfind( "POLICE_CAR_", 0 ) == 0 ? 1 : 0;
     return std::max( 1, n );
 }
 
@@ -112,49 +113,58 @@ AchievementProgress achievementProgress( const Records &r, size_t index )
 {
     const std::string key = index < achievements().size() ? achievements()[index].m_key : "";
     auto              upTo = []( int have, int need ) { return AchievementProgress{ std::min( have, need ), need }; };
-    if( key == "stamp2" ) return upTo( r.countriesSeen(), 2 );
-    if( key == "countries25" ) return upTo( r.countriesSeen(), 25 );
-    if( key == "countries100" ) return upTo( r.countriesSeen(), 100 );
-    if( key == "countriesall" ) return upTo( r.countriesSeen(), countryCount() );
-    if( key == "europe" ) return countriesWhere( r, []( const char *c ) { return fleetIs( c, FleetE::EUROPE ) || fleetIs( c, FleetE::BRITISH ); } );
-    if( key == "africa" ) return countriesWhere( r, []( const char *c ) { return fleetIs( c, FleetE::AFRICA ) || landIs( c, "AFRICA" ); } );
-    if( key == "americas" ) return countriesWhere( r, []( const char *c ) { return landIs( c, "AMERICAS" ); } );
-    if( key == "asia" )
+    if ( key == "stamp2" ) return upTo( r.countriesSeen(), 2 );
+    if ( key == "countries25" ) return upTo( r.countriesSeen(), 25 );
+    if ( key == "countries100" ) return upTo( r.countriesSeen(), 100 );
+    if ( key == "countriesall" ) return upTo( r.countriesSeen(), countryCount() );
+    if ( key == "europe" )
         return countriesWhere( r, []( const char *c )
-                               { return fleetIs( c, FleetE::SOUTH_ASIA ) || fleetIs( c, FleetE::SOUTHEAST_ASIA ) || fleetIs( c, FleetE::EAST_ASIA ); } );
-    if( key == "arabia" ) return countriesWhere( r, []( const char *c ) { return fleetIs( c, FleetE::ARABIA ); } );
-    if( key == "downunder" )
-        return countriesWhere( r, []( const char *c ) { return std::strcmp( c, "AUSTRALIA" ) == 0 || std::strcmp( c, "NEW ZEALAND" ) == 0; } );
-    if( key == "round" ) return upTo( r.sectorsSeen(), LongitudeSectors );
-    if( key == "escape1" ) return upTo( r.m_escapes, 1 );
-    if( key == "escape10" ) return upTo( r.m_escapes, 10 );
-    if( key == "escapeall" ) return upTo( static_cast<int>( r.m_escapedFrom.size() ), policeLiveries() );
-    if( key == "caught" ) return upTo( r.m_caught, 1 );
-    if( key == "hitch1" ) return upTo( r.m_delivered, 1 );
-    if( key == "hitch10" ) return upTo( r.m_delivered, 10 );
-    if( key == "hitchworld" ) return upTo( static_cast<int>( r.m_hitchFrom.size() ), 20 );
-    if( key == "makeway" ) return upTo( r.m_gaveWay, 10 );
-    if( key == "hero1" ) return upTo( r.m_heroWins, 1 );
-    if( key == "hero25" ) return upTo( r.m_heroWins, 25 );
-    if( key == "train1" ) return upTo( r.m_trainWins, 1 );
-    if( key == "jobs10" ) return upTo( r.m_jobs, 10 );
-    if( key == "legend1" ) return upTo( static_cast<int>( r.m_legendBest.size() ), 1 );
-    if( key == "legendall" )
+                               { return fleetIs( c, FleetE::EUROPE ) || fleetIs( c, FleetE::BRITISH ); } );
+    if ( key == "africa" )
+        return countriesWhere( r,
+                               []( const char *c ) { return fleetIs( c, FleetE::AFRICA ) || landIs( c, "AFRICA" ); } );
+    if ( key == "americas" ) return countriesWhere( r, []( const char *c ) { return landIs( c, "AMERICAS" ); } );
+    if ( key == "asia" )
+        return countriesWhere( r,
+                               []( const char *c )
+                               {
+                                   return fleetIs( c, FleetE::SOUTH_ASIA ) || fleetIs( c, FleetE::SOUTHEAST_ASIA ) ||
+                                          fleetIs( c, FleetE::EAST_ASIA );
+                               } );
+    if ( key == "arabia" ) return countriesWhere( r, []( const char *c ) { return fleetIs( c, FleetE::ARABIA ); } );
+    if ( key == "downunder" )
+        return countriesWhere( r, []( const char *c )
+                               { return std::strcmp( c, "AUSTRALIA" ) == 0 || std::strcmp( c, "NEW ZEALAND" ) == 0; } );
+    if ( key == "round" ) return upTo( r.sectorsSeen(), LongitudeSectors );
+    if ( key == "escape1" ) return upTo( r.m_escapes, 1 );
+    if ( key == "escape10" ) return upTo( r.m_escapes, 10 );
+    if ( key == "escapeall" ) return upTo( static_cast<int>( r.m_escapedFrom.size() ), policeLiveries() );
+    if ( key == "caught" ) return upTo( r.m_caught, 1 );
+    if ( key == "hitch1" ) return upTo( r.m_delivered, 1 );
+    if ( key == "hitch10" ) return upTo( r.m_delivered, 10 );
+    if ( key == "hitchworld" ) return upTo( static_cast<int>( r.m_hitchFrom.size() ), 20 );
+    if ( key == "makeway" ) return upTo( r.m_gaveWay, 10 );
+    if ( key == "hero1" ) return upTo( r.m_heroWins, 1 );
+    if ( key == "hero25" ) return upTo( r.m_heroWins, 25 );
+    if ( key == "train1" ) return upTo( r.m_trainWins, 1 );
+    if ( key == "jobs10" ) return upTo( r.m_jobs, 10 );
+    if ( key == "legend1" ) return upTo( static_cast<int>( r.m_legendBest.size() ), 1 );
+    if ( key == "legendall" )
     {
         int legends = 0;
-        for( int i = 0; i < biomeCount(); ++i ) legends += biomeDef( static_cast<BiomeE>( i ) ).m_legend != nullptr;
+        for ( int i = 0; i < biomeCount(); ++i ) legends += biomeDef( static_cast<BiomeE>( i ) ).m_legend != nullptr;
         return upTo( static_cast<int>( r.m_legendBest.size() ), legends );
     }
-    if( key == "aqua" ) return upTo( r.m_aquaplanes, 1 );
-    if( key == "cards50" ) return upTo( static_cast<int>( r.m_postcards.count() ), 50 );
-    if( key == "album25" ) return upTo( static_cast<int>( r.m_album.size() ), 25 );
-    if( key == "km1000" ) return upTo( static_cast<int>( r.m_totalKm ), 1000 );
-    if( key == "km10000" ) return upTo( static_cast<int>( r.m_totalKm ), 10000 );
-    if( key == "champion" ) return upTo( r.m_titles, 1 );
-    if( key == "rallies" )
+    if ( key == "aqua" ) return upTo( r.m_aquaplanes, 1 );
+    if ( key == "cards50" ) return upTo( static_cast<int>( r.m_postcards.count() ), 50 );
+    if ( key == "album25" ) return upTo( static_cast<int>( r.m_album.size() ), 25 );
+    if ( key == "km1000" ) return upTo( static_cast<int>( r.m_totalKm ), 1000 );
+    if ( key == "km10000" ) return upTo( static_cast<int>( r.m_totalKm ), 10000 );
+    if ( key == "champion" ) return upTo( r.m_titles, 1 );
+    if ( key == "rallies" )
     {
         int done = 0;
-        for( double best : r.m_rallyBest ) done += best > 0.0 ? 1 : 0;
+        for ( double best : r.m_rallyBest ) done += best > 0.0 ? 1 : 0;
         return upTo( done, static_cast<int>( rallies().size() ) );
     }
     return {};
@@ -163,16 +173,17 @@ AchievementProgress achievementProgress( const Records &r, size_t index )
 std::vector<size_t> earnAchievements( Records &records )
 {
     std::vector<size_t> now;
-    for( size_t i = 0; i < achievements().size(); ++i )
+    for ( size_t i = 0; i < achievements().size(); ++i )
     {
         const std::string key = achievements()[i].m_key;
-        if( std::find( records.m_achieved.begin(), records.m_achieved.end(), key ) != records.m_achieved.end() ) continue;
+        if ( std::find( records.m_achieved.begin(), records.m_achieved.end(), key ) != records.m_achieved.end() )
+            continue;
         const AchievementProgress p = achievementProgress( records, i );
-        if( p.m_have < p.m_need ) continue;
+        if ( p.m_have < p.m_need ) continue;
         records.m_achieved.push_back( key );
         now.push_back( i );
     }
     return now;
 }
 
-} // namespace sunstreak
+}   // namespace sunstreak

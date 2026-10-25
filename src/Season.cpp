@@ -52,18 +52,20 @@ SeasonLook climateSeason( const PlaceClimate &c, float phase )
     look.m_winter = ( 1.0f - smoothstepf( -3.0f, 4.0f, lag ) ) * ( moist + ( 1.0f - moist ) * bitter );
     // Trees that lose their leaves: a cold month, and rain enough to grow them.
     const float leafy = ( 1.0f - smoothstepf( 2.0f, 9.0f, c.m_cold ) ) * smoothstepf( 200.0f, 500.0f, c.m_rain );
-    look.m_autumn = leafy * smoothstepf( 0.0f, 3.0f, cooling ) * smoothstepf( 2.0f, 8.0f, now ) * ( 1.0f - smoothstepf( 13.0f, 19.0f, now ) );
-    look.m_spring = leafy * smoothstepf( 0.0f, 3.0f, -cooling ) * smoothstepf( 1.0f, 5.0f, now ) * ( 1.0f - smoothstepf( 11.0f, 16.0f, now ) );
+    look.m_autumn = leafy * smoothstepf( 0.0f, 3.0f, cooling ) * smoothstepf( 2.0f, 8.0f, now ) *
+                    ( 1.0f - smoothstepf( 13.0f, 19.0f, now ) );
+    look.m_spring = leafy * smoothstepf( 0.0f, 3.0f, -cooling ) * smoothstepf( 1.0f, 5.0f, now ) *
+                    ( 1.0f - smoothstepf( 11.0f, 16.0f, now ) );
     look.m_bare = leafy * ( 1.0f - smoothstepf( 1.0f, 7.0f, lag ) );
     return look;
 }
 
-} // namespace
+}   // namespace
 
 float SeasonClock::phaseAt( double s ) const
 {
-    if( m_mode == 2 ) return -1.0f;
-    if( m_mode == 0 ) return m_today;
+    if ( m_mode == 2 ) return -1.0f;
+    if ( m_mode == 0 ) return m_today;
     const double p = std::fmod( static_cast<double>( m_today ) + s / YearMetres, 1.0 );
     return static_cast<float>( p < 0.0 ? p + 1.0 : p );
 }
@@ -87,22 +89,23 @@ float todayPhase()
 
 SeasonLook seasonAt( BiomeE place, float phase )
 {
-    SeasonLook look;
+    SeasonLook      look;
     const BiomeDef &d = biomeDef( place );
-    if( phase < 0.0f || d.m_underwater || d.m_climate == ClimateE::NONE ) return look;
+    if ( phase < 0.0f || d.m_underwater || d.m_climate == ClimateE::NONE ) return look;
     // Where the data knows the place's climate, that decides; elsewhere the latitude does.
-    if( const PlaceClimate *c = placeClimate( place ) ) return climateSeason( *c, phase );
-    if( d.m_climate != ClimateE::TEMPERATE && d.m_climate != ClimateE::COLD ) return look;
+    if ( const PlaceClimate *c = placeClimate( place ) ) return climateSeason( *c, phase );
+    if ( d.m_climate != ClimateE::TEMPERATE && d.m_climate != ClimateE::COLD ) return look;
     // South of the equator the year turns round; near it there are no seasons to speak of.
     GeoPoint where{ 45.0f, 0.0f };
     placeLocation( place, where );
     const float lat = std::abs( where.m_lat );
-    if( lat < 18.0f ) return look;
-    if( where.m_lat < 0.0f ) phase = std::fmod( phase + 0.5f, 1.0f );
+    if ( lat < 18.0f ) return look;
+    if ( where.m_lat < 0.0f ) phase = std::fmod( phase + 0.5f, 1.0f );
     const bool  cold = d.m_climate == ClimateE::COLD;
     const float north = smoothstepf( 45.0f, 65.0f, lat );
     // Winter round the middle of January, longer in the cold and the far north; snow only north of the warm coasts.
-    look.m_winter = near( phase, 0.04f, 0.15f + ( cold ? 0.07f : 0.0f ) + 0.06f * north ) * ( cold ? 1.0f : smoothstepf( 32.0f, 46.0f, lat ) );
+    look.m_winter = near( phase, 0.04f, 0.15f + ( cold ? 0.07f : 0.0f ) + 0.06f * north ) *
+                    ( cold ? 1.0f : smoothstepf( 32.0f, 46.0f, lat ) );
     look.m_spring = near( phase, 0.31f, 0.1f ) * ( 1.0f - 0.5f * north );
     look.m_autumn = near( phase, 0.8f, 0.12f );
     look.m_bare = look.m_winter;
@@ -112,30 +115,32 @@ SeasonLook seasonAt( BiomeE place, float phase )
 void seasonSurface( Surface &s, const SeasonLook &look )
 {
     auto toward = [&]( Color &c, Color to, float k ) { c = lerpColor( c, to, clampf( k, 0.0f, 1.0f ) ); };
-    if( look.m_autumn > 0.0f )
+    if ( look.m_autumn > 0.0f )
     {
         // Stubble and fallen leaves.
         toward( s.m_groundA, Color{ 176, 150, 80, 255 }, 0.5f * look.m_autumn );
         toward( s.m_groundB, Color{ 168, 140, 74, 255 }, 0.5f * look.m_autumn );
         toward( s.m_groundFar, Color{ 164, 128, 72, 255 }, 0.55f * look.m_autumn );
-        for( Color *f : { &s.m_fieldA, &s.m_fieldB, &s.m_fieldC } ) toward( *f, Color{ 200, 170, 100, 255 }, 0.6f * look.m_autumn );
+        for ( Color *f : { &s.m_fieldA, &s.m_fieldB, &s.m_fieldC } )
+            toward( *f, Color{ 200, 170, 100, 255 }, 0.6f * look.m_autumn );
     }
-    if( look.m_spring > 0.0f )
+    if ( look.m_spring > 0.0f )
     {
         // Fresh green.
         toward( s.m_groundA, Color{ 104, 186, 76, 255 }, 0.25f * look.m_spring );
         toward( s.m_groundB, Color{ 98, 176, 70, 255 }, 0.25f * look.m_spring );
         toward( s.m_groundFar, Color{ 96, 160, 74, 255 }, 0.2f * look.m_spring );
     }
-    if( look.m_winter > 0.0f )
+    if ( look.m_winter > 0.0f )
     {
         // Snow on the land, a little on the gravel beside the road.
         toward( s.m_groundA, Color{ 232, 236, 244, 255 }, 0.85f * look.m_winter );
         toward( s.m_groundB, Color{ 224, 230, 240, 255 }, 0.85f * look.m_winter );
         toward( s.m_groundFar, Color{ 226, 232, 242, 255 }, 0.85f * look.m_winter );
-        for( Color *f : { &s.m_fieldA, &s.m_fieldB, &s.m_fieldC } ) toward( *f, Color{ 230, 234, 242, 255 }, 0.85f * look.m_winter );
+        for ( Color *f : { &s.m_fieldA, &s.m_fieldB, &s.m_fieldC } )
+            toward( *f, Color{ 230, 234, 242, 255 }, 0.85f * look.m_winter );
         toward( s.m_shoulder, Color{ 200, 202, 210, 255 }, 0.4f * look.m_winter );
     }
 }
 
-} // namespace sunstreak
+}   // namespace sunstreak

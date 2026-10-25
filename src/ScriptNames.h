@@ -20,10 +20,10 @@ namespace sunstreak
 /** @brief A name in its own script, as strokes. */
 struct ScriptName
 {
-    float                                    m_width = 0.0f;   ///< its width in ems
-    float                                    m_low = 0.0f;     ///< its lowest stroke (ems above the baseline; below it negative)
-    float                                    m_high = 0.0f;    ///< and its highest
-    std::vector<std::pair<Vector2, Vector2>> m_lines;          ///< the strokes in ems, x from the left, y up from the baseline
+    float m_width = 0.0f;   ///< its width in ems
+    float m_low = 0.0f;     ///< its lowest stroke (ems above the baseline; below it negative)
+    float m_high = 0.0f;    ///< and its highest
+    std::vector<std::pair<Vector2, Vector2>> m_lines;   ///< the strokes in ems, x from the left, y up from the baseline
 };
 
 /**
@@ -39,4 +39,4 @@ const ScriptName *scriptName( BiomeE place );
  */
 int scriptNameErrors();
 
-} // namespace sunstreak
+}   // namespace sunstreak

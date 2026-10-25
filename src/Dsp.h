@@ -12,8 +12,8 @@
 namespace sunstreak::dsp
 {
 
-constexpr float SampleRate = 48000.0f;    ///< output rate
-constexpr float Pi2 = 6.28318530718f;     ///< two pi
+constexpr float SampleRate = 48000.0f;   ///< output rate
+constexpr float Pi2 = 6.28318530718f;    ///< two pi
 
 /** @brief Topology-preserving state-variable filter (Zavalishin). */
 struct Svf
@@ -126,12 +126,12 @@ struct Noise
  */
 inline float polyBlep( float t, float dt )
 {
-    if( t < dt )
+    if ( t < dt )
     {
         t /= dt;
         return t + t - t * t - 1.0f;
     }
-    if( t > 1.0f - dt )
+    if ( t > 1.0f - dt )
     {
         t = ( t - 1.0f ) / dt;
         return t * t + t + t + 1.0f;
@@ -150,7 +150,7 @@ inline float saw( float &phase, float freq )
     const float dt = freq / SampleRate;
     const float v = 2.0f * phase - 1.0f - polyBlep( phase, dt );
     phase += dt;
-    if( phase >= 1.0f ) phase -= 1.0f;
+    if ( phase >= 1.0f ) phase -= 1.0f;
     return v;
 }
 
@@ -167,10 +167,10 @@ inline float pulse( float &phase, float freq, float duty = 0.5f )
     float       v = phase < duty ? 1.0f : -1.0f;
     v += polyBlep( phase, dt );
     float t2 = phase + 1.0f - duty;
-    if( t2 >= 1.0f ) t2 -= 1.0f;
+    if ( t2 >= 1.0f ) t2 -= 1.0f;
     v -= polyBlep( t2, dt );
     phase += dt;
-    if( phase >= 1.0f ) phase -= 1.0f;
+    if ( phase >= 1.0f ) phase -= 1.0f;
     return v;
 }
 
@@ -184,7 +184,7 @@ inline float sine( float &phase, float freq )
 {
     const float v = std::sin( Pi2 * phase );
     phase += freq / SampleRate;
-    if( phase >= 1.0f ) phase -= 1.0f;
+    if ( phase >= 1.0f ) phase -= 1.0f;
     return v;
 }
 
@@ -198,4 +198,4 @@ inline float mtof( float m )
     return 440.0f * std::pow( 2.0f, ( m - 69.0f ) / 12.0f );
 }
 
-} // namespace sunstreak::dsp
+}   // namespace sunstreak::dsp

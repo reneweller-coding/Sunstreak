@@ -103,7 +103,11 @@ public:
     void request( uint64_t seed, int station );
 
     /** @brief Fades out and stops. */
-    void stop() { m_pending = false; m_on = false; }
+    void stop()
+    {
+        m_pending = false;
+        m_on = false;
+    }
 
     /**
      * @brief Sets the game's mood: tension adds a driving layer, drive opens the pads.
@@ -135,10 +139,10 @@ private:
     /** @brief A part of the arrangement. */
     struct Section
     {
-        int      m_bars = 4;       ///< length
-        uint16_t m_layers = 0;     ///< which parts play (LayerE bits)
-        int      m_melody = 0;     ///< melody A or B
-        bool     m_riser = false;  ///< a noise sweep towards the next section
+        int      m_bars = 4;        ///< length
+        uint16_t m_layers = 0;      ///< which parts play (LayerE bits)
+        int      m_melody = 0;      ///< melody A or B
+        bool     m_riser = false;   ///< a noise sweep towards the next section
     };
 
     /**
@@ -233,125 +237,125 @@ private:
     void reverb( float in, float &l, float &r );
 
     // Arrangement and style.
-    bool     m_on = false;             ///< playing (or fading in)
-    bool     m_pending = false;        ///< a new track waits for the fade-out
-    uint64_t m_pendingSeed = 0;        ///< its seed
-    int      m_pendingStation = 0;     ///< its station
-    float    m_gain = 0.0f;            ///< fade
-    int      m_station = 0;            ///< current style
-    float    m_bpm = 120.0f;           ///< tempo
-    float    m_swing = 0.0f;           ///< swing of the odd sixteenths (0..0.3)
-    int      m_key = 0;                ///< transposition
-    int      m_scale = 0;              ///< ScaleE
-    int      m_prog[8] = {};           ///< chord progression in scale degrees
-    int      m_progLen = 4;            ///< chords in the progression
-    int      m_barsPerChord = 1;       ///< bars each chord lasts
-    bool     m_sevenths = false;       ///< chords with their seventh
-    int      m_leadInst = 0;           ///< the track's lead instrument
-    int      m_counterInst = 0;        ///< the counter line's instrument
-    int      m_drumKit = 0;            ///< DrumsE
-    int      m_drumVariant = 0;        ///< which of the kit's patterns
-    int      m_percVariant = 0;        ///< which of the percussion's patterns
-    int      m_variant = 0;            ///< bass and arpeggio variant
-    int8_t   m_melody[2][64] = {};     ///< two four-bar melodies in sixteenths
-    int8_t   m_counter[64] = {};       ///< the counter line
-    int      m_acid[16] = {};          ///< acid line: semitone or -1
-    bool     m_accent[16] = {};        ///< acid accents
-    bool     m_slide[16] = {};         ///< acid slides
-    std::array<Section, 10> m_sections{};   ///< the arrangement
-    int      m_sectionCount = 0;       ///< sections used
-    int      m_totalBars = 32;         ///< the arrangement's length
-    double   m_clock = 0.0;            ///< samples into the current step
-    int      m_step = 0;               ///< sixteenth counter
-    uint16_t m_layers = 0;             ///< what plays in the current bar
-    int      m_root = 0;               ///< current chord root (semitones)
-    int      m_chordTones[4] = {};     ///< current chord (semitones above the key)
-    int      m_sectionBar = 0;         ///< bar within the current section
-    int      m_sectionLen = 4;         ///< current section's bars
-    int      m_melodyIndex = 0;        ///< current section's melody
-    bool     m_riser = false;          ///< the current section rises
+    bool                    m_on = false;           ///< playing (or fading in)
+    bool                    m_pending = false;      ///< a new track waits for the fade-out
+    uint64_t                m_pendingSeed = 0;      ///< its seed
+    int                     m_pendingStation = 0;   ///< its station
+    float                   m_gain = 0.0f;          ///< fade
+    int                     m_station = 0;          ///< current style
+    float                   m_bpm = 120.0f;         ///< tempo
+    float                   m_swing = 0.0f;         ///< swing of the odd sixteenths (0..0.3)
+    int                     m_key = 0;              ///< transposition
+    int                     m_scale = 0;            ///< ScaleE
+    int                     m_prog[8] = {};         ///< chord progression in scale degrees
+    int                     m_progLen = 4;          ///< chords in the progression
+    int                     m_barsPerChord = 1;     ///< bars each chord lasts
+    bool                    m_sevenths = false;     ///< chords with their seventh
+    int                     m_leadInst = 0;         ///< the track's lead instrument
+    int                     m_counterInst = 0;      ///< the counter line's instrument
+    int                     m_drumKit = 0;          ///< DrumsE
+    int                     m_drumVariant = 0;      ///< which of the kit's patterns
+    int                     m_percVariant = 0;      ///< which of the percussion's patterns
+    int                     m_variant = 0;          ///< bass and arpeggio variant
+    int8_t                  m_melody[2][64] = {};   ///< two four-bar melodies in sixteenths
+    int8_t                  m_counter[64] = {};     ///< the counter line
+    int                     m_acid[16] = {};        ///< acid line: semitone or -1
+    bool                    m_accent[16] = {};      ///< acid accents
+    bool                    m_slide[16] = {};       ///< acid slides
+    std::array<Section, 10> m_sections{};           ///< the arrangement
+    int                     m_sectionCount = 0;     ///< sections used
+    int                     m_totalBars = 32;       ///< the arrangement's length
+    double                  m_clock = 0.0;          ///< samples into the current step
+    int                     m_step = 0;             ///< sixteenth counter
+    uint16_t                m_layers = 0;           ///< what plays in the current bar
+    int                     m_root = 0;             ///< current chord root (semitones)
+    int                     m_chordTones[4] = {};   ///< current chord (semitones above the key)
+    int                     m_sectionBar = 0;       ///< bar within the current section
+    int                     m_sectionLen = 4;       ///< current section's bars
+    int                     m_melodyIndex = 0;      ///< current section's melody
+    bool                    m_riser = false;        ///< the current section rises
 
     // Drum kit.
-    float m_kickT = 9;                 ///< seconds since the kick
-    float m_kickPh = 0;                ///< its phase
-    float m_kickVel = 1;               ///< its velocity
-    float m_snareT = 9;                ///< seconds since the snare
-    float m_snareVel = 1;              ///< its velocity
-    float m_hatT = 9;                  ///< seconds since the hi-hat
-    float m_hatVel = 1;                ///< its velocity
-    bool  m_hatOpen = false;           ///< it was hit open
-    float m_crashT = 9;                ///< crash cymbal
-    float m_riserT = 9;                ///< noise sweep
-    float m_tomT = 9;                  ///< seconds since a fill's tom
-    float m_tomF = 120;                ///< its pitch (Hz)
-    float m_tomPh = 0;                 ///< its phase
+    float m_kickT = 9;         ///< seconds since the kick
+    float m_kickPh = 0;        ///< its phase
+    float m_kickVel = 1;       ///< its velocity
+    float m_snareT = 9;        ///< seconds since the snare
+    float m_snareVel = 1;      ///< its velocity
+    float m_hatT = 9;          ///< seconds since the hi-hat
+    float m_hatVel = 1;        ///< its velocity
+    bool  m_hatOpen = false;   ///< it was hit open
+    float m_crashT = 9;        ///< crash cymbal
+    float m_riserT = 9;        ///< noise sweep
+    float m_tomT = 9;          ///< seconds since a fill's tom
+    float m_tomF = 120;        ///< its pitch (Hz)
+    float m_tomPh = 0;         ///< its phase
 
     // Hand percussion: low drum, high drum, shaker, bell, click.
-    float m_pT[5] = { 9, 9, 9, 9, 9 };  ///< time since each lane's hit
-    float m_pVel[5] = {};              ///< their velocity
-    float m_pPh[5] = {};               ///< their phase
-    float m_pAlt[5] = {};              ///< alternating pitch (agogo, tabla)
+    float m_pT[5] = { 9, 9, 9, 9, 9 };   ///< time since each lane's hit
+    float m_pVel[5] = {};                ///< their velocity
+    float m_pPh[5] = {};                 ///< their phase
+    float m_pAlt[5] = {};                ///< alternating pitch (agogo, tabla)
 
     // Bass.
-    float m_bassT = 9;                 ///< seconds since the bass note began
-    float m_bassF = 55;                ///< its pitch, gliding (Hz)
-    float m_bassTarget = 55;           ///< the pitch it glides to
-    float m_bassPh[3] = {};            ///< its oscillators' phases
-    float m_bassGate = 0;              ///< its gate 0..1
-    bool  m_bassAccent = false;        ///< the note is accented
+    float m_bassT = 9;            ///< seconds since the bass note began
+    float m_bassF = 55;           ///< its pitch, gliding (Hz)
+    float m_bassTarget = 55;      ///< the pitch it glides to
+    float m_bassPh[3] = {};       ///< its oscillators' phases
+    float m_bassGate = 0;         ///< its gate 0..1
+    bool  m_bassAccent = false;   ///< the note is accented
 
     // Melodic voices: lead, counter, arpeggio, four chord voices.
-    Tone  m_lead;                      ///< the lead
-    Tone  m_counterVoice;              ///< the counter melody
-    Tone  m_arp;                       ///< the arpeggio
-    Tone  m_chordVoice[4];             ///< the chord's four voices
+    Tone  m_lead;                               ///< the lead
+    Tone  m_counterVoice;                       ///< the counter melody
+    Tone  m_arp;                                ///< the arpeggio
+    Tone  m_chordVoice[4];                      ///< the chord's four voices
     float m_padF[4] = { 220, 262, 330, 392 };   ///< the pad's four pitches (Hz)
-    float m_padPh[8] = {};             ///< its oscillators' phases (two a pitch)
-    float m_padEnv = 0;                ///< its envelope
-    float m_gateEnv = 1;               ///< the trance gate's envelope
-    float m_stabT = 9;                 ///< chord stab or skank
-    float m_strumDelay[4] = {};        ///< strum offsets of the chord voices still to come (s)
-    float m_chordF[4] = {};            ///< their frequencies
-    float m_chipChord[3] = {};         ///< chip arpeggio chord (Hz)
-    float m_chipPh = 0.0f;             ///< the chip arpeggio's phase
-    float m_chipT = 9.0f;              ///< seconds since its note
+    float m_padPh[8] = {};                      ///< its oscillators' phases (two a pitch)
+    float m_padEnv = 0;                         ///< its envelope
+    float m_gateEnv = 1;                        ///< the trance gate's envelope
+    float m_stabT = 9;                          ///< chord stab or skank
+    float m_strumDelay[4] = {};                 ///< strum offsets of the chord voices still to come (s)
+    float m_chordF[4] = {};                     ///< their frequencies
+    float m_chipChord[3] = {};                  ///< chip arpeggio chord (Hz)
+    float m_chipPh = 0.0f;                      ///< the chip arpeggio's phase
+    float m_chipT = 9.0f;                       ///< seconds since its note
 
     // Drone.
-    float m_droneT = 0.0f;             ///< seconds the drone has sounded
-    float m_dronePh[4] = {};           ///< its oscillators' phases
-    Tone  m_tanpura;                   ///< the tanpura's string
+    float m_droneT = 0.0f;     ///< seconds the drone has sounded
+    float m_dronePh[4] = {};   ///< its oscillators' phases
+    Tone  m_tanpura;           ///< the tanpura's string
 
     // Mood.
-    float m_tension = 0.0f;          ///< smoothed tension
-    float m_tensionTarget = 0.0f;    ///< the game's tension
-    float m_drive = 0.0f;            ///< the game's speed
-    float m_tHatT = 9.0f;            ///< tension hat
-    float m_tBlipT = 9.0f;           ///< seconds since the tension's alarm blip
-    float m_tBlipF = 880.0f;         ///< its pitch (Hz)
-    float m_tBlipPh = 0.0f;          ///< its phase
+    float m_tension = 0.0f;         ///< smoothed tension
+    float m_tensionTarget = 0.0f;   ///< the game's tension
+    float m_drive = 0.0f;           ///< the game's speed
+    float m_tHatT = 9.0f;           ///< tension hat
+    float m_tBlipT = 9.0f;          ///< seconds since the tension's alarm blip
+    float m_tBlipF = 880.0f;        ///< its pitch (Hz)
+    float m_tBlipPh = 0.0f;         ///< its phase
 
-    dsp::Svf   m_snareF;               ///< the snare's noise band
-    dsp::Svf   m_hatF;                 ///< the hi-hat's high-pass
-    dsp::Svf   m_bassF1;               ///< the bass's low-pass
-    dsp::Svf   m_padF1;                ///< the pad's low-pass
-    dsp::Svf   m_kickClick;            ///< the kick's click
-    dsp::Svf   m_crashF;               ///< the crash's band
-    dsp::Svf   m_riserF;               ///< the riser's sweeping band
-    dsp::Svf   m_droneF1;              ///< the drone's first formant
-    dsp::Svf   m_droneF2;              ///< its second
-    dsp::Svf   m_pF[5];                ///< percussion filters
-    dsp::Noise m_n;                    ///< noise
-    dsp::Svf   m_tHatF;   ///< the tension hats' filter
-    dsp::Noise m_tN;      ///< their own noise, so the groove stays as it was
+    dsp::Svf   m_snareF;      ///< the snare's noise band
+    dsp::Svf   m_hatF;        ///< the hi-hat's high-pass
+    dsp::Svf   m_bassF1;      ///< the bass's low-pass
+    dsp::Svf   m_padF1;       ///< the pad's low-pass
+    dsp::Svf   m_kickClick;   ///< the kick's click
+    dsp::Svf   m_crashF;      ///< the crash's band
+    dsp::Svf   m_riserF;      ///< the riser's sweeping band
+    dsp::Svf   m_droneF1;     ///< the drone's first formant
+    dsp::Svf   m_droneF2;     ///< its second
+    dsp::Svf   m_pF[5];       ///< percussion filters
+    dsp::Noise m_n;           ///< noise
+    dsp::Svf   m_tHatF;       ///< the tension hats' filter
+    dsp::Noise m_tN;          ///< their own noise, so the groove stays as it was
 
-    std::vector<float> m_delayL;             ///< the ping-pong echo, left
-    std::vector<float> m_delayR;             ///< and right
-    size_t             m_di = 0;             ///< echo write index
-    std::vector<float> m_comb[8];            ///< reverb combs (4 per side)
-    size_t             m_combI[8] = {};      ///< their indices
-    float              m_combLp[8] = {};     ///< their damping states
-    std::vector<float> m_ap[4];              ///< reverb all-passes (2 per side)
-    size_t             m_apI[4] = {};        ///< their indices
+    std::vector<float> m_delayL;           ///< the ping-pong echo, left
+    std::vector<float> m_delayR;           ///< and right
+    size_t             m_di = 0;           ///< echo write index
+    std::vector<float> m_comb[8];          ///< reverb combs (4 per side)
+    size_t             m_combI[8] = {};    ///< their indices
+    float              m_combLp[8] = {};   ///< their damping states
+    std::vector<float> m_ap[4];            ///< reverb all-passes (2 per side)
+    size_t             m_apI[4] = {};      ///< their indices
 };
 
-} // namespace sunstreak
+}   // namespace sunstreak

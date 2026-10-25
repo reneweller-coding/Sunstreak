@@ -99,4 +99,4 @@ private:
     uint64_t m_state;   ///< the generator's state, never zero
 };
 
-} // namespace sunstreak
+}   // namespace sunstreak
