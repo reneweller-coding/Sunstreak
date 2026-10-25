@@ -6,6 +6,7 @@
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
 place ESSAOUIRA | ESSAOUIRA | MOROCCO | MORNING | MARRAKESH-SAFI
+    local الصويرة
     clouds 0.3
     sea 1 0 -6
     water 2A6A8A
@@ -28,6 +29,7 @@ place ESSAOUIRA | ESSAOUIRA | MOROCCO | MORNING | MARRAKESH-SAFI
     c F4F2EC F0EEE6
 
 place SIDI_BOU_SAID | SIDI BOU SAID | TUNISIA | NOON
+    local سيدي بو سعيد
     sea 0 1 -20
     water 1E6AB0
     land 9A9A62 90905A A8A274
@@ -47,6 +49,7 @@ place SIDI_BOU_SAID | SIDI BOU SAID | TUNISIA | NOON
     floating
 
 place TASSILI | TASSILI N AJJER | ALGERIA | DESERT | ILLIZI
+    local طاسيلي ناجر
     land D89A5E CC9056 C8885A
     verge 6A4A3A
     road 8A6A50 8A6A50
@@ -65,6 +68,7 @@ place TASSILI | TASSILI N AJJER | ALGERIA | DESERT | ILLIZI
     p ACACIA 0.006 10 100 0.5 0.8
 
 place GHADAMES | GHADAMES | LIBYA | DESERT | NALUT
+    local غدامس
     land E0C08A D4B482 DCB880
     verge E0CCA8
     hills 6 2 2
@@ -82,6 +86,7 @@ place GHADAMES | GHADAMES | LIBYA | DESERT | NALUT
     p WATER_TOWER 0.002 30 120
 
 place ADRAR | ADRAR | MAURITANIA | DESERT | ADRAR
+    local أدرار
     land D8A870 CC9C66 C89A6A
     verge 8A6A50
     hills 14 4 4
@@ -98,6 +103,7 @@ place ADRAR | ADRAR | MAURITANIA | DESERT | ADRAR
     p ROCK 0.06 3 60
 
 place MEROE | MEROE | SUDAN | DESERT | RIVER NILE
+    local مروي
     land E0A868 D49C60 D8A06A
     verge 6A4A3A
     hills 8 2 2
@@ -113,6 +119,7 @@ place MEROE | MEROE | SUDAN | DESERT | RIVER NILE
     p RUIN 0.004 30 150
 
 place LUXOR | LUXOR | EGYPT | NOON | LUXOR
+    local الأقصر
     sea 0 1 -3
     water 2A6A7A
     land 7AA048 709440 D8B880

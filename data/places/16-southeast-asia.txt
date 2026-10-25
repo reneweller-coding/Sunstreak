@@ -6,6 +6,7 @@
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
 place BAGAN | BAGAN | MYANMAR | GOLDEN | MANDALAY
+    local ပုဂံ
     sun 8 30
     fog 0.0016 E0C8A0
     land B8A070 AC9468 9A9A62
@@ -22,6 +23,7 @@ place BAGAN | BAGAN | MYANMAR | GOLDEN | MANDALAY
     c 7A5A3A 6A5030
 
 place NORTHERN_THAILAND | NORTHERN THAILAND | THAILAND | MIST | CHIANG MAI
+    local เชียงใหม่
     land 6AA44C 609844 5E8A4E
     fields 0.4 8AC04A 6AA040 A8A050
     hills 36 10 10
@@ -38,6 +40,7 @@ place NORTHERN_THAILAND | NORTHERN THAILAND | THAILAND | MIST | CHIANG MAI
     c 7A5A3A 6A5030
 
 place ANDAMAN_COAST | ANDAMAN COAST | THAILAND | TROPICAL | PHANG NGA
+    local พังงา
     sea 1 0 -3
     water 20A8B8
     land 5E9A48 56903E E8E0C8
@@ -56,6 +59,7 @@ place ANDAMAN_COAST | ANDAMAN COAST | THAILAND | TROPICAL | PHANG NGA
     p PALM 0.25 2 40
 
 place MEKONG | MEKONG | LAOS | HAZE
+    local ແມ່ນ້ຳຂອງ
     sea 1 0 -6
     water 8A7A5A 0.7
     land 6A9E48 609240 7A9A58
@@ -76,6 +80,7 @@ place MEKONG | MEKONG | LAOS | HAZE
     c 7A5A3A 6A5030
 
 place ANGKOR | ANGKOR | CAMBODIA | GOLDEN
+    local អង្គរ
     hills 3 1 1 0.25
     water 5A7A6A
     land 7AA04E 6E9448 6A8A4E
@@ -219,6 +224,7 @@ place CHOCOLATE_HILLS | CHOCOLATE HILLS | PHILIPPINES | TROPICAL | BOHOL
     p BANANA 0.04 3 40
 
 place BANGKOK | BANGKOK | THAILAND | NIGHT | BANGKOK
+    local กรุงเทพฯ
     pollution 78
     land 5A6A58 526250 4A5A4A
     drive 4 1.7 0.96 0

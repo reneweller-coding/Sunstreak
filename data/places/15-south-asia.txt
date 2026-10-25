@@ -6,6 +6,7 @@
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
 place KARAKORAM | KARAKORAM HIGHWAY | PAKISTAN | MORNING | GILGIT-BALTISTAN
+    local شاہراہ قراقرم
     legend UP TO 4693 M AT THE KHUNJERAB PASS
     land 9A8A70 8E7E66 8A8070
     verge 8A7A66
@@ -26,6 +27,7 @@ place KARAKORAM | KARAKORAM HIGHWAY | PAKISTAN | MORNING | GILGIT-BALTISTAN
     c B8A888 8A7A60
 
 place LADAKH | LADAKH | INDIA | ALPINE | LADAKH
+    local लद्दाख
     land B8A07C AC9472 A89880
     verge A89070
     ranges 9A8070 F2F4F8 12
@@ -43,6 +45,7 @@ place LADAKH | LADAKH | INDIA | ALPINE | LADAKH
     p POPLAR 0.03 6 60
 
 place RAJASTHAN | RAJASTHAN | INDIA | DESERT | RAJASTHAN
+    local राजस्थान
     fog 0.0014 E0C8A0
     land D8B88A CCAC80 D0B088
     drive 2 0.6 0.95 6
@@ -58,6 +61,7 @@ place RAJASTHAN | RAJASTHAN | INDIA | DESERT | RAJASTHAN
     pastel
 
 place AGRA | AGRA | INDIA | HAZE | UTTAR PRADESH
+    local आगरा
     sky 8AA8C8 F0D8B0
     land 8AA050 7E9448 9AA068
     drive 3 1.2 0.95 6
@@ -77,6 +81,7 @@ place AGRA | AGRA | INDIA | HAZE | UTTAR PRADESH
     landmark TAJ_MAHAL 160 240 0.9
 
 place MUMBAI | MUMBAI | INDIA | DUSK | MAHARASHTRA
+    local मुंबई
     pollution 83
     sea 1 0 -4
     water 3A5A70
@@ -94,6 +99,7 @@ place MUMBAI | MUMBAI | INDIA | DUSK | MAHARASHTRA
     landmark GATEWAY_OF_INDIA 40 70
 
 place GOA | GOA | INDIA | TROPICAL | GOA
+    local गोंय
     pollution 51
     sea 1 0 -3
     water 2A8AA8
@@ -113,6 +119,7 @@ place GOA | GOA | INDIA | TROPICAL | GOA
     floating
 
 place KERALA | KERALA BACKWATERS | INDIA | TROPICAL | KERALA
+    local കേരളം
     fog 0.0016 C8DCD8
     hills 2 1 1 0.5
     sea 0 1 -2
@@ -130,6 +137,7 @@ place KERALA | KERALA BACKWATERS | INDIA | TROPICAL | KERALA
     c F8F6F0 E8E6E0
 
 place SRI_LANKA | SOUTH COAST | SRI LANKA | TROPICAL
+    local දකුණු වෙරළ
     sea 1 0 -3
     water 2A8AA8
     land 6AA44C 609844 5E8A48
@@ -147,6 +155,7 @@ place SRI_LANKA | SOUTH COAST | SRI LANKA | TROPICAL
     c 3E7A34
 
 place MALDIVES | MALDIVES | MALDIVES | TROPICAL
+    local ދިވެހިރާއްޖެ
     sea 1 1 -2
     water 30C8D0
     land F4EEDA EAE4D0 E8E2CE
@@ -160,6 +169,7 @@ place MALDIVES | MALDIVES | MALDIVES | TROPICAL
     floating
 
 place DARJEELING | DARJEELING | INDIA | MIST | WEST BENGAL
+    local দার্জিলিং
     land 5EA046 56943F 5E8A4A
     ranges 6A7A8A F2F4F8 12
     hills 40 14 -8
@@ -174,6 +184,7 @@ place DARJEELING | DARJEELING | INDIA | MIST | WEST BENGAL
     p PRAYER_FLAGS 0.01 4 30
 
 place HIMALAYA | HIMALAYA | NEPAL | ALPINE
+    local हिमालय
     land 7A9A58 6E8E50 8A8E70
     ranges 6A707A F6F8FA 18
     road 6E6A66
@@ -193,6 +204,7 @@ place HIMALAYA | HIMALAYA | NEPAL | ALPINE
     p YAK 0.02 10 100
 
 place KATHMANDU_VALLEY | KATHMANDU VALLEY | NEPAL | HAZE
+    local काठमाडौं उपत्यका
     pollution 96
     land 7AA04E 6E9448 8A9A60
     ranges 6A7480 E8ECF2 12
@@ -209,6 +221,7 @@ place KATHMANDU_VALLEY | KATHMANDU VALLEY | NEPAL | HAZE
     p PRAYER_FLAGS 0.01 4 30
 
 place BHUTAN | PARO VALLEY | BHUTAN | MIST
+    local སྤ་རོ
     land 5E9A46 56903E 5E8A4E
     ranges 4A5A5A C8D0DC 12
     hills 40 12 12
@@ -224,6 +237,7 @@ place BHUTAN | PARO VALLEY | BHUTAN | MIST
     c F0EAE0 7A4A30
 
 place SPITI | SPITI VALLEY | INDIA | ALPINE | HIMACHAL PRADESH
+    local स्पीति
     land B8A078 AC9470 A89A80
     verge 9A8A70
     ranges 8A7A70 F0F0F4 14
@@ -243,6 +257,7 @@ place SPITI | SPITI VALLEY | INDIA | ALPINE | HIMACHAL PRADESH
     p ROCK 0.12 3 60
 
 place MANALI | MANALI HIGHWAY | INDIA | ALPINE | HIMACHAL PRADESH
+    local मनाली
     serpentine 21
     summit 4739 NAKEE LA
     legend THE 21 GATA LOOPS
@@ -263,6 +278,7 @@ place MANALI | MANALI HIGHWAY | INDIA | ALPINE | HIMACHAL PRADESH
     p YAK 0.01 10 60
 
 place PUNJAB | PUNJAB | INDIA | HAZE | PUNJAB
+    local ਪੰਜਾਬ
     land 8AA850 809C48 9AA060
     fields 0.85 F0D030 C8B850 8AB04A
     hills 2 0 0
@@ -280,6 +296,7 @@ place PUNJAB | PUNJAB | INDIA | HAZE | PUNJAB
     landmark GOLDEN_TEMPLE 60 100
 
 place HAMPI | HAMPI | INDIA | GOLDEN | KARNATAKA
+    local ಹಂಪಿ
     land 9AA058 909450 A89A6A
     hills 20 6 6
     drive 2 0.4 0.94 10
@@ -294,6 +311,7 @@ place HAMPI | HAMPI | INDIA | GOLDEN | KARNATAKA
     p PALM 0.1 3 80
 
 place MEGHALAYA | MEGHALAYA | INDIA | MIST | MEGHALAYA
+    local मेघालय
     rain 0.6
     land 4E8A3A 468034 4A7A44
     hills 40 20 14
@@ -310,6 +328,7 @@ place MEGHALAYA | MEGHALAYA | INDIA | MIST | MEGHALAYA
     pastel
 
 place SUNDARBANS | SUNDARBANS | BANGLADESH | HAZE
+    local সুন্দরবন
     sea 0.7 0.7 -1.5
     water 6A6A50 0.8
     land 6A9040 60863A 5E8048
@@ -327,6 +346,7 @@ place SUNDARBANS | SUNDARBANS | BANGLADESH | HAZE
     v 4
 
 place SIGIRIYA | SIGIRIYA | SRI LANKA | TROPICAL
+    local සීගිරිය
     land 5E9440 568A3A 5A8448
     fields 0.3 8AC050 7AB048 9AC060
     hills 10 4 4 0.15

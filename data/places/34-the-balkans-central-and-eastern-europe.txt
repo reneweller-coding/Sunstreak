@@ -24,6 +24,7 @@ place ALBANIAN_RIVIERA | ALBANIAN RIVIERA | ALBANIA | NOON
     floating
 
 place LAKE_OHRID | LAKE OHRID | NORTH MACEDONIA | GOLDEN
+    local ОХРИДСКО ЕЗЕРО
     sea 0 1 -6
     water 2A7A9A
     land 7A9A50 709048 80925E
@@ -97,6 +98,7 @@ place LAKE_BLED | LAKE BLED | SLOVENIA | MORNING
     floating
 
 place IRON_GATES | IRON GATES | SERBIA | HAZE
+    local ЂЕРДАП
     sea 0 1 -8
     water 4A6A6A
     land 5E8E46 568440 5A7E4A
@@ -170,6 +172,7 @@ place SPIS | SPIS CASTLE | SLOVAKIA | MORNING
     p HAYBALE 0.01 10 60
 
 place BELOVEZHSKAYA | BELOVEZHSKAYA PUSHCHA | BELARUS | MIST
+    local БЕЛАВЕЖСКАЯ ПУШЧА
     land 4E8040 46763A 3E6A3C
     hills 4 2 2 0.15
     drive 2 0.15 0.96 22
@@ -215,6 +218,7 @@ place GAUJA | GAUJA VALLEY | LATVIA | MORNING
     c C8A070 5A5A60
 
 place ST_PETERSBURG | SAINT PETERSBURG | RUSSIA | DUSK | NORTHWEST RUSSIA
+    local САНКТ-ПЕТЕРБУРГ
     pollution 61
     sea 0.5 0.5 -3
     water 3A4A6A
@@ -237,6 +241,7 @@ place ST_PETERSBURG | SAINT PETERSBURG | RUSSIA | DUSK | NORTHWEST RUSSIA
     c 7A5A3A 4A6A5A
 
 place MOSCOW | MOSCOW | RUSSIA | WINTER | CENTRAL RUSSIA
+    local МОСКВА
     pollution 55
     snow 0.3
     land E0E4EA D4DAE2 C8D0DA

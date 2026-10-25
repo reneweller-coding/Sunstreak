@@ -18,6 +18,7 @@ place SAMARKAND | SAMARKAND | UZBEKISTAN | NOON | SAMARQAND
     c 6A9A44
 
 place KAZAKH_STEPPE | KAZAKH STEPPE | KAZAKHSTAN | GOLDEN | KARAGANDA
+    local САРЫАРҚА
     land A8A868 9C9C60 B0A870
     hills 6 1 1
     drive 2 0.2 1.0 3
@@ -29,6 +30,7 @@ place KAZAKH_STEPPE | KAZAKH STEPPE | KAZAKHSTAN | GOLDEN | KARAGANDA
     v 1
 
 place TIAN_SHAN | TIAN SHAN | KYRGYZSTAN | ALPINE
+    local ТЕҢИР-ТОО
     land 6AA44C 609844 7A9A5E
     hills 30 8 8 0.2
     water 3AA0C0
@@ -42,6 +44,7 @@ place TIAN_SHAN | TIAN SHAN | KYRGYZSTAN | ALPINE
     p SPRUCE 0.05 60 200
 
 place PAMIR_HIGHWAY | PAMIR HIGHWAY | TAJIKISTAN | ALPINE
+    local ПОМИР
     look 0.9
     land A8957C 9C8A72 8A8478
     verge 9A8A78

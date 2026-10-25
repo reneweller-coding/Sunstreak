@@ -60,6 +60,7 @@ place ISTANBUL | ISTANBUL | TURKEY | GOLDEN | MARMARA
     landmark HAGIA_SOPHIA 90 150 0.9
 
 place SANTORINI | SANTORINI | GREECE | NOON
+    local ΣΑΝΤΟΡΙΝΗ
     island SANTORINI
     sea 1 0 -30
     water 1A5AA0
@@ -78,6 +79,7 @@ place SANTORINI | SANTORINI | GREECE | NOON
     c 2A5AA8
 
 place PELOPONNESE | PELOPONNESE | GREECE | NOON
+    local ΠΕΛΟΠΟΝΝΗΣΟΣ
     land 9AA060 8E9458 A09A6A
     ranges 7A8890 A8B4C0 7
     hills 24 8 8
@@ -94,6 +96,7 @@ place PELOPONNESE | PELOPONNESE | GREECE | NOON
     c 2A5AA8
 
 place METEORA | METEORA | GREECE | MORNING
+    local ΜΕΤΕΩΡΑ
     land 7A9A58 6E8E50 8A9468
     hills 20 6 6
     drive 2 0.4 0.98 6
@@ -147,6 +150,7 @@ place DALMATIA | DALMATIAN COAST | CROATIA | NOON
     floating
 
 place ROSE_VALLEY | ROSE VALLEY | BULGARIA | MORNING
+    local РОЗОВАТА ДОЛИНА
     land 7AAA50 6E9E48 86A05E
     fields 0.6 E878A8 6AA04A C8B060
     ranges 6A7A70 9AA8B0 8

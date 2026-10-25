@@ -1,6 +1,7 @@
 # More regions of the large countries of Asia and Oceania.
 
 place TSONJIN_BOLDOG | TSONJIN BOLDOG | MONGOLIA | MORNING | TOV
+    local ЦОНЖИН БОЛДОГ
     land 8AB050 7EA448 8AA060
     hills 14 3 3
     drive 2 0.1 1.0 22
@@ -11,6 +12,7 @@ place TSONJIN_BOLDOG | TSONJIN BOLDOG | MONGOLIA | MORNING | TOV
     landmark GENGHIS_STATUE 60 100 1.2
 
 place ISLAMABAD | ISLAMABAD | PAKISTAN | MORNING | ISLAMABAD
+    local اسلام آباد
     pollution 42
     land 6A9A48 609040 6A8A58
     hills 20 6 6
@@ -24,6 +26,7 @@ place ISLAMABAD | ISLAMABAD | PAKISTAN | MORNING | ISLAMABAD
     landmark FAISAL_MOSQUE 120 200 0.8
 
 place BAMIYAN_VALLEY | BAMIYAN | AFGHANISTAN | GOLDEN | BAMIYAN
+    local بامیان
     land A8A060 9C9458 A89A70
     ranges 8A7A6A D8C8B8 10
     hills 20 6 6
@@ -35,6 +38,7 @@ place BAMIYAN_VALLEY | BAMIYAN | AFGHANISTAN | GOLDEN | BAMIYAN
     landmark BAMIYAN 60 100
 
 place YANGON | YANGON | MYANMAR | GOLDEN | YANGON
+    local ရန်ကုန်
     pollution 90
     land 6A9A48 609040 6A8A58
     drive 3 1.0 0.95 20
@@ -49,6 +53,7 @@ place YANGON | YANGON | MYANMAR | GOLDEN | YANGON
     c 7A5A3A 6A5030
 
 place INLE_LAKE | INLE LAKE | MYANMAR | MIST | SHAN
+    local အင်းလေးကန်
     sea 1 0 -2
     water 5A7A70
     land 5E9A48 549040 5E8A50
@@ -65,6 +70,7 @@ place INLE_LAKE | INLE LAKE | MYANMAR | MIST | SHAN
     c 7A5A3A 6A5030
 
 place AYUTTHAYA | AYUTTHAYA | THAILAND | GOLDEN | AYUTTHAYA
+    local อยุธยา
     land 6A9A48 609040 6A8A58
     hills 2 0 0 0.3
     water 5A7A6A

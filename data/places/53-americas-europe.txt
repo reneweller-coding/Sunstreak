@@ -103,6 +103,7 @@ place ANGEL_FALLS | ANGEL FALLS | VENEZUELA | MIST | BOLIVAR
     p JUNGLE_TREE 0.2 6 150
 
 place CARPATHIANS_UA | CARPATHIANS | UKRAINE | MIST | ZAKARPATTIA
+    local КАРПАТИ
     fog 0.0026
     land 5E8A44 56803E 507A48
     hills 34 12 12
@@ -117,6 +118,7 @@ place CARPATHIANS_UA | CARPATHIANS | UKRAINE | MIST | ZAKARPATTIA
     c 7A5A3A 4A6A5A
 
 place KYIV | KYIV | UKRAINE | MORNING | KYIV
+    local КИЇВ
     pollution 65
     sea 0 1 -10
     water 4A6A80

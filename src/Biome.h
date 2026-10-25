@@ -944,6 +944,7 @@ struct BiomeDef
     int                   m_summitHeight = 0;                     ///< and its altitude (m)
     const char           *m_legend = nullptr;                     ///< a legendary road: what the banner says of it
     uint8_t               m_humps = 0;                            ///< humped bridges over the sea per stage (the Atlantic Road)
+    const char           *m_local = nullptr;                      ///< its name in its own script (UTF-8; the signs draw data/script-names.txt)
 };
 
 /**

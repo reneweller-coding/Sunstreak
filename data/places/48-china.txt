@@ -1,6 +1,7 @@
 # China, province by province: the ones the first tour had left out, the municipalities, the regions and Macau.
 
 place MACAU | MACAU | CHINA | NIGHT | MACAU
+    local 澳門
     sea 1 0 -4
     water 1A2A40
     land 2A3A30 26342C 22302A
@@ -18,6 +19,7 @@ place MACAU | MACAU | CHINA | NIGHT | MACAU
     c B02020 3A3A40
 
 place GUANGDONG | GUANGZHOU | CHINA | NIGHT | GUANGDONG
+    local 广州
     pollution 68
     sea 0 1 -5
     water 1A2A40
@@ -34,6 +36,7 @@ place GUANGDONG | GUANGZHOU | CHINA | NIGHT | GUANGDONG
     c B02020 3A3A40
 
 place HAINAN | SANYA | CHINA | TROPICAL | HAINAN
+    local 三亚
     island HAINAN
     sea 1 0 -2
     water 2AB8D0
@@ -47,6 +50,7 @@ place HAINAN | SANYA | CHINA | TROPICAL | HAINAN
     pastel
 
 place FUJIAN | HAKKA TULOU | CHINA | MIST | FUJIAN
+    local 福建土楼
     fog 0.0026
     land 5E9A48 549040 5E8A50
     hills 34 12 12
@@ -57,6 +61,7 @@ place FUJIAN | HAKKA TULOU | CHINA | MIST | FUJIAN
     landmark TULOU 40 70
 
 place JIANGXI | WUYUAN | CHINA | MORNING | JIANGXI
+    local 婺源
     land 6AA048 609440 6A8A58
     fields 0.7 F0D830 E8D040 8AB050
     hills 22 6 6
@@ -69,6 +74,7 @@ place JIANGXI | WUYUAN | CHINA | MORNING | JIANGXI
     c B02020 3A3A40
 
 place GUIZHOU | HUANGGUOSHU | CHINA | MIST | GUIZHOU
+    local 黄果树瀑布
     fog 0.0026
     land 4E8A3A 46803A 5E8A48
     hills 40 20 -14
@@ -84,6 +90,7 @@ place GUIZHOU | HUANGGUOSHU | CHINA | MIST | GUIZHOU
     c B02020 3A3A40
 
 place YUNNAN | STONE FOREST | CHINA | GOLDEN | YUNNAN
+    local 石林
     land 9A9A60 8E8E58 9A9A70
     hills 14 4 4
     drive 2 0.3 0.97 9
@@ -96,6 +103,7 @@ place YUNNAN | STONE FOREST | CHINA | GOLDEN | YUNNAN
     p CYPRESS 0.04 4 60
 
 place QINGHAI | QINGHAI LAKE | CHINA | ALPINE | QINGHAI
+    local 青海湖
     sea 1 0 -2
     water 2A7ACC
     land 8AA058 7E9450 9A9A68
@@ -109,6 +117,7 @@ place QINGHAI | QINGHAI LAKE | CHINA | ALPINE | QINGHAI
     p PRAYER_FLAGS 0.02 4 30
 
 place XINJIANG | KARAKUL LAKE | CHINA | ALPINE | XINJIANG
+    local 喀拉库勒湖
     sea 1 0 -2
     water 3A8AC0
     land A89A70 9C8E68 9A9A80
@@ -123,6 +132,7 @@ place XINJIANG | KARAKUL LAKE | CHINA | ALPINE | XINJIANG
     c 8A8480 F4F6FA
 
 place NINGXIA | NINGXIA DESERT | CHINA | DESERT | NINGXIA
+    local 宁夏
     land E0B870 D4AC68 C8A870
     verge D8B070
     hills 6 2 2
@@ -135,6 +145,7 @@ place NINGXIA | NINGXIA DESERT | CHINA | DESERT | NINGXIA
     c C8A870
 
 place CHONGQING | CHONGQING | CHINA | NIGHT | CHONGQING
+    local 重庆
     fog 0.0024 2A2A3A
     sea 0 1 -10
     water 1A2A30
@@ -151,6 +162,7 @@ place CHONGQING | CHONGQING | CHINA | NIGHT | CHONGQING
     c B02020 3A3A40
 
 place HUBEI | WUHAN | CHINA | HAZE | HUBEI
+    local 武汉
     sea 1 0 -6
     water 6A6A50 0.85
     land 6A8A58 628050 6A7A62
@@ -166,6 +178,7 @@ place HUBEI | WUHAN | CHINA | HAZE | HUBEI
     c B02020 3A3A40
 
 place ZHEJIANG | WEST LAKE | CHINA | MIST | ZHEJIANG
+    local 西湖
     fog 0.0026 D8DCD8
     sea 1 0 -2
     water 4A7A70
@@ -181,6 +194,7 @@ place ZHEJIANG | WEST LAKE | CHINA | MIST | ZHEJIANG
     c B02020 3A3A40
 
 place JIANGSU | SUZHOU | CHINA | MORNING | JIANGSU
+    local 苏州
     sea 0 1 -2
     water 4A6A6A
     land 6A9A50 609048 6A8A58
@@ -198,6 +212,7 @@ place JIANGSU | SUZHOU | CHINA | MORNING | JIANGSU
     c B02020 3A3A40
 
 place SHANDONG | MOUNT TAI | CHINA | MORNING | SHANDONG
+    local 泰山
     land 8AA058 7E9450 8A9A68
     ranges 7A7A70 C8C8C0 11
     hills 40 20 20
@@ -208,6 +223,7 @@ place SHANDONG | MOUNT TAI | CHINA | MORNING | SHANDONG
     p ROCK 0.08 3 60
 
 place SHAANXI | XIAN | CHINA | HAZE | SHAANXI
+    local 西安
     land 9A9A70 8E8E66 A09A7A
     drive 3 1.0 0.98 9
     bends 0.25 0.25 0.1
@@ -221,6 +237,7 @@ place SHAANXI | XIAN | CHINA | HAZE | SHAANXI
     c B02020 3A3A40
 
 place SHANXI | PINGYAO | CHINA | GOLDEN | SHANXI
+    local 平遥
     land B8A878 AC9C70 B0A07A
     fields 0.5 D8C060 B8A050 8AA04A
     hills 16 6 6
@@ -234,6 +251,7 @@ place SHANXI | PINGYAO | CHINA | GOLDEN | SHANXI
     c B02020 3A3A40
 
 place TIANJIN | TIANJIN | CHINA | DUSK | TIANJIN
+    local 天津
     sea 1 0 -4
     water 2A3A50
     land 4A5A4A 465646 424E44
@@ -246,6 +264,7 @@ place TIANJIN | TIANJIN | CHINA | DUSK | TIANJIN
     c E06AB0
 
 place INNER_MONGOLIA | HULUNBUIR | CHINA | MORNING | INNER MONGOLIA
+    local 呼伦贝尔
     land 8AB050 7EA448 8AA060
     hills 8 2 2
     drive 2 0.1 1.0 22
@@ -256,6 +275,7 @@ place INNER_MONGOLIA | HULUNBUIR | CHINA | MORNING | INNER MONGOLIA
     p WINDMILL 0.006 80 300
 
 place JILIN | CHANGBAI SHAN | CHINA | WINTER | JILIN
+    local 长白山
     snow 0.5
     land E8ECF2 DCE2EA D0D8E4
     ranges 8A9AAA E8ECF2 12
@@ -270,6 +290,7 @@ place JILIN | CHANGBAI SHAN | CHINA | WINTER | JILIN
     c B02020 3A3A40
 
 place LIAONING | RED BEACH | CHINA | GOLDEN | LIAONING
+    local 红海滩
     sea 1 0 -2
     water 4A7A8A
     land C04A3A B4402E 8A9A60

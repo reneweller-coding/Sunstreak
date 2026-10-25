@@ -6,6 +6,7 @@
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
 place CHUYSKY | CHUYSKY TRAKT | RUSSIA | ALPINE | SIBERIA
+    local ЧУЙСКИЙ ТРАКТ
     sea 0 1 -8
     water 4AB0B0
     land 7A9A50 708E48 7A8A60
@@ -21,6 +22,7 @@ place CHUYSKY | CHUYSKY TRAKT | RUSSIA | ALPINE | SIBERIA
     p ROCK 0.08 3 50
 
 place ROAD_OF_BONES | ROAD OF BONES | RUSSIA | WINTER | FAR EAST
+    local КОЛЫМСКАЯ ТРАССА
     legend 2000 KM THROUGH THE COLDEST PLACE ON EARTH
     snow 0.4
     land E4E8EE D8DEE6 CCD4DE
@@ -40,6 +42,7 @@ place ROAD_OF_BONES | ROAD OF BONES | RUSSIA | WINTER | FAR EAST
     c 7A5A3A 4A6A5A
 
 place CHARYN | CHARYN CANYON | KAZAKHSTAN | DESERT | ALMATY
+    local ШАРЫН ШАТҚАЛЫ
     land B8A070 AC9468 B89A6E
     verge B86A40
     hills 24 -30 8

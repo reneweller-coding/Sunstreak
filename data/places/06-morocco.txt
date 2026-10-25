@@ -6,6 +6,7 @@
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
 place CHEFCHAOUEN | CHEFCHAOUEN | MOROCCO | MORNING | TANGIER-TETOUAN
+    local شفشاون
     land 8AA060 7E9458 9A9A72
     ranges 6A7480 A8B0BC 8
     hills 36 14 6
@@ -21,6 +22,7 @@ place CHEFCHAOUEN | CHEFCHAOUEN | MOROCCO | MORNING | TANGIER-TETOUAN
     p PRICKLY_PEAR 0.03 3 30
 
 place MARRAKECH | MARRAKECH | MOROCCO | NOON | MARRAKESH-SAFI
+    local مراكش
     pollution 84
     land C89A6A BC8E60 B89A72
     ranges B8A0A0 E8E4EC 9
@@ -37,6 +39,7 @@ place MARRAKECH | MARRAKECH | MOROCCO | NOON | MARRAKESH-SAFI
     v 0
 
 place HIGH_ATLAS | HIGH ATLAS | MOROCCO | ALPINE | DRAA-TAFILALET
+    local الأطلس الكبير
     land A87A58 9C7050 9A8070
     verge 9A6A50
     hills 45 16 12
@@ -55,6 +58,7 @@ place HIGH_ATLAS | HIGH ATLAS | MOROCCO | ALPINE | DRAA-TAFILALET
     p ROCK 0.1 3 60
 
 place SAHARA_DUNES | SAHARA DUNES | MOROCCO | DESERT | DRAA-TAFILALET
+    local عرق الشبي
     land E09A58 D48E52 D8A060
     verge D49050
     drive 2 0.3 0.93 7

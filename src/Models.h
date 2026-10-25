@@ -24,6 +24,7 @@ namespace sunstreak
 {
 
 class Models;
+struct ScriptName;
 
 /**
  * @brief The vehicle of a service that drives in a place: the one whose home is the region, else the country's, else the
@@ -152,8 +153,11 @@ struct VehicleModel
  * @param[in]  style  0 white, 1 yellow, 2 white with a red border, 3 blue, 4 green (CountryInfo::m_townSign)
  * @param[in]  cap    letter height (m)
  * @param[in]  lift   height of the board's lower edge (m)
+ * @param[in]  posts  stand it on posts
+ * @param[in]  local  the name in the country's own script, above the Latin one (nullptr: none)
  */
-void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float cap = 0.42f, float lift = 1.4f, bool posts = true );
+void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float cap = 0.42f, float lift = 1.4f, bool posts = true,
+                     const ScriptName *local = nullptr );
 
 /**
  * @brief The gantry before a fork of the world tour: a green board over each carriageway with where it leads.

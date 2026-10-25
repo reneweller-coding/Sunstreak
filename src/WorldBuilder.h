@@ -674,6 +674,17 @@ public:
     }
 
     /**
+     * @brief Names the place in its own script (traced for the signs by tools/make_signs.py).
+     * @param[in] name  the name (UTF-8)
+     * @return this
+     */
+    W &local( const char *name )
+    {
+        m_d.m_local = name;
+        return *this;
+    }
+
+    /**
      * @brief Sets the bridges.
      * @param[in] chance  per suitable straight
      * @param[in] style   how they are built

@@ -1,6 +1,7 @@
 # More regions: Japan's prefectures, Russia's subjects, Turkey's provinces and others.
 
 place CHUREITO | FUJI FIVE LAKES | JAPAN | MORNING | CHUBU
+    local 富士五湖
     sea 1 0 -3
     water 2A5A7A
     land 6AA048 609440 6A8A58
@@ -18,6 +19,7 @@ place CHUREITO | FUJI FIVE LAKES | JAPAN | MORNING | CHUBU
     c 6A4A32 3A3E44
 
 place NACHI | NACHI FALLS | JAPAN | MIST | KANSAI
+    local 那智の滝
     fog 0.003
     land 4E8A3A 46803A 5E8A48
     hills 40 20 20
@@ -30,6 +32,7 @@ place NACHI | NACHI FALLS | JAPAN | MIST | KANSAI
     c E04A3A 3A3A40
 
 place IZUMO | IZUMO | JAPAN | OVERCAST | CHUGOKU
+    local 出雲
     sea 1 0 -10
     water 2A5A6A
     land 5E9A48 549040 5E8A50
@@ -45,6 +48,7 @@ place IZUMO | IZUMO | JAPAN | OVERCAST | CHUGOKU
     c 6A4A32 3A3E44
 
 place TOTTORI_DUNES | TOTTORI DUNES | JAPAN | NOON | CHUGOKU
+    local 鳥取砂丘
     sea 1 0 -4
     water 2A6A9A
     land E8D8B0 DCCCA4 C8C090
@@ -57,6 +61,7 @@ place TOTTORI_DUNES | TOTTORI DUNES | JAPAN | NOON | CHUGOKU
     p CAMEL 0.003 20 100
 
 place KURASHIKI | KURASHIKI | JAPAN | MORNING | CHUGOKU
+    local 倉敷
     sea 0 1 -2
     water 4A6A60
     land 6A9A48 609040 6A8A58
@@ -75,6 +80,7 @@ place KURASHIKI | KURASHIKI | JAPAN | MORNING | CHUGOKU
     c 6A4A32 3A3E44
 
 place SHIMANTO | SHIMANTO RIVER | JAPAN | MORNING | SHIKOKU
+    local 四万十川
     island SHIKOKU
     sea 0 1 -8
     water 3A8A9A
@@ -92,6 +98,7 @@ place SHIMANTO | SHIMANTO RIVER | JAPAN | MORNING | SHIKOKU
     c 6A4A32 3A3E44
 
 place BEPPU | BEPPU | JAPAN | MIST | KYUSHU
+    local 別府
     island KYUSHU
     fog 0.003 E0E0E0
     land 5E9A48 549040 5E8A50
@@ -106,6 +113,7 @@ place BEPPU | BEPPU | JAPAN | MIST | KYUSHU
     c 6A4A32 3A3E44
 
 place TAKACHIHO | TAKACHIHO GORGE | JAPAN | MIST | KYUSHU
+    local 高千穂峡
     island KYUSHU
     fog 0.003
     land 4E8A3A 46803A 5E8A48
@@ -118,6 +126,7 @@ place TAKACHIHO | TAKACHIHO GORGE | JAPAN | MIST | KYUSHU
     p TORII 0.004 10 40
 
 place HIRAIZUMI | HIRAIZUMI | JAPAN | GOLDEN | TOHOKU
+    local 平泉
     land 7AAA4E 70A048 7AA05A
     fields 0.6 8AB04A 6AA040 D8C060
     hills 14 4 4
@@ -131,6 +140,7 @@ place HIRAIZUMI | HIRAIZUMI | JAPAN | GOLDEN | TOHOKU
     c 6A4A32 3A3E44
 
 place OUCHI_JUKU | OUCHI JUKU | JAPAN | WINTER | TOHOKU
+    local 大内宿
     snow 0.4
     land E8ECF2 DCE2EA D0D8E4
     hills 24 8 8
@@ -145,6 +155,7 @@ place OUCHI_JUKU | OUCHI JUKU | JAPAN | WINTER | TOHOKU
     c 6A4A32 3A3E44
 
 place HITACHI_SEASIDE | HITACHI SEASIDE PARK | JAPAN | MORNING | KANTO
+    local ひたち海浜公園
     sea 1 0 -6
     water 2A6A9A
     land 6AA048 609440 6A8A58
@@ -157,6 +168,7 @@ place HITACHI_SEASIDE | HITACHI SEASIDE PARK | JAPAN | MORNING | KANTO
     c E04A6A
 
 place LAKE_BIWA | LAKE BIWA | JAPAN | MIST | KANSAI
+    local 琵琶湖
     fog 0.0026
     sea 1 0 -2
     water 4A6A7A
@@ -171,6 +183,7 @@ place LAKE_BIWA | LAKE BIWA | JAPAN | MIST | KANSAI
     c 6A4A32 3A3E44
 
 place ARKHANGELSK | WHITE SEA | RUSSIA | OVERCAST | NORTHWEST RUSSIA
+    local БЕЛОЕ МОРЕ
     sea 1 0 -3
     water 4A5A6A
     land 6A8A50 607E48 5A7050
@@ -185,6 +198,7 @@ place ARKHANGELSK | WHITE SEA | RUSSIA | OVERCAST | NORTHWEST RUSSIA
     c 7A5A3A 4A6A5A
 
 place MANPUPUNER | MAN-PUPU-NYOR | RUSSIA | ALPINE | NORTHWEST RUSSIA
+    local МАНЬПУПУНЁР
     land 8A9A68 7E8E60 8A8A78
     ranges 7A7A70 E8ECF2 9
     hills 20 6 6
@@ -198,6 +212,7 @@ place MANPUPUNER | MAN-PUPU-NYOR | RUSSIA | ALPINE | NORTHWEST RUSSIA
     p REINDEER 0.008 15 120
 
 place ELBRUS | ELBRUS | RUSSIA | ALPINE | NORTH CAUCASUS
+    local ЭЛЬБРУС
     land 6AA048 609440 6A8A58
     ranges 7A8090 F4F6FA 16
     hills 50 30 -20
@@ -209,6 +224,7 @@ place ELBRUS | ELBRUS | RUSSIA | ALPINE | NORTH CAUCASUS
     p HORSE 0.01 10 100
 
 place VOLGA_DELTA | VOLGA DELTA | RUSSIA | HAZE | SOUTHERN RUSSIA
+    local ДЕЛЬТА ВОЛГИ
     hills 2 0 0 0.7
     water 5A7A6A
     land 7A9A50 709048 7A8A58
@@ -224,6 +240,7 @@ place VOLGA_DELTA | VOLGA DELTA | RUSSIA | HAZE | SOUTHERN RUSSIA
     c 7A5A3A 4A6A5A
 
 place BASHKORTOSTAN | BASHKIR URALS | RUSSIA | MORNING | VOLGA
+    local БАШКОРТОСТАН
     land 6AA048 609440 6A8A58
     hills 26 8 8
     drive 2 0.2 0.95 22
@@ -234,6 +251,7 @@ place BASHKORTOSTAN | BASHKIR URALS | RUSSIA | MORNING | VOLGA
     p YURT 0.004 20 120
 
 place TOMSK | TOMSK | RUSSIA | WINTER | SIBERIA
+    local ТОМСК
     snow 0.4
     land E0E4EA D4DAE2 C8D0DA
     drive 3 0.9 0.85 22
@@ -249,6 +267,7 @@ place TOMSK | TOMSK | RUSSIA | WINTER | SIBERIA
     c 7A5A3A 4A6A5A
 
 place KHABAROVSK | AMUR | RUSSIA | MORNING | FAR EAST
+    local АМУР
     sea 0 1 -8
     water 5A6A70
     land 6A9A50 609048 6A8A58
@@ -263,6 +282,7 @@ place KHABAROVSK | AMUR | RUSSIA | MORNING | FAR EAST
     c 7A5A3A 4A6A5A
 
 place SAKHALIN | SAKHALIN | RUSSIA | MIST | FAR EAST
+    local САХАЛИН
     island SAKHALIN
     fog 0.003
     sea 1 0 -10
@@ -397,6 +417,7 @@ place SANTIAGO_CL | SANTIAGO | CHILE | MORNING | SANTIAGO
     pastel
 
 place HARAR | HARAR | ETHIOPIA | GOLDEN | HARARI
+    local ሐረር
     land 9AA060 8E9458 A09A6A
     hills 16 4 4
     drive 2 0.3 0.95 12
@@ -424,6 +445,7 @@ place MAASAI_MARA | MAASAI MARA | KENYA | GOLDEN | NAROK
     p BALLOON 0.003 80 300
 
 place CHIANG_RAI | CHIANG RAI | THAILAND | MORNING | CHIANG RAI
+    local เชียงราย
     land 5E9A48 549040 5E8A50
     hills 24 6 6
     drive 2 0.4 0.95 20
@@ -450,6 +472,7 @@ place HOI_AN | HOI AN | VIETNAM | DUSK | QUANG NAM
     floating
 
 place LAHORE | LAHORE | PAKISTAN | HAZE | PUNJAB
+    local لاہور
     pollution 79
     fog 0.0026 D8C8A8
     land 8A9A68 7E8E60 8A8A70
@@ -464,6 +487,7 @@ place LAHORE | LAHORE | PAKISTAN | HAZE | PUNJAB
     c B8604A 8A4A3A
 
 place SIWA | SIWA OASIS | EGYPT | DESERT | MATROUH
+    local سيوة
     hills 4 1 1 0.3
     water 3A8A9A
     land E0B870 D4AC68 C8A870
@@ -476,6 +500,7 @@ place SIWA | SIWA OASIS | EGYPT | DESERT | MATROUH
     c E8C078
 
 place PUDUCHERRY | PUDUCHERRY | INDIA | NOON | PUDUCHERRY
+    local புதுச்சேரி
     sea 1 0 -4
     water 2A8AB0
     land 6A9A48 609040 6A8A58
@@ -490,6 +515,7 @@ place PUDUCHERRY | PUDUCHERRY | INDIA | NOON | PUDUCHERRY
     c F2F0EA 8A8A90
 
 place CHANDIGARH | CHANDIGARH | INDIA | MORNING | CHANDIGARH
+    local चंडीगढ़
     pollution 51
     land 7A9A50 709048 7A8A58
     drive 4 1.2 0.98 10
@@ -540,6 +566,7 @@ place BANDA | BANDA ISLANDS | INDONESIA | TROPICAL | MALUKU
     c D8C8A8 8A7A60
 
 place MANGYSTAU | BOZZHYRA | KAZAKHSTAN | DESERT | MANGYSTAU
+    local БОЗЖЫРА
     land E8E0D0 DCD4C4 D0C8B8
     verge E0D8C8
     road C8B898 C8B898

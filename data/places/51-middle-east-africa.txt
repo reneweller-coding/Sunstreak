@@ -1,6 +1,7 @@
 # More regions of the large countries of the Middle East and Africa.
 
 place RIYADH | RIYADH | SAUDI ARABIA | DESERT | RIYADH
+    local الرياض
     pollution 64
     land D8B880 CCAC78 C8A878
     drive 4 1.3 1.0 11
@@ -18,6 +19,7 @@ place RIYADH | RIYADH | SAUDI ARABIA | DESERT | RIYADH
     c 9A6A44
 
 place ALULA | ALULA | SAUDI ARABIA | GOLDEN | MEDINA
+    local العلا
     land D8A070 CC9468 C89A70
     verge C8905A
     hills 16 8 8
@@ -31,6 +33,7 @@ place ALULA | ALULA | SAUDI ARABIA | GOLDEN | MEDINA
     landmark HEGRA_TOMB 60 100
 
 place ASIR | ASIR MOUNTAINS | SAUDI ARABIA | MIST | ASIR
+    local عسير
     fog 0.0026
     land 6A8A50 607E48 7A7A60
     hills 50 30 -20
@@ -45,6 +48,7 @@ place ASIR | ASIR MOUNTAINS | SAUDI ARABIA | MIST | ASIR
     c 9A6A44
 
 place JEDDAH | JEDDAH CORNICHE | SAUDI ARABIA | NOON | MECCA
+    local جدة
     sea 1 0 -3
     water 2A8AB0
     land E0D0A8 D4C4A0 C8B898
@@ -60,6 +64,7 @@ place JEDDAH | JEDDAH CORNICHE | SAUDI ARABIA | NOON | MECCA
     c 9A6A44
 
 place PERSEPOLIS | PERSEPOLIS | IRAN | DESERT | FARS
+    local تخت جمشید
     land C8B088 BCA47E B8A080
     ranges 9A806A D8C8B0 7
     hills 14 6 6
@@ -72,6 +77,7 @@ place PERSEPOLIS | PERSEPOLIS | IRAN | DESERT | FARS
     landmark PERSEPOLIS 60 100
 
 place TEHRAN | TEHRAN | IRAN | HAZE | TEHRAN
+    local تهران
     pollution 80
     fog 0.0024 D8C8B8
     land 9A9A80 8E8E76 A0A08A
@@ -86,6 +92,7 @@ place TEHRAN | TEHRAN | IRAN | HAZE | TEHRAN
     landmark AZADI_TOWER 70 110
 
 place ISFAHAN | ISFAHAN | IRAN | GOLDEN | ISFAHAN
+    local اصفهان
     sea 0 1 -5
     water 5A7A80
     land B8A878 AC9C70 B0A07A
@@ -100,6 +107,7 @@ place ISFAHAN | ISFAHAN | IRAN | GOLDEN | ISFAHAN
     c D8C098 B08A60
 
 place GILAN | MASULEH | IRAN | MIST | GILAN
+    local ماسوله
     fog 0.003
     land 4E8A3A 46803A 5E8A48
     fields 0.4 6AA040 8AB050 4E8A3A
@@ -145,6 +153,7 @@ place SUMELA | SUMELA | TURKEY | MIST | BLACK SEA
     c D8D0C0 6A6A70
 
 place ABU_SIMBEL | ABU SIMBEL | EGYPT | DESERT | ASWAN
+    local أبو سمبل
     land E0B870 D4AC68 C8A870
     verge D8B070
     drive 2 0.15 1.0 11
@@ -155,6 +164,7 @@ place ABU_SIMBEL | ABU SIMBEL | EGYPT | DESERT | ASWAN
     landmark ABU_SIMBEL 60 100
 
 place SINAI | MOUNT SINAI | EGYPT | GOLDEN | SOUTH SINAI
+    local جبل موسى
     land C88A58 BC8050 B88A60
     verge C08050
     ranges 9A5A3A D0A080 11
@@ -168,6 +178,7 @@ place SINAI | MOUNT SINAI | EGYPT | GOLDEN | SOUTH SINAI
     c C8A880 8A7A60
 
 place ALEXANDRIA | ALEXANDRIA | EGYPT | NOON | ALEXANDRIA
+    local الإسكندرية
     pollution 74
     sea 1 0 -3
     water 2A7AA8
@@ -183,6 +194,7 @@ place ALEXANDRIA | ALEXANDRIA | EGYPT | NOON | ALEXANDRIA
     c D8C8A8 8A7A60
 
 place ALGIERS | ALGIERS | ALGERIA | NOON | ALGIERS
+    local الجزائر
     pollution 68
     sea 1 0 -20
     water 2A7AA8
@@ -197,6 +209,7 @@ place ALGIERS | ALGIERS | ALGERIA | NOON | ALGIERS
     landmark MAQAM_ECHAHID 120 200 0.9
 
 place MZAB | MZAB VALLEY | ALGERIA | DESERT | GHARDAIA
+    local وادي ميزاب
     land D8B880 CCAC78 C8A878
     hills 14 6 6
     drive 2 0.2 0.98 11
@@ -209,6 +222,7 @@ place MZAB | MZAB VALLEY | ALGERIA | DESERT | GHARDAIA
     p DATE_PALM 0.08 4 80
 
 place LEPTIS_MAGNA | LEPTIS MAGNA | LIBYA | NOON | MURQUB
+    local لبدة
     sea 1 0 -3
     water 2A8AB8
     land D8C8A0 CCBC94 C0B090
@@ -220,6 +234,7 @@ place LEPTIS_MAGNA | LEPTIS MAGNA | LIBYA | NOON | MURQUB
     landmark TRIUMPHAL_ARCH 40 70 0.6
 
 place KHARTOUM | KHARTOUM | SUDAN | DESERT | KHARTOUM
+    local الخرطوم
     sea 1 1 -4
     water 6A7A6A
     land D8C08A CCB482 C8B088
@@ -269,6 +284,7 @@ place LAKE_CHAD | LAKE CHAD | CHAD | HAZE | LAC
     p CAMEL 0.004 20 120
 
 place RICHAT | EYE OF THE SAHARA | MAURITANIA | DESERT | ADRAR
+    local قلب الريشات
     land D8A870 CC9C68 C8A070
     verge D0A070
     road B88A5A B88A5A
@@ -282,6 +298,7 @@ place RICHAT | EYE OF THE SAHARA | MAURITANIA | DESERT | ADRAR
     c E8C080
 
 place LALIBELA | LALIBELA | ETHIOPIA | MORNING | AMHARA
+    local ላሊበላ
     land 9AA060 8E9458 A09A6A
     ranges 7A6A5A C8B8A8 10
     hills 30 10 10
@@ -374,6 +391,7 @@ place TSINGY | TSINGY DE BEMARAHA | MADAGASCAR | GOLDEN | MELAKY
     p SHRUB 0.1 2 60
 
 place CASABLANCA | CASABLANCA | MOROCCO | NOON | CASABLANCA
+    local الدار البيضاء
     pollution 82
     sea 1 0 -4
     water 2A6A8A

@@ -5,6 +5,8 @@
  */
 #include "Models.h"
 
+#include "ScriptNames.h"
+
 #include "Data.h"
 
 #include "MathUtil.h"
@@ -1661,7 +1663,7 @@ constexpr uint32_t bit( FleetE f )
 
 } // namespace
 
-void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float cap, float lift, bool posts )
+void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float cap, float lift, bool posts, const ScriptName *local )
 {
     static const Color boards[5] = { rgb( 244, 244, 240 ), rgb( 255, 204, 0 ), rgb( 244, 244, 240 ), rgb( 0, 72, 160 ), rgb( 0, 112, 66 ) };
     static const Color inks[5] = { rgb( 20, 20, 22 ), rgb( 20, 20, 22 ), rgb( 20, 20, 22 ), rgb( 250, 250, 250 ), rgb( 250, 250, 250 ) };
@@ -1669,7 +1671,12 @@ void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float c
     const int                                 s = std::clamp( style, 0, 4 );
     std::vector<std::pair<Vector2, Vector2>> lines;
     const float                               w = textStrokes( text, lines ) * cap;
-    const float                               hw = w * 0.5f + cap * 0.9f, h = cap * 2.2f, y = lift + h * 0.5f;
+    // A name in the country's own script stands above the Latin one, as on its bilingual signs, its letters a little
+    // taller than the Latin capitals whatever share of the em they fill.
+    const float em = local ? std::clamp( cap * 1.15f / std::max( 0.1f, local->m_high - local->m_low ), cap * 1.1f, cap * 2.2f ) : cap;
+    const float lw = local ? local->m_width * em : 0.0f;
+    const float above = local ? ( local->m_high - local->m_low ) * em + cap * 0.55f : 0.0f;
+    const float hw = std::max( w, lw ) * 0.5f + cap * 0.9f, h = cap * 2.2f + above, y = lift + h * 0.5f;
     if( posts )
         for( float x : { -hw * 0.7f, hw * 0.7f } ) out.box( Vector3{ x, lift * 0.5f + 0.1f, 0.04f }, Vector3{ 0.05f, lift * 0.5f + 0.1f, 0.05f }, rgb( 140, 142, 148 ) );
     out.box( Vector3{ 0, y, 0 }, Vector3{ hw, h * 0.5f, 0.03f }, frames[s], Mat{ 0.2f, 0.0f } );
@@ -1677,20 +1684,24 @@ void buildPlaceSign( MeshBuilder &out, std::string_view text, int style, float c
     out.quad( Vector3{ hw - inset, y - h * 0.5f + inset, -0.035f }, Vector3{ -hw + inset, y - h * 0.5f + inset, -0.035f },
               Vector3{ -hw + inset, y + h * 0.5f - inset, -0.035f }, Vector3{ hw - inset, y + h * 0.5f - inset, -0.035f }, boards[s], Mat{ 0.22f, 0.0f } );
     // The letters, read left to right by the driver (whose left is +x).
-    const float   thick = cap * 0.15f;
-    const Vector3 origin = { w * 0.5f, y - cap * 0.5f, -0.04f };
-    for( const auto &[a, b] : lines )
+    auto ink = [&]( const std::vector<std::pair<Vector2, Vector2>> &strokes, Vector3 origin, float scale, float thick )
     {
-        const Vector3 p = { origin.x - a.x * cap, origin.y + a.y * cap, origin.z }, q = { origin.x - b.x * cap, origin.y + b.y * cap, origin.z };
-        Vector3       d = Vector3Subtract( q, p );
-        const float   len = Vector3Length( d );
-        d = len > 1e-4f ? Vector3Scale( d, 1.0f / len ) : Vector3{ 1, 0, 0 };
-        const Vector3 n = { -d.y * thick * 0.5f, d.x * thick * 0.5f, 0 };
-        const Vector3 p0 = Vector3Subtract( Vector3Subtract( p, n ), Vector3Scale( d, thick * 0.4f ) ), p1 = Vector3Add( Vector3Subtract( q, n ), Vector3Scale( d, thick * 0.4f ) );
-        const Vector3 p2 = Vector3Add( Vector3Add( q, n ), Vector3Scale( d, thick * 0.4f ) ), p3 = Vector3Subtract( Vector3Add( p, n ), Vector3Scale( d, thick * 0.4f ) );
-        out.quad( p0, p1, p2, p3, inks[s], Mat{ 0.25f, 0.0f } );
-        out.quad( p3, p2, p1, p0, inks[s], Mat{ 0.25f, 0.0f } );
-    }
+        for( const auto &[a, b] : strokes )
+        {
+            const Vector3 p = { origin.x - a.x * scale, origin.y + a.y * scale, origin.z }, q = { origin.x - b.x * scale, origin.y + b.y * scale, origin.z };
+            Vector3       d = Vector3Subtract( q, p );
+            const float   len = Vector3Length( d );
+            d = len > 1e-4f ? Vector3Scale( d, 1.0f / len ) : Vector3{ 1, 0, 0 };
+            const Vector3 n = { -d.y * thick * 0.5f, d.x * thick * 0.5f, 0 };
+            const Vector3 p0 = Vector3Subtract( Vector3Subtract( p, n ), Vector3Scale( d, thick * 0.4f ) ), p1 = Vector3Add( Vector3Subtract( q, n ), Vector3Scale( d, thick * 0.4f ) );
+            const Vector3 p2 = Vector3Add( Vector3Add( q, n ), Vector3Scale( d, thick * 0.4f ) ), p3 = Vector3Subtract( Vector3Add( p, n ), Vector3Scale( d, thick * 0.4f ) );
+            out.quad( p0, p1, p2, p3, inks[s], Mat{ 0.25f, 0.0f } );
+            out.quad( p3, p2, p1, p0, inks[s], Mat{ 0.25f, 0.0f } );
+        }
+    };
+    const float base = lift + cap * 0.6f;
+    ink( lines, Vector3{ w * 0.5f, base, -0.04f }, cap, cap * 0.15f );
+    if( local ) ink( local->m_lines, Vector3{ lw * 0.5f, base + cap * 1.55f - local->m_low * em, -0.04f }, em, em * 0.08f );
 }
 
 void buildSpeedSign( MeshBuilder &out, int limit, bool board )

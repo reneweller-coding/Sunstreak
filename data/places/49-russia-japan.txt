@@ -2,6 +2,7 @@
 # from Kyushu to Hokkaido.
 
 place CHUKOTKA | WHALE BONE ALLEY | RUSSIA | ARCTIC | FAR EAST
+    local КИТОВАЯ АЛЛЕЯ
     sea 1 0 -4
     water 3A5A70
     land 7A7A68 6E6E5E 9A9A90
@@ -19,6 +20,7 @@ place CHUKOTKA | WHALE BONE ALLEY | RUSSIA | ARCTIC | FAR EAST
     landmark WHALE_BONE_ALLEY 20 40
 
 place YAKUTIA | LENA PILLARS | RUSSIA | GOLDEN | FAR EAST
+    local ЛЕНСКИЕ СТОЛБЫ
     sea 0 1 -10
     water 3A5A6A
     land 6A8A50 607E48 5A7050
@@ -31,6 +33,7 @@ place YAKUTIA | LENA PILLARS | RUSSIA | GOLDEN | FAR EAST
     p REINDEER 0.008 15 100
 
 place PRIMORSKY | VLADIVOSTOK | RUSSIA | MORNING | FAR EAST
+    local ВЛАДИВОСТОК
     sea 1 1 -8
     water 2A5A7A
     land 6A9A50 609048 6A8A58
@@ -46,6 +49,7 @@ place PRIMORSKY | VLADIVOSTOK | RUSSIA | MORNING | FAR EAST
     c 7A5A3A 4A6A5A
 
 place TUVA | TUVA STEPPE | RUSSIA | MORNING | SIBERIA
+    local ТУВА
     land 8AA058 7E9450 9A9A68
     ranges 7A7A70 E8ECF2 9
     hills 12 3 3
@@ -59,6 +63,7 @@ place TUVA | TUVA STEPPE | RUSSIA | MORNING | SIBERIA
     c 7A5A3A 4A6A5A
 
 place NOVOSIBIRSK | NOVOSIBIRSK | RUSSIA | WINTER | SIBERIA
+    local НОВОСИБИРСК
     pollution 68
     snow 0.4
     sea 0 1 -8
@@ -76,6 +81,7 @@ place NOVOSIBIRSK | NOVOSIBIRSK | RUSSIA | WINTER | SIBERIA
     c 7A5A3A 4A6A5A
 
 place URAL | URAL MOUNTAINS | RUSSIA | MORNING | URALS
+    local УРАЛЬСКИЕ ГОРЫ
     land 5E8A44 56803E 507A48
     hills 28 10 10
     drive 2 0.4 0.95 22
@@ -89,6 +95,7 @@ place URAL | URAL MOUNTAINS | RUSSIA | MORNING | URALS
     c 7A5A3A 4A6A5A
 
 place KAZAN | KAZAN | RUSSIA | MORNING | VOLGA
+    local КАЗАНЬ
     sea 0 1 -6
     water 4A6A80
     land 6A9A50 609048 6A8A58
@@ -104,6 +111,7 @@ place KAZAN | KAZAN | RUSSIA | MORNING | VOLGA
     c 7A5A3A 4A6A5A
 
 place VOLGOGRAD | VOLGOGRAD | RUSSIA | NOON | SOUTHERN RUSSIA
+    local ВОЛГОГРАД
     sea 0 1 -6
     water 5A7A8A
     land 9AA060 8E9458 A09A6A
@@ -118,6 +126,7 @@ place VOLGOGRAD | VOLGOGRAD | RUSSIA | NOON | SOUTHERN RUSSIA
     c 7A5A3A 4A6A5A
 
 place KARELIA | KIZHI | RUSSIA | MIST | NORTHWEST RUSSIA
+    local КИЖИ
     sea 1 0 -2
     water 3A5A6A
     land 5E8A44 56803E 507A48
@@ -133,6 +142,7 @@ place KARELIA | KIZHI | RUSSIA | MIST | NORTHWEST RUSSIA
     c 7A5A3A 4A6A5A
 
 place MURMANSK | TERIBERKA | RUSSIA | ARCTIC | NORTHWEST RUSSIA
+    local ТЕРИБЕРКА
     sea 1 0 -10
     water 2A4A60
     land 6A7A60 5E6E56 8A8A80
@@ -146,6 +156,7 @@ place MURMANSK | TERIBERKA | RUSSIA | ARCTIC | NORTHWEST RUSSIA
     p REINDEER 0.01 15 100
 
 place KALININGRAD | AMBER COAST | RUSSIA | OVERCAST | NORTHWEST RUSSIA
+    local КАЛИНИНГРАД
     sea 1 0 -4
     water 4A6A7A
     land E0D8B8 D4CCAC 6A8A50
@@ -161,6 +172,7 @@ place KALININGRAD | AMBER COAST | RUSSIA | OVERCAST | NORTHWEST RUSSIA
     c 7A5A3A 4A6A5A
 
 place SOCHI | SOCHI | RUSSIA | NOON | SOUTHERN RUSSIA
+    local СОЧИ
     sea 1 0 -8
     water 1E7AA0
     land 5E9A48 549040 5E8A50
@@ -175,6 +187,7 @@ place SOCHI | SOCHI | RUSSIA | NOON | SOUTHERN RUSSIA
     p CYPRESS 0.06 4 60
 
 place DAGESTAN | SULAK CANYON | RUSSIA | ALPINE | NORTH CAUCASUS
+    local СУЛАКСКИЙ КАНЬОН
     land 8A9A58 7E8E50 9A8A68
     ranges 7A7470 E8E8EC 12
     hills 50 30 -24
@@ -188,6 +201,7 @@ place DAGESTAN | SULAK CANYON | RUSSIA | ALPINE | NORTH CAUCASUS
     c 7A5A3A 4A6A5A
 
 place NAGASAKI | NAGASAKI | JAPAN | MORNING | KYUSHU
+    local 長崎
     island KYUSHU
     sea 1 0 -8
     water 2A6A8A
@@ -205,6 +219,7 @@ place NAGASAKI | NAGASAKI | JAPAN | MORNING | KYUSHU
     c 6A4A32 3A3E44
 
 place SAKURAJIMA | SAKURAJIMA | JAPAN | HAZE | KYUSHU
+    local 桜島
     island KYUSHU
     sea 1 0 -6
     water 2A6A80
@@ -220,6 +235,7 @@ place SAKURAJIMA | SAKURAJIMA | JAPAN | HAZE | KYUSHU
     c 6A4A32 3A3E44
 
 place ASO | MOUNT ASO | JAPAN | MORNING | KYUSHU
+    local 阿蘇山
     island KYUSHU
     land 8AB050 7EA448 8AA060
     hills 20 6 6
@@ -231,6 +247,7 @@ place ASO | MOUNT ASO | JAPAN | MORNING | KYUSHU
     p HORSE 0.01 10 120
 
 place SHIMANAMI | SHIMANAMI KAIDO | JAPAN | NOON | SHIKOKU
+    local しまなみ海道
     island SHIKOKU
     sea 1 1 -20
     water 2A7AA8
@@ -247,6 +264,7 @@ place SHIMANAMI | SHIMANAMI KAIDO | JAPAN | NOON | SHIKOKU
     c 6A4A32 3A3E44
 
 place HIMEJI | HIMEJI | JAPAN | MORNING | KANSAI
+    local 姫路
     land 6A9A48 609040 6A8A58
     drive 3 0.9 0.98 9
     bends 0.3 0.3 0.15
@@ -260,6 +278,7 @@ place HIMEJI | HIMEJI | JAPAN | MORNING | KANSAI
     c 6A4A32 3A3E44
 
 place OSAKA | OSAKA | JAPAN | NIGHT | KANSAI
+    local 大阪
     pollution 47
     sea 0 1 -5
     water 1A2A40
@@ -275,6 +294,7 @@ place OSAKA | OSAKA | JAPAN | NIGHT | KANSAI
     c F2F0EA 3A7A5A
 
 place KANAZAWA | KANAZAWA | JAPAN | RAIN | CHUBU
+    local 金沢
     rain 0.25
     land 5E9A48 549040 5E8A50
     drive 2 0.6 0.95 9
@@ -289,6 +309,7 @@ place KANAZAWA | KANAZAWA | JAPAN | RAIN | CHUBU
     c 6A4A32 3A3E44
 
 place NAGANO | MATSUMOTO | JAPAN | ALPINE | CHUBU
+    local 松本
     land 6AA048 609440 6A8A58
     ranges 6A7080 F2F4F8 13
     hills 30 10 10
@@ -303,6 +324,7 @@ place NAGANO | MATSUMOTO | JAPAN | ALPINE | CHUBU
     c 6A4A32 3A3E44
 
 place MATSUSHIMA | MATSUSHIMA BAY | JAPAN | MORNING | TOHOKU
+    local 松島
     sea 1 0 -4
     water 2A6A8A
     land 5E9A48 549040 5E8A50
@@ -317,6 +339,7 @@ place MATSUSHIMA | MATSUSHIMA BAY | JAPAN | MORNING | TOHOKU
     floating
 
 place AOMORI | AOMORI | JAPAN | WINTER | TOHOKU
+    local 青森
     snow 0.5
     sea 1 0 -6
     water 4A6A7A

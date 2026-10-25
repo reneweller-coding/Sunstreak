@@ -5,6 +5,8 @@
  */
 #include "World.h"
 
+#include "ScriptNames.h"
+
 #include "Festival.h"
 #include "Local.h"
 
@@ -1395,7 +1397,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 if( local == 7 && side == driver && place.m_name )
                 {
                     MeshBuilder sign;
-                    buildPlaceSign( sign, place.m_name, nation.m_townSign );
+                    buildPlaceSign( sign, place.m_name, nation.m_townSign, 0.42f, 1.4f, true, scriptName( track.stageBiome( static_cast<int>( stage ) ) ) );
                     const float l = side * ( A.m_edge + 2.4f );
                     props.append( sign, at( A, l, 0.0f ), A.m_heading, 1.0f );
                     c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, l, 0.6f } );

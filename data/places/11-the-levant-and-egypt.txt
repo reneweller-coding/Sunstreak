@@ -6,6 +6,7 @@
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
 place WADI_RUM | WADI RUM | JORDAN | GOLDEN
+    local وادي رم
     land D87A48 CC7042 D89060
     verge C87048
     drive 2 0.1 0.95 7
@@ -21,6 +22,7 @@ place WADI_RUM | WADI RUM | JORDAN | GOLDEN
     landmark PETRA_TREASURY 60 100
 
 place DEAD_SEA | DEAD SEA | JORDAN | HAZE
+    local البحر الميت
     fog 0.0025 C8C0B0
     sea 0 1 -8
     water 6AA8B0
@@ -34,6 +36,7 @@ place DEAD_SEA | DEAD SEA | JORDAN | HAZE
     p ROCK 0.05 3 60
 
 place GIZA | GIZA PLATEAU | EGYPT | DESERT | GIZA
+    local الجيزة
     land DCC090 D0B488 D8BC90
     verge D0B488
     drive 3 0.8 0.97 7
@@ -47,6 +50,7 @@ place GIZA | GIZA PLATEAU | EGYPT | DESERT | GIZA
     landmark SPHINX 40 80
 
 place NILE_VALLEY | NILE VALLEY | EGYPT | NOON | MINYA
+    local وادي النيل
     sea 0 1 -4
     water 3A6A80
     land 6AA048 5E9440 D8BC90
@@ -65,6 +69,7 @@ place NILE_VALLEY | NILE VALLEY | EGYPT | NOON | MINYA
     v 2
 
 place WHITE_DESERT | WHITE DESERT | EGYPT | DESERT | NEW VALLEY
+    local الصحراء البيضاء
     land EAE4D4 E0D8C6 D8CCB0
     verge E0D8C6
     ranges E0D6C0 F0EAE0 3
@@ -76,6 +81,7 @@ place WHITE_DESERT | WHITE DESERT | EGYPT | DESERT | NEW VALLEY
     c E8D8B8
 
 place CEDARS | CEDAR MOUNTAINS | LEBANON | ALPINE
+    local الأرز
     land 7A9A58 6E8E50 8A8E70
     ranges 8A8A90 F0F2F6 10
     hills 40 10 10

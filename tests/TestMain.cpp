@@ -15,6 +15,7 @@
 #include "Police.h"
 #include "Race.h"
 #include "Records.h"
+#include "ScriptNames.h"
 #include "Spectacle.h"
 #include "Track.h"
 #include "Train.h"
@@ -844,6 +845,17 @@ int main()
         }
     }
     check( trackTitle( 42 ) == trackTitle( 42 ) && trackTitle( 42 ).size() > 6, "track titles" );
+    { // Every place that writes in its own script has its name traced for the signs (tools/make_signs.py).
+        int locals = 0, traced = 0;
+        for( int b = 0; b < biomeCount(); ++b )
+            if( biomeDef( static_cast<BiomeE>( b ) ).m_local )
+            {
+                ++locals;
+                traced += scriptName( static_cast<BiomeE>( b ) ) != nullptr;
+            }
+        std::printf( "      %d places in their own script, %d traced\n", locals, traced );
+        check( locals > 200 && traced == locals && scriptNameErrors() == 0, "place names in their own script" );
+    }
 
     std::printf( "%d failure(s)\n", g_failures );
     return g_failures;

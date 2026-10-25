@@ -116,7 +116,9 @@ its country (HILL COUNTRY - TEXAS - USA): all fifty states of the United States 
 Lander, every province and territory of Canada, every state and territory of Australia, every region of France and
 Italy, every community of Spain, every state of Brazil, Mexico and India, every province of Argentina and China, every
 province of South Africa, and many of Russia, Japan, Indonesia and some forty more countries. Where a state or province
-begins, a sign says so. The famous roads have their
+begins, a sign says so. Where the country writes in its own script, the place sign is bilingual, the name in that
+script above the Latin one: Cyrillic, Greek, Georgian, Armenian, Hebrew, Arabic and Persian, the scripts of India by
+state, Sinhala, Thaana, Thai, Lao, Khmer, Burmese, Ge'ez, Chinese, Japanese and Korean. The famous roads have their
 own: the Stelvio, the Transfagarasan, the Atlantic Road, Trollstigen, the Nordschleife, the Yungas Road, the Road of
 Bones, the Dalton Highway beside its pipeline, the Nullarbor with its kangaroo, camel and cow signs, Bonneville, the
 Tail of the Dragon and the Road to Hana. Twenty-eight of them are legendary roads: a banner when they begin, your best
@@ -416,5 +418,9 @@ viewer, every landmark and creature alone under its first place's sky, to turn a
 - `journeys.txt`: the journeys, from a place of the route to another.
 - `world/countries.txt`, `world/provinces.txt`: the outlines for the passport's map, from Natural Earth (public domain),
   made by `tools/make_world_outlines.py` from its `ne_50m_admin_0_countries` and `ne_10m_admin_1_states_provinces`.
+- `script-names.txt`: the places' names in their own script (their `local` step) as strokes for the place signs, made
+  by `tools/make_signs.py`: it sets each name in the Noto font of its script (shaped by HarfBuzz through Pillow), thins
+  the letters to their centre lines and follows them. The Noto fonts are under the SIL Open Font License 1.1, and so
+  are the strokes (`docs/OFL-Noto.txt`). Run it again after changing a `local` step.
 
 The icon (`res/sunstreak.ico` for the Windows program, `src/IconPng.h` for the window) is drawn by `tools/make_icon.py`.

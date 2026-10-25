@@ -6,6 +6,7 @@
 # Colours are RRGGBB. New places go at the end of the last file (their numbers follow the order).
 
 place HONG_KONG | HONG KONG | CHINA | HAZE | HONG KONG
+    local 香港
     pollution 66
     sea 1 0 -6
     water 3A6A80
@@ -37,6 +38,7 @@ place HONG_KONG | HONG KONG | CHINA | HAZE | HONG KONG
     c B02020 3A3A40
 
 place GUILIN | GUILIN | CHINA | MIST | GUANGXI
+    local 桂林
     sea 0 1 -3
     water 4A8A7A
     land 6AA44C 609844 5E8E4E
@@ -54,6 +56,7 @@ place GUILIN | GUILIN | CHINA | MIST | GUANGXI
     floating
 
 place ZHANGJIAJIE | ZHANGJIAJIE | CHINA | MIST | HUNAN
+    local 张家界
     fog 0.004
     land 4E8A44 467E3E 4A7A48
     hills 40 20 -10
@@ -64,6 +67,7 @@ place ZHANGJIAJIE | ZHANGJIAJIE | CHINA | MIST | HUNAN
     p PINE 0.2 4 80
 
 place BAMBOO_SEA | BAMBOO SEA | CHINA | MIST | SICHUAN
+    local 蜀南竹海
     land 5A9A44 50903E 4E8848
     hills 30 8 8
     drive 2 0.3 0.96 3
@@ -78,6 +82,7 @@ place BAMBOO_SEA | BAMBOO SEA | CHINA | MIST | SICHUAN
     c B02020 3A3A40
 
 place TIBET | TIBET | CHINA | ALPINE | TIBET
+    local 西藏
     sky 1E5ACC A8C8E8
     land A89A70 9C8E68 8A8A70
     hills 20 6 6 0.15
@@ -96,6 +101,7 @@ place TIBET | TIBET | CHINA | ALPINE | TIBET
     c B02020 3A3A40
 
 place ANHUI_VILLAGES | ANHUI VILLAGES | CHINA | MIST | ANHUI
+    local 皖南古村落
     land 6AAA48 60A042 6A9A50
     fields 0.6 F0D830 7AAA48 8AB050
     hills 14 4 4 0.2
@@ -109,6 +115,7 @@ place ANHUI_VILLAGES | ANHUI VILLAGES | CHINA | MIST | ANHUI
     c B02020 3A3A40
 
 place SHANGHAI | SHANGHAI | CHINA | NIGHT | SHANGHAI
+    local 上海
     pollution 68
     sea 0 1 -6
     water 1A2A40
@@ -126,6 +133,7 @@ place SHANGHAI | SHANGHAI | CHINA | NIGHT | SHANGHAI
     p SUPERTALL 0.002 200 400
 
 place GREAT_WALL | GREAT WALL | CHINA | MORNING | HEBEI
+    local 长城
     land 8A9A5A 7E8E52 8A8A62
     hills 50 24 24
     drive 2 0.3 0.97 3
@@ -140,6 +148,7 @@ place GREAT_WALL | GREAT WALL | CHINA | MORNING | HEBEI
     p ROCK 0.05 3 60
 
 place GOBI | GOBI DESERT | MONGOLIA | DESERT | OMNOGOVI
+    local ГОВЬ
     land B8A078 AC9470 A89A78
     hills 10 2 2
     drive 2 0.1 0.95 3
@@ -153,6 +162,7 @@ place GOBI | GOBI DESERT | MONGOLIA | DESERT | OMNOGOVI
     c 8A8A5A
 
 place MONGOLIAN_STEPPE | MONGOLIAN STEPPE | MONGOLIA | MORNING | ARKHANGAI
+    local АРХАНГАЙ
     land 7AA850 6E9C48 8AA460
     hills 20 3 3
     drive 2 0.15 0.98 3
@@ -163,6 +173,7 @@ place MONGOLIAN_STEPPE | MONGOLIAN STEPPE | MONGOLIA | MORNING | ARKHANGAI
     p YAK 0.02 10 150
 
 place HANOK_VILLAGE | HANOK VILLAGE | SOUTH KOREA | GOLDEN
+    local 한옥마을
     land 8A9A58 7E8E50 8A8A62
     ranges 6A7A70 9AA8A8 8
     drive 2 0.5 0.98 1
@@ -176,6 +187,7 @@ place HANOK_VILLAGE | HANOK VILLAGE | SOUTH KOREA | GOLDEN
     p PINE 0.05 10 100
 
 place JEJU | JEJU | SOUTH KOREA | MORNING
+    local 제주
     island JEJU
     sea 1 0 -4
     water 2A7A9A
@@ -192,6 +204,7 @@ place JEJU | JEJU | SOUTH KOREA | MORNING
     c 4A4844 8A7A5A
 
 place MOUNT_FUJI | MOUNT FUJI | JAPAN | MORNING | CHUBU
+    local 富士山
     land 6AA048 609440 76965A
     hills 16 4 4
     drive 2 0.6 1.0 0
@@ -208,6 +221,7 @@ place MOUNT_FUJI | MOUNT FUJI | JAPAN | MORNING | CHUBU
     c 6A4A32 3A3E44
 
 place KYOTO | KYOTO | JAPAN | GOLDEN | KANSAI
+    local 京都
     land 7A9A58 6E8E50 7A8A62
     hills 20 6 6
     drive 2 0.6 0.98 0
@@ -224,6 +238,7 @@ place KYOTO | KYOTO | JAPAN | GOLDEN | KANSAI
     c 6A4A32 3A3E44
 
 place SHIRAKAWA_GO | SHIRAKAWA-GO | JAPAN | WINTER | CHUBU
+    local 白川郷
     windows FFD696
     land E8ECF2 DCE2EA D8DEE8
     ranges B8C0CC D8DEE8 9
@@ -237,6 +252,7 @@ place SHIRAKAWA_GO | SHIRAKAWA-GO | JAPAN | WINTER | CHUBU
     c 6A4A32 3A3E44
 
 place TOKYO | TOKYO | JAPAN | NIGHT | KANTO
+    local 東京
     pollution 42
     land 2A2A30 26262C 222228
     drive 3 1.4 1.0 1
@@ -259,6 +275,7 @@ place TOKYO | TOKYO | JAPAN | NIGHT | KANTO
     c 6A4A32 3A3E44
 
 place FURANO | FURANO FIELDS | JAPAN | MORNING | HOKKAIDO
+    local 富良野
     island HOKKAIDO
     land 7AAE50 70A048 86A860
     fields 0.8 9A6AC8 E84A6A F0D040
@@ -275,6 +292,7 @@ place FURANO | FURANO FIELDS | JAPAN | MORNING | HOKKAIDO
     c 6A4A32 3A3E44
 
 place TAROKO | TAROKO GORGE | TAIWAN | MIST
+    local 太魯閣
     sea 0 1 -24
     water 5AB0B0
     land 4E8A3A 468034 4A7A44
@@ -291,6 +309,7 @@ place TAROKO | TAROKO GORGE | TAIWAN | MIST
     p PAGODA 0.003 30 150
 
 place TIANMEN | TIANMEN MOUNTAIN | CHINA | MIST | HUNAN
+    local 天门山
     serpentine 33
     summit 1300 TIANMEN
     legend 99 BENDS UP TO HEAVEN'S GATE
@@ -310,6 +329,7 @@ place TIANMEN | TIANMEN MOUNTAIN | CHINA | MIST | HUNAN
     p TEMPLE_GATE 0.003 10 60
 
 place ZHANGYE | RAINBOW MOUNTAINS | CHINA | DESERT | GANSU
+    local 张掖丹霞
     land D8945E CC8856 D8A070
     verge C87A50
     hills 24 10 10
@@ -325,6 +345,7 @@ place ZHANGYE | RAINBOW MOUNTAINS | CHINA | DESERT | GANSU
     c 8A8A50
 
 place GUOLIANG | GUOLIANG TUNNEL | CHINA | MORNING | HENAN
+    local 郭亮挂壁公路
     land 6A9448 608A40 6A8458
     verge A89A88
     hills 60 70 60
@@ -341,6 +362,7 @@ place GUOLIANG | GUOLIANG TUNNEL | CHINA | MORNING | HENAN
     c B02020 3A3A40
 
 place HUANGSHAN | HUANGSHAN | CHINA | MIST | ANHUI
+    local 黄山
     fog 0.004 E0E4E6
     land 4E8A3A 468034 4A7A44
     verge 9A9890
@@ -356,6 +378,7 @@ place HUANGSHAN | HUANGSHAN | CHINA | MIST | ANHUI
     c B02020 3A3A40
 
 place BEIJING | BEIJING | CHINA | HAZE | BEIJING
+    local 北京
     pollution 77
     fog 0.0024
     land 6A7A5A 627252 6A6A5E
@@ -377,6 +400,7 @@ place BEIJING | BEIJING | CHINA | HAZE | BEIJING
     c B02020 3A3A40
 
 place HARBIN | HARBIN | CHINA | NIGHT | HEILONGJIANG
+    local 哈尔滨
     snow 0.25
     land D8DEE8 CCD4DE C0C8D4
     verge C8D0DA
@@ -394,6 +418,7 @@ place HARBIN | HARBIN | CHINA | NIGHT | HEILONGJIANG
     c B02020 3A3A40
 
 place KUMGANG | KUMGANG MOUNTAINS | NORTH KOREA | MORNING
+    local 금강산
     land 5E9446 568A40 5E8450
     verge C8C4B8
     hills 50 30 20
@@ -409,6 +434,7 @@ place KUMGANG | KUMGANG MOUNTAINS | NORTH KOREA | MORNING
     v 1
 
 place SEOUL | SEOUL | SOUTH KOREA | DUSK
+    local 서울
     pollution 48
     sea 0 0.4 -6
     water 3A5A7A
@@ -429,6 +455,7 @@ place SEOUL | SEOUL | SOUTH KOREA | DUSK
     p NEON_PILLAR 0.01 4 20
 
 place HAKONE | HAKONE TURNPIKE | JAPAN | MORNING | KANTO
+    local 箱根ターンパイク
     land 5E9446 568A40 5E8450
     hills 40 30 -20
     drive 2 0.5 0.98 8
@@ -443,6 +470,7 @@ place HAKONE | HAKONE TURNPIKE | JAPAN | MORNING | KANTO
     p LANTERN 0.01 3 8
 
 place IROHAZAKA | IROHAZAKA | JAPAN | GOLDEN | KANTO
+    local いろは坂
     serpentine 24
     summit 1269 CHUZENJI
     legend 48 HAIRPINS NAMED AFTER THE IROHA POEM
@@ -461,6 +489,7 @@ place IROHAZAKA | IROHAZAKA | JAPAN | GOLDEN | KANTO
     c 6A4A32 3A3E44
 
 place MIYAJIMA | MIYAJIMA | JAPAN | MORNING | CHUGOKU
+    local 宮島
     sea 0 1 -2
     water 3A7A8A
     land 5E9446 568A40 5E8450
@@ -480,6 +509,7 @@ place MIYAJIMA | MIYAJIMA | JAPAN | MORNING | CHUGOKU
     c 6A4A32 3A3E44
 
 place OKINAWA | OKINAWA | JAPAN | TROPICAL | KYUSHU
+    local 沖縄
     island OKINAWA
     sea 1 1 -2
     water 30C8D0
