@@ -142,6 +142,10 @@ Thailand, a red knot in China, pompoms in Mexico, a blue eye charm in Turkey, a 
 Now and then a hitchhiker waits by the road, thumb out: slow down beside them and they get in with a hello in their
 language, then take them to the next place before their patience runs out (+3000 and five seconds, and their thanks:
 DANKE, ARIGATO, SHUKRAN, ASANTE ...); too slow and they get out at the roadside.
+Now and then a local hero turns up beside you before a checkpoint, in a car of your class, and challenges you to the next
+one in their language (WETTEN, DASS NICHT? / SHOUBU DA! / EAT MY DUST!). Beat them there for +5000 and five seconds and a
+grumble (MIST! / KUSO!); let them win and they taunt you (LAHME ENTE! / OSOI! / SUNDAY DRIVER!). What everyone says,
+and the heroes' first names, are in data/phrases.txt.
 Every few kilometres an ambulance or a fire engine of the country comes along on a run, lights flashing and siren
 going: yellow and green checks in Britain, day-glo red stripes in Germany, the red crescent in the Gulf, a red pumper
 in the United States. The traffic ahead of it pulls over; keep out of its way when it overtakes and you earn +1000.
@@ -316,7 +320,7 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --shape-tour N                with --screen viewer: photograph N models from there on, one picture each, saved
                                   as the --screenshot prefix followed by the model's name
     --camera 0..3                 chase, far, bumper or cockpit camera
-    --find tunnel|bridge|landmark|landmark2|fork|sea|seain|seaout|ferry|jump|hitchhiker
+    --find tunnel|bridge|landmark|landmark2|fork|sea|seain|seaout|ferry|jump|hitchhiker|hero
                                  start just before the first tunnel, bridge, landmark (or the second), fork, undersea
                                  portal (or inside, or before its far portal), ferry or crest
     --season spring|summer|autumn|winter   that season (testing)

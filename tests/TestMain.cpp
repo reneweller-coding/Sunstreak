@@ -7,8 +7,10 @@
 #include "Achievements.h"
 #include "Car.h"
 #include "Data.h"
+#include "Hero.h"
 #include "Game.h"
 #include "Passenger.h"
+#include "Phrases.h"
 #include "Police.h"
 #include "Race.h"
 #include "Records.h"
@@ -453,6 +455,48 @@ int main()
                        std::abs( biomeDef( static_cast<BiomeE>( japan ) ).m_laneWidth - 3.0f ) < 0.01f && concrete > 10 && studs > 10 &&
                        countryInfo( "THAILAND" ).m_lines == 1 && countryInfo( "UAE" ).m_lines == 3,
                    "the roads of the countries" );
+        }
+        { // The local hero: one stage in three; a fast car beats them to the checkpoint, a dawdling one loses.
+            TrackParams world;
+            world.m_biome = SceneryWorld;
+            Track tour( 9, world );
+            int   duels = 0;
+            for( int st = 0; st < 60; ++st )
+            {
+                double cp = 0.0;
+                tour.generateTo( static_cast<double>( st + 1 ) * StageLength + 3000.0 );
+                duels += stageHero( tour, st, cp ) ? 1 : 0;
+            }
+            auto duel = [&]( float pace, bool &won, bool &lost )
+            {
+                won = lost = false;
+                PlayerCar car;
+                car.reset( carSpec( 0 ), StartLine, 0.0f, tour );
+                int    st = 0;
+                double cp = 0.0;
+                while( st < 60 && !stageHero( tour, st, cp ) ) ++st;
+                car.m_s = cp - 650.0;
+                Traffic   none;
+                LocalHero hero;
+                for( int k = 0; k < 60 * 400 && !won && !lost; ++k )
+                {
+                    tour.generateTo( car.m_s + 3000.0 );
+                    car.m_speed = hero.m_state == HeroStateE::DUEL ? pace : 40.0f;
+                    HeroEvents ev;
+                    hero.update( 1.0f / 60.0f, tour, car, none, true, ev );
+                    won = won || ev.m_won;
+                    lost = lost || ev.m_lost;
+                    car.m_s += static_cast<double>( car.m_speed ) / 60.0;
+                }
+            };
+            bool fastWon = false, fastLost = false, slowWon = false, slowLost = false;
+            duel( carSpec( 0 ).m_topSpeed, fastWon, fastLost );
+            duel( 25.0f, slowWon, slowLost );
+            const Phrases &jp = phrasesOf( "JAPAN" );
+            std::printf( "      %d duels in 60 stages; flat out won %d, at 90 km/h lost %d; Japan: %s / %s; %d phrase errors\n", duels, fastWon, slowLost,
+                         jp.m_challenge.c_str(), jp.m_taunt.c_str(), phraseErrors() );
+            check( duels >= 10 && duels <= 32 && fastWon && !fastLost && slowLost && !slowWon && phraseErrors() == 0 && jp.m_taunt == "OSOI!",
+                   "the local hero's duel" );
         }
         { // Achievements: none for a new driver, GETAWAY and MAKE WAY when earned, kept in the records file.
             Records r;

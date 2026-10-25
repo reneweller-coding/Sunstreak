@@ -930,6 +930,7 @@ void Game::draw()
         const float   wobble = r.m_hitTimer > 0.0f ? std::sin( r.m_hitTimer * 25.0f ) * 0.08f * r.m_hitTimer : 0.0f;
         in.m_cars.push_back( { r.m_s, r.m_x, r.m_yaw + wobble, d.m_car, d.m_paint, 1.0f } );
     }
+    if( m_hero.m_state != HeroStateE::NONE ) in.m_cars.push_back( { m_hero.m_s, m_hero.m_x, m_hero.m_yaw, m_hero.m_car, m_hero.m_paint, 1.0f } );
     if( m_police.m_state != PoliceStateE::NONE && m_police.m_model >= 0 )
         in.m_police.push_back( { m_police.m_s, m_police.m_x, m_police.m_yaw, m_police.m_model,
                                  m_police.m_state == PoliceStateE::CHASE ? static_cast<int>( m_time * 6.0f ) & 1 : -1 } );
@@ -2658,18 +2659,27 @@ void Game::drawHud()
              Dim, AlignE::RIGHT );
         txt( format( "OVERTAKES %d", m_overtakes ), W - 28.0f * u, 38.0f * u, 13.0f * u, Ink, AlignE::RIGHT );
         if( m_combo > 1 ) drawTextFx( format( "COMBO X%d", m_combo ), W - 28.0f * u, 62.0f * u, 20.0f * u, Cyan, AlignE::RIGHT, 0.8f );
+        if( m_hero.m_state == HeroStateE::DUEL )
+        {
+            // The duel: who leads, how far to go.
+            const double lead = m_car.m_s - m_hero.m_s;
+            drawTextFx( format( "DUEL WITH %s  %s%d M  %.1f KM TO GO", m_hero.m_name.c_str(), lead >= 0.0 ? "+" : "-", static_cast<int>( std::abs( lead ) ),
+                                std::max( 0.0, m_hero.m_goal - m_car.m_s ) / 1000.0 ),
+                        28.0f * u, row( 124.0f ), 12.0f * u, lead >= 0.0 ? Green : Red, AlignE::LEFT, 0.3f );
+        }
         if( m_passenger.m_state == PassengerStateE::ABOARD )
         {
             // The passenger: where to, how far, how long.
             const bool  hurry = m_passenger.m_timeLeft < 15.0f && ( static_cast<int>( m_time * 4.0f ) & 1 );
             const float km = static_cast<float>( std::max( 0.0, m_passenger.m_destS - m_car.m_s ) / 1000.0 );
-            drawTextFx( format( "PASSENGER TO %s   %.1f KM   %s", placeName( m_passenger.m_to ).c_str(), km, clockText( m_passenger.m_timeLeft ).c_str() ),
-                        W * 0.5f, 150.0f * u, 14.0f * u, hurry ? Red : Accent, AlignE::CENTER, 0.4f );
+            const char *to = biomeDef( m_passenger.m_to ).m_name;
+            drawTextFx( format( "PASSENGER TO %s  %.1f KM  %s", to ? to : "", km, clockText( m_passenger.m_timeLeft ).c_str() ), 28.0f * u, row( 142.0f ),
+                        12.0f * u, hurry ? Red : Accent, AlignE::LEFT, 0.3f );
         }
         else if( m_passenger.m_state == PassengerStateE::WAITING && m_passenger.m_s - m_car.m_s < 500.0 && m_passenger.m_s > m_car.m_s - 10.0 )
         {
-            drawTextFx( format( "HITCHHIKER AHEAD %d M   STOP BESIDE THEM", static_cast<int>( std::max( 0.0, m_passenger.m_s - m_car.m_s ) ) ), W * 0.5f,
-                        150.0f * u, 14.0f * u, Cyan, AlignE::CENTER, 0.4f );
+            drawTextFx( format( "HITCHHIKER AHEAD %d M  STOP BESIDE THEM", static_cast<int>( std::max( 0.0, m_passenger.m_s - m_car.m_s ) ) ), 28.0f * u,
+                        row( 142.0f ), 12.0f * u, Cyan, AlignE::LEFT, 0.3f );
         }
         if( m_police.m_state == PoliceStateE::CHASE )
         {

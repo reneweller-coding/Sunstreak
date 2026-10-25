@@ -6,70 +6,13 @@
 #include "Passenger.h"
 
 #include "Local.h"
+#include "Phrases.h"
 #include "Rng.h"
 
 #include <cmath>
-#include <cstring>
-#include <string_view>
 
 namespace sunstreak
 {
-
-namespace
-{
-
-/** @brief A country's words for hello and thank you. */
-struct Words
-{
-    const char *m_hello;    ///< hello
-    const char *m_thanks;   ///< thank you
-};
-
-/**
- * @brief The words of a country: by name, else by the language its region speaks, else English.
- * @param[in] country  its name (nullptr: none)
- * @return them
- */
-Words wordsOf( const char *country )
-{
-    if( !country ) return { "HELLO", "THANKS" };
-    static const std::pair<const char *, Words> named[] = {
-        { "GERMANY", { "HALLO", "DANKE" } }, { "AUSTRIA", { "SERVUS", "DANKE" } }, { "SWITZERLAND", { "GRUEZI", "MERCI VIELMAL" } },
-        { "LIECHTENSTEIN", { "HOI", "DANKE" } }, { "FRANCE", { "BONJOUR", "MERCI" } }, { "BELGIUM", { "BONJOUR", "MERCI" } },
-        { "LUXEMBOURG", { "MOIEN", "MERCI" } }, { "MONACO", { "BONJOUR", "MERCI" } }, { "NETHERLANDS", { "HALLO", "DANK JE" } },
-        { "ITALY", { "CIAO", "GRAZIE" } }, { "SAN MARINO", { "CIAO", "GRAZIE" } }, { "VATICAN", { "SALVE", "GRAZIE" } },
-        { "SPAIN", { "HOLA", "GRACIAS" } }, { "PORTUGAL", { "OLA", "OBRIGADO" } }, { "BRAZIL", { "OI", "OBRIGADO" } },
-        { "ENGLAND", { "HELLO", "CHEERS" } }, { "SCOTLAND", { "HIYA", "CHEERS" } }, { "WALES", { "SHWMAE", "DIOLCH" } },
-        { "IRELAND", { "DIA DUIT", "GO RAIBH MAITH AGAT" } }, { "AUSTRALIA", { "G'DAY", "CHEERS MATE" } }, { "NEW ZEALAND", { "KIA ORA", "CHEERS" } },
-        { "JAPAN", { "KONNICHIWA", "ARIGATO" } }, { "CHINA", { "NI HAO", "XIE XIE" } }, { "TAIWAN", { "NI HAO", "XIE XIE" } },
-        { "SOUTH KOREA", { "ANNYEONG", "GOMAWOYO" } }, { "INDIA", { "NAMASTE", "DHANYAVAAD" } }, { "NEPAL", { "NAMASTE", "DHANYABAD" } },
-        { "THAILAND", { "SAWASDEE", "KHOP KHUN" } }, { "VIETNAM", { "XIN CHAO", "CAM ON" } }, { "INDONESIA", { "HALO", "TERIMA KASIH" } },
-        { "MALAYSIA", { "HELO", "TERIMA KASIH" } }, { "PHILIPPINES", { "KUMUSTA", "SALAMAT" } }, { "CAMBODIA", { "SUOSDEI", "AKUN" } },
-        { "LAOS", { "SABAIDEE", "KHOP JAI" } }, { "MYANMAR", { "MINGALABA", "CHE ZU BE" } }, { "MONGOLIA", { "SAIN UU", "BAYARLALAA" } },
-        { "RUSSIA", { "PRIVET", "SPASIBO" } }, { "BELARUS", { "PRIVET", "DZYAKUY" } }, { "UKRAINE", { "PRYVIT", "DYAKUYU" } },
-        { "POLAND", { "CZESC", "DZIEKUJE" } }, { "CZECHIA", { "AHOJ", "DEKUJI" } }, { "SLOVAKIA", { "AHOJ", "DAKUJEM" } },
-        { "HUNGARY", { "SZIA", "KOSZONOM" } }, { "ROMANIA", { "SALUT", "MULTUMESC" } }, { "BULGARIA", { "ZDRASTI", "BLAGODARYA" } },
-        { "CROATIA", { "BOK", "HVALA" } }, { "SERBIA", { "ZDRAVO", "HVALA" } }, { "BOSNIA", { "ZDRAVO", "HVALA" } }, { "SLOVENIA", { "ZIVJO", "HVALA" } },
-        { "GREECE", { "YASSOU", "EFCHARISTO" } }, { "CYPRUS", { "YASSOU", "EFCHARISTO" } }, { "TURKEY", { "MERHABA", "TESEKKURLER" } },
-        { "SWEDEN", { "HEJ", "TACK" } }, { "NORWAY", { "HEI", "TAKK" } }, { "DENMARK", { "HEJ", "TAK" } }, { "FINLAND", { "MOI", "KIITOS" } },
-        { "ICELAND", { "HALLO", "TAKK" } }, { "ESTONIA", { "TERE", "AITAH" } }, { "LATVIA", { "SVEIKI", "PALDIES" } }, { "LITHUANIA", { "LABAS", "ACIU" } },
-        { "ISRAEL", { "SHALOM", "TODA" } }, { "IRAN", { "SALAM", "MERSI" } }, { "KENYA", { "JAMBO", "ASANTE" } }, { "TANZANIA", { "JAMBO", "ASANTE" } },
-        { "UGANDA", { "JAMBO", "WEBALE" } }, { "SOUTH AFRICA", { "SAWUBONA", "NGIYABONGA" } }, { "ETHIOPIA", { "SELAM", "AMESEGINALEHU" } },
-        { "SENEGAL", { "BONJOUR", "MERCI" } }, { "IVORY COAST", { "BONJOUR", "MERCI" } }, { "MALI", { "BONJOUR", "MERCI" } },
-        { "CAMEROON", { "BONJOUR", "MERCI" } }, { "MADAGASCAR", { "SALAMA", "MISAOTRA" } }, { "HAWAII", { "ALOHA", "MAHALO" } },
-    };
-    for( const auto &[name, words] : named )
-        if( std::strcmp( name, country ) == 0 ) return words;
-    switch( countryInfo( country ).m_fleet )
-    {
-    case FleetE::LATIN: return { "HOLA", "GRACIAS" };
-    case FleetE::ARABIA: return { "MARHABA", "SHUKRAN" };
-    case FleetE::EASTERN: return { "PRIVET", "SPASIBO" };
-    default: return { "HELLO", "THANKS" };
-    }
-}
-
-} // namespace
 
 bool stageHitchhiker( const Track &track, int stage, double &s, float &side )
 {
@@ -92,12 +35,12 @@ bool stageHitchhiker( const Track &track, int stage, double &s, float &side )
 
 const char *helloIn( const char *country )
 {
-    return wordsOf( country ).m_hello;
+    return phrasesOf( country ).m_hello.c_str();
 }
 
 const char *thanksIn( const char *country )
 {
-    return wordsOf( country ).m_thanks;
+    return phrasesOf( country ).m_thanks.c_str();
 }
 
 void Passenger::reset()

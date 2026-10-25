@@ -30,6 +30,7 @@
 #include "Records.h"
 #include "Renderer.h"
 #include "Track.h"
+#include "Hero.h"
 #include "Passenger.h"
 #include "Police.h"
 #include "Traffic.h"
@@ -809,6 +810,7 @@ private:
     Traffic                m_traffic;      ///< the others
     Police                 m_police;       ///< the patrol car of the world tour
     Passenger              m_passenger;    ///< the hitchhiker of the moment
+    LocalHero              m_hero;         ///< the local hero of the moment
     int                    m_delivered = 0;   ///< hitchhikers taken where they wanted to go this run
     Race                   m_race;         ///< rivals and the championship
     Particles              m_particles;    ///< effects

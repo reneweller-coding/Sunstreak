@@ -6,6 +6,7 @@
 #include "Game.h"
 
 #include "Achievements.h"
+#include "Phrases.h"
 #include "UiCommon.h"
 #include "VectorFont.h"
 
@@ -790,6 +791,7 @@ void Game::finishCrossing()
     m_traffic.m_density = density;
     m_police.reset();
     m_passenger.reset();
+    m_hero.reset();
     m_delivered = 0;
     m_particles.clear();
     for( Rival &r : m_race.m_rivals )
@@ -1030,6 +1032,7 @@ void Game::setupTrack( uint64_t seed, double startS, const TrackParams &params, 
     m_traffic.m_density = params.m_traffic < 0 ? 1.0f : static_cast<float>( params.m_traffic ) / 4.5f;
     m_police.reset();
     m_passenger.reset();
+    m_hero.reset();
     m_delivered = 0;
     m_race.m_rivals.clear();
     m_particles.clear();
@@ -1096,6 +1099,22 @@ void Game::startTrack( const TrackSetup &setup, ModeE mode )
                 startS = probe.fork( st ).m_at - 700.0;
                 break;
             }
+        m_options.m_find = 0;
+    }
+    if( m_options.m_find == 12 )
+    {
+        // Testing: start a little before the first local hero's checkpoint.
+        Track  probe( setup.m_seed, params, m_options.m_startBiome );
+        double cp = 0.0;
+        for( int st = 0; st < 40; ++st )
+        {
+            probe.generateTo( static_cast<double>( st + 1 ) * StageLength + 3000.0 );
+            if( stageHero( probe, st, cp ) )
+            {
+                startS = cp - 650.0;
+                break;
+            }
+        }
         m_options.m_find = 0;
     }
     if( m_options.m_find == 11 )
@@ -1798,6 +1817,38 @@ void Game::step( float h, const CarInput &in )
             m_audio.play( SfxE::NEAR_MISS );
         }
         if( pe.m_caught || pe.m_escaped ) checkAchievements();
+    }
+    {
+        // The local hero: a duel to the next checkpoint, with words in their language.
+        HeroEvents ev;
+        const bool enabled = !m_demo && !m_setup.m_race && m_state == StateE::RACE && !m_timeUp && !m_finishedTrack &&
+                             m_police.m_state != PoliceStateE::CHASE;
+        m_hero.update( h, track, m_car, m_traffic, enabled, ev );
+        const Phrases &words = phrasesOf( m_hero.m_country.empty() ? nullptr : m_hero.m_country.c_str() );
+        const float    pan = clampf( ( m_hero.m_x - m_car.m_x ) / 6.0f, -1.0f, 1.0f );
+        if( ev.m_start )
+        {
+            popup( words.m_challenge, m_hero.m_name + ", LOCAL HERO:  FIRST TO THE NEXT CHECKPOINT", Accent, 1.0f, 3.4f );
+            m_audio.play( SfxE::HORN, 0.9f, pan );
+        }
+        if( ev.m_won )
+        {
+            const bool travel = m_mode == ModeE::TRAVEL;
+            m_score += HeroBonus;
+            if( !travel ) m_timeLeft += 5.0f;
+            ++m_records.m_heroWins;
+            popup( words.m_grumble, travel ? format( "YOU BEAT %s  +%d", m_hero.m_name.c_str(), HeroBonus )
+                                          : format( "YOU BEAT %s  +%d  +5 SEC", m_hero.m_name.c_str(), HeroBonus ),
+                   Green, 1.1f, 3.2f );
+            m_audio.playOnBeat( SfxE::CHECKPOINT );
+            checkAchievements();
+        }
+        if( ev.m_lost )
+        {
+            ++m_records.m_heroLosses;
+            popup( words.m_taunt, m_hero.m_name + " GOT THERE FIRST", Red, 1.1f, 3.2f );
+            m_audio.play( SfxE::HORN, 1.0f, pan );
+        }
     }
     {
         // Hitchhikers: stop beside them, take them to the next place in time, and they thank you in their language.
