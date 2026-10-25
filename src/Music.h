@@ -11,7 +11,7 @@
  *
  * Runs on the audio thread; nothing here allocates after the constructor.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 
@@ -83,7 +83,8 @@ struct Tone
     std::vector<float> m_string;            ///< Karplus-Strong delay line
     size_t             m_write = 0;         ///< its write index
     float              m_last = 0.0f;       ///< loop filter state
-    dsp::Svf           m_f1, m_f2;          ///< filters
+    dsp::Svf           m_f1;                ///< the body's first filter
+    dsp::Svf           m_f2;                ///< its second
     dsp::Noise         m_noise;             ///< breath, bow, pluck excitation
 };
 
@@ -271,13 +272,19 @@ private:
     bool     m_riser = false;          ///< the current section rises
 
     // Drum kit.
-    float m_kickT = 9, m_kickPh = 0, m_kickVel = 1;
-    float m_snareT = 9, m_snareVel = 1;
-    float m_hatT = 9, m_hatVel = 1;
-    bool  m_hatOpen = false;
+    float m_kickT = 9;                 ///< seconds since the kick
+    float m_kickPh = 0;                ///< its phase
+    float m_kickVel = 1;               ///< its velocity
+    float m_snareT = 9;                ///< seconds since the snare
+    float m_snareVel = 1;              ///< its velocity
+    float m_hatT = 9;                  ///< seconds since the hi-hat
+    float m_hatVel = 1;                ///< its velocity
+    bool  m_hatOpen = false;           ///< it was hit open
     float m_crashT = 9;                ///< crash cymbal
     float m_riserT = 9;                ///< noise sweep
-    float m_tomT = 9, m_tomF = 120, m_tomPh = 0;   ///< fill toms
+    float m_tomT = 9;                  ///< seconds since a fill's tom
+    float m_tomF = 120;                ///< its pitch (Hz)
+    float m_tomPh = 0;                 ///< its phase
 
     // Hand percussion: low drum, high drum, shaker, bell, click.
     float m_pT[5] = { 9, 9, 9, 9, 9 };  ///< time since each lane's hit
@@ -286,21 +293,32 @@ private:
     float m_pAlt[5] = {};              ///< alternating pitch (agogo, tabla)
 
     // Bass.
-    float m_bassT = 9, m_bassF = 55, m_bassTarget = 55, m_bassPh[3] = {}, m_bassGate = 0;
-    bool  m_bassAccent = false;
+    float m_bassT = 9;                 ///< seconds since the bass note began
+    float m_bassF = 55;                ///< its pitch, gliding (Hz)
+    float m_bassTarget = 55;           ///< the pitch it glides to
+    float m_bassPh[3] = {};            ///< its oscillators' phases
+    float m_bassGate = 0;              ///< its gate 0..1
+    bool  m_bassAccent = false;        ///< the note is accented
 
     // Melodic voices: lead, counter, arpeggio, four chord voices.
-    Tone  m_lead, m_counterVoice, m_arp;
-    Tone  m_chordVoice[4];
-    float m_padF[4] = { 220, 262, 330, 392 }, m_padPh[8] = {}, m_padEnv = 0, m_gateEnv = 1;
+    Tone  m_lead;                      ///< the lead
+    Tone  m_counterVoice;              ///< the counter melody
+    Tone  m_arp;                       ///< the arpeggio
+    Tone  m_chordVoice[4];             ///< the chord's four voices
+    float m_padF[4] = { 220, 262, 330, 392 };   ///< the pad's four pitches (Hz)
+    float m_padPh[8] = {};             ///< its oscillators' phases (two a pitch)
+    float m_padEnv = 0;                ///< its envelope
+    float m_gateEnv = 1;               ///< the trance gate's envelope
     float m_stabT = 9;                 ///< chord stab or skank
     float m_strumDelay[4] = {};        ///< strum offsets of the chord voices still to come (s)
     float m_chordF[4] = {};            ///< their frequencies
     float m_chipChord[3] = {};         ///< chip arpeggio chord (Hz)
-    float m_chipPh = 0.0f, m_chipT = 9.0f;   ///< chip arpeggio
+    float m_chipPh = 0.0f;             ///< the chip arpeggio's phase
+    float m_chipT = 9.0f;              ///< seconds since its note
 
     // Drone.
-    float m_droneT = 0.0f, m_dronePh[4] = {};
+    float m_droneT = 0.0f;             ///< seconds the drone has sounded
+    float m_dronePh[4] = {};           ///< its oscillators' phases
     Tone  m_tanpura;                   ///< the tanpura's string
 
     // Mood.
@@ -308,15 +326,26 @@ private:
     float m_tensionTarget = 0.0f;    ///< the game's tension
     float m_drive = 0.0f;            ///< the game's speed
     float m_tHatT = 9.0f;            ///< tension hat
-    float m_tBlipT = 9.0f, m_tBlipF = 880.0f, m_tBlipPh = 0.0f;   ///< tension alarm blip
+    float m_tBlipT = 9.0f;           ///< seconds since the tension's alarm blip
+    float m_tBlipF = 880.0f;         ///< its pitch (Hz)
+    float m_tBlipPh = 0.0f;          ///< its phase
 
-    dsp::Svf   m_snareF, m_hatF, m_bassF1, m_padF1, m_kickClick, m_crashF, m_riserF, m_droneF1, m_droneF2;
+    dsp::Svf   m_snareF;               ///< the snare's noise band
+    dsp::Svf   m_hatF;                 ///< the hi-hat's high-pass
+    dsp::Svf   m_bassF1;               ///< the bass's low-pass
+    dsp::Svf   m_padF1;                ///< the pad's low-pass
+    dsp::Svf   m_kickClick;            ///< the kick's click
+    dsp::Svf   m_crashF;               ///< the crash's band
+    dsp::Svf   m_riserF;               ///< the riser's sweeping band
+    dsp::Svf   m_droneF1;              ///< the drone's first formant
+    dsp::Svf   m_droneF2;              ///< its second
     dsp::Svf   m_pF[5];                ///< percussion filters
-    dsp::Noise m_n;
+    dsp::Noise m_n;                    ///< noise
     dsp::Svf   m_tHatF;   ///< the tension hats' filter
     dsp::Noise m_tN;      ///< their own noise, so the groove stays as it was
 
-    std::vector<float> m_delayL, m_delayR;   ///< ping-pong echo
+    std::vector<float> m_delayL;             ///< the ping-pong echo, left
+    std::vector<float> m_delayR;             ///< and right
     size_t             m_di = 0;             ///< echo write index
     std::vector<float> m_comb[8];            ///< reverb combs (4 per side)
     size_t             m_combI[8] = {};      ///< their indices

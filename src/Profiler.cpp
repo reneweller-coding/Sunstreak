@@ -1,7 +1,7 @@
 /**
  * @file Profiler.cpp
  * @brief GPU timestamps through the GL 3.3 query functions, fetched from GLFW (raylib leaves them out of its API).
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Profiler.h"
 
@@ -15,6 +15,11 @@
 #define SUNSTREAK_GLAPI
 #endif
 
+/**
+ * @brief GLFW's look-up of an OpenGL function (raylib links GLFW; declared here to keep its header out).
+ * @param[in] procname  the function's name
+ * @return its address, or nullptr
+ */
 extern "C" void ( *glfwGetProcAddress( const char *procname ) )( void );
 
 namespace sunstreak
@@ -27,24 +32,24 @@ constexpr unsigned GlTimestamp = 0x8E28;        ///< GL_TIMESTAMP
 constexpr unsigned GlQueryResult = 0x8866;      ///< GL_QUERY_RESULT
 constexpr unsigned GlResultAvailable = 0x8867;  ///< GL_QUERY_RESULT_AVAILABLE
 
-using GenQueries = void( SUNSTREAK_GLAPI * )( int, unsigned * );
-using QueryCounter = void( SUNSTREAK_GLAPI * )( unsigned, unsigned );
-using GetQueryObjectiv = void( SUNSTREAK_GLAPI * )( unsigned, unsigned, int * );
-using GetQueryObjectui64v = void( SUNSTREAK_GLAPI * )( unsigned, unsigned, uint64_t * );
+using GenQueriesT = void( SUNSTREAK_GLAPI * )( int, unsigned * );                          ///< glGenQueries
+using QueryCounterT = void( SUNSTREAK_GLAPI * )( unsigned, unsigned );                    ///< glQueryCounter
+using GetQueryObjectivT = void( SUNSTREAK_GLAPI * )( unsigned, unsigned, int * );         ///< glGetQueryObjectiv
+using GetQueryObjectui64vT = void( SUNSTREAK_GLAPI * )( unsigned, unsigned, uint64_t * ); ///< glGetQueryObjectui64v
 
-GenQueries          g_genQueries = nullptr;
-QueryCounter        g_queryCounter = nullptr;
-GetQueryObjectiv    g_getQueryiv = nullptr;
-GetQueryObjectui64v g_getQueryui64v = nullptr;
+GenQueriesT          g_genQueries = nullptr;     ///< glGenQueries, once looked up
+QueryCounterT        g_queryCounter = nullptr;   ///< glQueryCounter
+GetQueryObjectivT    g_getQueryiv = nullptr;     ///< glGetQueryObjectiv
+GetQueryObjectui64vT g_getQueryui64v = nullptr;  ///< glGetQueryObjectui64v
 
 } // namespace
 
 void GpuTimer::init()
 {
-    g_genQueries = reinterpret_cast<GenQueries>( glfwGetProcAddress( "glGenQueries" ) );
-    g_queryCounter = reinterpret_cast<QueryCounter>( glfwGetProcAddress( "glQueryCounter" ) );
-    g_getQueryiv = reinterpret_cast<GetQueryObjectiv>( glfwGetProcAddress( "glGetQueryObjectiv" ) );
-    g_getQueryui64v = reinterpret_cast<GetQueryObjectui64v>( glfwGetProcAddress( "glGetQueryObjectui64v" ) );
+    g_genQueries = reinterpret_cast<GenQueriesT>( glfwGetProcAddress( "glGenQueries" ) );
+    g_queryCounter = reinterpret_cast<QueryCounterT>( glfwGetProcAddress( "glQueryCounter" ) );
+    g_getQueryiv = reinterpret_cast<GetQueryObjectivT>( glfwGetProcAddress( "glGetQueryObjectiv" ) );
+    g_getQueryui64v = reinterpret_cast<GetQueryObjectui64vT>( glfwGetProcAddress( "glGetQueryObjectui64v" ) );
     m_ok = g_genQueries && g_queryCounter && g_getQueryiv && g_getQueryui64v;
     if( m_ok ) g_genQueries( Ring * MARKS, &m_query[0][0] );
 }

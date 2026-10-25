@@ -5,7 +5,7 @@
  * The track runs for hundreds of kilometres, so world positions are kept in doubles (Vec3d) and turned into floats
  * only relative to a floating origin near the camera.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

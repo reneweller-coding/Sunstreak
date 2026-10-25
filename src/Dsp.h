@@ -1,7 +1,7 @@
 /**
  * @file Dsp.h
  * @brief The small signal-processing kit the sound and the music share: filters, noise, band-limited oscillators.
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 
@@ -18,8 +18,12 @@ constexpr float Pi2 = 6.28318530718f;     ///< two pi
 /** @brief Topology-preserving state-variable filter (Zavalishin). */
 struct Svf
 {
-    float m_ic1 = 0, m_ic2 = 0;                    ///< integrator states
-    float m_a1 = 1, m_a2 = 0, m_a3 = 0, m_k = 1;   ///< coefficients
+    float m_ic1 = 0;   ///< first integrator's state
+    float m_ic2 = 0;   ///< second integrator's state
+    float m_a1 = 1;    ///< coefficient a1
+    float m_a2 = 0;    ///< coefficient a2
+    float m_a3 = 0;    ///< coefficient a3
+    float m_k = 1;     ///< damping (2 - 2 resonance)
 
     /**
      * @brief Sets cutoff and resonance.

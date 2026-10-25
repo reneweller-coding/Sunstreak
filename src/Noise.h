@@ -1,7 +1,7 @@
 /**
  * @file Noise.h
  * @brief Smooth value noise for the terrain beside the road.
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

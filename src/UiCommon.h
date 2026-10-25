@@ -1,7 +1,7 @@
 /**
  * @file UiCommon.h
  * @brief What the game's flow and its screens share: colours, text formatting, panels, seeds, the blended biome.
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

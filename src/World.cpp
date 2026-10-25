@@ -1,7 +1,7 @@
 /**
  * @file World.cpp
  * @brief Chunk baking: road surface, land, water, furniture and props.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "World.h"
 
@@ -92,12 +92,12 @@ uint8_t seasonBit( const SeasonLook &s )
  */
 bool plotted( PropKindE k, bool &tall )
 {
-    using K = PropKindE;
-    tall = k == K::BUILDING || k == K::TOWER || k == K::NEON_TOWER || k == K::GLASS_TOWER || k == K::PANEL_BLOCK;
-    return tall || k == K::HOUSE || k == K::SNOW_HOUSE || k == K::CABIN || k == K::HUT || k == K::COTTAGE || k == K::FLAT_HOUSE ||
-           k == K::CHALET || k == K::HALF_TIMBER || k == K::ROW_HOUSES || k == K::ADOBE || k == K::RONDAVEL || k == K::FAVELA ||
-           k == K::HANOK || k == K::GASSHO || k == K::HUIZHOU_HOUSE || k == K::CAPE_DUTCH || k == K::YURT || k == K::REED_HOUSE ||
-           k == K::TRULLO;
+    using KindT = PropKindE;
+    tall = k == KindT::BUILDING || k == KindT::TOWER || k == KindT::NEON_TOWER || k == KindT::GLASS_TOWER || k == KindT::PANEL_BLOCK;
+    return tall || k == KindT::HOUSE || k == KindT::SNOW_HOUSE || k == KindT::CABIN || k == KindT::HUT || k == KindT::COTTAGE || k == KindT::FLAT_HOUSE ||
+           k == KindT::CHALET || k == KindT::HALF_TIMBER || k == KindT::ROW_HOUSES || k == KindT::ADOBE || k == KindT::RONDAVEL || k == KindT::FAVELA ||
+           k == KindT::HANOK || k == KindT::GASSHO || k == KindT::HUIZHOU_HOUSE || k == KindT::CAPE_DUTCH || k == KindT::YURT || k == KindT::REED_HOUSE ||
+           k == KindT::TRULLO;
 }
 
 /** @brief The plots of a place: its buildings in rows back from the road instead of scattered. */
@@ -1673,11 +1673,11 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 if( pr.m_kind == PropKindE::WARNING_SIGN ) variant = variant % 5 + warnShape[std::min<size_t>( signs.m_warn, 3 )];
                 // Deciduous trees, bushes, hedges and vines turn, lose their leaves and some blossom; the rest only takes the
                 // snow.
-                using K = PropKindE;
-                const K    kind = pr.m_kind;
-                const bool turns = kind == K::OAK || kind == K::BUSH || kind == K::BIRCH || kind == K::POPLAR || kind == K::BROADLEAF ||
-                                   kind == K::SHRUB || kind == K::HEDGE || kind == K::VINE_ROW || kind == K::FERN || kind == K::FLOWER_BUSH;
-                const bool blooms = kind == K::BROADLEAF || kind == K::BUSH || kind == K::SHRUB;
+                using KindT = PropKindE;
+                const KindT    kind = pr.m_kind;
+                const bool turns = kind == KindT::OAK || kind == KindT::BUSH || kind == KindT::BIRCH || kind == KindT::POPLAR || kind == KindT::BROADLEAF ||
+                                   kind == KindT::SHRUB || kind == KindT::HEDGE || kind == KindT::VINE_ROW || kind == KindT::FERN || kind == KindT::FLOWER_BUSH;
+                const bool blooms = kind == KindT::BROADLEAF || kind == KindT::BUSH || kind == KindT::SHRUB;
                 SeasonLook look = A.m_season;
                 if( !turns ) look.m_autumn = look.m_bare = look.m_spring = 0.0f;
                 const float h = hashFloat( key + 13, static_cast<uint64_t>( j ) );

@@ -1,7 +1,7 @@
 /**
  * @file Festival.cpp
  * @brief Reading data/festivals.txt and finding a place's festival.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Festival.h"
 

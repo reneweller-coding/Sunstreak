@@ -4,7 +4,7 @@
  *
  * Shared by WorldBiomes.cpp and WorldPlaces.cpp only; everything here has internal linkage.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 
@@ -192,16 +192,6 @@ Environment preset( SkyE s )
     }
     return e;
 }
-
-/** @brief The variants of PropKindE::LANDMARK. */
-namespace Lm
-{
-constexpr int BIG_BEN = 0, TOWER_BRIDGE = 1, COLOSSEUM = 2, LEANING_TOWER = 3, BASILICA = 4, SAGRADA = 5, NEUSCHWANSTEIN = 6,
-              MONT_ST_MICHEL = 7, BRANDENBURG_GATE = 8, ACROPOLIS = 9, ST_BASIL = 10, OPEN_ARMS = 11, LIBERTY = 12, OPERA_HOUSE = 13,
-              TWIN_TOWERS = 14, SPACE_NEEDLE = 15, CAPITOL = 16, OBELISK = 17, HOLLYWOOD_SIGN = 18, KUWAIT_TOWERS = 19,
-              VICTORY_COLUMN = 20, COLOSSI = 21, SPHINX = 22, BOROBUDUR = 23, HAND = 24, ICE_CASTLE = 25, FIRE_CRATER = 26,
-              TRIUMPHAL_ARCH = 27, GREAT_ZIMBABWE = 28, ISLAND_CHURCH = 29, SEA_TORII = 30;
-} // namespace Lm
 
 /** @brief Fills one biome by chained calls; the defaults make a temperate two-lane country road. */
 class W
@@ -801,7 +791,7 @@ public:
 
     /**
      * @brief Puts a landmark beside the road, once per stage.
-     * @param[in] variant   which (Lm)
+     * @param[in] variant   which (landmarkVariant(): the compiled ones, then those of data/landmarks)
      * @param[in] nearest   least distance from the road (m)
      * @param[in] farthest  largest distance (m)
      * @param[in] scale     its size

@@ -1,7 +1,7 @@
 /**
  * @file Config.cpp
  * @brief Settings file, command line and the Steam Deck check.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Config.h"
 

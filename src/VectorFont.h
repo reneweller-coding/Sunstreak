@@ -1,7 +1,7 @@
 /**
  * @file VectorFont.h
  * @brief A slanted stroke font for the HUD and the menus, drawn with lines: sharp at any resolution, no font file.
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

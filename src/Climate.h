@@ -3,7 +3,7 @@
  * @brief The climate of the places (data/climate.txt): twelve monthly temperatures and rain sums each, from which the
  *        seasons and the showers of a place follow; and how their air changes with the month and the hour
  *        (data/smog.txt).
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

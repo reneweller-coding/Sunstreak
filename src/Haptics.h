@@ -5,7 +5,7 @@
  * Only SDL's game controller subsystem runs (no window, no sound). Hits are pulses that fade out, kerbs and gravel a
  * steady buzz that is set every frame. On the Steam Deck, Steam Input passes the rumble to the Deck's motors.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 
@@ -61,8 +61,10 @@ private:
     void *m_pad = nullptr;                    ///< the SDL_GameController
     float m_scan = 0.0f;                      ///< seconds until the next look for a pad
     Pulse m_pulses[8];                        ///< fading pulses
-    float m_steadyLow = 0.0f, m_steadyHigh = 0.0f;   ///< this frame's buzz
-    int   m_sentLow = 0, m_sentHigh = 0;      ///< what the pad was told last
+    float m_steadyLow = 0.0f;                 ///< this frame's buzz, the low motor
+    float m_steadyHigh = 0.0f;                ///< and the high one
+    int   m_sentLow = 0;                      ///< what the low motor was told last
+    int   m_sentHigh = 0;                     ///< and the high one
     float m_resend = 0.0f;                    ///< seconds until the strength is sent again
 };
 

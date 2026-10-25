@@ -1,7 +1,7 @@
 /**
  * @file Climate.cpp
  * @brief Reading data/climate.txt.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Climate.h"
 

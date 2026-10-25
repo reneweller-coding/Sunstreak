@@ -2,7 +2,7 @@
  * @file Spectacle.h
  * @brief Spectacles over and beside the road (data/spectacles.txt): an airliner coming in low across it, fighter jets
  *        roaring along it, hot-air balloons, a container ship, an airship. One at a time, in some stages of their places.
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

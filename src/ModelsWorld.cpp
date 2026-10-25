@@ -6,7 +6,7 @@
  * Mexico; keyC marks windows that stay dark by day and glow where a night biome passes a warm colour. Fronts face +x
  * (FacingE::ROAD turns them to the road), boards face -z (FacingE::ALONG shows them to the driver).
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Models.h"
 

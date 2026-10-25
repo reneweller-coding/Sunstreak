@@ -5,7 +5,7 @@
  * Models are built with +x to the left, +y up and +z forward. Props stay on the CPU (MeshBuilder) and are baked
  * into the world's chunks; the vehicles, cones and shadows are uploaded once and drawn per object.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 
@@ -176,7 +176,6 @@ void buildForkSign( MeshBuilder &out, std::string_view left, std::string_view ri
  */
 void buildSpeedSign( MeshBuilder &out, int limit, bool board );
 
-/** @brief All models. */
 struct DataShape;
 
 /**
@@ -187,6 +186,7 @@ struct DataShape;
  */
 int buildDataShape( MeshBuilder &m, const DataShape &shape );
 
+/** @brief All models: the cars, the traffic, the props and landmarks, the signs, built once on the CPU. */
 class Models
 {
 public:

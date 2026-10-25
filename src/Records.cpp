@@ -1,7 +1,7 @@
 /**
  * @file Records.cpp
  * @brief Track codes, the records file, unlocks and ghosts.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Records.h"
 

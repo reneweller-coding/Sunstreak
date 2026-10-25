@@ -1,7 +1,7 @@
 /**
  * @file Input.cpp
  * @brief Device reading.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Input.h"
 

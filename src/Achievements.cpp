@@ -1,7 +1,7 @@
 /**
  * @file Achievements.cpp
  * @brief The achievements and how far along each is.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Achievements.h"
 

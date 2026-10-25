@@ -6,7 +6,7 @@
  * FXAA follow. The world shader bends the ground down with distance (a small planet) the way modern takes on the
  * pseudo-3D racers do, which shows more of the road ahead over crests.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

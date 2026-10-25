@@ -1,7 +1,7 @@
 /**
  * @file Local.cpp
  * @brief Reading data/roads.txt; where the cameras and the toll plazas stand.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Local.h"
 
@@ -28,19 +28,19 @@ namespace
 int g_roadErrors = 0;   ///< lines of data/roads.txt that were wrong
 
 /** @brief The customs by country. */
-using CustomsMap = std::map<std::string, RoadCustoms>;
+using CustomsMapT = std::map<std::string, RoadCustoms>;
 
 /**
  * @brief The customs of every country the file names, read again after a reload.
  * @return them
  */
-const CustomsMap &customs()
+const CustomsMapT &customs()
 {
-    static DataCache<CustomsMap> cache;
+    static DataCache<CustomsMapT> cache;
     return cache.get( []
     {
         g_roadErrors = 0;
-        CustomsMap out;
+        CustomsMapT out;
         for( const std::string &line : dataLines( dataText( "roads.txt" ) ) )
         {
             const std::vector<std::string> parts = splitLine( line, '|' );
@@ -171,20 +171,21 @@ void pave( BiomeDef &d )
 
 int g_roadsideErrors = 0;   ///< lines of data/roadside.txt that did not parse
 
-using RoadsideMap = std::map<std::string, PlaceRoadside>;
+/** @brief The roadside by place. */
+using RoadsideMapT = std::map<std::string, PlaceRoadside>;
 
 /**
  * @brief The places' roadside data (data/roadside.txt), by the places' IDs. The IDs are not checked here: this runs while
  *        the biome table is built.
  * @return the data
  */
-const RoadsideMap &roadsideData()
+const RoadsideMapT &roadsideData()
 {
-    static DataCache<RoadsideMap> cache;
+    static DataCache<RoadsideMapT> cache;
     return cache.get( []
     {
         g_roadsideErrors = 0;
-        RoadsideMap out;
+        RoadsideMapT out;
         for( const std::string &line : dataLines( dataText( "roadside.txt" ) ) )
         {
             // roadside PLACE pole=KIND lamp=KIND gravel=PCT concrete=PCT
@@ -218,7 +219,7 @@ const RoadCustoms &roadCustoms( const char *country )
 {
     static const RoadCustoms plain;
     if( !country ) return plain;
-    const CustomsMap &all = customs();
+    const CustomsMapT &all = customs();
     const auto        it = all.find( country );
     return it != all.end() ? it->second : plain;
 }
@@ -442,7 +443,7 @@ void applyRoadCustoms( std::vector<BiomeDef> &table )
 
 void applyRoadside( std::vector<BiomeDef> &table )
 {
-    const RoadsideMap &all = roadsideData();
+    const RoadsideMapT &all = roadsideData();
     for( size_t i = 0; i < table.size(); ++i )
     {
         BiomeDef &d = table[i];

@@ -1,7 +1,7 @@
 /**
  * @file IconPng.h
  * @brief The program's icon as a 128 px PNG (tools/make_icon.py writes it).
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

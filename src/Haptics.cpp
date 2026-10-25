@@ -1,7 +1,7 @@
 /**
  * @file Haptics.cpp
  * @brief Gamepad rumble through SDL2.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Haptics.h"
 

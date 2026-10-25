@@ -3,7 +3,7 @@
  * @brief The police of the world tour: now and then a patrol car of the country waits at the roadside. Past it too fast,
  *        it gives chase with its lights and siren until it pulls up beside the car (caught: a fine in seconds) or the
  *        car is far enough ahead (escaped: points).
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

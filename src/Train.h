@@ -2,7 +2,7 @@
  * @file Train.h
  * @brief The fast trains: in some stages of their countries a viaduct runs beside the road for a few kilometres, and the
  *        country's train races the car along it (data/trains.txt). Pass its nose before the stretch ends to win.
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 
@@ -108,7 +108,10 @@ public:
      */
     void update( float dt, const Track &track, const PlayerCar &player, bool enabled, TrainEvents &ev );
 
-    /** @brief The race is on or the train still in sight. */
+    /**
+     * @brief Whether there is a train to draw.
+     * @return true while the race is on or the train still in sight
+     */
     bool active() const { return m_running || m_after; }
 
     bool         m_running = false;   ///< the race is on

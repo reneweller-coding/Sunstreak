@@ -1,7 +1,7 @@
 /**
  * @file Data.cpp
  * @brief Reading the data files: from the folder SUNSTREAK_DATA names, else from the copies built into the program.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Data.h"
 

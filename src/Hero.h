@@ -2,7 +2,7 @@
  * @file Hero.h
  * @brief The local hero: now and then a driver of the country pulls up beside the car before a checkpoint and challenges
  *        it to the next one, in their own language. Get there first and they grumble; let them win and they taunt you.
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

@@ -1,7 +1,7 @@
 /**
  * @file Hero.cpp
  * @brief The local hero: where they turn up, how they drive, who wins.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Hero.h"
 

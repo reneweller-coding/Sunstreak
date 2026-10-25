@@ -6,7 +6,7 @@
  * Everything is drawn relative to a floating origin at the camera (doubles in, floats out), so a run can go on for
  * thousands of kilometres without jitter.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

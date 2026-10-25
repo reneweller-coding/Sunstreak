@@ -2,7 +2,7 @@
  * @file TestMain.cpp
  * @brief Core tests without a window: the generator's determinism and bounds, the stage order, the car's physics,
  *        the track code.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Achievements.h"
 #include "Car.h"

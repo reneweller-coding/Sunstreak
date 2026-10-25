@@ -1,7 +1,7 @@
 /**
  * @file Track.cpp
  * @brief The track generator.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Track.h"
 

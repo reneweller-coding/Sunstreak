@@ -2,7 +2,7 @@
  * @file Data.h
  * @brief The game's data files (data/ in the source tree): embedded at build time, or read from a folder named by the
  *        environment variable SUNSTREAK_DATA (to try changes without building).
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 
@@ -99,8 +99,8 @@ public:
      * @param[in] build  builds it
      * @return it
      */
-    template <typename F>
-    const T &get( F build )
+    template <typename BuildT>
+    const T &get( BuildT build )
     {
         const int g = dataGeneration();
         if( m_generation.load( std::memory_order_acquire ) != g )

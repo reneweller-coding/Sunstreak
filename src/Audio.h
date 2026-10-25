@@ -6,7 +6,7 @@
  * The game thread sets the engine's state and posts effects; the synthesis runs in raylib's audio callback, which
  * reads the state through atomics and the effects through a lock-free queue.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 
@@ -129,6 +129,7 @@ public:
      * @param[in] type      which effect
      * @param[in] strength  0..1
      * @param[in] pan       -1 left .. 1 right
+     * @param[in] pitch     its Doppler shift (1: none)
      */
     void play( SfxE type, float strength = 1.0f, float pan = 0.0f, float pitch = 1.0f );
 

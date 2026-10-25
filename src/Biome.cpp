@@ -1,7 +1,7 @@
 /**
  * @file Biome.cpp
  * @brief The biomes and their blending.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Biome.h"
 #include "Data.h"

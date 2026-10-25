@@ -2,7 +2,7 @@
  * @file Phrases.h
  * @brief What people say on the road, per country (data/phrases.txt): hitchhikers' hellos and thanks, the local heroes'
  *        challenges, taunts and grumbles, and their first names.
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

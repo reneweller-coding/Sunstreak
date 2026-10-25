@@ -1,7 +1,7 @@
 /**
  * @file Passenger.cpp
  * @brief The hitchhikers: where they wait, when they get in, when they get out, and their words.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Passenger.h"
 

@@ -8,7 +8,7 @@
  * After the first chunks of a track a worker thread bakes the triangles on its own copy of the track (the generator
  * is deterministic, so the copy yields the same road); the main thread only uploads what is finished.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

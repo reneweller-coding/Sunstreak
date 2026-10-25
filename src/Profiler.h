@@ -1,7 +1,7 @@
 /**
  * @file Profiler.h
  * @brief GPU time per render pass, read from OpenGL timestamp queries a few frames late (so nothing waits for them).
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

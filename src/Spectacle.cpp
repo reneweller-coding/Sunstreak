@@ -1,7 +1,7 @@
 /**
  * @file Spectacle.cpp
  * @brief The spectacles: where they happen and how they move.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Spectacle.h"
 
@@ -20,8 +20,8 @@ namespace
 
 int g_skyErrors = 0;   ///< wrong lines in the last read
 
-const char *const KindNames[] = { "PLANE", "JETS", "BALLOONS", "SHIP", "ZEPPELIN" };
-const char *const ModelNames[] = { "SKY_AIRLINER", "SKY_JET", "SKY_BALLOON_1", "SKY_BALLOON_2", "SKY_BALLOON_3", "SKY_BALLOON_4", "SKY_SHIP", "SKY_ZEPPELIN" };
+const char *const KindNames[] = { "PLANE", "JETS", "BALLOONS", "SHIP", "ZEPPELIN" };   ///< SkyE's names in the file
+const char *const ModelNames[] = { "SKY_AIRLINER", "SKY_JET", "SKY_BALLOON_1", "SKY_BALLOON_2", "SKY_BALLOON_3", "SKY_BALLOON_4", "SKY_SHIP", "SKY_ZEPPELIN" };   ///< SkyModelE's shapes
 
 /**
  * @brief Whether a place answers to a "where" (a country, COUNTRY:REGION or place:ID).

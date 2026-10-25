@@ -7,7 +7,7 @@
  * tank. Cones fly when hit. Now and then an ambulance or a fire engine of the country comes along with its siren on,
  * from behind when the player is slower, else ahead: the traffic pulls over to let it through.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

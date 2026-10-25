@@ -3,7 +3,7 @@
  * @brief The world tour: the classic biomes put on the map, the places from the data files (WorldData.cpp), the radio
  *        the countryside plays, the light of the tour clock and the names on screen.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Biome.h"
 #include "Data.h"
@@ -23,10 +23,10 @@ namespace sunstreak
 
 void addWorldBiomes( std::vector<BiomeDef> &b )
 {
-    using BE = BiomeE;
+    using BiomeT = BiomeE;
 
     // The first biomes, where they are on the map.
-    using C = ClimateE;
+    using ClimateT = ClimateE;
     struct Placed
     {
         BiomeE      m_biome;
@@ -35,39 +35,39 @@ void addWorldBiomes( std::vector<BiomeDef> &b )
         const char *m_region = nullptr;
     };
     const Placed places[] = {
-        { BE::MEADOW, "GERMANY", C::TEMPERATE, "HESSE" },
-        { BE::FOREST, "SWITZERLAND", C::TEMPERATE },
-        { BE::DESERT, "USA", C::ARID, "ARIZONA" },
-        { BE::SNOW, "CANADA", C::COLD, "NORTHWEST TERRITORIES" },
-        { BE::COAST, "USA", C::TEMPERATE, "CALIFORNIA" },
-        { BE::AUTUMN, "USA", C::TEMPERATE, "VERMONT" },
-        { BE::SAKURA, "JAPAN", C::TEMPERATE, "KANSAI" },
-        { BE::JUNGLE, "BRAZIL", C::TROPICAL, "ACRE" },
-        { BE::SAVANNA, "KENYA", C::ARID },
-        { BE::VOLCANO, "USA", C::TROPICAL, "HAWAII" },
-        { BE::AURORA, "FINLAND", C::COLD, "LAPLAND" },
-        { BE::LAVENDER, "FRANCE", C::TEMPERATE },
-        { BE::TULIPS, "NETHERLANDS", C::TEMPERATE },
-        { BE::HIGHLANDS, "SCOTLAND", C::TEMPERATE },
-        { BE::FJORD, "NORWAY", C::TEMPERATE, "MORE OG ROMSDAL" },
-        { BE::RICE, "VIETNAM", C::TROPICAL },
-        { BE::SALT_FLATS, "BOLIVIA", C::ARID, "POTOSI" },
-        { BE::MESA_SUNSET, "USA", C::ARID, "UTAH" },
-        { BE::SUBURB, "USA", C::TEMPERATE, "NEW JERSEY" },
-        { BE::HARBOR, "NETHERLANDS", C::TEMPERATE },
-        { BE::ICEBERGS, "GREENLAND", C::COLD },
-        { BE::BAYOU, "USA", C::TROPICAL, "LOUISIANA" },
-        { BE::WHEAT, "USA", C::TEMPERATE, "KANSAS" },
-        { BE::CLIFFS, "ENGLAND", C::TEMPERATE, "SOUTH EAST" },
-        { BE::WINTER_VILLAGE, "AUSTRIA", C::COLD },
-        { BE::RAINBOW, "IRELAND", C::TEMPERATE } };
+        { BiomeT::MEADOW, "GERMANY", ClimateT::TEMPERATE, "HESSE" },
+        { BiomeT::FOREST, "SWITZERLAND", ClimateT::TEMPERATE },
+        { BiomeT::DESERT, "USA", ClimateT::ARID, "ARIZONA" },
+        { BiomeT::SNOW, "CANADA", ClimateT::COLD, "NORTHWEST TERRITORIES" },
+        { BiomeT::COAST, "USA", ClimateT::TEMPERATE, "CALIFORNIA" },
+        { BiomeT::AUTUMN, "USA", ClimateT::TEMPERATE, "VERMONT" },
+        { BiomeT::SAKURA, "JAPAN", ClimateT::TEMPERATE, "KANSAI" },
+        { BiomeT::JUNGLE, "BRAZIL", ClimateT::TROPICAL, "ACRE" },
+        { BiomeT::SAVANNA, "KENYA", ClimateT::ARID },
+        { BiomeT::VOLCANO, "USA", ClimateT::TROPICAL, "HAWAII" },
+        { BiomeT::AURORA, "FINLAND", ClimateT::COLD, "LAPLAND" },
+        { BiomeT::LAVENDER, "FRANCE", ClimateT::TEMPERATE },
+        { BiomeT::TULIPS, "NETHERLANDS", ClimateT::TEMPERATE },
+        { BiomeT::HIGHLANDS, "SCOTLAND", ClimateT::TEMPERATE },
+        { BiomeT::FJORD, "NORWAY", ClimateT::TEMPERATE, "MORE OG ROMSDAL" },
+        { BiomeT::RICE, "VIETNAM", ClimateT::TROPICAL },
+        { BiomeT::SALT_FLATS, "BOLIVIA", ClimateT::ARID, "POTOSI" },
+        { BiomeT::MESA_SUNSET, "USA", ClimateT::ARID, "UTAH" },
+        { BiomeT::SUBURB, "USA", ClimateT::TEMPERATE, "NEW JERSEY" },
+        { BiomeT::HARBOR, "NETHERLANDS", ClimateT::TEMPERATE },
+        { BiomeT::ICEBERGS, "GREENLAND", ClimateT::COLD },
+        { BiomeT::BAYOU, "USA", ClimateT::TROPICAL, "LOUISIANA" },
+        { BiomeT::WHEAT, "USA", ClimateT::TEMPERATE, "KANSAS" },
+        { BiomeT::CLIFFS, "ENGLAND", ClimateT::TEMPERATE, "SOUTH EAST" },
+        { BiomeT::WINTER_VILLAGE, "AUSTRIA", ClimateT::COLD },
+        { BiomeT::RAINBOW, "IRELAND", ClimateT::TEMPERATE } };
     for( const Placed &p : places )
     {
         b[static_cast<size_t>( p.m_biome )].m_country = p.m_country;
         b[static_cast<size_t>( p.m_biome )].m_climate = p.m_climate;
         b[static_cast<size_t>( p.m_biome )].m_region = p.m_region;
     }
-    b[static_cast<size_t>( BE::VOLCANO )].m_island = "HAWAII";
+    b[static_cast<size_t>( BiomeT::VOLCANO )].m_island = "HAWAII";
 
     addDataPlaces( b );
     applyRoadCustoms( b );
@@ -84,8 +84,8 @@ void addWorldBiomes( std::vector<BiomeDef> &b )
         if( d.m_lanes >= 3 ) d.m_station = japanOrKorea ? StationCityPop : d.m_station;
         else if( region >= 0 ) d.m_station = region;
     }
-    b[static_cast<size_t>( BE::BRITTANY )].m_station = StationCeltic;
-    b[static_cast<size_t>( BE::RIO )].m_station = StationSamba;
+    b[static_cast<size_t>( BiomeT::BRITTANY )].m_station = StationCeltic;
+    b[static_cast<size_t>( BiomeT::RIO )].m_station = StationSamba;
 }
 
 Environment environmentAtHour( const Environment &place, float hour )

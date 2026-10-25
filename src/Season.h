@@ -3,7 +3,7 @@
  * @brief The seasons: leaves turning in autumn, snow lying in winter, blossom in spring, by today's date or as the tour
  *        goes on; by a place's real monthly climate (data/climate.txt) where the data has it, else by its latitude
  *        (turned round south of the equator, none in the tropics); none in the fantasy biomes.
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

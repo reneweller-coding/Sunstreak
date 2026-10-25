@@ -9,7 +9,7 @@
  *
  * Distances along the road (s) are doubles; the lateral offset x is positive to the right.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

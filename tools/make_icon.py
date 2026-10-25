@@ -106,7 +106,7 @@ def main():
     buf = io.BytesIO()
     big.resize((128, 128), Image.LANCZOS).save(buf, 'PNG', optimize=True)
     data = buf.getvalue()
-    lines = ['/**', ' * @file IconPng.h', " * @brief The program's icon as a 128 px PNG (tools/make_icon.py writes it).", ' * @author reneweller', ' */',
+    lines = ['/**', ' * @file IconPng.h', " * @brief The program's icon as a 128 px PNG (tools/make_icon.py writes it).", ' * @author Rene Weller', ' */',
              '#pragma once', '', 'namespace sunstreak', '{', '',
              '/** @brief The PNG file. */', 'inline constexpr unsigned char IconPng[] = {']
     for i in range(0, len(data), 20):

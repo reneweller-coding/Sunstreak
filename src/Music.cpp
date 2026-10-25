@@ -1,7 +1,7 @@
 /**
  * @file Music.cpp
  * @brief The twenty-six radio stations: styles, scales, rhythms, instruments, arrangements, echo and reverb.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Music.h"
 
@@ -97,7 +97,16 @@ enum InstE : int
 /** @brief The parts of an arrangement. */
 enum LayerE : uint16_t
 {
-    L_DRUMS = 1, L_BASS = 2, L_CHORDS = 4, L_LEAD = 8, L_COUNTER = 16, L_PERC = 32, L_DRONE = 64, L_ARP = 128
+    L_DRUMS = 1,      ///< the drum kit
+    L_BASS = 2,       ///< the bass
+    L_CHORDS = 4,     ///< the chords
+    L_LEAD = 8,       ///< the lead melody
+    L_COUNTER = 16,   ///< the counter melody
+    L_PERC = 32,      ///< hand percussion
+    L_DRONE = 64,     ///< the drone
+    L_ARP = 128,      ///< the arpeggio
+    L_ALL = L_DRUMS | L_BASS | L_CHORDS | L_LEAD | L_COUNTER | L_PERC | L_DRONE | L_ARP,   ///< everything
+    L_GROOVE = L_DRUMS | L_BASS | L_CHORDS | L_PERC | L_DRONE | L_ARP                     ///< all but the tunes
 };
 
 /** @brief What an instrument is like. */
@@ -111,6 +120,7 @@ struct InstInfo
     bool  m_slides;      ///< glides between connected notes
 };
 
+/** @brief The instruments, by InstE. */
 const InstInfo Insts[INST_COUNT] = {
     { 69, true, 6, 60, 0.8f, false },    { 69, true, 8, 90, 0.75f, true },    { 69, true, 4, 40, 0.6f, false },
     { 64, false, 1, 1, 0.9f, false },    { 64, true, 25, 80, 0.8f, false },   { 69, false, 1, 1, 0.8f, false },
@@ -131,6 +141,7 @@ struct ScaleDef
     int m_steps[7];   ///< semitones above the tonic
 };
 
+/** @brief The scales, by ScaleE. */
 const ScaleDef Scales[static_cast<int>( ScaleE::COUNT )] = {
     { 7, { 0, 2, 3, 5, 7, 8, 10 } }, { 7, { 0, 2, 4, 5, 7, 9, 11 } }, { 7, { 0, 2, 3, 5, 7, 9, 10 } },
     { 7, { 0, 1, 3, 5, 7, 8, 10 } }, { 7, { 0, 2, 4, 5, 7, 9, 10 } }, { 7, { 0, 2, 4, 6, 7, 9, 11 } },
@@ -146,6 +157,7 @@ const int8_t PopProgs[][8] = {
     { 0, 0, 3, 3, 4, 4, 0, 0 }, { 1, 4, 0, 0, 1, 4, 0, 5 }, { 0, 3, 0, 4, 0, 3, 4, 0 }, { 0, 2, 3, 4, 0, 2, 3, 4 },
     { 0, 6, 5, 4, 0, 6, 5, 4 }, { 0, 5, 1, 4, 0, 5, 1, 4 }, { 3, 4, 0, 5, 3, 4, 2, 5 }, { 0, 4, 3, 3, 0, 4, 1, 4 },
 };
+/** @brief Chord progressions that stay in their mode (degrees, a bar each). */
 const int8_t ModalProgs[][8] = {
     { 0, 0, 0, 0, 0, 0, 0, 0 }, { 0, 1, 0, 1, 0, 1, 0, 6 }, { 0, 6, 0, 6, 0, 6, 5, 6 }, { 0, 0, 6, 6, 0, 0, 5, 5 },
     { 0, 3, 0, 3, 0, 3, 0, 4 }, { 0, 0, 1, 0, 0, 0, 6, 0 },
@@ -163,16 +175,16 @@ const char *const Rhythms[] = {
  * @param[in] i  the template
  * @return its bit
  */
-constexpr uint16_t R( int i )
+constexpr uint16_t rhythmBit( int i )
 {
     return static_cast<uint16_t>( 1u << i );
 }
 
-constexpr uint16_t RPop = R( 0 ) | R( 3 ) | R( 8 ) | R( 9 ) | R( 11 );   ///< pop melodies
-constexpr uint16_t RFast = R( 0 ) | R( 5 ) | R( 6 );                       ///< runs and reels
-constexpr uint16_t RSlow = R( 3 ) | R( 4 ) | R( 10 ) | R( 12 );            ///< long notes
-constexpr uint16_t RLatin = R( 1 ) | R( 7 ) | R( 8 ) | R( 13 );            ///< clave and habanera
-constexpr uint16_t RSwing = R( 2 ) | R( 11 ) | R( 13 );                    ///< swung
+constexpr uint16_t RPop = rhythmBit( 0 ) | rhythmBit( 3 ) | rhythmBit( 8 ) | rhythmBit( 9 ) | rhythmBit( 11 );   ///< pop melodies
+constexpr uint16_t RFast = rhythmBit( 0 ) | rhythmBit( 5 ) | rhythmBit( 6 );                       ///< runs and reels
+constexpr uint16_t RSlow = rhythmBit( 3 ) | rhythmBit( 4 ) | rhythmBit( 10 ) | rhythmBit( 12 );            ///< long notes
+constexpr uint16_t RLatin = rhythmBit( 1 ) | rhythmBit( 7 ) | rhythmBit( 8 ) | rhythmBit( 13 );            ///< clave and habanera
+constexpr uint16_t RSwing = rhythmBit( 2 ) | rhythmBit( 11 ) | rhythmBit( 13 );                    ///< swung
 
 /** @brief A drum kit's pattern: one character per sixteenth, '1'..'9' velocity, 'x' open hat. */
 struct Kit
@@ -183,6 +195,7 @@ struct Kit
     const char *m_open;    ///< open hat
 };
 
+/** @brief The drum kits' patterns, by DrumsE: a groove and its variation. */
 const Kit Kits[static_cast<int>( DrumsE::COUNT )][2] = {
     { { "9...9...9...9...", "....9.......9...", "3.6.3.6.3.6.3.6.", "..x...x...x...x." },
       { "9...9...9...9..5", "....9.......9...", "5454545454545454", "..x...x...x...x." } },
@@ -238,6 +251,7 @@ struct Perc
     int         m_click;         ///< 0 claves, 1 rim, 2 castanets, 3 clapsticks, 4 tambourine
 };
 
+/** @brief The hand percussion, by PercE. */
 const Perc Percs[static_cast<int>( PercE::COUNT )] = {
     { { { "", "", "", "", "" }, { "", "", "", "", "" } }, 100, 10, 1, 400, 20, 0.3f, 0, 0 },
     { { { "9.......9...6.9.", "", "", "", "..6...6...6...6." }, { "9..9....9...9.9.", "", "", "", "....6.......6..." } }, 62, 5, 1.6f, 300, 20, 0.5f, 0, 0 },
@@ -269,9 +283,8 @@ struct SectionDef
     bool     m_riser;    ///< sweeps up to the next
 };
 
-constexpr uint16_t L_ALL = L_DRUMS | L_BASS | L_CHORDS | L_LEAD | L_COUNTER | L_PERC | L_DRONE | L_ARP;   ///< everything
-constexpr uint16_t L_GROOVE = L_DRUMS | L_BASS | L_CHORDS | L_PERC | L_DRONE | L_ARP;                    ///< all but the tunes
 
+/** @brief The arrangement templates: their sections in order. */
 const SectionDef Arrangements[4][10] = {
     { { 4, L_CHORDS | L_DRONE | L_PERC, 0, false }, { 4, L_GROOVE, 0, false }, { 8, L_GROOVE | L_LEAD, 0, false },
       { 8, L_ALL, 1, false }, { 4, L_CHORDS | L_LEAD | L_DRONE, 0, false }, { 4, L_GROOVE & ~L_DRONE, 0, true } },
@@ -284,13 +297,14 @@ const SectionDef Arrangements[4][10] = {
     { { 4, L_CHORDS | L_DRONE | L_LEAD, 0, false }, { 8, L_GROOVE | L_LEAD, 0, false }, { 8, L_GROOVE | L_LEAD | L_COUNTER, 1, false },
       { 8, L_ALL, 0, false }, { 4, L_CHORDS | L_LEAD | L_DRONE, 1, false } },
 };
-const int ArrangementSections[4] = { 6, 8, 9, 5 };
+const int ArrangementSections[4] = { 6, 8, 9, 5 };   ///< how many sections each template has
 
 /** @brief A station's style. */
 struct Style
 {
     const char *m_name = "";                     ///< station name
-    float       m_bpmMin = 120, m_bpmMax = 125;  ///< tempo range
+    float       m_bpmMin = 120;                  ///< slowest tempo
+    float       m_bpmMax = 125;                  ///< fastest tempo
     DrumsE      m_drums = DrumsE::FOUR;          ///< drum kit
     PercE       m_perc = PercE::NONE;            ///< hand percussion
     BassE       m_bass = BassE::OCTAVE;          ///< bass
@@ -358,163 +372,163 @@ Style style( const char *name, float lo, float hi, DrumsE d, PercE p, BassE b, C
  */
 std::array<Style, StationCount> buildStyles()
 {
-    using S = ScaleE;
+    using ScaleT = ScaleE;
     std::array<Style, StationCount> st;
     Style *s = nullptr;
 
     s = &( st[0] = style( "SUNSET FM", 100, 112, DrumsE::SYNTHWAVE, PercE::NONE, BassE::OCTAVE, ChordE::SAW, { SUPERSAW, BRASS, SQUARE },
-                          { S::MINOR, S::DORIAN, S::MAJOR } ) );
+                          { ScaleT::MINOR, ScaleT::DORIAN, ScaleT::MAJOR } ) );
     s->m_arp = ArpE::UP, s->m_rhythms = RPop | RSlow, s->m_sidechain = 0.35f, s->m_reverb = 0.45f, s->m_echo = 0.35f;
     s->m_snare = 0.65f, s->m_hat = 0.1f, s->m_leadLevel = 0.07f, s->m_chordLevel = 0.05f, s->m_arpLevel = 0.1f;
 
     s = &( st[1] = style( "TURBO HOUSE", 122, 128, DrumsE::FOUR, PercE::SHAKER, BassE::OFFBEAT, ChordE::STABS, { SQUARE, EPIANO, ORGAN },
-                          { S::MINOR, S::DORIAN, S::MIXOLYDIAN } ) );
+                          { ScaleT::MINOR, ScaleT::DORIAN, ScaleT::MIXOLYDIAN } ) );
     s->m_modal = 0.2f, s->m_rhythms = RPop | RLatin, s->m_sidechain = 0.5f, s->m_reverb = 0.25f, s->m_kick = 0.95f, s->m_snare = 0.55f;
     s->m_hat = 0.14f, s->m_bassLevel = 0.42f, s->m_chordLevel = 0.09f, s->m_percLevel = 0.15f;
 
     s = &( st[2] = style( "AMIGA TECHNO", 134, 142, DrumsE::TECHNO, PercE::NONE, BassE::ACID, ChordE::STRINGS, { PULSE, SQUARE },
-                          { S::MINOR, S::PHRYGIAN, S::HARMONIC } ) );
+                          { ScaleT::MINOR, ScaleT::PHRYGIAN, ScaleT::HARMONIC } ) );
     s->m_arp = ArpE::CHIP, s->m_modal = 0.4f, s->m_rhythms = RFast | RPop, s->m_reverb = 0.15f, s->m_kick = 0.95f, s->m_snare = 0.5f;
     s->m_hat = 0.12f, s->m_bassLevel = 0.36f, s->m_chordLevel = 0.035f;
 
     s = &( st[3] = style( "TRANCE GATE", 136, 140, DrumsE::TRANCE, PercE::NONE, BassE::ROLLING, ChordE::GATED, { SUPERSAW, PLUCK },
-                          { S::MINOR, S::HARMONIC, S::DORIAN } ) );
+                          { ScaleT::MINOR, ScaleT::HARMONIC, ScaleT::DORIAN } ) );
     s->m_arp = ArpE::UP, s->m_rhythms = RPop | RFast, s->m_sidechain = 0.55f, s->m_reverb = 0.45f, s->m_echo = 0.4f, s->m_kick = 0.95f;
     s->m_snare = 0.5f, s->m_hat = 0.12f, s->m_bassLevel = 0.36f, s->m_leadLevel = 0.07f, s->m_chordLevel = 0.05f, s->m_arpLevel = 0.09f;
 
     s = &( st[4] = style( "JUNGLE PRESSURE", 168, 176, DrumsE::DNB, PercE::NONE, BassE::REESE, ChordE::STRINGS, { EPIANO, VIBES, FLUTE },
-                          { S::MINOR, S::DORIAN } ) );
+                          { ScaleT::MINOR, ScaleT::DORIAN } ) );
     s->m_modal = 0.3f, s->m_rhythms = RSlow | RPop, s->m_sidechain = 0.2f, s->m_reverb = 0.35f, s->m_echo = 0.3f, s->m_hat = 0.11f;
     s->m_bassLevel = 0.4f, s->m_leadLevel = 0.1f, s->m_chordLevel = 0.05f;
 
     s = &( st[5] = style( "8-BIT RACER", 148, 160, DrumsE::CHIP, PercE::NONE, BassE::CHIP, ChordE::NONE, { PULSE },
-                          { S::MAJOR, S::MINOR, S::PENTA_MAJOR } ) );
+                          { ScaleT::MAJOR, ScaleT::MINOR, ScaleT::PENTA_MAJOR } ) );
     s->m_arp = ArpE::CHIP, s->m_rhythms = RFast | RPop, s->m_sidechain = 0.0f, s->m_reverb = 0.05f, s->m_echo = 0.15f, s->m_kick = 0.7f;
     s->m_snare = 0.4f, s->m_hat = 0.09f, s->m_bassLevel = 0.26f, s->m_leadLevel = 0.07f, s->m_arpLevel = 0.06f;
 
     s = &( st[6] = style( "FUSION DRIVE", 110, 118, DrumsE::FUNK, PercE::NONE, BassE::FUNKY, ChordE::STABS, { BRASS, EPIANO, ORGAN },
-                          { S::DORIAN, S::MIXOLYDIAN, S::MAJOR } ) );
+                          { ScaleT::DORIAN, ScaleT::MIXOLYDIAN, ScaleT::MAJOR } ) );
     s->m_counter = TRUMPET, s->m_sevenths = 0.7f, s->m_modal = 0.2f, s->m_rhythms = RPop | RLatin | RSwing, s->m_swing = 0.1f;
     s->m_sidechain = 0.1f, s->m_reverb = 0.25f, s->m_echo = 0.2f, s->m_kick = 0.85f, s->m_bassLevel = 0.4f, s->m_chordLevel = 0.08f;
 
     s = &( st[7] = style( "BIG BEAT", 124, 132, DrumsE::BREAKS, PercE::NONE, BassE::BIGBEAT, ChordE::NONE, { BRASS, DIST_GUITAR, ORGAN },
-                          { S::MINOR, S::BLUES } ) );
+                          { ScaleT::MINOR, ScaleT::BLUES } ) );
     s->m_modal = 0.5f, s->m_swing = 0.06f, s->m_sidechain = 0.2f, s->m_reverb = 0.2f, s->m_kick = 1.0f, s->m_snare = 0.75f, s->m_hat = 0.12f;
     s->m_bassLevel = 0.4f;
 
     s = &( st[8] = style( "CITY POP FM", 108, 118, DrumsE::DISCO, PercE::NONE, BassE::FUNKY, ChordE::COMP, { EPIANO, SQUARE, TRUMPET },
-                          { S::MAJOR, S::LYDIAN, S::DORIAN } ) );
+                          { ScaleT::MAJOR, ScaleT::LYDIAN, ScaleT::DORIAN } ) );
     s->m_counter = VIBES, s->m_chordInst = EPIANO, s->m_sevenths = 1.0f, s->m_modal = 0.05f, s->m_rhythms = RPop | RSwing;
     s->m_sidechain = 0.15f, s->m_reverb = 0.3f, s->m_snare = 0.55f, s->m_hat = 0.1f, s->m_chordLevel = 0.06f;
 
     s = &( st[9] = style( "KOTO WAVE", 88, 104, DrumsE::HALFTIME, PercE::TAIKO, BassE::SUB, ChordE::STRINGS, { KOTO, NEY, FLUTE },
-                          { S::HIRAJOSHI, S::IN_SEN, S::PENTA_MINOR } ) );
+                          { ScaleT::HIRAJOSHI, ScaleT::IN_SEN, ScaleT::PENTA_MINOR } ) );
     s->m_counter = KOTO, s->m_modal = 0.5f, s->m_rhythms = RSlow | RPop, s->m_reverb = 0.45f, s->m_echo = 0.35f, s->m_percLevel = 0.4f;
     s->m_chordLevel = 0.045f;
 
     s = &( st[10] = style( "BOLLYWOOD EXPRESS", 100, 124, DrumsE::BHANGRA, PercE::TABLA, BassE::SUB, ChordE::STRINGS, { SITAR, FLUTE, SQUARE },
-                           { S::BHAIRAV, S::HARMONIC, S::MIXOLYDIAN } ) );
+                           { ScaleT::BHAIRAV, ScaleT::HARMONIC, ScaleT::MIXOLYDIAN } ) );
     s->m_drone = DroneE::TANPURA, s->m_counter = SITAR, s->m_modal = 0.6f, s->m_rhythms = RSlow | RPop | RFast, s->m_reverb = 0.35f;
     s->m_echo = 0.3f, s->m_percLevel = 0.45f, s->m_chordLevel = 0.045f, s->m_droneLevel = 0.05f;
 
     s = &( st[11] = style( "DESERT CARAVAN", 96, 118, DrumsE::HALFTIME, PercE::DARBUKA, BassE::SUB, ChordE::STRINGS, { OUD, NEY, CLARINET },
-                           { S::HIJAZ, S::PHRYGIAN, S::HARMONIC } ) );
+                           { ScaleT::HIJAZ, ScaleT::PHRYGIAN, ScaleT::HARMONIC } ) );
     s->m_drone = DroneE::HUM, s->m_counter = OUD, s->m_modal = 0.7f, s->m_rhythms = RSlow | RPop | RFast, s->m_reverb = 0.4f;
     s->m_percLevel = 0.45f, s->m_chordLevel = 0.04f;
 
     s = &( st[12] = style( "AFRO HIGHWAY", 112, 124, DrumsE::AFRO, PercE::AFRO, BassE::FUNKY, ChordE::PLUCKS, { KALIMBA, MARIMBA, TRUMPET },
-                           { S::MAJOR, S::MIXOLYDIAN, S::PENTA_MAJOR, S::DORIAN } ) );
+                           { ScaleT::MAJOR, ScaleT::MIXOLYDIAN, ScaleT::PENTA_MAJOR, ScaleT::DORIAN } ) );
     s->m_chordInst = GUITAR, s->m_counter = MARIMBA, s->m_modal = 0.3f, s->m_rhythms = RLatin | RPop, s->m_sidechain = 0.2f;
     s->m_percLevel = 0.4f, s->m_chordLevel = 0.06f;
 
     s = &( st[13] = style( "SAMBA AVENIDA", 96, 108, DrumsE::SAMBA, PercE::SAMBA, BassE::SAMBA, ChordE::STRUM, { GUITAR, FLUTE, TRUMPET },
-                           { S::MAJOR, S::DORIAN, S::LYDIAN, S::MINOR } ) );
+                           { ScaleT::MAJOR, ScaleT::DORIAN, ScaleT::LYDIAN, ScaleT::MINOR } ) );
     s->m_chordInst = GUITAR, s->m_sevenths = 0.8f, s->m_rhythms = RLatin | RSwing, s->m_sidechain = 0.0f, s->m_kick = 0.7f;
     s->m_snare = 0.4f, s->m_percLevel = 0.45f, s->m_chordLevel = 0.06f;
 
     s = &( st[14] = style( "TANGO TURBO", 112, 122, DrumsE::HABANERA, PercE::NONE, BassE::HABANERA, ChordE::BRASS, { BANDONEON, FIDDLE, ACCORDION },
-                           { S::HARMONIC, S::MINOR } ) );
+                           { ScaleT::HARMONIC, ScaleT::MINOR } ) );
     s->m_chordInst = FIDDLE, s->m_counter = FIDDLE, s->m_rhythms = RLatin | RSlow, s->m_sidechain = 0.15f, s->m_reverb = 0.35f;
     s->m_chordLevel = 0.06f;
 
     s = &( st[15] = style( "ANDES WIND", 92, 108, DrumsE::HALFTIME, PercE::ANDES, BassE::OCTAVE, ChordE::STRUM, { PANFLUTE, FLUTE, CHARANGO },
-                           { S::PENTA_MINOR, S::MINOR, S::HARMONIC } ) );
+                           { ScaleT::PENTA_MINOR, ScaleT::MINOR, ScaleT::HARMONIC } ) );
     s->m_chordInst = CHARANGO, s->m_modal = 0.3f, s->m_rhythms = RFast | RPop, s->m_reverb = 0.4f, s->m_percLevel = 0.45f;
     s->m_chordLevel = 0.05f, s->m_kick = 0.75f;
 
     s = &( st[16] = style( "CARIBBEAN STEEL", 100, 120, DrumsE::SOCA, PercE::CARIB, BassE::FUNKY, ChordE::SKANK, { STEEL_DRUM, TRUMPET, MARIMBA },
-                           { S::MAJOR, S::MIXOLYDIAN, S::PENTA_MAJOR } ) );
+                           { ScaleT::MAJOR, ScaleT::MIXOLYDIAN, ScaleT::PENTA_MAJOR } ) );
     s->m_counter = STEEL_DRUM, s->m_modal = 0.2f, s->m_rhythms = RLatin | RPop, s->m_percLevel = 0.4f, s->m_chordLevel = 0.06f;
 
     s = &( st[17] = style( "MARIACHI MOTOR", 112, 132, DrumsE::POLKA, PercE::NONE, BassE::POLKA, ChordE::STRUM, { TRUMPET, ACCORDION, FIDDLE },
-                           { S::MAJOR, S::HARMONIC, S::MIXOLYDIAN } ) );
+                           { ScaleT::MAJOR, ScaleT::HARMONIC, ScaleT::MIXOLYDIAN } ) );
     s->m_chordInst = GUITAR, s->m_counter = TRUMPET, s->m_rhythms = RPop | RFast, s->m_sidechain = 0.0f, s->m_reverb = 0.3f;
     s->m_kick = 0.75f, s->m_snare = 0.45f, s->m_chordLevel = 0.06f;
 
     s = &( st[18] = style( "CELTIC COAST", 112, 128, DrumsE::FOUR, PercE::CELTIC, BassE::ROLLING, ChordE::STRUM, { WHISTLE, FIDDLE, FLUTE },
-                           { S::DORIAN, S::MIXOLYDIAN, S::MAJOR, S::PENTA_MAJOR } ) );
+                           { ScaleT::DORIAN, ScaleT::MIXOLYDIAN, ScaleT::MAJOR, ScaleT::PENTA_MAJOR } ) );
     s->m_chordInst = TWANG, s->m_drone = DroneE::BAGPIPE, s->m_modal = 0.3f, s->m_rhythms = RFast, s->m_swing = 0.08f;
     s->m_sidechain = 0.25f, s->m_percLevel = 0.4f, s->m_chordLevel = 0.05f, s->m_droneLevel = 0.035f;
 
     s = &( st[19] = style( "BALKAN BRASS", 130, 146, DrumsE::POLKA, PercE::BALKAN, BassE::POLKA, ChordE::BRASS, { TRUMPET, CLARINET, ACCORDION },
-                           { S::GYPSY, S::HARMONIC, S::HIJAZ, S::MINOR } ) );
+                           { ScaleT::GYPSY, ScaleT::HARMONIC, ScaleT::HIJAZ, ScaleT::MINOR } ) );
     s->m_chordInst = BRASS, s->m_counter = CLARINET, s->m_modal = 0.2f, s->m_rhythms = RFast, s->m_sidechain = 0.0f, s->m_kick = 0.8f;
     s->m_percLevel = 0.4f, s->m_chordLevel = 0.06f;
 
     s = &( st[20] = style( "GAMELAN DRIVE", 100, 120, DrumsE::FOUR, PercE::GAMELAN, BassE::SUB, ChordE::BELLS, { GAMELAN, VIBES, FLUTE },
-                           { S::PELOG, S::PENTA_MAJOR } ) );
+                           { ScaleT::PELOG, ScaleT::PENTA_MAJOR } ) );
     s->m_chordInst = GAMELAN, s->m_modal = 0.6f, s->m_rhythms = RPop | RSlow, s->m_reverb = 0.4f, s->m_percLevel = 0.4f;
     s->m_chordLevel = 0.05f;
 
     s = &( st[21] = style( "OUTBACK DRONE", 110, 124, DrumsE::BREAKS, PercE::CLAPSTICKS, BassE::SUB, ChordE::SAW, { PLUCK, TWANG, FLUTE },
-                           { S::MINOR, S::DORIAN, S::PENTA_MINOR } ) );
+                           { ScaleT::MINOR, ScaleT::DORIAN, ScaleT::PENTA_MINOR } ) );
     s->m_drone = DroneE::DIDGERIDOO, s->m_modal = 0.6f, s->m_rhythms = RPop | RSlow, s->m_percLevel = 0.35f, s->m_chordLevel = 0.04f;
     s->m_droneLevel = 0.09f;
 
     s = &( st[22] = style( "STEPPE RIDER", 104, 124, DrumsE::GALLOP, PercE::STEPPE, BassE::GALLOP, ChordE::STRINGS, { ERHU, FLUTE, OUD },
-                           { S::PENTA_MINOR, S::PENTA_MAJOR, S::DORIAN } ) );
+                           { ScaleT::PENTA_MINOR, ScaleT::PENTA_MAJOR, ScaleT::DORIAN } ) );
     s->m_drone = DroneE::THROAT, s->m_modal = 0.6f, s->m_rhythms = RFast | RSlow, s->m_reverb = 0.4f, s->m_percLevel = 0.4f;
     s->m_chordLevel = 0.04f, s->m_droneLevel = 0.06f;
 
     s = &( st[23] = style( "NORDIC NIGHT", 122, 136, DrumsE::TRANCE, PercE::CELTIC, BassE::ROLLING, ChordE::GATED, { FIDDLE, FLUTE, VIBES },
-                           { S::MINOR, S::DORIAN } ) );
+                           { ScaleT::MINOR, ScaleT::DORIAN } ) );
     s->m_drone = DroneE::HUM, s->m_arp = ArpE::UP, s->m_modal = 0.2f, s->m_rhythms = RPop | RFast, s->m_sidechain = 0.45f;
     s->m_reverb = 0.5f, s->m_echo = 0.35f, s->m_percLevel = 0.3f, s->m_chordLevel = 0.05f;
 
     s = &( st[24] = style( "ROUTE 66 RADIO", 112, 140, DrumsE::ROCK, PercE::SHAKER, BassE::COUNTRY, ChordE::STRUM, { TWANG, HARMONICA, DIST_GUITAR },
-                           { S::MAJOR, S::MIXOLYDIAN, S::BLUES, S::PENTA_MAJOR } ) );
+                           { ScaleT::MAJOR, ScaleT::MIXOLYDIAN, ScaleT::BLUES, ScaleT::PENTA_MAJOR } ) );
     s->m_chordInst = TWANG, s->m_modal = 0.2f, s->m_rhythms = RPop | RSwing, s->m_sidechain = 0.0f, s->m_kick = 0.85f, s->m_snare = 0.7f;
     s->m_percLevel = 0.25f, s->m_chordLevel = 0.055f;
 
     s = &( st[25] = style( "LO-FI CRUISE", 72, 88, DrumsE::LOFI, PercE::SHAKER, BassE::SUB, ChordE::COMP, { EPIANO, VIBES, GUITAR },
-                           { S::DORIAN, S::MINOR, S::MAJOR } ) );
+                           { ScaleT::DORIAN, ScaleT::MINOR, ScaleT::MAJOR } ) );
     s->m_chordInst = EPIANO, s->m_sevenths = 1.0f, s->m_rhythms = RSlow | RSwing, s->m_arrangement = 3, s->m_swing = 0.14f;
     s->m_sidechain = 0.15f, s->m_reverb = 0.35f, s->m_echo = 0.3f, s->m_kick = 0.8f, s->m_snare = 0.5f, s->m_hat = 0.08f;
     s->m_percLevel = 0.15f, s->m_chordLevel = 0.06f;
 
     s = &( st[26] = style( "K-POP NEON", 120, 128, DrumsE::FOUR, PercE::SHAKER, BassE::OFFBEAT, ChordE::GATED, { SUPERSAW, PLUCK, SQUARE },
-                           { S::MINOR, S::DORIAN, S::MAJOR } ) );
+                           { ScaleT::MINOR, ScaleT::DORIAN, ScaleT::MAJOR } ) );
     s->m_arp = ArpE::UP, s->m_modal = 0.1f, s->m_rhythms = RPop | RFast, s->m_sidechain = 0.5f, s->m_reverb = 0.3f, s->m_echo = 0.3f;
     s->m_kick = 1.0f, s->m_snare = 0.7f, s->m_hat = 0.13f, s->m_percLevel = 0.15f, s->m_leadLevel = 0.08f, s->m_chordLevel = 0.05f;
 
     s = &( st[27] = style( "FADO NOITE", 62, 76, DrumsE::HALFTIME, PercE::NONE, BassE::SUB, ChordE::STRUM, { CHARANGO, FIDDLE, GUITAR },
-                           { S::HARMONIC, S::MINOR } ) );
+                           { ScaleT::HARMONIC, ScaleT::MINOR } ) );
     s->m_chordInst = GUITAR, s->m_counter = CHARANGO, s->m_modal = 0.1f, s->m_rhythms = RSlow, s->m_arrangement = 3, s->m_swing = 0.05f;
     s->m_sidechain = 0.0f, s->m_reverb = 0.45f, s->m_echo = 0.2f, s->m_kick = 0.15f, s->m_snare = 0.0f, s->m_hat = 0.03f;
     s->m_leadLevel = 0.1f, s->m_chordLevel = 0.08f, s->m_bassLevel = 0.3f;
 
     s = &( st[28] = style( "SCHLAGER EXPRESS", 120, 132, DrumsE::DISCO, PercE::NONE, BassE::OCTAVE, ChordE::STABS, { SUPERSAW, ACCORDION, BRASS },
-                           { S::MAJOR, S::MIXOLYDIAN } ) );
+                           { ScaleT::MAJOR, ScaleT::MIXOLYDIAN } ) );
     s->m_counter = ACCORDION, s->m_modal = 0.05f, s->m_rhythms = RPop, s->m_sidechain = 0.3f, s->m_reverb = 0.3f, s->m_kick = 0.95f;
     s->m_snare = 0.6f, s->m_hat = 0.12f, s->m_leadLevel = 0.08f, s->m_chordLevel = 0.07f;
 
     s = &( st[29] = style( "POLKA PARADE", 120, 144, DrumsE::POLKA, PercE::NONE, BassE::POLKA, ChordE::STRUM, { ACCORDION, CLARINET, TRUMPET },
-                           { S::MAJOR, S::MIXOLYDIAN } ) );
+                           { ScaleT::MAJOR, ScaleT::MIXOLYDIAN } ) );
     s->m_chordInst = ACCORDION, s->m_counter = CLARINET, s->m_rhythms = RFast | RPop, s->m_sidechain = 0.0f, s->m_reverb = 0.25f;
     s->m_kick = 0.8f, s->m_snare = 0.5f, s->m_chordLevel = 0.06f;
 
     s = &( st[30] = style( "AFROBEAT LAGOS", 100, 112, DrumsE::FUNK, PercE::AFRO, BassE::FUNKY, ChordE::STABS, { TRUMPET, ORGAN, DIST_GUITAR },
-                           { S::DORIAN, S::MINOR, S::MIXOLYDIAN } ) );
+                           { ScaleT::DORIAN, ScaleT::MINOR, ScaleT::MIXOLYDIAN } ) );
     s->m_chordInst = BRASS, s->m_counter = ORGAN, s->m_modal = 0.7f, s->m_rhythms = RLatin | RPop, s->m_swing = 0.05f, s->m_sidechain = 0.1f;
     s->m_reverb = 0.25f, s->m_kick = 0.85f, s->m_percLevel = 0.4f, s->m_bassLevel = 0.42f, s->m_chordLevel = 0.07f;
     return st;
@@ -734,7 +748,7 @@ void MusicSynth::start( uint64_t seed, int station )
     // Two melodies with their own rhythms, a counter line.
     int rhythms[16], nr = 0;
     for( int i = 0; i < 14; ++i )
-        if( st.m_rhythms & R( i ) ) rhythms[nr++] = i;
+        if( st.m_rhythms & rhythmBit( i ) ) rhythms[nr++] = i;
     const int n = Scales[m_scale].m_n;
     const int ra = rhythms[r.rangeInt( 0, nr - 1 )];
     const int rb = rhythms[r.rangeInt( 0, nr - 1 )];

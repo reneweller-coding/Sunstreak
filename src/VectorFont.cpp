@@ -1,7 +1,7 @@
 /**
  * @file VectorFont.cpp
  * @brief The stroke glyphs and their drawing.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "VectorFont.h"
 
@@ -24,16 +24,16 @@ constexpr float Slant = 0.22f;     ///< italic lean (x per y)
 constexpr float Advance = 5.6f;    ///< glyph advance in grid units (glyphs are 4 wide, 6 high)
 
 /** @brief A glyph: polylines on a 4 x 6 grid, y up. */
-using Glyph = std::vector<std::vector<Vector2>>;
+using GlyphT = std::vector<std::vector<Vector2>>;
 
 /**
  * @brief Parses "x,y x,y | x,y ..." into polylines.
  * @param[in] spec  the outline
  * @return the glyph
  */
-Glyph parse( const char *spec )
+GlyphT parse( const char *spec )
 {
-    Glyph                g( 1 );
+    GlyphT                g( 1 );
     std::string          token;
     const std::string    s = spec;
     size_t               i = 0;
@@ -66,11 +66,11 @@ Glyph parse( const char *spec )
  * @brief The glyph table, built once.
  * @return glyphs indexed by ASCII code
  */
-const std::array<Glyph, 128> &glyphs()
+const std::array<GlyphT, 128> &glyphs()
 {
-    static const std::array<Glyph, 128> table = []
+    static const std::array<GlyphT, 128> table = []
     {
-        std::array<Glyph, 128> t{};
+        std::array<GlyphT, 128> t{};
         auto set = [&]( char c, const char *spec ) { t[static_cast<size_t>( c )] = parse( spec ); };
         set( '0', "0,1 0,5 1,6 3,6 4,5 4,1 3,0 1,0 0,1 | 1,1.5 3,4.5" );
         set( '1', "1,5 2,6 2,0 | 1,0 3,0" );

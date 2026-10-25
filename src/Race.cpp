@@ -1,7 +1,7 @@
 /**
  * @file Race.cpp
  * @brief Rival drivers, the grid, contact, results and standings.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Race.h"
 
@@ -16,7 +16,7 @@ namespace
 const char *Names[] = { "K. VOSS",    "M. TANAKA",  "L. FERRAND", "S. OKAFOR", "J. MORENO", "A. LINDQVIST", "R. COSTA",
                         "D. KOVAC",   "T. HALE",    "N. ROSSI",   "E. MARLOWE", "P. ADEYEMI", "C. BRANDT",   "Y. SATO",
                         "I. NOVAK",   "F. DUARTE",  "G. MILLER",  "H. AALTO" };   ///< fictional drivers
-constexpr int NameCount = static_cast<int>( sizeof( Names ) / sizeof( Names[0] ) );
+constexpr int NameCount = static_cast<int>( sizeof( Names ) / sizeof( Names[0] ) );   ///< how many
 
 } // namespace
 

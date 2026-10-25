@@ -1,7 +1,7 @@
 /**
  * @file Car.cpp
  * @brief Arcade car physics.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Car.h"
 

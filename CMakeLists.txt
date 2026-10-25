@@ -97,3 +97,7 @@ enable_testing()
 add_executable( SunstreakTests tests/TestMain.cpp )
 target_link_libraries( SunstreakTests PRIVATE sunstreak_core )
 add_test( NAME core COMMAND SunstreakTests )
+
+# Every file, class, function and member documented after the CGVR template (docs/STYLE.md), where Doxygen is found.
+include( cmake/Doccheck.cmake )
+sunstreak_doccheck()

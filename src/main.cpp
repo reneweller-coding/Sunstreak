@@ -6,7 +6,7 @@
  * --distance M (start M metres down the road), --size WxH, --quit-after S, --screenshot file.png, --mute,
  * --audio-test file.wav (renders a scripted drive's sound offline and quits)
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Config.h"
 #include "Game.h"

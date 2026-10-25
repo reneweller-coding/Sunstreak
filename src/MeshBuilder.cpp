@@ -1,7 +1,7 @@
 /**
  * @file MeshBuilder.cpp
  * @brief Triangle collection and upload.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "MeshBuilder.h"
 

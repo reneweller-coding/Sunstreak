@@ -5,7 +5,7 @@
  * The same seed must give the same track on every machine, so nothing here touches std::random_device or the
  * standard distributions (whose results differ between libraries).
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

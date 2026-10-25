@@ -1,7 +1,7 @@
 /**
  * @file Season.cpp
  * @brief The seasons by place and time of year.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Season.h"
 

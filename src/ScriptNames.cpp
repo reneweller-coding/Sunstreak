@@ -1,7 +1,7 @@
 /**
  * @file ScriptNames.cpp
  * @brief Reading the traced names of data/script-names.txt.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "ScriptNames.h"
 

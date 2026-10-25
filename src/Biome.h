@@ -5,7 +5,7 @@
  * A run is a chain of stages, one biome each. Everything a stage boundary changes is blendable, so the game crossfades
  * the light, the fog and the ground colours over a few hundred metres instead of cutting.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

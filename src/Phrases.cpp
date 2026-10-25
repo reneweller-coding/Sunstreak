@@ -1,7 +1,7 @@
 /**
  * @file Phrases.cpp
  * @brief Reads data/phrases.txt.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Phrases.h"
 
@@ -19,19 +19,19 @@ namespace
 int g_phraseErrors = 0;   ///< wrong lines in the last read
 
 /** @brief The phrases by key (a country, fleet:NAME or default). */
-using PhraseMap = std::map<std::string, Phrases>;
+using PhraseMapT = std::map<std::string, Phrases>;
 
 /**
  * @brief The file's phrases, read again after a reload.
  * @return them
  */
-const PhraseMap &phrases()
+const PhraseMapT &phrases()
 {
-    static DataCache<PhraseMap> cache;
+    static DataCache<PhraseMapT> cache;
     return cache.get( []
     {
         g_phraseErrors = 0;
-        PhraseMap out;
+        PhraseMapT out;
         for( const std::string &line : dataLines( dataText( "phrases.txt" ) ) )
         {
             const std::vector<std::string> f = splitLine( line, '|' );
@@ -62,7 +62,7 @@ const PhraseMap &phrases()
 
 const Phrases &phrasesOf( const char *country )
 {
-    const PhraseMap &all = phrases();
+    const PhraseMapT &all = phrases();
     if( country )
     {
         auto it = all.find( country );

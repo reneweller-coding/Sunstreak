@@ -6,7 +6,7 @@
  * boost B / Space / Shift, gears LB RB / Q E, camera Y / C, look back (held) R3 / B, pause Start / Esc / P,
  * radio station M / View, next track N.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

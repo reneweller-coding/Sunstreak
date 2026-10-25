@@ -1,7 +1,7 @@
 /**
  * @file WorldMap.cpp
  * @brief Reading the outlines and painting the passport's map (scanline fills and stamped lines on a pixel buffer).
- * @author reneweller
+ * @author Rene Weller
  */
 #include "WorldMap.h"
 
@@ -67,7 +67,8 @@ std::vector<MapArea> readAreas( const std::string &name )
 /** @brief A picture being painted, colours blended in. */
 struct Canvas
 {
-    int                m_w = 0, m_h = 0;   ///< size
+    int                m_w = 0;            ///< width
+    int                m_h = 0;            ///< height
     std::vector<Color> m_px;               ///< the pixels
 
     /**

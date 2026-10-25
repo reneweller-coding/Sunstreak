@@ -1,7 +1,7 @@
 /**
  * @file GameUi.cpp
  * @brief The game's screens: menus, settings, Track Lab, code and initials entry, records, results, standings, HUD.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Game.h"
 

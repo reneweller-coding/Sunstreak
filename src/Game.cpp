@@ -1,7 +1,7 @@
 /**
  * @file Game.cpp
  * @brief Game flow, rules, camera and effects. The menus, screens and the HUD are in GameUi.cpp.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Game.h"
 

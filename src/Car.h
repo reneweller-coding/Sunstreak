@@ -7,7 +7,7 @@
  * beside the road slows it down. Crests can throw it into the air. Gears, a rev limiter and a boost tank drive the
  * engine sound.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

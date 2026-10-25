@@ -1,7 +1,7 @@
 /**
  * @file Models.cpp
  * @brief The procedural models.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Models.h"
 
@@ -45,6 +45,7 @@ constexpr Mat Paint{ 0.0f, 0.55f };    ///< car paint
 constexpr Mat Glass{ 0.0f, 0.95f };    ///< windows
 constexpr Mat Chrome{ 0.0f, 0.75f };   ///< rims, rails
 
+/** @brief The cars' specifications. */
 const CarSpec CarSpecs[CarCount] = {
     { "ARROW GT", 80.5f, 1.0f, 1.0f, 4.5f, 1.88f, 8, 900.0f, 7800.0f, 1.0f, 0.86f },
     { "SPARROW", 72.0f, 1.16f, 1.12f, 3.9f, 1.72f, 4, 1000.0f, 8600.0f, 1.35f, 0.92f },
@@ -52,18 +53,23 @@ const CarSpec CarSpecs[CarCount] = {
     { "KESTREL", 76.0f, 1.12f, 1.05f, 4.1f, 1.82f, 4, 950.0f, 8200.0f, 1.25f, 1.2f },
 };
 
+/** @brief The paints' names in the garage. */
 const char *PaintNames[PaintCount] = { "RACING RED",    "ICE WHITE",   "SUN YELLOW",    "DEEP BLUE",   "CHAMPION GOLD",
                                        "MIDNIGHT BLACK", "LIME GREEN",  "SUNSET ORANGE", "MIAMI PINK",  "GULF BLUE",
                                        "BRITISH GREEN", "SILVER ARROW", "PEARL PURPLE",  "GLOBETROTTER" };
+/** @brief Their colours. */
 const Color PaintColors[PaintCount] = { rgb( 196, 18, 24 ),  rgb( 232, 234, 240 ), rgb( 240, 186, 16 ), rgb( 22, 56, 168 ),
                                         rgb( 214, 168, 52 ), rgb( 22, 22, 26 ),    rgb( 120, 210, 40 ), rgb( 240, 110, 20 ),
                                         rgb( 236, 80, 160 ), rgb( 120, 180, 220 ), rgb( 20, 76, 46 ),   rgb( 178, 182, 190 ),
                                         rgb( 110, 60, 160 ), rgb( 20, 130, 150 ) };
 
+/** @brief The rims' names. */
 const char *RimNames[RimCount] = { "SILVER", "BLACK", "WHITE", "GOLD", "BRONZE", "RED", "GUNMETAL" };
+/** @brief Their colours. */
 const Color RimColors[RimCount] = { rgb( 170, 172, 178 ), rgb( 26, 26, 28 ),  rgb( 232, 232, 234 ), rgb( 214, 170, 60 ),
                                     rgb( 150, 100, 52 ),  rgb( 190, 30, 30 ), rgb( 76, 80, 88 ) };
 
+/** @brief The decals' names. */
 const char *DecalNames[DecalCount] = { "NONE", "TWIN STRIPES", "SIDE STRIPE", "ROUNDEL", "TWO TONE", "CHEQUERS", "GLOBE" };
 
 /** @brief A cross-section of a car body. */

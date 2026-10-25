@@ -1,7 +1,7 @@
 /**
  * @file Train.cpp
  * @brief The trains of data/trains.txt, their stretches and their races.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Train.h"
 

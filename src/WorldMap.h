@@ -2,7 +2,7 @@
  * @file WorldMap.h
  * @brief The passport's map: country and province outlines (data/world, from Natural Earth), painted with the ones
  *        where you have seen a place.
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

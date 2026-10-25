@@ -1,7 +1,7 @@
 /**
  * @file Rallies.cpp
  * @brief The world tour's rallies: famous long-distance routes as a chain of places, driven in one go against the clock.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Biome.h"
 #include "Data.h"

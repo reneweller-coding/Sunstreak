@@ -1,7 +1,7 @@
 /**
  * @file Audio.cpp
  * @brief Live synthesis: engine, tyres, wind, effects and the generative soundtrack.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Audio.h"
 
@@ -46,7 +46,8 @@ struct Voice
     float m_strength = 1;        ///< 0..1
     float m_pan = 0;             ///< -1..1
     float m_pitch = 1;           ///< Doppler shift
-    float m_a = 0, m_b = 0;      ///< per-type state
+    float m_a = 0;               ///< per-type state (a pitch, a sweep)
+    float m_b = 0;               ///< more per-type state
     float m_phase = 0;           ///< oscillator
     Svf   m_f;                   ///< filter
     Noise m_n;                   ///< noise
@@ -55,47 +56,133 @@ struct Voice
 /** @brief The synthesiser shared with the audio thread. */
 struct Synth
 {
-    std::atomic<float> m_rpm{ 0.1f }, m_throttle{ 0 }, m_speed{ 0 }, m_slip{ 0 }, m_offroad{ 0 }, m_rumble{ 0 };
-    std::atomic<bool>  m_active{ false }, m_boost{ false }, m_limiter{ false }, m_shifting{ false };
-    std::atomic<int>   m_cylinders{ 8 };
-    std::atomic<float> m_idle{ 900.0f }, m_redline{ 7800.0f }, m_bright{ 1.0f };
-    std::atomic<float> m_sfxVol{ 0.9f }, m_musicVol{ 0.7f };
-    std::atomic<int>   m_musicCmd{ 0 };      ///< 1 start, 2 stop
-    std::atomic<uint64_t> m_musicSeed{ 1 };    ///< the track to start
-    std::atomic<int>   m_musicStation{ 0 };  ///< its station
-    std::atomic<float> m_tension{ 0.0f }, m_drive{ 0.0f };   ///< the game's mood
-    std::atomic<float> m_aSurf{ 0 }, m_aSurfPan{ 0 }, m_aWind{ 0 }, m_aJungle{ 0 }, m_aCity{ 0 }, m_aRain{ 0 }, m_aTunnel{ 0 }, m_aBridge{ 0 };
-    std::atomic<float> m_aUnder{ 0 };
-    std::atomic<float> m_aSiren{ 0 }, m_aSirenPan{ 0 };
-    std::atomic<int>   m_aSirenKind{ 0 };
-    std::atomic<float> m_aSirenPitch{ 1 };
+    // Written by the game thread, read by the audio thread.
+    std::atomic<float>    m_rpm{ 0.1f };          ///< engine revs, 0..1 of idle to redline
+    std::atomic<float>    m_throttle{ 0 };        ///< throttle 0..1
+    std::atomic<float>    m_speed{ 0 };           ///< the car's speed (m/s)
+    std::atomic<float>    m_slip{ 0 };            ///< tyre slip 0..1
+    std::atomic<float>    m_offroad{ 0 };         ///< 0..1 off the road
+    std::atomic<float>    m_rumble{ 0 };          ///< 0..1 on the kerbs
+    std::atomic<bool>     m_active{ false };      ///< the engine runs (a drive is on)
+    std::atomic<bool>     m_boost{ false };       ///< boosting
+    std::atomic<bool>     m_limiter{ false };     ///< at the rev limiter
+    std::atomic<bool>     m_shifting{ false };    ///< a gear change under way
+    std::atomic<int>      m_cylinders{ 8 };       ///< the engine's cylinders
+    std::atomic<float>    m_idle{ 900.0f };       ///< its idle revs
+    std::atomic<float>    m_redline{ 7800.0f };   ///< its redline
+    std::atomic<float>    m_bright{ 1.0f };       ///< the exhaust's brightness
+    std::atomic<float>    m_sfxVol{ 0.9f };       ///< effects volume 0..1
+    std::atomic<float>    m_musicVol{ 0.7f };     ///< music volume 0..1
+    std::atomic<int>      m_musicCmd{ 0 };        ///< 1 start, 2 stop
+    std::atomic<uint64_t> m_musicSeed{ 1 };       ///< the track to start
+    std::atomic<int>      m_musicStation{ 0 };    ///< its station
+    std::atomic<float>    m_tension{ 0.0f };      ///< the game's tension 0..1 (the music's mood)
+    std::atomic<float>    m_drive{ 0.0f };        ///< how hard the car is driven 0..1
+    std::atomic<float>    m_aSurf{ 0 };           ///< surf on the shore 0..1
+    std::atomic<float>    m_aSurfPan{ 0 };        ///< where the surf is, -1..1
+    std::atomic<float>    m_aWind{ 0 };           ///< wind 0..1
+    std::atomic<float>    m_aJungle{ 0 };         ///< jungle 0..1
+    std::atomic<float>    m_aCity{ 0 };           ///< city 0..1
+    std::atomic<float>    m_aRain{ 0 };           ///< rain 0..1
+    std::atomic<float>    m_aTunnel{ 0 };         ///< in a tunnel 0..1
+    std::atomic<float>    m_aBridge{ 0 };         ///< on a bridge 0..1
+    std::atomic<float>    m_aUnder{ 0 };          ///< under the sea 0..1
+    std::atomic<float>    m_aSiren{ 0 };          ///< a siren's loudness 0..1
+    std::atomic<float>    m_aSirenPan{ 0 };       ///< where it is, -1..1
+    std::atomic<int>      m_aSirenKind{ 0 };      ///< 0 the long wail, 1 the two tones of Europe
+    std::atomic<float>    m_aSirenPitch{ 1 };     ///< its Doppler shift
 
     std::array<Event, 64>  m_queue;          ///< effects posted by the game
     std::atomic<uint32_t>  m_head{ 0 };      ///< written by the game thread
     std::atomic<uint32_t>  m_tail{ 0 };      ///< read by the audio thread
 
-    // Audio-thread state.
-    float  e_rpm = 0.1f, e_thr = 0, e_speed = 0, e_slip = 0, e_off = 0, e_rumble = 0, e_active = 0, e_boost = 0, e_spool = 0;
-    float  e_phase = 0, e_sub = 0, e_pulseAmp = 1, e_uneven = 1, e_pop = 0, e_shift = 1, e_prevThr = 0;
-    float  e_whistle = 0, e_squeal = 0, e_vib = 0, e_rumblePh = 0, e_limPh = 0;
-    int    e_count = 0, e_coef = 0;
-    bool   e_wasShifting = false;
-    Svf    e_body, e_intake, e_wind, e_squealF, e_gravel, e_rumbleF, e_hiss;
-    Noise  e_n;
-    float  e_width[64] = {};
-    int    e_wi = 0;
+    // The engine, the tyres and the wind (audio thread).
+    float  m_engRpm = 0.1f;           ///< the revs, smoothed
+    float  m_engThr = 0;              ///< the throttle, smoothed
+    float  m_engSpeed = 0;            ///< the speed, smoothed
+    float  m_engSlip = 0;             ///< the slip, smoothed
+    float  m_engOff = 0;              ///< off the road, smoothed
+    float  m_engRumble = 0;           ///< on the kerbs, smoothed
+    float  m_engActive = 0;           ///< the engine's presence, faded in and out
+    float  m_engBoost = 0;            ///< the boost, smoothed
+    float  m_engSpool = 0;            ///< the turbo's spool 0..1
+    float  m_engPhase = 0;            ///< phase within the firing pulse
+    float  m_engSub = 0;              ///< the sub-octave's phase
+    float  m_engPulseAmp = 1;         ///< the current pulse's strength
+    float  m_engUneven = 1;           ///< the current pulse's weight (a cross-plane V8's burble)
+    float  m_engPop = 0;              ///< the backfire's pops left
+    float  m_engShift = 1;            ///< the gain dip of a gear change
+    float  m_engPrevThr = 0;          ///< the last sample's throttle (a lift-off pops)
+    float  m_engWhistle = 0;          ///< the turbo whistle's phase
+    float  m_engSqueal = 0;           ///< the tyre squeal's phase
+    float  m_engVib = 0;              ///< the squeal's vibrato phase
+    float  m_engRumblePh = 0;         ///< the kerb rumble's phase
+    float  m_engLimPh = 0;            ///< the rev limiter's cut phase
+    int    m_engCount = 0;            ///< voices started (picks the next one and its noise seed)
+    int    m_engCoef = 0;             ///< samples since the filters were set
+    bool   m_engWasShifting = false;  ///< the last sample was in a gear change
+    Svf    m_engBody;                 ///< the engine body's resonance
+    Svf    m_engIntake;               ///< the intake's resonance
+    Svf    m_engWind;                 ///< the wind noise
+    Svf    m_engSquealF;              ///< the squeal's band
+    Svf    m_engGravel;               ///< the gravel's band
+    Svf    m_engRumbleF;              ///< the kerb rumble's low-pass
+    Svf    m_engHiss;                 ///< the boost's hiss
+    Noise  m_engN;                    ///< noise
+    float  m_engWidth[64] = {};       ///< the short delay that widens the engine
+    int    m_engWi = 0;               ///< its write position
+
     // The ambience (audio thread).
-    float  a_surf = 0, a_pan = 0, a_wind = 0, a_jungle = 0, a_city = 0, a_rain = 0, a_tunnel = 0, a_bridge = 0, a_time = 0;
-    float  a_joint = 0, a_thump = 0, a_thump2 = 0, a_thumpDelay = -1, a_horn = 0, a_hornF = 420, a_hornIn = 6, a_bird = 0, a_birdF = 3000,
-           a_birdIn = 2, a_birdPh = 0, a_insectPh = 0, a_amPh = 0, a_droplet = 0;
-    float  a_under = 0, a_whale = 0, a_whaleIn = 4, a_whaleDur = 1, a_whalePh = 0, a_whaleF0 = 200, a_whaleF1 = 300;
-    float  a_siren = 0, a_sirenPan = 0, a_sirenT = 0, a_sirenPh = 0, a_sirenPitch = 1;
-    int    a_coef = 0;
-    Svf    a_surfLo, a_surfHi, a_windBp, a_rainHp, a_cityLo, a_hornLo, a_thumpLo, a_seaLo, a_mufL, a_mufR;
-    Noise  a_n;
-    std::array<std::array<float, 3600>, 4> a_comb{};   ///< tunnel echo: four combs
-    std::array<float, 4>                   a_combDamp{};
-    int                                    a_combPos = 0;
+    float  m_ambSurf = 0;             ///< surf, smoothed
+    float  m_ambPan = 0;              ///< where the surf is, smoothed
+    float  m_ambWind = 0;             ///< wind, smoothed
+    float  m_ambJungle = 0;           ///< jungle, smoothed
+    float  m_ambCity = 0;             ///< city, smoothed
+    float  m_ambRain = 0;             ///< rain, smoothed
+    float  m_ambTunnel = 0;           ///< in a tunnel, smoothed
+    float  m_ambBridge = 0;           ///< on a bridge, smoothed
+    float  m_ambTime = 0;             ///< seconds running (the gusts' clock)
+    float  m_ambJoint = 0;            ///< the way to the next expansion joint of a bridge, 0..1
+    float  m_ambThump = 0;            ///< the front axle's thump on it
+    float  m_ambThump2 = 0;           ///< the rear axle's
+    float  m_ambThumpDelay = -1;      ///< seconds until the rear axle gets there (-1: none waiting)
+    float  m_ambHorn = 0;             ///< a far horn of the city, its envelope
+    float  m_ambHornF = 420;          ///< its pitch (Hz)
+    float  m_ambHornIn = 6;           ///< seconds to the next one
+    float  m_ambBird = 0;             ///< a bird's call, its envelope
+    float  m_ambBirdF = 3000;         ///< its pitch (Hz)
+    float  m_ambBirdIn = 2;           ///< seconds to the next call
+    float  m_ambBirdPh = 0;           ///< its phase
+    float  m_ambInsectPh = 0;         ///< the insects' phase
+    float  m_ambAmPh = 0;             ///< their tremolo's phase
+    float  m_ambDroplet = 0;          ///< a raindrop on the roof, its envelope
+    float  m_ambUnder = 0;            ///< under the sea, smoothed
+    float  m_ambWhale = 0;            ///< a whale's song, seconds left
+    float  m_ambWhaleIn = 4;          ///< seconds to the next one
+    float  m_ambWhaleDur = 1;         ///< how long it sings
+    float  m_ambWhalePh = 0;          ///< its phase
+    float  m_ambWhaleF0 = 200;        ///< its pitch at the start (Hz)
+    float  m_ambWhaleF1 = 300;        ///< and at the end
+    float  m_ambSiren = 0;            ///< the siren's loudness, smoothed
+    float  m_ambSirenPan = 0;         ///< where it is, smoothed
+    float  m_ambSirenT = 0;           ///< seconds into its cycle
+    float  m_ambSirenPh = 0;          ///< its phase
+    float  m_ambSirenPitch = 1;       ///< its Doppler shift, smoothed
+    int    m_ambCoef = 0;             ///< samples since the filters were set
+    Svf    m_ambSurfLo;               ///< the surf's rumble
+    Svf    m_ambSurfHi;               ///< its hiss
+    Svf    m_ambWindBp;               ///< the wind's band
+    Svf    m_ambRainHp;               ///< the rain's hiss
+    Svf    m_ambCityLo;               ///< the city's hum
+    Svf    m_ambHornLo;               ///< the far horn's muffling
+    Svf    m_ambThumpLo;              ///< the joints' thump
+    Svf    m_ambSeaLo;                ///< the sea's rumble under water
+    Svf    m_ambMufL;                 ///< the muffling under water, left
+    Svf    m_ambMufR;                 ///< and right
+    Noise  m_ambN;                    ///< noise
+    std::array<std::array<float, 3600>, 4> m_ambComb{};      ///< tunnel echo: four combs
+    std::array<float, 4>                   m_ambCombDamp{};  ///< their damping filters' state
+    int                                    m_ambCombPos = 0; ///< their write position
 
     /**
      * @brief Renders the place's sounds and the tunnel's echo of the engine.
@@ -107,192 +194,192 @@ struct Synth
     void renderAmbience( float engine, float gain, float &l, float &r )
     {
         const float glide = 0.00004f;
-        a_surf += ( m_aSurf.load( std::memory_order_relaxed ) - a_surf ) * glide;
-        a_pan += ( m_aSurfPan.load( std::memory_order_relaxed ) - a_pan ) * glide;
-        a_wind += ( m_aWind.load( std::memory_order_relaxed ) - a_wind ) * glide;
-        a_jungle += ( m_aJungle.load( std::memory_order_relaxed ) - a_jungle ) * glide;
-        a_city += ( m_aCity.load( std::memory_order_relaxed ) - a_city ) * glide;
-        a_rain += ( m_aRain.load( std::memory_order_relaxed ) - a_rain ) * glide;
-        a_tunnel += ( m_aTunnel.load( std::memory_order_relaxed ) - a_tunnel ) * 0.0002f;
-        a_bridge += ( m_aBridge.load( std::memory_order_relaxed ) - a_bridge ) * 0.0004f;
-        a_under += ( m_aUnder.load( std::memory_order_relaxed ) - a_under ) * 0.0002f;
-        a_time += 1.0f / SampleRate;
-        if( a_time > 3600.0f ) a_time -= 3600.0f;
+        m_ambSurf += ( m_aSurf.load( std::memory_order_relaxed ) - m_ambSurf ) * glide;
+        m_ambPan += ( m_aSurfPan.load( std::memory_order_relaxed ) - m_ambPan ) * glide;
+        m_ambWind += ( m_aWind.load( std::memory_order_relaxed ) - m_ambWind ) * glide;
+        m_ambJungle += ( m_aJungle.load( std::memory_order_relaxed ) - m_ambJungle ) * glide;
+        m_ambCity += ( m_aCity.load( std::memory_order_relaxed ) - m_ambCity ) * glide;
+        m_ambRain += ( m_aRain.load( std::memory_order_relaxed ) - m_ambRain ) * glide;
+        m_ambTunnel += ( m_aTunnel.load( std::memory_order_relaxed ) - m_ambTunnel ) * 0.0002f;
+        m_ambBridge += ( m_aBridge.load( std::memory_order_relaxed ) - m_ambBridge ) * 0.0004f;
+        m_ambUnder += ( m_aUnder.load( std::memory_order_relaxed ) - m_ambUnder ) * 0.0002f;
+        m_ambTime += 1.0f / SampleRate;
+        if( m_ambTime > 3600.0f ) m_ambTime -= 3600.0f;
         const float dt = 1.0f / SampleRate;
         float       mono = 0.0f, side = 0.0f;
 
         // Surf: swells every seven seconds, a rush and a hiss as they break.
-        if( a_surf > 0.001f )
+        if( m_ambSurf > 0.001f )
         {
-            const float swell = 0.5f - 0.5f * std::cos( Pi2 * a_time / 7.3f ), crash = swell * swell * swell;
-            if( ( a_coef & 31 ) == 0 )
+            const float swell = 0.5f - 0.5f * std::cos( Pi2 * m_ambTime / 7.3f ), crash = swell * swell * swell;
+            if( ( m_ambCoef & 31 ) == 0 )
             {
-                a_surfLo.set( 280.0f + 900.0f * crash, 0.7f );
-                a_surfHi.set( 2600.0f, 0.8f );
+                m_ambSurfLo.set( 280.0f + 900.0f * crash, 0.7f );
+                m_ambSurfHi.set( 2600.0f, 0.8f );
             }
-            const float wave = a_surfLo.low( a_n.next() ) * ( 0.3f + 0.9f * crash ) + a_surfHi.band( a_n.next() ) * crash * 0.35f;
-            side += wave * a_surf * 0.8f;
+            const float wave = m_ambSurfLo.low( m_ambN.next() ) * ( 0.3f + 0.9f * crash ) + m_ambSurfHi.band( m_ambN.next() ) * crash * 0.35f;
+            side += wave * m_ambSurf * 0.8f;
         }
         // Wind: a band of noise that gusts.
-        if( a_wind > 0.001f )
+        if( m_ambWind > 0.001f )
         {
-            const float gust = 0.55f + 0.3f * std::sin( Pi2 * a_time / 5.1f ) + 0.15f * std::sin( Pi2 * a_time / 1.7f );
-            if( ( a_coef & 31 ) == 0 ) a_windBp.set( 380.0f + 420.0f * gust, 1.6f );
-            mono += a_windBp.band( a_n.next() ) * gust * a_wind * 0.6f;
+            const float gust = 0.55f + 0.3f * std::sin( Pi2 * m_ambTime / 5.1f ) + 0.15f * std::sin( Pi2 * m_ambTime / 1.7f );
+            if( ( m_ambCoef & 31 ) == 0 ) m_ambWindBp.set( 380.0f + 420.0f * gust, 1.6f );
+            mono += m_ambWindBp.band( m_ambN.next() ) * gust * m_ambWind * 0.6f;
         }
         // Rain: a hiss and drops.
-        if( a_rain > 0.001f )
+        if( m_ambRain > 0.001f )
         {
-            if( ( a_coef & 31 ) == 0 ) a_rainHp.set( 4200.0f, 0.6f );
-            if( a_n.unit() < 0.0016f * a_rain ) a_droplet = 1.0f;
-            a_droplet *= 0.993f;
-            mono += ( a_rainHp.band( a_n.next() ) * 0.5f + a_n.next() * a_droplet * 0.25f ) * a_rain * 0.6f;
+            if( ( m_ambCoef & 31 ) == 0 ) m_ambRainHp.set( 4200.0f, 0.6f );
+            if( m_ambN.unit() < 0.0016f * m_ambRain ) m_ambDroplet = 1.0f;
+            m_ambDroplet *= 0.993f;
+            mono += ( m_ambRainHp.band( m_ambN.next() ) * 0.5f + m_ambN.next() * m_ambDroplet * 0.25f ) * m_ambRain * 0.6f;
         }
         // The city: a low rumble and now and then a horn far off.
-        if( a_city > 0.001f )
+        if( m_ambCity > 0.001f )
         {
-            if( ( a_coef & 31 ) == 0 )
+            if( ( m_ambCoef & 31 ) == 0 )
             {
-                a_cityLo.set( 160.0f, 0.7f );
-                a_hornLo.set( 1300.0f, 0.7f );
+                m_ambCityLo.set( 160.0f, 0.7f );
+                m_ambHornLo.set( 1300.0f, 0.7f );
             }
-            float y = a_cityLo.low( a_n.next() ) * 0.9f;
-            a_hornIn -= dt;
-            if( a_hornIn <= 0.0f )
+            float y = m_ambCityLo.low( m_ambN.next() ) * 0.9f;
+            m_ambHornIn -= dt;
+            if( m_ambHornIn <= 0.0f )
             {
-                a_horn = 0.35f + 0.25f * a_n.unit();
-                a_hornF = 380.0f + 160.0f * a_n.unit();
-                a_hornIn = 4.0f + 9.0f * a_n.unit();
+                m_ambHorn = 0.35f + 0.25f * m_ambN.unit();
+                m_ambHornF = 380.0f + 160.0f * m_ambN.unit();
+                m_ambHornIn = 4.0f + 9.0f * m_ambN.unit();
             }
-            if( a_horn > 0.0f )
+            if( m_ambHorn > 0.0f )
             {
-                a_horn -= dt;
-                const float sq = std::sin( Pi2 * a_hornF * a_time ) + std::sin( Pi2 * a_hornF * 1.26f * a_time );
-                y += a_hornLo.low( sq ) * 0.18f * std::min( 1.0f, a_horn * 8.0f );
+                m_ambHorn -= dt;
+                const float sq = std::sin( Pi2 * m_ambHornF * m_ambTime ) + std::sin( Pi2 * m_ambHornF * 1.26f * m_ambTime );
+                y += m_ambHornLo.low( sq ) * 0.18f * std::min( 1.0f, m_ambHorn * 8.0f );
             }
-            mono += y * a_city * 1.1f;
+            mono += y * m_ambCity * 1.1f;
         }
         // The jungle: a chorus of insects and birdsong.
-        if( a_jungle > 0.001f )
+        if( m_ambJungle > 0.001f )
         {
-            a_insectPh += 4700.0f * dt;
-            if( a_insectPh >= 1.0f ) a_insectPh -= 1.0f;
-            a_amPh += 38.0f * dt;
-            if( a_amPh >= 1.0f ) a_amPh -= 1.0f;
-            const float chorus = std::max( 0.0f, std::sin( Pi2 * a_time / 3.7f ) ) * 0.7f + 0.3f;
-            float       y = std::sin( Pi2 * a_insectPh ) * ( a_amPh < 0.35f ? 1.0f : 0.0f ) * chorus * 0.12f;
-            a_birdIn -= dt;
-            if( a_birdIn <= 0.0f )
+            m_ambInsectPh += 4700.0f * dt;
+            if( m_ambInsectPh >= 1.0f ) m_ambInsectPh -= 1.0f;
+            m_ambAmPh += 38.0f * dt;
+            if( m_ambAmPh >= 1.0f ) m_ambAmPh -= 1.0f;
+            const float chorus = std::max( 0.0f, std::sin( Pi2 * m_ambTime / 3.7f ) ) * 0.7f + 0.3f;
+            float       y = std::sin( Pi2 * m_ambInsectPh ) * ( m_ambAmPh < 0.35f ? 1.0f : 0.0f ) * chorus * 0.12f;
+            m_ambBirdIn -= dt;
+            if( m_ambBirdIn <= 0.0f )
             {
-                a_bird = 0.42f;
-                a_birdF = 2200.0f + 1800.0f * a_n.unit();
-                a_birdIn = 1.2f + 3.5f * a_n.unit();
+                m_ambBird = 0.42f;
+                m_ambBirdF = 2200.0f + 1800.0f * m_ambN.unit();
+                m_ambBirdIn = 1.2f + 3.5f * m_ambN.unit();
             }
-            if( a_bird > 0.0f )
+            if( m_ambBird > 0.0f )
             {
-                a_bird -= dt;
-                const float chirp = std::fmod( 0.42f - a_bird, 0.14f ) / 0.14f;   // three falling chirps
-                a_birdPh += ( a_birdF * ( 1.3f - 0.5f * chirp ) ) * dt;
-                if( a_birdPh >= 1.0f ) a_birdPh -= 1.0f;
-                y += std::sin( Pi2 * a_birdPh ) * std::sin( 3.14159f * chirp ) * 0.3f;
+                m_ambBird -= dt;
+                const float chirp = std::fmod( 0.42f - m_ambBird, 0.14f ) / 0.14f;   // three falling chirps
+                m_ambBirdPh += ( m_ambBirdF * ( 1.3f - 0.5f * chirp ) ) * dt;
+                if( m_ambBirdPh >= 1.0f ) m_ambBirdPh -= 1.0f;
+                y += std::sin( Pi2 * m_ambBirdPh ) * std::sin( 3.14159f * chirp ) * 0.3f;
             }
-            side -= y * a_jungle * 1.4f;   // the far side from the sea
+            side -= y * m_ambJungle * 1.4f;   // the far side from the sea
         }
         // A bridge: the joints, front and rear axle.
-        if( a_bridge > 0.01f )
+        if( m_ambBridge > 0.01f )
         {
             const float speed = m_speed.load( std::memory_order_relaxed );
-            a_joint += speed / 16.0f * dt;
-            if( a_joint >= 1.0f )
+            m_ambJoint += speed / 16.0f * dt;
+            if( m_ambJoint >= 1.0f )
             {
-                a_joint -= 1.0f;
-                a_thump = 1.0f;
-                a_thumpDelay = speed > 1.0f ? 2.7f / speed : -1.0f;
+                m_ambJoint -= 1.0f;
+                m_ambThump = 1.0f;
+                m_ambThumpDelay = speed > 1.0f ? 2.7f / speed : -1.0f;
             }
-            if( a_thumpDelay > 0.0f )
+            if( m_ambThumpDelay > 0.0f )
             {
-                a_thumpDelay -= dt;
-                if( a_thumpDelay <= 0.0f ) a_thump2 = 0.8f;
+                m_ambThumpDelay -= dt;
+                if( m_ambThumpDelay <= 0.0f ) m_ambThump2 = 0.8f;
             }
-            if( ( a_coef & 31 ) == 0 ) a_thumpLo.set( 140.0f, 0.9f );
-            const float hit = a_thump + a_thump2;
-            mono += a_thumpLo.low( a_n.next() * hit * 4.0f ) * a_bridge * 0.8f;
-            a_thump *= 0.9985f;
-            a_thump2 *= 0.9985f;
+            if( ( m_ambCoef & 31 ) == 0 ) m_ambThumpLo.set( 140.0f, 0.9f );
+            const float hit = m_ambThump + m_ambThump2;
+            mono += m_ambThumpLo.low( m_ambN.next() * hit * 4.0f ) * m_ambBridge * 0.8f;
+            m_ambThump *= 0.9985f;
+            m_ambThump2 *= 0.9985f;
         }
         // Under the sea: a deep hum, and now and then a whale far off, calling in a long glide.
         float whale = 0.0f;
-        if( a_under > 0.001f )
+        if( m_ambUnder > 0.001f )
         {
-            if( ( a_coef & 31 ) == 0 ) a_seaLo.set( 70.0f, 0.8f );
-            mono += a_seaLo.low( a_n.next() ) * a_under * 0.45f;
-            a_whaleIn -= dt;
-            if( a_whaleIn <= 0.0f && a_whale <= 0.0f )
+            if( ( m_ambCoef & 31 ) == 0 ) m_ambSeaLo.set( 70.0f, 0.8f );
+            mono += m_ambSeaLo.low( m_ambN.next() ) * m_ambUnder * 0.45f;
+            m_ambWhaleIn -= dt;
+            if( m_ambWhaleIn <= 0.0f && m_ambWhale <= 0.0f )
             {
-                a_whaleDur = 2.2f + 2.5f * a_n.unit();
-                a_whale = a_whaleDur;
-                a_whaleF0 = 130.0f + 170.0f * a_n.unit();
-                a_whaleF1 = a_whaleF0 * ( 0.6f + 1.1f * a_n.unit() );
-                a_whaleIn = 6.0f + 12.0f * a_n.unit();
+                m_ambWhaleDur = 2.2f + 2.5f * m_ambN.unit();
+                m_ambWhale = m_ambWhaleDur;
+                m_ambWhaleF0 = 130.0f + 170.0f * m_ambN.unit();
+                m_ambWhaleF1 = m_ambWhaleF0 * ( 0.6f + 1.1f * m_ambN.unit() );
+                m_ambWhaleIn = 6.0f + 12.0f * m_ambN.unit();
             }
-            if( a_whale > 0.0f )
+            if( m_ambWhale > 0.0f )
             {
-                a_whale -= dt;
-                const float t = 1.0f - a_whale / a_whaleDur;
-                const float f = a_whaleF0 + ( a_whaleF1 - a_whaleF0 ) * ( 0.5f - 0.5f * std::cos( 3.14159f * t ) ) + 14.0f * std::sin( Pi2 * 5.0f * a_time );
-                a_whalePh += f * dt;
-                if( a_whalePh >= 1.0f ) a_whalePh -= 1.0f;
+                m_ambWhale -= dt;
+                const float t = 1.0f - m_ambWhale / m_ambWhaleDur;
+                const float f = m_ambWhaleF0 + ( m_ambWhaleF1 - m_ambWhaleF0 ) * ( 0.5f - 0.5f * std::cos( 3.14159f * t ) ) + 14.0f * std::sin( Pi2 * 5.0f * m_ambTime );
+                m_ambWhalePh += f * dt;
+                if( m_ambWhalePh >= 1.0f ) m_ambWhalePh -= 1.0f;
                 const float env = std::sin( 3.14159f * t );
-                whale = ( std::sin( Pi2 * a_whalePh ) + 0.35f * std::sin( 2.0f * Pi2 * a_whalePh ) + 0.15f * std::sin( 3.0f * Pi2 * a_whalePh ) ) *
-                        env * env * a_under * 0.16f;
+                whale = ( std::sin( Pi2 * m_ambWhalePh ) + 0.35f * std::sin( 2.0f * Pi2 * m_ambWhalePh ) + 0.15f * std::sin( 3.0f * Pi2 * m_ambWhalePh ) ) *
+                        env * env * m_ambUnder * 0.16f;
                 mono += whale;
             }
         }
         // A police siren: the long wail of the Americas and Asia, the two tones of Europe; louder as it nears.
-        a_siren += ( m_aSiren.load( std::memory_order_relaxed ) - a_siren ) * 0.0005f;
-        a_sirenPan += ( m_aSirenPan.load( std::memory_order_relaxed ) - a_sirenPan ) * 0.0005f;
+        m_ambSiren += ( m_aSiren.load( std::memory_order_relaxed ) - m_ambSiren ) * 0.0005f;
+        m_ambSirenPan += ( m_aSirenPan.load( std::memory_order_relaxed ) - m_ambSirenPan ) * 0.0005f;
         float siren = 0.0f;
-        if( a_siren > 0.001f )
+        if( m_ambSiren > 0.001f )
         {
-            a_sirenT += dt;
-            if( a_sirenT > 360.0f ) a_sirenT -= 360.0f;
-            a_sirenPitch += ( m_aSirenPitch.load( std::memory_order_relaxed ) - a_sirenPitch ) * 0.0005f;
-            const float f = ( m_aSirenKind.load( std::memory_order_relaxed ) == 1 ? ( std::fmod( a_sirenT, 1.2f ) < 0.6f ? 440.0f : 587.0f )
-                                                                                   : 700.0f + 650.0f * ( 0.5f - 0.5f * std::cos( Pi2 * a_sirenT / 3.6f ) ) ) *
-                            a_sirenPitch;
-            a_sirenPh += f * dt;
-            if( a_sirenPh >= 1.0f ) a_sirenPh -= 1.0f;
-            siren = ( std::sin( Pi2 * a_sirenPh ) + 0.4f * std::sin( 2.0f * Pi2 * a_sirenPh ) + 0.2f * std::sin( 3.0f * Pi2 * a_sirenPh ) ) * a_siren * 0.2f;
+            m_ambSirenT += dt;
+            if( m_ambSirenT > 360.0f ) m_ambSirenT -= 360.0f;
+            m_ambSirenPitch += ( m_aSirenPitch.load( std::memory_order_relaxed ) - m_ambSirenPitch ) * 0.0005f;
+            const float f = ( m_aSirenKind.load( std::memory_order_relaxed ) == 1 ? ( std::fmod( m_ambSirenT, 1.2f ) < 0.6f ? 440.0f : 587.0f )
+                                                                                   : 700.0f + 650.0f * ( 0.5f - 0.5f * std::cos( Pi2 * m_ambSirenT / 3.6f ) ) ) *
+                            m_ambSirenPitch;
+            m_ambSirenPh += f * dt;
+            if( m_ambSirenPh >= 1.0f ) m_ambSirenPh -= 1.0f;
+            siren = ( std::sin( Pi2 * m_ambSirenPh ) + 0.4f * std::sin( 2.0f * Pi2 * m_ambSirenPh ) + 0.2f * std::sin( 3.0f * Pi2 * m_ambSirenPh ) ) * m_ambSiren * 0.2f;
         }
         else
         {
-            a_sirenT = 0.0f;
+            m_ambSirenT = 0.0f;
         }
-        ++a_coef;
+        ++m_ambCoef;
 
         // The tunnel: the engine thrown back by the walls (and a whale's call by the sea).
         float echo = 0.0f;
-        if( a_tunnel > 0.001f )
+        if( m_ambTunnel > 0.001f )
         {
             static const int lengths[4] = { 2711, 3049, 3307, 3559 };
             for( size_t k = 0; k < 4; ++k )
             {
-                float      &slot = a_comb[k][static_cast<size_t>( a_combPos % lengths[k] )];
+                float      &slot = m_ambComb[k][static_cast<size_t>( m_ambCombPos % lengths[k] )];
                 const float out = slot;
-                a_combDamp[k] += ( out - a_combDamp[k] ) * 0.35f;
-                slot = engine + whale * 2.0f + a_combDamp[k] * 0.74f;
+                m_ambCombDamp[k] += ( out - m_ambCombDamp[k] ) * 0.35f;
+                slot = engine + whale * 2.0f + m_ambCombDamp[k] * 0.74f;
                 echo += out;
             }
-            echo *= 0.25f * a_tunnel * 0.9f;
+            echo *= 0.25f * m_ambTunnel * 0.9f;
         }
-        else if( a_combPos % 4096 == 0 )
+        else if( m_ambCombPos % 4096 == 0 )
         {
-            for( auto &c : a_comb ) c.fill( 0.0f );
+            for( auto &c : m_ambComb ) c.fill( 0.0f );
         }
-        ++a_combPos;
-        if( a_combPos >= 3559 * 3307 ) a_combPos = 0;
-        const float pan = clampPan( a_pan );
-        const float sp = clampPan( a_sirenPan );
+        ++m_ambCombPos;
+        if( m_ambCombPos >= 3559 * 3307 ) m_ambCombPos = 0;
+        const float pan = clampPan( m_ambPan );
+        const float sp = clampPan( m_ambSirenPan );
         l += ( mono + side * ( 1.0f - pan ) * 0.7f + siren * ( 1.0f - 0.6f * sp ) ) * gain + echo * 0.9f;
         r += ( mono + side * ( 1.0f + pan ) * 0.7f + siren * ( 1.0f + 0.6f * sp ) ) * gain + echo * 1.0f;
     }
@@ -304,11 +391,11 @@ struct Synth
      */
     static float clampPan( float p ) { return std::min( 1.0f, std::max( -1.0f, p ) ); }
 
-    std::array<Voice, VoiceCount> m_voices;
+    std::array<Voice, VoiceCount> m_voices;       ///< the effect voices
     std::array<Event, 8>          m_onBeat{};     ///< cues waiting for the beat
     int                           m_onBeatCount = 0;   ///< how many
     float                         m_onBeatWait = 0.0f; ///< seconds the oldest waits
-    MusicSynth m_music;
+    MusicSynth m_music;                           ///< the radio
 
     /**
      * @brief Starts an effect voice.
@@ -323,14 +410,14 @@ struct Synth
                 v = &c;
                 break;
             }
-        if( !v ) v = &m_voices[static_cast<size_t>( e_count ) % m_voices.size()];
+        if( !v ) v = &m_voices[static_cast<size_t>( m_engCount ) % m_voices.size()];
         *v = Voice{};
         v->m_on = true;
         v->m_type = e.m_type;
         v->m_strength = e.m_strength;
         v->m_pan = e.m_pan;
         v->m_pitch = e.m_pitch;
-        v->m_n.m_s = 0x9E37u + static_cast<uint32_t>( e_count * 7919 );
+        v->m_n.m_s = 0x9E37u + static_cast<uint32_t>( m_engCount * 7919 );
         if( e.m_type == SfxE::BACKFIRE ) v->m_a = 0.0f;
     }
 
@@ -504,96 +591,96 @@ struct Synth
     {
         const float rpmT = m_rpm.load( std::memory_order_relaxed );
         const float thrT = m_throttle.load( std::memory_order_relaxed );
-        e_rpm += ( rpmT - e_rpm ) * 0.0012f;
-        e_thr += ( thrT - e_thr ) * 0.003f;
-        e_speed += ( m_speed.load( std::memory_order_relaxed ) - e_speed ) * 0.001f;
-        e_slip += ( m_slip.load( std::memory_order_relaxed ) - e_slip ) * 0.002f;
-        e_off += ( m_offroad.load( std::memory_order_relaxed ) - e_off ) * 0.002f;
-        e_rumble += ( m_rumble.load( std::memory_order_relaxed ) - e_rumble ) * 0.004f;
-        e_active += ( ( m_active.load( std::memory_order_relaxed ) ? 1.0f : 0.0f ) - e_active ) * 0.0005f;
-        e_boost += ( ( m_boost.load( std::memory_order_relaxed ) ? 1.0f : 0.0f ) - e_boost ) * 0.0008f;
-        const float load = std::min( 1.0f, e_thr + 0.3f * e_boost );
-        const float spoolTarget = e_thr * std::min( 1.0f, e_rpm * 1.2f );
-        e_spool += ( spoolTarget - e_spool ) * ( spoolTarget > e_spool ? 0.00012f : 0.0004f );
-        if( e_prevThr > 0.7f && e_thr < 0.45f && e_spool > 0.4f && e_active > 0.5f )
+        m_engRpm += ( rpmT - m_engRpm ) * 0.0012f;
+        m_engThr += ( thrT - m_engThr ) * 0.003f;
+        m_engSpeed += ( m_speed.load( std::memory_order_relaxed ) - m_engSpeed ) * 0.001f;
+        m_engSlip += ( m_slip.load( std::memory_order_relaxed ) - m_engSlip ) * 0.002f;
+        m_engOff += ( m_offroad.load( std::memory_order_relaxed ) - m_engOff ) * 0.002f;
+        m_engRumble += ( m_rumble.load( std::memory_order_relaxed ) - m_engRumble ) * 0.004f;
+        m_engActive += ( ( m_active.load( std::memory_order_relaxed ) ? 1.0f : 0.0f ) - m_engActive ) * 0.0005f;
+        m_engBoost += ( ( m_boost.load( std::memory_order_relaxed ) ? 1.0f : 0.0f ) - m_engBoost ) * 0.0008f;
+        const float load = std::min( 1.0f, m_engThr + 0.3f * m_engBoost );
+        const float spoolTarget = m_engThr * std::min( 1.0f, m_engRpm * 1.2f );
+        m_engSpool += ( spoolTarget - m_engSpool ) * ( spoolTarget > m_engSpool ? 0.00012f : 0.0004f );
+        if( m_engPrevThr > 0.7f && m_engThr < 0.45f && m_engSpool > 0.4f && m_engActive > 0.5f )
         {
-            startVoice( Event{ SfxE::BLOWOFF, e_spool * 0.9f, 0.0f } );
-            e_spool *= 0.5f;
+            startVoice( Event{ SfxE::BLOWOFF, m_engSpool * 0.9f, 0.0f } );
+            m_engSpool *= 0.5f;
         }
-        e_prevThr = e_thr;
+        m_engPrevThr = m_engThr;
 
         const int   cyl = m_cylinders.load( std::memory_order_relaxed );
         const float idle = m_idle.load( std::memory_order_relaxed ), red = m_redline.load( std::memory_order_relaxed );
         const float bright = m_bright.load( std::memory_order_relaxed );
-        const float fire = ( idle + e_rpm * ( red - idle ) ) / 60.0f * static_cast<float>( cyl ) * 0.5f;
-        if( ( e_coef++ & 31 ) == 0 )
+        const float fire = ( idle + m_engRpm * ( red - idle ) ) / 60.0f * static_cast<float>( cyl ) * 0.5f;
+        if( ( m_engCoef++ & 31 ) == 0 )
         {
-            e_body.set( ( 250.0f + 2600.0f * ( 0.25f + 0.75f * load ) * ( 0.35f + e_rpm ) ) * bright, 0.9f );
-            e_intake.set( std::min( fire * 2.0f, 8000.0f ), 4.0f );
-            e_wind.set( 250.0f + e_speed * 18.0f, 0.6f );
-            e_squealF.set( 1800.0f, 6.0f );
-            e_gravel.set( 900.0f, 0.6f );
-            e_rumbleF.set( 350.0f, 0.8f );
-            e_hiss.set( 5200.0f, 0.7f );
+            m_engBody.set( ( 250.0f + 2600.0f * ( 0.25f + 0.75f * load ) * ( 0.35f + m_engRpm ) ) * bright, 0.9f );
+            m_engIntake.set( std::min( fire * 2.0f, 8000.0f ), 4.0f );
+            m_engWind.set( 250.0f + m_engSpeed * 18.0f, 0.6f );
+            m_engSquealF.set( 1800.0f, 6.0f );
+            m_engGravel.set( 900.0f, 0.6f );
+            m_engRumbleF.set( 350.0f, 0.8f );
+            m_engHiss.set( 5200.0f, 0.7f );
         }
 
         // Firing pulses of a cross-plane V8: uneven, slightly random.
-        e_phase += fire / SampleRate;
-        if( e_phase >= 1.0f )
+        m_engPhase += fire / SampleRate;
+        if( m_engPhase >= 1.0f )
         {
-            e_phase -= 1.0f;
-            ++e_count;
-            e_pulseAmp = 0.8f + 0.35f * e_n.unit();
-            const int k = e_count & 3;
-            e_uneven = cyl != 8 ? 1.0f : k == 1 ? 1.3f : k == 3 ? 0.85f : 1.0f;
-            if( e_thr < 0.1f && e_rpm > 0.55f && e_n.unit() < 0.02f * e_rpm ) e_pop = 1.0f;
+            m_engPhase -= 1.0f;
+            ++m_engCount;
+            m_engPulseAmp = 0.8f + 0.35f * m_engN.unit();
+            const int k = m_engCount & 3;
+            m_engUneven = cyl != 8 ? 1.0f : k == 1 ? 1.3f : k == 3 ? 0.85f : 1.0f;
+            if( m_engThr < 0.1f && m_engRpm > 0.55f && m_engN.unit() < 0.02f * m_engRpm ) m_engPop = 1.0f;
         }
         const float decay = ( 4.0f + 10.0f * ( 1.0f - load * 0.8f ) ) * ( cyl >= 12 ? 1.6f : cyl <= 4 ? 0.8f : 1.0f );
-        float       pulse = std::exp( -e_phase * decay ) * e_pulseAmp * e_uneven - ( 1.0f - std::exp( -decay ) ) / decay;
-        e_sub += fire * 0.5f / SampleRate;
-        if( e_sub >= 1.0f ) e_sub -= 1.0f;
+        float       pulse = std::exp( -m_engPhase * decay ) * m_engPulseAmp * m_engUneven - ( 1.0f - std::exp( -decay ) ) / decay;
+        m_engSub += fire * 0.5f / SampleRate;
+        if( m_engSub >= 1.0f ) m_engSub -= 1.0f;
         const float sub = cyl <= 4 ? 0.45f : cyl >= 12 ? 0.12f : 0.3f;
-        const float x = pulse * 0.9f + std::sin( Pi2 * e_sub ) * sub * ( 1.2f - e_rpm );
+        const float x = pulse * 0.9f + std::sin( Pi2 * m_engSub ) * sub * ( 1.2f - m_engRpm );
         float       lo, bd, ilo, ibd;
-        e_body.process( x, lo, bd );
-        e_intake.process( x, ilo, ibd );
+        m_engBody.process( x, lo, bd );
+        m_engIntake.process( x, ilo, ibd );
         float y = lo + ibd * ( cyl <= 4 ? 0.55f : 0.3f ) * ( 0.3f + load );
-        y = std::tanh( y * ( 1.2f + 2.5f * load ) ) * ( 0.35f + 0.35f * load + 0.15f * e_rpm );
-        if( e_pop > 0.001f )
+        y = std::tanh( y * ( 1.2f + 2.5f * load ) ) * ( 0.35f + 0.35f * load + 0.15f * m_engRpm );
+        if( m_engPop > 0.001f )
         {
-            y += ( e_n.next() * 0.8f + 0.4f ) * e_pop * 0.6f;
-            e_pop *= 0.9965f;
+            y += ( m_engN.next() * 0.8f + 0.4f ) * m_engPop * 0.6f;
+            m_engPop *= 0.9965f;
         }
         if( m_limiter.load( std::memory_order_relaxed ) )
         {
-            e_limPh += 26.0f / SampleRate;
-            if( e_limPh >= 1.0f ) e_limPh -= 1.0f;
-            if( e_limPh > 0.55f ) y *= 0.25f;
+            m_engLimPh += 26.0f / SampleRate;
+            if( m_engLimPh >= 1.0f ) m_engLimPh -= 1.0f;
+            if( m_engLimPh > 0.55f ) y *= 0.25f;
         }
         const bool shifting = m_shifting.load( std::memory_order_relaxed );
-        if( shifting && !e_wasShifting ) e_shift = 0.15f;
-        e_wasShifting = shifting;
-        e_shift += ( 1.0f - e_shift ) * 0.0006f;
-        y *= e_shift;
+        if( shifting && !m_engWasShifting ) m_engShift = 0.15f;
+        m_engWasShifting = shifting;
+        m_engShift += ( 1.0f - m_engShift ) * 0.0006f;
+        y *= m_engShift;
 
-        e_whistle += ( 1800.0f + 5200.0f * e_spool ) / SampleRate;
-        if( e_whistle >= 1.0f ) e_whistle -= 1.0f;
-        float engine = ( y + std::sin( Pi2 * e_whistle ) * 0.03f * e_spool * e_spool ) * e_active;
-        engine += e_hiss.band( e_n.next() ) * 0.09f * e_boost * e_active;
+        m_engWhistle += ( 1800.0f + 5200.0f * m_engSpool ) / SampleRate;
+        if( m_engWhistle >= 1.0f ) m_engWhistle -= 1.0f;
+        float engine = ( y + std::sin( Pi2 * m_engWhistle ) * 0.03f * m_engSpool * m_engSpool ) * m_engActive;
+        engine += m_engHiss.band( m_engN.next() ) * 0.09f * m_engBoost * m_engActive;
 
         // Tyres, wind, kerbs, gravel.
-        e_vib += 7.0f / SampleRate;
-        if( e_vib >= 1.0f ) e_vib -= 1.0f;
-        e_squeal += ( 1050.0f + 40.0f * std::sin( Pi2 * e_vib ) ) / SampleRate;
-        if( e_squeal >= 1.0f ) e_squeal -= 1.0f;
-        float env = ( std::sin( Pi2 * e_squeal ) * 0.5f + e_squealF.band( e_n.next() ) * 1.6f ) * e_slip * 0.2f;
-        const float wind = e_speed / 85.0f;
-        env += e_wind.low( e_n.next() ) * wind * wind * 0.5f;
-        e_rumblePh += ( 45.0f + e_speed * 1.4f ) / SampleRate;
-        if( e_rumblePh >= 1.0f ) e_rumblePh -= 1.0f;
-        env += e_rumbleF.low( e_rumblePh < 0.5f ? 1.0f : -1.0f ) * e_rumble * 0.2f * std::min( 1.0f, e_speed / 15.0f );
-        const float impulse = e_n.unit() < e_speed * 0.0008f ? e_n.next() * 2.0f : 0.0f;
-        env += e_gravel.band( impulse + e_n.next() * 0.15f ) * e_off * 0.6f;
+        m_engVib += 7.0f / SampleRate;
+        if( m_engVib >= 1.0f ) m_engVib -= 1.0f;
+        m_engSqueal += ( 1050.0f + 40.0f * std::sin( Pi2 * m_engVib ) ) / SampleRate;
+        if( m_engSqueal >= 1.0f ) m_engSqueal -= 1.0f;
+        float env = ( std::sin( Pi2 * m_engSqueal ) * 0.5f + m_engSquealF.band( m_engN.next() ) * 1.6f ) * m_engSlip * 0.2f;
+        const float wind = m_engSpeed / 85.0f;
+        env += m_engWind.low( m_engN.next() ) * wind * wind * 0.5f;
+        m_engRumblePh += ( 45.0f + m_engSpeed * 1.4f ) / SampleRate;
+        if( m_engRumblePh >= 1.0f ) m_engRumblePh -= 1.0f;
+        env += m_engRumbleF.low( m_engRumblePh < 0.5f ? 1.0f : -1.0f ) * m_engRumble * 0.2f * std::min( 1.0f, m_engSpeed / 15.0f );
+        const float impulse = m_engN.unit() < m_engSpeed * 0.0008f ? m_engN.next() * 2.0f : 0.0f;
+        env += m_engGravel.band( impulse + m_engN.next() * 0.15f ) * m_engOff * 0.6f;
         return engine + env;
     }
 
@@ -629,9 +716,9 @@ struct Synth
         for( unsigned i = 0; i < frames; ++i )
         {
             const float engine = renderEngine() * sfx;
-            e_width[e_wi & 63] = engine;
-            const float delayed = e_width[( e_wi - 19 ) & 63];
-            ++e_wi;
+            m_engWidth[m_engWi & 63] = engine;
+            const float delayed = m_engWidth[( m_engWi - 19 ) & 63];
+            ++m_engWi;
             float l = engine * 0.9f + delayed * 0.1f;
             float r = engine * 0.75f + delayed * 0.25f;
             renderAmbience( engine, sfx, l, r );
@@ -643,16 +730,16 @@ struct Synth
                 r += s * std::min( 1.0f, 1.0f + v.m_pan );
             }
             // Under the sea everything but the music comes through glass and water.
-            if( a_under > 0.01f )
+            if( m_ambUnder > 0.01f )
             {
-                if( ( e_wi & 31 ) == 0 )
+                if( ( m_engWi & 31 ) == 0 )
                 {
-                    const float fc = 18000.0f * std::pow( 650.0f / 18000.0f, a_under );
-                    a_mufL.set( fc, 0.6f );
-                    a_mufR.set( fc, 0.6f );
+                    const float fc = 18000.0f * std::pow( 650.0f / 18000.0f, m_ambUnder );
+                    m_ambMufL.set( fc, 0.6f );
+                    m_ambMufR.set( fc, 0.6f );
                 }
-                l = a_mufL.low( l ) * ( 1.0f + 0.3f * a_under );
-                r = a_mufR.low( r ) * ( 1.0f + 0.3f * a_under );
+                l = m_ambMufL.low( l ) * ( 1.0f + 0.3f * m_ambUnder );
+                r = m_ambMufR.low( r ) * ( 1.0f + 0.3f * m_ambUnder );
             }
             float ml, mr;
             m_music.tick( ml, mr );

@@ -2,7 +2,7 @@
  * @file Local.h
  * @brief The customs of a country's roads (data/roads.txt): speed limits in km/h or mph on round signs or white boards,
  *        toll plazas, speed cameras, number plates; and where a stage puts its camera and its toll plaza.
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

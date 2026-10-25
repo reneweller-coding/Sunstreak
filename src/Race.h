@@ -6,7 +6,7 @@
  * brake for bends by the same physics as the player, slipstream, change lanes to pass and are held together by a
  * gentle rubber band. Five rounds, points 10-8-6-5-4-3-2-1; a finish outside the top eight does not qualify.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

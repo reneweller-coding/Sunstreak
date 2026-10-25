@@ -1,7 +1,7 @@
 /**
  * @file Renderer.cpp
  * @brief The frame: sky, world, particles, weather and post-processing.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Renderer.h"
 

@@ -1,7 +1,7 @@
 /**
  * @file Particles.h
  * @brief Short-lived sprites: tyre smoke, dust, sparks, splashes, exhaust flames.
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

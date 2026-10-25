@@ -3,7 +3,7 @@
  * @brief The places' names in their own script for the place signs (data/script-names.txt): strokes traced from the
  *        Noto fonts by tools/make_signs.py from the places' local lines, so the game needs no font of its own for
  *        Cyrillic, Arabic, Devanagari, the CJK scripts and the rest.
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

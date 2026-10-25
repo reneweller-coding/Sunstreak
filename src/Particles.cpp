@@ -1,7 +1,7 @@
 /**
  * @file Particles.cpp
  * @brief The particle pool.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Particles.h"
 

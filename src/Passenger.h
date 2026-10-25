@@ -4,7 +4,7 @@
  *        to the next place and thanks you in their language; a courier hands you a fragile parcel for the next place (hit
  *        nothing on the way); a paramedic an organ for the hospital at the next checkpoint (hurry); a police officer asks
  *        you to catch the car that was just stolen before it reaches the next checkpoint.
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

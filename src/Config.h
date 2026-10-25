@@ -2,11 +2,11 @@
  * @file Config.h
  * @brief The player's settings and records, the command line, and where they are kept.
  *
- * Settings live in a plain key=value file: %APPDATA%\Sunstreak\settings.ini on Windows,
+ * Settings live in a plain key=value file: %APPDATA%/Sunstreak/settings.ini on Windows,
  * $XDG_CONFIG_HOME/sunstreak (or ~/.config/sunstreak) elsewhere. The game starts windowed on Windows and fullscreen
  * on a Steam Deck unless the file or the command line says otherwise.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

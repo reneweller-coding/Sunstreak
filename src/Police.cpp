@@ -1,7 +1,7 @@
 /**
  * @file Police.cpp
  * @brief The patrol car of the world tour: where it waits, when it gives chase, how it drives and when it gives up.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Police.h"
 

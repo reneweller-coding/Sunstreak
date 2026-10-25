@@ -7,7 +7,7 @@
  * length, race or time attack) in fifteen characters of Crockford's base 32: XXXXX-XXXXX-XXXXX; a place numbered 510
  * or higher takes sixteen: XXXX-XXXX-XXXX-XXXX.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

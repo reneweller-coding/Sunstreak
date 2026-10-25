@@ -2,7 +2,7 @@
  * @file Achievements.h
  * @brief The achievements of the world tour: countries and continents driven through, police escaped, hitchhikers
  *        delivered, ambulances let through, postcards, kilometres. Earned ones are kept in the records.
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

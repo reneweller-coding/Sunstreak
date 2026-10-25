@@ -8,7 +8,7 @@
  * vertex: tree tops, reeds).
  * The world shader lights both faces, so the winding of a triangle does not matter.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

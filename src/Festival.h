@@ -1,7 +1,7 @@
 /**
  * @file Festival.h
  * @brief The festivals of data/festivals.txt: when they come, where, and what they bring.
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 

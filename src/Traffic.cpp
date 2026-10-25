@@ -1,7 +1,7 @@
 /**
  * @file Traffic.cpp
  * @brief Traffic driving, overtakes, near misses, collisions and flying cones.
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Traffic.h"
 #include "Audio.h"

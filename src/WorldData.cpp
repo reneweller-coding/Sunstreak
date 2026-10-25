@@ -1,6 +1,6 @@
 /**
  * @file WorldData.cpp
- * @brief The world read from the data files: the places (data/places/*.txt), the countries (data/countries.txt), the
+ * @brief The world read from the data files: the places (the files of data/places), the countries (data/countries.txt), the
  *        route and where the places are (data/route.txt).
  *
  * A place file is a list of places, each a header "place ID | NAME | COUNTRY | SKY [| REGION]" and one builder step
@@ -8,7 +8,7 @@
  * compiled biome (BiomeE) keep its number, so the records and track codes of earlier versions still mean the same
  * place; new places are numbered after them in the order of the files, which therefore only ever grow at the end.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #include "Biome.h"
 
@@ -32,6 +32,8 @@ namespace
 {
 
 // The names the files use, in the order of the enums.
+
+/** @brief BiomeE's names. */
 const char *const BiomeNames[] = {
     "MEADOW", "FOREST", "DESERT", "SNOW", "COAST", "CITY", "MARSH", "NEON",
     "AUTUMN", "SAKURA", "JUNGLE", "SAVANNA", "VOLCANO", "AURORA", "LAVENDER", "TULIPS",
@@ -94,6 +96,7 @@ const char *const BiomeNames[] = {
     "QUEBEC_CITY", "CABOT_TRAIL", "NORTH_CAPE", "TROLLSTIGEN", "ATLANTIC_ROAD", "ORESUND", "JOKULSARLON",
 };
 
+/** @brief PropKindE's names. */
 const char *const PropNames[] = {
     "PINE", "SNOW_PINE", "OAK", "BUSH", "ROCK", "BOULDER", "CACTUS", "MESA",
     "PALM", "DEAD_TREE", "REEDS", "LAMP", "BUILDING", "TOWER", "BILLBOARD", "POLE",
@@ -121,15 +124,18 @@ const char *const PropNames[] = {
     "TORTOISE", "TRULLO",
 };
 
+/** @brief BridgeE's names. */
 const char *const BridgeNames[] = {
     "BEAM", "VIADUCT", "ARCH", "TRUSS", "SUSPENSION", "CABLE_STAYED", "COVERED", "CAUSEWAY",
 };
 
+/** @brief The light presets' names. */
 const char *const SkyNames[] = {
     "MORNING", "NOON", "HAZE", "DESERT", "GOLDEN", "SUNSET", "DUSK", "NIGHT",
     "OVERCAST", "RAIN", "MIST", "ALPINE", "ARCTIC", "TROPICAL", "WINTER",
 };
 
+/** @brief The compiled landmarks' names, in the order of their variants. */
 const char *const LandmarkNames[] = {
     "BIG_BEN", "TOWER_BRIDGE", "COLOSSEUM", "LEANING_TOWER", "BASILICA", "SAGRADA", "NEUSCHWANSTEIN", "MONT_ST_MICHEL",
     "BRANDENBURG_GATE", "ACROPOLIS", "ST_BASIL", "OPEN_ARMS", "LIBERTY", "OPERA_HOUSE", "TWIN_TOWERS", "SPACE_NEEDLE",
@@ -257,7 +263,8 @@ struct Args
     }
 };
 
-using Step = std::function<void( W &, const Args & )>;
+/** @brief What a step of a place's definition does with its words. */
+using StepT = std::function<void( W &, const Args & )>;
 
 /**
  * @brief A landmark's variant by name: the compiled ones first, then those of data/landmarks.
@@ -278,9 +285,9 @@ int landmarkVariant( const std::string &name )
  * @brief The builder's steps by name.
  * @return the table
  */
-const std::unordered_map<std::string, Step> &steps()
+const std::unordered_map<std::string, StepT> &steps()
 {
-    static const std::unordered_map<std::string, Step> table = {
+    static const std::unordered_map<std::string, StepT> table = {
         { "sun", []( W &w, const Args &a ) { w.sun( a.f( 0 ), a.f( 1 ) ); } },
         { "fog", []( W &w, const Args &a ) { w.fog( a.f( 0 ), a.c( 1 ) ); } },
         { "clouds", []( W &w, const Args &a ) { w.clouds( a.f( 0 ), a.c( 1 ) ); } },

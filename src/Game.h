@@ -11,7 +11,7 @@
  *
  * Game.cpp holds the flow and the simulation, GameUi.cpp the menus, the screens and the HUD.
  *
- * @author reneweller
+ * @author Rene Weller
  */
 #pragma once
 
@@ -302,7 +302,8 @@ private:
      * @brief Sets up a track and puts the car on it.
      * @param[in] seed    the seed
      * @param[in] startS  where the car starts
-     * @param[in] params  the generator's parameters
+     * @param[in] params   the generator's parameters
+     * @param[in] choices  the world tour's choices at its forks so far (nullptr: none made)
      */
     void setupTrack( uint64_t seed, double startS, const TrackParams &params, const std::vector<int8_t> *choices = nullptr );
 
@@ -841,10 +842,14 @@ private:
     {
         bool               m_on = false;          ///< measuring has begun
         std::vector<float> m_frames;              ///< every frame's milliseconds
-        double             m_update = 0.0, m_draw = 0.0, m_render = 0.0, m_overlay = 0.0, m_swap = 0.0;   ///< CPU milliseconds summed
+        double             m_update = 0.0;        ///< CPU milliseconds of the updates, summed
+        double             m_draw = 0.0;          ///< of the drawing
+        double             m_render = 0.0;        ///< of the 3D part of it
+        double             m_overlay = 0.0;       ///< of the 2D part
+        double             m_swap = 0.0;          ///< of the buffer swaps
         double             m_triangles = 0.0;     ///< the chunks' triangles summed
         int                m_traffic = 0;         ///< vehicles summed
-    } m_bench;
+    } m_bench;   ///< the benchmark's sums
 
     /** @brief Writes the benchmark's report (--bench). */
     void writeBench() const;
@@ -882,7 +887,8 @@ private:
     int         m_tourFrames = 0;              ///< frames the current model has stood
     StateE      m_viewerReturn = StateE::TITLE;   ///< where it goes back to
     Crossing    m_crossing;                    ///< the ferry or car train the car is aboard
-    Environment m_crossEnvA{}, m_crossEnvB{};  ///< the light at the quay and at the far one
+    Environment m_crossEnvA{};                 ///< the light at the quay
+    Environment m_crossEnvB{};                 ///< and at the far one
     Mesh        m_crossVessel{};               ///< the ship or the train
     Mesh        m_crossWater{};                ///< the sea (the tunnel for a train)
     Mesh        m_crossCoastA{};               ///< the coast left behind
@@ -1009,7 +1015,8 @@ private:
     int                        m_passportCountry = -1;  ///< the country opened on the regions page (-1: the list)
     Texture2D                  m_mapTex{};              ///< the passport's map, painted (countries, provinces, borders)
     int                        m_mapSeen = -1;          ///< how many places had been seen when it was painted
-    int                        m_mapW = 0, m_mapH = 0;  ///< its size
+    int                        m_mapW = 0;              ///< its width
+    int                        m_mapH = 0;              ///< its height
     int                        m_postcardWanted = -1;   ///< the place whose postcard is due (-1: none)
     double                     m_postcardAt = 0.0;      ///< taken once the car passes this distance
     std::map<int, Texture2D>   m_postcardTex;           ///< pictures loaded for the passport
