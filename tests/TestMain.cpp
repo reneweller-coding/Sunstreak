@@ -105,6 +105,36 @@ int main()
         check( jumps >= 2 && works > 5,
                "crests and roadworks appear" );   // fewer crests where passes climb in hairpins
     }
+    {   // Stopped deep in the verge the car crawls out; the brake held at a standstill backs it up, the throttle then
+        // takes it forward again.
+        TrackParams p;
+        p.m_biome = 0;
+        Track t( 21, p );
+        t.generateTo( 3000.0 );
+        const float dt = 1.0f / 60.0f;
+        CarInput    gas, brake;
+        gas.m_throttle = 1.0f;
+        brake.m_brake = 1.0f;
+        PlayerCar stuck;
+        stuck.reset( carSpec( 0 ), 1000.0, 0.0f, t );
+        stuck.m_x = t.segment( 200 ).m_halfWidth + RumbleWidth + 4.0f;
+        for ( int i = 0; i < 120; ++i ) stuck.update( gas, t, dt, false );
+        const bool crawls = stuck.m_offroad > 0.5f || stuck.m_s > 1001.0;
+        PlayerCar  back;
+        back.reset( carSpec( 0 ), 1500.0, 0.0f, t );
+        double lowest = back.m_s;
+        for ( int i = 0; i < 240; ++i )
+        {
+            back.update( brake, t, dt, false );
+            lowest = std::min( lowest, back.m_s );
+        }
+        const bool reversed = back.m_reverse && lowest < 1494.0;
+        for ( int i = 0; i < 300; ++i ) back.update( gas, t, dt, false );
+        const bool forward = !back.m_reverse && back.m_s > lowest + 10.0;
+        std::printf( "      out of the verge: %.1f m in 2 s; reverse: %.1f m back, then %.1f m forward\n",
+                     stuck.m_s - 1000.0, 1500.0 - lowest, back.m_s - lowest );
+        check( stuck.m_s > 1001.0 && crawls && reversed && forward, "out of the verge, and the reverse gear" );
+    }
     {   // Stages never repeat a biome back to back.
         Track t( 99 );
         bool  ok = true;
@@ -154,8 +184,14 @@ int main()
         check( car.m_speed * 3.6f > 180.0f, "over 180 km/h after 12 s" );
         in.m_throttle = 0.0f;
         in.m_brake = 1.0f;
-        for ( int i = 0; i < 120 * 8; ++i ) car.update( in, t, 1.0f / 120.0f, false );
-        check( car.m_speed < 0.1f, "brakes to a stop" );
+        // Until it stands (held on, the brake would then engage reverse).
+        bool stopped = false;
+        for ( int i = 0; i < 120 * 8 && !stopped; ++i )
+        {
+            car.update( in, t, 1.0f / 120.0f, false );
+            stopped = car.m_speed < 0.1f;
+        }
+        check( stopped && !car.m_reverse, "brakes to a stop" );
     }
     {   // Track codes carry every Track Lab value and come back unchanged.
         TrackSetup a;

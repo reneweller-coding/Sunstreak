@@ -59,7 +59,7 @@ td.mono { font-family: Consolas, monospace; font-size: 8.4pt; white-space: nowra
 """
 
 CONTROLS = [
-    ('Accelerate', 'Up / W', 'RT or A'), ('Brake', 'Down / S', 'LT or X'), ('Steer', 'Left, Right / A, D', 'left stick, d-pad'),
+    ('Accelerate', 'Up / W', 'RT or A'), ('Brake; held at a standstill: reverse', 'Down / S', 'LT or X'), ('Steer', 'Left, Right / A, D', 'left stick, d-pad'),
     ('Boost', 'Space / Shift', 'B'), ('Gear down / up (manual gears)', 'Q / E', 'LB / RB'),
     ('Camera: chase, far, bumper, cockpit', 'C', 'Y'), ('Look back (hold)', 'B', 'right stick pressed in'),
     ('Radio station / next track', 'M / N', 'View'), ('Pause', 'Esc / P', 'Start'), ('Window / fullscreen', 'F11 or Alt+Enter', ''),

@@ -186,13 +186,16 @@ public:
     float   m_weatherGrip = 1.0f;   ///< what the weather leaves of the grip (rain, snow, sand on the road)
     float   m_rain =
         0.0f;   ///< 0..1 how hard it rains: puddles gather from 0.35, and the tyres float in them over 100 km/h
-    float   m_aquaplane = 0.0f;   ///< 0..1 the tyres float on water
-    bool    m_monsoon = false;    ///< a monsoon falls: the road floods in stretches (floodAt)
-    bool    m_inFlood = false;    ///< driving through a flood (fountains, a drag on the speed)
-    uint8_t m_unpaved = 0;        ///< the road under the car: 0 asphalt, 1 gravel, 2 sand
-    long    m_lastPothole = -1;   ///< the segment of the last pothole it hit
-    bool    m_frozen = false;     ///< held at the start (the engine still revs)
-    bool    m_coasting = false;   ///< time is up: no throttle any more
+    float   m_aquaplane = 0.0f;     ///< 0..1 the tyres float on water
+    bool    m_monsoon = false;      ///< a monsoon falls: the road floods in stretches (floodAt)
+    bool    m_inFlood = false;      ///< driving through a flood (fountains, a drag on the speed)
+    uint8_t m_unpaved = 0;          ///< the road under the car: 0 asphalt, 1 gravel, 2 sand
+    long    m_lastPothole = -1;     ///< the segment of the last pothole it hit
+    bool    m_frozen = false;       ///< held at the start (the engine still revs)
+    bool    m_reverse = false;      ///< in reverse: m_speed is then the speed backwards
+    float   m_reverseHold = 0.0f;   ///< seconds the brake has been held at a standstill (reverse after ReverseDelay)
+    double  m_farthest = 0.0;       ///< the farthest the car has come (reverse goes at most ReverseReach behind it)
+    bool    m_coasting = false;     ///< time is up: no throttle any more
 
     // Events of the last update, for sound and particles.
     bool  m_eventShift = false;       ///< a gear change

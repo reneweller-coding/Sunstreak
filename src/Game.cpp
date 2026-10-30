@@ -2398,7 +2398,7 @@ void Game::timeAttackRules( float h )
         m_nextCheckpoint += CheckpointSpacing;
     }
     const int stage = m_track->stageAt( m_car.m_s );
-    if ( stage != m_stage )
+    if ( stage > m_stage )   // only forwards: backing over a border in reverse is no new stage
     {
         m_stage = stage;
         // A legendary road driven from end to end: its time against the best.

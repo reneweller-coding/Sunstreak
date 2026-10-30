@@ -3212,8 +3212,8 @@ void Game::drawHud()
     const float gx = x0 - 6.0f * u;
     DrawRectangleRounded( Rectangle{ gx - 56.0f * u, H - 120.0f * u, 54.0f * u, 64.0f * u }, 0.2f, 6,
                           Color{ 8, 10, 22, 170 } );
-    drawTextFx( format( "%d", m_car.m_gear + 1 ), gx - 29.0f * u, H - 108.0f * u, 40.0f * u,
-                m_settings.m_manualGears ? Accent : Ink, AlignE::CENTER, 0.3f );
+    drawTextFx( m_car.m_reverse ? std::string( "R" ) : format( "%d", m_car.m_gear + 1 ), gx - 29.0f * u, H - 108.0f * u,
+                40.0f * u, m_settings.m_manualGears ? Accent : Ink, AlignE::CENTER, 0.3f );
     txt( "BOOST", x0, H - 30.0f * u, 11.0f * u, Cyan );
     const float bx = x0 + 70.0f * u, bw = right - bx;
     DrawRectangle( static_cast<int>( bx ), static_cast<int>( H - 30.0f * u ), static_cast<int>( bw ),

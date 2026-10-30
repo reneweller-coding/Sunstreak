@@ -15,10 +15,14 @@ namespace sunstreak
 namespace
 {
 
-constexpr float GearShare[GearCount] = { 0.25f, 0.41f, 0.56f, 0.71f, 0.86f, 1.0f };   ///< gear top / top speed
-constexpr float GearPull[GearCount] = { 1.0f, 0.86f, 0.73f, 0.61f, 0.51f, 0.43f };    ///< drive per gear
-constexpr float BoostTopShare = 1.14f;   ///< boost lets the engine run past the top speed by this much
-constexpr float ShiftTime = 0.16f;       ///< seconds without drive per shift
+constexpr float  GearShare[GearCount] = { 0.25f, 0.41f, 0.56f, 0.71f, 0.86f, 1.0f };   ///< gear top / top speed
+constexpr float  GearPull[GearCount] = { 1.0f, 0.86f, 0.73f, 0.61f, 0.51f, 0.43f };    ///< drive per gear
+constexpr float  BoostTopShare = 1.14f;   ///< boost lets the engine run past the top speed by this much
+constexpr float  ShiftTime = 0.16f;       ///< seconds without drive per shift
+constexpr float  ReverseDelay = 0.4f;     ///< the brake held this long at a standstill engages reverse
+constexpr float  ReverseTop = 5.5f;       ///< the top speed backwards (m/s, about 20 km/h)
+constexpr float  ReverseAccel = 4.0f;     ///< and how fast it gets there (m/s^2)
+constexpr double ReverseReach = 150.0;    ///< reverse goes at most this far behind the farthest point reached
 
 /**
  * @brief Engine torque over the rev range.
@@ -184,6 +188,7 @@ void PlayerCar::reset( const CarSpec &spec, double s, float x, const Track &trac
     m_x = x;
     m_y = track.surfaceHeight( s, x );
     m_prevRoadY = m_y;
+    m_farthest = s;
 }
 
 void PlayerCar::crash( float keep, float push )
@@ -266,8 +271,26 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
     m_wetGrip = grip;
     grip *= m_spec.m_grip * tuning().m_grip * ( 1.0f - 0.35f * m_offroad );
 
+    // Reverse: the brake held at a standstill engages it; then the brake drives backwards and the throttle brakes,
+    // and stopped with the throttle on, the car is in first gear again.
+    if ( !m_frozen && !m_airborne && m_crashTimer <= 0.0f )
+    {
+        if ( !m_reverse && m_speed < 0.3f && in.m_brake > 0.5f && in.m_throttle < 0.1f )
+            m_reverseHold += dt;
+        else
+            m_reverseHold = 0.0f;
+        if ( m_reverseHold > ReverseDelay || ( m_reverse && m_speed < 0.3f && in.m_throttle > 0.1f ) )
+        {
+            m_reverse = !m_reverse;
+            m_reverseHold = 0.0f;
+            m_speed = 0.0f;
+            m_gear = 0;
+            m_eventShift = true;
+        }
+    }
+
     // Engine and gears.
-    m_throttle = approach( m_throttle, in.m_throttle, 12.0f, dt );
+    m_throttle = approach( m_throttle, m_reverse ? in.m_brake : in.m_throttle, 12.0f, dt );
     if ( m_shiftTimer > 0.0f ) m_shiftTimer -= dt;
     if ( manual )
     {
@@ -284,7 +307,7 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
             m_eventShift = true;
         }
     }
-    else if ( !m_frozen )
+    else if ( !m_frozen && !m_reverse )
     {
         const float r = m_speed / gearTop( m_gear );
         if ( r > 0.97f && m_gear < GearCount - 1 && in.m_throttle > 0.1f && !m_airborne )
@@ -336,13 +359,21 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
     const float dragK = topAccel / ( m_spec.m_topSpeed * m_spec.m_topSpeed * 1.03f );
     accel -= dragK * m_speed * m_speed + 0.25f;
     if ( in.m_throttle < 0.05f && !m_airborne ) accel -= 1.2f + 2.0f * m_rpm;
-    accel -= 9.0f * m_offroad;
+    // Rough ground holds the car back the more, the faster it goes: stopped in the verge, it can always crawl out.
+    accel -= m_offroad * std::min( 9.0f, 0.75f * m_speed );
     const float offCap = lerpf( m_spec.m_topSpeed, 0.42f * m_spec.m_topSpeed, m_offroad );
     if ( m_speed > offCap ) accel -= 14.0f * m_offroad;
     if ( m_crashTimer > 0.0f ) accel -= 8.0f;
     if ( !m_airborne ) accel -= f.m_grade * 9.81f * 0.5f;
+    if ( m_reverse )
+    {
+        // Backwards: the brake drives, the throttle brakes; a hill behind the car pulls it down.
+        accel = ReverseAccel * in.m_brake - tuning().m_brake * in.m_throttle - 0.25f -
+                m_offroad * std::min( 9.0f, 0.75f * m_speed ) + f.m_grade * 9.81f * 0.5f;
+        if ( in.m_brake < 0.05f ) accel -= 2.0f;
+    }
     if ( m_frozen ) accel = 0.0f;
-    m_speed = std::max( 0.0f, m_speed + accel * dt );
+    m_speed = std::clamp( m_speed + accel * dt, 0.0f, m_reverse ? ReverseTop : 1000.0f );
 
     // Steering against the bend.
     const float steerTarget = clampf( in.m_steer, -1.0f, 1.0f );
@@ -365,7 +396,9 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
     m_slip = ( m_airborne || m_offroad > 0.5f ) ? 0.0f : slip * smoothstepf( 2.0f, 14.0f, m_speed );
 
     // The visible yaw follows the sideways motion; a crash spins the car.
-    const float yawTarget = std::atan2( lateral, std::max( m_speed, 6.0f ) ) * 1.5f + m_steer * 0.06f;
+    // Backwards the nose turns the other way: backing to the left, it points to the right.
+    const float yawTarget =
+        ( std::atan2( lateral, std::max( m_speed, 6.0f ) ) * 1.5f + m_steer * 0.06f ) * ( m_reverse ? -1.0f : 1.0f );
     m_yawVisual = approach( m_yawVisual, clampf( yawTarget, -0.6f, 0.6f ), 8.0f, dt );
     if ( m_crashTimer > 0.0f )
     {
@@ -383,7 +416,13 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
     }
 
     // Advance and follow the road's height; leave it where it falls away faster than gravity.
-    if ( !m_frozen ) m_s += static_cast<double>( m_speed ) * dt;
+    if ( !m_frozen ) m_s += static_cast<double>( m_reverse ? -m_speed : m_speed ) * dt;
+    m_farthest = std::max( m_farthest, m_s );
+    if ( m_reverse && m_s < m_farthest - ReverseReach )
+    {
+        m_s = m_farthest - ReverseReach;   // the road behind is gone after a while
+        m_speed = 0.0f;
+    }
     const double roadY = track.surfaceHeight( m_s, m_x );
     if ( !m_airborne )
     {

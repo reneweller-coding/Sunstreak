@@ -85,7 +85,7 @@ soundtrack.
 | | Keyboard | Gamepad / Steam Deck |
 |---|---|---|
 | Accelerate | Up / W | RT or A |
-| Brake | Down / S | LT or X |
+| Brake; held at a standstill: reverse | Down / S | LT or X |
 | Steer | Left Right / A D | left stick, d-pad |
 | Boost | Space / Shift | B |
 | Gear down / up (manual) | Q / E | LB / RB |

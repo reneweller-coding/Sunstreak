@@ -60,6 +60,8 @@ C changes the camera: chase, far, bumper and cockpit. The cockpit puts you in th
 
 Accelerate, brake and steer. In a bend the road pushes the car outwards, the more the faster you go: steer against it, and brake before the tight ones. The minimap and the chevron boards show what is coming; the yellow diamonds and triangles warn of crests, and a crest taken fast throws the car into the air.
 
+Stuck in the verge or against a rock at a hairpin? Hold the brake at a standstill and the gear shows **R**: the brake now backs the car up (up to 20 km/h, as far as 150 m), and the throttle stops it and takes it forward again. Off the road the car is slower, but it can always crawl back.
+
 The **boost** (Space, B on a gamepad) adds speed while the tank lasts. The tank fills with **near misses**: pass traffic close and fast. Every near miss also raises the **combo**, which multiplies what the next ones are worth.
 
 GEARS in the settings switches between the automatic and a manual gearbox (Q and E, or the shoulder buttons).
