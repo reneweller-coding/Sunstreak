@@ -1,5 +1,13 @@
 # Sunstreak release notes
 
+## 1.0.1
+
+- **Reverse gear:** hold the brake at a standstill and the gear shows R; the brake then backs the car up (up to
+  20 km/h, as far as 150 m), the throttle stops it and takes it forward again.
+- **No more stuck in the verge:** off the road the car used to be held back so hard that, once stopped there (at a
+  hairpin, say), it could never drive off again. Now it always crawls back to the road.
+- Building from source: GCC 12 and the newest Visual Studio on GitHub's runners.
+
 ## 1.0.0
 
 The first public release: an arcade racer round the whole world, for Windows, Linux and the Steam Deck.
