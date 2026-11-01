@@ -1,6 +1,10 @@
-<img src="res/sunstreak.png" width="96" align="left" alt="Sunstreak" />
+<h1 align="center"><img src="docs/logo.png" width="620" alt="Sunstreak" /></h1>
 
-# Sunstreak
+<p align="center">
+<a href="https://reneweller-coding.itch.io/sunstreak"><b>itch.io</b></a> ·
+<a href="https://github.com/reneweller-coding/Sunstreak/releases/latest"><b>Download</b></a> ·
+<a href="LICENSE">AGPL-3.0</a>
+</p>
 
 An arcade racer in the spirit of *Lotus III: The Ultimate Challenge*, round the whole world: a low camera, a road that
 bends, climbs and throws you over crests, traffic to slice through and a clock that only checkpoints refill. The road
@@ -14,19 +18,18 @@ train under the Channel.
 the program itself: the low-poly world, the sky, the stroke font, the engines and thirty-one radio stations that
 compose their music as you listen. No textures, no samples, no recordings: the game is one file of 9 MB.
 
-<br clear="left" />
-
 ![Tokyo at night: stage one of a world tour](docs/screenshots/tokyo-night.jpg)
 
 ## Download
 
-**[Sunstreak-1.0.0-windows-x64.zip](https://github.com/reneweller-coding/Sunstreak/releases/download/v1.0.0/Sunstreak-1.0.0-windows-x64.zip)**
+**[Sunstreak-1.0.1-windows-x64.zip](https://github.com/reneweller-coding/Sunstreak/releases/download/v1.0.1/Sunstreak-1.0.1-windows-x64.zip)**
 for Windows 10 and 11: unpack it anywhere and start `Sunstreak.exe`, nothing to install. The
-**[Linux archive](https://github.com/reneweller-coding/Sunstreak/releases/download/v1.0.0/Sunstreak-1.0.0-linux-x86_64.tar.gz)**
+**[Linux archive](https://github.com/reneweller-coding/Sunstreak/releases/download/v1.0.1/Sunstreak-1.0.1-linux-x86_64.tar.gz)**
 runs on any x86-64 distribution with glibc 2.35 or newer, SteamOS included: on the Steam Deck copy it over and add
 `Sunstreak` to Steam as a non-Steam game. The
-**[manual](https://github.com/reneweller-coding/Sunstreak/releases/download/v1.0.0/Sunstreak-Manual.pdf)** (also in
-both archives) shows every screen and mode with pictures the game took itself.
+**[manual](https://github.com/reneweller-coding/Sunstreak/releases/download/v1.0.1/Sunstreak-Manual.pdf)** (also in
+both archives) shows every screen and mode with pictures the game took itself. The same packages are on
+**[itch.io](https://reneweller-coding.itch.io/sunstreak)**, where the itch app installs and updates them.
 
 Requirements: a graphics card with OpenGL 3.3, a gamepad or the keyboard. Put your own music (`.ogg`, `.mp3`, `.flac`,
 `.wav`, `.xm`, `.mod`) into the `music` folder beside the game and it plays as the station MY MUSIC. The program is not
