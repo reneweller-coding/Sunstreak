@@ -3,6 +3,8 @@
 <p align="center">
 <a href="https://reneweller-coding.itch.io/sunstreak"><b>itch.io</b></a> ·
 <a href="https://github.com/reneweller-coding/Sunstreak/releases/latest"><b>Download</b></a> ·
+<a href="https://youtu.be/q7QPR4ZEo7U"><b>Trailer</b></a> ·
+<a href="https://youtu.be/ywJKhy8S37M">Gameplay video</a> ·
 <a href="LICENSE">AGPL-3.0</a>
 </p>
 
@@ -34,6 +36,13 @@ both archives) shows every screen and mode with pictures the game took itself. T
 Requirements: a graphics card with OpenGL 3.3, a gamepad or the keyboard. Put your own music (`.ogg`, `.mp3`, `.flac`,
 `.wav`, `.xm`, `.mod`) into the `music` folder beside the game and it plays as the station MY MUSIC. The program is not
 code-signed: Windows' SmartScreen may warn once ("More info", "Run anyway").
+
+## Videos
+
+| | |
+|:---:|:---:|
+| [![Trailer](https://img.youtube.com/vi/q7QPR4ZEo7U/maxresdefault.jpg)](https://youtu.be/q7QPR4ZEo7U) | [![Gameplay video](https://img.youtube.com/vi/ywJKhy8S37M/maxresdefault.jpg)](https://youtu.be/ywJKhy8S37M) |
+| The trailer (one minute) | Gameplay (several minutes, the game's autopilot at the controls) |
 
 ## Pictures
 
