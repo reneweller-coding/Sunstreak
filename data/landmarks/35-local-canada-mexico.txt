@@ -31,7 +31,7 @@ shape GRANITE_COVE_LIGHTHOUSE
     spire 0 12.6 0 1.0 1.0 8 C82A2A
 
 shape MOUNTIE_ON_HORSE
-    home CANADA:ALBERTA, CANADA:SASKATCHEWAN, CANADA:MANITOBA, CANADA:ONTARIO, CANADA:BRITISH COLUMBIA | 0.002 4 30
+    home CANADA:ALBERTA, CANADA:SASKATCHEWAN, CANADA:MANITOBA, CANADA:ONTARIO, CANADA:BRITISH COLUMBIA | 0.002 4 30 | free
     # A mounted police officer in red serge on a black horse, the broad flat-brimmed hat, beside a white rail fence.
     blob 0 1.35 0 0.32 0.42 0.9 1E1A18
     mirror
@@ -94,7 +94,7 @@ shape SAP_BUCKET_MAPLES
     cyl -2.65 0.9 -3.2 0.16 0.18 0.3 8 B8B8B8 shiny
 
 shape CANADA_GEESE
-    home CANADA, USA:MINNESOTA, USA:MICHIGAN, USA:WISCONSIN, USA:NEW YORK, USA:MASSACHUSETTS, USA:OHIO, USA:PENNSYLVANIA | 0.006 4 40 | country
+    home CANADA, USA:MINNESOTA, USA:MICHIGAN, USA:WISCONSIN, USA:NEW YORK, USA:MASSACHUSETTS, USA:OHIO, USA:PENNSYLVANIA | 0.006 4 40 | country free
     # A flock of Canada geese on the grass: brown bodies, long black necks, a white chin strap, some grazing.
     repeat 4 1.0 0 1.1
     blob -1.5 0.35 -2 0.18 0.18 0.32 7A6A58
@@ -116,7 +116,7 @@ shape CANADA_GEESE
     tube 0.5 0.25 1 0.5 0 1.02 0.015 3 1E1E1E
 
 shape BEAVER_POND
-    home CANADA, USA:MINNESOTA, USA:MICHIGAN, USA:WISCONSIN, USA:MAINE, USA:NEW YORK, USA:ALASKA, USA:MONTANA, ARGENTINA:TIERRA DEL FUEGO, CHILE:MAGALLANES | 0.005 8 60 | country
+    home CANADA, USA:MINNESOTA, USA:MICHIGAN, USA:WISCONSIN, USA:MAINE, USA:NEW YORK, USA:ALASKA, USA:MONTANA, ARGENTINA:TIERRA DEL FUEGO, CHILE:MAGALLANES | 0.005 8 60 | country free
     # A beaver pond: a dome of piled sticks and mud in the still water, a dam across the stream, gnawed stumps on the bank.
     box 0 0.02 0 5 0.02 7 3A4A4A water
     blob -0.5 0 0 1.8 1.2 2.0 6A5A48 0.5
@@ -166,7 +166,7 @@ shape NORTHERN_POST_HOUSE
     box 5 7.5 -2.4 0.02 0.4 0.6 C82A2A
 
 shape GIANT_PYSANKA
-    home CANADA:ALBERTA, CANADA:SASKATCHEWAN, CANADA:MANITOBA | 0.002 6 40
+    home CANADA:ALBERTA, CANADA:SASKATCHEWAN, CANADA:MANITOBA | 0.002 6 40 | free
     # A giant painted Easter egg on its pedestal in a prairie town: deep blue with bands of gold and bronze.
     cyl 0 0 0 1.2 0.8 2.5 8 8A8680
     blob 0 6 0 2.5 3.5 2.5 2A2A6A
@@ -212,7 +212,7 @@ shape PERMAFROST_HOUSES
     tbox 3.4 0 5 0.6 0.4 2.4 1.2 5 0.1 0.4 7A7A70
 
 shape MUSKOXEN
-    home CANADA:NUNAVUT, CANADA:YUKON, USA:ALASKA, NORWAY | 0.004 8 60 | cold
+    home CANADA:NUNAVUT, CANADA:YUKON, USA:ALASKA, NORWAY | 0.004 8 60 | cold free
     # Muskoxen on the tundra: humped and shaggy, their long dark coats nearly brushing the ground, horns curving down.
     repeat 2 2 0 -2.5
     blob 0 1.0 0 0.55 0.7 1.0 3A2E26 0.3
@@ -240,7 +240,7 @@ shape MUSKOXEN
     tube -0.3 0.3 -0.6 -0.3 0 -0.6 0.09 4 B8A890
 
 shape MOUNTAIN_GOATS
-    home CANADA:BRITISH COLUMBIA, CANADA:ALBERTA, CANADA:YUKON, USA:MONTANA, USA:WASHINGTON, USA:IDAHO, USA:ALASKA, USA:COLORADO | 0.004 8 60 | country
+    home CANADA:BRITISH COLUMBIA, CANADA:ALBERTA, CANADA:YUKON, USA:MONTANA, USA:WASHINGTON, USA:IDAHO, USA:ALASKA, USA:COLORADO | 0.004 8 60 | country free
     # Mountain goats on a rocky outcrop: shaggy white coats, little black horns, sure-footed on the ledges.
     blob 0 0.8 0 2.5 1.6 3 8A8680 0.5
     blob -1 2 1 1.4 1.2 1.4 9A9690 0.5
@@ -260,7 +260,7 @@ shape MOUNTAIN_GOATS
     blob 0.8 2.6 -0.72 0.1 0.12 0.18 F2F2EE
 
 shape BIGHORN_RAM
-    home CANADA:ALBERTA, CANADA:BRITISH COLUMBIA, USA:WYOMING, USA:MONTANA, USA:COLORADO, USA:IDAHO, USA:NEVADA, USA:UTAH, USA:ARIZONA | 0.004 6 50 | country
+    home CANADA:ALBERTA, CANADA:BRITISH COLUMBIA, USA:WYOMING, USA:MONTANA, USA:COLORADO, USA:IDAHO, USA:NEVADA, USA:UTAH, USA:ARIZONA | 0.004 6 50 | country free
     # A bighorn ram by the road cut: brown with a white rump, massive horns curled round his ears.
     blob -2.5 1.5 0 1.5 1.5 3 A89070 0.5
     blob 0 0.9 0 0.25 0.3 0.6 8A6A4A
@@ -390,7 +390,7 @@ shape COD_FLAKES
     blob -0.8 1.06 -4.3 0.25 0.02 0.18 E8E0C8
 
 shape PUFFINS_ON_ROCK
-    home CANADA:NEWFOUNDLAND AND LABRADOR, ICELAND, NORWAY, SCOTLAND, WALES, IRELAND | 0.004 8 50 | coast
+    home CANADA:NEWFOUNDLAND AND LABRADOR, ICELAND, NORWAY, SCOTLAND, WALES, IRELAND | 0.004 8 50 | coast free
     # Puffins on a grassy sea rock: black backs, white fronts, big striped orange beaks.
     blob 0 0.8 0 2.4 1.0 3 7A7068 0.5
     blob 0 1.6 0 2 0.4 2.6 6A8A4A 0.4
@@ -485,7 +485,7 @@ shape FRUIT_CUP_CART
     spire 0 2.3 0 1.3 0.5 8 E83A2A
 
 shape CENOTE
-    home MEXICO:YUCATAN, MEXICO:QUINTANA ROO, MEXICO:CAMPECHE | 0.004 8 60 | country
+    home MEXICO:YUCATAN, MEXICO:QUINTANA ROO, MEXICO:CAMPECHE | 0.004 8 60 | country free
     # A cenote: a round sinkhole in the limestone, its turquoise water far below a ring of rock, roots and vines hanging down.
     halo 0 0.3 0 4 0.5 14 C8C0A8
     cyl 0 0.15 0 3.6 3.6 0.05 14 2AB8C8 water
@@ -536,7 +536,7 @@ shape LIENZO_CHARRO
     box 3.82 1 -12 0.02 0.8 1.2 C82A2A
 
 shape VOLADORES_POLE
-    home MEXICO:VERACRUZ, MEXICO:PUEBLA, MEXICO:MEXICO CITY | 0.002 6 40
+    home MEXICO:VERACRUZ, MEXICO:PUEBLA, MEXICO:MEXICO CITY | 0.002 6 40 | free
     # A flyers' pole in the plaza: a tall pole with the little square frame at its top, the ropes wound round it.
     tube 0 0 0 0 24 0 0.3 8 8A6A48
     box 0 24.2 0 0.7 0.1 0.7 8A6A48
@@ -551,7 +551,7 @@ shape VOLADORES_POLE
     blob 1.4 17.6 1.4 0.15 0.3 0.15 C82A2A
 
 shape TILED_FOUNTAIN
-    home MEXICO:PUEBLA, MEXICO:GUANAJUATO, MEXICO:JALISCO, MEXICO:OAXACA, MEXICO:QUERETARO, MEXICO:MEXICO CITY, MEXICO:TLAXCALA | 0.003 4 30 | town
+    home MEXICO:PUEBLA, MEXICO:GUANAJUATO, MEXICO:JALISCO, MEXICO:OAXACA, MEXICO:QUERETARO, MEXICO:MEXICO CITY, MEXICO:TLAXCALA | 0.003 4 30 | town free
     # A tiled fountain in the square: an octagonal basin dressed in blue and white tiles, a stone bowl and jet in its middle.
     cyl 0 0 0 2.2 2.2 0.55 8 2A4A9A
     cyl 0 0.55 0 2.0 2.0 0.04 8 4A9AC8 water
@@ -600,7 +600,7 @@ shape JACARANDA_TREES
     box 0 0.02 0.5 3 0.02 7 9A7AC8
 
 shape FLAME_TREE
-    home MEXICO:YUCATAN, MEXICO:QUINTANA ROO, MEXICO:VERACRUZ, MEXICO:GUERRERO, MEXICO:OAXACA, MEXICO:COLIMA, CUBA, JAMAICA, DOMINICAN REPUBLIC, BAHAMAS, MADAGASCAR, INDIA, AUSTRALIA, MAURITIUS | 0.004 6 50 | tropical
+    home MEXICO:YUCATAN, MEXICO:QUINTANA ROO, MEXICO:VERACRUZ, MEXICO:GUERRERO, MEXICO:OAXACA, MEXICO:COLIMA, CUBA, JAMAICA, DOMINICAN REPUBLIC, BAHAMAS, MADAGASCAR, INDIA, AUSTRALIA, MAURITIUS | 0.004 6 50 | tropical free
     # A flame tree: a wide flat umbrella of a crown ablaze with scarlet flowers over a short grey trunk.
     tube 0 0 0 0 2.5 0 0.35 6 8A8478
     tube 0 2.3 0 2 3.6 0.5 0.15 4 8A8478
@@ -620,7 +620,7 @@ shape BOUGAINVILLEA_WALL
     blob -0.6 2.8 0 0.8 0.6 2 4A7A3A 0.5
 
 shape PANGA_BOAT
-    home MEXICO:BAJA CALIFORNIA, MEXICO:BAJA CALIFORNIA SUR, MEXICO:SONORA, MEXICO:SINALOA, MEXICO:NAYARIT, MEXICO:GUERRERO, MEXICO:OAXACA, MEXICO:YUCATAN, MEXICO:QUINTANA ROO, BELIZE, HONDURAS, NICARAGUA, COSTA RICA, PANAMA | 0.004 25 100 | water
+    home MEXICO:BAJA CALIFORNIA, MEXICO:BAJA CALIFORNIA SUR, MEXICO:SONORA, MEXICO:SINALOA, MEXICO:NAYARIT, MEXICO:GUERRERO, MEXICO:OAXACA, MEXICO:YUCATAN, MEXICO:QUINTANA ROO, BELIZE, HONDURAS, NICARAGUA, COSTA RICA, PANAMA | 0.004 25 100 | water free
     # A panga: a long open fibreglass fishing boat with a high bow, an outboard on the stern, a blue stripe on white.
     tbox 0 -0.3 0 0.5 3 0 0.6 0.4 0.95 3.8 F2F2EE
     tbox 0 0.4 3.8 0.95 0.01 0 0.9 4.6 0.3 0.01 F2F2EE
@@ -670,7 +670,7 @@ shape IGUANA_ON_WALL
     tube 0 1.05 1.05 -0.3 0.4 0.4 0.05 4 6A7A5A
 
 shape CARDON_CACTUS
-    home MEXICO:BAJA CALIFORNIA, MEXICO:BAJA CALIFORNIA SUR, MEXICO:SONORA | 0.008 8 70 | country
+    home MEXICO:BAJA CALIFORNIA, MEXICO:BAJA CALIFORNIA SUR, MEXICO:SONORA | 0.008 8 70 | country free
     # A cardon: the giant cactus of Baja, many thick ribbed arms rising from a short trunk like a candelabra.
     cyl 0 0 0 0.6 0.55 2.5 10 6A8A5A
     cyl 0 2.5 0 0.5 0.45 9 10 6A8A5A
@@ -682,7 +682,7 @@ shape CARDON_CACTUS
     cyl 0.3 3 -1.5 0.38 0.33 4.5 10 6A8A5A
 
 shape BOOJUM_TREE
-    home MEXICO:BAJA CALIFORNIA | 0.008 6 60 | country
+    home MEXICO:BAJA CALIFORNIA | 0.008 6 60 | country free
     # Boojum trees: tall tapering grey columns like upside-down carrots, bristling with twigs, sometimes bent over in an arch.
     cyl 0 0 0 0.6 0.1 11 8 B8B090
     repeat 10 0 1 0
@@ -730,7 +730,7 @@ shape GIANT_MEXICAN_FLAG
     blob 0 47 4 0.08 0.6 0.6 8A6A3A
 
 shape OX_PLOUGH
-    home MEXICO:OAXACA, MEXICO:CHIAPAS, MEXICO:GUERRERO, MEXICO:MICHOACAN, MEXICO:PUEBLA, GUATEMALA, PERU, BOLIVIA, ETHIOPIA, INDIA, NEPAL, MYANMAR, CUBA | 0.004 6 50 | country
+    home MEXICO:OAXACA, MEXICO:CHIAPAS, MEXICO:GUERRERO, MEXICO:MICHOACAN, MEXICO:PUEBLA, GUATEMALA, PERU, BOLIVIA, ETHIOPIA, INDIA, NEPAL, MYANMAR, CUBA | 0.004 6 50 | country free
     # A farmer ploughing behind a yoke of oxen: two pale oxen under a wooden yoke, the plough cutting the dark furrow.
     box -2 0.02 0 3 0.02 4 5A4030
     repeat 2 0.9 0 0

@@ -81,17 +81,18 @@ shape MORRIS_DANCERS
     box -1.45 1.0 2.5 0.12 0.15 0.18 C82A2A
 
 shape LIFEBOAT_STATION
-    home ENGLAND, SCOTLAND, WALES, IRELAND, NORTHERN IRELAND | 0.003 6 40 | coast
+    home ENGLAND, SCOTLAND, WALES, IRELAND, NORTHERN IRELAND | 0.003 6 40 | coast shore
     # A lifeboat station: a boathouse with a steep slipway into the sea, the orange and blue lifeboat ready at the top of it.
+    # (placement: turned 180 degrees: its water side is +x)
     box 0 3 0 4 3 6 E8E0D0
     gable 0 6 0 4 6 2 0.3 6A6A6A E8E0D0
-    box -4.01 2.4 0 0.01 2.4 2.2 2A3A6A
-    box 4.01 4.6 0 0.01 0.4 3.5 F2801E
-    box 4.01 1.2 -3 0.01 1.2 0.6 2A3A6A
-    quad -4 0.4 -1.6 -4 0.4 1.6 -16 -3 1.6 -16 -3 -1.6 7A7A74
-    tube -5.5 1.6 0 -10 1.6 0 0.9 8 1E3A8A
-    box -7.75 2.5 0 2.2 0.4 0.8 F2801E
-    box -7.0 3.2 0 0.8 0.4 0.6 F2801E
+    box 4.01 2.4 0 0.01 2.4 2.2 2A3A6A
+    box -4.01 4.6 0 0.01 0.4 3.5 F2801E
+    box -4.01 1.2 3 0.01 1.2 0.6 2A3A6A
+    quad 4 0.4 1.6 4 0.4 -1.6 16 -3 -1.6 16 -3 1.6 7A7A74
+    tube 5.5 1.6 0 10 1.6 0 0.9 8 1E3A8A
+    box 7.75 2.5 0 2.2 0.4 0.8 F2801E
+    box 7 3.2 0 0.8 0.4 0.6 F2801E
 
 shape MARTELLO_TOWER
     home IRELAND, ENGLAND | 0.002 8 50 | coast
@@ -103,7 +104,7 @@ shape MARTELLO_TOWER
     tube 6 2 0.6 6 4.8 0.6 0.04 3 6A5A48
 
 shape SPOIL_TERRIL
-    home BELGIUM, FRANCE:HAUTS-DE-FRANCE, GERMANY:NORTH RHINE-WESTPHALIA, GERMANY:SAARLAND, POLAND, CZECHIA | 0.002 60 160 | country
+    home BELGIUM, FRANCE:HAUTS-DE-FRANCE, GERMANY:NORTH RHINE-WESTPHALIA, GERMANY:SAARLAND, POLAND, CZECHIA | 0.002 60 160 | country free
     # A coal spoil heap from the mining days: a great black cone rising over the plain, birch trees creeping up its lower slopes, a winding tower nearby.
     spire 0 0 0 40 45 16 3A3A3A
     repeat 6 4 0 6
@@ -137,7 +138,7 @@ shape COOLING_TOWERS
     blob 0 85 70 18 16 18 F2F2F2 glass
 
 shape ROWING_EIGHT
-    home ENGLAND, GERMANY, NETHERLANDS, AUSTRALIA, USA:MASSACHUSETTS, USA:PENNSYLVANIA, CANADA:ONTARIO | 0.002 35 70 | water
+    home ENGLAND, GERMANY, NETHERLANDS, AUSTRALIA, USA:MASSACHUSETTS, USA:PENNSYLVANIA, CANADA:ONTARIO | 0.002 35 70 | water free
     # A rowing eight on the river: a long thin shell with eight rowers in a line pulling their oars together, the cox at the stern.
     tube 0 0.15 -9 0 0.15 9 0.3 8 F2F2F2
     repeat 8 0 0 1.6
@@ -203,7 +204,7 @@ shape DAMMUSO
     box 4 2.2 0 0.8 0.05 1.6 5A8A3A
 
 shape YALI
-    home TURKEY | 0.003 8 40 | coast
+    home TURKEY | 0.003 8 40 | coast shore
     # A wooden waterside mansion: a long timber house painted pale with dark shutters, built right on the water with a boathouse beneath.
     box 0 3.5 0 3 2 9 E8D8C0
     box 0 1 0 3 1 9 B8A890
@@ -258,7 +259,7 @@ shape STECCI
     box -1 1 3 0.4 1 0.4 B8B4A8
 
 shape MARTENITSA_TREE
-    home BULGARIA, NORTH MACEDONIA, ROMANIA, MOLDOVA | 0.003 1 12 | country
+    home BULGARIA, NORTH MACEDONIA, ROMANIA, MOLDOVA | 0.003 1 12 | country free
     # A blossoming tree hung with red and white woven threads, the spring tokens tied on its twigs when the first storks come back.
     tube 0 0 0 0 2.4 0 0.15 5 6A5A40
     blob 0 3.2 0 1.6 1.2 1.6 F2E8E8 0.4
@@ -286,7 +287,7 @@ shape KONIK_HORSES
     tube -3.15 0.75 -5.6 -3.15 0 -5.6 0.06 4 4A4440
 
 shape LYNX
-    home SWEDEN, NORWAY, FINLAND, POLAND, SLOVAKIA, ROMANIA, CZECHIA, ESTONIA, LATVIA, SWITZERLAND, CANADA, RUSSIA | 0.001 3 25 | country
+    home SWEDEN, NORWAY, FINLAND, POLAND, SLOVAKIA, ROMANIA, CZECHIA, ESTONIA, LATVIA, SWITZERLAND, CANADA, RUSSIA | 0.001 3 25 | country free
     # A lynx stepping out of the spruce forest: long legs, big paws, a short black-tipped tail and tufted ears.
     blob 0 0.55 0 0.18 0.22 0.45 B8906A
     blob 0 0.72 0.45 0.14 0.13 0.13 B8906A
@@ -299,14 +300,14 @@ shape LYNX
     spire -2 0 -1 1.2 5 8 2A4A3A
 
 shape HEDGEHOG
-    home GERMANY, ENGLAND, NETHERLANDS, BELGIUM, DENMARK, FRANCE, AUSTRIA, CZECHIA, POLAND, NEW ZEALAND | 0.002 0.5 4 | country
+    home GERMANY, ENGLAND, NETHERLANDS, BELGIUM, DENMARK, FRANCE, AUSTRIA, CZECHIA, POLAND, NEW ZEALAND | 0.002 0.5 4 | country free
     # A hedgehog trundling along the verge at dusk: a brown ball of spines with a pointed nose.
     blob 0 0.08 0 0.11 0.09 0.15 6A5A40 0.5
     blob 0 0.06 0.15 0.05 0.04 0.06 B8A080
     blob 0 0.06 0.21 0.012 0.012 0.012 1E1E1E
 
 shape RED_SQUIRREL
-    home ENGLAND, SCOTLAND, IRELAND, SWEDEN, NORWAY, FINLAND, GERMANY, POLAND, AUSTRIA, SWITZERLAND, CZECHIA, ESTONIA, LATVIA, RUSSIA | 0.002 1 10 | country
+    home ENGLAND, SCOTLAND, IRELAND, SWEDEN, NORWAY, FINLAND, GERMANY, POLAND, AUSTRIA, SWITZERLAND, CZECHIA, ESTONIA, LATVIA, RUSSIA | 0.002 1 10 | country free
     # A red squirrel on a pine stump: rust-red fur, tufted ears and a great bushy tail curled over its back, a cone in its paws.
     cyl 0 0 0 0.35 0.3 0.5 8 7A5A3A
     blob 0 0.68 0 0.1 0.14 0.08 B8481E
@@ -368,12 +369,20 @@ shape F1_GRANDSTAND
     home MONACO, SINGAPORE, BAHRAIN, AZERBAIJAN, HUNGARY, ITALY:LOMBARDY, BELGIUM, ENGLAND:EAST MIDLANDS, UAE | 0.002 4 30 | country
     # A grandstand of a motor racing circuit: steep rows of coloured seats under a cantilevered roof, flags on poles and a big screen.
     box -6 0.2 0 0.2 0.2 25 8A8A8A
-    repeat 8 -0.9 0.6 0
     box -1 0.3 0 0.45 0.3 24 2A6AC8
+    box -1.9 0.6 0 0.45 0.6 24 2A6AC8
+    box -2.8 0.9 0 0.45 0.9 24 2A6AC8
+    box -3.7 1.2 0 0.45 1.2 24 2A6AC8
+    box -4.6 1.5 0 0.45 1.5 24 2A6AC8
+    box -5.5 1.8 0 0.45 1.8 24 2A6AC8
+    box -6.4 2.1 0 0.45 2.1 24 2A6AC8
+    box -7.3 2.4 0 0.45 2.4 24 2A6AC8
     quad -1 6 -25 -1 6 25 -10 7.5 25 -10 7.5 -25 E8E8E8
     repeat 6 0 0 9
     tube -10 0 -22.5 -10 7.5 -22.5 0.25 6 C8C8C8
     box -4 9.5 30 0.2 2 3.5 1E1E1E
+    tube -4 0 27.5 -4 7.5 27.5 0.18 6 6A6A6A
+    tube -4 0 32.5 -4 7.5 32.5 0.18 6 6A6A6A
     box -3.8 9.5 30 0.01 1.8 3.3 3A6AC8 glow
 
 shape RACECOURSE
@@ -392,7 +401,7 @@ shape RACECOURSE
     quad -18 6.5 -15 -18 6.5 15 -26 7.5 15 -26 7.5 -15 2A6A3A
 
 shape SOLAR_TOWER
-    home SPAIN:ANDALUSIA, MOROCCO, USA:CALIFORNIA, USA:NEVADA, CHILE, SOUTH AFRICA:NORTHERN CAPE, CHINA:QINGHAI, UAE | 0.001 50 200 | arid
+    home SPAIN:ANDALUSIA, MOROCCO, USA:CALIFORNIA, USA:NEVADA, CHILE, SOUTH AFRICA:NORTHERN CAPE, CHINA:QINGHAI, UAE | 0.001 50 200 | arid free
     # A solar power tower: a tall concrete column whose top glows white-hot in the focus of thousands of mirrors standing in rings round it.
     cyl 0 0 0 4 3 70 12 C8C4BC
     cyl 0 70 0 4 4 12 12 F2F2E8 glow
@@ -442,7 +451,7 @@ shape GARLIC_BRAID_STALL
     cyl 0.8 0 -0.6 0.25 0.25 0.5 8 C8B890
 
 shape SHETLAND_PONIES
-    home SCOTLAND | 0.003 3 25 | country
+    home SCOTLAND | 0.003 3 25 | country free
     # Shetland ponies on a windswept moor: tiny stocky ponies with shaggy manes and long forelocks, piebald and brown.
     repeat 4 0.9 0 1.6
     blob -2 0.65 -2.5 0.22 0.25 0.45 5A3A2A
@@ -456,7 +465,7 @@ shape SHETLAND_PONIES
     tube -2.1 0.45 -2.8 -2.1 0 -2.8 0.05 4 5A3A2A
 
 shape GANNET_COLONY
-    home SCOTLAND, IRELAND, WALES, NORWAY, ICELAND, CANADA:QUEBEC, NEW ZEALAND | 0.002 30 150 | coast
+    home SCOTLAND, IRELAND, WALES, NORWAY, ICELAND, CANADA:QUEBEC, NEW ZEALAND | 0.002 30 150 | coast water free
     # A gannet colony on a sea stack: a great rock white with thousands of nesting seabirds, more of them wheeling round it.
     blob 0 10 0 12 12 14 7A7670 0.5
     blob 0 19 0 9 4 10 F2F2EE 0.6
@@ -561,7 +570,7 @@ shape WOLF_PACK
     tube -3.08 0.5 -4.2 -3.08 0 -4.2 0.035 3 8A8478
 
 shape RED_FOX
-    home ENGLAND, GERMANY, FRANCE, POLAND, SWEDEN, JAPAN, IRELAND, NETHERLANDS, CZECHIA, AUSTRIA, USA, CANADA | 0.002 1 15 | country
+    home ENGLAND, GERMANY, FRANCE, POLAND, SWEDEN, JAPAN, IRELAND, NETHERLANDS, CZECHIA, AUSTRIA, USA, CANADA | 0.002 1 15 | country free
     # A red fox trotting along a field edge: a slim russet body, white-tipped bushy tail and black stockings.
     blob 0 0.4 0 0.11 0.14 0.32 C8601E
     blob 0 0.5 0.33 0.09 0.09 0.12 C8601E

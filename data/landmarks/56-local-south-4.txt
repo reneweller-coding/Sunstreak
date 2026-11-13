@@ -17,7 +17,7 @@ shape OLD_VAN_FRUIT_SELLER
     blob 1.6 0.8 0.4 0.15 0.25 0.15 C8A040
 
 shape CASHEW_TREE
-    home BRAZIL:CEARA, BRAZIL:PIAUI, BRAZIL:RIO GRANDE DO NORTE, INDIA:GOA, INDIA:KERALA, VIETNAM, IVORY COAST, MOZAMBIQUE, TANZANIA, BENIN, GUINEA-BISSAU | 0.006 6 50 | country
+    home BRAZIL:CEARA, BRAZIL:PIAUI, BRAZIL:RIO GRANDE DO NORTE, INDIA:GOA, INDIA:KERALA, VIETNAM, IVORY COAST, MOZAMBIQUE, TANZANIA, BENIN, GUINEA-BISSAU | 0.006 6 50 | country free
     # A cashew tree: low and sprawling with big leathery leaves, the red and yellow cashew apples hanging with the nut beneath each one.
     tube 0 0 0 0.6 1.4 0.4 0.3 5 6A5A48
     tube 0.6 1.4 0.4 2.5 2 1 0.15 4 6A5A48
@@ -28,7 +28,7 @@ shape CASHEW_TREE
     blob -1 2 0.8 0.1 0.15 0.1 E83A2A
 
 shape RIVER_DOLPHINS
-    home BRAZIL:AMAZONAS, BRAZIL:PARA, PERU:AMAZONAS, BOLIVIA, COLOMBIA | 0.004 6 40 | country
+    home BRAZIL:AMAZONAS, BRAZIL:PARA, PERU:AMAZONAS, BOLIVIA, COLOMBIA | 0.004 6 40 | country free
     # Pink river dolphins surfacing in the brown water: rounded pink backs and a long beak breaking the surface.
     box 0 0.02 0 4 0.02 8 6A5A40 water
     blob 1 0.1 -2 0.3 0.25 1 E8A0A8
@@ -96,7 +96,7 @@ shape STONE_CORRALS
     blob -1 1.35 -0.05 0.08 0.15 0.08 F2EEE2
 
 shape CAPUCHIN_MONKEYS
-    home BRAZIL, COSTA RICA, PANAMA, COLOMBIA, PERU:AMAZONAS, VENEZUELA, ECUADOR, BOLIVIA, PARAGUAY, ARGENTINA:MISIONES, HONDURAS, NICARAGUA | 0.004 3 30 | country
+    home BRAZIL, COSTA RICA, PANAMA, COLOMBIA, PERU:AMAZONAS, VENEZUELA, ECUADOR, BOLIVIA, PARAGUAY, ARGENTINA:MISIONES, HONDURAS, NICARAGUA | 0.004 3 30 | country free
     # Capuchin monkeys in a roadside tree: small dark monkeys with pale faces and shoulders, one sitting on the fence with a fruit.
     tube 0 0 0 0 4 0 0.25 5 6A5A48
     tube 0 3.5 0 2 4.5 0.5 0.12 4 6A5A48
@@ -124,7 +124,7 @@ shape COATIS
     tube -1 0.15 -2.15 -1 0 -2.15 0.025 3 3A2A1E
 
 shape SCARLET_IBISES
-    home TRINIDAD AND TOBAGO, VENEZUELA, BRAZIL:AMAPA, BRAZIL:MARANHAO, COLOMBIA, GUYANA, SURINAME | 0.004 6 50 | coast
+    home TRINIDAD AND TOBAGO, VENEZUELA, BRAZIL:AMAPA, BRAZIL:MARANHAO, COLOMBIA, GUYANA, SURINAME | 0.004 6 50 | coast free
     # Scarlet ibises in the mangroves: brilliant red birds with long curved bills settling into the dark green trees at dusk.
     blob 0 1.5 0 2.5 1.2 3 2A4A2A 0.4
     blob -2 1.3 4 2 1 2 2A4A2A 0.4
@@ -136,7 +136,7 @@ shape SCARLET_IBISES
     blob -2.5 2.3 3 0.1 0.12 0.18 E8302A
 
 shape ACAI_PALMS
-    home BRAZIL:PARA, BRAZIL:AMAPA, BRAZIL:AMAZONAS, BRAZIL:MARANHAO | 0.006 4 40 | country
+    home BRAZIL:PARA, BRAZIL:AMAPA, BRAZIL:AMAZONAS, BRAZIL:MARANHAO | 0.006 4 40 | country free
     # A clump of acai palms on the river bank: many slender curving trunks from one root, feathery crowns and hanging purple fruit bunches.
     tube 0 0 0 0.8 10 0.4 0.08 5 8A8070
     fronds 0.8 10 0.4 9 2 0.4 4A7A3A
@@ -150,7 +150,7 @@ shape ACAI_PALMS
     blob -0.5 8.4 -0.45 0.2 0.35 0.2 4A2A4A 0.5
 
 shape LOG_BEEHIVES
-    home ETHIOPIA, KENYA, TANZANIA, ZAMBIA, UGANDA, MALAWI | 0.004 3 30 | country
+    home ETHIOPIA, KENYA, TANZANIA, ZAMBIA, UGANDA, MALAWI | 0.004 3 30 | country free
     # Traditional beehives in an acacia: hollow logs and bark cylinders hung up in the branches, out of reach of honey badgers.
     tube 0 0 0 0.2 3 0 0.25 5 7A6A58
     tube 0.2 3 0 2.5 4.5 0.5 0.12 4 7A6A58
@@ -175,7 +175,7 @@ shape CONGO_RIVER_BARGE
     box 4 1.6 8 1.2 0.7 1.5 E8E8E8
 
 shape SEAWEED_FARM
-    home TANZANIA:ZANZIBAR, INDONESIA, PHILIPPINES, KENYA | 0.006 8 50 | coast
+    home TANZANIA:ZANZIBAR, INDONESIA, PHILIPPINES, KENYA | 0.006 8 50 | coast shore
     # A seaweed farm in the shallow lagoon: rows of sticks with lines strung between them, women in bright wraps tending the crop at low tide.
     box 0 0.02 0 5 0.02 8 4AB8B0 water
     repeat 6 0 0 2.6

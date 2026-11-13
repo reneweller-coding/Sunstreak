@@ -20,7 +20,7 @@ shape CRAWFISH_PONDS
     box 2.2 0.35 0 0.2 0.35 8 6A5A40
 
 shape ASPEN_GROVE
-    home USA:COLORADO, USA:UTAH, USA:WYOMING, USA:MONTANA, USA:IDAHO, USA:NEW MEXICO, CANADA:ALBERTA, CANADA:BRITISH COLUMBIA | 0.008 6 60 | country
+    home USA:COLORADO, USA:UTAH, USA:WYOMING, USA:MONTANA, USA:IDAHO, USA:NEW MEXICO, CANADA:ALBERTA, CANADA:BRITISH COLUMBIA | 0.008 6 60 | country free
     # A grove of quaking aspens in autumn: slender white trunks with black marks, their small crowns turned bright gold.
     repeat 5 1.3 0 1.6
     tube -3 0 -4 -3 6 -4 0.14 5 E8E8E0
@@ -32,7 +32,7 @@ shape ASPEN_GROVE
     blob -4 6 -1 0.9 1.4 0.9 F2D040 0.4
 
 shape RING_NECKED_PHEASANTS
-    home USA:SOUTH DAKOTA, USA:NORTH DAKOTA, USA:IOWA, USA:NEBRASKA, ENGLAND, HUNGARY, CHINA:SHAANXI, CHINA:HEBEI, CZECHIA, DENMARK, NEW ZEALAND:CANTERBURY | 0.006 2 30 | country
+    home USA:SOUTH DAKOTA, USA:NORTH DAKOTA, USA:IOWA, USA:NEBRASKA, ENGLAND, HUNGARY, CHINA:SHAANXI, CHINA:HEBEI, CZECHIA, DENMARK, NEW ZEALAND:CANTERBURY | 0.006 2 30 | country free
     # Pheasants at the field edge: a cock with a copper body, green head, red face patch and long barred tail, two brown hens beside him.
     blob 0 0.3 0 0.13 0.13 0.25 B8602A
     blob 0 0.5 0.2 0.06 0.08 0.07 2A6A4A
@@ -81,7 +81,7 @@ shape CATFISH_PONDS
     box -6 0.25 6 0.6 0.15 0.4 E8E8E8
 
 shape WILD_MUSTANGS
-    home USA:NEVADA, USA:WYOMING, USA:UTAH, USA:OREGON, USA:MONTANA, AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:VICTORIA, AUSTRALIA:NORTHERN TERRITORY, AUSTRALIA:QUEENSLAND | 0.004 8 60 | country
+    home USA:NEVADA, USA:WYOMING, USA:UTAH, USA:OREGON, USA:MONTANA, AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:VICTORIA, AUSTRALIA:NORTHERN TERRITORY, AUSTRALIA:QUEENSLAND | 0.004 8 60 | country free
     # A band of wild horses on the sagebrush flats: bay, grey and pinto horses with long manes, a stallion standing guard.
     repeat 4 1.5 0 1.8
     blob -2 1.3 -3 0.3 0.4 0.85 7A4A2A
@@ -103,7 +103,7 @@ shape WILD_MUSTANGS
     blob 1 1.32 0.6 0.25 0.3 0.5 3A2A1E
 
 shape FLYING_FOXES
-    home AUSTRALIA:QUEENSLAND, AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:VICTORIA, INDIA, SRI LANKA, MADAGASCAR, INDONESIA, FIJI, TONGA, SAMOA | 0.004 4 40 | country
+    home AUSTRALIA:QUEENSLAND, AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:VICTORIA, INDIA, SRI LANKA, MADAGASCAR, INDONESIA, FIJI, TONGA, SAMOA | 0.004 4 40 | country free
     # A colony of fruit bats in a big riverside tree: dozens of dark shapes hanging upside down from the branches, a few flapping about.
     tube 0 0 0 0 5 0 0.5 6 6A5A48
     tube 0 4 0 3 6.5 1 0.25 5 6A5A48
@@ -150,7 +150,7 @@ shape WOODEN_BUS_SAMOA
     tube 0.95 0.45 -3.0 1.22 0.45 -3.0 0.45 10 1E1E1E
 
 shape DINGOES
-    home AUSTRALIA | 0.004 4 40 | country
+    home AUSTRALIA | 0.004 4 40 | country free
     # A pair of dingoes trotting across the red earth: lean ginger dogs with white socks and bushy white-tipped tails.
     repeat 2 1.2 0 1.6
     blob -0.6 0.55 -0.8 0.14 0.17 0.42 C8803A

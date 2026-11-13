@@ -210,7 +210,7 @@ shape COIR_SPINNERS
     blob -1.5 0.3 0 0.6 0.3 2 A8784A 0.4
 
 shape SHIPBREAKING_BEACH
-    home BANGLADESH, INDIA:GUJARAT, PAKISTAN | 0.002 30 150 | coast
+    home BANGLADESH, INDIA:GUJARAT, PAKISTAN | 0.002 30 150 | coast shore
     # A ship-breaking beach: the rusting hull of a huge freighter driven up onto the mud, its bow cut open, plates of steel lying in the shallows.
     box -6 6 0 6 6 30 8A4A2A
     box -6 13 -24 5 1.5 5 C8C0B0
@@ -263,7 +263,7 @@ shape KITE_FLYERS
     quad 2 10.6 6 2 10 6.5 2 9.4 6 2 10 5.5 F2E81E
 
 shape SNOW_LEOPARD
-    home INDIA:LADAKH, INDIA:HIMACHAL PRADESH, NEPAL, BHUTAN, PAKISTAN, KYRGYZSTAN, TAJIKISTAN, MONGOLIA, CHINA:TIBET, CHINA:QINGHAI, AFGHANISTAN | 0.001 6 40 | cold
+    home INDIA:LADAKH, INDIA:HIMACHAL PRADESH, NEPAL, BHUTAN, PAKISTAN, KYRGYZSTAN, TAJIKISTAN, MONGOLIA, CHINA:TIBET, CHINA:QINGHAI, AFGHANISTAN | 0.001 6 40 | cold free
     # A snow leopard on a rocky ledge: a pale grey cat with dark rosettes, its long thick tail curled round, watching the valley.
     blob 0 1.2 0 2 1.2 1.6 8A8680 0.5
     blob 0 2.65 0 0.25 0.25 0.7 D8D4CC
@@ -274,7 +274,7 @@ shape SNOW_LEOPARD
     blob 0.18 2.75 -0.5 0.05 0.04 0.05 4A4A4A
 
 shape PRZEWALSKI_HORSES
-    home MONGOLIA | 0.003 6 50 | country
+    home MONGOLIA | 0.003 6 50 | country free
     # Wild takhi horses on the steppe: stocky dun horses with upright dark manes and pale muzzles, grazing in a small band.
     repeat 4 1.5 0 2.5
     blob -3 1.05 -4 0.3 0.38 0.75 C89A5A
@@ -351,7 +351,7 @@ shape PLOV_CAULDRON
     box 0.5 0.2 0.5 0.15 0.08 0.15 E8501E glow
 
 shape GAUR
-    home INDIA, NEPAL, MYANMAR, THAILAND, MALAYSIA, LAOS, CAMBODIA, BHUTAN | 0.002 4 30 | country
+    home INDIA, NEPAL, MYANMAR, THAILAND, MALAYSIA, LAOS, CAMBODIA, BHUTAN | 0.002 4 30 | country free
     # A gaur bull at the forest edge: a massive dark wild ox with a high ridged back, curved pale horns and white stockings.
     blob 0 1.4 0 0.55 0.65 1.1 2A2420
     blob 0 1.9 -0.3 0.45 0.35 0.6 2A2420

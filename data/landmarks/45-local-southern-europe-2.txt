@@ -141,7 +141,7 @@ shape FLOWERPOT_WALL
     box 0.27 1.0 1 0.02 1.0 0.5 3A6A3A
 
 shape BLUE_FISHING_TRAWLER
-    home FRANCE:BRITTANY, FRANCE:NORMANDY, SPAIN:GALICIA, SPAIN:BASQUE COUNTRY, SPAIN:ASTURIAS, PORTUGAL, IRELAND, SCOTLAND, ENGLAND:SOUTH WEST | 0.004 30 110 | water
+    home FRANCE:BRITTANY, FRANCE:NORMANDY, SPAIN:GALICIA, SPAIN:BASQUE COUNTRY, SPAIN:ASTURIAS, PORTUGAL, IRELAND, SCOTLAND, ENGLAND:SOUTH WEST | 0.004 30 110 | water free
     # A coastal trawler: a blue steel hull with a white wheelhouse forward, gantry and net drum on the stern, gulls following.
     tbox 0 -0.5 0 1.2 6 0 1.2 0 2.2 7.5 2A4A8A
     box 0 1.22 0 2.21 0.06 7.5 C82A2A
@@ -155,7 +155,7 @@ shape BLUE_FISHING_TRAWLER
     blob 2 6 -4 0.15 0.05 0.3 F2F2F2
 
 shape MUSSEL_BOUCHOTS
-    home FRANCE:BRITTANY, FRANCE:NORMANDY, FRANCE:NOUVELLE-AQUITAINE, FRANCE:HAUTS-DE-FRANCE | 0.006 15 60 | coast
+    home FRANCE:BRITTANY, FRANCE:NORMANDY, FRANCE:NOUVELLE-AQUITAINE, FRANCE:HAUTS-DE-FRANCE | 0.006 15 60 | coast shore
     # Mussel poles on the tidal flats: long straight rows of oak stakes black with mussels, a flat-bottomed boat working along them.
     box 0 0.02 0 6 0.02 14 9A8A70
     repeat 20 0 0 1.4

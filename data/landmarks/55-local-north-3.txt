@@ -169,7 +169,7 @@ shape BENCH_GRANDMOTHERS
     blob -0.02 1.2 0.7 0.12 0.1 0.12 C83A6A
 
 shape CANNERY_ON_PILINGS
-    home USA:ALASKA, CANADA:BRITISH COLUMBIA, USA:WASHINGTON | 0.003 10 80 | coast
+    home USA:ALASKA, CANADA:BRITISH COLUMBIA, USA:WASHINGTON | 0.003 10 80 | coast shore
     # An old salmon cannery on pilings over the water: long red wooden sheds and a white office, a dock with fishing boats tied up.
     box 3 0.02 0 4 0.02 12 3A5A6A water
     repeat 8 0 0 3

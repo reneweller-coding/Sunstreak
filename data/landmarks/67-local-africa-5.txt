@@ -41,7 +41,7 @@ shape HIMBA_HUT
     blob -6.5 0.7 -1 0.3 0.4 0.75 8A4A3A
 
 shape KAPENTA_RIGS
-    home ZIMBABWE, ZAMBIA, MALAWI, TANZANIA | 0.003 40 120 | water
+    home ZIMBABWE, ZAMBIA, MALAWI, TANZANIA | 0.003 40 120 | water free
     # Kapenta fishing rigs on a great lake: pontoon rafts with a tall boom arm and a lamp, a cabin on each, moored in a line.
     repeat 3 0 0 12
     box 0 0.4 -12 2.5 0.4 4 9A9A9A
@@ -131,7 +131,7 @@ shape VANILLA_DRYING
     blob -3 1.5 -3 0.4 0.5 0.4 3A7A3A 0.4
 
 shape BUNNA_CEREMONY
-    home ETHIOPIA, ERITREA | 0.004 1 8 | town
+    home ETHIOPIA, ERITREA | 0.004 1 8 | town free
     # A roadside coffee ceremony: a woman roasting beans over a small charcoal stove on a bed of fresh grass, a black clay pot and tiny cups on a low table.
     box 0 0.02 0 1 0.02 1 5A9A3A
     blob 0 0.4 -0.5 0.25 0.4 0.22 F2F2EE
@@ -283,7 +283,7 @@ shape BURUNDI_DRUMMERS
     blob 0 1.92 0 0.1 0.11 0.1 3A2A1E
 
 shape CATTLE_CAMP_SMOKE
-    home SOUTH SUDAN, UGANDA | 0.004 6 50 | country
+    home SOUTH SUDAN, UGANDA | 0.004 6 50 | country free
     # A cattle camp at dusk: long-horned white cattle tethered among smouldering dung fires, smoke hanging low over the herd, young herders by them.
     repeat 4 2 0 2.5
     blob -4 1.0 -4 0.32 0.42 0.85 F2EEE2
@@ -297,7 +297,7 @@ shape CATTLE_CAMP_SMOKE
     blob -5 1.6 -2.5 1.2 0.5 1.2 D8D8D8 glass
 
 shape CROCODILE_POOL
-    home GAMBIA, BURKINA FASO, GHANA, IVORY COAST | 0.003 6 24 | country
+    home GAMBIA, BURKINA FASO, GHANA, IVORY COAST | 0.003 6 24 | country free
     # A sacred crocodile pool: still green water under trees, crocodiles basking on its muddy edge, a little shrine of white cloth beside it.
     box 0 0.02 0 3.5 0.02 5 4A6A3A water
     repeat 3 1.3 0 2.5
@@ -311,7 +311,7 @@ shape CROCODILE_POOL
     box 5 0.5 -3 0.3 0.5 0.3 F2F2F2
 
 shape MANDRILLS
-    home GABON, CAMEROON, CONGO, EQUATORIAL GUINEA | 0.002 3 25 | country
+    home GABON, CAMEROON, CONGO, EQUATORIAL GUINEA | 0.002 3 25 | country free
     # Mandrills at the forest edge: big olive monkeys with red and blue faces sitting in the leaves, one male showing off his colours.
     repeat 3 1.2 0 1.6
     blob -1 0.45 -1.6 0.3 0.4 0.35 5A5A3A
@@ -322,7 +322,7 @@ shape MANDRILLS
     blob -3 1 0 2 1.2 2 3A6A2A 0.4
 
 shape CHIMPANZEES
-    home UGANDA, TANZANIA, GUINEA, SIERRA LEONE, IVORY COAST, CONGO, DR CONGO, CAMEROON, GABON, RWANDA | 0.002 3 25 | country
+    home UGANDA, TANZANIA, GUINEA, SIERRA LEONE, IVORY COAST, CONGO, DR CONGO, CAMEROON, GABON, RWANDA | 0.002 3 25 | country free
     # Chimpanzees in a fig tree: dark shapes sitting on the branches and one knuckle-walking along the ground below.
     tube 0 0 0 0 4 0 0.4 6 6A5A40
     tube 0 3 0 1.8 4 0.5 0.15 4 6A5A40
@@ -335,7 +335,7 @@ shape CHIMPANZEES
     blob 1.5 0.75 3.45 0.14 0.15 0.14 2A2420
 
 shape CHAMELEON
-    home MADAGASCAR, KENYA, TANZANIA | 0.002 0.5 3 | country
+    home MADAGASCAR, KENYA, TANZANIA | 0.002 0.5 3 | country free
     # A chameleon crossing the road's edge with its rocking walk, bright green and blue, its tail curled and one eye turned to the cars.
     blob 0 0.12 0 0.07 0.1 0.18 3AC86A
     blob 0 0.15 0.18 0.06 0.08 0.07 3AA8C8
@@ -346,7 +346,7 @@ shape CHAMELEON
     tube 0.05 0.08 0.08 0.08 0 0.1 0.012 3 3AC86A
 
 shape SECRETARY_BIRD
-    home KENYA, TANZANIA, SOUTH AFRICA, BOTSWANA, NAMIBIA, ZAMBIA, ZIMBABWE | 0.002 3 25 | country
+    home KENYA, TANZANIA, SOUTH AFRICA, BOTSWANA, NAMIBIA, ZAMBIA, ZIMBABWE | 0.002 3 25 | country free
     # A secretary bird striding through the grass: long legs, grey body, black quill feathers at the back of its head, hunting snakes.
     blob 0 1.0 0 0.2 0.25 0.4 B8B8B8
     tube 0 1.1 0.3 0 1.35 0.4 0.06 4 B8B8B8
@@ -358,7 +358,7 @@ shape SECRETARY_BIRD
     tube -0.06 0.8 0 -0.06 0 -0.05 0.025 3 1E1E1E
 
 shape LEOPARD_IN_TREE
-    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, SOUTH AFRICA, NAMIBIA, ZIMBABWE | 0.002 4 30 | country
+    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, SOUTH AFRICA, NAMIBIA, ZIMBABWE | 0.002 4 30 | country free
     # A leopard asleep on the branch of an acacia, its legs and spotted tail hanging down, an antelope carcass hauled up beside it.
     tube 0 0 0 0 3 0 0.3 6 6A5A40
     tube 0 2.6 0 2.5 3.3 0 0.15 4 6A5A40
@@ -371,7 +371,7 @@ shape LEOPARD_IN_TREE
     blob 1.1 3.5 0.12 0.05 0.03 0.05 3A2A1E
 
 shape NILE_CROCODILES
-    home EGYPT, SUDAN, UGANDA, KENYA, TANZANIA, ZAMBIA, ZIMBABWE, BOTSWANA, ETHIOPIA, SOUTH SUDAN, MALAWI | 0.002 4 30 | country
+    home EGYPT, SUDAN, UGANDA, KENYA, TANZANIA, ZAMBIA, ZIMBABWE, BOTSWANA, ETHIOPIA, SOUTH SUDAN, MALAWI | 0.002 4 30 | country free
     # Nile crocodiles basking on a sandbank with their jaws open, one sliding into the brown water.
     box 2 0.02 0 2 0.02 5 6A6A4A water
     blob -1 0.1 0 2 0.12 4.5 C8B890 0.3
@@ -384,7 +384,7 @@ shape NILE_CROCODILES
     blob 1.5 0.1 3 0.3 0.12 1 6A6A40
 
 shape BARBARY_MACAQUES
-    home MOROCCO, ALGERIA | 0.003 1 12 | country
+    home MOROCCO, ALGERIA | 0.003 1 12 | country free
     # Barbary macaques in a cedar forest by the road: tailless golden-grey monkeys sitting on the wall, a mother with her baby on her back.
     tube -3 0 0 -3 6 0 0.4 6 6A5A40
     spire -3 2 0 2.5 6 10 3A5A3A
@@ -443,7 +443,7 @@ shape CLOVE_DRYING
     spire -4 1.5 0 1.5 4 10 3A6A3A
 
 shape COCO_DE_MER
-    home SEYCHELLES | 0.006 5 28 | country
+    home SEYCHELLES | 0.006 5 28 | country free
     # Coco de mer palms in their valley: tall smooth trunks with huge fan leaves, the giant double nuts hanging in clusters.
     repeat 3 3 0 2.5
     tube -3 0 -2.5 -3 9 -2.5 0.25 6 7A7068
@@ -453,7 +453,7 @@ shape COCO_DE_MER
     blob -2.6 8.4 -2.5 0.35 0.25 0.3 3A4A2A
 
 shape GUINEA_FOWL
-    home KENYA, TANZANIA, SOUTH AFRICA, ZAMBIA, ZIMBABWE, BOTSWANA, NAMIBIA, MALAWI, NIGERIA, GHANA, SENEGAL, BURKINA FASO, MALI | 0.003 1 15 | country
+    home KENYA, TANZANIA, SOUTH AFRICA, ZAMBIA, ZIMBABWE, BOTSWANA, NAMIBIA, MALAWI, NIGERIA, GHANA, SENEGAL, BURKINA FASO, MALI | 0.003 1 15 | country free
     # A flock of guinea fowl running along the verge: round grey birds speckled with white, small blue heads bobbing.
     repeat 8 0.4 0 0.7
     blob -2 0.3 -2.5 0.18 0.18 0.25 5A5A64

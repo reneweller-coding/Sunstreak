@@ -28,7 +28,7 @@ shape MICROLET
     tube 0.65 0.32 1.3 0.82 0.32 1.3 0.32 10 1E1E1E
 
 shape PHOSPHATE_CANTILEVER
-    home NAURU, KIRIBATI | 0.003 20 80 | coast
+    home NAURU, KIRIBATI | 0.003 20 80 | coast shore
     # The phosphate cantilevers: two giant rusty steel arms on concrete piers reaching out over the reef to load ships, with conveyor galleries behind.
     repeat 2 0 0 14
     box -6 6 -7 2 6 2 8A8478
@@ -62,13 +62,14 @@ shape CANOE_HOUSE
     box -0.15 0.45 0 0.4 0.03 0.08 8A6A48
 
 shape SANDBAG_SEAWALL
-    home TUVALU, KIRIBATI, MARSHALL ISLANDS, MALDIVES | 0.004 2 20 | coast
+    home TUVALU, KIRIBATI, MARSHALL ISLANDS, MALDIVES | 0.004 2 20 | coast shore
     # A seawall of sandbags against the king tides: rows of white bags stacked along the shore in front of the houses, the ocean right behind.
-    repeat 3 0 0.35 -0.15
-    box -2 0.18 0 0.6 0.18 9 E8E0D0
-    box -4 0.02 0 2 0.02 10 3A8AB8 water
-    box 2.5 1.2 3 1.2 1.2 1.8 F2E8D0
-    quad 1 2.6 1 1 2.6 5 4 2.3 5 4 2.3 1 9AA0A8
+    # (placement: turned 180 degrees: its water side is +x)
+    repeat 3 0 0.35 0.15
+    box 2 0.18 0 0.6 0.18 9 E8E0D0
+    box 4 0.02 0 2 0.02 10 3A8AB8 water
+    box -2.5 1.2 -3 1.2 1.2 1.8 F2E8D0
+    quad -1 2.6 -1 -1 2.6 -5 -4 2.3 -5 -4 2.3 -1 9AA0A8
 
 shape TAHITIAN_MARAE
     home FRENCH POLYNESIA | 0.004 3 30 | country

@@ -83,7 +83,7 @@ shape DELIVERY_SCOOTERS
     blob 0 1.5 -1.7 0.12 0.12 0.12 F2C21E
 
 shape BAMBOO_RAFT
-    home CHINA:GUANGXI, CHINA:FUJIAN, CHINA:YUNNAN, CHINA:GUIZHOU | 0.004 25 100 | water
+    home CHINA:GUANGXI, CHINA:FUJIAN, CHINA:YUNNAN, CHINA:GUIZHOU | 0.004 25 100 | water free
     # A bamboo raft on the river: long green-gold poles lashed side by side with an upturned bow, two chairs under a blue umbrella, the boatman poling at the stern.
     repeat 9 0.2 0 0
     tube -0.8 0.1 -4 -0.8 0.15 4 0.1 6 C8B870
@@ -244,7 +244,7 @@ shape QILOU_ARCADE
     box 3.3 4.5 -6.75 0.05 1.2 0.25 C82A2A
 
 shape RED_SAIL_JUNK
-    home CHINA:HONG KONG, CHINA:GUANGDONG, CHINA:FUJIAN, CHINA:MACAU | 0.003 30 110 | water
+    home CHINA:HONG KONG, CHINA:GUANGDONG, CHINA:FUJIAN, CHINA:MACAU | 0.003 30 110 | water free
     # A junk under sail: a dark wooden hull with a high stern, its battened sails of deep red spread like fans.
     tbox 0 -0.4 0 0.8 5 0 1.2 0 1.8 6.5 6A3A22
     box 0 1.8 -5 1.6 0.6 1.4 6A3A22
@@ -258,7 +258,7 @@ shape RED_SAIL_JUNK
     tube 0.08 2.6 -4.05 0.08 2.6 -1.1 0.03 3 3A2A1E
 
 shape RED_CROWNED_CRANES
-    home CHINA:HEILONGJIANG, CHINA:JILIN, CHINA:LIAONING, CHINA:JIANGSU, JAPAN:HOKKAIDO, SOUTH KOREA, MONGOLIA | 0.004 6 40 | country
+    home CHINA:HEILONGJIANG, CHINA:JILIN, CHINA:LIAONING, CHINA:JIANGSU, JAPAN:HOKKAIDO, SOUTH KOREA, MONGOLIA | 0.004 6 40 | country free
     # Red-crowned cranes in the reeds: tall white birds with black necks and a red cap, one of the pair dancing with wings spread.
     repeat 8 0 0 0.8
     blob -2 0.8 -3 0.2 0.8 0.3 B8A870 0.5
@@ -319,7 +319,7 @@ shape VILLAGE_OPERA_STAGE
     box 0 7 0 0.2 0.15 2 3A3A3A
 
 shape FIELD_GRAVE_MOUNDS
-    home CHINA:HENAN, CHINA:HEBEI, CHINA:SHANDONG, CHINA:ANHUI, CHINA:SHAANXI, CHINA:SHANXI, CHINA:JIANGSU, CHINA:HUBEI | 0.006 8 60 | country
+    home CHINA:HENAN, CHINA:HEBEI, CHINA:SHANDONG, CHINA:ANHUI, CHINA:SHAANXI, CHINA:SHANXI, CHINA:JIANGSU, CHINA:HUBEI | 0.006 8 60 | country free
     # Family grave mounds in the middle of the wheat: round heaps of earth with a small stone tablet before each one.
     box 0 0.35 0 6 0.35 8 C8B060
     dome 0 0.7 -2 1.2 0.9 8A7A58
@@ -381,7 +381,7 @@ shape HONEYCOMB_COAL_STACK
     blob 0.6 0.7 1.2 0.12 0.1 0.12 C8C8C8 shiny
 
 shape LOTUS_POND
-    home CHINA:HUBEI, CHINA:HUNAN, CHINA:JIANGSU, CHINA:ZHEJIANG, CHINA:JIANGXI, CHINA:ANHUI, CHINA:GUANGDONG, CHINA:BEIJING, VIETNAM, CAMBODIA, THAILAND, INDIA, SRI LANKA, JAPAN, SOUTH KOREA, TAIWAN | 0.006 6 50 | country
+    home CHINA:HUBEI, CHINA:HUNAN, CHINA:JIANGSU, CHINA:ZHEJIANG, CHINA:JIANGXI, CHINA:ANHUI, CHINA:GUANGDONG, CHINA:BEIJING, VIETNAM, CAMBODIA, THAILAND, INDIA, SRI LANKA, JAPAN, SOUTH KOREA, TAIWAN | 0.006 6 50 | country free
     # A lotus pond in summer: big round leaves held up above the water on their stalks, pink flowers opening among them.
     box 0 0.02 0 4 0.02 6 3A5A4A water
     repeat 5 1.2 0.1 2.1
@@ -451,7 +451,7 @@ shape OUTDOOR_FITNESS_GEAR
     hoop 1.05 1.0 2 0.4 0.04 12 2A6AC8
 
 shape DRAGON_BOAT
-    home CHINA:GUANGDONG, CHINA:HONG KONG, CHINA:HUNAN, CHINA:ZHEJIANG, CHINA:GUANGXI, CHINA:HUBEI, CHINA:MACAU, TAIWAN | 0.003 30 100 | water
+    home CHINA:GUANGDONG, CHINA:HONG KONG, CHINA:HUNAN, CHINA:ZHEJIANG, CHINA:GUANGXI, CHINA:HUBEI, CHINA:MACAU, TAIWAN | 0.003 30 100 | water free
     # A dragon boat on the river: a long narrow hull painted with scales, a carved dragon head at the bow, the drum on the deck.
     tbox 0 -0.3 0 0.3 9 0 0.4 0 0.65 10 C82A2A
     box 0 0.3 0 0.66 0.06 10 F2C21E

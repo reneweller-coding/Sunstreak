@@ -94,27 +94,27 @@ shape BAROQUE_VILLAGE_CHURCH
     hoop 2.65 15.5 -12.6 0.9 0.06 14 2A2A2A
 
 shape CHAIRLIFT_LINE
-    home AUSTRIA, SWITZERLAND, LIECHTENSTEIN, ITALY:TRENTINO, ITALY:AOSTA VALLEY | 0.001 25 120 | country
+    home AUSTRIA, SWITZERLAND, LIECHTENSTEIN, ITALY:TRENTINO, ITALY:AOSTA VALLEY | 0.001 25 120 | country climb
     # A chairlift climbing away from the road: steel masts, the cable, chairs hanging from it.
+    # (placement: flattened for the climb shear; the slope comes from the hillside)
+    repeat 3 -12 0 0
     tube 0 0 0 0 9 0 0.3 6 8A8A90
-    tube -12 0 0 -12 15 0 0.3 6 8A8A90
-    tube -24 0 0 -24 21 0 0.3 6 8A8A90
-    repeat 3 -12 6 0
+    repeat 3 -12 0 0
     tube 0 9 -2.3 0 9 2.3 0.15 4 8A8A90
-    tube 0 9 -2 -24 21 -2 0.03 3 2A2A2A
-    tube 0 9 2 -24 21 2 0.03 3 2A2A2A
-    repeat 5 -4 2 0
-    tube -2 10 -2 -2 8.6 -2 0.03 3 2A2A2A
-    repeat 5 -4 2 0
-    box -2 8.5 -2 0.3 0.05 0.5 C83A2A
-    repeat 5 -4 2 0
-    box -2.3 8.9 -2 0.04 0.4 0.5 C83A2A
-    repeat 5 -4 2 0
-    tube -4 11 2 -4 9.6 2 0.03 3 2A2A2A
-    repeat 5 -4 2 0
-    box -4 9.5 2 0.3 0.05 0.5 2A6AC8
-    repeat 5 -4 2 0
-    box -4.3 9.9 2 0.04 0.4 0.5 2A6AC8
+    tube 0 9 -2 -24 9 -2 0.03 3 2A2A2A
+    tube 0 9 2 -24 9 2 0.03 3 2A2A2A
+    repeat 5 -4 0 0
+    tube -2 9 -2 -2 7.6 -2 0.03 3 2A2A2A
+    repeat 5 -4 0 0
+    box -2 7.5 -2 0.3 0.05 0.5 C83A2A
+    repeat 5 -4 0 0
+    box -2.3 7.9 -2 0.04 0.4 0.5 C83A2A
+    repeat 5 -4 0 0
+    tube -4 9 2 -4 7.6 2 0.03 3 2A2A2A
+    repeat 5 -4 0 0
+    box -4 7.5 2 0.3 0.05 0.5 2A6AC8
+    repeat 5 -4 0 0
+    box -4.3 7.9 2 0.04 0.4 0.5 2A6AC8
 
 shape FIAKER_CARRIAGE
     home AUSTRIA | 0.003 4 20 | town
@@ -138,7 +138,7 @@ shape FIAKER_CARRIAGE
     tube 0.45 1.1 2.8 0.45 0 2.8 0.07 4 3A2A1E
 
 shape BELL_COW
-    home SWITZERLAND, AUSTRIA, LIECHTENSTEIN, GERMANY:BAVARIA | 0.004 8 70 | country
+    home SWITZERLAND, AUSTRIA, LIECHTENSTEIN, GERMANY:BAVARIA | 0.004 8 70 | country free
     # A brown alpine cow with a great bell on a leather strap.
     blob 0 1.25 0 0.45 0.5 1.0 7A5A44
     mirror
@@ -156,7 +156,7 @@ shape BELL_COW
     tube 0 1.4 -0.95 0 0.7 -1.05 0.03 3 6A4A34
 
 shape AVALANCHE_BARRIERS
-    home SWITZERLAND, AUSTRIA, LIECHTENSTEIN | 0.002 40 120 | country
+    home SWITZERLAND, AUSTRIA, LIECHTENSTEIN | 0.002 40 120 | country climb
     # Rows of steel snow bridges up the slope, against avalanches.
     repeat 3 -6 0 0
     quad 0 0 -10 0 0 10 -1.2 3.2 10 -1.2 3.2 -10 4A4A4E

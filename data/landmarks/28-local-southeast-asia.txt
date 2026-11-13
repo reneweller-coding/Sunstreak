@@ -39,7 +39,7 @@ shape NAGA_STAIRS
     blob 1.4 1.6 1.7 0.25 0.25 0.3 D8B030
 
 shape LONGTAIL_BOAT
-    home THAILAND, MYANMAR, CAMBODIA, LAOS | 0.006 30 110 | water
+    home THAILAND, MYANMAR, CAMBODIA, LAOS | 0.006 30 110 | water free
     # A longtail boat: a narrow wooden hull with garlands on its raised prow, a car engine on a long shaft at the stern.
     tbox 0 -0.3 0 0.4 4.5 0 0.4 0 0.8 5 8A5A30
     tube 0 0.4 5 0 1.8 5.8 0.12 4 8A5A30
@@ -77,7 +77,7 @@ shape VIET_TUBE_HOUSE
     box 0 12.05 0 6.02 0.05 2.22 C8C2B8
 
 shape BASKET_BOAT
-    home VIETNAM | 0.006 10 60 | coast
+    home VIETNAM | 0.006 10 60 | coast free
     # Round basket boats of woven bamboo pulled up on the beach, tarred dark, oars laid inside.
     cyl 0 0 0 1.1 1.2 0.5 14 4A3A2A
     cyl 2.6 0 1 1.0 1.1 0.5 14 4A3A2A
@@ -148,7 +148,7 @@ shape SUGAR_PALM
     tube 0.3 0 0 0.3 10 0 0.04 3 B8A060
 
 shape LAO_THAT_STUPA
-    home LAOS | 0.004 8 60
+    home LAOS | 0.004 8 60 | free
     # A Lao that: a golden stupa with a square base and a tall curved spire like a lotus bud.
     box 0 0.6 0 2.2 0.6 2.2 E8D8B0
     box 0 1.6 0 1.6 0.4 1.6 D8B030
@@ -157,7 +157,7 @@ shape LAO_THAT_STUPA
     blob 0 8.1 0 0.15 0.15 0.15 D8B030
 
 shape GOLDEN_ZEDI
-    home MYANMAR | 0.006 10 90
+    home MYANMAR | 0.006 10 90 | free
     # A golden zedi on a hill: a bell-shaped stupa on terraces, its spire topped with a little parasol of bells.
     box 0 0.5 0 3 0.5 3 F2EEE2
     box 0 1.2 0 2.4 0.2 2.4 F2EEE2
@@ -241,7 +241,7 @@ shape SHOPHOUSE_ROW
     box 4.04 2.8 0 0.02 0.25 5 C83A2A
 
 shape ORANGUTAN
-    home MALAYSIA:SABAH, INDONESIA:EAST KALIMANTAN, INDONESIA:NORTH SUMATRA | 0.004 6 40 | country
+    home MALAYSIA:SABAH, INDONESIA:EAST KALIMANTAN, INDONESIA:NORTH SUMATRA | 0.004 6 40 | country free
     # An orangutan in a tree: shaggy orange-red hair, long arms hanging from a branch.
     tube 0 0 0 0 7 0 0.3 6 5A4A3A
     tube 0 5 0 2 6 0 0.12 4 5A4A3A
@@ -252,7 +252,7 @@ shape ORANGUTAN
     tube 1.6 4.5 -0.2 1.4 3.6 -0.3 0.08 4 C8602A
 
 shape RAFFLESIA
-    home MALAYSIA:SABAH, INDONESIA:NORTH SUMATRA | 0.003 3 20 | country
+    home MALAYSIA:SABAH, INDONESIA:NORTH SUMATRA | 0.003 3 20 | country free
     # A rafflesia: the biggest flower of all, five red warty petals around a deep cup, on the forest floor.
     ring 5 0.5
     blob 0 0.1 0 0.45 0.08 0.35 B83A2A 0.3
@@ -367,7 +367,7 @@ shape SASAK_RICE_BARN
     box 1.3 3.5 0 0.08 0.4 0.3 3A2A1A
 
 shape PHINISI_SCHOONER
-    home INDONESIA | 0.004 40 120 | water
+    home INDONESIA | 0.004 40 120 | water free
     # A phinisi: a Bugis wooden schooner, its high stern and long bowsprit, two masts with their gaff sails.
     tbox 0 -0.8 0 1.6 8 0 1 0 2.4 10 6A3A1E
     tbox 0 1 -8.5 2.2 1.6 0 2.6 -9 2.2 1.2 6A3A1E
@@ -379,7 +379,7 @@ shape PHINISI_SCHOONER
     quad 0 2 -2.8 0 11 -2.8 0 10 1 0 2 1 F2EEE2
 
 shape HONAI_HUT
-    home INDONESIA:HIGHLAND PAPUA, INDONESIA:WEST PAPUA, PAPUA NEW GUINEA | 0.008 6 60 | country
+    home INDONESIA:HIGHLAND PAPUA, INDONESIA:WEST PAPUA, PAPUA NEW GUINEA | 0.008 6 60 | country free
     # A honai: the round hut of the Dani in the Baliem valley, wooden walls under a domed roof of thatch.
     cyl 0 0 0 2.4 2.4 1.5 12 6A5A48
     dome 0 1.5 0 2.6 2.2 8A7A50
@@ -388,7 +388,7 @@ shape HONAI_HUT
     dome 4 1.4 2 2.2 1.9 8A7A50
 
 shape KOMODO_DRAGON
-    home INDONESIA:EAST NUSA TENGGARA | 0.008 6 50 | country
+    home INDONESIA:EAST NUSA TENGGARA | 0.008 6 50 | country free
     # A Komodo dragon: a huge grey-brown lizard, its forked tongue out, sprawled on the dry ground.
     blob 0 0.35 0 0.45 0.3 1.1 6A6250
     blob 0 0.3 1.2 0.25 0.2 0.45 6A6250
@@ -463,7 +463,7 @@ shape PHILIPPINE_TRICYCLE
     box 1.51 1.0 0.2 0.01 0.15 0.6 F2C21E
 
 shape BANCA_OUTRIGGER
-    home PHILIPPINES, INDONESIA, EAST TIMOR | 0.006 30 110 | water
+    home PHILIPPINES, INDONESIA, EAST TIMOR | 0.006 30 110 | water free
     # A banca: a narrow painted boat with bamboo outriggers on both sides, a little roof over the middle.
     tbox 0 -0.3 0 0.4 4 0 0.4 0 0.6 4.5 F2F2EE
     box 0.61 0.3 0 0.01 0.08 4.3 2A8AC8

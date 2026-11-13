@@ -80,7 +80,7 @@ shape NON_LA_FARMERS
     blob 1.0 0.1 -0.8 0.15 0.1 0.15 6AAA3A
 
 shape FLOATING_MARKET
-    home THAILAND, VIETNAM:CAN THO, INDONESIA:EAST KALIMANTAN | 0.006 20 90 | water
+    home THAILAND, VIETNAM:CAN THO, INDONESIA:EAST KALIMANTAN | 0.006 20 90 | water free
     # A floating market: narrow wooden boats laden with fruit and vegetables, their paddlers in wide hats, one boat cooking noodles.
     tbox 0 -0.15 -4 0.4 2.5 0 0.3 -4 0.6 3 5A3A22
     blob 0 0.45 -4.5 0.4 0.2 0.8 F2C21E 0.6
@@ -151,7 +151,7 @@ shape OIL_PALM_PLANTATION
     blob 2 0.25 1 0.3 0.25 0.3 C83A1E 0.6
 
 shape PROBOSCIS_MONKEYS
-    home MALAYSIA:SABAH, INDONESIA:EAST KALIMANTAN, BRUNEI | 0.004 6 40 | country
+    home MALAYSIA:SABAH, INDONESIA:EAST KALIMANTAN, BRUNEI | 0.004 6 40 | country free
     # Proboscis monkeys in a riverside tree: orange-brown with pale limbs, the males with long drooping noses and pot bellies.
     box 4 0.02 0 2 0.02 6 4A5A4A water
     tube 0 0 0 0 6 0 0.35 6 6A5A48
@@ -168,7 +168,7 @@ shape PROBOSCIS_MONKEYS
     tube -1.6 5.95 -1.0 -1.7 5.3 -1.1 0.04 3 C8A078
 
 shape HORNBILLS
-    home MALAYSIA, INDONESIA, THAILAND, MYANMAR, INDIA:KERALA, INDIA:ASSAM, INDIA:NAGALAND, PHILIPPINES, BRUNEI | 0.004 4 30 | country
+    home MALAYSIA, INDONESIA, THAILAND, MYANMAR, INDIA:KERALA, INDIA:ASSAM, INDIA:NAGALAND, PHILIPPINES, BRUNEI | 0.004 4 30 | country free
     # A pair of hornbills on a dead branch: black and white, with great curved yellow bills topped by an orange casque.
     tube 0 0 0 0 5 0 0.25 6 8A7A68
     tube 0 4 0 0 4.6 2 0.08 4 8A7A68
@@ -358,7 +358,7 @@ shape HAMMOCK_CAFE
     cyl 0 0.43 -0.3 0.04 0.04 0.12 6 6A4A30 glass
 
 shape FLOATING_FISH_CAGES
-    home VIETNAM, THAILAND, INDONESIA, PHILIPPINES, MALAYSIA, CAMBODIA | 0.004 25 100 | water
+    home VIETNAM, THAILAND, INDONESIA, PHILIPPINES, MALAYSIA, CAMBODIA | 0.004 25 100 | water free
     # Floating fish farms: square cages framed in wooden walkways on blue drums, a little hut on the raft.
     repeat 4 3 0 0
     box -4.5 0.15 0 0.3 0.08 4.5 8A6A48

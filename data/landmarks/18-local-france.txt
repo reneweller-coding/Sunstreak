@@ -8,7 +8,7 @@ shape FRENCH_MILESTONE
     box 0.19 0.42 0 0.01 0.06 0.15 2A2A2A
 
 shape MORRIS_COLUMN
-    home FRANCE:ILE-DE-FRANCE | 0.004 3 15 | town
+    home FRANCE:ILE-DE-FRANCE | 0.004 3 15 | town free
     # A Morris column of Paris: dark green, a scalloped cornice and a little dome, posters all round.
     cyl 0 0 0 0.8 0.75 0.4 16 2E4A34
     cyl 0 0.4 0 0.68 0.68 2.8 16 E8E0D0
@@ -23,7 +23,7 @@ shape MORRIS_COLUMN
     spire 0 4.1 0 0.15 0.5 8 2E4A34
 
 shape WALLACE_FOUNTAIN
-    home FRANCE:ILE-DE-FRANCE | 0.003 3 15 | town
+    home FRANCE:ILE-DE-FRANCE | 0.003 3 15 | town free
     # A Wallace fountain: four cast-iron caryatids in dark green holding up a little dome, water falling in the middle.
     box 0 0.25 0 0.4 0.25 0.4 2E4A34
     ring 4 0.22 45
@@ -76,7 +76,7 @@ shape PETANQUE_GROUND
     blob 0.8 0.04 1.3 0.03 0.03 0.03 D8B030
 
 shape BORIE
-    home FRANCE:PROVENCE | 0.003 10 70 | country
+    home FRANCE:PROVENCE | 0.003 10 70 | country free
     # A borie: a beehive hut of dry stone, its rings drawn in to a cap stone, a low dark door.
     cyl 0 0 0 2.5 2.2 1.2 10 B0A090
     cyl 0 1.2 0 2.2 1.6 1.2 10 A89880
@@ -142,7 +142,7 @@ shape NORMANDY_THATCH_FARMHOUSE
     box 0 8.85 0 0.35 0.15 7.2 4A7A4A
 
 shape NORMANDE_COW
-    home FRANCE:NORMANDY, FRANCE:BRITTANY, FRANCE:HAUTS-DE-FRANCE | 0.004 8 70 | country
+    home FRANCE:NORMANDY, FRANCE:BRITTANY, FRANCE:HAUTS-DE-FRANCE | 0.004 8 70 | country free
     # A Normande cow: white with brown patches and the dark rings round her eyes.
     blob 0 1.25 0 0.45 0.5 1.0 F0EAE0
     blob 0.3 1.4 -0.3 0.2 0.25 0.35 6A4A34
@@ -260,7 +260,7 @@ shape ROUND_DOVECOTE
     box 3.0 1 0 0.04 1 0.5 5A4A3A
 
 shape GENOESE_TOWER
-    home FRANCE:CORSICA | 0.003 15 110 | coast
+    home FRANCE:CORSICA | 0.003 15 110 | coast free
     # A Genoese watchtower on the rocks: a round stone tower, battlements on its machicolated top, the door high up.
     blob 0 0 0 7 2 7 8A8478 0.4
     cyl 0 0 0 4.5 4 12 14 A89A80
@@ -286,7 +286,7 @@ shape AUVERGNE_BURON
     blob 1.5 3.9 -2 0.8 0.15 1.2 6A8A4A 0.4
 
 shape SALERS_COW
-    home FRANCE:AUVERGNE-RHONE-ALPES | 0.004 8 70 | country
+    home FRANCE:AUVERGNE-RHONE-ALPES | 0.004 8 70 | country free
     # A Salers cow: deep mahogany red, long horns curved up like a lyre.
     blob 0 1.25 0 0.45 0.5 1.0 7A2E1C
     mirror
@@ -312,7 +312,7 @@ shape MINERS_TERRACE
     box 0 7.5 -9 0.3 0.6 0.3 7A3424
 
 shape OYSTER_HUT
-    home FRANCE:NOUVELLE-AQUITAINE, FRANCE:BRITTANY | 0.004 8 50 | coast pastel
+    home FRANCE:NOUVELLE-AQUITAINE, FRANCE:BRITTANY | 0.004 8 50 | coast pastel shore
     # An oyster farmer's hut at the shore: painted planks on stilts, a deck, sacks of oysters drying.
     mirror
     mirrorx
@@ -425,7 +425,7 @@ shape SALT_HEAP
     box 10.5 0.15 0 0.4 0.15 8 B8B0A0
 
 shape CAMARGUE_HORSE
-    home FRANCE:PROVENCE, FRANCE:OCCITANIE | 0.003 8 70 | country
+    home FRANCE:PROVENCE, FRANCE:OCCITANIE | 0.003 8 70 | country free
     # A white horse of the Camargue.
     blob 0 1.2 0 0.35 0.45 0.9 E8E8E2
     mirror
@@ -478,7 +478,7 @@ shape RIVIERA_VILLA
     fronds 7 9 4.5 8 3.5 0.6 3E7A3A
 
 shape SUPERYACHT
-    home MONACO, FRANCE:PROVENCE | 0.003 40 120 | water
+    home MONACO, FRANCE:PROVENCE | 0.003 40 120 | water free
     # A white superyacht at anchor: tiers of decks, a band of dark glass on each, a radar mast.
     tbox 0 -1.5 0 3 18 0 2.5 0 4.5 21 F2F2F2
     box -0.5 3.5 -2 4 1 15 F2F2F2

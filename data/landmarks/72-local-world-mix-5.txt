@@ -1,7 +1,7 @@
 # Round five, the rest of the world: Oceania and Greenland, island trades, roadside crafts everywhere and more animals.
 
 shape KAVA_CIRCLE
-    home FIJI, TONGA, SAMOA, VANUATU | 0.004 2 15 | country
+    home FIJI, TONGA, SAMOA, VANUATU | 0.004 2 15 | country free
     # A kava circle in an open fale: men sitting cross-legged round a big carved wooden bowl, half coconut shells being passed round.
     mirror
     mirrorx
@@ -29,7 +29,7 @@ shape MAORI_MARAE
     box 8 0.02 0 3 0.02 7 5A9A3A
 
 shape PUKEKO
-    home NEW ZEALAND | 0.003 0.5 8 | country
+    home NEW ZEALAND | 0.003 0.5 8 | country free
     # Pukeko in a wet paddock: purple-blue swamp hens with red beaks and long red legs, flicking their white tails.
     repeat 3 0.6 0 0.9
     blob -1 0.35 -1 0.12 0.14 0.2 2A3A8A
@@ -41,7 +41,7 @@ shape PUKEKO
     tube -1 0.25 -1 -1 0 -1 0.015 3 D82A1E
 
 shape TAKAHE
-    home NEW ZEALAND:SOUTHLAND, NEW ZEALAND:OTAGO | 0.002 1 10 | country
+    home NEW ZEALAND:SOUTHLAND, NEW ZEALAND:OTAGO | 0.002 1 10 | country free
     # A takahe in the tussock: a big flightless bird, blue and green, with a heavy red beak, grazing slowly.
     blob 0 0.4 0 0.22 0.22 0.3 2A6A6A
     blob 0 0.55 0.28 0.1 0.1 0.1 2A4A8A
@@ -50,7 +50,7 @@ shape TAKAHE
     tube -0.06 0.2 0 -0.06 0 0 0.02 3 D82A1E
 
 shape CASSOWARY
-    home AUSTRALIA:QUEENSLAND, PAPUA NEW GUINEA, INDONESIA:WEST PAPUA | 0.002 2 15 | tropical
+    home AUSTRALIA:QUEENSLAND, PAPUA NEW GUINEA, INDONESIA:WEST PAPUA | 0.002 2 15 | tropical free
     # A cassowary crossing out of the rainforest: a tall black bird with a bony helmet, a bright blue neck and red wattles.
     blob 0 1.1 0 0.35 0.4 0.5 1E1E1E
     tube 0 1.3 0.35 0 1.75 0.5 0.06 4 2A7AC8
@@ -61,7 +61,7 @@ shape CASSOWARY
     tube -0.12 0.75 0 -0.12 0 -0.05 0.05 3 6A6A40
 
 shape PLATYPUS
-    home AUSTRALIA:TASMANIA, AUSTRALIA:VICTORIA, AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:QUEENSLAND | 0.002 2 15 | country
+    home AUSTRALIA:TASMANIA, AUSTRALIA:VICTORIA, AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:QUEENSLAND | 0.002 2 15 | country free
     # A platypus at the edge of a creek: a flat brown body, a broad duck bill and a paddle tail, ripples round it in the dark water.
     box 0 0.02 0 1.5 0.02 2.5 3A5A5A water
     blob 0 0.06 0 0.12 0.06 0.22 5A3A2A
@@ -70,14 +70,14 @@ shape PLATYPUS
     halo 0 0.05 0 0.4 0.01 12 7A9AA8
 
 shape ECHIDNA
-    home AUSTRALIA, PAPUA NEW GUINEA | 0.002 0.5 6 | country
+    home AUSTRALIA, PAPUA NEW GUINEA | 0.002 0.5 6 | country free
     # An echidna shuffling along the verge: a rounded body of pale spines and a long thin snout poking into the dirt.
     blob 0 0.1 0 0.16 0.11 0.22 C8B890 0.5
     blob 0 0.08 0.2 0.06 0.05 0.06 4A3A2A
     tube 0 0.07 0.24 0 0.02 0.38 0.015 3 3A2A1A
 
 shape QUOKKA
-    home AUSTRALIA:WESTERN AUSTRALIA | 0.003 0.5 6 | country
+    home AUSTRALIA:WESTERN AUSTRALIA | 0.003 0.5 6 | country free
     # Quokkas by the path: small round brown wallabies sitting up on their haunches with their famous grins.
     repeat 3 0.5 0 0.7
     blob -0.5 0.2 -0.7 0.12 0.18 0.11 8A6A48
@@ -87,7 +87,7 @@ shape QUOKKA
     blob -0.5 0.48 -0.67 0.03 0.04 0.03 6A4A30
 
 shape FRILLED_LIZARD
-    home AUSTRALIA:NORTHERN TERRITORY, AUSTRALIA:QUEENSLAND, AUSTRALIA:WESTERN AUSTRALIA, PAPUA NEW GUINEA | 0.002 0.5 6 | arid
+    home AUSTRALIA:NORTHERN TERRITORY, AUSTRALIA:QUEENSLAND, AUSTRALIA:WESTERN AUSTRALIA, PAPUA NEW GUINEA | 0.002 0.5 6 | arid free
     # A frilled lizard on its hind legs in the road dust, its great orange neck frill spread wide and its mouth gaping.
     blob 0 0.25 0 0.06 0.15 0.08 8A6A48
     blob 0 0.42 0.04 0.15 0.15 0.02 E8701E
@@ -150,7 +150,7 @@ shape RAI_STONES
     fronds -3 7 -4 8 2.6 0.6 3E6A2A
 
 shape PEARL_FARM
-    home FRENCH POLYNESIA, FIJI | 0.003 35 90 | water
+    home FRENCH POLYNESIA, FIJI | 0.003 35 90 | water free
     # A black pearl farm in a lagoon: a wooden hut on stilts over turquoise water, lines of floats marking the oyster ropes.
     mirror
     mirrorx
@@ -234,7 +234,7 @@ shape QAJAQ_RACK
     box 0 1.2 4.7 0.02 0.08 0.15 6A4A2A
 
 shape SHOEBILL
-    home UGANDA, ZAMBIA, SOUTH SUDAN, TANZANIA, RWANDA, DR CONGO | 0.002 3 25 | country
+    home UGANDA, ZAMBIA, SOUTH SUDAN, TANZANIA, RWANDA, DR CONGO | 0.002 3 25 | country free
     # A shoebill standing motionless in a papyrus swamp: a tall slate-grey bird with an enormous clog of a bill.
     box 0 0.02 0 2 0.02 2 5A6A5A water
     blob 0 1.0 0 0.22 0.3 0.25 7A8A8A
@@ -247,7 +247,7 @@ shape SHOEBILL
     tube -1.5 0 -1.5 -1.5 2.5 -1.5 0.03 3 5A8A3A
 
 shape GREY_CROWNED_CRANES
-    home UGANDA, KENYA, RWANDA, TANZANIA, ZAMBIA, SOUTH AFRICA, BOTSWANA, ZIMBABWE | 0.002 2 20 | country
+    home UGANDA, KENYA, RWANDA, TANZANIA, ZAMBIA, SOUTH AFRICA, BOTSWANA, ZIMBABWE | 0.002 2 20 | country free
     # A pair of grey crowned cranes dancing in a wet meadow: grey bodies, white wings, a golden bristly crown on each black head.
     repeat 2 0 0 1.4
     blob 0 0.95 -0.7 0.15 0.2 0.3 8A8A88
@@ -263,7 +263,7 @@ shape GREY_CROWNED_CRANES
     tube 0 0.8 -0.7 0 0 -0.7 0.02 3 3A3A3A
 
 shape SPOONBILLS
-    home USA:FLORIDA, USA:TEXAS, USA:LOUISIANA, BRAZIL:MATO GROSSO DO SUL, BRAZIL:MATO GROSSO, CUBA, MEXICO:YUCATAN, BELIZE, ARGENTINA:CORRIENTES | 0.002 3 25 | country
+    home USA:FLORIDA, USA:TEXAS, USA:LOUISIANA, BRAZIL:MATO GROSSO DO SUL, BRAZIL:MATO GROSSO, CUBA, MEXICO:YUCATAN, BELIZE, ARGENTINA:CORRIENTES | 0.002 3 25 | country free
     # Roseate spoonbills wading in a lagoon: bright pink birds sweeping their flat spoon-shaped bills from side to side.
     box 0 0.02 0 3 0.02 4 4A7A7A water
     repeat 4 0.8 0 1.6
@@ -276,7 +276,7 @@ shape SPOONBILLS
     tube -1.5 0.5 -2.5 -1.5 0 -2.5 0.015 3 C83A3A
 
 shape AFRICAN_PENGUINS
-    home SOUTH AFRICA:WESTERN CAPE, NAMIBIA | 0.003 3 25 | coast
+    home SOUTH AFRICA:WESTERN CAPE, NAMIBIA | 0.003 3 25 | coast free
     # African penguins on a beach of granite boulders: little black-and-white birds with a black band across the chest, waddling in a group.
     blob -3 0.8 0 1.5 0.8 1.8 9A928A 0.5
     repeat 6 0.5 0 0.7
@@ -287,7 +287,7 @@ shape AFRICAN_PENGUINS
     blob -1 0.6 -2 0.08 0.09 0.08 1E1E1E
 
 shape ALBATROSS
-    home NEW ZEALAND:OTAGO, CHILE, ARGENTINA:SANTA CRUZ, ARGENTINA:TIERRA DEL FUEGO | 0.002 4 40 | coast
+    home NEW ZEALAND:OTAGO, CHILE, ARGENTINA:SANTA CRUZ, ARGENTINA:TIERRA DEL FUEGO | 0.002 4 40 | coast free
     # Albatrosses on a windy headland: a great white seabird gliding on enormous stiff wings, another sitting on its nest in the tussock.
     blob -2 0.35 0 0.4 0.3 0.6 F2F2F2
     blob -2 0.6 0.45 0.15 0.15 0.18 F2F2F2
@@ -297,7 +297,7 @@ shape ALBATROSS
     box 2 6 3 2.8 0.03 0.25 3A3A3A
 
 shape AFRICAN_WILD_DOGS
-    home BOTSWANA, ZIMBABWE, ZAMBIA, TANZANIA, SOUTH AFRICA, KENYA, MOZAMBIQUE | 0.001 3 25 | country
+    home BOTSWANA, ZIMBABWE, ZAMBIA, TANZANIA, SOUTH AFRICA, KENYA, MOZAMBIQUE | 0.001 3 25 | country free
     # A pack of painted wolves resting in the shade: lean dogs blotched in black, tan and white, with big round ears.
     repeat 6 0.6 0 0.9
     blob -1.5 0.4 -2 0.12 0.15 0.35 8A6A3A
@@ -452,7 +452,7 @@ shape SORBETES_CART
     blob 0 1.25 1.5 0.1 0.11 0.1 C8A080
 
 shape WHIRLING_DERVISHES
-    home TURKEY, SUDAN | 0.002 2 15 | town
+    home TURKEY, SUDAN | 0.002 2 15 | town free
     # Whirling dervishes turning on a square: tall felt hats and white skirts flared out like bells, arms raised, musicians sitting to one side.
     repeat 4 0 0 1.5
     cyl 0 0 -2.25 0.55 0.15 0.9 14 F2F2F2

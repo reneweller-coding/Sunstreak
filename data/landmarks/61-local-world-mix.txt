@@ -68,15 +68,31 @@ shape URBAN_GONDOLA
     tube -1.2 20.6 6 -1.2 21 6 0.03 3 3A3A3A
 
 shape FUNICULAR_CAR
-    home CHILE:VALPARAISO, PORTUGAL, SWITZERLAND, HUNGARY, ITALY:CAMPANIA, GEORGIA | 0.003 3 30 | town
+    home CHILE:VALPARAISO, PORTUGAL, SWITZERLAND, HUNGARY, ITALY:CAMPANIA, GEORGIA | 0.003 3 30 | town climb
     # A funicular climbing the hillside: a little stepped wooden car on its steep track between the houses, the station at the top.
-    tbox -4 0 0 4 1 -8 8 0 0.5 1 7A7A70
-    tube -0.5 0.5 -0.5 -8 8.5 -0.5 0.05 3 8A8A8A
-    tube -0.5 0.5 0.5 -8 8.5 0.5 0.05 3 8A8A8A
-    tbox -4 4.2 0 0.9 0.8 -4.6 6.2 0 0.7 0.8 E8C02A
-    box -3.9 5.2 0.81 0.6 0.4 0.01 2A3A4A glass
-    box -9 9 0 1.5 1.2 2 F2EEE2
-    gable -9 10.2 0 1.7 2.2 0.8 0.2 B8603A F2EEE2
+    # (placement: flattened for the climb shear; the slope comes from the hillside)
+    box -9 0.15 0 9.5 0.15 1.1 7A7A70
+    repeat 16 -1.2 0 0
+    box -0.2 0.33 0 0.12 0.03 0.85 5A4A3A
+    mirror
+    tube 0.4 0.4 0.5 -18.4 0.4 0.5 0.05 3 8A8A8A
+    tube 0.4 0.42 0 -18.4 0.42 0 0.02 3 3A3A3A
+    box -6 0.75 0 2.6 0.3 0.9 3A3A3A
+    box -6 2.1 0 2.5 1.05 1.1 E8C02A
+    box -6 1.3 0 2.52 0.08 1.12 B8503A
+    box -6 3.22 0 2.6 0.07 1.15 8A3A2A
+    repeat 3 -1.6 0 0
+    mirror
+    box -4.4 2.45 1.11 0.6 0.4 0.01 2A3A4A glass
+    repeat 2 -1.6 0 0
+    mirror
+    box -5.2 2.1 1.12 0.04 1.0 0.01 6A4A2A
+    box -3.49 2.45 0 0.01 0.4 0.7 2A3A4A glass
+    box -8.51 2.45 0 0.01 0.4 0.7 2A3A4A glass
+    box -19 1.5 0 1.8 1.5 2.2 F2EEE2
+    gable -19 3 0 1.8 2.2 1.0 0.25 B8603A F2EEE2
+    box -17.19 1.3 0 0.02 1.3 1.1 2A2A2A
+    box -17.18 2.75 0 0.02 0.18 1.3 C83A2A
 
 shape CABLE_FERRY
     home GERMANY, FRANCE:NOUVELLE-AQUITAINE, CANADA:QUEBEC, CANADA:ALBERTA, CANADA:SASKATCHEWAN, POLAND, NETHERLANDS, LAOS, CROATIA | 0.003 8 50 | country
@@ -91,7 +107,7 @@ shape CABLE_FERRY
     tube 3.8 0 14 3.8 2.4 14 0.15 4 8A8A8A
 
 shape HARBOUR_LIGHTS
-    home fleet:EUROPE, fleet:BRITISH, fleet:EAST_ASIA, fleet:LATIN, fleet:NORTH_AMERICA, fleet:OCEANIA, fleet:ARABIA, fleet:SOUTHEAST_ASIA, fleet:ISLANDS | 0.004 10 80 | coast
+    home fleet:EUROPE, fleet:BRITISH, fleet:EAST_ASIA, fleet:LATIN, fleet:NORTH_AMERICA, fleet:OCEANIA, fleet:ARABIA, fleet:SOUTHEAST_ASIA, fleet:ISLANDS | 0.004 30 110 | water
     # The harbour entrance: two stone breakwaters each ending in a little light tower, red on one side and green on the other.
     box -2 0.8 -8 1.2 0.8 6 9A9690
     box -2 0.8 8 1.2 0.8 6 9A9690
@@ -185,16 +201,17 @@ shape SKATE_PARK
     box 1 1.2 1 0.1 0.02 0.4 1E1E1E
 
 shape SAILING_DINGHIES
-    home ENGLAND, NEW ZEALAND, AUSTRALIA, NETHERLANDS, DENMARK, SWEDEN, GERMANY:SCHLESWIG-HOLSTEIN, FRANCE:BRITTANY, IRELAND, CROATIA, FINLAND | 0.004 4 40 | coast
+    home ENGLAND, NEW ZEALAND, AUSTRALIA, NETHERLANDS, DENMARK, SWEDEN, GERMANY:SCHLESWIG-HOLSTEIN, FRANCE:BRITTANY, IRELAND, CROATIA, FINLAND | 0.004 4 40 | coast shore
     # Sailing dinghies drawn up on the club slipway: little white boats on trolleys with their masts up and coloured sails furled.
-    repeat 4 0 0 2
-    tbox 0 0.2 -3 0.3 1.6 0 0.6 -3 0.7 2 F2F2F2
-    repeat 4 0 0 2
-    tube 0 0.6 -2.5 0 6 -2.5 0.04 3 C8C8C8
-    repeat 2 0 0 4
-    blob 0 1.5 -3 0.08 0.9 0.12 C82A2A
-    repeat 2 0 0 4
-    blob 0 1.5 -1 0.08 0.9 0.12 2A6AC8
-    repeat 4 0 0 2
-    hoop 0.5 0.15 -3 0.15 0.03 8 3A3A3A
-    box -3 0.1 0 1.5 0.1 6 9A9690
+    # (placement: turned 180 degrees: its water side is +x)
+    repeat 4 0 0 -2
+    tbox 0 0.2 3 0.3 1.6 0 0.6 3 0.7 2 F2F2F2
+    repeat 4 0 0 -2
+    tube 0 0.6 2.5 0 6 2.5 0.04 3 C8C8C8
+    repeat 2 0 0 -4
+    blob 0 1.5 3 0.08 0.9 0.12 C82A2A
+    repeat 2 0 0 -4
+    blob 0 1.5 1 0.08 0.9 0.12 2A6AC8
+    repeat 4 0 0 -2
+    hoop -0.5 0.15 3 0.15 0.03 8 3A3A3A
+    box 3 0.1 0 1.5 0.1 6 9A9690

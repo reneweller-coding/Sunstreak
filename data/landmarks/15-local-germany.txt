@@ -16,7 +16,7 @@ shape HIGH_SEAT
     tube 1.88 0.3 -0.3 1.88 0.3 0.3 0.035 4 8A6A48
 
 shape ADVERTISING_COLUMN
-    home GERMANY, AUSTRIA, SWITZERLAND | 0.003 3 20 | town
+    home GERMANY, AUSTRIA, SWITZERLAND | 0.003 3 20 | town free
     # A Litfass column on the pavement: a green foot and cap, pasted round with posters.
     cyl 0 0 0 0.72 0.72 0.35 16 2E4A3A
     cyl 0 0.35 0 0.62 0.62 2.7 16 E8E0CC
@@ -31,7 +31,7 @@ shape ADVERTISING_COLUMN
     spire 0 3.62 0 0.12 0.35 6 2E4A3A
 
 shape MAYPOLE
-    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG, AUSTRIA | 0.002 6 40
+    home GERMANY:BAVARIA, GERMANY:BADEN-WURTTEMBERG, AUSTRIA | 0.002 6 40 | free
     # A Bavarian maypole: a white trunk ringed blue, guild boards on its arms, a wreath and a little tree on top.
     cyl 0 0 0 0.19 0.17 24 8 F2F2F2
     repeat 11 0 2 0
@@ -336,7 +336,7 @@ shape TRABANT_PARKED
     box 0 0.35 1.78 0.72 0.05 0.04 C8C8C8
 
 shape STORK_NEST_POLE
-    home GERMANY:BRANDENBURG, GERMANY:MECKLENBURG-VORPOMMERN, GERMANY:SAXONY-ANHALT, POLAND, LITHUANIA, LATVIA, BELARUS, UKRAINE, SPAIN:EXTREMADURA, SPAIN:CASTILE AND LEON, PORTUGAL, TURKEY | 0.002 8 60 | country
+    home GERMANY:BRANDENBURG, GERMANY:MECKLENBURG-VORPOMMERN, GERMANY:SAXONY-ANHALT, POLAND, LITHUANIA, LATVIA, BELARUS, UKRAINE, SPAIN:EXTREMADURA, SPAIN:CASTILE AND LEON, PORTUGAL, TURKEY | 0.002 8 60 | country free
     # A white stork in its nest of twigs on top of a pole.
     tube 0 0 0 0 9 0 0.15 6 7A6A5A
     cyl 0 9 0 0.9 1.1 0.7 10 6A5A3A
@@ -451,7 +451,7 @@ shape MINE_HEADFRAME
     windows -8.98 1 -6 0 1 12 8 0.2 4
 
 shape VILLAGE_LINDEN
-    home GERMANY, AUSTRIA | 0.002 10 60 | country
+    home GERMANY, AUSTRIA | 0.002 10 60 | country free
     # The village linden: a broad old tree with a round bench about its trunk.
     tube 0 0 0 0 4 0 0.6 8 5A4A3A
     blob 0 8 0 5 4.5 5 4A7A30 0.3

@@ -148,7 +148,7 @@ shape LIGURIAN_TOWER_HOUSE
     gable 0 15 0 3 3.5 1.5 0.3 5A5A60 A
 
 shape FISHING_GOZZO
-    home ITALY, MALTA | 0.003 30 110 | water
+    home ITALY, MALTA | 0.003 30 110 | water free
     # A gozzo: a little wooden fishing boat, white with a blue stripe, an outboard on its stern.
     tbox 0 -0.3 0 0.6 2.6 0 0.5 0 1.0 3.2 F2F2EE
     box 1.01 0.35 0 0.01 0.06 3 2A6AC8
@@ -158,7 +158,7 @@ shape FISHING_GOZZO
     box 0 0.7 -3.2 0.15 0.35 0.15 2A2A2A
 
 shape VENETIAN_GONDOLA
-    home ITALY:VENETO | 0.006 30 110 | water
+    home ITALY:VENETO | 0.006 30 110 | water free
     # A black gondola moored by its striped pole, the curved steel prow up front.
     tbox 0 -0.2 0 0.5 5.2 0 0.4 0 0.7 5.5 1A1A1A
     tube 0 0.4 5.3 0 1.4 5.9 0.08 4 1A1A1A
@@ -183,7 +183,7 @@ shape VENETIAN_HOUSE
     cyl 2 12 3 0.25 0.55 0.6 8 C88A6A
 
 shape MOORING_POLES
-    home ITALY:VENETO | 0.004 20 80 | water
+    home ITALY:VENETO | 0.004 20 80 | water free
     # Mooring poles of the lagoon: wooden posts bound in threes, striped red and white where boats tie up.
     ring 3 0.25
     tube 0 -1 0 0 2.5 0 0.14 6 6A5A48
@@ -208,7 +208,7 @@ shape HILL_TOWN
     windows 10 9 -16 0 1 8 6 0.6 3
 
 shape TRABOCCO
-    home ITALY | 0.002 15 70 | coast
+    home ITALY | 0.002 15 70 | coast shore
     # A trabocco: a fishing machine of poles over the sea, a long walkway, a hut, the net hung from great arms.
     repeat 6 3 0 0
     mirror
@@ -248,7 +248,7 @@ shape SARACEN_TOWER
     box 3.42 7 0 0.03 0.9 0.5 3A3028
 
 shape NURAGHE
-    home ITALY:SARDINIA | 0.003 20 110 | country
+    home ITALY:SARDINIA | 0.003 20 110 | country free
     # A nuraghe: a Bronze Age tower of huge dark stones, round and tapering, a low door into the dark.
     cyl 0 0 0 6 4.2 10 12 7A7468
     ring 12 5.2
@@ -391,7 +391,7 @@ shape MALTESE_BALCONY_HOUSE
     box 0 9.1 0 3.55 0.1 4.05 E0C890
 
 shape LUZZU_BOAT
-    home MALTA | 0.008 30 110 | water
+    home MALTA | 0.008 30 110 | water free
     # A luzzu: a Maltese fishing boat painted blue, yellow and red, the eye of Osiris on its tall prow.
     tbox 0 -0.3 0 0.7 3.5 0 0.5 0 1.1 4 2A6AC8
     mirrorx

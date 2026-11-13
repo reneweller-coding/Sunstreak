@@ -197,7 +197,7 @@ shape WHISKY_DISTILLERY
     gable -8 4 0 2 9 1 0.2 3A3A40 E8E4DA
 
 shape HIGHLAND_COW
-    home SCOTLAND | 0.006 8 70 | country
+    home SCOTLAND | 0.006 8 70 | country free
     # A Highland cow: long shaggy ginger coat, a fringe over the eyes, wide upswept horns.
     blob 0 1.1 0 0.5 0.55 0.95 B8602A 0.3
     mirror
@@ -211,7 +211,7 @@ shape HIGHLAND_COW
     tube 0.6 1.6 1.2 0.7 1.85 1.15 0.04 3 E8E0C8
 
 shape BROCH
-    home SCOTLAND | 0.002 20 110 | country
+    home SCOTLAND | 0.002 20 110 | country free
     # A broch: an Iron Age round tower of dry stone, waisted like a cooling tower, a low doorway.
     cyl 0 0 0 7 5 6 14 8A8478
     cyl 0 6 0 5 5.4 5 14 8A8478
@@ -270,7 +270,7 @@ shape PEAT_STACK
     box 0.6 0.3 -1.5 0.25 0.08 0.12 5A3A28
 
 shape IRISH_ROUND_TOWER
-    home IRELAND | 0.002 15 100 | country
+    home IRELAND | 0.002 15 100 | country free
     # An Irish round tower: a slim stone tower with a conical cap, its door high above the ground.
     cyl 0 0 0 2.2 1.8 24 12 A8A090
     spire 0 24 0 1.9 4 12 8A8478
@@ -278,7 +278,7 @@ shape IRISH_ROUND_TOWER
     box 1.82 22 0 0.08 0.5 0.3 1E1E1E
 
 shape RORBU_CABIN
-    home NORWAY:NORDLAND, NORWAY:FINNMARK, NORWAY | 0.006 6 60
+    home NORWAY:NORDLAND, NORWAY:FINNMARK, NORWAY | 0.006 6 60 | shore
     # A rorbu: a red fisherman's cabin on stilts at the water's edge, white window frames, a turf roof.
     mirror
     mirrorx
@@ -414,7 +414,7 @@ shape LAKESIDE_SAUNA
     tube 2.2 -0.3 0.6 2.2 0.4 0.6 0.06 3 6A5A48
 
 shape SAMI_KOTA
-    home FINLAND, SWEDEN:NORRBOTTEN, NORWAY:FINNMARK, RUSSIA:NORTHWEST RUSSIA | 0.004 8 60 | country
+    home FINLAND, SWEDEN:NORRBOTTEN, NORWAY:FINNMARK, RUSSIA:NORTHWEST RUSSIA | 0.004 8 60 | country free
     # A Sami kota: a cone of poles under grey cloth, smoke escaping at the top, reindeer skins hung by the door.
     spire 0 0 0 2.2 4 10 8A8070
     ring 8 0.1
@@ -471,7 +471,7 @@ shape ICELANDIC_CHURCH
     box 0 1.1 4.82 0.4 1.1 0.03 2A3A6A
 
 shape ICELANDIC_HORSE
-    home ICELAND | 0.006 8 70 | country
+    home ICELAND | 0.006 8 70 | country free
     # An Icelandic horse: small and stocky, a thick shaggy mane, chestnut or dun.
     blob 0 1.0 0 0.32 0.4 0.75 A8703A
     mirror
@@ -483,7 +483,7 @@ shape ICELANDIC_HORSE
     tube 0 1.2 -0.75 0 0.4 -0.9 0.08 3 E8D8B0
 
 shape STONE_CAIRN
-    home ICELAND, NORWAY:FINNMARK, NORWAY:SVALBARD, SCOTLAND | 0.004 6 60 | country
+    home ICELAND, NORWAY:FINNMARK, NORWAY:SVALBARD, SCOTLAND | 0.004 6 60 | country free
     # A cairn: a pile of grey stones raised by travellers to mark the way.
     blob 0 0.4 0 0.8 0.45 0.8 8A8680 0.5
     blob 0 1.0 0 0.6 0.35 0.6 7A7670 0.5

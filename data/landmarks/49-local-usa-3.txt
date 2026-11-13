@@ -237,7 +237,7 @@ shape VOLUNTEER_FIRE_HALL
     box 6 9.2 -9 0.4 0.25 0.4 E8C02A
 
 shape BAIT_AND_TACKLE
-    home USA, CANADA | 0.004 4 30 | coast
+    home USA, CANADA | 0.004 4 30 | coast shore
     # A bait and tackle shack on the dock: a weathered shed with hand-painted signs for live bait and ice, rods leaning by the door.
     box 0 0.8 0 2 0.1 4 8A7A60
     repeat 4 0 0 2.6

@@ -1,7 +1,7 @@
 # Wildlife and sports grounds of particular countries.
 
 shape WALRUS_HAULOUT
-    home NORWAY:SVALBARD, RUSSIA:FAR EAST, USA:ALASKA, CANADA:NUNAVUT | 0.004 15 80 | coast
+    home NORWAY:SVALBARD, RUSSIA:FAR EAST, USA:ALASKA, CANADA:NUNAVUT | 0.004 15 80 | coast free
     # Walruses hauled out on the shingle: huge wrinkled brown bodies piled together, long ivory tusks, a few in the water.
     blob 0 0 0 4 0.3 6 7A7068 0.4
     repeat 5 0.5 0 1.6
@@ -14,7 +14,7 @@ shape WALRUS_HAULOUT
     tube -0.95 0.8 -2.25 -0.95 0.35 -2.15 0.03 3 F2EEE2
 
 shape TAPIR
-    home BRAZIL:AMAZONAS, BRAZIL:MATO GROSSO, BELIZE, COSTA RICA, PANAMA, COLOMBIA, PERU:AMAZONAS, MALAYSIA, THAILAND, INDONESIA | 0.003 3 30 | country
+    home BRAZIL:AMAZONAS, BRAZIL:MATO GROSSO, BELIZE, COSTA RICA, PANAMA, COLOMBIA, PERU:AMAZONAS, MALAYSIA, THAILAND, INDONESIA | 0.003 3 30 | country free
     # A tapir at the forest edge: a heavy rounded animal on short legs with a little drooping trunk of a nose.
     blob 0 0.75 0 0.38 0.42 0.8 3A3430
     blob 0 0.8 0.85 0.22 0.25 0.3 3A3430
@@ -24,7 +24,7 @@ shape TAPIR
     tube 0.2 0.45 0.45 0.2 0 0.45 0.09 4 3A3430
 
 shape OKAPI
-    home DR CONGO:TSHOPO, DR CONGO | 0.002 4 30 | country
+    home DR CONGO:TSHOPO, DR CONGO | 0.002 4 30 | country free
     # An okapi in the forest clearing: a dark reddish body, striped black and white legs like a zebra's, a long neck and big ears.
     blob 0 1.2 0 0.28 0.38 0.7 4A2A1E
     tube 0 1.4 0.55 0 1.9 0.75 0.11 5 4A2A1E
@@ -42,7 +42,7 @@ shape OKAPI
     box 0.15 0.45 0.5 0.065 0.04 0.065 1E1E1E
 
 shape GHARIALS
-    home INDIA:MADHYA PRADESH, INDIA:UTTAR PRADESH, INDIA:RAJASTHAN, NEPAL | 0.004 4 30 | country
+    home INDIA:MADHYA PRADESH, INDIA:UTTAR PRADESH, INDIA:RAJASTHAN, NEPAL | 0.004 4 30 | country free
     # Gharials basking on a river sandbank: long olive-grey crocodiles with very thin snouts ending in a bulbous knob.
     box 2 0.02 0 2 0.02 4 6A7A6A water
     repeat 3 0.6 0 1.4
@@ -55,7 +55,7 @@ shape GHARIALS
     tube -1 0.15 -2.7 -1 0.08 -3.8 0.12 5 6A7A5A
 
 shape RED_PANDA
-    home NEPAL, BHUTAN, INDIA:SIKKIM, INDIA:ARUNACHAL PRADESH, CHINA:SICHUAN, CHINA:YUNNAN, MYANMAR | 0.003 3 25 | country
+    home NEPAL, BHUTAN, INDIA:SIKKIM, INDIA:ARUNACHAL PRADESH, CHINA:SICHUAN, CHINA:YUNNAN, MYANMAR | 0.003 3 25 | country free
     # A red panda resting in the fork of a tree: rusty red fur, a white-masked face and a long ringed tail hanging down.
     tube 0 0 0 0 3 0 0.25 5 6A5A48
     tube 0 2.5 0 1.2 3.6 0.3 0.12 4 6A5A48
@@ -83,7 +83,7 @@ shape KEAS_ON_CAR
     blob -0.6 0.95 -1.8 0.1 0.12 0.18 6A7A3A
 
 shape DOLPHIN_POD
-    home fleet:EUROPE, fleet:BRITISH, fleet:LATIN, fleet:OCEANIA, fleet:ISLANDS, fleet:ARABIA, fleet:SOUTHEAST_ASIA, fleet:NORTH_AMERICA, fleet:AFRICA, fleet:EAST_ASIA | 0.003 30 120 | water
+    home fleet:EUROPE, fleet:BRITISH, fleet:LATIN, fleet:OCEANIA, fleet:ISLANDS, fleet:ARABIA, fleet:SOUTHEAST_ASIA, fleet:NORTH_AMERICA, fleet:AFRICA, fleet:EAST_ASIA | 0.003 30 120 | water free
     # A pod of dolphins leaping in the sea: grey arching backs and fins breaking the surface, one jumping clear of the water.
     blob 0 0.1 -4 0.3 0.25 1.1 6A7A88
     tri 0 0.3 -4.2 0 0.7 -4.5 0 0.3 -3.7 5A6A78

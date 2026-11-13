@@ -74,7 +74,7 @@ shape STOLP_FARMHOUSE
     box 2 11.5 0 0.4 1 0.4 8A3A2A
 
 shape HAY_BARRACK
-    home NETHERLANDS, BELGIUM | 0.003 10 70 | country
+    home NETHERLANDS, BELGIUM | 0.003 10 70 | country free
     # A hay barrack: a pyramid roof that slides up and down four tall poles over the hay.
     mirror
     mirrorx

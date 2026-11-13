@@ -48,7 +48,7 @@ shape HIGHLAND_BOTHY
     box 4 0.02 0 0.8 0.02 6 4A6A7A water
 
 shape RED_DEER_STAGS
-    home SCOTLAND, ENGLAND:NORTH WEST, IRELAND, GERMANY, POLAND, HUNGARY, CZECHIA, AUSTRIA, NORWAY, DENMARK | 0.004 8 60 | country
+    home SCOTLAND, ENGLAND:NORTH WEST, IRELAND, GERMANY, POLAND, HUNGARY, CZECHIA, AUSTRIA, NORWAY, DENMARK | 0.004 8 60 | country free
     # Red deer stags on the hillside: big russet deer with shaggy necks and wide branching antlers, one raising its head to roar.
     blob 0 1.2 0 0.25 0.32 0.65 8A4A2A
     tube 0 1.35 0.5 0 1.8 0.8 0.1 5 7A4028
@@ -96,21 +96,22 @@ shape CURRACHS
     blob 2 0.15 0 1 0.3 6 9A9690 0.5
 
 shape SEASIDE_PIER
-    home ENGLAND:SOUTH WEST, ENGLAND:NORTH WEST, ENGLAND:EAST OF ENGLAND, ENGLAND:YORKSHIRE, ENGLAND:NORTH EAST, WALES | 0.002 20 80 | coast
+    home ENGLAND:SOUTH WEST, ENGLAND:NORTH WEST, ENGLAND:EAST OF ENGLAND, ENGLAND:YORKSHIRE, ENGLAND:NORTH EAST, WALES | 0.002 20 80 | coast shore
     # A Victorian pleasure pier striding out over the sea on iron legs, a domed pavilion at its end and a row of lamps along its rails.
-    box -12 5 0 12 0.2 2.5 C8B898
-    repeat 9 -3 0 0
+    # (placement: turned 180 degrees: its water side is +x)
+    box 12 5 0 12 0.2 2.5 C8B898
+    repeat 9 3 0 0
     mirror
-    tube 0 0 2.2 0 5 2.2 0.2 6 3A3A3A
-    repeat 12 -2 0 0
+    tube 0 0 -2.2 0 5 -2.2 0.2 6 3A3A3A
+    repeat 12 2 0 0
     mirror
-    tube -1 5.2 2.3 -1 6.6 2.3 0.04 3 3A5A4A
-    repeat 12 -2 0 0
+    tube 1 5.2 -2.3 1 6.6 -2.3 0.04 3 3A5A4A
+    repeat 12 2 0 0
     mirror
-    blob -1 6.7 2.3 0.12 0.12 0.12 F2E8B0 lit
-    box -26 7.5 0 3.5 2.5 4 F2F2EE
-    dome -26 10 0 3.2 2.2 3A7A7A
-    windows -22.48 5.8 -3.5 0 1 7 3 0.4 3
+    blob 1 6.7 -2.3 0.12 0.12 0.12 F2E8B0 lit
+    box 26 7.5 0 3.5 2.5 4 F2F2EE
+    dome 26 10 0 3.2 2.2 3A7A7A
+    windows 22.48 5.8 3.5 0 -1 7 3 0.4 3
 
 shape LYCHGATE
     home ENGLAND, WALES | 0.004 1 10 | country
@@ -134,7 +135,7 @@ shape HAY_HESJER
     gable -6 4 0 2.7 3.7 1.5 0.3 3A3A3A 9A2A1E
 
 shape SALMON_PEN_RINGS
-    home NORWAY, SCOTLAND, CHILE:LOS LAGOS, CHILE:AYSEN, ICELAND, IRELAND | 0.004 30 120 | water
+    home NORWAY, SCOTLAND, CHILE:LOS LAGOS, CHILE:AYSEN, ICELAND, IRELAND | 0.004 30 120 | water free
     # A salmon farm in the fjord: big round floating pens of black plastic tubes in a row, a feed barge moored beside them.
     halo 0 0.1 -12 6 0.25 16 2A2A2A
     halo 0 0.1 0 6 0.25 16 2A2A2A
@@ -169,7 +170,7 @@ shape HOT_POT_POOL
     blob 3 0.3 -3 2 0.5 2 3A3430 0.6
 
 shape NAUST_BOATHOUSES
-    home NORWAY, ICELAND | 0.006 6 50 | coast
+    home NORWAY, ICELAND | 0.006 6 50 | coast shore
     # Old boathouses at the water's edge: steep-roofed sheds of tarred black boards and stone, their doors opening onto the slipway.
     box 0 1.5 -3 1.8 1.5 2.5 2A2420
     gable 0 3 -3 2 2.7 1.8 0.2 4A4A40 2A2420
@@ -204,10 +205,10 @@ shape BOG_BOARDWALK
     tube -3 0 -5 -3 2 -5 0.08 4 6A5A48
     repeat 4 -1.5 0 2
     blob -3 2.3 -5 0.6 0.8 0.6 3A5A2A 0.4
-    tube -7.2 0 0.7 -7.2 4 0.7 0.08 3 8A7A60
-    tube -5.8 0 0.7 -5.8 4 0.7 0.08 3 8A7A60
-    tube -7.2 0 -0.7 -7.2 4 -0.7 0.08 3 8A7A60
-    tube -5.8 0 -0.7 -5.8 4 -0.7 0.08 3 8A7A60
+    tube -7.2 0 0.7 -7.2 4.45 0.7 0.08 3 8A7A60
+    tube -5.8 0 0.7 -5.8 4.45 0.7 0.08 3 8A7A60
+    tube -7.2 0 -0.7 -7.2 4.45 -0.7 0.08 3 8A7A60
+    tube -5.8 0 -0.7 -5.8 4.45 -0.7 0.08 3 8A7A60
     box -6.5 4 0 0.8 0.05 0.8 8A7A60
     box -6.5 4.5 0 0.85 0.05 0.85 4A3A30
 
@@ -233,7 +234,7 @@ shape GRIT_BIN
     box 0.39 0.5 0 0.01 0.06 0.3 1E1E1E
 
 shape WHITE_GEESE
-    home POLAND, HUNGARY, ROMANIA, UKRAINE, LITHUANIA, CZECHIA, SLOVAKIA, MOLDOVA, BELARUS | 0.006 2 25 | country
+    home POLAND, HUNGARY, ROMANIA, UKRAINE, LITHUANIA, CZECHIA, SLOVAKIA, MOLDOVA, BELARUS | 0.006 2 25 | country free
     # A flock of white farm geese marching along the verge in a line, orange beaks held high.
     repeat 7 0.3 0 0.8
     blob -1 0.35 -3 0.18 0.18 0.3 F2F2F2

@@ -1,7 +1,7 @@
 # Crafts, food stalls and village trades of particular countries.
 
 shape NAZAR_TREE
-    home TURKEY, CYPRUS | 0.004 2 20 | country
+    home TURKEY, CYPRUS | 0.004 2 20 | country free
     # A wishing tree hung with blue evil-eye beads: a gnarled old olive whose branches are heavy with hundreds of blue and white glass charms.
     tube 0 0 0 0.2 2 0 0.3 6 7A7060
     tube 0.2 2 0 1.8 3 0.5 0.12 4 7A7060
@@ -104,7 +104,7 @@ shape VILLAGE_MAIZE_MILL
     cyl 3.4 0 -1.5 0.18 0.15 0.35 8 F2C21E
 
 shape PALM_WINE_TAPPER
-    home NIGERIA, GHANA, CAMEROON, IVORY COAST, BENIN, TOGO, SIERRA LEONE, LIBERIA, GUINEA | 0.004 3 30 | country
+    home NIGERIA, GHANA, CAMEROON, IVORY COAST, BENIN, TOGO, SIERRA LEONE, LIBERIA, GUINEA | 0.004 3 30 | country free
     # A palm wine tapper high up an oil palm: a man in a climbing loop of rope at the crown, gourds hanging to collect the sap.
     tube 0 0 0 0.3 9 0 0.35 6 6A5A40
     fronds 0.3 9 0 14 3.2 0.6 3E6A2A
@@ -129,7 +129,7 @@ shape CLAY_POT_STALL
     blob 0.7 0.15 -0.8 0.3 0.15 0.3 C8703A
 
 shape CHARCOAL_MOUND
-    home MADAGASCAR, HAITI, KENYA, TANZANIA, MALAWI, ZAMBIA, MOZAMBIQUE, UGANDA, NIGERIA, BRAZIL:MINAS GERAIS, INDONESIA, PHILIPPINES, ETHIOPIA | 0.004 4 40 | country
+    home MADAGASCAR, HAITI, KENYA, TANZANIA, MALAWI, ZAMBIA, MOZAMBIQUE, UGANDA, NIGERIA, BRAZIL:MINAS GERAIS, INDONESIA, PHILIPPINES, ETHIOPIA | 0.004 4 40 | country free
     # A charcoal burner's mound smouldering in the clearing: a low dome of earth over stacked wood, wisps of smoke from its vents, sacks ready.
     dome 0 0 0 2.2 1.2 6A5A40
     repeat 4 0 0 1

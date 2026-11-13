@@ -33,7 +33,7 @@ shape PAINTED_GOODS_TRUCK
     tube 1.0 0.5 -3.9 1.25 0.5 -3.9 0.5 10 1E1E1E
 
 shape KETTUVALLAM
-    home INDIA:KERALA | 0.008 30 110 | water
+    home INDIA:KERALA | 0.008 30 110 | water free
     # A Kerala houseboat: a long dark wooden rice barge under a vaulted roof of woven palm thatch, an open front deck with chairs.
     tbox 0 -0.3 0 0.8 7 0 0.6 0 1.6 8 4A3A28
     tube 0 0.9 -6.5 0 0.9 5 1.8 10 C8A060
@@ -123,7 +123,7 @@ shape PAINTED_HORN_BULLOCK_CART
     hoop 1.0 0.8 -1.5 0.8 0.07 12 6A4A30
 
 shape BLACKBUCK
-    home INDIA:RAJASTHAN, INDIA:GUJARAT, INDIA:HARYANA, INDIA:PUNJAB, INDIA:MADHYA PRADESH, INDIA:MAHARASHTRA, INDIA:ANDHRA PRADESH, INDIA:KARNATAKA, PAKISTAN | 0.006 6 60 | country
+    home INDIA:RAJASTHAN, INDIA:GUJARAT, INDIA:HARYANA, INDIA:PUNJAB, INDIA:MADHYA PRADESH, INDIA:MAHARASHTRA, INDIA:ANDHRA PRADESH, INDIA:KARNATAKA, PAKISTAN | 0.006 6 60 | country free
     # Blackbuck on the dry grassland: a dark buck with long spiralled horns and a white belly, his tawny does around him.
     blob 0 0.8 0 0.17 0.2 0.45 2A2420
     blob 0 0.72 0 0.16 0.11 0.4 F2EEE2
@@ -152,7 +152,7 @@ shape BLACKBUCK
     tube 0.93 0.6 -2.3 0.93 0 -2.3 0.03 3 C8925A
 
 shape NILGAI
-    home INDIA:RAJASTHAN, INDIA:HARYANA, INDIA:UTTAR PRADESH, INDIA:MADHYA PRADESH, INDIA:GUJARAT, INDIA:BIHAR, INDIA:PUNJAB, NEPAL | 0.004 6 50 | country
+    home INDIA:RAJASTHAN, INDIA:HARYANA, INDIA:UTTAR PRADESH, INDIA:MADHYA PRADESH, INDIA:GUJARAT, INDIA:BIHAR, INDIA:PUNJAB, NEPAL | 0.004 6 50 | country free
     # A nilgai bull in the fields: a big blue-grey antelope, high at the shoulder, with a dark beard tuft and short horns.
     blob 0 1.2 0 0.3 0.38 0.75 6A7080
     tube 0 1.4 0.55 0 1.75 0.8 0.11 5 6A7080
@@ -172,7 +172,7 @@ shape NILGAI
     tube 1.35 0.85 1.55 1.35 0 1.55 0.05 4 B8885A
 
 shape TEMPLE_ELEPHANT
-    home INDIA:KERALA, INDIA:KARNATAKA, INDIA:TAMIL NADU | 0.002 4 30
+    home INDIA:KERALA, INDIA:KARNATAKA, INDIA:TAMIL NADU | 0.002 4 30 | free
     # A temple elephant in festival dress: a golden caparison over its forehead, riders on its back holding up a red parasol.
     blob 0 2.0 0 0.9 1.0 1.6 5A5450
     blob 0 2.3 1.6 0.6 0.7 0.6 5A5450
@@ -210,7 +210,7 @@ shape TIGER_IN_GRASS
     tube 0 0.45 -1.4 0 0.7 -1.75 0.05 4 1E1E1E
 
 shape SARUS_CRANES
-    home INDIA:UTTAR PRADESH, INDIA:GUJARAT, INDIA:RAJASTHAN, INDIA:HARYANA, INDIA:BIHAR, INDIA:MADHYA PRADESH, NEPAL, CAMBODIA, VIETNAM, MYANMAR | 0.004 6 40 | country
+    home INDIA:UTTAR PRADESH, INDIA:GUJARAT, INDIA:RAJASTHAN, INDIA:HARYANA, INDIA:BIHAR, INDIA:MADHYA PRADESH, NEPAL, CAMBODIA, VIETNAM, MYANMAR | 0.004 6 40 | country free
     # A pair of sarus cranes in a wet field: the tallest flying birds, grey with long legs and bare red heads.
     box 0 0.02 0 2.5 0.02 3 4A6A5A water
     repeat 2 0.8 0 1.4
@@ -227,7 +227,7 @@ shape SARUS_CRANES
     tube -0.4 1.8 -0.14 -0.4 1.75 0.05 0.02 3 4A4A40
 
 shape STRAW_STACKS
-    home INDIA:PUNJAB, INDIA:HARYANA, INDIA:UTTAR PRADESH, INDIA:BIHAR, INDIA:RAJASTHAN, PAKISTAN, NEPAL, BANGLADESH | 0.008 6 50 | country
+    home INDIA:PUNJAB, INDIA:HARYANA, INDIA:UTTAR PRADESH, INDIA:BIHAR, INDIA:RAJASTHAN, PAKISTAN, NEPAL, BANGLADESH | 0.008 6 50 | country free
     # Straw stacks by the village: tall beehive heaps of golden straw with a cap of mud plaster, the threshing floor beside them.
     repeat 3 0 0 3.5
     cyl 0 0 -3.5 1.2 1.3 2 10 C8A860
@@ -287,7 +287,7 @@ shape TRACTOR_TROLLEY
     tube 1.0 0.5 -1.5 1.25 0.5 -1.5 0.5 10 1E1E1E
 
 shape PEEPAL_PLATFORM
-    home INDIA, NEPAL, SRI LANKA, BANGLADESH | 0.006 4 30
+    home INDIA, NEPAL, SRI LANKA, BANGLADESH | 0.006 4 30 | free
     # A peepal tree on its round platform at the village crossing: whitewashed, red threads wound round the trunk, a little shrine stone.
     cyl 0 0 0 3 3 0.7 16 F2EEE2
     halo 0 0.7 0 3 0.08 16 C83A2A
@@ -586,7 +586,7 @@ shape MARIGOLD_FIELD
     blob -3 0.62 -2 3.4 0.14 0.35 F2C21E 0.5
 
 shape PADDY_WITH_EGRETS
-    home INDIA:KERALA, INDIA:TAMIL NADU, INDIA:ANDHRA PRADESH, INDIA:WEST BENGAL, INDIA:ODISHA, INDIA:ASSAM, INDIA:KARNATAKA, INDIA:GOA, BANGLADESH, SRI LANKA, NEPAL, THAILAND, VIETNAM, CAMBODIA, LAOS, MYANMAR, PHILIPPINES, INDONESIA, MALAYSIA, CHINA:GUANGXI, CHINA:HUNAN, CHINA:JIANGXI, CHINA:ZHEJIANG, CHINA:YUNNAN, CHINA:GUANGDONG, JAPAN, SOUTH KOREA, TAIWAN, SPAIN:VALENCIA, ITALY:PIEDMONT, ITALY:LOMBARDY | 0.008 6 60 | country
+    home INDIA:KERALA, INDIA:TAMIL NADU, INDIA:ANDHRA PRADESH, INDIA:WEST BENGAL, INDIA:ODISHA, INDIA:ASSAM, INDIA:KARNATAKA, INDIA:GOA, BANGLADESH, SRI LANKA, NEPAL, THAILAND, VIETNAM, CAMBODIA, LAOS, MYANMAR, PHILIPPINES, INDONESIA, MALAYSIA, CHINA:GUANGXI, CHINA:HUNAN, CHINA:JIANGXI, CHINA:ZHEJIANG, CHINA:YUNNAN, CHINA:GUANGDONG, JAPAN, SOUTH KOREA, TAIWAN, SPAIN:VALENCIA, ITALY:PIEDMONT, ITALY:LOMBARDY | 0.008 6 60 | country free
     # A flooded rice paddy with the young green rice in rows, a low earth bund around it, white egrets stalking the shallows.
     box 0 0.02 0 5 0.02 6 5A7A6A water
     mirror

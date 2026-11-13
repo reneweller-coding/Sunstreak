@@ -1,7 +1,7 @@
 # Still more local things of India and South Asia.
 
 shape SNAKE_BOAT
-    home INDIA:KERALA | 0.004 30 110 | water
+    home INDIA:KERALA | 0.004 30 110 | water free
     # A Kerala snake boat: an immensely long, narrow black boat with its stern rising high like a cobra's hood, a golden flag at the top.
     tbox 0 -0.2 0 0.3 16 0 0.3 0 0.6 17 2A2420
     tube 0 0.3 -17 0 4 -20 0.3 6 2A2420

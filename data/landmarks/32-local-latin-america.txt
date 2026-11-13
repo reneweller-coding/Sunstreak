@@ -58,7 +58,7 @@ shape TACO_STAND
     cyl 1.2 0 -0.8 0.17 0.14 0.45 8 E83A3A
 
 shape MEZCAL_PALENQUE
-    home MEXICO:OAXACA, MEXICO:GUERRERO, MEXICO:DURANGO, MEXICO:ZACATECAS | 0.004 6 40 | country
+    home MEXICO:OAXACA, MEXICO:GUERRERO, MEXICO:DURANGO, MEXICO:ZACATECAS | 0.004 6 40 | country free
     # A mezcal palenque: a stone wheel rolled round a pit to crush roasted agave hearts, the pinas heaped beside it.
     cyl 0 0 0 2.4 2.4 0.3 14 9A9488
     hoop 0 0.9 1.2 0.9 0.25 14 8A8478
@@ -69,7 +69,7 @@ shape MEZCAL_PALENQUE
     quad -3 2.6 -3 -3 2.6 3 1 2.3 3 1 2.3 -3 8A7A48
 
 shape ORGAN_PIPE_CACTUS
-    home MEXICO:SONORA, MEXICO:BAJA CALIFORNIA, MEXICO:BAJA CALIFORNIA SUR, MEXICO:PUEBLA, MEXICO:OAXACA, USA:ARIZONA | 0.006 6 60 | country
+    home MEXICO:SONORA, MEXICO:BAJA CALIFORNIA, MEXICO:BAJA CALIFORNIA SUR, MEXICO:PUEBLA, MEXICO:OAXACA, USA:ARIZONA | 0.006 6 60 | country free
     # An organ pipe cactus: a cluster of tall ribbed green columns rising from one short trunk.
     tube 0 0 0 0 0.6 0 0.3 8 4A7A3A
     tube 0 0.5 0 0 5 0 0.18 8 4A7A3A
@@ -246,7 +246,7 @@ shape ESTANCIA_HOUSE
     blob -9 12 4 2.5 3 2.5 6A8A6A 0.3
 
 shape CAPYBARA_FAMILY
-    home BRAZIL, ARGENTINA, URUGUAY, PARAGUAY, VENEZUELA, COLOMBIA, BOLIVIA | 0.006 4 40 | country
+    home BRAZIL, ARGENTINA, URUGUAY, PARAGUAY, VENEZUELA, COLOMBIA, BOLIVIA | 0.006 4 40 | country free
     # Capybaras by a pond: big barrel-shaped rodents with blunt heads, a few young ones among the grown.
     box 0 0.02 2 1.5 0.02 2 4A6A5A water
     blob 0 0.45 0 0.35 0.35 0.65 8A6A48
@@ -257,7 +257,7 @@ shape CAPYBARA_FAMILY
     blob 0.4 0.25 1.4 0.18 0.18 0.3 8A6A48
 
 shape MACAWS_TREE
-    home BRAZIL:AMAZONAS, BRAZIL:PARA, BRAZIL:MATO GROSSO, PERU:AMAZONAS, COLOMBIA, VENEZUELA, BOLIVIA, COSTA RICA | 0.004 6 50 | country
+    home BRAZIL:AMAZONAS, BRAZIL:PARA, BRAZIL:MATO GROSSO, PERU:AMAZONAS, COLOMBIA, VENEZUELA, BOLIVIA, COSTA RICA | 0.004 6 50 | country free
     # A dead tree full of macaws: scarlet, blue and yellow parrots perched on its bare branches.
     tube 0 0 0 0 6 0 0.3 6 9A8A70
     tube 0 4 0 1.8 6 0 0.12 4 9A8A70
@@ -296,7 +296,7 @@ shape MINAS_BAROQUE_CHURCH
     blob 3.55 6 0 0.02 0.6 0.6 8A8070
 
 shape JABIRU_STORKS
-    home BRAZIL:MATO GROSSO, BRAZIL:MATO GROSSO DO SUL, PARAGUAY, BOLIVIA, ARGENTINA:CORRIENTES, ARGENTINA:CHACO | 0.004 6 50 | country
+    home BRAZIL:MATO GROSSO, BRAZIL:MATO GROSSO DO SUL, PARAGUAY, BOLIVIA, ARGENTINA:CORRIENTES, ARGENTINA:CHACO | 0.004 6 50 | country free
     # Jabiru storks on their huge nest in a lone tree of the Pantanal: white bodies, black bare heads, red throats.
     tube 0 0 0 0 5 0 0.25 6 6A5A48
     blob 0 6 0 1.6 0.8 1.6 4A7A2E 0.4
@@ -356,7 +356,7 @@ shape PATAGONIAN_TIN_HOUSE
     blob -5 4 -4 0.6 4 0.6 4A7A3A 0.2
 
 shape GUANACOS
-    home ARGENTINA:SANTA CRUZ, ARGENTINA:CHUBUT, ARGENTINA:NEUQUEN, ARGENTINA:RIO NEGRO, ARGENTINA:MENDOZA, ARGENTINA:TIERRA DEL FUEGO, ARGENTINA:LA PAMPA, CHILE:MAGALLANES, CHILE:AYSEN, PERU:AREQUIPA | 0.006 10 80 | country
+    home ARGENTINA:SANTA CRUZ, ARGENTINA:CHUBUT, ARGENTINA:NEUQUEN, ARGENTINA:RIO NEGRO, ARGENTINA:MENDOZA, ARGENTINA:TIERRA DEL FUEGO, ARGENTINA:LA PAMPA, CHILE:MAGALLANES, CHILE:AYSEN, PERU:AREQUIPA | 0.006 10 80 | country free
     # Guanacos on the steppe: tawny wild camels with white bellies and long necks, watching the road.
     blob 0 1.2 0 0.3 0.35 0.7 C8884A
     blob 0 1.0 0 0.29 0.2 0.65 F2EEE2
@@ -369,7 +369,7 @@ shape GUANACOS
     tube 2.5 1.3 2.5 2.5 2.0 2.7 0.1 4 C8884A
 
 shape RHEA_BIRDS
-    home ARGENTINA, URUGUAY, BRAZIL:RIO GRANDE DO SUL, PARAGUAY, BOLIVIA, CHILE:MAGALLANES | 0.005 8 70 | country
+    home ARGENTINA, URUGUAY, BRAZIL:RIO GRANDE DO SUL, PARAGUAY, BOLIVIA, CHILE:MAGALLANES | 0.005 8 70 | country free
     # Rheas running over the pampa: big grey-brown flightless birds with long necks and legs.
     blob 0 1.1 0 0.4 0.35 0.5 8A8070
     tube 0 1.3 0.4 0 2.0 0.55 0.06 4 8A8070
@@ -452,7 +452,7 @@ shape COPPER_HAUL_TRUCK
     box 0 2.2 3.8 2.8 0.6 0.8 3A3A3A
 
 shape MONKEY_PUZZLE_TREE
-    home CHILE:LOS LAGOS, CHILE:AYSEN, ARGENTINA:NEUQUEN, ARGENTINA:RIO NEGRO | 0.006 10 80 | country
+    home CHILE:LOS LAGOS, CHILE:AYSEN, ARGENTINA:NEUQUEN, ARGENTINA:RIO NEGRO | 0.006 10 80 | country free
     # An araucaria: a tall straight trunk, its branches in tiers like an umbrella of spiky ropes at the top.
     tube 0 0 0 0 12 0 0.4 8 7A6A58
     ring 8 0
@@ -484,7 +484,7 @@ shape PUCARA_BULLS_ROOF
     box 3.02 0.9 0 0.03 0.9 0.45 3A6AC8
 
 shape ALPACA_HERD
-    home PERU, BOLIVIA, ECUADOR:COTOPAXI, CHILE:ANTOFAGASTA, ARGENTINA:JUJUY, ARGENTINA:SALTA | 0.008 6 70 | country
+    home PERU, BOLIVIA, ECUADOR:COTOPAXI, CHILE:ANTOFAGASTA, ARGENTINA:JUJUY, ARGENTINA:SALTA | 0.008 6 70 | country free
     # Alpacas grazing in a woolly bunch, white, brown and black, colourful tassels in their ears.
     blob 0 0.9 0 0.35 0.4 0.55 F2EEE2 0.3
     tube 0 1.1 0.4 0 1.7 0.55 0.13 5 F2EEE2
@@ -639,7 +639,7 @@ shape OXCART_PAINTED
     tube 0 1.0 1.2 0 1.0 3 0.06 4 C82A2A
 
 shape SLOTH_TREE
-    home COSTA RICA, PANAMA, NICARAGUA, HONDURAS, COLOMBIA, VENEZUELA, BRAZIL:AMAZONAS | 0.004 4 40 | country
+    home COSTA RICA, PANAMA, NICARAGUA, HONDURAS, COLOMBIA, VENEZUELA, BRAZIL:AMAZONAS | 0.004 4 40 | country free
     # A sloth hanging from a branch of a cecropia tree over the road, slow and shaggy.
     tube 0 0 0 0 6 0 0.25 6 B8B0A0
     tube 0 4.5 0 1.8 5.6 0 0.1 4 B8B0A0
@@ -758,7 +758,7 @@ shape STEELPAN_RACK
     cyl -1 0.8 -1.4 0.3 0.3 0.25 12 C83A2A
 
 shape CONCH_SHELL_PILE
-    home BAHAMAS, BELIZE | 0.012 4 30 | coast
+    home BAHAMAS, BELIZE | 0.012 4 30 | coast free
     # A pile of pink conch shells by the fish shack, the rest of the day's catch.
     blob 0 0.4 0 1.4 0.4 1.6 E8B8A0 0.6
     repeat 6 0 0 0.5

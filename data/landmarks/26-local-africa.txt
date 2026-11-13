@@ -15,7 +15,7 @@ shape SAHEL_MUD_MOSQUE
     box 4.02 1.2 0 0.03 1.2 0.6 5A3A22
 
 shape DOGON_GRANARIES
-    home MALI, BURKINA FASO | 0.005 8 70 | country
+    home MALI, BURKINA FASO | 0.005 8 70 | country free
     # Dogon granaries: little square mud towers on stone feet, each under a pointed hat of millet straw.
     repeat 3 0 0 2.6
     box 0 1.3 -2.6 0.9 1.1 0.9 B88A5A
@@ -147,7 +147,7 @@ shape TOGU_NA
     blob 0 2.4 0 1.9 0.25 2.3 9A8A58 0.5
 
 shape MUSGUM_HOUSE
-    home CAMEROON, CHAD | 0.005 8 60 | country
+    home CAMEROON, CHAD | 0.005 8 60 | country free
     # A Musgum house: a tall shell-shaped dome of mud, ribbed with raised ridges, a keyhole door.
     spire 0 0 0 2.6 6 12 B8885A
     blob 0 1.5 0 2.5 1.8 2.5 B8885A
@@ -158,7 +158,7 @@ shape MUSGUM_HOUSE
     blob 4 1 3 1.55 1.1 1.55 A87A4A
 
 shape LEAF_DOME_HUT
-    home CAMEROON, CONGO, DR CONGO, GABON, CENTRAL AFRICAN REPUBLIC | 0.005 8 60 | country
+    home CAMEROON, CONGO, DR CONGO, GABON, CENTRAL AFRICAN REPUBLIC | 0.005 8 60 | country free
     # A forest hut: a low dome of bent saplings thatched with big overlapping leaves.
     dome 0 0 0 2 1.6 3E7A2E
     blob 0 0.8 0 1.95 0.9 1.95 4A8A34 0.4
@@ -201,7 +201,7 @@ shape ROCA_PLANTATION_HOUSE
     fronds 9.3 8 6.3 8 3.5 0.6 3E7A3A
 
 shape MAASAI_MANYATTA
-    home KENYA, TANZANIA | 0.005 15 100 | country
+    home KENYA, TANZANIA | 0.005 15 100 | country free
     # A Maasai manyatta: low loaf-shaped huts of dung and sticks in a ring, a fence of thorn branches around them.
     repeat 4 0 0 3
     blob 0 1 -4.5 1.5 1.1 1.2 8A7A60
@@ -212,7 +212,7 @@ shape MAASAI_MANYATTA
     box 1.5 0.5 -4.5 0.05 0.4 0.3 2A1A10
 
 shape ETHIOPIAN_TUKUL
-    home ETHIOPIA, ERITREA, SOUTH SUDAN | 0.006 8 60 | country
+    home ETHIOPIA, ERITREA, SOUTH SUDAN | 0.006 8 60 | country free
     # A tukul: a round hut with walls of mud and wattle, a tall conical thatch roof crowned by a clay pot.
     cyl 0 0 0 2.6 2.6 2 12 B89868
     spire 0 2 0 3 3.5 12 8A7A50
@@ -221,7 +221,7 @@ shape ETHIOPIAN_TUKUL
     halo 0 1.2 0 2.62 0.06 14 F2F2E8
 
 shape ETHIOPIAN_ROUND_CHURCH
-    home ETHIOPIA, ERITREA | 0.003 15 90 | country
+    home ETHIOPIA, ERITREA | 0.003 15 90 | country free
     # An Ethiopian church: round, in two rings, painted walls under a conical tin roof with an ornate cross and ostrich eggs.
     cyl 0 0 0 6 6 3 16 E8D8B0
     cyl 0 0 0 4 4 5 14 E8D8B0
@@ -260,7 +260,7 @@ shape BANANA_BICYCLE
     blob 0 1.2 -0.5 0.3 0.4 0.35 5A9A34 0.4
 
 shape SOMALI_AQAL
-    home SOMALIA, DJIBOUTI, ETHIOPIA | 0.005 8 60 | country
+    home SOMALIA, DJIBOUTI, ETHIOPIA | 0.005 8 60 | country free
     # An aqal: the nomads' dome hut of bent sticks covered with woven mats and cloths in many colours.
     dome 0 0 0 2.2 1.8 C8A878
     blob 0.5 1.4 0.6 1.0 0.4 0.9 C83A3A 0.4
@@ -268,7 +268,7 @@ shape SOMALI_AQAL
     box 2.05 0.6 0 0.2 0.6 0.4 2A1A10
 
 shape WILDEBEEST_HERD
-    home KENYA, TANZANIA | 0.006 20 120 | country
+    home KENYA, TANZANIA | 0.006 20 120 | country free
     # Wildebeest on the plain: dark grey-brown, humped shoulders, short horns, many of them grazing together.
     repeat 4 2 0 1.6
     blob 0 1.0 -3 0.28 0.4 0.75 4A4440
@@ -286,7 +286,7 @@ shape WILDEBEEST_HERD
     tube -1 0.7 1.2 -1 0 1.2 0.05 3 3A3430
 
 shape LIONS_ON_ROCK
-    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, ZIMBABWE, SOUTH AFRICA:LIMPOPO, SOUTH AFRICA:MPUMALANGA | 0.003 25 110 | country
+    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, ZIMBABWE, SOUTH AFRICA:LIMPOPO, SOUTH AFRICA:MPUMALANGA | 0.003 25 110 | country free
     # Lions resting on a granite outcrop: a maned male on top, two lionesses lying below.
     blob 0 1.5 0 4 2 4 9A8A78 0.35
     blob 0 3.5 0 0.4 0.4 0.9 C89A50
@@ -298,7 +298,7 @@ shape LIONS_ON_ROCK
     blob -2.2 2.55 -1.2 0.2 0.22 0.25 C8A060
 
 shape HIPPO_POOL
-    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, ZIMBABWE, MALAWI, UGANDA, SOUTH AFRICA:KWAZULU-NATAL, SOUTH AFRICA:LIMPOPO | 0.004 15 90 | country
+    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, ZIMBABWE, MALAWI, UGANDA, SOUTH AFRICA:KWAZULU-NATAL, SOUTH AFRICA:LIMPOPO | 0.004 15 90 | country free
     # A muddy pool with hippos wallowing, their backs, eyes and ears just above the water.
     box 0 0.02 0 5 0.02 7 6A6A4A water
     blob 1 0.2 -2 0.8 0.35 1.3 6A5A5A
@@ -308,7 +308,7 @@ shape HIPPO_POOL
     blob 2.5 0.15 3 0.7 0.3 1.1 6A5A5A
 
 shape RHINO
-    home SOUTH AFRICA, NAMIBIA, KENYA, BOTSWANA, ZIMBABWE, ESWATINI, INDIA:ASSAM, NEPAL | 0.003 15 90 | country
+    home SOUTH AFRICA, NAMIBIA, KENYA, BOTSWANA, ZIMBABWE, ESWATINI, INDIA:ASSAM, NEPAL | 0.003 15 90 | country free
     # A rhinoceros: grey and massive, two horns on its long head, grazing alone.
     blob 0 1.2 0 0.7 0.75 1.4 8A8680
     mirror
@@ -321,7 +321,7 @@ shape RHINO
     blob 0.25 1.5 1.3 0.06 0.12 0.08 7A7670
 
 shape OSTRICH
-    home SOUTH AFRICA, NAMIBIA, KENYA, BOTSWANA, TANZANIA | 0.004 10 80 | country
+    home SOUTH AFRICA, NAMIBIA, KENYA, BOTSWANA, TANZANIA | 0.004 10 80 | country free
     # An ostrich: a black feathered body with white plumes, long pink legs and a long bare neck.
     blob 0 1.3 0 0.45 0.4 0.6 1E1E1E
     blob 0 1.35 -0.55 0.3 0.25 0.2 F2F2EE
@@ -331,7 +331,7 @@ shape OSTRICH
     blob 0 2.45 0.68 0.08 0.08 0.14 8A7A70
 
 shape WARTHOGS
-    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, ZIMBABWE, NAMIBIA, SOUTH AFRICA, UGANDA, ETHIOPIA | 0.004 6 60 | country
+    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, ZIMBABWE, NAMIBIA, SOUTH AFRICA, UGANDA, ETHIOPIA | 0.004 6 60 | country free
     # A family of warthogs trotting off, tails straight up like antennas.
     blob 0 0.5 0 0.3 0.35 0.6 6A5A50
     blob 0 0.45 0.6 0.2 0.22 0.3 6A5A50
@@ -342,7 +342,7 @@ shape WARTHOGS
     tube -1 0.45 -1.4 -1 0.9 -1.45 0.015 3 3A3430
 
 shape SPRINGBOK_HERD
-    home SOUTH AFRICA, NAMIBIA, BOTSWANA, ANGOLA | 0.005 15 110 | country
+    home SOUTH AFRICA, NAMIBIA, BOTSWANA, ANGOLA | 0.005 15 110 | country free
     # Springbok on the open veld: slender, cinnamon above and white below, a dark stripe between.
     repeat 5 1.6 0 1.3
     blob 0 0.95 -3 0.18 0.25 0.5 C8885A
@@ -356,7 +356,7 @@ shape SPRINGBOK_HERD
     tube -0.08 0.7 -3.3 -0.08 0 -3.3 0.03 3 C8885A
 
 shape BABOON_TROOP
-    home KENYA, TANZANIA, ETHIOPIA, SOUTH AFRICA, ZAMBIA, ZIMBABWE, BOTSWANA, NAMIBIA, UGANDA | 0.004 4 40 | country
+    home KENYA, TANZANIA, ETHIOPIA, SOUTH AFRICA, ZAMBIA, ZIMBABWE, BOTSWANA, NAMIBIA, UGANDA | 0.004 4 40 | country free
     # Baboons sitting by the road waiting for something to fall out of a car.
     blob 0 0.4 0 0.3 0.4 0.3 8A7A60
     blob 0 0.95 0.1 0.18 0.2 0.22 8A7A60
@@ -382,7 +382,7 @@ shape NDEBELE_PAINTED_HOUSE
     hip 0 3.2 0 3.2 4.2 1.4 0.3 9A8A5A
 
 shape ZULU_BEEHIVE_HUT
-    home SOUTH AFRICA:KWAZULU-NATAL, ESWATINI | 0.006 8 60 | country
+    home SOUTH AFRICA:KWAZULU-NATAL, ESWATINI | 0.006 8 60 | country free
     # A Zulu beehive hut: a dome of grass thatch bound over a frame of saplings, a low arched doorway.
     blob 0 1.2 0 2.2 2.2 2.2 B8A868 0.25
     repeat 4 0 0.6 0
@@ -425,7 +425,7 @@ shape BASOTHO_HUT
     blob 2.42 1.6 1.2 0.02 0.3 0.3 C82A2A
 
 shape QUIVER_TREE
-    home NAMIBIA, SOUTH AFRICA:NORTHERN CAPE | 0.006 8 70 | country
+    home NAMIBIA, SOUTH AFRICA:NORTHERN CAPE | 0.006 8 70 | country free
     # A quiver tree: a pale golden trunk splitting into forked arms, each ending in a rosette of fat blue-green leaves.
     tube 0 0 0 0 2.2 0 0.35 6 D8C898
     tube 0 2.2 0 0.8 3.2 0 0.15 5 D8C898
@@ -436,7 +436,7 @@ shape QUIVER_TREE
     blob 0.1 3.6 -0.8 0.45 0.3 0.45 6A9A8A
 
 shape WELWITSCHIA
-    home NAMIBIA, ANGOLA | 0.005 6 50 | country
+    home NAMIBIA, ANGOLA | 0.005 6 50 | country free
     # A welwitschia: two long leathery leaves torn into ribbons sprawling over the gravel, a thousand years old.
     blob 0 0.3 0 0.5 0.3 0.5 6A5A40
     quad 0 0.3 0 0 0.05 2.4 1.2 0.05 2.6 0.6 0.3 0 4A6A3A
@@ -444,7 +444,7 @@ shape WELWITSCHIA
     quad 0 0.25 0.2 2.2 0.05 0.6 2.4 0.05 1.4 0.4 0.3 0.4 5A7A40
 
 shape WEAVER_NEST_POLE
-    home NAMIBIA, BOTSWANA, SOUTH AFRICA:NORTHERN CAPE | 0.005 4 40 | country
+    home NAMIBIA, BOTSWANA, SOUTH AFRICA:NORTHERN CAPE | 0.005 4 40 | country free
     # A sociable weaver nest: a huge haystack of grass built by a whole colony around a telephone pole.
     tube 0 0 0 0 6 0 0.12 6 7A6A58
     tube 0 5.6 -0.8 0 5.6 0.8 0.05 4 7A6A58
@@ -549,7 +549,7 @@ shape TRAVELLERS_PALM
     tube 0 2.5 0 0 3.59 4.06 0.22 4 4A8A3A
 
 shape RING_TAILED_LEMURS
-    home MADAGASCAR | 0.006 4 40 | country
+    home MADAGASCAR | 0.006 4 40 | country free
     # Ring-tailed lemurs sitting in a row on a rock, their black-and-white striped tails curled up behind them.
     blob 0 0.4 0 1.5 0.4 0.8 9A9488 0.4
     repeat 3 0 0 0.6

@@ -78,7 +78,7 @@ shape GREEK_TAVERNA
     box 2.08 0.75 -3 0.02 0.3 0.2 2A6AC8
 
 shape GREEK_CAIQUE
-    home GREECE, CYPRUS | 0.005 30 110 | water
+    home GREECE, CYPRUS | 0.005 30 110 | water free
     # A caique: a broad wooden fishing boat painted white, blue and red, a little wheelhouse, nets on deck.
     tbox 0 -0.4 0 0.9 3.6 0 0.6 0 1.5 4.2 F2F2EE
     mirrorx
@@ -104,7 +104,7 @@ shape ORTHODOX_BELL_TOWER
     tube 0 7.0 -0.15 0 7.0 0.15 0.025 3 D8B030
 
 shape GOATS_ON_ROCKS
-    home GREECE, CYPRUS, TURKEY, ALBANIA, MONTENEGRO, SPAIN:ANDALUSIA, SPAIN:CANARY ISLANDS, ITALY:SARDINIA, CROATIA | 0.004 6 60 | country
+    home GREECE, CYPRUS, TURKEY, ALBANIA, MONTENEGRO, SPAIN:ANDALUSIA, SPAIN:CANARY ISLANDS, ITALY:SARDINIA, CROATIA | 0.004 6 60 | country free
     # A few goats on a heap of rocks, brown, black and white.
     blob 0 0.6 0 2 1.0 2 9A9488 0.4
     blob 1.4 0.8 1.6 1.2 0.6 1.0 8A8478 0.4
@@ -146,7 +146,7 @@ shape CYPRUS_STONE_HOUSE
     windows 3.52 0.3 -5.5 0 1 4 3 0.3 2.4
 
 shape CAROB_TREE
-    home CYPRUS, GREECE, MALTA | 0.004 8 60 | country
+    home CYPRUS, GREECE, MALTA | 0.004 8 60 | country free
     # A carob tree: a short gnarled trunk, a dense evergreen dome, dark pods hanging.
     tube 0 0 0 0.3 1.6 0.2 0.35 6 5A4A3A
     blob 0.2 3 0.1 2.6 1.8 2.6 2E4A2A 0.3
@@ -308,7 +308,7 @@ shape LYCIAN_ROCK_TOMB
     box 0.62 3.6 4 0.02 1.2 0.7 3A3028
 
 shape GULET
-    home TURKEY, GREECE | 0.004 40 120 | water
+    home TURKEY, GREECE | 0.004 40 120 | water free
     # A gulet: a wooden two-masted yacht, its varnished hull, a canopy over the stern deck.
     tbox 0 -0.8 0 1.6 9 0 0.7 0 2.4 11 8A5A30
     box 0 0.75 0 2.3 0.05 10.5 C8A070

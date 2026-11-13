@@ -149,7 +149,7 @@ shape YATAI_CART
     hoop 0.62 0.35 0.9 0.35 0.05 10 6A4A30
 
 shape SNOW_MONKEYS
-    home JAPAN:CHUBU, JAPAN:TOHOKU | 0.004 6 40 | country
+    home JAPAN:CHUBU, JAPAN:TOHOKU | 0.004 6 40 | country free
     # Snow monkeys in a hot spring among the rocks: grey-brown macaques with red faces sitting up to their shoulders in the steaming water.
     ring 10 2.4
     blob 0 0.3 0 0.5 0.35 0.5 7A7670 0.4
@@ -166,7 +166,7 @@ shape SNOW_MONKEYS
     blob -2.28 1.28 0.5 0.05 0.08 0.08 E88A8A
 
 shape SIKA_DEER
-    home JAPAN:KANSAI, JAPAN:CHUGOKU, JAPAN:HOKKAIDO, JAPAN:KYUSHU | 0.006 3 30 | country
+    home JAPAN:KANSAI, JAPAN:CHUGOKU, JAPAN:HOKKAIDO, JAPAN:KYUSHU | 0.006 3 30 | country free
     # Sika deer by the roadside, unafraid: chestnut coats with white spots, a stag with branching antlers, a hind bowing her head.
     blob 0 0.95 0 0.2 0.25 0.55 8A5A3A
     blob 0.18 1.05 -0.2 0.03 0.04 0.04 F2EEE0
@@ -249,7 +249,7 @@ shape UTILITY_POLES_JP
     arch 0 7 -7.5 15 -0.8 0.02 6 1E1E1E
 
 shape HAENYEO_BUOYS
-    home place:JEJU | 0.01 20 80 | water
+    home place:JEJU | 0.01 20 80 | water free
     # Women divers at work off the rocks: orange floats bobbing on the swell with their nets hanging below, a diver surfacing beside one.
     blob 0 0.1 0 0.3 0.25 0.3 F2701E
     blob 0 -0.15 0 0.25 0.3 0.25 3A6A5A 0.6
@@ -345,7 +345,7 @@ shape SCOOTER_ROW
     blob -0.2 0.85 -2.4 0.13 0.11 0.13 F2C21E
 
 shape EAGLE_HUNTER
-    home MONGOLIA, KAZAKHSTAN, KYRGYZSTAN | 0.002 4 30 | country
+    home MONGOLIA, KAZAKHSTAN, KYRGYZSTAN | 0.002 4 30 | country free
     # An eagle hunter on horseback: a fur hat and a long embroidered coat, a golden eagle perched on the heavy glove of his raised arm.
     blob 0 1.35 0 0.32 0.42 0.9 6A4A30
     mirror
@@ -412,7 +412,7 @@ shape DAIKON_DRYING_RACK
     tube 0 2.78 -4.75 0 2.3 -4.75 0.05 4 F2F2EE
 
 shape TETRAPODS
-    home JAPAN, SOUTH KOREA, TAIWAN | 0.006 6 40 | coast
+    home JAPAN, SOUTH KOREA, TAIWAN | 0.006 6 40 | coast shore
     # Concrete tetrapods heaped along the shore as a breakwater: four-legged grey shapes piled up against the waves.
     repeat 6 0 0 1.6
     tube 0 0.8 -4 0 0 -4 0.35 6 A8A8A0

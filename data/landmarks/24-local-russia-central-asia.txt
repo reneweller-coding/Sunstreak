@@ -108,7 +108,7 @@ shape YAKUT_BALAGAN
     cyl -1 2.6 1 0.3 0.3 1.8 6 9A8A70
 
 shape CHUKCHI_YARANGA
-    home RUSSIA:FAR EAST | 0.004 8 60 | country
+    home RUSSIA:FAR EAST | 0.004 8 60 | country free
     # A yaranga: the round tent of the reindeer herders, walrus and reindeer skins stretched over a frame of poles.
     cyl 0 0 0 3.5 3.5 2 12 7A6A58
     spire 0 2 0 3.6 2.4 12 6A5A48
@@ -241,7 +241,7 @@ shape EUROPE_ASIA_OBELISK
     box 0 0.03 0 0.05 0.03 3 C83A2A
 
 shape OVOO_CAIRN
-    home MONGOLIA, RUSSIA:SIBERIA, CHINA:INNER MONGOLIA | 0.006 6 60 | country
+    home MONGOLIA, RUSSIA:SIBERIA, CHINA:INNER MONGOLIA | 0.006 6 60 | country free
     # An ovoo: a sacred cairn of stones, a pole on top hung with blue silk scarves and prayer flags.
     blob 0 0.6 0 2 1 2 8A8478 0.5
     blob 0 1.5 0 1.2 0.7 1.2 7A7468 0.5
@@ -306,7 +306,7 @@ shape GEORGIAN_BALCONY_HOUSE
     hip 0 8 0 4.2 5.2 1.6 0.6 9AA8B0 shiny
 
 shape QVEVRI_JARS
-    home GEORGIA | 0.004 4 30 | country
+    home GEORGIA | 0.004 4 30 | country free
     # Qvevri: huge egg-shaped clay jars for wine, some half buried in the yard, one lying on its side by the cellar.
     blob 0 0.6 0 0.9 1.2 0.9 C8783A
     blob 0 0.95 0 0.35 0.12 0.35 A8603A
@@ -380,7 +380,7 @@ shape STEPPE_MAUSOLEUM
     spire 0 2.4 -9 1.6 2.6 8 C8A878
 
 shape BACTRIAN_CAMEL
-    home MONGOLIA, KAZAKHSTAN, TURKMENISTAN, UZBEKISTAN, KYRGYZSTAN, CHINA:XINJIANG, CHINA:INNER MONGOLIA, CHINA:GANSU | 0.005 8 70 | country
+    home MONGOLIA, KAZAKHSTAN, TURKMENISTAN, UZBEKISTAN, KYRGYZSTAN, CHINA:XINJIANG, CHINA:INNER MONGOLIA, CHINA:GANSU | 0.005 8 70 | country free
     # A Bactrian camel: two humps, a shaggy brown winter coat, a long neck bent forward.
     blob 0 1.7 0 0.5 0.55 1.1 9A7A50 0.3
     blob 0 2.3 0.4 0.3 0.4 0.3 8A6A40 0.3
@@ -394,7 +394,7 @@ shape BACTRIAN_CAMEL
     blob 0 1.6 0.9 0.2 0.35 0.2 7A5A30 0.4
 
 shape SOLAR_GER
-    home MONGOLIA, CHINA:INNER MONGOLIA, KYRGYZSTAN | 0.006 8 70 | country
+    home MONGOLIA, CHINA:INNER MONGOLIA, KYRGYZSTAN | 0.006 8 70 | country free
     # A modern nomad's ger: white felt with an orange door, a solar panel and a satellite dish set up beside it.
     cyl 0 0 0 3 3 1.6 14 F2F2EE
     spire 0 1.6 0 3.1 1.2 14 E8E8E2
@@ -407,7 +407,7 @@ shape SOLAR_GER
     dome -0.8 1.4 -3.8 0.45 0.2 C8C8C8
 
 shape HORSE_HERD
-    home MONGOLIA, KAZAKHSTAN, KYRGYZSTAN, CHINA:INNER MONGOLIA, CHINA:XINJIANG | 0.006 15 110 | country
+    home MONGOLIA, KAZAKHSTAN, KYRGYZSTAN, CHINA:INNER MONGOLIA, CHINA:XINJIANG | 0.006 15 110 | country free
     # A herd of small steppe horses grazing, bay, dun and black, heads down in the grass.
     blob 0 1.0 0 0.3 0.4 0.75 8A5A30
     tube 0 1.1 0.6 0 0.5 1.1 0.12 5 8A5A30
@@ -492,7 +492,7 @@ shape PAMIRI_HOUSE
     blob 3.55 0.8 -3.6 0.02 0.18 0.18 6A5038
 
 shape AKHAL_TEKE_HORSE
-    home TURKMENISTAN | 0.006 8 70 | country
+    home TURKMENISTAN | 0.006 8 70 | country free
     # An Akhal-Teke: a slender desert horse with a coat that shines like gold.
     blob 0 1.3 0 0.3 0.42 0.85 D8B060 shiny
     mirror

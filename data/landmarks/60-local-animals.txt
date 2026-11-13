@@ -1,7 +1,7 @@
 # Farm animals and wildlife seen from the road in many parts of the world.
 
 shape GREY_HERONS
-    home fleet:EUROPE, fleet:BRITISH, fleet:EASTERN, JAPAN, CHINA, SOUTH KOREA, TURKEY, KENYA, SOUTH AFRICA | 0.004 3 40 | country
+    home fleet:EUROPE, fleet:BRITISH, fleet:EASTERN, JAPAN, CHINA, SOUTH KOREA, TURKEY, KENYA, SOUTH AFRICA | 0.004 3 40 | country free
     # Grey herons standing motionless in a wet meadow: tall grey birds with long necks drawn in, one stalking with its dagger bill ready.
     box 0 0.02 0 2 0.02 3 4A6A5A water
     repeat 2 1.2 0 2
@@ -18,7 +18,7 @@ shape GREY_HERONS
     tube -0.6 1.38 -0.6 -0.6 1.36 -0.45 0.015 3 E8C02A
 
 shape STORKS_FORAGING
-    home POLAND, GERMANY:BRANDENBURG, GERMANY:MECKLENBURG-VORPOMMERN, SPAIN:EXTREMADURA, SPAIN:CASTILE AND LEON, PORTUGAL, LITHUANIA, LATVIA, UKRAINE, TURKEY, MOROCCO, HUNGARY, BELARUS, ESTONIA | 0.006 4 50 | country
+    home POLAND, GERMANY:BRANDENBURG, GERMANY:MECKLENBURG-VORPOMMERN, SPAIN:EXTREMADURA, SPAIN:CASTILE AND LEON, PORTUGAL, LITHUANIA, LATVIA, UKRAINE, TURKEY, MOROCCO, HUNGARY, BELARUS, ESTONIA | 0.006 4 50 | country free
     # White storks following a tractor across the meadow: tall white birds with black wing edges and red bills, stalking the cut grass.
     repeat 5 1 0 1.5
     blob -2 0.9 -3 0.14 0.2 0.32 F2F2F2
@@ -37,7 +37,7 @@ shape STORKS_FORAGING
     tube 2.55 0.7 2.6 2.25 0.7 2.6 0.7 12 1E1E1E
 
 shape COMMON_CRANES
-    home GERMANY:BRANDENBURG, GERMANY:MECKLENBURG-VORPOMMERN, GERMANY:LOWER SAXONY, SPAIN:EXTREMADURA, SPAIN:ARAGON, SWEDEN, ISRAEL, FRANCE:GRAND EST, HUNGARY, ESTONIA, FINLAND | 0.004 8 70 | country
+    home GERMANY:BRANDENBURG, GERMANY:MECKLENBURG-VORPOMMERN, GERMANY:LOWER SAXONY, SPAIN:EXTREMADURA, SPAIN:ARAGON, SWEDEN, ISRAEL, FRANCE:GRAND EST, HUNGARY, ESTONIA, FINLAND | 0.004 8 70 | country free
     # Common cranes resting in a stubble field on migration: tall grey birds with black and white necks and a bushy tail, dozens of them.
     box -3 0.05 0 5 0.05 8 C8B070
     repeat 6 0.9 0 1.6
@@ -56,7 +56,7 @@ shape COMMON_CRANES
     tube -4 1.05 -3.75 -4 1.45 -3.55 0.04 4 1E1E1E
 
 shape SHEEPDOG_FLOCK
-    home ENGLAND, WALES, SCOTLAND, IRELAND, NORTHERN IRELAND, NEW ZEALAND, AUSTRALIA, ICELAND, NORWAY | 0.004 4 50 | country
+    home ENGLAND, WALES, SCOTLAND, IRELAND, NORTHERN IRELAND, NEW ZEALAND, AUSTRALIA, ICELAND, NORWAY | 0.004 4 50 | country free
     # A sheepdog bringing in the flock: a black and white collie crouched low behind a tight bunch of sheep, the shepherd with his crook at the gate.
     repeat 4 0.7 0 0.6
     blob -2 0.55 -2 0.3 0.3 0.45 E8E4DC
@@ -75,7 +75,7 @@ shape SHEEPDOG_FLOCK
     hoop 1.7 1.8 -2.65 0.15 0.025 8 8A6A48
 
 shape PIG_ARKS
-    home ENGLAND:EAST OF ENGLAND, ENGLAND:SOUTH WEST, ENGLAND:YORKSHIRE, DENMARK | 0.006 6 60 | country
+    home ENGLAND:EAST OF ENGLAND, ENGLAND:SOUTH WEST, ENGLAND:YORKSHIRE, DENMARK | 0.006 6 60 | country free
     # Outdoor pigs in a field of curved tin huts: rows of half-round steel arks on the bare earth, pink and spotted pigs rooting about.
     box -4 0.02 0 6 0.02 10 8A6A48
     repeat 4 0 0 4.5
@@ -113,7 +113,7 @@ shape RUGGED_HORSES
     tube 2 1.0 -7 2 1.0 7 0.02 3 F2F2F2
 
 shape DUCK_HERDING
-    home INDONESIA:BALI, INDONESIA:CENTRAL JAVA, INDONESIA:EAST JAVA, VIETNAM, PHILIPPINES, CHINA:GUANGXI, CHINA:GUANGDONG, MALAYSIA | 0.006 3 40 | country
+    home INDONESIA:BALI, INDONESIA:CENTRAL JAVA, INDONESIA:EAST JAVA, VIETNAM, PHILIPPINES, CHINA:GUANGXI, CHINA:GUANGDONG, MALAYSIA | 0.006 3 40 | country free
     # A duck herder leading his flock through the harvested paddies: a long white line of ducks following a pole with a flag stuck in the mud.
     box -2 0.02 0 4 0.02 6 6A7A5A water
     repeat 14 0.15 0 0.4

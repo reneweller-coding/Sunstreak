@@ -103,7 +103,7 @@ shape PARAGLIDERS
     blob 6.5 21.3 10.5 0.2 0.3 0.2 2A2A2A
 
 shape KITE_SURFERS
-    home BRAZIL:CEARA, BRAZIL:RIO GRANDE DO NORTE, SPAIN:ANDALUSIA, SPAIN:CANARY ISLANDS, EGYPT:SOUTH SINAI, MOROCCO, NETHERLANDS, GERMANY:SCHLESWIG-HOLSTEIN, DENMARK, PORTUGAL, MAURITIUS, AUSTRALIA:WESTERN AUSTRALIA, VIETNAM, SOUTH AFRICA:WESTERN CAPE, DOMINICAN REPUBLIC, GREECE | 0.003 30 120 | water
+    home BRAZIL:CEARA, BRAZIL:RIO GRANDE DO NORTE, SPAIN:ANDALUSIA, SPAIN:CANARY ISLANDS, EGYPT:SOUTH SINAI, MOROCCO, NETHERLANDS, GERMANY:SCHLESWIG-HOLSTEIN, DENMARK, PORTUGAL, MAURITIUS, AUSTRALIA:WESTERN AUSTRALIA, VIETNAM, SOUTH AFRICA:WESTERN CAPE, DOMINICAN REPUBLIC, GREECE | 0.003 30 120 | water free
     # Kite surfers on the windy water: curved kites high in the air, the riders below skimming over the waves on their boards.
     quad 0 12 -4 0 13 0 0 12.5 4 0 11.5 3 E8C02A
     tube 0 12 -3 -2 1.2 2 0.008 3 3A3A3A
@@ -117,7 +117,7 @@ shape KITE_SURFERS
     box 4 0.05 15 0.25 0.03 0.8 F2F2F2
 
 shape STRAY_DOGS
-    home INDIA, TURKEY, MEXICO, ROMANIA, THAILAND, MOROCCO, EGYPT, BOSNIA, SERBIA, GREECE, PERU, BOLIVIA, PHILIPPINES, VIETNAM, NEPAL, SRI LANKA, GEORGIA, ARMENIA, CHILE, SOUTH AFRICA | 0.006 1 15
+    home INDIA, TURKEY, MEXICO, ROMANIA, THAILAND, MOROCCO, EGYPT, BOSNIA, SERBIA, GREECE, PERU, BOLIVIA, PHILIPPINES, VIETNAM, NEPAL, SRI LANKA, GEORGIA, ARMENIA, CHILE, SOUTH AFRICA | 0.006 1 15 | free
     # A few street dogs dozing in the dust by the road, one of them sitting up and scratching, all of them tan and black.
     blob 0 0.18 0 0.2 0.15 0.45 C89A6A
     blob 0 0.22 0.45 0.12 0.11 0.15 C89A6A
@@ -129,7 +129,7 @@ shape STRAY_DOGS
     tube -0.8 0.15 -1.7 -0.8 0.05 -2 0.03 3 B8885A
 
 shape GOAT_HERD
-    home fleet:AFRICA, fleet:ARABIA, INDIA, PAKISTAN, NEPAL, AFGHANISTAN, IRAN, TURKEY, GREECE, ALBANIA, MEXICO, PERU, BOLIVIA, MONGOLIA | 0.006 2 40 | country
+    home fleet:AFRICA, fleet:ARABIA, INDIA, PAKISTAN, NEPAL, AFGHANISTAN, IRAN, TURKEY, GREECE, ALBANIA, MEXICO, PERU, BOLIVIA, MONGOLIA | 0.006 2 40 | country free
     # A herd of goats crossing the road with their herder: black, brown and white goats with floppy ears, a boy with a long stick behind them.
     repeat 6 0.6 0 1
     blob -1.5 0.6 -3 0.15 0.2 0.35 2A2420
@@ -149,7 +149,7 @@ shape GOAT_HERD
     tube 3.15 0 3.6 3.2 1.6 3.4 0.02 3 8A6A48
 
 shape FREE_RANGE_CHICKENS
-    home fleet:AFRICA, fleet:LATIN, fleet:SOUTHEAST_ASIA, fleet:SOUTH_ASIA, fleet:ISLANDS, fleet:EASTERN, fleet:ARABIA | 0.008 1 15 | country
+    home fleet:AFRICA, fleet:LATIN, fleet:SOUTHEAST_ASIA, fleet:SOUTH_ASIA, fleet:ISLANDS, fleet:EASTERN, fleet:ARABIA | 0.008 1 15 | country free
     # Chickens scratching about in front of the houses: brown hens and a proud red rooster with a high tail.
     repeat 5 0.5 0 0.7
     blob -1 0.22 -1.5 0.12 0.12 0.18 9A5A2A
@@ -164,7 +164,7 @@ shape FREE_RANGE_CHICKENS
     tube 1.5 0.16 0.8 1.5 0 0.8 0.015 3 E8C02A
 
 shape DONKEYS
-    home MOROCCO, EGYPT, ETHIOPIA, SUDAN, MALI, NIGER, KENYA, MEXICO, PERU, GREECE, CYPRUS, SPAIN:ANDALUSIA, PORTUGAL, ITALY:SARDINIA, TURKEY, IRAN, AFGHANISTAN, PAKISTAN, INDIA:RAJASTHAN, BOTSWANA, NAMIBIA, IRELAND | 0.006 3 40 | country
+    home MOROCCO, EGYPT, ETHIOPIA, SUDAN, MALI, NIGER, KENYA, MEXICO, PERU, GREECE, CYPRUS, SPAIN:ANDALUSIA, PORTUGAL, ITALY:SARDINIA, TURKEY, IRAN, AFGHANISTAN, PAKISTAN, INDIA:RAJASTHAN, BOTSWANA, NAMIBIA, IRELAND | 0.006 3 40 | country free
     # Two donkeys under a tree by the wall: grey with pale muzzles and long ears, one carrying a saddle and baskets.
     blob 0 0.95 0 0.22 0.28 0.55 8A8478
     tube 0 1.05 0.45 0 1.4 0.65 0.09 4 8A8478
@@ -217,7 +217,7 @@ shape SCARECROW
     box -2 0.2 -2 2.5 0.2 0.15 6A9A3A
 
 shape CELL_TOWER_TREE
-    home USA, SOUTH AFRICA, UAE, SAUDI ARABIA, AUSTRALIA, ITALY, SPAIN, MEXICO | 0.002 10 80
+    home USA, SOUTH AFRICA, UAE, SAUDI ARABIA, AUSTRALIA, ITALY, SPAIN, MEXICO | 0.002 10 80 | free
     # A mobile phone mast disguised as a tree: a tall steel trunk bristling with fake branches, the antennas peeking out near the top.
     cyl 0 0 0 0.5 0.35 22 8 7A6A58
     ring 8 0 0

@@ -36,7 +36,7 @@ shape CATTLE_GRID
     tube 0 0 -3.2 0 1.8 -3.2 0.04 3 9A9A9A
 
 shape MAGNETIC_TERMITE_MOUNDS
-    home AUSTRALIA:NORTHERN TERRITORY, AUSTRALIA:QUEENSLAND | 0.008 6 60 | country
+    home AUSTRALIA:NORTHERN TERRITORY, AUSTRALIA:QUEENSLAND | 0.008 6 60 | country free
     # Magnetic termite mounds: thin grey slabs of earth taller than a man, all facing the same way like gravestones across the grass.
     tbox 0 0 0 0.3 1.2 0 3 0 0.1 0.6 9A9080
     tbox -3 0 -4 0.25 1.0 -3 2.5 -4 0.08 0.5 9A9080
@@ -88,7 +88,7 @@ shape PARK_BBQ_SHELTER
     blob -3.6 8.5 3.4 2.6 2 2.6 6A8A6A 0.4
 
 shape COCKATOOS
-    home AUSTRALIA | 0.006 3 30 | country
+    home AUSTRALIA | 0.006 3 30 | country free
     # A flock of white cockatoos in a dead gum tree, yellow crests raised, screeching at the passing cars.
     tube 0 0 0 0 4 0 0.3 5 D8D0C0
     tube 0 3.5 0 2.2 5.4 0.5 0.12 4 D8D0C0
@@ -144,7 +144,7 @@ shape BIG_LOBSTER
     tube 1.6 4.8 1 3 3.2 1.5 0.12 4 C83A1E
 
 shape OPAL_FIELD_MOUNDS
-    home AUSTRALIA:SOUTH AUSTRALIA, AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:QUEENSLAND | 0.008 10 100 | arid
+    home AUSTRALIA:SOUTH AUSTRALIA, AUSTRALIA:NEW SOUTH WALES, AUSTRALIA:QUEENSLAND | 0.008 10 100 | arid free
     # The opal fields: hundreds of pale conical spoil heaps across the flat red country, a blower truck and a rusty winch over a shaft.
     cyl 0 0 0 2.5 0.2 2 10 E8D8B8
     cyl -5 0 -6 2 0.2 1.6 10 E0D0B0
@@ -207,7 +207,7 @@ shape EARTH_OVEN
     blob -1.8 0.35 -0.7 0.25 0.1 0.25 8AB860
 
 shape PANDANUS_TREE
-    home FIJI, SAMOA, TONGA, FRENCH POLYNESIA, KIRIBATI, MARSHALL ISLANDS, MICRONESIA, PALAU, TUVALU, NAURU, VANUATU, SOLOMON ISLANDS, PAPUA NEW GUINEA, AUSTRALIA:QUEENSLAND, AUSTRALIA:NORTHERN TERRITORY, MALDIVES | 0.006 4 40 | tropical
+    home FIJI, SAMOA, TONGA, FRENCH POLYNESIA, KIRIBATI, MARSHALL ISLANDS, MICRONESIA, PALAU, TUVALU, NAURU, VANUATU, SOLOMON ISLANDS, PAPUA NEW GUINEA, AUSTRALIA:QUEENSLAND, AUSTRALIA:NORTHERN TERRITORY, MALDIVES | 0.006 4 40 | tropical free
     # A pandanus tree on the beach: a leaning trunk propped on stilt roots, branches ending in spiky tufts, a big orange fruit hanging.
     ring 6 0.5
     tube 0 0 0 0 1.4 0 0.05 3 8A7A60
@@ -253,7 +253,7 @@ shape PMV_TRUCK
     tube 0.85 0.45 -2.3 1.1 0.45 -2.3 0.45 10 1E1E1E
 
 shape RUSTED_WARPLANE
-    home PAPUA NEW GUINEA, SOLOMON ISLANDS, PALAU, MARSHALL ISLANDS, MICRONESIA, VANUATU | 0.002 8 60 | tropical
+    home PAPUA NEW GUINEA, SOLOMON ISLANDS, PALAU, MARSHALL ISLANDS, MICRONESIA, VANUATU | 0.002 8 60 | tropical free
     # The rusting wreck of an old warplane in the jungle grass: a broken fuselage, one wing still attached, vines climbing over the engine.
     tube 0 1 -4 0 1.2 3 0.7 8 7A4A2A
     tube 0 1.2 3 0 1.0 4.2 0.55 8 6A3A22

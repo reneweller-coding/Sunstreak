@@ -157,7 +157,7 @@ shape BEACH_VOLLEYBALL
     blob 0.3 2.9 0 0.11 0.11 0.11 F2E040
 
 shape WIND_BENT_TREES
-    home ARGENTINA:TIERRA DEL FUEGO, ARGENTINA:SANTA CRUZ, CHILE:MAGALLANES, NEW ZEALAND:SOUTHLAND, NEW ZEALAND:OTAGO, IRELAND, SCOTLAND, ICELAND | 0.006 6 60 | country
+    home ARGENTINA:TIERRA DEL FUEGO, ARGENTINA:SANTA CRUZ, CHILE:MAGALLANES, NEW ZEALAND:SOUTHLAND, NEW ZEALAND:OTAGO, IRELAND, SCOTLAND, ICELAND | 0.006 6 60 | country free
     # Flag trees on the windswept plain: lone trees grown almost flat, all their branches streaming away on one side of the trunk.
     tube 0 0 0 0.3 1.5 0 0.25 5 6A5A48
     tube 0.3 1.5 0 -3 2.2 0 0.15 4 6A5A48

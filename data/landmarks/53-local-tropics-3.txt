@@ -57,7 +57,7 @@ shape SALT_PANS
     at 0 0 0
 
 shape OASIS_POOL
-    home ALGERIA, TUNISIA, LIBYA, EGYPT:NEW VALLEY, SAUDI ARABIA, OMAN, MOROCCO:DRAA-TAFILALET, UAE, MAURITANIA, CHAD | 0.006 8 70 | arid
+    home ALGERIA, TUNISIA, LIBYA, EGYPT:NEW VALLEY, SAUDI ARABIA, OMAN, MOROCCO:DRAA-TAFILALET, UAE, MAURITANIA, CHAD | 0.006 8 70 | arid free
     # An oasis pool: a pond of green water under date palms in the sand, reeds at its edge and a few camels drinking.
     cyl 0 0.02 0 4 4 0.02 14 3A7A6A water
     repeat 8 0 0 1
@@ -72,7 +72,7 @@ shape OASIS_POOL
     tube 4.2 1.8 -0.3 4 0.8 0.3 0.1 4 C8A070
 
 shape ROUND_WATCHTOWER
-    home OMAN, UAE, YEMEN, SAUDI ARABIA:ASIR, QATAR | 0.004 10 80 | arid
+    home OMAN, UAE, YEMEN, SAUDI ARABIA:ASIR, QATAR | 0.004 10 80 | arid free
     # An old round watchtower on a rocky knoll: a tapering mud-brick drum with a crenellated top and a single small door high up.
     blob 0 0.6 0 4 1.5 4 9A8468 0.4
     cyl 0 1.5 0 2 1.6 8 12 C8A070
@@ -81,7 +81,7 @@ shape ROUND_WATCHTOWER
     box 1.95 4 0 0.1 0.6 0.4 5A3A22
 
 shape IMPALA_HERD
-    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, ZIMBABWE, SOUTH AFRICA, NAMIBIA, MOZAMBIQUE, UGANDA, MALAWI | 0.006 6 60 | country
+    home KENYA, TANZANIA, BOTSWANA, ZAMBIA, ZIMBABWE, SOUTH AFRICA, NAMIBIA, MOZAMBIQUE, UGANDA, MALAWI | 0.006 6 60 | country free
     # A herd of impala in the bush: slim red-brown antelopes with pale bellies, one ram with lyre-shaped horns, the rest grazing.
     repeat 6 0.8 0 1.1
     blob -2 0.85 -3 0.15 0.2 0.42 A8683A
@@ -151,7 +151,7 @@ shape MARABOUT_TOMB
     blob -3 4 2 1.8 1.2 1.8 6A7A4A 0.4
 
 shape BASOTHO_HORSEMAN
-    home LESOTHO, SOUTH AFRICA:FREE STATE | 0.004 3 30 | country
+    home LESOTHO, SOUTH AFRICA:FREE STATE | 0.004 3 30 | country free
     # A horseman of the highlands on his sturdy pony: wrapped in a patterned wool blanket and wearing a conical woven hat.
     blob 0 1.2 0 0.28 0.36 0.78 6A4A2A
     mirror

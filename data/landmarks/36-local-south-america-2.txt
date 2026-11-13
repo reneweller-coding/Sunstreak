@@ -34,7 +34,7 @@ shape IPE_TREES
     blob 0 4.1 3 2.1 1.3 2.1 E87AB8 0.4
 
 shape CARNAUBA_PALMS
-    home BRAZIL:CEARA, BRAZIL:PIAUI, BRAZIL:RIO GRANDE DO NORTE, BRAZIL:MARANHAO, BRAZIL:PARAIBA | 0.008 6 60 | country
+    home BRAZIL:CEARA, BRAZIL:PIAUI, BRAZIL:RIO GRANDE DO NORTE, BRAZIL:MARANHAO, BRAZIL:PARAIBA | 0.008 6 60 | country free
     # A grove of carnauba palms: slender grey trunks with a rough collar of old leaf bases, round fans of waxy leaves.
     tube 0 0 -4 0.3 9 -4 0.2 6 8A8070
     blob 0.3 8.8 -4 0.35 0.7 0.35 7A6A50
@@ -71,7 +71,7 @@ shape SERTAO_CISTERN
     gable -5.5 2.4 0 1.7 2.7 0.8 0.3 B8603A E8D8C0
 
 shape MANDACARU
-    home BRAZIL:BAHIA, BRAZIL:PERNAMBUCO, BRAZIL:CEARA, BRAZIL:PIAUI, BRAZIL:PARAIBA, BRAZIL:RIO GRANDE DO NORTE, BRAZIL:ALAGOAS, BRAZIL:SERGIPE, BRAZIL:MINAS GERAIS | 0.008 6 60 | country
+    home BRAZIL:BAHIA, BRAZIL:PERNAMBUCO, BRAZIL:CEARA, BRAZIL:PIAUI, BRAZIL:PARAIBA, BRAZIL:RIO GRANDE DO NORTE, BRAZIL:ALAGOAS, BRAZIL:SERGIPE, BRAZIL:MINAS GERAIS | 0.008 6 60 | country free
     # A mandacaru cactus of the caatinga: a tall blue-green column with arms bent upward, low prickly scrub around it.
     cyl 0 0 0 0.35 0.3 6 8 5A8A7A
     tube 0 2 0 1 2.3 0 0.25 6 5A8A7A
@@ -120,7 +120,7 @@ shape SUGAR_CANE_FIELD
     hoop 2.15 0.45 2 0.45 0.05 10 3A3A3A
 
 shape GIANT_WATER_LILIES
-    home BRAZIL:AMAZONAS, BRAZIL:PARA, BRAZIL:AMAPA, BRAZIL:MATO GROSSO, BRAZIL:MATO GROSSO DO SUL, GUYANA, BOLIVIA, PARAGUAY | 0.006 6 40 | country
+    home BRAZIL:AMAZONAS, BRAZIL:PARA, BRAZIL:AMAPA, BRAZIL:MATO GROSSO, BRAZIL:MATO GROSSO DO SUL, GUYANA, BOLIVIA, PARAGUAY | 0.006 6 40 | country free
     # A backwater with giant water lilies: great round green pads with upturned red rims, one pale flower open.
     box 0 0.02 0 4 0.02 6 3A5A4A water
     cyl 0 0.03 -3 1.2 1.2 0.06 16 4A8A3A
@@ -134,7 +134,7 @@ shape GIANT_WATER_LILIES
     blob 2.2 0.2 2.2 0.25 0.15 0.25 F2E8F0
 
 shape TOUCANS
-    home BRAZIL:AMAZONAS, BRAZIL:PARA, BRAZIL:MATO GROSSO, BRAZIL:MATO GROSSO DO SUL, BRAZIL:MINAS GERAIS, PERU:AMAZONAS, COLOMBIA, VENEZUELA, BOLIVIA, PARAGUAY, ARGENTINA:MISIONES, COSTA RICA, PANAMA, BELIZE, GUATEMALA, HONDURAS | 0.004 4 30 | country
+    home BRAZIL:AMAZONAS, BRAZIL:PARA, BRAZIL:MATO GROSSO, BRAZIL:MATO GROSSO DO SUL, BRAZIL:MINAS GERAIS, PERU:AMAZONAS, COLOMBIA, VENEZUELA, BOLIVIA, PARAGUAY, ARGENTINA:MISIONES, COSTA RICA, PANAMA, BELIZE, GUATEMALA, HONDURAS | 0.004 4 30 | country free
     # Toucans on a bare branch: black birds with yellow throats and huge orange bills.
     tube -0.5 0 0 -0.5 4 0 0.15 5 6A5040
     tube -0.5 2.8 -1.8 -0.5 2.8 1.8 0.06 4 6A5040
@@ -149,7 +149,7 @@ shape TOUCANS
     tube -0.44 3.22 -1.1 -0.05 3.15 -1.1 0.055 4 F2902A
 
 shape JAGUAR_ON_BANK
-    home BRAZIL:MATO GROSSO, BRAZIL:MATO GROSSO DO SUL, BRAZIL:AMAZONAS, BRAZIL:PARA, BOLIVIA, PARAGUAY, PERU:AMAZONAS, COLOMBIA, VENEZUELA, BELIZE, GUATEMALA | 0.003 8 50 | country
+    home BRAZIL:MATO GROSSO, BRAZIL:MATO GROSSO DO SUL, BRAZIL:AMAZONAS, BRAZIL:PARA, BOLIVIA, PARAGUAY, PERU:AMAZONAS, COLOMBIA, VENEZUELA, BELIZE, GUATEMALA | 0.003 8 50 | country free
     # A jaguar resting on a fallen log at the river bank: golden coat with dark rosettes, its paws stretched out.
     box 3 0.02 0 2 0.02 5 3A5A4A water
     tube -1 0.3 -2.5 -1 0.3 2.5 0.35 8 6A5040
@@ -165,7 +165,7 @@ shape JAGUAR_ON_BANK
     blob -0.78 0.82 -0.55 0.05 0.05 0.05 2A2018
 
 shape GIANT_ANTEATER
-    home BRAZIL:MATO GROSSO, BRAZIL:MATO GROSSO DO SUL, BRAZIL:GOIAS, BRAZIL:TOCANTINS, BRAZIL:MINAS GERAIS, BRAZIL:FEDERAL DISTRICT, PARAGUAY, BOLIVIA, ARGENTINA:CHACO, ARGENTINA:FORMOSA | 0.003 6 40 | country
+    home BRAZIL:MATO GROSSO, BRAZIL:MATO GROSSO DO SUL, BRAZIL:GOIAS, BRAZIL:TOCANTINS, BRAZIL:MINAS GERAIS, BRAZIL:FEDERAL DISTRICT, PARAGUAY, BOLIVIA, ARGENTINA:CHACO, ARGENTINA:FORMOSA | 0.003 6 40 | country free
     # A giant anteater crossing the savanna: a long tube of a snout, a black and white stripe over the shoulder, a great bushy tail.
     blob 0 0.75 0 0.3 0.35 0.7 6A5A4A
     blob 0 0.95 0.3 0.31 0.1 0.3 1E1E1E
@@ -176,7 +176,7 @@ shape GIANT_ANTEATER
     tube 0.18 0.5 0.45 0.18 0 0.45 0.07 4 C8C0B0
 
 shape CAIMANS_ON_BANK
-    home BRAZIL:MATO GROSSO, BRAZIL:MATO GROSSO DO SUL, BRAZIL:AMAZONAS, BRAZIL:PARA, BOLIVIA, PARAGUAY, VENEZUELA, COLOMBIA, GUYANA, SURINAME, ARGENTINA:CORRIENTES, KENYA, TANZANIA, ZAMBIA, ZIMBABWE, BOTSWANA, UGANDA, EGYPT:ASWAN, SOUTH SUDAN, MALAWI, MOZAMBIQUE, AUSTRALIA:NORTHERN TERRITORY, AUSTRALIA:QUEENSLAND | 0.006 6 40 | country
+    home BRAZIL:MATO GROSSO, BRAZIL:MATO GROSSO DO SUL, BRAZIL:AMAZONAS, BRAZIL:PARA, BOLIVIA, PARAGUAY, VENEZUELA, COLOMBIA, GUYANA, SURINAME, ARGENTINA:CORRIENTES, KENYA, TANZANIA, ZAMBIA, ZIMBABWE, BOTSWANA, UGANDA, EGYPT:ASWAN, SOUTH SUDAN, MALAWI, MOZAMBIQUE, AUSTRALIA:NORTHERN TERRITORY, AUSTRALIA:QUEENSLAND | 0.006 6 40 | country free
     # Caimans basking on a sandbar: three of them side by side with their jaws a little open, the water at their tails.
     box 2.5 0.02 0 2 0.02 4 3A5A4A water
     repeat 3 0.6 0 1.5
@@ -189,7 +189,7 @@ shape CAIMANS_ON_BANK
     blob -0.88 0.3 -1.6 0.04 0.04 0.04 C8B040
 
 shape VAQUEIRO_RIDER
-    home BRAZIL:BAHIA, BRAZIL:PERNAMBUCO, BRAZIL:CEARA, BRAZIL:PIAUI, BRAZIL:PARAIBA, BRAZIL:RIO GRANDE DO NORTE | 0.002 4 30 | country
+    home BRAZIL:BAHIA, BRAZIL:PERNAMBUCO, BRAZIL:CEARA, BRAZIL:PIAUI, BRAZIL:PARAIBA, BRAZIL:RIO GRANDE DO NORTE | 0.002 4 30 | country free
     # A cowboy of the backlands on a lean horse, all in brown leather against the thorn scrub, the hat a half moon.
     blob 0 1.35 0 0.3 0.4 0.9 8A5A3A
     mirror
@@ -207,7 +207,7 @@ shape VAQUEIRO_RIDER
     blob 0 2.85 0 0.32 0.12 0.12 7A5030
 
 shape RIVER_BALSA
-    home BRAZIL:AMAZONAS, BRAZIL:PARA, BRAZIL:AMAPA, BRAZIL:RONDONIA, BRAZIL:TOCANTINS, PERU:AMAZONAS, BOLIVIA, PARAGUAY, ARGENTINA:CORRIENTES | 0.003 30 110 | water
+    home BRAZIL:AMAZONAS, BRAZIL:PARA, BRAZIL:AMAPA, BRAZIL:RONDONIA, BRAZIL:TOCANTINS, PERU:AMAZONAS, BOLIVIA, PARAGUAY, ARGENTINA:CORRIENTES | 0.003 30 110 | water free
     # A river ferry: a flat steel barge carrying two trucks, pushed by a small white tug with a tall wheelhouse.
     box 0 0.2 0 3 0.5 9 6A6A6A
     box 3 0.9 0 0.04 0.2 9 F2C21E
@@ -253,7 +253,7 @@ shape PAMPAS_GENERAL_STORE
     box 4.2 0.45 -0.5 0.2 0.04 1 8A6A48
 
 shape OMBU_TREE
-    home ARGENTINA:BUENOS AIRES, ARGENTINA:LA PAMPA, ARGENTINA:ENTRE RIOS, ARGENTINA:SANTA FE, ARGENTINA:CORDOBA, URUGUAY | 0.004 8 70 | country
+    home ARGENTINA:BUENOS AIRES, ARGENTINA:LA PAMPA, ARGENTINA:ENTRE RIOS, ARGENTINA:SANTA FE, ARGENTINA:CORDOBA, URUGUAY | 0.004 8 70 | country free
     # A lone ombu on the pampa: a huge swollen trunk spreading into roots like a stone bench, a dense dark dome of leaves.
     blob 0 0.3 0 3 0.6 3 7A6A58 0.4
     tbox 0 0 0 2 2 0 2.2 0 1 1 7A6A58
@@ -263,7 +263,7 @@ shape OMBU_TREE
     blob 0 6.5 0 6 3 6 2E5A2A 0.3
 
 shape GAUCHO_RIDER
-    home ARGENTINA:BUENOS AIRES, ARGENTINA:LA PAMPA, ARGENTINA:CORRIENTES, ARGENTINA:ENTRE RIOS, ARGENTINA:SALTA, URUGUAY, BRAZIL:RIO GRANDE DO SUL | 0.002 4 30 | country
+    home ARGENTINA:BUENOS AIRES, ARGENTINA:LA PAMPA, ARGENTINA:CORRIENTES, ARGENTINA:ENTRE RIOS, ARGENTINA:SALTA, URUGUAY, BRAZIL:RIO GRANDE DO SUL | 0.002 4 30 | country free
     # A gaucho on a criollo horse: beret, a red and black poncho over his shoulders, wide trousers and boots, the reins in one hand.
     blob 0 1.35 0 0.32 0.42 0.9 C8C0B0
     mirror
@@ -293,7 +293,7 @@ shape YERBA_MATE_ROWS
     blob -6 0.9 -6.6 0.9 0.9 0.9 3A6A2A 0.4
 
 shape MAGELLANIC_PENGUINS
-    home ARGENTINA:CHUBUT, ARGENTINA:SANTA CRUZ, ARGENTINA:TIERRA DEL FUEGO, CHILE:MAGALLANES, CHILE:LOS LAGOS, SOUTH AFRICA:WESTERN CAPE, NAMIBIA | 0.006 4 30 | coast
+    home ARGENTINA:CHUBUT, ARGENTINA:SANTA CRUZ, ARGENTINA:TIERRA DEL FUEGO, CHILE:MAGALLANES, CHILE:LOS LAGOS, SOUTH AFRICA:WESTERN CAPE, NAMIBIA | 0.006 4 30 | coast free
     # Magellanic penguins at their burrows under the scrub: black backs, white fronts with a black band, stubby wings.
     repeat 4 0.7 0 1.1
     blob -1 0.35 -2 0.15 0.3 0.15 1E1E1E
@@ -310,7 +310,7 @@ shape MAGELLANIC_PENGUINS
     blob -1.8 0.1 1.8 0.3 0.15 0.3 3A2E26
 
 shape ANDEAN_CONDOR
-    home PERU:CUSCO, PERU:AREQUIPA, PERU:PUNO, BOLIVIA, CHILE, ARGENTINA:MENDOZA, ARGENTINA:NEUQUEN, ARGENTINA:SALTA, ARGENTINA:JUJUY, ECUADOR:COTOPAXI, COLOMBIA:NARINO | 0.003 8 60 | country
+    home PERU:CUSCO, PERU:AREQUIPA, PERU:PUNO, BOLIVIA, CHILE, ARGENTINA:MENDOZA, ARGENTINA:NEUQUEN, ARGENTINA:SALTA, ARGENTINA:JUJUY, ECUADOR:COTOPAXI, COLOMBIA:NARINO | 0.003 8 60 | country free
     # Andean condors: one perched on a crag with its white ruff, another soaring high above the valley on wide wings.
     blob 0 1.5 0 2 1.5 2 7A7068 0.5
     blob 0 3.4 0 0.35 0.45 0.3 1E1E1E
@@ -325,7 +325,7 @@ shape ANDEAN_CONDOR
     quad 1.8 22 5.3 -1.3 22.3 5.0 -1.3 22.3 4.3 1.8 22 4.6 1E1E1E
 
 shape PALO_BORRACHO
-    home ARGENTINA:SALTA, ARGENTINA:TUCUMAN, ARGENTINA:CHACO, ARGENTINA:FORMOSA, ARGENTINA:SANTIAGO DEL ESTERO, ARGENTINA:CORDOBA, ARGENTINA:BUENOS AIRES CITY, PARAGUAY:BOQUERON, PARAGUAY, BOLIVIA | 0.004 6 50 | country
+    home ARGENTINA:SALTA, ARGENTINA:TUCUMAN, ARGENTINA:CHACO, ARGENTINA:FORMOSA, ARGENTINA:SANTIAGO DEL ESTERO, ARGENTINA:CORDOBA, ARGENTINA:BUENOS AIRES CITY, PARAGUAY:BOQUERON, PARAGUAY, BOLIVIA | 0.004 6 50 | country free
     # A silk floss tree: a bottle-bellied green trunk studded with thorns, its crown a cloud of pink flowers.
     blob 0 2 0 0.9 2 0.9 6A8A5A
     repeat 6 0 0.5 0
@@ -348,7 +348,7 @@ shape NITRATE_WORKS_RUIN
     box 2 0.2 6 3 0.2 0.3 6A3A22
 
 shape CALETA_BOATS
-    home CHILE, PERU:LIMA, PERU:ICA, ECUADOR, URUGUAY, BARBADOS, GRENADA, SAINT LUCIA, DOMINICA, JAMAICA, HAITI, DOMINICAN REPUBLIC | 0.006 6 40 | coast
+    home CHILE, PERU:LIMA, PERU:ICA, ECUADOR, URUGUAY, BARBADOS, GRENADA, SAINT LUCIA, DOMINICA, JAMAICA, HAITI, DOMINICAN REPUBLIC | 0.006 6 40 | coast free
     # A fishermen's cove: wooden boats in bright colours pulled up on the sand, nets heaped beside them.
     tbox 0 0 -6 2.2 0.4 0 0.8 -6 2.8 0.9 2A6AC8
     box 0 0.7 -6 2.8 0.06 0.91 F2F2F2
@@ -409,7 +409,7 @@ shape ALTIPLANO_MARKET_STALL
     cyl -1 1.62 0 0.18 0.18 0.02 10 3A3A3A
 
 shape VICUNAS
-    home PERU:PUNO, PERU:AREQUIPA, PERU:CUSCO, BOLIVIA, CHILE:ANTOFAGASTA, ARGENTINA:JUJUY, ARGENTINA:SALTA, ARGENTINA:CATAMARCA | 0.006 8 60 | country
+    home PERU:PUNO, PERU:AREQUIPA, PERU:CUSCO, BOLIVIA, CHILE:ANTOFAGASTA, ARGENTINA:JUJUY, ARGENTINA:SALTA, ARGENTINA:CATAMARCA | 0.006 8 60 | country free
     # Wild vicunas on the puna: slender and long-necked, golden tan with pale bellies, grazing the tussock grass.
     repeat 3 1.2 0 1.6
     blob -1 1.0 -2 0.18 0.22 0.45 C8925A
@@ -429,7 +429,7 @@ shape VICUNAS
     tube -1.08 0.85 -2.3 -1.08 0 -2.3 0.035 4 C8925A
 
 shape CHULLPA_TOWERS
-    home PERU:PUNO, BOLIVIA | 0.003 10 70 | country
+    home PERU:PUNO, BOLIVIA | 0.003 10 70 | country free
     # Ancient burial towers on a lakeside hill: round stone chullpas that widen toward the top, one of them half fallen.
     cyl 0 0 0 1.3 1.6 6 12 9A8A78
     cyl 0 6 0 1.65 1.65 0.25 12 8A7A68
@@ -440,7 +440,7 @@ shape CHULLPA_TOWERS
     blob 4 0.3 -1 1 0.3 1 8A7A68 0.6
 
 shape REED_ISLAND
-    home PERU:PUNO, BOLIVIA:LA PAZ | 0.003 30 110 | water
+    home PERU:PUNO, BOLIVIA:LA PAZ | 0.003 30 110 | water free
     # A floating island of reeds on the high lake: golden reed huts, a little lookout and a reed boat moored at its edge.
     cyl 0 -0.1 0 6 6 0.4 14 C8B060
     box 0 1.2 -2 1.2 1 1.5 C8B060
@@ -453,7 +453,7 @@ shape REED_ISLAND
     blob 6.5 0.9 2.8 0.3 0.6 0.3 C8B060
 
 shape MARINE_IGUANAS
-    home ECUADOR:GALAPAGOS | 0.01 4 30 | coast
+    home ECUADOR:GALAPAGOS | 0.01 4 30 | coast free
     # Marine iguanas piled on black lava by the surf: dark crested lizards warming up, a red crab scuttling past.
     blob 0 0.3 0 3 0.6 3 2A2826 0.5
     repeat 5 0.4 0.05 0.8
@@ -466,7 +466,7 @@ shape MARINE_IGUANAS
     blob 1.8 0.6 -1.5 0.12 0.05 0.1 E8402A
 
 shape BLUE_FOOTED_BOOBIES
-    home ECUADOR:GALAPAGOS, PERU:LIMA, PERU:ICA | 0.006 4 30 | coast
+    home ECUADOR:GALAPAGOS, PERU:LIMA, PERU:ICA | 0.006 4 30 | coast free
     # Blue-footed boobies on the rocks: brown and white seabirds lifting their bright blue feet in their courtship dance.
     blob 0 0.3 0 2.5 0.5 2.5 7A7068 0.5
     repeat 3 0.4 0 1.2
@@ -552,7 +552,7 @@ shape COFFEE_DRYING_PATIO
     tube 1 0 4.5 1 1.6 4.5 0.03 3 8A6A48
 
 shape HOWLER_MONKEYS
-    home BELIZE, GUATEMALA, HONDURAS, NICARAGUA, COSTA RICA, PANAMA, MEXICO:YUCATAN, MEXICO:QUINTANA ROO, MEXICO:CHIAPAS, BRAZIL:AMAZONAS, BRAZIL:PARA, BOLIVIA, PARAGUAY, ARGENTINA:MISIONES, COLOMBIA, VENEZUELA | 0.004 4 30 | country
+    home BELIZE, GUATEMALA, HONDURAS, NICARAGUA, COSTA RICA, PANAMA, MEXICO:YUCATAN, MEXICO:QUINTANA ROO, MEXICO:CHIAPAS, BRAZIL:AMAZONAS, BRAZIL:PARA, BOLIVIA, PARAGUAY, ARGENTINA:MISIONES, COLOMBIA, VENEZUELA | 0.004 4 30 | country free
     # Howler monkeys in a big tree by the road: dark shaggy shapes sprawled along the branches, tails curled round them.
     tube 0 0 0 0 6 0 0.4 6 6A5A48
     tube 0 5 0 2.5 6.5 1 0.18 5 6A5A48
@@ -569,7 +569,7 @@ shape HOWLER_MONKEYS
     blob 0.4 6.9 -2.2 0.22 0.25 0.2 3A2A1E
 
 shape CEIBA_TREE
-    home GUATEMALA, BELIZE, HONDURAS, MEXICO:YUCATAN, MEXICO:QUINTANA ROO, MEXICO:CHIAPAS, MEXICO:TABASCO, MEXICO:CAMPECHE, EL SALVADOR, NICARAGUA, COSTA RICA, PANAMA | 0.003 10 80 | country
+    home GUATEMALA, BELIZE, HONDURAS, MEXICO:YUCATAN, MEXICO:QUINTANA ROO, MEXICO:CHIAPAS, MEXICO:TABASCO, MEXICO:CAMPECHE, EL SALVADOR, NICARAGUA, COSTA RICA, PANAMA | 0.003 10 80 | country free
     # A ceiba: a giant straight grey trunk on flaring buttress roots, its branches spread level high above in a flat crown.
     cyl 0 0 0 1.2 0.9 18 8 9A9488
     ring 6 0 0
@@ -717,7 +717,7 @@ shape LAMB_ON_THE_CROSS
     tube -3 0.25 -2 -2.2 0.25 2 0.25 8 7A6A50
 
 shape ARMADILLO
-    home ARGENTINA, PARAGUAY, URUGUAY, BRAZIL:MATO GROSSO DO SUL, BRAZIL:GOIAS, BRAZIL:RIO GRANDE DO SUL, BOLIVIA, USA:TEXAS, USA:OKLAHOMA, USA:LOUISIANA | 0.004 3 25 | country
+    home ARGENTINA, PARAGUAY, URUGUAY, BRAZIL:MATO GROSSO DO SUL, BRAZIL:GOIAS, BRAZIL:RIO GRANDE DO SUL, BOLIVIA, USA:TEXAS, USA:OKLAHOMA, USA:LOUISIANA | 0.004 3 25 | country free
     # Armadillos trotting along the verge: little armoured backs, pointed snouts, upright ears and thin tails.
     repeat 2 0.6 0 1.2
     blob 0 0.18 0 0.16 0.14 0.3 9A8A78
@@ -751,7 +751,7 @@ shape MARAS
     tube -0.03 0.6 0.25 -0.04 0.75 0.22 0.025 3 9A8A70
 
 shape WHALE_FLUKE
-    home ARGENTINA:CHUBUT, ARGENTINA:SANTA CRUZ, CHILE:LOS LAGOS, CHILE:MAGALLANES, BRAZIL:BAHIA, ECUADOR, COSTA RICA | 0.003 40 120 | water
+    home ARGENTINA:CHUBUT, ARGENTINA:SANTA CRUZ, CHILE:LOS LAGOS, CHILE:MAGALLANES, BRAZIL:BAHIA, ECUADOR, COSTA RICA | 0.003 40 120 | water free
     # A whale diving: its great tail fluke raised dripping out of the sea, the back of another one surfacing beyond with its blow.
     tube 0 -0.5 0 0 1.5 -0.5 0.35 6 2A2A30
     tri 0 1.4 -0.5 0 2.4 -2.4 0 2.0 -0.5 2A2A30

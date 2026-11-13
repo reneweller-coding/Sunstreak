@@ -29,7 +29,7 @@ shape ROADSIDE_DHABA
     quad -0.2 3.0 -3.5 -0.2 3.0 3.5 3.2 2.6 3.5 3.2 2.6 -3.5 8A8A80
 
 shape ZEBU_RESTING
-    home INDIA, NEPAL, BANGLADESH, SRI LANKA, PAKISTAN | 0.006 4 40 | country
+    home INDIA, NEPAL, BANGLADESH, SRI LANKA, PAKISTAN | 0.006 4 40 | country free
     # A white zebu cow lying at the roadside, chewing, its hump and dewlap, painted horns.
     blob 0 0.55 0 0.45 0.4 0.95 E8E2D8
     blob 0 0.95 0.45 0.25 0.25 0.25 E8E2D8
@@ -82,20 +82,21 @@ shape KERALA_HOUSE
     fronds 7.4 9 3.3 9 3.8 0.6 3E7A2E
 
 shape CHINESE_FISHING_NETS
-    home INDIA:KERALA | 0.004 10 60
+    home INDIA:KERALA | 0.004 10 60 | shore
     # The Chinese fishing nets of Kochi: great cantilevered arms of teak poles lowering their nets into the water.
-    box 0 0.02 3 4 0.02 4 3A6A7A water
-    box 0 0.4 -1 1.2 0.4 1.5 8A7A60
-    tube 0 0.8 -1 0 5 3 0.12 4 7A6A50
-    tube 0 0.8 -1 0 3 -4 0.1 4 7A6A50
-    tube 0 5 3 -2 3 7 0.06 4 7A6A50
-    tube 0 5 3 2 3 7 0.06 4 7A6A50
-    quad -2 3 7 2 3 7 1 0.5 5 -1 0.5 5 C8C8B8
-    repeat 4 0 0 0.6
-    blob 0 3.2 -4 0.15 0.15 0.15 9A9488
+    # (placement: turned 90 degrees: its water side is +x)
+    box 3 0.02 0 4 0.02 4 3A6A7A water
+    box -1 0.4 0 1.5 0.4 1.2 8A7A60
+    tube -1 0.8 0 3 5 0 0.12 4 7A6A50
+    tube -1 0.8 0 -4 3 0 0.1 4 7A6A50
+    tube 3 5 0 7 3 2 0.06 4 7A6A50
+    tube 3 5 0 7 3 -2 0.06 4 7A6A50
+    quad 7 3 2 7 3 -2 5 0.5 -1 5 0.5 1 C8C8B8
+    repeat 4 0.6 0 0
+    blob -4 3.2 0 0.15 0.15 0.15 9A9488
 
 shape STEPWELL
-    home INDIA:GUJARAT, INDIA:RAJASTHAN | 0.002 10 60 | country
+    home INDIA:GUJARAT, INDIA:RAJASTHAN | 0.002 10 60 | country free
     # A stepwell: flights of stone steps going down in a square pit to the water, little pavilions on its rim.
     box 0 0.15 0 6 0.15 6 C8A880
     box 0 0.16 0 4.5 0.02 4.5 2A2018
@@ -274,7 +275,7 @@ shape KATH_KUNI_HOUSE
     hip 0 5.6 0 4 4.5 2 0.6 6A6A70
 
 shape TIBETAN_CHORTEN
-    home INDIA:LADAKH, INDIA:SIKKIM, INDIA:ARUNACHAL PRADESH, INDIA:JAMMU AND KASHMIR, INDIA:HIMACHAL PRADESH, NEPAL, BHUTAN, MONGOLIA, CHINA:TIBET, CHINA:QINGHAI, CHINA:SICHUAN | 0.005 6 60 | country
+    home INDIA:LADAKH, INDIA:SIKKIM, INDIA:ARUNACHAL PRADESH, INDIA:JAMMU AND KASHMIR, INDIA:HIMACHAL PRADESH, NEPAL, BHUTAN, MONGOLIA, CHINA:TIBET, CHINA:QINGHAI, CHINA:SICHUAN | 0.005 6 60 | country free
     # A chorten: a whitewashed stupa on its stepped base, the dome, the spire of rings and a golden finial.
     box 0 0.4 0 1.6 0.4 1.6 F2F2EE
     box 0 1.1 0 1.3 0.3 1.3 F2F2EE
@@ -369,7 +370,7 @@ shape ODISHA_TEMPLE
     hip 3.5 3 0 1.2 1.7 1.2 0.2 B89060
 
 shape KUTCH_BHUNGA
-    home INDIA:GUJARAT | 0.006 6 50 | country
+    home INDIA:GUJARAT | 0.006 6 50 | country free
     # A bhunga of Kutch: a round mud hut whitewashed and painted with red patterns, a conical thatch roof.
     cyl 0 0 0 2.2 2.2 2.2 12 F2EEE2
     spire 0 2.2 0 2.6 2.4 12 9A8A58
@@ -389,7 +390,7 @@ shape PAINTED_MUD_HOUSE
     gable 0 2.8 0 3.2 4.2 1.4 0.3 A8502A F2EEE2
 
 shape INDIAN_PEACOCK
-    home INDIA:RAJASTHAN, INDIA:GUJARAT, INDIA:MADHYA PRADESH, INDIA:UTTAR PRADESH, INDIA:HARYANA, SRI LANKA | 0.005 4 40 | country
+    home INDIA:RAJASTHAN, INDIA:GUJARAT, INDIA:MADHYA PRADESH, INDIA:UTTAR PRADESH, INDIA:HARYANA, SRI LANKA | 0.005 4 40 | country free
     # A peacock on a wall: a blue neck and crest, its long green train trailing behind.
     box 0 0.6 0 0.25 0.6 2 C8B898
     blob 0 1.45 0 0.15 0.2 0.25 1E4AA8
@@ -399,7 +400,7 @@ shape INDIAN_PEACOCK
     tbox 0 1.25 -0.2 0.06 0.1 0 1.25 -1.5 0.06 0.4 2A7A4A
 
 shape LANGUR_MONKEYS
-    home INDIA, NEPAL, SRI LANKA | 0.005 3 30 | country
+    home INDIA, NEPAL, SRI LANKA | 0.005 3 30 | country free
     # Grey langurs sitting on a wall with their black faces and long curling tails.
     box 0 0.6 0 0.25 0.6 1.6 B8B0A0
     repeat 3 0 0 1
@@ -412,7 +413,7 @@ shape LANGUR_MONKEYS
     tube 0 1.2 -1.15 0 0.4 -1.3 0.03 3 C8C4BC
 
 shape WATER_BUFFALO
-    home INDIA, NEPAL, BANGLADESH, PAKISTAN, SRI LANKA, VIETNAM, THAILAND, CAMBODIA, LAOS, MYANMAR, PHILIPPINES, INDONESIA, MALAYSIA, CHINA:GUANGXI, CHINA:YUNNAN, CHINA:GUIZHOU, CHINA:HUNAN, IRAQ, ITALY:CAMPANIA | 0.005 6 60 | country
+    home INDIA, NEPAL, BANGLADESH, PAKISTAN, SRI LANKA, VIETNAM, THAILAND, CAMBODIA, LAOS, MYANMAR, PHILIPPINES, INDONESIA, MALAYSIA, CHINA:GUANGXI, CHINA:YUNNAN, CHINA:GUIZHOU, CHINA:HUNAN, IRAQ, ITALY:CAMPANIA | 0.005 6 60 | country free
     # A water buffalo: black and heavy, its broad swept-back horns, standing in a muddy pond.
     box 0 0.02 0 2 0.02 2.5 5A5A40 water
     blob 0 0.9 0 0.5 0.5 1.0 2A2A2A
@@ -491,7 +492,7 @@ shape BHUTANESE_HOUSE
     blob 1.5 6.6 -3 0.25 0.15 0.25 9A9488 0.4
 
 shape STILT_FISHING_POLES
-    home SRI LANKA | 0.006 15 60 | coast
+    home SRI LANKA | 0.006 15 60 | coast shore
     # The stilt fishermen's poles: bare sticks standing in the surf, each with a little crossbar to sit on.
     repeat 6 0 0 2.2
     tube 0 -1 -5.5 0 2.4 -5.5 0.06 4 8A7A60
@@ -535,7 +536,7 @@ shape NOUKA_BOAT
     tube 0 1.0 -1.5 0 1.0 0.5 0.75 10 8A7048
 
 shape DHONI_BOAT
-    home MALDIVES, SRI LANKA, INDIA:ANDAMAN AND NICOBAR | 0.008 30 110 | water
+    home MALDIVES, SRI LANKA, INDIA:ANDAMAN AND NICOBAR | 0.008 30 110 | water free
     # A dhoni: a Maldivian wooden boat with a high curving prow and a little canopied deck.
     tbox 0 -0.4 0 0.9 4.5 0 0.5 0 1.3 5 F2F2EE
     tube 0 0.5 4.9 0 2.6 6 0.15 4 F2F2EE

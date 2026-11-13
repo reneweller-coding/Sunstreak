@@ -60,7 +60,7 @@ shape HEATING_PIPE_ARCH
     box 0.35 0.25 -11 0.6 0.25 0.15 8A8478
 
 shape NENETS_CHUM
-    home RUSSIA:NORTHWEST RUSSIA, RUSSIA:URALS, RUSSIA:SIBERIA, RUSSIA:FAR EAST | 0.004 8 60 | cold
+    home RUSSIA:NORTHWEST RUSSIA, RUSSIA:URALS, RUSSIA:SIBERIA, RUSSIA:FAR EAST | 0.004 8 60 | cold free
     # A reindeer herders' camp: a tall cone tent of poles and hides, wooden sledges drawn up beside it, the reindeer grazing.
     spire 0 0 0 3 6 12 8A7A68
     ring 10 0
@@ -74,7 +74,7 @@ shape NENETS_CHUM
     blob 5 0.7 -1.6 0.4 0.3 0.6 6A5A48 0.5
 
 shape BROWN_BEAR
-    home RUSSIA:FAR EAST, RUSSIA:SIBERIA, RUSSIA:NORTHWEST RUSSIA, RUSSIA:URALS, USA:ALASKA, USA:MONTANA, USA:WYOMING, CANADA:BRITISH COLUMBIA, CANADA:ALBERTA, CANADA:YUKON, ROMANIA, SLOVAKIA, FINLAND, SWEDEN, NORWAY, JAPAN:HOKKAIDO, SLOVENIA | 0.003 8 50 | country
+    home RUSSIA:FAR EAST, RUSSIA:SIBERIA, RUSSIA:NORTHWEST RUSSIA, RUSSIA:URALS, USA:ALASKA, USA:MONTANA, USA:WYOMING, CANADA:BRITISH COLUMBIA, CANADA:ALBERTA, CANADA:YUKON, ROMANIA, SLOVAKIA, FINLAND, SWEDEN, NORWAY, JAPAN:HOKKAIDO, SLOVENIA | 0.003 8 50 | country free
     # A brown bear at the river's edge: huge and humped at the shoulder, shaggy brown, a salmon in its jaws.
     box 2 0.02 0 2 0.02 4 4A5A5A water
     blob 0 1.1 0 0.6 0.65 1.1 6A4A2A
@@ -89,7 +89,7 @@ shape BROWN_BEAR
     blob 0.25 1.2 1.75 0.08 0.08 0.3 C8786A
 
 shape RIVER_CRUISER
-    home RUSSIA:CENTRAL RUSSIA, RUSSIA:VOLGA, RUSSIA:NORTHWEST RUSSIA, RUSSIA:SOUTHERN RUSSIA, GERMANY:RHINELAND-PALATINATE, GERMANY:BAVARIA, AUSTRIA, HUNGARY, CHINA:CHONGQING, CHINA:HUBEI, EGYPT | 0.003 30 120 | water
+    home RUSSIA:CENTRAL RUSSIA, RUSSIA:VOLGA, RUSSIA:NORTHWEST RUSSIA, RUSSIA:SOUTHERN RUSSIA, GERMANY:RHINELAND-PALATINATE, GERMANY:BAVARIA, AUSTRIA, HUNGARY, CHINA:CHONGQING, CHINA:HUBEI, EGYPT | 0.003 30 120 | water free
     # A river cruise ship: long and white with three decks of windows, a blue band at the waterline and a little funnel amidships.
     box 0 0.8 0 3 1 25 F2F2F2
     box 0 0.0 0 3.02 0.25 25 2A4A8A
@@ -157,7 +157,7 @@ shape WATER_COLUMN_PUMP
     box 0.3 0.01 0 0.5 0.01 0.4 6A8A9A water
 
 shape MELON_PILE
-    home UZBEKISTAN, TURKMENISTAN, TAJIKISTAN, KAZAKHSTAN, KYRGYZSTAN, AFGHANISTAN, IRAN, RUSSIA:SOUTHERN RUSSIA, RUSSIA:VOLGA | 0.006 1 15 | country
+    home UZBEKISTAN, TURKMENISTAN, TAJIKISTAN, KAZAKHSTAN, KYRGYZSTAN, AFGHANISTAN, IRAN, RUSSIA:SOUTHERN RUSSIA, RUSSIA:VOLGA | 0.006 1 15 | country free
     # A roadside heap of melons: long yellow melons and striped watermelons piled high, a parasol and the seller's cot beside them.
     blob 0 0.4 0 1.2 0.4 1.6 9A8A50 0.5
     repeat 6 0 0 0.5
@@ -190,7 +190,7 @@ shape KUMIS_STAND
     tube 1.85 0.9 4.5 1.85 0 4.5 0.06 4 8A6A48
 
 shape STRANDED_SHIPS
-    home UZBEKISTAN, KAZAKHSTAN | 0.004 15 90 | country
+    home UZBEKISTAN, KAZAKHSTAN | 0.004 15 90 | country free
     # Rusting fishing ships stranded in the desert where the sea used to be, sitting upright on the sand far from any water.
     tbox 0 0 0 1 6 0 2.2 0 2.4 8 7A3A22
     box 0 2.8 -2 1.8 0.6 2 8A4A2A
@@ -201,7 +201,7 @@ shape STRANDED_SHIPS
     tube -6 2.4 8 -6 6 8 0.1 4 5A3A22
 
 shape MUD_VOLCANOES
-    home AZERBAIJAN, ROMANIA, RUSSIA:SOUTHERN RUSSIA, TURKMENISTAN | 0.004 8 60 | country
+    home AZERBAIJAN, ROMANIA, RUSSIA:SOUTHERN RUSSIA, TURKMENISTAN | 0.004 8 60 | country free
     # Mud volcanoes: little grey cones on the bare plain, each with a bubbling crater and a tongue of fresh mud running down.
     cyl 0 0 0 2.4 0.4 1.6 12 8A8478
     blob 0 1.6 0 0.4 0.1 0.4 5A5650
@@ -212,7 +212,7 @@ shape MUD_VOLCANOES
     blob 0 0.02 0 4 0.02 5 9A9488
 
 shape SAIGA_ANTELOPES
-    home KAZAKHSTAN, RUSSIA:SOUTHERN RUSSIA, MONGOLIA, UZBEKISTAN | 0.006 8 60 | country
+    home KAZAKHSTAN, RUSSIA:SOUTHERN RUSSIA, MONGOLIA, UZBEKISTAN | 0.006 8 60 | country free
     # A herd of saiga crossing the steppe: sandy antelopes with strange swollen noses, the males with pale amber horns.
     repeat 4 1.0 0 1.3
     blob -1.5 0.7 -2 0.18 0.2 0.4 C8A878
@@ -232,7 +232,7 @@ shape SAIGA_ANTELOPES
     tube -1.6 0.5 -2.25 -1.6 0 -2.25 0.03 3 C8A878
 
 shape MARCO_POLO_SHEEP
-    home TAJIKISTAN, KYRGYZSTAN, AFGHANISTAN, CHINA:XINJIANG | 0.003 8 60 | country
+    home TAJIKISTAN, KYRGYZSTAN, AFGHANISTAN, CHINA:XINJIANG | 0.003 8 60 | country free
     # Wild argali rams on the high Pamir: grey-brown with white rumps, their horns curling out in huge open spirals.
     blob 0 0.95 0 0.25 0.3 0.6 9A8A70
     blob 0 1.0 -0.55 0.2 0.2 0.1 F2EEE2
@@ -285,7 +285,7 @@ shape SHASHLIK_MANGAL
     box -2.5 0.45 -0.8 0.22 0.45 0.22 F2F2F2
 
 shape HYDROFOIL_BOAT
-    home RUSSIA:NORTHWEST RUSSIA, RUSSIA:VOLGA, RUSSIA:CENTRAL RUSSIA, RUSSIA:SIBERIA, RUSSIA:FAR EAST, UKRAINE, HUNGARY | 0.003 30 110 | water
+    home RUSSIA:NORTHWEST RUSSIA, RUSSIA:VOLGA, RUSSIA:CENTRAL RUSSIA, RUSSIA:SIBERIA, RUSSIA:FAR EAST, UKRAINE, HUNGARY | 0.003 30 110 | water free
     # A hydrofoil skimming along the river: a sleek white hull raised up on its foils, a long row of cabin windows and a raked wheelhouse.
     box 0 1.3 0 1.6 0.6 9 F2F2F2
     tbox 0 1.9 1 1.5 7 0 2.7 0.5 1.3 6 F2F2F2

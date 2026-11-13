@@ -14,7 +14,7 @@ shape CORN_MAZE
     box -1 0.3 -3 0.6 0.3 1 D8C070
 
 shape ROADRUNNER
-    home USA:ARIZONA, USA:NEW MEXICO, USA:TEXAS, USA:NEVADA, USA:CALIFORNIA, MEXICO:SONORA, MEXICO:CHIHUAHUA | 0.002 0.5 5 | arid
+    home USA:ARIZONA, USA:NEW MEXICO, USA:TEXAS, USA:NEVADA, USA:CALIFORNIA, MEXICO:SONORA, MEXICO:CHIHUAHUA | 0.002 0.5 5 | arid free
     # A roadrunner dashing along the verge: a long-legged streaky brown bird with a crest and a long tail held up behind.
     blob 0 0.32 0 0.08 0.09 0.18 8A7050
     blob 0 0.42 0.17 0.05 0.06 0.06 8A7050
@@ -104,7 +104,7 @@ shape ASADO_CROSS
     cyl -1.6 1.38 1.6 0.25 0.25 0.02 10 1E1E1E
 
 shape AMAZON_RIVER_BOAT
-    home BRAZIL:AMAZONAS, BRAZIL:PARA, PERU, COLOMBIA, BOLIVIA, VENEZUELA | 0.003 35 120 | water
+    home BRAZIL:AMAZONAS, BRAZIL:PARA, PERU, COLOMBIA, BOLIVIA, VENEZUELA | 0.003 35 120 | water free
     # An Amazon river boat: a white double-decker wooden riverboat crowded with hammocks slung along its open decks, blue trim and a flag at the stern.
     box 0 0.8 0 2.5 0.8 9 F2F2EE
     box 0 1.65 0 2.55 0.05 9.1 2A6AC8
@@ -200,7 +200,7 @@ shape SPANISH_MOSS_OAKS
     tube -2 4 1.5 -2 2.6 1.5 0.18 4 9A9A8A
 
 shape BEAD_TREE
-    home USA:LOUISIANA | 0.004 1 15 | town
+    home USA:LOUISIANA | 0.004 1 15 | town free
     # A street tree after the parades: its branches tangled with hundreds of strings of purple, green and gold carnival beads.
     tube 0 0 0 0 3 0 0.35 6 5A4A38
     blob 0 4.5 0 2.8 1.6 2.6 3A6A2A 0.4
@@ -288,7 +288,7 @@ shape CUBAN_BOHIO
     fronds 4 9 3 10 2.8 0.5 3E6A2A
 
 shape MALOCA
-    home COLOMBIA, PERU, BRAZIL:AMAZONAS, ECUADOR, VENEZUELA | 0.003 6 40 | country
+    home COLOMBIA, PERU, BRAZIL:AMAZONAS, ECUADOR, VENEZUELA | 0.003 6 40 | country free
     # A maloca, the great communal house of the forest: a huge round house thatched to the ground with palm leaves, a painted front with a low door.
     cyl 0 0 0 7 7 1.5 18 8A6A48
     spire 0 1.5 0 7.6 8 18 9A8A50
@@ -363,7 +363,7 @@ shape METAL_ART_STALL
     blob 0.6 1.25 3 0.1 0.11 0.1 3A2A1E
 
 shape BREADFRUIT_TREE
-    home SAINT VINCENT, JAMAICA, SAMOA, TONGA, FIJI, USA:HAWAII, SAINT LUCIA, GRENADA, HAITI, FRENCH POLYNESIA | 0.004 3 25 | country
+    home SAINT VINCENT, JAMAICA, SAMOA, TONGA, FIJI, USA:HAWAII, SAINT LUCIA, GRENADA, HAITI, FRENCH POLYNESIA | 0.004 3 25 | country free
     # A breadfruit tree in a yard: big deeply lobed glossy leaves and round green fruits the size of a head hanging among them.
     tube 0 0 0 0 3 0 0.3 6 7A6A58
     blob 0 5 0 3 2.2 3 3A7A2A 0.4
@@ -373,7 +373,7 @@ shape BREADFRUIT_TREE
     blob 1.4 3.8 -0.6 0.2 0.22 0.2 8AB040
 
 shape MANATEE
-    home USA:FLORIDA, BELIZE, MEXICO:QUINTANA ROO, CUBA, GUYANA, SURINAME, BRAZIL:AMAZONAS, SENEGAL, GAMBIA | 0.002 4 30 | country
+    home USA:FLORIDA, BELIZE, MEXICO:QUINTANA ROO, CUBA, GUYANA, SURINAME, BRAZIL:AMAZONAS, SENEGAL, GAMBIA | 0.002 4 30 | country free
     # Manatees resting in a clear spring run: big grey round-tailed shapes just under the surface, one lifting its whiskered snout for air.
     box 0 0.02 0 3 0.02 6 3A8A8A water
     blob -0.5 -0.2 -2 0.6 0.45 1.4 7A7A74
@@ -382,7 +382,7 @@ shape MANATEE
     blob 0.8 0.05 2.8 0.25 0.22 0.25 7A7A74
 
 shape FRIGATEBIRDS
-    home BELIZE, MEXICO:YUCATAN, ECUADOR, PANAMA, BAHAMAS, ANTIGUA AND BARBUDA, KIRIBATI, SEYCHELLES, COSTA RICA | 0.002 4 40 | coast
+    home BELIZE, MEXICO:YUCATAN, ECUADOR, PANAMA, BAHAMAS, ANTIGUA AND BARBUDA, KIRIBATI, SEYCHELLES, COSTA RICA | 0.002 4 40 | coast free
     # Frigatebirds over a mangrove: black birds with long angled wings and forked tails hanging in the wind, a male puffing out his red throat on a branch.
     blob -3 1.5 0 2.5 1.5 4 2A5A3A 0.4
     blob -2.6 3.2 0 0.15 0.18 0.35 1E1E1E
@@ -442,7 +442,7 @@ shape SEA_TURTLES
     box -2 0.03 -1 0.4 0.01 1.4 C8B890
 
 shape ORCA
-    home CANADA:BRITISH COLUMBIA, USA:WASHINGTON, NORWAY, ICELAND, NEW ZEALAND, ARGENTINA:CHUBUT, USA:ALASKA | 0.002 40 140 | water
+    home CANADA:BRITISH COLUMBIA, USA:WASHINGTON, NORWAY, ICELAND, NEW ZEALAND, ARGENTINA:CHUBUT, USA:ALASKA | 0.002 40 140 | water free
     # A pod of orcas surfacing: tall black dorsal fins slicing the water, a black and white back rolling over between them.
     repeat 4 0 0 6
     tri 0 0 -9 0 2 -9.3 0 0 -8 1E1E1E
@@ -451,7 +451,7 @@ shape ORCA
     blob 0.2 0.1 0 0.4 0.2 1.4 F2F2F2
 
 shape SEA_OTTERS
-    home USA:CALIFORNIA, USA:ALASKA, CANADA:BRITISH COLUMBIA, USA:WASHINGTON, RUSSIA:FAR EAST | 0.002 35 100 | water
+    home USA:CALIFORNIA, USA:ALASKA, CANADA:BRITISH COLUMBIA, USA:WASHINGTON, RUSSIA:FAR EAST | 0.002 35 100 | water free
     # Sea otters floating on their backs in the kelp, paws together, one cracking a shell on its chest.
     blob 0 0.02 0 4 0.02 6 3A5A3A
     repeat 5 0.8 0 1.6
@@ -460,7 +460,7 @@ shape SEA_OTTERS
     blob -2 0.15 -2.55 0.1 0.1 0.1 B8A080
 
 shape BALD_EAGLE
-    home USA:ALASKA, CANADA:BRITISH COLUMBIA, USA:WASHINGTON, USA:MINNESOTA, USA:WISCONSIN, USA:MAINE, CANADA:NOVA SCOTIA, USA:MONTANA, USA:IDAHO | 0.002 3 25 | country
+    home USA:ALASKA, CANADA:BRITISH COLUMBIA, USA:WASHINGTON, USA:MINNESOTA, USA:WISCONSIN, USA:MAINE, CANADA:NOVA SCOTIA, USA:MONTANA, USA:IDAHO | 0.002 3 25 | country free
     # A bald eagle perched on a dead snag: dark brown body, snow-white head and tail, a hooked yellow beak watching the river.
     tube 0 0 0 0 7 0 0.3 5 9A9080
     tube 0 6 0 1 6.5 0 0.08 3 9A9080
@@ -470,7 +470,7 @@ shape BALD_EAGLE
     tube 0.8 6.75 -0.12 0.8 6.5 -0.25 0.06 3 F2F2F2
 
 shape OSPREY_NEST_PLATFORM
-    home USA, CANADA, SCOTLAND, GERMANY, SWEDEN, FINLAND | 0.002 2 25 | country
+    home USA, CANADA, SCOTLAND, GERMANY, SWEDEN, FINLAND | 0.002 2 25 | country free
     # An osprey nest on a platform atop a tall pole: a big untidy heap of sticks, the white-headed parent standing guard over its young.
     tube 0 0 0 0 9 0 0.15 5 8A7A60
     box 0 9 0 0.7 0.04 0.7 8A7A60
@@ -479,7 +479,7 @@ shape OSPREY_NEST_PLATFORM
     blob 0.3 9.95 0.05 0.08 0.08 0.08 F2F2F2
 
 shape COYOTE
-    home USA, MEXICO, CANADA:ALBERTA, CANADA:SASKATCHEWAN | 0.002 1 15 | arid
+    home USA, MEXICO, CANADA:ALBERTA, CANADA:SASKATCHEWAN | 0.002 1 15 | arid free
     # A coyote trotting along the edge of the desert road: a lean tawny-grey dog with big ears and a bushy black-tipped tail.
     blob 0 0.5 0 0.13 0.16 0.38 A8906A
     blob 0 0.62 0.38 0.1 0.1 0.15 A8906A
@@ -491,7 +491,7 @@ shape COYOTE
     tube 0.07 0.35 0.25 0.07 0 0.25 0.03 3 A8906A
 
 shape RACCOON
-    home USA, CANADA | 0.002 0.5 8 | country
+    home USA, CANADA | 0.002 0.5 8 | country free
     # A raccoon on the lid of a trash can at the end of a driveway: a grey bandit with a black mask and a ringed tail.
     cyl 0 0 0 0.3 0.28 0.9 12 6A6A6A
     blob 0 1.08 0 0.18 0.18 0.25 8A8680

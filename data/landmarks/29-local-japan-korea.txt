@@ -196,7 +196,7 @@ shape HOKKAIDO_BARN
     dome -2 10 -9 2 1 6A6A6A
 
 shape YUKITSURI_PINE
-    home JAPAN:CHUBU, JAPAN:TOHOKU, JAPAN:HOKKAIDO | 0.004 6 40 | country
+    home JAPAN:CHUBU, JAPAN:TOHOKU, JAPAN:HOKKAIDO | 0.004 6 40 | country free
     # A garden pine under yukitsuri: ropes strung from a tall pole in a cone to hold its branches up under the snow.
     tube 0 0 0 0 2 0 0.2 5 5A4A3A
     blob 0 2.4 0 2 0.8 2 2E5A2E 0.3
@@ -252,7 +252,7 @@ shape CURVE_MIRROR
     blob 0.08 3.1 0.3 0.06 0.34 0.34 B8C8D8 shiny
 
 shape JAPANESE_MAPLE
-    home JAPAN, SOUTH KOREA | 0.006 6 50 | country
+    home JAPAN, SOUTH KOREA | 0.006 6 50 | country free
     # A Japanese maple: a slender twisting trunk, its layered crown blazing red.
     tube 0 0 0 0.3 1.8 0.2 0.15 5 5A4A3A
     tube 0.3 1.8 0.2 -0.5 2.6 0.5 0.08 4 5A4A3A
@@ -260,7 +260,7 @@ shape JAPANESE_MAPLE
     blob 0.6 2.5 0.8 1.1 0.5 1.1 D84A1E 0.4
 
 shape OYSTER_RAFTS
-    home JAPAN:CHUGOKU, JAPAN:TOHOKU, JAPAN:KYUSHU, USA:WASHINGTON | 0.004 30 110 | water
+    home JAPAN:CHUGOKU, JAPAN:TOHOKU, JAPAN:KYUSHU, USA:WASHINGTON | 0.004 30 110 | water free
     # Oyster rafts on the bay: frames of bamboo poles on floats, rows of them across the still water.
     repeat 3 0 0 7
     box 0 0.25 -7 3 0.06 3 B8A060
@@ -270,7 +270,7 @@ shape OYSTER_RAFTS
     cyl 2.5 -0.2 -7 0.4 0.4 0.4 8 1E1E1E
 
 shape SQUID_BOAT
-    home JAPAN:HOKKAIDO, JAPAN:TOHOKU, JAPAN:CHUBU, JAPAN:KYUSHU, SOUTH KOREA | 0.004 30 110 | water
+    home JAPAN:HOKKAIDO, JAPAN:TOHOKU, JAPAN:CHUBU, JAPAN:KYUSHU, SOUTH KOREA | 0.004 30 110 | water free
     # A squid fishing boat: white with a blue stripe, a cabin forward, rows of big light bulbs strung over its deck.
     tbox 0 -0.8 0 1.2 6 0 0.8 0 1.8 7 F2F2F2
     mirrorx

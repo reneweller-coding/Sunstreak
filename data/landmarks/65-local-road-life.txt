@@ -82,7 +82,7 @@ shape BUSH_TAXI_WAGON
     blob 1.5 0.4 -1.2 0.2 0.3 0.18 2A6AC8
 
 shape ROAD_SALT_DOME
-    home USA, CANADA, GERMANY, AUSTRIA, SWITZERLAND, CZECHIA, POLAND | 0.003 10 40 | country
+    home USA, CANADA, GERMANY, AUSTRIA, SWITZERLAND, CZECHIA, POLAND | 0.003 10 40 | country free
     # The road depot's salt dome for the winter: a big round wooden dome with a gabled entrance, a white heap of road salt by the door.
     dome 0 0 0 7 6 B0A898
     cyl 0 0 0 7.1 7.1 0.6 24 7A7A74

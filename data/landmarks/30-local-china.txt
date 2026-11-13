@@ -82,6 +82,10 @@ shape DIAOJIAOLOU
     # A diaojiaolou: a wooden stilt house of the Miao and Tujia, propped out over the slope, its balcony hung with chillies.
     repeat 3 0 0 2.4
     tube 2.5 -2 -2.4 2.5 1.2 -2.4 0.15 5 5A4030
+    repeat 3 0 0 2.4
+    tube 0 -1 -2.4 0 1.2 -2.4 0.15 5 5A4030
+    repeat 3 0 0 2.4
+    tube -2.5 -1 -2.4 -2.5 1.2 -2.4 0.15 5 5A4030
     box 0 2.5 0 3 1.3 3.5 6A4A2A
     box 3.3 2 0 0.3 0.05 3 6A4A2A
     box 3.58 2.35 0 0.03 0.35 3 6A4A2A
@@ -303,7 +307,7 @@ shape CORN_HANGING_HOUSE
     blob 3.3 2.6 -4.3 0.08 0.5 0.08 D82A2A
 
 shape YAK_HAIR_TENT
-    home CHINA:QINGHAI, CHINA:TIBET, CHINA:SICHUAN | 0.006 10 80 | country
+    home CHINA:QINGHAI, CHINA:TIBET, CHINA:SICHUAN | 0.006 10 80 | country free
     # A herders' tent of black yak hair, pegged out wide on long ropes, smoke from the stove pipe, yaks grazing near.
     tbox 0 0 0 3 4 0 2.2 0 0.4 3.5 2A2620
     ring 8 0

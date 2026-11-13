@@ -31,7 +31,7 @@ shape LEVEL_CROSSING_EU
     box -2.4 0.25 -8 0.04 0.04 6 8A8A8A
 
 shape ROCKFALL_NETS
-    home SWITZERLAND, AUSTRIA, ITALY:TRENTINO, ITALY:AOSTA VALLEY, NORWAY, JAPAN:CHUBU, TAIWAN, CHILE, FRANCE:AUVERGNE-RHONE-ALPES, SLOVENIA, SPAIN:CANARY ISLANDS | 0.006 1 8 | country
+    home SWITZERLAND, AUSTRIA, ITALY:TRENTINO, ITALY:AOSTA VALLEY, NORWAY, JAPAN:CHUBU, TAIWAN, CHILE, FRANCE:AUVERGNE-RHONE-ALPES, SLOVENIA, SPAIN:CANARY ISLANDS | 0.006 1 8 | country climb
     # Steel rockfall nets on the cliff above the road: grey mesh draped over the rock face, anchored with cables and tall catch-fence posts.
     tbox -3 0 0 3 10 -5 12 0 1 10 8A8478
     quad -0.1 0 -9 -0.1 0 9 -3.5 11 8 -3.5 11 -8 7A7A78
@@ -80,7 +80,7 @@ shape CATTLE_MARKET
     blob -6 4 0 3 0.8 3 6A8A3A 0.4
 
 shape SOLAR_PANEL_HUT
-    home KENYA, TANZANIA, UGANDA, MALAWI, ZAMBIA, RWANDA, ETHIOPIA, NIGERIA, MALI, SENEGAL, MOZAMBIQUE, BURKINA FASO, NIGER, MADAGASCAR, BANGLADESH, MONGOLIA | 0.006 4 40 | country
+    home KENYA, TANZANIA, UGANDA, MALAWI, ZAMBIA, RWANDA, ETHIOPIA, NIGERIA, MALI, SENEGAL, MOZAMBIQUE, BURKINA FASO, NIGER, MADAGASCAR, BANGLADESH, MONGOLIA | 0.006 4 40 | country free
     # A round mud hut with a thatched roof and a single shiny solar panel propped up beside it, a cable running in through the wall.
     cyl 0 0 0 2 2 2 12 B8946A
     spire 0 2 0 2.6 2.2 12 B8A060
