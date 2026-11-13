@@ -76,8 +76,16 @@ code-signed: Windows' SmartScreen may warn once ("More info", "Run anyway").
   cars that give chase, fast trains to race along their viaducts, airliners landing across the road, festivals from
   Holi to the Christmas markets, monsoon floods and snow walls.
 - **Thirty-one radio stations,** every track composed from its own seed (koto, bollywood, samba, tango, gamelan,
-  schlager ...), engines of four, eight and twelve cylinders with the Doppler of the traffic, 69 awards, a
+  schlager ...), engines of four, eight and twelve cylinders with the Doppler of the traffic, 73 awards, a
   championship, rallies and journeys, a Track Lab whose codes friends can share, ghosts of your best drives.
+- **Drifts and slipstreams.** Taken near the limit, a bend turns the car's nose in, its tail out, smokes the outer
+  tyre and leaves black marks on the asphalt; a drift scores and, with its feel on, fills the boost.
+  Close behind a car the slipstream pulls you along. Brake lights, a body that dips and squats, wheels that turn and
+  steer.
+- **A world that stands on its ground.** Houses on terraces where the land slopes, drives, hedges and gardens in the
+  villages, pavements, parked cars, shops and traffic lights in the towns (each in its country's style), forests of
+  close-standing trees, rock above the tree line and snow above the snow line, the shadows of drifting clouds,
+  chimney smoke, flocks of birds, surf along the shore.
 - **Steam Deck ready:** Gaming Mode, gamepad glyphs and rumble, performance profiles; about 1.5 ms a frame on a
   desktop PC.
 
@@ -103,6 +111,8 @@ soundtrack.
 | Gear down / up (manual) | Q / E | LB / RB |
 | Camera (chase, far, bumper, cockpit) | C | Y |
 | Look back (hold) | B | right stick pressed in |
+| Flash the headlights: slower traffic ahead makes way | F | left stick pressed in |
+| Horn: animals leave the road | H | d-pad up |
 | Radio station / next track | M / N | View |
 | Pause | Esc / P | Start |
 | Window / fullscreen | F11 or Alt+Enter | |
@@ -111,8 +121,16 @@ soundtrack.
 | Landmark viewer | F6 | |
 
 The clock starts at 55 s. Every checkpoint (2.5 km) adds time, a little less each stage. Near misses (passing
-traffic close and fast) fill the boost tank and raise the combo; overtakes and speed add to the score. The run ends
+traffic close and fast) fill the boost tank and raise the combo; overtakes and speed add to the score. A drift of
+30 m or more and a pass straight out of a slipstream score too (DRIFT in the settings: off, its look only, or full). The run ends
 when the clock reaches zero; the results show the track code to drive the same road again.
+
+ONCOMING TRAFFIC (Settings: OFF, LIGHT, NORMAL, DENSE; off at first) makes every road of two or four lanes a road
+of two directions: the half across the middle carries what comes the other way, your own direction keeps to its half,
+and overtaking means going out there when nothing comes (an overtake there is worth x1.25, x1.5 or x2 by the level).
+What comes the other way flashes and honks at a car in its lane and keeps to its edge to leave room; missing it close
+and fast is a CLOSE CALL (+1000, times the combo), meeting it a head-on crash. On DENSE it overtakes too, out in your
+half. The line down the middle is solid round tight bends and over crests.
 
 Gamepads rumble on hits, crashes, landings, boosts and gear changes and buzz on kerbs and gravel (Settings >
 VIBRATION; on the Deck through Steam Input).
@@ -170,7 +188,7 @@ Gravel, dirt and sand tracks (the Gibb River Road, the Yungas, the Sani Pass, th
 markings, crunch under the tyres, throw up dust and hold less than asphalt.
 
 Assists and accessibility (Settings): STEER ASSIST (light or strong) steers where your hands are idle, keeps the road
-and goes round the traffic; BRAKE ASSIST brakes for bends and obstacles taken too fast; COLOUR BLIND swaps the HUD's
+and goes round the traffic; BRAKE ASSIST brakes for bends, obstacles and animals taken too fast; COLOUR BLIND swaps the HUD's
 red and green for vermilion and sky blue; TEXT SIZE enlarges every text to 115 or 130 %.
 
 Settings > 3D RESOLUTION renders the 3D picture at 50 to 200 % of the window (less is faster, more smooths the edges;
@@ -447,8 +465,10 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --rally N                     start rally N (1..10)
     --journey N                   start journey N (1..)
     --daily                       start the daily challenge
-    --action replay|photo|reload|save|siren T   testing: the replay, the photo mode, reading the data again, saving
-                                  the run or an ambulance or fire engine close by, after T seconds
+    --action replay|photo|reload|save|siren|oncoming|overtaker T   testing: the replay, the photo mode, reading the
+                                  data again, saving the run, an ambulance or fire engine close by, three vehicles
+                                  coming the other way close by, or further off with the last overtaking the others
+                                  (ONCOMING TRAFFIC on, DENSE), after T seconds
     --resume                      continue the saved endless run
     --code XXXXX-XXXXX-XXXXX      drive a Track Lab code
     --screen lab|records|code|garage|passport|stamps|regions|country|postcards|album|awards|rallies|viewer|settings   open that screen
@@ -467,12 +487,14 @@ Settings and records: `%APPDATA%\Sunstreak\settings.ini` (Windows), `~/.config/s
     --travel                      travel: the world tour without a clock
     --look-back                   the camera looks back all the time (screenshots)
     --distance M                  start M metres down the road
+    --oncoming N                  ONCOMING TRAFFIC for this run: 0 off, 1 light, 2 normal, 3 dense
     --size WxH                    window size for this start
     --quit-after S --screenshot F quit after S seconds, saving a screenshot
     --mute                        no sound (test runs)
     --stats                       start with the F3 performance overlay (CPU and GPU milliseconds per part of the frame)
     --bench F                     measure from six seconds into the drive, no vsync and no frame limit; with
-                                  --quit-after, writes frame times, CPU parts and GPU passes to F
+                                  --quit-after, writes frame times, CPU parts and GPU passes to F, and how the
+                                  drive went (crashes, scrapes, time off the road, drifting, slipstream)
     --audio-test F.wav            render a scripted drive, each station and the adaptive layer offline,
                                   levels in F*.wav.txt
 

@@ -7,12 +7,13 @@ cockpit     | --play --autopilot --biome TOKYO --time night --camera 3 --seed 3 
 fork        | --play --autopilot --find fork --time day --seed 3 --quit-after 15
 undersea    | --play --autopilot --biome NORTH_ATLANTIC --time day --seed 3 --quit-after 14
 ferry       | --play --autopilot --find ferry --time day --seed 3 --quit-after 15
-hairpins    | --play --autopilot --travel --biome STELVIO --time day --seed 3 --quit-after 70
-aerial      | --play --autopilot --travel --camera 4 --biome GROSSGLOCKNER --time day --seed 4 --quit-after 150
+hairpins    | --play --autopilot --travel --biome STELVIO --time day --seed 3 --distance 1850 --quit-after 9
+aerial      | --play --autopilot --travel --camera 4 --biome GROSSGLOCKNER --time day --seed 4 --distance 3900 --quit-after 9
 summit      | --play --autopilot --travel --find summit --biome STELVIO --time day --seed 3 --quit-after 10
 sign        | --play --biome TOKYO --time day --seed 3 --quit-after 2
 hump        | --play --autopilot --travel --find hump --biome ATLANTIC_ROAD --time day --seed 3 --quit-after 9
 city        | --play --autopilot --travel --biome NEW_YORK --time night --seed 3 --quit-after 14
+oncoming    | --play --autopilot --biome BLACK_FOREST --time night --seed 3 --oncoming 2 --action oncoming 4 --quit-after 9.7
 village     | --play --autopilot --travel --biome BLACK_FOREST --season summer --time day --seed 3 --quit-after 12
 stands      | --play --autopilot --travel --biome FURANO --time day --seed 3 --quit-after 30
 rain        | --play --autopilot --travel --biome GLENCOE --weather rain --time day --seed 3 --quit-after 18

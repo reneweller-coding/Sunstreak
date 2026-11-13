@@ -64,6 +64,22 @@ Stuck in the verge or against a rock at a hairpin? Hold the brake at a standstil
 
 The **boost** (Space, B on a gamepad) adds speed while the tank lasts. The tank fills with **near misses**: pass traffic close and fast. Every near miss also raises the **combo**, which multiplies what the next ones are worth.
 
+Take a bend near the limit and the car **drifts**: its nose turns into the bend, the tail swings out, the outer rear tyre smokes and leaves its mark on the asphalt, and at the bend's end the body swings back. A drift of 30 m or more earns 10 points a metre (times the combo) and raises the combo. Beside a guard rail or close to traffic the car turns less, so it never looks as if it hit what it does not. DRIFT in the settings: OFF; LOOK ONLY, the look and the points, the car driving exactly as without it; or FULL, where in a drift the car answers the wheel a little more and its sideways motion a little later, and the drift fills the boost tank a little.
+
+Close behind a car in your lane at speed you are in its **slipstream**: the air holds you back less, you pull a little harder, the wind falls quieter and streams past. Overtake straight out of it for a SLIPSTREAM PASS (+300, times the combo).
+
+With **ONCOMING TRAFFIC** on in the settings (LIGHT, NORMAL or DENSE; it is off at first), a road of two or four lanes is a road of two directions, as its markings show it: the half across the middle, the left one or the right one where they drive on the left, carries what comes the other way. The traffic of your direction keeps to its half, so on a road of two lanes there is no going round a slower car without going out into the other lane, and that only when nothing comes. What comes the other way flashes its lights and sounds its horn at a car in its lane; it keeps to its edge of the road to leave room, and so does the car you squeeze past, so there is a way through the middle. Missing it close and fast is a CLOSE CALL (+1000, times the combo, and a good gulp for the boost tank); a red arrow at the top of the picture blinks when something comes at you in your lane; meeting it is a head-on crash. An overtake on such a road is worth more: one and a quarter times on LIGHT, one and a half on NORMAL, twice on DENSE, where the oncoming traffic overtakes too, out in your half while it sees the way clear, and back in its own before it meets you. A lorry or a bus going by shoves the car a little with its blast. The line down the middle is solid where nobody sees far enough to overtake: round tight bends, over crests, and on four-lane roads. Roads of three lanes stay one carriageway, a fork's two carriageways both lead away, and at roadworks the other direction waits until yours is through. The autopilot and STEER ASSIST overtake only with room for it, and not over a solid line.
+
+[shot oncoming] Oncoming traffic at night in the Black Forest.
+
+In the rain the lamps of the traffic lie mirrored in the wet road, and the traffic throws up spray (slush in the snow, dust on gravel and sand).
+
+**Flash the headlights** (F, or the left stick pressed in) and slower traffic ahead in your lane pulls over to the slow side for a few seconds, indicating; where the lines are a suggestion, only some of it does. The traffic itself indicates before it changes lanes (again: not everywhere), and its brake lights show when it slows.
+
+The **horn** (H, or up on the d-pad) sounds as the country's horns do, one note in Europe, a deep long one in North America, a little tune in South and Southeast Asia; animals in the road stop dawdling and leave it, and where the lines are a suggestion somebody answers. Red arrows at the picture's edges warn of something close beside the car or coming up fast from behind. After long hard braking the brakes glow in the wheels.
+
+The car shows where it has been: dust and mud gather on it off the road and on gravel and sand, slush in the snow, and the rain washes it clean again. On snow, sand, gravel and the verge every wheel leaves its rut; on the legendary roads the game keeps your longest drift.
+
 GEARS in the settings switches between the automatic and a manual gearbox (Q and E, or the shoulder buttons).
 
 ## The road
@@ -74,13 +90,13 @@ Hitting traffic, a sign or a stand costs speed; a crash costs more. The barriers
 
 ## Help
 
-STEER ASSIST (light or strong) steers where your hands are idle, keeps the road and goes round the traffic; BRAKE ASSIST brakes for bends and obstacles taken too fast. DIFFICULTY (easy, normal, hard) scales the grip, the clock, the traffic and the rivals. The handling itself is in the file `tuning.ini` beside the settings, written with comments on the first start: change a value and restart, delete the file for the defaults.
+STEER ASSIST (light or strong) steers where your hands are idle, keeps the road and goes round the traffic; BRAKE ASSIST brakes for bends, obstacles and animals taken too fast. DIFFICULTY (easy, normal, hard) scales the grip, the clock, the traffic and the rivals. The handling itself is in the file `tuning.ini` beside the settings, written with comments on the first start: change a value and restart, delete the file for the defaults.
 
 # The clock and the score
 
 The clock starts at 55 seconds. Every checkpoint (one every 2.5 km) adds time, a little less each stage; where the road climbs a pass in hairpins, the checkpoint counts the slow bends in. The run ends when the clock reaches zero, and the results show the track code to drive the same road again.
 
-The score grows with speed and distance, overtakes and near misses (times the combo), and the bonuses of the road:
+The score grows with speed and distance, overtakes, near misses, drifts and slipstream passes (times the combo), and the bonuses of the road:
 
 | What | Bonus |
 |---|---|

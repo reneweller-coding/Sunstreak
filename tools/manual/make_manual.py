@@ -62,6 +62,8 @@ CONTROLS = [
     ('Accelerate', 'Up / W', 'RT or A'), ('Brake; held at a standstill: reverse', 'Down / S', 'LT or X'), ('Steer', 'Left, Right / A, D', 'left stick, d-pad'),
     ('Boost', 'Space / Shift', 'B'), ('Gear down / up (manual gears)', 'Q / E', 'LB / RB'),
     ('Camera: chase, far, bumper, cockpit', 'C', 'Y'), ('Look back (hold)', 'B', 'right stick pressed in'),
+    ('Flash the headlights: slower traffic ahead makes way', 'F', 'left stick pressed in'),
+    ('Horn: animals leave the road', 'H', 'd-pad up'),
     ('Radio station / next track', 'M / N', 'View'), ('Pause', 'Esc / P', 'Start'), ('Window / fullscreen', 'F11 or Alt+Enter', ''),
     ('Performance overlay', 'F3', ''), ('Read the data files again', 'F5', ''), ('Landmark viewer', 'F6', ''),
 ]
@@ -76,6 +78,7 @@ SETTINGS = [
     ('WEATHER', 'weather fronts passing, or each place\'s own weather'),
     ('SEASONS', 'AS TODAY, AS YOU TRAVEL (a year every 400 km) or OFF'), ('POLICE', 'patrol cars that give chase'),
     ('STEER ASSIST', 'OFF, LIGHT or STRONG'), ('BRAKE ASSIST', 'brakes for bends and obstacles taken too fast'),
+    ('DRIFT', 'OFF, LOOK ONLY (the look and the points) or FULL (its feel too)'),
     ('COLOUR BLIND', 'the screen\'s red and green become vermilion and sky blue'), ('TEXT SIZE', '100, 115 or 130 %'),
     ('GEARS', 'automatic or manual'), ('UNITS', 'km/h or mph'), ('CAMERA', 'chase, far, bumper or cockpit'),
     ('BLUR', 'the speed blur'), ('VIBRATION', 'how strongly the gamepad rumbles'), ('MUSIC', 'the music\'s volume'),
