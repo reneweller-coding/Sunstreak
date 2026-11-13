@@ -65,6 +65,8 @@ enum class SettingE
     POLICE,         ///< patrol cars that give chase
     STEER_ASSIST,   ///< help with the steering
     BRAKE_ASSIST,   ///< help with the brakes
+    DRIFT,          ///< drifting: off, only its look, or its look and feel
+    ONCOMING,       ///< traffic coming the other way on roads of two directions: off, light, normal, dense
     COLOUR_BLIND,   ///< a palette for colour blindness
     TEXT_SIZE,      ///< larger text
     GEARS,          ///< automatic or manual
@@ -339,9 +341,10 @@ private:
 
     /**
      * @brief The demo driver.
+     * @param[in] assist  for the assists: also brakes for animals where it would otherwise steer round them
      * @return controls that follow the road and avoid traffic and rivals
      */
-    CarInput autopilot() const;
+    CarInput autopilot( bool assist = false ) const;
 
     /** @brief Turns this frame's collected events into sound, particles, popups and score. */
     void handleEvents();
@@ -852,7 +855,23 @@ private:
         double             m_swap = 0.0;        ///< of the buffer swaps
         double             m_triangles = 0.0;   ///< the chunks' triangles summed
         int                m_traffic = 0;       ///< vehicles summed
+        int                m_crashes = 0;       ///< hard hits: things beside the road, traffic, rivals
+        int                m_scrapes = 0;       ///< rails and barriers touched
+        float              m_offroad = 0.0f;    ///< seconds off the tarmac
+        float              m_drifting = 0.0f;   ///< seconds in a drift (deeper than half)
+        float              m_drafting = 0.0f;   ///< seconds in a slipstream (deeper than half)
+        double             m_from = -1.0;       ///< where the car was when measuring began (m)
+        int                m_met = 0;           ///< oncoming vehicles that went by
+        int                m_closeCalls = 0;    ///< of them missed close and fast
+        int                m_headOn = 0;        ///< crashes into what came the other way
+        std::vector<std::string> m_log;         ///< each crash: where, how, and the traffic around
     } m_bench;                                  ///< the benchmark's sums
+
+    /**
+     * @brief Notes a crash for the benchmark's report: where the car is and what drives around it.
+     * @param[in] what  what it hit
+     */
+    void benchNote( const char *what );
 
     /** @brief Writes the benchmark's report (--bench). */
     void writeBench() const;
@@ -964,6 +983,32 @@ private:
     bool                          m_backfire = false;      ///< lifted off at high revs this frame
     bool                          m_wasBoosting = false;   ///< boosting last frame
     std::vector<const Collider *> m_colliders;             ///< scratch list
+
+    // Drifts, slipstreams and the marks the tyres leave.
+    float                m_driftRun = 0.0f;       ///< metres of the drift under way
+    float                m_driftCalm = 0.0f;      ///< seconds the drift has been fading (it ends after a moment)
+    float                m_lastDraft = -99.0f;    ///< when the car was last deep in a slipstream (a pass soon after counts)
+    float                m_draftShown = -99.0f;   ///< when SLIPSTREAM was last shown
+    std::deque<SkidMark> m_skids;                 ///< the tyres' marks, oldest first
+    Vec3d                m_skidLast[2];           ///< where each rear tyre's mark last ended
+    bool                 m_skidOn[2] = {};        ///< whether it is leaving one
+    /** @brief A sound to play a moment from now (a horn's second note, an answer, a bell's next stroke). */
+    struct Pending
+    {
+        float m_at = 0.0f;       ///< when (game time)
+        SfxE  m_sfx{};           ///< what
+        float m_volume = 1.0f;   ///< how loud
+        float m_pan = 0.0f;      ///< where, -1 left .. 1 right
+        float m_pitch = 1.0f;    ///< how high
+    };
+    std::vector<Pending> m_pending;               ///< the sounds waiting for their moment
+    float                m_hornCool = 0.0f;       ///< seconds until the horn may sound again
+    float                m_bellIn = 20.0f;        ///< seconds until a village's church may ring again
+    float                m_brakeHeat = 0.0f;      ///< 0..1 how hot the brakes are (they glow from long hard braking)
+    float                m_headFlash = 0.0f;      ///< seconds of the headlights' flash left
+    float                m_flashCool = 0.0f;      ///< seconds until they may flash again
+    float                m_dirt = 0.0f;           ///< 0..1 how dirty the car is (dust, mud, slush; the rain washes it)
+    Color                m_dirtColor{ 120, 104, 84, 255 };   ///< what with
 
     // Camera.
     CameraView m_cam;                   ///< the view

@@ -31,6 +31,7 @@ uniform float time;
 uniform float wind;
 uniform vec2 swayOffset;
 uniform float objectShade;
+uniform float wheelRoll;
 out vec3 vPos;
 out vec3 vNormal;
 out vec4 vColor;
@@ -40,8 +41,22 @@ out vec3 vFlat;
 void main()
 {
     mat4 model = instanced > 0.5 ? instanceTransform : matModel;
-    vec4 wp = model * vec4(vertexPosition, 1.0);
+    vec3 lp = vertexPosition;
+    vec3 ln = vertexNormal;
     float sway = vertexTexCoord2.y;
+    if (sway <= -100.0 && wheelRoll != 0.0)
+    {
+        // A wheel (MeshBuilder::tagWheels): it turns about its axle by the way the vehicle has rolled.
+        float code = -sway - 100.0;
+        float high = floor(code / 1024.0);
+        vec2 axle = vec2(high * 0.005, (code - high * 1024.0) * 0.025 - 12.8);
+        float a = wheelRoll / max(axle.x, 0.05);
+        float cs = cos(a), sn = sin(a);
+        vec2 d = lp.yz - axle;
+        lp.yz = axle + vec2(d.x * cs - d.y * sn, d.x * sn + d.y * cs);
+        ln.yz = vec2(ln.y * cs - ln.z * sn, ln.y * sn + ln.z * cs);
+    }
+    vec4 wp = model * vec4(lp, 1.0);
     if (sway > 0.0)
     {
         vec2 wpos = wp.xz + swayOffset;
@@ -49,12 +64,18 @@ void main()
         wp.x += sway * wind * (sin(ph) * 0.25 + sin(ph * 2.3 + 1.0) * 0.08);
         wp.z += sway * wind * cos(ph * 0.8) * 0.18;
     }
+    else if (sway < 0.0 && sway > -50.0)
+    {
+        // Afloat: it rides the swell, rising and falling, a little later at one end than at the other.
+        vec2 wpos = wp.xz + swayOffset;
+        wp.y -= sway * 0.2 * sin(time * 1.3 + dot(wpos, vec2(0.069813, 0.055851)));
+    }
     vShade = vertexTexCoord2.x * objectShade;
     vFlat = wp.xyz;
     vec2 d = wp.xz - camPos.xz;
     wp.y -= bend * dot(d, d);
     vPos = wp.xyz;
-    vNormal = mat3(model) * vertexNormal;
+    vNormal = mat3(model) * ln;
     vColor = vertexColor;
     vMat = vertexTexCoord;
     gl_Position = matProjection * matView * wp;
@@ -94,7 +115,39 @@ uniform float gridGlow;
 uniform vec3 gridColor;
 uniform vec2 gridOffset;
 uniform float objectAlpha;
+uniform float cloudShadow;
+uniform vec2 cloudOffset;
+uniform float windowGlow;
+uniform float time;
+uniform vec2 swayOffset;
+uniform float grime;
+uniform vec3 grimeColor;
+uniform float grimeBase;
 out vec4 finalColor;
+float cloudHash(vec2 i)
+{
+    return fract(sin(dot(i, vec2(127.1, 311.7))) * 43758.5453);
+}
+// Value noise that repeats every `period` cells, so the pattern stays whole where the offset wraps (every 4096 m).
+float cloudNoise(vec2 p, float period)
+{
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    float a = cloudHash(mod(i, period));
+    float b = cloudHash(mod(i + vec2(1.0, 0.0), period));
+    float c = cloudHash(mod(i + vec2(0.0, 1.0), period));
+    float d = cloudHash(mod(i + vec2(1.0, 1.0), period));
+    return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+}
+// 1 in the sun, less where a cloud's shadow passes over (they drift with the wind).
+float cloudLight()
+{
+    if (cloudShadow <= 0.0) return 1.0;
+    vec2 p = vFlat.xz + cloudOffset;
+    float n = 0.65 * cloudNoise(p / 256.0, 16.0) + 0.35 * cloudNoise(p / 128.0, 32.0);
+    return 1.0 - cloudShadow * smoothstep(0.44, 0.68, n);
+}
 float sunShadow(vec3 n)
 {
     if (shadowStrength <= 0.0) return 1.0;
@@ -118,13 +171,31 @@ void main()
     float cobbles = step(vMat.x, -1.5);
     float ground = step(vMat.x, -0.5) * (1.0 - cobbles);
     float emissive = max(vMat.x, 0.0);
+    // A lit window (the material of 0.85): dim by day, bright from dusk on.
+    if (abs(vMat.x - 0.85) < 0.01) emissive *= mix(0.15, 1.0, windowGlow);
+    if (grime > 0.0)
+    {
+        // The player's car, dirty: most along its sills, less up to the roof.
+        float low = 1.0 - smoothstep(0.1, 1.05, vFlat.y - grimeBase);
+        base = mix(base, grimeColor, grime * (0.18 + 0.67 * low));
+    }
     float gloss = vMat.y;
+    if (gloss > 0.88 && n.y > 0.9 && vMat.x < 0.5)
+    {
+        // Open water: a swell runs over it, tilting what it mirrors and where the sun glints (its pattern repeats every
+        // 450 m, as the offset does).
+        vec2 w = vFlat.xz + swayOffset;
+        float wa = w.x * 0.34907 + time * 1.1, wb = w.y * 0.20944 - time * 0.8, wc = (w.x + w.y) * 0.41888 + time * 1.5;
+        n = normalize(n + vec3(0.07 * sin(wa) + 0.04 * sin(wc), 0.0, 0.07 * cos(wb) + 0.04 * cos(wc)));
+        base *= 1.0 + 0.05 * sin(wa + wb);
+    }
     vec3 toCam = camPos - vPos;
     float dist = length(toCam);
     vec3 V = toCam / max(dist, 0.001);
 
     float shade = vShade;
-    float ndl = max(dot(n, sunDir), 0.0) * sunShadow(n);
+    float clouded = cloudLight();
+    float ndl = max(dot(n, sunDir), 0.0) * sunShadow(n) * clouded;
     vec3 light = mix(ambBottom, ambTop, n.y * 0.5 + 0.5) * (0.25 + 0.75 * shade) + (sunColor * ndl + vec3(flash)) * shade;
     light += ambTop * 0.55 * max(dot(n, V), 0.0) * (0.3 + 0.7 * shade);
 
@@ -149,7 +220,7 @@ void main()
     float g = clamp(gloss + wetness * 0.55 * roadLike, 0.0, 1.0);
     vec3 H = normalize(sunDir + V);
     float spec = pow(max(dot(n, H), 0.0), mix(12.0, 180.0, g)) * g * 2.0;
-    col += sunColor * spec * shade * sunShadow(n);
+    col += sunColor * spec * shade * sunShadow(n) * clouded;
     float fres = pow(1.0 - max(dot(n, V), 0.0), 4.0) * g * (0.2 + 0.8 * shade);
     col = mix(col, skyColor, clamp(fres, 0.0, 0.85));
     col += vec3(1.0, 0.9, 0.75) * hl * g * 0.6;

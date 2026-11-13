@@ -130,6 +130,10 @@ bool loadSettings( Settings &settings )
                 settings.m_steerAssist = std::clamp( std::stoi( val ), 0, 2 );
             else if ( key == "brake_assist" )
                 settings.m_brakeAssist = val == "1";
+            else if ( key == "drift" )
+                settings.m_drift = std::clamp( std::stoi( val ), 0, 2 );
+            else if ( key == "oncoming" )
+                settings.m_oncoming = std::clamp( std::stoi( val ), 0, 3 );
             else if ( key == "colour_blind" )
                 settings.m_colourBlind = val == "1";
             else if ( key == "text_size" )
@@ -197,6 +201,8 @@ bool saveSettings( const Settings &settings )
     out << "police=" << ( settings.m_police ? 1 : 0 ) << "\n";
     out << "steer_assist=" << settings.m_steerAssist << "\n";
     out << "brake_assist=" << ( settings.m_brakeAssist ? 1 : 0 ) << "\n";
+    out << "drift=" << settings.m_drift << "\n";
+    out << "oncoming=" << settings.m_oncoming << "\n";
     out << "colour_blind=" << ( settings.m_colourBlind ? 1 : 0 ) << "\n";
     out << "text_size=" << settings.m_textSize << "\n";
     out << "profile=" << settings.m_profile << "\n";
@@ -336,6 +342,8 @@ LaunchOptions parseCommandLine( int argc, char **argv )
             o.m_screenshot = next();
         else if ( a == "--bench" )
             o.m_bench = next();
+        else if ( a == "--oncoming" )
+            o.m_oncoming = std::clamp( std::atoi( next().c_str() ), 0, 3 );
         else if ( a == "--distance" )
             o.m_startDistance = static_cast<float>( std::atof( next().c_str() ) );
         else if ( a == "--size" )

@@ -18,6 +18,7 @@
 #include <chrono>
 #include <cstring>
 #include <iterator>
+#include <unordered_map>
 
 namespace sunstreak
 {
@@ -52,6 +53,107 @@ enum class StripE
 
 constexpr Color WarmLight = { 255, 214, 160, 255 };   ///< street lamp light
 constexpr Mat   GroundMat = { -1.0f, 0.0f };          ///< marks land for the shader's neon grid
+
+/** @brief The land's rows: metres beyond the shoulder's edge, closer where the slopes bend, the last on the horizon. */
+constexpr float LandOffsets[] = { 0.0f, 6.0f, 15.0f, 28.0f, 44.0f, 64.0f, 95.0f, 150.0f, 240.0f, 420.0f, 700.0f };
+constexpr int   LandRows = static_cast<int>( std::size( LandOffsets ) );   ///< how many
+constexpr long  GroundPad = 8;          ///< segments beyond a chunk's ends whose ground is known (for what reaches across)
+constexpr float MaxSpread = 3.0f;       ///< the most the ground may climb under a building's walls (m); steeper, it moves or stays away
+constexpr Color Snow = { 236, 240, 246, 255 };         ///< snow on the land above the snow line
+constexpr Color BareRock = { 126, 122, 116, 255 };     ///< rock above the tree line
+
+/**
+ * @brief Where snow lies on a place's mountains all year: about 4900 m in the tropics, 80 m lower for each degree of
+ *        latitude beyond 20, down to the sea near the poles; in winter far lower.
+ * @param[in] place   the place
+ * @param[in] winter  0..1 how deep in winter it is
+ * @return metres above the sea (very high for the places off the map)
+ */
+float placeSnowLine( BiomeE place, float winter )
+{
+    GeoPoint where;
+    if ( biomeDef( place ).m_climate == ClimateE::NONE || !placeLocation( place, where ) ) return 1e9f;
+    const float lat = std::abs( where.m_lat );
+    return std::max( 0.0f, 4900.0f - 80.0f * std::max( 0.0f, lat - 20.0f ) ) - 1400.0f * winter;
+}
+
+/**
+ * @brief The snow line at a segment, blended between its two places.
+ * @param[in] seg   the segment
+ * @param[in] look  the season there
+ * @return metres above the sea
+ */
+float snowLine( const Segment &seg, const SeasonLook &look )
+{
+    const float a = placeSnowLine( static_cast<BiomeE>( seg.m_biome ), look.m_winter );
+    const float b = placeSnowLine( static_cast<BiomeE>( seg.m_biomeTo ), look.m_winter );
+    if ( a > 1e8f || b > 1e8f ) return seg.m_blend < 0.5f ? a : b;
+    return lerpf( a, b, seg.m_blend );
+}
+
+/**
+ * @brief Whether a prop is a tree (it casts a round soft patch on the ground and stays below the tree line).
+ * @param[in] k  the kind
+ * @return true for trees
+ */
+bool isTree( PropKindE k )
+{
+    using KindT = PropKindE;
+    switch ( k )
+    {
+    case KindT::PINE:
+    case KindT::SNOW_PINE:
+    case KindT::OAK:
+    case KindT::PALM:
+    case KindT::DEAD_TREE:
+    case KindT::AUTUMN_TREE:
+    case KindT::BIRCH:
+    case KindT::CHERRY:
+    case KindT::JUNGLE_TREE:
+    case KindT::ACACIA:
+    case KindT::CYPRESS:
+    case KindT::MOSS_TREE:
+    case KindT::OLIVE:
+    case KindT::POPLAR:
+    case KindT::UMBRELLA_PINE:
+    case KindT::SPRUCE:
+    case KindT::BAOBAB:
+    case KindT::EUCALYPTUS:
+    case KindT::BANANA:
+    case KindT::CEDAR:
+    case KindT::REDWOOD:
+    case KindT::WAX_PALM:
+    case KindT::DRAGON_TREE:
+    case KindT::TREE_FERN:
+    case KindT::BROADLEAF:
+    case KindT::DATE_PALM: return true;
+    default: return false;
+    }
+}
+
+/**
+ * @brief Whether a tree is a conifer (a forest of them stands dark and pointed).
+ * @param[in] k  the kind
+ * @return true for conifers
+ */
+bool isConifer( PropKindE k )
+{
+    using KindT = PropKindE;
+    return k == KindT::PINE || k == KindT::SNOW_PINE || k == KindT::SPRUCE || k == KindT::CEDAR ||
+           k == KindT::REDWOOD || k == KindT::CYPRESS;
+}
+
+/**
+ * @brief Whether a prop stands in a line along the road and should follow the ground's slope (fences, walls, rows).
+ * @param[in] k  the kind
+ * @return true for those
+ */
+bool followsSlope( PropKindE k )
+{
+    using KindT = PropKindE;
+    return k == KindT::FENCE || k == KindT::STONE_WALL || k == KindT::RANCH_FENCE || k == KindT::HEDGE ||
+           k == KindT::VINE_ROW || k == KindT::TEA_ROW || k == KindT::PIPELINE;
+}
 
 /** @brief Paints for rows of houses whose rule asks for a different colour each (PropRule::m_pastel). */
 constexpr Color Pastels[] = { { 236, 170, 180, 255 }, { 170, 206, 230, 255 }, { 240, 220, 140, 255 },
@@ -102,6 +204,140 @@ bool plotted( PropKindE k, bool &tall )
            k == KindT::HANOK || k == KindT::GASSHO || k == KindT::HUIZHOU_HOUSE || k == KindT::CAPE_DUTCH ||
            k == KindT::YURT || k == KindT::REED_HOUSE || k == KindT::TRULLO;
 }
+
+/**
+ * @brief Whether a prop is a building that stands on its own (a barn, a church, a castle): like the houses on the plots
+ *        it needs flat enough ground under its footprint, and a plinth where the ground falls away.
+ * @param[in] k  the kind
+ * @return true for those
+ */
+bool standsOnFootprint( PropKindE k )
+{
+    using KindT = PropKindE;
+    switch ( k )
+    {
+    case KindT::BARN:
+    case KindT::SILO:
+    case KindT::WINDMILL:
+    case KindT::DUTCH_MILL:
+    case KindT::ROUND_MILL:
+    case KindT::PAGODA:
+    case KindT::LIGHTHOUSE:
+    case KindT::CHURCH:
+    case KindT::ONION_CHURCH:
+    case KindT::MOSQUE:
+    case KindT::STUPA:
+    case KindT::WAT:
+    case KindT::TEMPLE_TOWER:
+    case KindT::KASBAH:
+    case KindT::CASTLE:
+    case KindT::WATCHTOWER:
+    case KindT::FORT:
+    case KindT::GRAIN_ELEVATOR:
+    case KindT::DINER:
+    case KindT::GAS_STATION:
+    case KindT::CASINO:
+    case KindT::SUPERTALL:
+    case KindT::CONTAINERS: return true;
+    default: return false;
+    }
+}
+
+/**
+ * @brief A shop sign's colour as its part of the world paints them: muted in Europe, loud in the Americas, neon in East
+ *        Asia, every colour at once in South Asia and Africa, green, white and blue in Arabia.
+ * @param[in]  region  the country's fleet (its part of the world)
+ * @param[in]  pick    which of the region's colours
+ * @param[out] glow    how brightly its signs are lit, 0..1
+ * @return the colour
+ */
+Color shopSign( FleetE region, uint64_t pick, float &glow )
+{
+    static const Color muted[6] = { { 36, 84, 60, 255 },    { 120, 30, 40, 255 }, { 28, 44, 90, 255 },
+                                    { 232, 224, 200, 255 }, { 190, 150, 60, 255 }, { 60, 60, 64, 255 } };
+    static const Color loud[6] = { { 230, 40, 40, 255 },   { 250, 200, 40, 255 }, { 40, 130, 235, 255 },
+                                   { 40, 196, 96, 255 },   { 245, 245, 240, 255 }, { 250, 124, 30, 255 } };
+    static const Color neon[6] = { { 240, 40, 40, 255 },   { 250, 210, 40, 255 }, { 250, 250, 245, 255 },
+                                   { 40, 200, 120, 255 },  { 255, 90, 160, 255 }, { 60, 160, 255, 255 } };
+    static const Color bazaar[6] = { { 250, 120, 20, 255 }, { 230, 30, 90, 255 },  { 30, 160, 200, 255 },
+                                     { 250, 210, 40, 255 }, { 60, 180, 70, 255 },  { 140, 60, 200, 255 } };
+    static const Color oasis[6] = { { 20, 130, 80, 255 },  { 245, 245, 235, 255 }, { 30, 110, 190, 255 },
+                                    { 200, 160, 60, 255 }, { 20, 130, 80, 255 },   { 245, 245, 235, 255 } };
+    static const Color plain[6] = { { 200, 40, 40, 255 },  { 40, 90, 170, 255 },   { 240, 240, 235, 255 },
+                                    { 60, 140, 80, 255 },  { 230, 180, 50, 255 },  { 90, 90, 96, 255 } };
+    const Color *set = loud;
+    glow = 0.9f;
+    switch ( region )
+    {
+    case FleetE::EUROPE:
+    case FleetE::BRITISH:
+    case FleetE::OCEANIA:
+        set = muted;
+        glow = 0.45f;
+        break;
+    case FleetE::EAST_ASIA:
+        set = neon;
+        glow = 1.0f;
+        break;
+    case FleetE::SOUTH_ASIA:
+    case FleetE::SOUTHEAST_ASIA:
+    case FleetE::AFRICA:
+        set = bazaar;
+        glow = 0.8f;
+        break;
+    case FleetE::ARABIA:
+        set = oasis;
+        glow = 0.8f;
+        break;
+    case FleetE::EASTERN:
+        set = plain;
+        glow = 0.6f;
+        break;
+    default: break;
+    }
+    return set[pick % 6];
+}
+
+/**
+ * @brief Whether a prop is a structure that stands where it is put and never gives way to a slope: like a building it
+ *        stands on its base (on a terrace where the ground climbs under it), but it neither moves nor stays away.
+ * @param[in] k  the kind
+ * @return true for the places' landmarks, towers, pylons, pyramids, ruins and the like
+ */
+bool keepsItsPlace( PropKindE k )
+{
+    using KindT = PropKindE;
+    switch ( k )
+    {
+    case KindT::LANDMARK:
+    case KindT::RUIN:
+    case KindT::DOME:
+    case KindT::CHIMNEY:
+    case KindT::WATER_TOWER:
+    case KindT::PUMPJACK:
+    case KindT::WIND_PUMP:
+    case KindT::COLUMNS:
+    case KindT::AQUEDUCT:
+    case KindT::PYRAMID:
+    case KindT::STEP_PYRAMID:
+    case KindT::STONE_PYRAMID:
+    case KindT::TEMPLE_GATE:
+    case KindT::TV_TOWER:
+    case KindT::LATTICE_TOWER:
+    case KindT::POWER_PYLON:
+    case KindT::CRANE:
+    case KindT::ANTENNA: return true;
+    default: return false;
+    }
+}
+
+/** @brief What a building stands on where the ground climbs under it. */
+enum class UnderE
+{
+    EARTH,   ///< a terrace of earth in the land's colour
+    STONE,   ///< a base of stone or plaster under its walls (and earth below it where the ground falls further)
+    STILTS   ///< posts: the house stands over the ground
+};
 
 /** @brief The plots of a place: its buildings in rows back from the road instead of scattered. */
 struct Plots
@@ -190,6 +426,36 @@ bool inVillage( uint64_t seed, long j )
 const BiomeDef &ruling( const Segment &seg, float h )
 {
     return biomeDef( static_cast<BiomeE>( h < seg.m_blend ? seg.m_biomeTo : seg.m_biome ) );
+}
+
+/** @brief A town's street on one side of a segment. */
+struct Pavement
+{
+    float m_width = 0.0f;       ///< the pavement's width beyond the parking lane (0: no town here)
+    bool  m_crossing = false;   ///< a cross street meets the road here: its lights, a zebra, no pavement
+};
+
+/**
+ * @brief Whether a segment's side is a town's street (its plots are a city's), and where its cross streets meet it.
+ * @param[in] track   the road
+ * @param[in] models  the props (their footprints set the plots)
+ * @param[in] seed    the track's seed
+ * @param[in] j       the segment
+ * @param[in] side    -1 left, 1 right
+ * @return the pavement there
+ */
+Pavement pavementAt( const Track &track, const Models &models, uint64_t seed, long j, float side )
+{
+    Pavement        p;
+    const uint64_t  sideKey = side < 0 ? 0x1111ull : 0x2222ull;
+    const BiomeDef &rule = ruling( track.segment( j ), hashFloat( seed ^ sideKey, static_cast<uint64_t>( j ) ) );
+    const Plots     plots = plotsOf( rule, models );
+    if ( !plots.m_city ) return p;
+    p.m_width = clampf( plots.m_nearest - 2.0f, 2.5f, 6.0f );
+    // A city leaves every fourth plot free for a cross street (the scattered props' loop does the same).
+    const long segs = std::max( 2L, std::lround( plots.m_along / SegmentLength ) );
+    p.m_crossing = ( j / segs ) % 4 == 0 && j % segs == segs / 2;
+    return p;
 }
 
 constexpr float TunnelLift = 18.0f;    ///< height of the hill over a tunnel
@@ -381,6 +647,7 @@ void World::clear()
         UnloadMesh( c.m_scenery );
         UnloadMesh( c.m_sceneryFar );
         UnloadMesh( c.m_glass );
+        UnloadMesh( c.m_decals );
     }
     m_chunks.clear();
 }
@@ -422,6 +689,9 @@ void World::upload( BakedChunk &baked )
     c.m_scenery = baked.m_scenery.upload();
     c.m_sceneryFar = baked.m_sceneryFar.upload();
     c.m_glass = baked.m_glass.upload();
+    c.m_decals = baked.m_decals.upload();
+    c.m_chimneys = std::move( baked.m_chimneys );
+    c.m_rotors = std::move( baked.m_rotors );
     c.m_colliders = std::move( baked.m_colliders );
     m_chunks.push_back( std::move( c ) );
     m_buildMaxMs = std::max( m_buildMaxMs, baked.m_ms );
@@ -451,6 +721,7 @@ void World::update( Track &track, double s, int maxBuilds )
         UnloadMesh( m_chunks.front().m_scenery );
         UnloadMesh( m_chunks.front().m_sceneryFar );
         UnloadMesh( m_chunks.front().m_glass );
+        UnloadMesh( m_chunks.front().m_decals );
         m_chunks.pop_front();
     }
     long next = m_chunks.empty() ? firstWanted : m_chunks.back().m_index + 1;
@@ -530,7 +801,7 @@ void World::collidersNear( double s, double range, std::vector<const Collider *>
 void World::buildChunk( Track &track, BakedChunk &c ) const
 {
     const long i0 = c.m_index * ChunkSegments;
-    track.generateTo( static_cast<double>( i0 + ChunkSegments + 2 ) * SegmentLength );
+    track.generateTo( static_cast<double>( i0 + ChunkSegments + GroundPad + 2 ) * SegmentLength );
     c.m_origin = track.segment( i0 ).m_pos;
     const uint64_t seed = track.seed();
     const Models  &models = *m_models;
@@ -565,10 +836,322 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
         return x;
     };
 
+    // The land's rows as its mesh draws them, from some segments before the chunk to some after it: what stands on the
+    // land takes its height from them, so it stands on the ground as drawn (between the rows the formula strays by metres).
+    struct LandRow
+    {
+        Cross m_cross;                       ///< the cross-section
+        float m_lateral[2][LandRows] = {};   ///< the rows' lateral offsets, left and right
+        float m_height[2][LandRows] = {};    ///< their heights above the road there
+        float m_snowLine = 1e9f;             ///< where snow lies in this season (m above the sea; very high: nowhere)
+        float m_treeLine = 1e9f;             ///< where the trees end, whatever the season
+        float m_pave[2] = {};                ///< a town's pavement beyond the parking lane, left and right (m; 0: none)
+        float m_snowCover = 0.0f;            ///< 0..1 the land lies under snow (where the road runs between banks of it)
+    };
+    std::vector<LandRow> landRows( static_cast<size_t>( ChunkSegments + 2 * GroundPad + 2 ) );
+    for ( size_t r = 0; r < landRows.size(); ++r )
+    {
+        LandRow &w = landRows[r];
+        w.m_cross = cross( i0 - GroundPad + static_cast<long>( r ) );
+        const Cross   &X = w.m_cross;
+        const Segment &xs = *X.m_seg;
+        for ( int s = 0; s < 2; ++s )
+        {
+            // In a serpentine the land ends where the next leg's begins.
+            const float reach = s == 0 ? xs.m_reachL : xs.m_reachR;
+            const float squeeze =
+                reach > 0.0f ? clampf( ( reach - X.m_edge ) / LandOffsets[LandRows - 1], 0.0f, 1.0f ) : 1.0f;
+            for ( int k = 0; k < LandRows; ++k )
+            {
+                w.m_lateral[s][k] = ( s == 0 ? -1.0f : 1.0f ) * ( X.m_edge + LandOffsets[k] * squeeze );
+                w.m_height[s][k] = terrainHeight( track, X.m_index, w.m_lateral[s][k], X.m_terrain, X.m_edge );
+            }
+            // A town's pavement: not in the sea, a tunnel or a gallery, on a bridge, in a pass's hairpins, or where a
+            // fork's other carriageway turns away.
+            const Pavement pave = pavementAt( track, models, seed, X.m_index, s == 0 ? -1.0f : 1.0f );
+            const float    water = s == 0 ? X.m_terrain.m_waterLeft : X.m_terrain.m_waterRight;
+            const Fork     split = track.fork( xs.m_stage );
+            const double   along = static_cast<double>( X.m_index ) * SegmentLength - split.m_at;
+            const bool     peel = split.m_exists && along > ForkMedian - 60.0 && along < ForkMedian + ForkPeel + 40.0;
+            if ( pave.m_width > 0.0f && !pave.m_crossing && water < 0.5f && xs.m_gallery == 0 && reach <= 0.0f &&
+                 !peel && !( xs.m_flags & ( SEG_TUNNEL | SEG_BRIDGE ) ) )
+                w.m_pave[s] = pave.m_width;
+        }
+        w.m_snowLine = snowLine( xs, X.m_season );
+        const float summer = snowLine( xs, SeasonLook{} );
+        w.m_treeLine = summer < 1e8f ? summer - 700.0f : 1e9f;
+        // Where the place clears its road through deep snow, the land beside it lies under snow as well.
+        if ( bridgeBiome( xs ).m_snowWalls > 0.0f && ( X.m_season.m_winter > 0.25f || X.m_season.m_spring > 0.35f ) )
+            w.m_snowCover = 1.0f;
+    }
+    auto landRow = [&]( long j ) -> const LandRow &
+    {
+        const long last = static_cast<long>( landRows.size() ) - 1;
+        return landRows[static_cast<size_t>( std::clamp( j - ( i0 - GroundPad ), 0L, last ) )];
+    };
+    // The land's height on a row (relative to the chunk's origin): flat on the road, the shoulder sloping to the land's
+    // first row, then straight from row to row.
+    auto rowY = [&]( const LandRow &w, float l )
+    {
+        const Cross &X = w.m_cross;
+        const int    s = l < 0.0f ? 0 : 1;
+        const float  a = std::abs( l ), kerb = X.m_hw + RumbleWidth;
+        float        h = 0.0f;
+        if ( a > X.m_edge )
+        {
+            int k = 0;
+            while ( k + 2 < LandRows && std::abs( w.m_lateral[s][k + 1] ) < a ) ++k;
+            const float a0 = std::abs( w.m_lateral[s][k] ), a1 = std::abs( w.m_lateral[s][k + 1] );
+            h = lerpf( w.m_height[s][k], w.m_height[s][k + 1], clampf( ( a - a0 ) / std::max( 0.01f, a1 - a0 ), 0.0f, 1.0f ) );
+        }
+        else if ( a > kerb )
+        {
+            h = w.m_height[s][0] * ( a - kerb ) / std::max( 0.01f, X.m_edge - kerb );
+        }
+        return at( X, l, h ).y;
+    };
+    // A town's pavement on a row: a kerb's height above the road, or the land where that lies higher.
+    auto slabY = [&]( const LandRow &w, float l ) { return std::max( rowY( w, l ), at( w.m_cross, l, 0.0f ).y ) + 0.15f; };
+    // The ground's height a share t of the way from segment j to the next, at a lateral offset: on the very triangles the
+    // ground is drawn with (each strip's quad is split from its inner corner at j to its outer corner at j + 1).
+    auto groundY = [&]( long j, float t, float l )
+    {
+        const LandRow &ra = landRow( j ), &rb = landRow( j + 1 );
+        const Cross   &XA = ra.m_cross, &XB = rb.m_cross;
+        const int      s = l < 0.0f ? 0 : 1;
+        const float    sign = l < 0.0f ? -1.0f : 1.0f, a = std::abs( l );
+        const float    kerbA = XA.m_hw + RumbleWidth, kerbB = XB.m_hw + RumbleWidth;
+        const float    edge = lerpf( XA.m_edge, XB.m_edge, t );
+        if ( a <= lerpf( kerbA, kerbB, t ) ) return lerpf( at( XA, l, 0.0f ).y, at( XB, l, 0.0f ).y, t );
+        if ( ra.m_pave[s] > 0.0f && a <= edge + ra.m_pave[s] )
+        {
+            // A town's street: the parking lane at the road's level, the pavement beyond it.
+            if ( a <= edge ) return lerpf( at( XA, l, 0.0f ).y, at( XB, l, 0.0f ).y, t );
+            return lerpf( slabY( ra, l ), slabY( rb, l ), t );
+        }
+        // The strip the point lies in: its inner and outer edges at either end.
+        float inA = kerbA, outA = XA.m_edge, inB = kerbB, outB = XB.m_edge;
+        float hInA = 0.0f, hOutA = ra.m_height[s][0], hInB = 0.0f, hOutB = rb.m_height[s][0];
+        if ( a > edge )
+        {
+            int k = 0;
+            while ( k + 2 < LandRows &&
+                    lerpf( std::abs( ra.m_lateral[s][k + 1] ), std::abs( rb.m_lateral[s][k + 1] ), t ) < a )
+                ++k;
+            inA = std::abs( ra.m_lateral[s][k] );
+            outA = std::abs( ra.m_lateral[s][k + 1] );
+            inB = std::abs( rb.m_lateral[s][k] );
+            outB = std::abs( rb.m_lateral[s][k + 1] );
+            hInA = ra.m_height[s][k];
+            hOutA = ra.m_height[s][k + 1];
+            hInB = rb.m_height[s][k];
+            hOutB = rb.m_height[s][k + 1];
+        }
+        const float in = lerpf( inA, inB, t ), out = lerpf( outA, outB, t );
+        const float u = clampf( ( a - in ) / std::max( 0.01f, out - in ), 0.0f, 1.0f );
+        const Vector3 pInA = at( XA, sign * inA, hInA ), pOutA = at( XA, sign * outA, hOutA );
+        const Vector3 pInB = at( XB, sign * inB, hInB ), pOutB = at( XB, sign * outB, hOutB );
+        // Where the point lies on the map, and the drawn triangle over that spot: in a hairpin the strips fan out, and a
+        // point's shares along and across them are not its place in the triangle.
+        const Vector3 q = Vector3Lerp( at( XA, l, 0.0f ), at( XB, l, 0.0f ), t );
+        auto          over = [&]( Vector3 p0, Vector3 p1, Vector3 p2, float &y )
+        {
+            const float d = ( p1.z - p2.z ) * ( p0.x - p2.x ) + ( p2.x - p1.x ) * ( p0.z - p2.z );
+            if ( std::abs( d ) < 1e-5f ) return false;
+            const float w0 = ( ( p1.z - p2.z ) * ( q.x - p2.x ) + ( p2.x - p1.x ) * ( q.z - p2.z ) ) / d;
+            const float w1 = ( ( p2.z - p0.z ) * ( q.x - p2.x ) + ( p0.x - p2.x ) * ( q.z - p2.z ) ) / d;
+            const float w2 = 1.0f - w0 - w1;
+            y = w0 * p0.y + w1 * p1.y + w2 * p2.y;
+            return w0 >= -0.02f && w1 >= -0.02f && w2 >= -0.02f;
+        };
+        float y = 0.0f;
+        if ( over( pInA, pOutA, pOutB, y ) || over( pInA, pOutB, pInB, y ) ) return y;
+        return u >= t ? pInA.y + u * ( pOutA.y - pInA.y ) + t * ( pOutB.y - pOutA.y )
+                      : pInA.y + t * ( pInB.y - pInA.y ) + u * ( pOutB.y - pInB.y );
+    };
+    // The marsh's ponds: in the land's near rows, here and there.
+    auto pondAt = [&]( long j, int s, int k )
+    {
+        const Cross &X = landRow( j ).m_cross;
+        return X.m_terrain.m_ponds > 0.0f && k >= 1 && k <= 4 &&
+               hashFloat( seed + 99 + static_cast<uint64_t>( k + s * 7 ), static_cast<uint64_t>( j / 2 ) ) <
+                   X.m_terrain.m_ponds * 0.3f;
+    };
+    // What height and snow do to the land's colour: above the tree line rock; over the snow line (lower in winter) snow
+    // where it is not too steep; and all of it under snow where the road runs between banks of snow.
+    auto highTone = [&]( Color col, long j, float alt, float slope )
+    {
+        const LandRow &ra = landRow( j ), &rb = landRow( j + 1 );
+        const float    line = lerpf( ra.m_snowLine, rb.m_snowLine, 0.5f );
+        const float    lies = 1.0f - smoothstepf( 0.9f, 1.7f, slope );
+        if ( line < 1e8f )
+        {
+            const float trees = lerpf( ra.m_treeLine, rb.m_treeLine, 0.5f );
+            col = lerpColor( col, BareRock, 0.8f * smoothstepf( trees + 150.0f, trees + 550.0f, alt ) );
+            col = lerpColor( col, Snow, smoothstepf( line - 80.0f, line + 120.0f, alt ) * lies );
+        }
+        const float cover = 0.5f * ( ra.m_snowCover + rb.m_snowCover );
+        if ( cover > 0.0f ) col = lerpColor( col, Snow, 0.94f * cover * ( 0.45f + 0.55f * lies ) );
+        return col;
+    };
+    // The land's colour some way from the road at a height (relative to the chunk), without its fields and patches.
+    auto landTone = [&]( long j, float dist, float y )
+    {
+        const Surface &surface = landRow( j ).m_cross.m_surface;
+        const Color    base = lerpColor( ( j / 2 ) % 2 == 0 ? surface.m_groundA : surface.m_groundB, surface.m_groundFar,
+                                         smoothstepf( 20.0f, 110.0f, dist ) );
+        return highTone( base, j, static_cast<float>( c.m_origin.m_y ) + y, 0.0f );
+    };
+    // The same for a point given by its offset from where segment j's centre line lies a share t of the way along.
+    auto groundAt = [&]( long j, float t, float l, Vector3 offset )
+    {
+        const Cross &X = landRow( j ).m_cross;
+        const float  along = t * SegmentLength + Vector3DotProduct( offset, X.m_forward );
+        const float  steps = std::floor( along / SegmentLength );
+        return groundY( j + static_cast<long>( steps ), along / SegmentLength - steps,
+                        l + Vector3DotProduct( offset, X.m_right ) );
+    };
+
+    // A point beside the road: at a lateral offset, a metres along the road from where segment j lies a share t of the way
+    // (it follows the road's bends), on the ground as drawn and lifted a little.
+    auto onGround = [&]( long j, float t, float l, float a, float lift )
+    {
+        const float along = t * SegmentLength + a;
+        const float steps = std::floor( along / SegmentLength ), tt = along / SegmentLength - steps;
+        const long  jj = j + static_cast<long>( steps );
+        Vector3     p = Vector3Lerp( at( landRow( jj ).m_cross, l, 0.0f ), at( landRow( jj + 1 ).m_cross, l, 0.0f ), tt );
+        p.y = groundY( jj, tt, l ) + lift;
+        return p;
+    };
+    // How far a model reaches from its origin (walking its vertices once per model, not per prop).
+    std::unordered_map<const MeshBuilder *, Vector3> extents;
+    auto                                             extentOf = [&]( const MeshBuilder &m )
+    {
+        const auto it = extents.find( &m );
+        if ( it != extents.end() ) return it->second;
+        const Vector3 e = m.extent();
+        extents.emplace( &m, e );
+        return e;
+    };
+    // Where a building's walls meet the ground: the middle of their box and its half sizes (its roof may reach further).
+    std::unordered_map<const MeshBuilder *, std::pair<Vector3, Vector3>> bases;
+    auto baseOf = [&]( const MeshBuilder &m ) -> const std::pair<Vector3, Vector3> &
+    {
+        const auto it = bases.find( &m );
+        if ( it != bases.end() ) return it->second;
+        const Vector3 e = extentOf( m );
+        Vector3       lo{}, hi{};
+        if ( !m.baseBox( 0.3f, lo, hi ) || hi.x - lo.x < 1.0f || hi.z - lo.z < 1.0f )
+        {
+            lo = Vector3{ -e.x, 0.0f, -e.z };
+            hi = Vector3{ e.x, 0.0f, e.z };
+        }
+        return bases
+            .emplace( &m, std::make_pair( Vector3{ ( lo.x + hi.x ) * 0.5f, 0.0f, ( lo.z + hi.z ) * 0.5f },
+                                          Vector3{ ( hi.x - lo.x ) * 0.5f, 0.0f, ( hi.z - lo.z ) * 0.5f } ) )
+            .first->second;
+    };
+    // A strip lying on the ground (a drive, a cross street): across from one lateral offset to another, w wide, centred
+    // a metres along from segment j's point at share t.
+    auto groundStrip = [&]( MeshBuilder &m, long j, float t, float a, float l0, float l1, float w, Color col, Mat mat )
+    {
+        const int n = std::max( 1, static_cast<int>( std::ceil( std::abs( l1 - l0 ) / 4.0f ) ) );
+        for ( int i = 0; i < n; ++i )
+        {
+            const float la = lerpf( l0, l1, static_cast<float>( i ) / static_cast<float>( n ) );
+            const float lb = lerpf( l0, l1, static_cast<float>( i + 1 ) / static_cast<float>( n ) );
+            m.quad( onGround( j, t, la, a - w * 0.5f, 0.07f ), onGround( j, t, lb, a - w * 0.5f, 0.07f ),
+                    onGround( j, t, lb, a + w * 0.5f, 0.07f ), onGround( j, t, la, a + w * 0.5f, 0.07f ), col, mat );
+        }
+    };
+    // A low wall, a fence or a hedge on the ground from (l0, a0) to (l1, a1) (lateral offsets, metres along from segment
+    // j's point at share t), following the slope.
+    auto groundWall =
+        [&]( MeshBuilder &m, long j, float t, float l0, float a0, float l1, float a1, float height, float thick, Color col )
+    {
+        const Vector3 p0 = onGround( j, t, l0, a0, 0.0f ), p1 = onGround( j, t, l1, a1, 0.0f );
+        const Vector3 dir = Vector3Normalize( Vector3{ p1.x - p0.x, 0.0f, p1.z - p0.z } );
+        const Vector3 across = { -dir.z * thick * 0.5f, 0.0f, dir.x * thick * 0.5f };
+        const int     n = std::max( 1, static_cast<int>( std::ceil( std::hypot( l1 - l0, a1 - a0 ) / 3.0f ) ) );
+        const Color   side = scaleColor( col, 0.88f ), top = scaleColor( col, 1.08f ), foot = scaleColor( col, 0.62f );
+        for ( int i = 0; i < n; ++i )
+        {
+            const float   u0 = static_cast<float>( i ) / static_cast<float>( n ), u1 = static_cast<float>( i + 1 ) / n;
+            const Vector3 g0 = onGround( j, t, lerpf( l0, l1, u0 ), lerpf( a0, a1, u0 ), 0.0f );
+            const Vector3 g1 = onGround( j, t, lerpf( l0, l1, u1 ), lerpf( a0, a1, u1 ), 0.0f );
+            const Vector3 lo0 = { g0.x, g0.y - 0.25f, g0.z }, lo1 = { g1.x, g1.y - 0.25f, g1.z };
+            const Vector3 hi0 = { g0.x, g0.y + height, g0.z }, hi1 = { g1.x, g1.y + height, g1.z };
+            for ( float s : { -1.0f, 1.0f } )
+            {
+                const Vector3 o = Vector3Scale( across, s );
+                const Vector3 q[4] = { Vector3Add( lo0, o ), Vector3Add( lo1, o ), Vector3Add( hi1, o ), Vector3Add( hi0, o ) };
+                const Color   c4[4] = { foot, foot, side, side };
+                const Mat     m4[4] = {};
+                m.quadV( q, c4, m4 );
+            }
+            m.quad( Vector3Add( hi0, across ), Vector3Add( hi1, across ), Vector3Subtract( hi1, across ),
+                    Vector3Subtract( hi0, across ), top );
+            if ( i == 0 )
+                m.quad( Vector3Add( lo0, across ), Vector3Add( hi0, across ), Vector3Subtract( hi0, across ),
+                        Vector3Subtract( lo0, across ), side );
+            if ( i == n - 1 )
+                m.quad( Vector3Add( lo1, across ), Vector3Add( hi1, across ), Vector3Subtract( hi1, across ),
+                        Vector3Subtract( lo1, across ), side );
+        }
+    };
+
     MeshBuilder ground;
     MeshBuilder props;
     MeshBuilder scenery, sceneryFar;
     MeshBuilder glass;
+    MeshBuilder decals;
+
+    // Soft dark patches where something stands on the ground: a ring round a footprint (darkest at its walls), or a disc
+    // under a tree's crown. Up close only (the chunk's decals).
+    constexpr float OnTheGround = -1e9f;   // contactRing's level for a ring that follows the ground
+    auto contactRing = [&]( long j, float t, float l, float yaw, Vector3 mid, float hx, float hz, float grow,
+                            unsigned char alpha, float level )
+    {
+        const Vector3 L = Vector3Negate( headingRight( yaw ) ), F = headingForward( yaw );
+        const float   cx[4] = { -1.0f, 1.0f, 1.0f, -1.0f }, cz[4] = { -1.0f, -1.0f, 1.0f, 1.0f };
+        const Color   dark = { 0, 0, 0, alpha }, clear = { 0, 0, 0, 0 };
+        const Mat     m4[4] = {};
+        const Color   c4[4] = { dark, dark, clear, clear };
+        for ( int e = 0; e < 4; ++e )
+        {
+            const int   f = ( e + 1 ) % 4;
+            const float len = e % 2 == 0 ? hx * 2.0f : hz * 2.0f;
+            const int   n = std::max( 1, static_cast<int>( std::ceil( len / 3.0f ) ) );
+            for ( int i = 0; i < n; ++i )
+            {
+                Vector3 q[4];
+                for ( int v = 0; v < 4; ++v )
+                {
+                    const float u = static_cast<float>( i + ( v == 1 || v == 2 ? 1 : 0 ) ) / static_cast<float>( n );
+                    const float g = v >= 2 ? grow : 0.0f;
+                    const float x = mid.x + lerpf( cx[e], cx[f], u ) * ( hx + g ),
+                                z = mid.z + lerpf( cz[e], cz[f], u ) * ( hz + g );
+                    const Vector3 off = Vector3Add( Vector3Scale( L, x ), Vector3Scale( F, z ) );
+                    q[v] = onGround( j, t, l + Vector3DotProduct( off, landRow( j ).m_cross.m_right ),
+                                     Vector3DotProduct( off, landRow( j ).m_cross.m_forward ), 0.07f );
+                    if ( level > OnTheGround ) q[v].y = level;
+                }
+                decals.quadV( q, c4, m4 );
+            }
+        }
+    };
+    auto contactDisc = [&]( long j, float t, float l, float radius, unsigned char alpha )
+    {
+        const Vector3 c0 = onGround( j, t, l, 0.0f, 0.07f );
+        Vector3       prev{};
+        for ( int i = 0; i <= 8; ++i )
+        {
+            const float   a = Tau * static_cast<float>( i ) / 8.0f;
+            const Vector3 p = onGround( j, t, l + std::cos( a ) * radius, std::sin( a ) * radius, 0.07f );
+            if ( i > 0 ) decals.tri3( c0, prev, p, Color{ 0, 0, 0, alpha }, Color{ 0, 0, 0, 0 }, Color{ 0, 0, 0, 0 } );
+            prev = p;
+        }
+    };
 
     // Light pools of the street lamps: lamps stand every k segments, right side at j % k == 0, left at k/2.
     auto lampLight = [&]( long j, float l, float t )
@@ -597,8 +1180,8 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
 
     for ( long j = i0; j < i0 + ChunkSegments; ++j )
     {
-        const Cross    A = cross( j );
-        const Cross    B = cross( j + 1 );
+        const Cross   &A = landRow( j ).m_cross;
+        const Cross   &B = landRow( j + 1 ).m_cross;
         const Segment &seg = *A.m_seg;
         const Surface &sf = A.m_surface;
         const bool     tunnel = seg.m_flags & SEG_TUNNEL;
@@ -661,7 +1244,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                          mouth = landmarkByName( "TUNNEL_PORTAL" );
             const double ua = sj - xc.m_board, ub = xc.m_land - sj - SegmentLength;
             if ( vessel >= 0 && ua < SegmentLength )
-                props.append( models.prop( PropKindE::LANDMARK, static_cast<uint64_t>( vessel ) ), at( A, 0.0f, 0.0f ),
+                props.append( models.prop( PropKindE::LANDMARK, static_cast<uint64_t>( vessel ) ), onGround( j, 0.0f, 0.0f, 0.0f, 0.0f ),
                               A.m_heading, 1.0f );
             if ( vessel >= 0 && ub >= 0.0 && ub < SegmentLength )
                 props.append( models.prop( PropKindE::LANDMARK, static_cast<uint64_t>( vessel ) ), at( B, 0.0f, 0.0f ),
@@ -671,7 +1254,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 const double ma = ua - xc.m_length - 5.0, mb = ub - xc.m_length - 5.0;
                 if ( ma >= 0.0 && ma < SegmentLength )
                     props.append( models.prop( PropKindE::LANDMARK, static_cast<uint64_t>( mouth ) ),
-                                  at( A, 0.0f, 0.0f ), A.m_heading, 1.0f );
+                                  onGround( j, 0.0f, 0.0f, 0.0f, 0.0f ), A.m_heading, 1.0f );
                 if ( mb >= 0.0 && mb < SegmentLength )
                     props.append( models.prop( PropKindE::LANDMARK, static_cast<uint64_t>( mouth ) ),
                                   at( B, 0.0f, 0.0f ), B.m_heading + Tau * 0.5f, 1.0f );
@@ -755,6 +1338,14 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 cols.push_back( { f, 0.22f, StripE::ROAD } );
                 continue;
             }
+            if ( k * 2 == lanes && track.noPassing( j ) )
+            {
+                // The middle of a road of two directions: solid on a wide road, and where nobody sees far enough to
+                // overtake (around a tight bend or a crest).
+                cols.push_back( { f, -0.08f, StripE::LINE } );
+                cols.push_back( { f, 0.08f, StripE::ROAD } );
+                continue;
+            }
             cols.push_back( { f, -0.08f, StripE::DASH } );
             cols.push_back( { f, 0.08f, StripE::ROAD } );
         }
@@ -769,7 +1360,8 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                         la1 = cols[k + 1].m_frac * A.m_hw + cols[k + 1].m_off;
             const float lb0 = cols[k].m_frac * B.m_hw + cols[k].m_off,
                         lb1 = cols[k + 1].m_frac * B.m_hw + cols[k + 1].m_off;
-            const bool  middle = std::abs( cols[k].m_frac ) < 0.001f && between;
+            // The line down the middle in its own colour (yellow where it parts the directions), never worn away.
+            const bool middle = std::abs( cols[k].m_frac ) < 0.001f && ( between || lanes % 2 == 0 );
             Color       base = roadCol;
             float       glow = 0.0f;
             float       gloss = 0.18f;
@@ -878,9 +1470,66 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 ground.quad( at( A, l1a, 0.0f ), at( B, l1b, 0.0f ), at( B, l1b, -1.6f ), at( A, l1a, -1.6f ), fascia );
                 continue;
             }
+            const int   s = side < 0.0f ? 0 : 1;
+            const float paveWidth = landRow( j ).m_pave[s];
+            if ( paveWidth > 0.0f )
             {
-                const float   ha = terrainHeight( track, j, l2a, A.m_terrain, A.m_edge );
-                const float   hb = terrainHeight( track, j + 1, l2b, B.m_terrain, B.m_edge );
+                // A town's street: a parking lane at the road's level, a kerb, and a pavement up to the houses.
+                const float   ls[4] = { lampLight( j, l1a, 0 ), lampLight( j, l2a, 0 ), lampLight( j, l2b, 1 ),
+                                        lampLight( j, l1b, 1 ) };
+                const Vector3 lane[4] = { at( A, l1a, 0.0f ), at( A, l2a, 0.0f ), at( B, l2b, 0.0f ), at( B, l1b, 0.0f ) };
+                Color         col[4];
+                Mat           mat[4];
+                for ( int v = 0; v < 4; ++v )
+                {
+                    col[v] = lerpColor( scaleColor( roadCol, 1.05f ), WarmLight, ls[v] * 0.5f );
+                    mat[v] = Mat{ ls[v] * 0.22f, 0.16f };
+                }
+                ground.quadV( lane, col, mat );
+                ground.quad( along( 0.0f, l1a, 0.02f ), along( 0.0f, l2a, 0.02f ), along( 0.025f, l2a, 0.02f ),
+                             along( 0.025f, l1a, 0.02f ), Color{ 226, 226, 220, 255 }, Mat{ 0.0f, 0.3f } );
+                const float l3a = l2a + side * paveWidth, l3b = l2b + side * paveWidth;
+                auto        top = [&]( const Cross &X, long jj, float l )
+                {
+                    Vector3 p = at( X, l, 0.0f );
+                    p.y = slabY( landRow( jj ), l );
+                    return p;
+                };
+                auto foot = [&]( const Cross &X, long jj, float l )
+                {
+                    Vector3 p = at( X, l, 0.0f );
+                    p.y = std::min( rowY( landRow( jj ), l ), p.y ) - 0.05f;
+                    return p;
+                };
+                // The kerb in the country's paint: black and yellow in South Asia and Arabia, black and white in
+                // Southeast Asia and Africa, yellow in Latin America, bare stone elsewhere.
+                const FleetE kerbRegion = countryInfo( ruling( seg, 0.5f ).m_country ).m_fleet;
+                const bool   kerbCountry = ruling( seg, 0.5f ).m_country != nullptr;
+                Color        kerbStone = { 168, 166, 160, 255 };
+                if ( kerbCountry && ( kerbRegion == FleetE::SOUTH_ASIA || kerbRegion == FleetE::ARABIA ) )
+                    kerbStone = j % 2 ? Color{ 236, 196, 40, 255 } : Color{ 30, 30, 32, 255 };
+                else if ( kerbCountry && ( kerbRegion == FleetE::SOUTHEAST_ASIA || kerbRegion == FleetE::AFRICA ) )
+                    kerbStone = j % 2 ? Color{ 236, 236, 230, 255 } : Color{ 30, 30, 32, 255 };
+                else if ( kerbCountry && kerbRegion == FleetE::LATIN )
+                    kerbStone = Color{ 232, 196, 60, 255 };
+                const Color paving = scaleColor( Color{ 184, 180, 172, 255 }, band ? 1.0f : 0.95f );
+                ground.quad( foot( A, j, l2a ), foot( B, j + 1, l2b ), top( B, j + 1, l2b ), top( A, j, l2a ), kerbStone );
+                const Vector3 slab[4] = { top( A, j, l2a ), top( A, j, l3a ), top( B, j + 1, l3b ), top( B, j + 1, l2b ) };
+                const float   lp[4] = { lampLight( j, l2a, 0 ), lampLight( j, l3a, 0 ), lampLight( j, l3b, 1 ),
+                                        lampLight( j, l2b, 1 ) };
+                for ( int v = 0; v < 4; ++v )
+                {
+                    col[v] = lerpColor( paving, WarmLight, lp[v] * 0.4f );
+                    mat[v] = Mat{ lp[v] * 0.15f, 0.05f };
+                }
+                ground.quadV( slab, col, mat );
+                ground.quad( top( A, j, l3a ), top( B, j + 1, l3b ), foot( B, j + 1, l3b ), foot( A, j, l3a ),
+                             scaleColor( kerbStone, 0.85f ) );
+                continue;
+            }
+            {
+                const float   ha = landRow( j ).m_height[s][0];
+                const float   hb = landRow( j + 1 ).m_height[s][0];
                 const Vector3 p[4] = { at( A, l1a, 0.0f ), at( A, l2a, ha ), at( B, l2b, hb ), at( B, l1b, 0.0f ) };
                 const float   ls[4] = { lampLight( j, l1a, 0 ), lampLight( j, l2a, 0 ), lampLight( j, l2b, 1 ),
                                         lampLight( j, l1b, 1 ) };
@@ -895,29 +1544,19 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             }
         }
 
-        // The land: stripes near the road, patchy colour further out, ponds in the marsh.
-        static const float offsets[] = { 0.0f, 6.0f, 16.0f, 32.0f, 60.0f, 100.0f, 170.0f, 280.0f, 450.0f, 700.0f };
-        constexpr int      offsetCount = static_cast<int>( sizeof( offsets ) / sizeof( offsets[0] ) );
+        // The land: stripes near the road, patchy colour further out, ponds in the marsh; above the tree line rock, above
+        // the snow line snow, where the slope lets it lie.
         for ( float side : { -1.0f, 1.0f } )
         {
-            // In a serpentine the land ends where the next leg's begins.
-            auto squeeze = [&]( const Cross &x )
+            const int      s = side < 0.0f ? 0 : 1;
+            const LandRow &ra = landRow( j ), &rb = landRow( j + 1 );
+            for ( int k = 0; k + 1 < LandRows; ++k )
             {
-                const float reach = side < 0.0f ? x.m_seg->m_reachL : x.m_seg->m_reachR;
-                return reach > 0.0f ? clampf( ( reach - x.m_edge ) / offsets[offsetCount - 1], 0.0f, 1.0f ) : 1.0f;
-            };
-            const float fa = squeeze( A ), fb = squeeze( B );
-            for ( int k = 0; k + 1 < offsetCount; ++k )
-            {
-                const float la0 = side * ( A.m_edge + offsets[k] * fa ),
-                            la1 = side * ( A.m_edge + offsets[k + 1] * fa );
-                const float lb0 = side * ( B.m_edge + offsets[k] * fb ),
-                            lb1 = side * ( B.m_edge + offsets[k + 1] * fb );
-                const float h[4] = { terrainHeight( track, j, la0, A.m_terrain, A.m_edge ),
-                                     terrainHeight( track, j, la1, A.m_terrain, A.m_edge ),
-                                     terrainHeight( track, j + 1, lb1, B.m_terrain, B.m_edge ),
-                                     terrainHeight( track, j + 1, lb0, B.m_terrain, B.m_edge ) };
-                const float mid = ( offsets[k] + offsets[k + 1] ) * 0.5f;
+                const float la0 = ra.m_lateral[s][k], la1 = ra.m_lateral[s][k + 1];
+                const float lb0 = rb.m_lateral[s][k], lb1 = rb.m_lateral[s][k + 1];
+                const float h[4] = { ra.m_height[s][k], ra.m_height[s][k + 1], rb.m_height[s][k + 1],
+                                     rb.m_height[s][k] };
+                const float mid = ( LandOffsets[k] + LandOffsets[k + 1] ) * 0.5f;
                 const Color stripe = band ? sf.m_groundA : sf.m_groundB;
                 const float patch =
                     hashFloat( seed + static_cast<uint64_t>( k * 2 + ( side > 0 ) ), static_cast<uint64_t>( j / 3 ) );
@@ -939,10 +1578,13 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 const float run = std::max( 1.0f, std::abs( la1 - la0 ) );
                 const float slope = std::max( std::abs( h[1] - h[0] ), std::abs( h[2] - h[3] ) ) / run;
                 if ( slope > 0.7f ) col = lerpColor( col, sf.m_shoulder, smoothstepf( 0.7f, 1.4f, slope ) * 0.85f );
-                const bool pond = A.m_terrain.m_ponds > 0.0f && k >= 1 && k <= 4 &&
-                                  hashFloat( seed + 99 + static_cast<uint64_t>( k + ( side > 0 ) * 7 ),
-                                             static_cast<uint64_t>( j / 2 ) ) < A.m_terrain.m_ponds * 0.3f;
-                if ( pond )
+                // High up rock and snow, and snow where the road runs between banks of it.
+                col = highTone( col, j,
+                                static_cast<float>( c.m_origin.m_y ) + ( at( A, la0, h[0] ).y + at( A, la1, h[1] ).y +
+                                                                          at( B, lb1, h[2] ).y + at( B, lb0, h[3] ).y ) *
+                                                                            0.25f,
+                                slope );
+                if ( pondAt( j, s, k ) )
                 {
                     const float   y = std::min( { h[0], h[1], h[2], h[3] } ) - 0.15f;
                     const Vector3 p[4] = { at( A, la0, y ), at( A, la1, y ), at( B, lb1, y ), at( B, lb0, y ) };
@@ -953,17 +1595,59 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 ground.quad( p[0], p[1], p[2], p[3], col, Mat{ GroundMat.m_emissive, sf.m_groundGloss } );
             }
         }
-        // The sea: left, right or both (sinking away while a crossfade removes it).
+        // The sea: left, right or both (sinking away while a crossfade removes it). Pale and green over the shallows,
+        // deepening away from the shore; where it meets the land, a line of surf.
         for ( float side : { -1.0f, 1.0f } )
         {
             const float w = side < 0 ? A.m_terrain.m_waterLeft : A.m_terrain.m_waterRight;
             if ( w <= 0.05f ) continue;
-            const float la0 = side * ( A.m_edge + 14.0f ), la1 = side * ( A.m_edge + 1200.0f );
-            const float lb0 = side * ( B.m_edge + 14.0f ), lb1 = side * ( B.m_edge + 1200.0f );
+            const int   s = side < 0.0f ? 0 : 1;
             const float y = A.m_terrain.m_seaLevel - ( 1.0f - w ) * 20.0f, ya = y + A.m_seg->m_trench,
                         yb = y + B.m_seg->m_trench;
-            ground.quad( at( A, la0, ya ), at( A, la1, ya ), at( B, lb1, yb ), at( B, lb0, yb ), sf.m_water,
-                         Mat{ sf.m_waterGlow, sf.m_waterGloss } );
+            // Where the land as drawn goes under the water, on either row (14 m out where it does not).
+            auto shore = [&]( const LandRow &row, float level )
+            {
+                for ( int k = 0; k + 1 < LandRows; ++k )
+                    if ( row.m_height[s][k] > level && row.m_height[s][k + 1] <= level )
+                        return lerpf( std::abs( row.m_lateral[s][k] ), std::abs( row.m_lateral[s][k + 1] ),
+                                      ( row.m_height[s][k] - level ) /
+                                          std::max( 0.01f, row.m_height[s][k] - row.m_height[s][k + 1] ) );
+                return row.m_cross.m_edge + 14.0f;
+            };
+            const float wa = shore( landRow( j ), ya ), wb = shore( landRow( j + 1 ), yb );
+            const Color shallow = lerpColor( sf.m_water, Color{ 190, 240, 228, 255 }, 0.4f );
+            const Color deep = lerpColor( scaleColor( sf.m_water, 0.62f ), Color{ 16, 40, 96, 255 }, 0.25f );
+            const float outs[4] = { 0.0f, 30.0f, 140.0f, 1200.0f };
+            const Color tones[4] = { shallow, lerpColor( shallow, sf.m_water, 0.6f ), sf.m_water, deep };
+            const Mat   water = { sf.m_waterGlow, sf.m_waterGloss };
+            const Mat   waters[4] = { water, water, water, water };
+            for ( int k = 0; k < 3; ++k )
+            {
+                const float a1 = A.m_edge + 14.0f + outs[k + 1], b1 = B.m_edge + 14.0f + outs[k + 1];
+                const float a0 = k == 0 ? std::min( wa, a1 - 1.0f ) : A.m_edge + 14.0f + outs[k];
+                const float b0 = k == 0 ? std::min( wb, b1 - 1.0f ) : B.m_edge + 14.0f + outs[k];
+                const Vector3 q[4] = { at( A, side * a0, ya ), at( A, side * a1, ya ), at( B, side * b1, yb ),
+                                       at( B, side * b0, yb ) };
+                const Color   col[4] = { tones[k], tones[k + 1], tones[k + 1], tones[k] };
+                ground.quadV( q, col, waters );
+            }
+            if ( w > 0.95f && !tunnel )
+            {
+                // The surf: white on the beach's edge, thinning out over the first metres of water; broken here and there.
+                const float broken = hashFloat( seed + 47 + static_cast<uint64_t>( s ), static_cast<uint64_t>( j ) );
+                const Color foam = { 244, 248, 250, 255 };
+                const float in = -0.7f, mid = 0.6f + 0.8f * broken, out = 2.2f + 1.6f * broken;
+                const Mat   froth = { 0.0f, 0.25f };
+                const Mat   froths[4] = { froth, froth, froth, froth };
+                const Vector3 q0[4] = { at( A, side * ( wa + in ), ya + 0.04f ), at( A, side * ( wa + mid ), ya + 0.04f ),
+                                        at( B, side * ( wb + mid ), yb + 0.04f ), at( B, side * ( wb + in ), yb + 0.04f ) };
+                const Color   c0[4] = { foam, foam, foam, foam };
+                ground.quadV( q0, c0, froths );
+                const Vector3 q1[4] = { at( A, side * ( wa + mid ), ya + 0.04f ), at( A, side * ( wa + out ), ya + 0.04f ),
+                                        at( B, side * ( wb + out ), yb + 0.04f ), at( B, side * ( wb + mid ), yb + 0.04f ) };
+                const Color   c1[4] = { foam, shallow, shallow, foam };
+                ground.quadV( q1, c1, froths );
+            }
         }
 
         if ( tunnel )
@@ -1041,29 +1725,59 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 obox( props, at( A, -m * ( wa + 0.25f ), 2.8f ), A.m_right, A.m_forward, 0.3f, 2.8f, 0.45f, concrete );
         }
         {
-            // Walls of snow along the road in winter and spring where the place clears it through deep snow.
+            // Banks of snow along the road in winter and spring where the place clears it through deep snow: a foot of
+            // slush, a cut face that leans back and bulges here and there, a rounded shoulder, an uneven crest, and a slope
+            // down to the land behind. Their height and their bulges change slowly along the road, not from segment to
+            // segment.
             const BiomeDef &place = bridgeBiome( seg );
             const bool      snowy = A.m_season.m_winter > 0.25f || A.m_season.m_spring > 0.35f;
             if ( place.m_snowWalls > 0.0f && snowy && !tunnel && !bridge && seg.m_gallery == 0 )
             {
-                const Color snow = { 240, 244, 250, 255 }, grime = { 196, 200, 210, 255 };
-                const float ha =
-                    place.m_snowWalls * ( 0.8f + 0.35f * hashFloat( seed + 91, static_cast<uint64_t>( j ) ) );
-                const float hb =
-                    place.m_snowWalls * ( 0.8f + 0.35f * hashFloat( seed + 91, static_cast<uint64_t>( j + 1 ) ) );
+                const Color slush = { 198, 206, 222, 255 }, face = { 230, 236, 247, 255 }, crest = { 248, 250, 254, 255 };
+                const Mat   sparkle = { 0.0f, 0.3f };
+                const Mat   mats[4] = { sparkle, sparkle, sparkle, sparkle };
                 for ( float side : { -1.0f, 1.0f } )
                 {
-                    const float ia = side * ( A.m_hw + RumbleWidth + 0.4f ),
-                                ib = side * ( B.m_hw + RumbleWidth + 0.4f );
-                    const float oa = side * ( A.m_edge + 2.5f ), ob = side * ( B.m_edge + 2.5f );
-                    props.quad( at( A, ia, 0.0f ), at( B, ib, 0.0f ), at( B, ib, hb ), at( A, ia, ha ), snow,
-                                Mat{ 0.0f, 0.3f } );
-                    props.quad( at( A, ia, ha ), at( B, ib, hb ), at( B, ob, hb + 0.3f ), at( A, oa, ha + 0.3f ), snow,
-                                Mat{ 0.0f, 0.3f } );
-                    for ( float k : { 0.32f, 0.61f } )
-                        props.quad( at( A, ia * 0.995f, ha * k ), at( B, ib * 0.995f, hb * k ),
-                                    at( B, ib * 0.995f, hb * k + 0.12f ), at( A, ia * 0.995f, ha * k + 0.12f ), grime );
-                    c.m_colliders.push_back( { sj, side * ( A.m_hw + RumbleWidth + 1.4f ), 1.0f } );
+                    const uint64_t key = seed + 91 + ( side > 0.0f ? 7u : 0u );
+                    constexpr int  Points = 7, Steps = 2;
+                    Vector3        ring[Steps + 1][Points];
+                    for ( int i = 0; i <= Steps; ++i )
+                    {
+                        const float  t = static_cast<float>( i ) / static_cast<float>( Steps );
+                        const double s = sj + static_cast<double>( t * SegmentLength );
+                        const float  high = place.m_snowWalls * ( 0.7f + 0.5f * valueNoise( s * 0.03, side * 1.7, key ) +
+                                                                 0.14f * valueNoise( s * 0.23, side * 5.1, key + 1 ) );
+                        auto         bulge = [&]( int level )
+                        { return 0.5f * ( valueNoise( s * 0.17, level * 3.3 + side, key + 2 ) - 0.5f ); };
+                        const float in = lerpf( A.m_hw, B.m_hw, t ) + RumbleWidth + 0.4f;
+                        float       back = lerpf( A.m_edge, B.m_edge, t ) + 2.5f + 0.5f * high;   // where the crest ends
+                        float       out = back + 1.6f * high;   // where the slope meets the land
+                        // In a serpentine the land ends where the next leg's begins.
+                        const float reach = side < 0.0f ? seg.m_reachL : seg.m_reachR;
+                        if ( reach > 0.0f )
+                        {
+                            out = std::min( out, reach - 1.0f );
+                            back = std::min( back, out - 0.5f );
+                        }
+                        ring[i][0] = along( t, side * in, 0.0f );
+                        ring[i][1] = along( t, side * ( in + 0.35f ), 0.12f * high );
+                        ring[i][2] = along( t, side * ( in + 0.6f + bulge( 0 ) ), 0.55f * high );
+                        ring[i][3] = along( t, side * ( in + 1.1f + bulge( 1 ) ), 0.9f * high );
+                        ring[i][4] = along( t, side * ( in + 2.1f + bulge( 2 ) ), high );
+                        ring[i][5] = along( t, side * back, high + 0.5f * bulge( 3 ) );
+                        ring[i][6] = along( t, side * out, 0.0f );
+                        ring[i][6].y = groundY( j, std::min( t, 0.999f ), side * out ) - 0.2f;
+                    }
+                    const Color tones[Points] = { slush, slush, face, face, crest, crest, crest };
+                    for ( int i = 0; i < Steps; ++i )
+                        for ( int k = 0; k + 1 < Points; ++k )
+                        {
+                            const Vector3 q[4] = { ring[i][k], ring[i + 1][k], ring[i + 1][k + 1], ring[i][k + 1] };
+                            const Color   col[4] = { tones[k], tones[k], tones[k + 1], tones[k + 1] };
+                            props.quadV( q, col, mats );
+                        }
+                    // Run into, the snow turns the car away like a rail.
+                    c.m_colliders.push_back( { sj, side * ( A.m_hw + RumbleWidth + 1.4f ), 1.0f, true } );
                 }
             }
         }
@@ -1079,7 +1793,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             {
                 const float l0 = s0 * ( A.m_edge + RunwayNear + RunwayLength * static_cast<float>( k ) / 12.0f );
                 const float l1 = s0 * ( A.m_edge + RunwayNear + RunwayLength * static_cast<float>( k + 1 ) / 12.0f );
-                const float h = terrainHeight( track, j, ( l0 + l1 ) * 0.5f, A.m_terrain, A.m_edge ) + 0.08f;
+                const float h = ( rowY( landRow( j ), ( l0 + l1 ) * 0.5f ) - at( A, ( l0 + l1 ) * 0.5f, 0.0f ).y ) + 0.08f;
                 props.quad( rw( l0, -RunwayHalf, h ), rw( l1, -RunwayHalf, h ), rw( l1, RunwayHalf, h ),
                             rw( l0, RunwayHalf, h ), tarmac, Mat{ 0.0f, 0.15f } );
                 props.quad( rw( l0 + s0 * 10.0f, -0.6f, h + 0.02f ), rw( l0 + s0 * 34.0f, -0.6f, h + 0.02f ),
@@ -1097,7 +1811,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             for ( int k = 0; k < 10; ++k )
             {
                 const float l = -s0 * ( A.m_edge + 20.0f + 30.0f * static_cast<float>( k ) );
-                const float h = terrainHeight( track, j, l, A.m_terrain, A.m_edge );
+                const float h = ( rowY( landRow( j ), l ) - at( A, l, 0.0f ).y );
                 const float top = 3.0f + 0.5f * static_cast<float>( k );
                 props.cylinder( rw( l, 0.0f, h ), 0.12f, 0.1f, top, 6, Color{ 210, 120, 40, 255 } );
                 props.box( rw( l, 0.0f, h + top ), Vector3{ 0.3f, 0.2f, 0.3f }, Color{ 255, 250, 230, 255 },
@@ -1106,7 +1820,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                     props.box( rw( l, f, h + top ), Vector3{ 0.2f, 0.15f, 0.2f }, Color{ 255, 240, 200, 255 },
                                Mat{ 1.0f, 0.0f } );
             }
-            const float tl = s0 * ( A.m_edge + 220.0f ), th = terrainHeight( track, j, tl, A.m_terrain, A.m_edge );
+            const float tl = s0 * ( A.m_edge + 220.0f ), th = ( rowY( landRow( j ), tl ) - at( A, tl, 0.0f ).y );
             props.cylinder( rw( tl, 160.0f, th ), 2.4f, 2.0f, 26.0f, 10, Color{ 226, 224, 218, 255 } );
             props.cylinder( rw( tl, 160.0f, th + 26.0f ), 3.6f, 4.2f, 4.0f, 10, Color{ 60, 90, 120, 255 },
                             Mat{ 0.2f, 0.9f } );
@@ -1430,12 +2144,12 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                         sign, std::string( ferry ? "FERRY TO " : "CAR TRAIN TO " ) + ( dest.m_name ? dest.m_name : "" ),
                         3, 0.5f, 2.2f );
                     const float l = driver * ( A.m_edge + 3.0f );
-                    props.append( sign, at( A, l, 0.0f ), A.m_heading, 1.0f );
+                    props.append( sign, onGround( j, 0.0f, l, 0.0f, 0.0f ), A.m_heading, 1.0f );
                     c.m_colliders.push_back( { sj, l, 0.6f } );
                 }
             const int canopy = landmarkByName( "TERMINAL_CANOPY" );
             if ( canopy >= 0 && before > 180.0 - SegmentLength && before <= 180.0 )
-                props.append( models.prop( PropKindE::LANDMARK, static_cast<uint64_t>( canopy ) ), at( A, 0.0f, 0.0f ),
+                props.append( models.prop( PropKindE::LANDMARK, static_cast<uint64_t>( canopy ) ), onGround( j, 0.0f, 0.0f, 0.0f, 0.0f ),
                               A.m_heading, 1.0f );
             if ( ferry && before > 0.0 && before <= SegmentLength )
                 ground.quad( at( B, -1500.0f, -6.0f ), at( B, 1500.0f, -6.0f ), at( B, 1500.0f, 0.0f ),
@@ -1469,13 +2183,13 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                                     : speedLimit( seg, roads.m_mph ),
                                 roads.m_board );
                 const float l = driver * ( A.m_edge + 1.6f );
-                props.append( m, at( A, l, 0.0f ), A.m_heading, 1.0f );
+                props.append( m, onGround( j, 0.0f, l, 0.0f, 0.0f ), A.m_heading, 1.0f );
                 c.m_colliders.push_back( { sj, l, 0.3f } );
             }
             if ( camera && j == static_cast<long>( cs / SegmentLength ) )
             {
                 const float l = driver * ( A.m_edge + 1.8f );
-                props.append( models.m_camera, at( A, l, 0.0f ), A.m_heading, 1.0f );
+                props.append( models.m_camera, onGround( j, 0.0f, l, 0.0f, 0.0f ), A.m_heading, 1.0f );
                 c.m_colliders.push_back( { sj, l, 0.4f } );
             }
             if ( local < stageSegs / 2 && stageToll( track, stage, ts ) &&
@@ -1563,7 +2277,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 const Color keys[3] = { paint.size() > 0 ? paint[0] : Color{ 176, 32, 32, 255 },
                                         paint.size() > 1 ? paint[1] : Color{ 242, 238, 228, 255 },
                                         !f.m_lights.empty() ? f.m_lights[0] : Color{ 255, 224, 160, 255 } };
-                const float h = terrainHeight( track, j, l, A.m_terrain, A.m_edge );
+                const float h = rowY( landRow( j ), l ) - at( A, l, 0.0f ).y;   // on the ground as drawn
                 SeasonLook  snow = A.m_season;
                 snow.m_autumn = snow.m_bare = snow.m_spring = 0.0f;
                 props.append( models.prop( PropKindE::LANDMARK, static_cast<uint64_t>( v ) ), at( A, l, h ),
@@ -1605,7 +2319,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 forkNames( fork.m_left, fork.m_right, track.stageBiome( seg.m_stage ), left, right );
                 MeshBuilder sign;
                 buildForkSign( sign, left, right, A.m_hw );
-                props.append( sign, at( A, 0.0f, 0.0f ), A.m_heading, 1.0f );
+                props.append( sign, onGround( j, 0.0f, 0.0f, 0.0f, 0.0f ), A.m_heading, 1.0f );
             }
             if ( peeling )
             {
@@ -1650,7 +2364,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 {
                     MeshBuilder sign;
                     buildPlaceSign( sign, place.m_region, 4, 0.5f, 2.0f );
-                    props.append( sign, at( A, side * ( A.m_edge + 3.0f ), 0.0f ), A.m_heading, 1.0f );
+                    props.append( sign, onGround( j, 0.0f, side * ( A.m_edge + 3.0f ), 0.0f, 0.0f ), A.m_heading, 1.0f );
                     c.m_colliders.push_back(
                         { static_cast<double>( j ) * SegmentLength, side * ( A.m_edge + 3.0f ), 0.6f } );
                 }
@@ -1660,13 +2374,13 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                     buildPlaceSign( sign, place.m_name, nation.m_townSign, 0.42f, 1.4f, true,
                                     scriptName( track.stageBiome( static_cast<int>( stage ) ) ) );
                     const float l = side * ( A.m_edge + 2.4f );
-                    props.append( sign, at( A, l, 0.0f ), A.m_heading, 1.0f );
+                    props.append( sign, onGround( j, 0.0f, l, 0.0f, 0.0f ), A.m_heading, 1.0f );
                     c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, l, 0.6f } );
                 }
                 if ( border && local == 3 && side == driver )
                 {
                     const float l = side * ( A.m_edge + 2.0f );
-                    props.append( models.m_borderPost, at( A, l, 0.0f ), A.m_heading + ( side < 0 ? Tau * 0.5f : 0.0f ),
+                    props.append( models.m_borderPost, onGround( j, 0.0f, l, 0.0f, 0.0f ), A.m_heading + ( side < 0 ? Tau * 0.5f : 0.0f ),
                                   1.0f );
                     c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, l, 1.4f } );
                 }
@@ -1676,13 +2390,13 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                     const int   flag = countryIndex( side == driver ? place.m_country : before );
                     const float l = side * ( A.m_edge + 6.0f );
                     if ( flag >= 0 )
-                        props.append( models.m_flags[static_cast<size_t>( flag )], at( A, l, 0.0f ), A.m_heading,
+                        props.append( models.m_flags[static_cast<size_t>( flag )], onGround( j, 0.0f, l, 0.0f, 0.0f ), A.m_heading,
                                       1.0f );
                     if ( side == driver )
                     {
                         MeshBuilder sign;
                         buildPlaceSign( sign, place.m_country, 3, 0.6f, 2.4f );
-                        props.append( sign, at( A, side * ( A.m_edge + 3.0f ), 0.0f ), A.m_heading, 1.0f );
+                        props.append( sign, onGround( j, 0.0f, side * ( A.m_edge + 3.0f ), 0.0f, 0.0f ), A.m_heading, 1.0f );
                         c.m_colliders.push_back(
                             { static_cast<double>( j ) * SegmentLength, side * ( A.m_edge + 3.0f ), 0.6f } );
                     }
@@ -1699,7 +2413,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                                     std::to_string( seg.m_hairpin ),
                                 0, 0.42f, 1.2f );
                 const float l = side * ( A.m_edge + 1.8f );
-                props.append( sign, at( A, l, 0.0f ), A.m_heading, 1.0f );
+                props.append( sign, onGround( j, 0.0f, l, 0.0f, 0.0f ), A.m_heading, 1.0f );
                 c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, l, 0.5f } );
             }
             if ( ( seg.m_flags & SEG_SUMMIT ) && rule.m_summit && side == ( signs.m_left ? -1.0f : 1.0f ) )
@@ -1709,13 +2423,14 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                                 std::string( rule.m_summit ) + "  " + std::to_string( rule.m_summitHeight ) + " M",
                                 signs.m_townSign, 0.5f, 1.8f );
                 const float l = side * ( A.m_edge + 2.6f );
-                props.append( sign, at( A, l, 0.0f ), A.m_heading, 1.0f );
+                props.append( sign, onGround( j, 0.0f, l, 0.0f, 0.0f ), A.m_heading, 1.0f );
                 c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, l, 0.6f } );
             }
 
             const bool forkClear =
                 ( seg.m_flags & SEG_FORK ) && ( u < 250.0 || u > ForkMedian - 150.0 );   // the gore and the peel
-            if ( rule.m_postSpacing > 0.0f && !railed && !tunnel && !bridge && !forkClear )
+            if ( rule.m_postSpacing > 0.0f && !railed && !tunnel && !bridge && !forkClear &&
+                 pavementAt( track, models, seed, j, side ).m_width <= 0.0f )
             {
                 const long k = std::max( 2L, static_cast<long>( rule.m_postSpacing / SegmentLength + 0.5f ) );
                 if ( ( j + ( side < 0 ? k / 2 : 0 ) ) % k == 0 )
@@ -1725,7 +2440,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                     const size_t far = ( side < 0 ) == keepLeft ? 0 : 1;
                     props.append(
                         models.m_post[std::min<size_t>( rule.m_postStyle, PostSchemes * PostBodies - 1 ) * 2 + far],
-                        at( A, side * ( A.m_hw + RumbleWidth + 0.7f ), 0.0f ), A.m_heading, 1.0f );
+                        onGround( j, 0.0f, side * ( A.m_hw + RumbleWidth + 0.7f ), 0.0f, 0.0f ), A.m_heading, 1.0f );
                 }
             }
             if ( rule.m_lampSpacing > 0.0f && !tunnel && !bridge && !forkClear )
@@ -1734,7 +2449,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 if ( j % k == ( side > 0 ? 0 : k / 2 ) )
                 {
                     const float l = side * ( A.m_hw + RumbleWidth + 1.0f );
-                    props.append( models.m_lamp[std::min<size_t>( rule.m_lampTone, 2 )], at( A, l, 0.0f ),
+                    props.append( models.m_lamp[std::min<size_t>( rule.m_lampTone, 2 )], onGround( j, 0.0f, l, 0.0f, 0.0f ),
                                   A.m_heading + ( side > 0 ? -0.5f : 0.5f ) * Tau * 0.5f, 1.0f );
                     c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, l, 0.35f } );
                 }
@@ -1745,7 +2460,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             {
                 const float l = A.m_hw + RumbleWidth + 5.5f;
                 props.append( models.m_utilityPole[std::min<size_t>( rule.m_poleKind - 1, 2 )],
-                              at( A, l, terrainHeight( track, j, l, A.m_terrain, A.m_edge ) ), A.m_heading, 1.0f );
+                              onGround( j, 0.0f, l, 0.0f, -0.1f ), A.m_heading, 1.0f );
             }
             // The wires between the poles: from the insulators of this segment's end to the next one's, sagging between
             // two poles; a pair more on the pole where the data says the line carries six conductors or more.
@@ -1755,8 +2470,8 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 const float u0 = static_cast<float>( j % span ) / static_cast<float>( span ),
                             u1 = static_cast<float>( j % span + 1 ) / static_cast<float>( span );
                 const float lA = A.m_hw + RumbleWidth + 5.5f, lB = B.m_hw + RumbleWidth + 5.5f;
-                const float hA = terrainHeight( track, j, lA, A.m_terrain, A.m_edge );
-                const float hB = terrainHeight( track, j + 1, lB, B.m_terrain, B.m_edge );
+                const float hA = rowY( landRow( j ), lA ) - at( A, lA, 0.0f ).y - 0.1f;
+                const float hB = rowY( landRow( j + 1 ), lB ) - at( B, lB, 0.0f ).y - 0.1f;
                 // Where the insulators of the three pole models sit: across the road and above the ground.
                 static const float arms[3][4] = { { -1.1f, -0.4f, 0.4f, 1.1f },
                                                   { -1.0f, 0.0f, 1.0f, 0.0f },
@@ -1779,64 +2494,368 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             {
                 const float  l = side * ( A.m_edge + 1.4f );
                 const size_t style = std::min<size_t>( signs.m_chevrons, 2 );
-                props.append( side < 0 ? models.m_chevronRight[style] : models.m_chevronLeft[style], at( A, l, 0.0f ),
+                props.append( side < 0 ? models.m_chevronRight[style] : models.m_chevronLeft[style], onGround( j, 0.0f, l, 0.0f, 0.0f ),
                               A.m_heading, 1.0f );
                 c.m_colliders.push_back( { static_cast<double>( j ) * SegmentLength, l, 0.5f } );
             }
             if ( ( seg.m_flags & SEG_JUMP ) && !tunnel )
                 props.append( models.m_jumpSign[std::min<size_t>( signs.m_warn, 3 )],
-                              at( A, side * ( A.m_edge + 1.2f ), 0.0f ), A.m_heading, 1.0f );
+                              onGround( j, 0.0f, side * ( A.m_edge + 1.2f ), 0.0f, 0.0f ), A.m_heading, 1.0f );
 
             // Scattered props; the buildings of a town or a city on plots in rows back from the road, in the country in a
             // village here and there.
-            auto place = [&]( const PropRule &pr, uint64_t key, float dist, bool onPlot )
+            const Plots plots = plotsOf( rule, models );
+            const bool  built = plots.m_count > 0 && ( plots.m_city || inVillage( seed, j ) );
+            const long  plotSegs = std::max( 2L, std::lround( plots.m_along / SegmentLength ) ), plot = j / plotSegs;
+            const bool  wet =
+                ( side < 0.0f ? A.m_terrain.m_waterLeft : A.m_terrain.m_waterRight ) > 0.5f;   // no plots in the sea
+            const float reachHere = side < 0.0f ? seg.m_reachL : seg.m_reachR;
+            const bool  forkLand = fork.m_exists && u > ForkMedian - 60.0 && u < ForkMedian + ForkPeel + 40.0;
+            const bool  green = sf.m_groundA.g > sf.m_groundA.r + 10;
+
+            // A town's street: cars parked along it (not where a lamp stands or a cross street meets it), and at a cross
+            // street the street itself, a zebra across the road and, on the driver's side, the lights.
+            const Pavement pave = pavementAt( track, models, seed, j, side );
+            const bool     street = pave.m_width > 0.0f && !wet && !tunnel && !bridge && seg.m_gallery == 0 &&
+                                !forkLand && !viaduct && !hasRunway && reachHere <= 0.0f;
+            auto lampAt = [&]( long jj )
             {
+                const BiomeDef &d = ruling( track.segment( jj ), hashFloat( seed ^ sideKey, static_cast<uint64_t>( jj ) ) );
+                if ( d.m_lampSpacing <= 0.0f ) return false;
+                const long k = std::max( 2L, static_cast<long>( d.m_lampSpacing / SegmentLength + 0.5f ) );
+                return jj % k == ( side > 0 ? 0 : k / 2 );
+            };
+            if ( street && !pave.m_crossing && !railed && !models.m_parked.empty() &&
+                 hashFloat( seed + 61 + sideKey, static_cast<uint64_t>( j ) ) < 0.3f && !lampAt( j ) &&
+                 !lampAt( j + 1 ) && !pavementAt( track, models, seed, j - 1, side ).m_crossing &&
+                 !pavementAt( track, models, seed, j + 1, side ).m_crossing )
+            {
+                // Parked the way the traffic on that side goes: an everyday car, or as often what the country drives (a
+                // scooter, a tuk-tuk, a pickup). Run into, it turns the car away like a rail: no crash.
+                const bool     leftHand = signs.m_left;
+                const uint64_t pick = hash64( seed + 63 + static_cast<uint64_t>( j * 2 + ( side > 0 ) ) );
+                const uint32_t fleetBit = 1u << static_cast<int>( signs.m_fleet );
+                size_t         locals = 0, everyday = 0;
+                for ( const ParkedModel &pm : models.m_parked )
+                {
+                    if ( pm.m_fleets == 0 )
+                        ++everyday;
+                    else if ( pm.m_fleets & fleetBit )
+                        ++locals;
+                }
+                const bool regional = locals > 0 && rule.m_country && ( ( pick >> 20 ) & 1 );
+                size_t     nth = ( pick >> 4 ) % std::max<size_t>( 1, regional ? locals : everyday ), k = 0;
+                for ( size_t i = 0; i < models.m_parked.size(); ++i )
+                {
+                    const ParkedModel &pm = models.m_parked[i];
+                    if ( regional ? !( pm.m_fleets != 0 && ( pm.m_fleets & fleetBit ) ) : pm.m_fleets != 0 ) continue;
+                    k = i;
+                    if ( nth-- == 0 ) break;
+                }
+                const ParkedModel &car = models.m_parked[k];
+                const float        l = side * ( A.m_hw + RumbleWidth + 0.45f + car.m_width * 0.5f );
+                const float        yawP = A.m_heading + ( ( side > 0.0f ) != leftHand ? 0.0f : Tau * 0.5f );
+                const Vector3      spot = Vector3Lerp( at( A, l, 0.0f ), at( B, l, 0.0f ), 0.5f );
+                scenery.append( car.m_full, spot, yawP, 1.0f );
+                sceneryFar.append( car.m_far, spot, yawP, 1.0f );
+                contactRing( j, 0.5f, l, yawP, Vector3{}, car.m_width * 0.5f, car.m_length * 0.5f, 0.6f, 110,
+                             OnTheGround );
+                c.m_colliders.push_back( { sj + 2.5, l, std::max( 0.3f, car.m_width * 0.4f ), true } );
+            }
+            if ( street && pave.m_crossing )
+            {
+                const float l0 = side * A.m_edge, l1 = side * ( A.m_edge + pave.m_width + 60.0f );
+                groundStrip( props, j, 0.0f, 2.5f, l0, l1, 6.0f, scaleColor( sf.m_road, 1.02f ), Mat{ 0.0f, 0.16f } );
+                const bool driver = ( side > 0.0f ) != signs.m_left;
+                if ( driver )
+                {
+                    // The crossing just before the cross street, as the country paints it: two lines across the road
+                    // in North America, yellow stripes in Latin America, white stripes elsewhere; in Britain and where
+                    // its ways were kept an orange globe on a striped post at either end (a Belisha beacon).
+                    const FleetE region = signs.m_fleet;
+                    const bool   american = region == FleetE::NORTH_AMERICA, british = region == FleetE::BRITISH;
+                    const Color  paint = region == FleetE::LATIN ? Color{ 240, 196, 40, 255 } : Color{ 236, 236, 230, 255 };
+                    if ( american )
+                        for ( float f : { -0.62f, -0.06f } )
+                            ground.quad( along( f, -A.m_hw + 0.3f, 0.025f ), along( f, A.m_hw - 0.3f, 0.025f ),
+                                         along( f + 0.06f, A.m_hw - 0.3f, 0.025f ), along( f + 0.06f, -A.m_hw + 0.3f, 0.025f ),
+                                         paint, Mat{ 0.0f, 0.3f } );
+                    else
+                        for ( float x = -A.m_hw + 0.4f; x + 0.5f <= A.m_hw - 0.3f; x += 1.0f )
+                            ground.quad( along( 0.0f, x, 0.025f ), along( 0.0f, x + 0.5f, 0.025f ),
+                                         along( -0.5f, x + 0.5f, 0.025f ), along( -0.5f, x, 0.025f ), paint,
+                                         Mat{ 0.0f, 0.3f } );
+                    const float   lp = side * ( A.m_edge + 0.5f );
+                    const Vector3 foot = onGround( j, 0.0f, lp, -1.5f, -0.05f );
+                    MeshBuilder   g;
+                    if ( british )
+                    {
+                        // The beacon stands for the lights; the far one across the road.
+                        for ( int k = 0; k < 5; ++k )
+                            g.cylinder( Vector3{ 0.0f, 0.5f * static_cast<float>( k ), 0.0f }, 0.07f, 0.07f, 0.5f, 6,
+                                        k % 2 ? Color{ 236, 236, 232, 255 } : Color{ 24, 24, 26, 255 } );
+                        g.blob( Vector3{ 0.0f, 2.72f, 0.0f }, Vector3{ 0.24f, 0.24f, 0.24f }, Color{ 255, 170, 30, 255 }, 7,
+                                0.0f, Mat{ 0.9f, 0.3f } );
+                        props.append( g, foot, A.m_heading, 1.0f );
+                        props.append( g, onGround( j, 0.0f, -lp, -1.5f, -0.05f ), A.m_heading, 1.0f );
+                        c.m_colliders.push_back( { sj - 1.5, lp, 0.3f } );
+                        c.m_colliders.push_back( { sj - 1.5, -lp, 0.3f } );
+                    }
+                    else
+                    {
+                        // The lights, facing the traffic and showing green. North and Latin America: yellow heads on
+                        // a long arm over the road. East Asia: heads lying on their side on the arm. South and
+                        // Southeast Asia: a post striped black and yellow with an arm. Elsewhere: black heads with a
+                        // white border on a post at the kerb, one low and one high.
+                        const bool  armed = american || region == FleetE::LATIN || region == FleetE::EAST_ASIA ||
+                                           region == FleetE::SOUTH_ASIA || region == FleetE::SOUTHEAST_ASIA;
+                        const bool  lying = region == FleetE::EAST_ASIA;
+                        const bool  striped = region == FleetE::SOUTH_ASIA || region == FleetE::SOUTHEAST_ASIA;
+                        const Color steel = lying ? Color{ 196, 198, 200, 255 } : Color{ 70, 74, 80, 255 };
+                        const Color housing = american || region == FleetE::LATIN ? Color{ 232, 186, 36, 255 }
+                                                                                   : Color{ 24, 26, 30, 255 };
+                        const float reach = A.m_hw * 0.75f + RumbleWidth + 2.2f, top = armed ? 6.2f : 4.9f;
+                        const Color lamps[3] = { { 120, 26, 22, 255 }, { 130, 96, 20, 255 }, { 70, 255, 150, 255 } };
+                        const float glow[3] = { 0.08f, 0.08f, 1.0f };
+                        if ( striped )
+                            for ( int k = 0; k < 8; ++k )
+                                g.cylinder( Vector3{ 0.0f, top * static_cast<float>( k ) / 8.0f, 0.0f }, 0.13f, 0.13f,
+                                            top / 8.0f, 6, k % 2 ? Color{ 236, 196, 40, 255 } : Color{ 24, 24, 26, 255 } );
+                        else
+                            g.cylinder( Vector3{ 0.0f, 0.0f, 0.0f }, 0.13f, 0.11f, top, 8, steel );
+                        if ( armed ) g.box( Vector3{ reach * 0.5f, 6.0f, 0.0f }, Vector3{ reach * 0.5f, 0.09f, 0.09f }, steel );
+                        auto head = [&]( float x, float y, bool flat )
+                        {
+                            // The lamps one over the other, or side by side with the green one towards the kerb.
+                            const Vector3 half = flat ? Vector3{ 0.55f, 0.2f, 0.16f } : Vector3{ 0.2f, 0.55f, 0.16f };
+                            if ( !armed )
+                                g.box( Vector3{ x, y, 0.01f }, Vector3{ half.x + 0.07f, half.y + 0.07f, 0.14f },
+                                       Color{ 236, 236, 232, 255 } );
+                            g.box( Vector3{ x, y, 0.0f }, half, housing );
+                            for ( int k = 0; k < 3; ++k )
+                            {
+                                const float off = 0.34f - 0.34f * static_cast<float>( k );
+                                g.box( Vector3{ x + ( flat ? off : 0.0f ), y + ( flat ? 0.0f : off ), -0.17f },
+                                       Vector3{ 0.12f, 0.12f, 0.02f }, lamps[k], Mat{ glow[k], 0.4f } );
+                            }
+                        };
+                        head( 0.0f, armed ? 3.2f : 2.7f, false );
+                        if ( armed )
+                            for ( float x : { reach * 0.62f, reach } ) head( x, 5.3f, lying );
+                        else
+                            head( 0.0f, 4.3f, false );
+                        // The model's +x points from the post over the road.
+                        props.appendBasis( g, Vector3Scale( A.m_right, -side ), Vector3{ 0.0f, 1.0f, 0.0f }, A.m_forward,
+                                           foot );
+                        c.m_colliders.push_back( { sj - 1.5, lp, 0.35f } );
+                    }
+                }
+            }
+
+            // A forest: where the place grows one and nothing is built, its trees close up some way off the road, in five
+            // staggered rows of plain trees (two cones for a conifer, a pointed crown on a trunk for a broadleaf) in the
+            // colours of the season, thinning out where the forest begins and ends.
+            auto forestAt = [&]( long jj )
+            { return 62.0f + 26.0f * valueNoise( static_cast<double>( jj ) * 0.06, side * 3.1, seed + 79 ); };
+            // How much of a place's scattered props are trees, and how much of those conifers.
+            auto treesOf = [&]( const BiomeDef &d, float &conifers )
+            {
+                float trees = 0.0f;
+                conifers = 0.0f;
+                for ( const PropRule &pr : d.m_props )
+                    if ( isTree( pr.m_kind ) && !pr.m_onWater && pr.m_perStage == 0 )
+                    {
+                        trees += pr.m_chance;
+                        if ( isConifer( pr.m_kind ) ) conifers += pr.m_chance;
+                    }
+                return trees;
+            };
+            // How dense the forest stands at this segment, 0..1 (0: none).
+            float forest = 0.0f, conifers = 0.0f;
+            const float trees = treesOf( ruling( seg, 0.5f ), conifers );
+            if ( trees >= 0.45f && ruling( seg, 0.5f ).m_climate != ClimateE::ARID && !built && !wet && !tunnel &&
+                 !bridge && !viaduct && !hasRunway && !forkLand && seg.m_gallery == 0 &&
+                 !( reachHere > 0.0f && A.m_edge + forestAt( j ) + 34.0f > reachHere ) )
+            {
+                forest = smoothstepf( 0.3f, 0.52f, valueNoise( static_cast<double>( j ) * 0.02, side * 7.3, seed + 83 ) );
+                // Towards the tree line the forest thins out.
+                forest *= 1.0f - smoothstepf( landRow( j ).m_treeLine - 400.0f, landRow( j ).m_treeLine - 100.0f,
+                                              static_cast<float>( c.m_origin.m_y ) + A.m_center.y );
+            }
+            const float forestD = forest > 0.0f ? forestAt( j ) : 0.0f;
+            if ( forest > 0.0f )
+            {
+                const float coniferShare = conifers / trees;
+                const float snowy = std::max( A.m_season.m_winter, 0.85f * landRow( j ).m_snowCover );
+                const Color bark = { 84, 64, 46, 255 };
+                static const Color autumn[3] = { { 206, 120, 44, 255 }, { 184, 70, 42, 255 }, { 220, 176, 62, 255 } };
+                // A crown from a ring of corners up to a point and down to a point.
+                auto crown = [&]( Vector3 at0, float radius, float up, float down, Color top, Color under, float turn )
+                {
+                    Vector3 ring[5];
+                    for ( int k = 0; k < 5; ++k )
+                    {
+                        const float a = turn + Tau * static_cast<float>( k ) / 5.0f;
+                        ring[k] = Vector3{ at0.x + std::cos( a ) * radius, at0.y, at0.z + std::sin( a ) * radius };
+                    }
+                    for ( int k = 0; k < 5; ++k )
+                    {
+                        props.tri( ring[k], ring[( k + 1 ) % 5], Vector3{ at0.x, at0.y + up, at0.z }, top );
+                        props.tri( ring[( k + 1 ) % 5], ring[k], Vector3{ at0.x, at0.y - down, at0.z }, under );
+                    }
+                };
+                for ( int row = 0; row < 5; ++row )
+                {
+                    const uint64_t g = static_cast<uint64_t>( j ) * 8 + static_cast<uint64_t>( row );
+                    const float    h1 = hashFloat( seed + 81 + sideKey, g ), h2 = hashFloat( seed + 82 + sideKey, g ),
+                                   h3 = hashFloat( seed + 84 + sideKey, g ), h4 = hashFloat( seed + 86 + sideKey, g );
+                    if ( h1 > 0.3f + 0.7f * forest ) continue;   // thinner where the forest begins and ends
+                    const float t = std::fmod( h2 + 0.37f * static_cast<float>( row ), 1.0f );
+                    const float l = side * ( lerpf( A.m_edge, B.m_edge, t ) + lerpf( forestAt( j ), forestAt( j + 1 ), t ) +
+                                             6.5f * static_cast<float>( row ) + 3.0f * ( h3 - 0.5f ) );
+                    Vector3     foot = Vector3Lerp( at( A, l, 0.0f ), at( B, l, 0.0f ), t );
+                    foot.y = groundY( j, t, l ) - 0.4f;
+                    const bool  conifer = hashFloat( seed + 85 + sideKey, g ) < coniferShare;
+                    const float tall = ( conifer ? 14.0f : 10.5f ) * ( 0.75f + 0.5f * h3 ) * ( 0.75f + 0.25f * forest );
+                    const float shade = 0.84f + 0.3f * h4;
+                    if ( conifer )
+                    {
+                        const Color fir = scaleColor( Color{ 30, 84, 46, 255 }, shade );
+                        const Color tip = lerpColor( scaleColor( fir, 1.12f ), Snow, 0.75f * snowy );
+                        const Color skirt = lerpColor( fir, Snow, 0.35f * snowy );
+                        props.cylinder( Vector3{ foot.x, foot.y + tall * ( row < 2 ? 0.14f : 0.0f ), foot.z }, tall * 0.25f,
+                                        0.0f, tall * 0.56f, 5, skirt, Mat{}, h2 * Tau );
+                        if ( row < 3 )
+                            props.cylinder( Vector3{ foot.x, foot.y + tall * 0.46f, foot.z }, tall * 0.17f, 0.0f,
+                                            tall * 0.54f, 5, tip, Mat{}, h4 * Tau );
+                    }
+                    else
+                    {
+                        Color leaf = scaleColor( Color{ 62, 118, 50, 255 }, shade );
+                        leaf = lerpColor( leaf, autumn[g % 3], 0.85f * A.m_season.m_autumn );
+                        leaf = lerpColor( leaf, Color{ 116, 104, 92, 255 }, 0.7f * A.m_season.m_bare );
+                        leaf = lerpColor( leaf, Color{ 132, 196, 96, 255 }, 0.3f * A.m_season.m_spring );
+                        const Color top = lerpColor( scaleColor( leaf, 1.1f ), Snow, 0.6f * snowy );
+                        crown( Vector3{ foot.x, foot.y + tall * 0.5f, foot.z }, tall * 0.34f, tall * 0.5f, tall * 0.24f, top,
+                               scaleColor( leaf, 0.72f ), h2 * Tau );
+                    }
+                    if ( row < 2 )
+                        props.tube( foot, Vector3{ foot.x, foot.y + tall * ( conifer ? 0.2f : 0.34f ), foot.z }, 0.26f, 3,
+                                    bark );
+                }
+            }
+
+            // A building: where its walls meet the ground, the lowest and the highest.
+            auto footing = [&]( float dd, float yaw, Vector3 mid, Vector3 base, float t, float &lo, float &hi )
+            {
+                const float   l = side * ( A.m_edge + dd );
+                const Vector3 L = Vector3Negate( headingRight( yaw ) ), F = headingForward( yaw );
+                lo = 1e9f;
+                hi = -1e9f;
+                for ( float x : { -1.0f, 0.0f, 1.0f } )
+                    for ( float z : { -1.0f, 0.0f, 1.0f } )
+                    {
+                        const float y = groundAt(
+                            j, t, l,
+                            Vector3Add( Vector3Scale( L, mid.x + x * base.x ), Vector3Scale( F, mid.z + z * base.z ) ) );
+                        lo = std::min( lo, y );
+                        hi = std::max( hi, y );
+                    }
+            };
+
+            auto place = [&]( const PropRule &pr, uint64_t key, float dist, int plotRow )
+            {
+                const bool onPlot = plotRow >= 0;
                 if ( pr.m_seasons && !( pr.m_seasons & seasonBit( A.m_season ) ) ) return;   // a stand out of season
                 const float h2 = hashFloat( key + 2, static_cast<uint64_t>( j ) );
                 const float h3 = hashFloat( key + 3, static_cast<uint64_t>( j ) );
                 const float h4 = hashFloat( key + 4, static_cast<uint64_t>( j ) );
                 const float waterSide = side < 0 ? A.m_terrain.m_waterLeft : A.m_terrain.m_waterRight;
-                if ( pr.m_onWater )
+                // Whether something may stand this far from the road here.
+                auto clear = [&]( float d )
                 {
-                    if ( waterSide < 0.5f || dist < 35.0f ) return;
-                }
-                else if ( waterSide > 0.5f && dist > 12.0f )
-                {
-                    return;
-                }
-                if ( railed && dist < 2.0f ) return;
-                if ( ( tunnel && dist < 7.0f ) || ( bridge && dist < 4.0f ) ) return;
-                const float lateral = side * ( A.m_edge + dist );
-                if ( viaduct && std::abs( lateral - railL ) < 7.0f ) return;
-                const float reach = side < 0.0f ? seg.m_reachL : seg.m_reachR;
-                if ( reach > 0.0f && std::abs( lateral ) > reach - 3.0f ) return;   // the next leg's land
-                if ( hasRunway &&
-                     std::abs( sj + static_cast<double>( h2 * SegmentLength ) - runwayS ) < RunwayHalf + 130.0 &&
-                     lateral * runwaySide > A.m_edge + RunwayNear - 30.0f &&
-                     std::abs( lateral ) < A.m_edge + RunwayNear + RunwayLength + 40.0f )
-                    return;   // the runway's ground
-                if ( hasRunway && std::abs( sj + static_cast<double>( h2 * SegmentLength ) - runwayS ) < 12.0 &&
-                     lateral * runwaySide < 0.0f && std::abs( lateral ) < A.m_edge + 320.0f )
-                    return;   // the approach lights
-                const double ps = static_cast<double>( j ) * SegmentLength + h2 * SegmentLength;
-                // Nothing where the other carriageway of a fork turns away (it is decided before this is baked).
-                if ( fork.m_exists && u > ForkMedian - 60.0 && u < ForkMedian + ForkPeel + 40.0 )
-                {
-                    if ( fork.m_chosen == 0 || side * static_cast<float>( -fork.m_chosen ) > 0.0f )
+                    if ( pr.m_onWater )
+                    {
+                        if ( waterSide < 0.5f || d < 35.0f ) return false;
+                    }
+                    else if ( waterSide > 0.5f && d > 12.0f && !pr.m_shore )
+                    {
+                        return false;
+                    }
+                    if ( railed && d < 2.0f ) return false;
+                    if ( ( tunnel && d < 7.0f ) || ( bridge && d < 4.0f ) ) return false;
+                    const float lateral = side * ( A.m_edge + d );
+                    if ( viaduct && std::abs( lateral - railL ) < 7.0f ) return false;
+                    if ( reachHere > 0.0f && std::abs( lateral ) > reachHere - 3.0f ) return false;   // the next leg's land
+                    if ( hasRunway &&
+                         std::abs( sj + static_cast<double>( h2 * SegmentLength ) - runwayS ) < RunwayHalf + 130.0 &&
+                         lateral * runwaySide > A.m_edge + RunwayNear - 30.0f &&
+                         std::abs( lateral ) < A.m_edge + RunwayNear + RunwayLength + 40.0f )
+                        return false;   // the runway's ground
+                    if ( hasRunway && std::abs( sj + static_cast<double>( h2 * SegmentLength ) - runwayS ) < 12.0 &&
+                         lateral * runwaySide < 0.0f && std::abs( lateral ) < A.m_edge + 320.0f )
+                        return false;   // the approach lights
+                    // Nothing where the other carriageway of a fork turns away (it is decided before this is baked).
+                    if ( forkLand && ( fork.m_chosen == 0 || side * static_cast<float>( -fork.m_chosen ) > 0.0f ) )
                     {
                         const float bx = branchX( std::clamp( u, ForkMedian, ForkMedian + ForkPeel ) );
-                        if ( std::abs( lateral - bx ) < carriage + 14.0f ||
-                             std::abs( lateral ) < std::abs( bx ) + 14.0f )
-                            return;
+                        if ( std::abs( lateral - bx ) < carriage + 14.0f || std::abs( lateral ) < std::abs( bx ) + 14.0f )
+                            return false;
                     }
+                    // Not in a pond.
+                    if ( !pr.m_onWater )
+                    {
+                        const LandRow &w = landRow( j );
+                        const int      s = side < 0.0f ? 0 : 1;
+                        for ( int k = 1; k <= 4; ++k )
+                            if ( std::abs( lateral ) >= std::abs( w.m_lateral[s][k] ) &&
+                                 std::abs( lateral ) < std::abs( w.m_lateral[s][k + 1] ) && pondAt( j, s, k ) )
+                                return false;
+                    }
+                    return true;
+                };
+                // What reaches into the water stands where the land meets it, and only where that is not far below
+                // the road (not under a cliff).
+                const float shoreLevel = A.m_terrain.m_seaLevel + A.m_seg->m_trench;
+                if ( pr.m_shore )
+                {
+                    if ( waterSide < 0.5f || shoreLevel < -8.0f ) return;
+                    const LandRow &row = landRow( j );
+                    const int      s = side < 0.0f ? 0 : 1;
+                    float          edge = -1.0f;   // none: the water is not drawn here (a fork, a runway, a tunnel)
+                    for ( int k = 0; k + 1 < LandRows; ++k )
+                        if ( row.m_height[s][k] > shoreLevel && row.m_height[s][k + 1] <= shoreLevel )
+                        {
+                            edge = lerpf( std::abs( row.m_lateral[s][k] ), std::abs( row.m_lateral[s][k + 1] ),
+                                          ( row.m_height[s][k] - shoreLevel ) /
+                                              std::max( 0.01f, row.m_height[s][k] - row.m_height[s][k + 1] ) );
+                            break;
+                        }
+                    if ( edge < 0.0f ) return;
+                    dist = std::max( 1.0f, edge - A.m_edge - 1.0f );
                 }
-                const float ht = pr.m_onWater ? A.m_terrain.m_seaLevel + A.m_seg->m_trench
-                                              : terrainHeight( track, j, lateral, A.m_terrain, A.m_edge );
-                // Place along the chord inside the segment.
-                Vector3 pos = at( A, lateral, ht );
-                pos = Vector3Add( pos, Vector3Scale( A.m_forward, h2 * SegmentLength ) );
+                if ( !clear( dist ) ) return;
+                using KindT = PropKindE;
+                const KindT kind = pr.m_kind;
+                bool        tall = false;
+                // The places' own landmarks and stands (the shapes of the data files) and every other structure that
+                // keeps its place (towers, pylons, pyramids, ruins) stand on their base like houses.
+                const bool landmark = keepsItsPlace( kind );
+                const bool building = !pr.m_onWater && !pr.m_climb && !pr.m_shore &&
+                                      ( landmark || ( pr.m_perStage == 0 && ( plotted( kind, tall ) ||
+                                                                              standsOnFootprint( kind ) ) ) );
+                // The forest's wall hides what would stand behind it.
+                if ( forestD > 0.0f && !building && pr.m_perStage == 0 && dist > forestD - 4.0f ) return;
+                // No trees above the tree line, fewer just below it.
+                const float line = landRow( j ).m_treeLine;
+                if ( isTree( kind ) && line < 1e8f )
+                {
+                    const float alt = static_cast<float>( c.m_origin.m_y ) + groundY( j, h2, side * ( A.m_edge + dist ) );
+                    if ( hashFloat( key + 21, static_cast<uint64_t>( j ) ) < smoothstepf( line - 300.0f, line, alt ) )
+                        return;
+                }
                 float yaw = A.m_heading + h3 * Tau;
-                switch ( pr.m_kind )
+                switch ( kind )
                 {
                 case PropKindE::FENCE:
                 case PropKindE::STONE_WALL:
@@ -1855,17 +2874,24 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 case PropKindE::WINDMILL: yaw = A.m_heading + Tau * 0.5f + ( h3 - 0.5f ) * 0.8f; break;
                 default:
                     // Fronts (+x) to the road: the road lies to the left of things on the right.
-                    if ( models.facing( pr.m_kind ) == FacingE::ROAD )
+                    if ( models.facing( kind ) == FacingE::ROAD )
                         yaw = A.m_heading + ( side < 0 ? Tau * 0.5f : 0.0f ) + ( h3 - 0.5f ) * 0.3f;
-                    else if ( models.facing( pr.m_kind ) == FacingE::ALONG )
+                    else if ( models.facing( kind ) == FacingE::ALONG )
                         yaw = A.m_heading;
                     else if ( onPlot )
                         yaw = A.m_heading + Tau * 0.25f * std::floor( h3 * 4.0f ) + ( h3 - 0.5f ) * 0.1f;
                     break;
                 }
+                // A place's own shapes face the road with their fronts (+x), a little askew, unless they turn as they
+                // will (boats, animals, trees, round things); what reaches into the water turns its front out over it,
+                // what climbs a slope its back uphill.
+                const bool local = kind == KindT::LANDMARK && pr.m_perStage == 0 && pr.m_variant >= 0;
+                if ( local && !pr.m_free )
+                    yaw = A.m_heading + ( ( side < 0 ) != pr.m_shore ? Tau * 0.5f : 0.0f ) +
+                          ( h3 - 0.5f ) * ( pr.m_climb || pr.m_shore ? 0.1f : 0.35f );
                 const float  scale = lerpf( pr.m_scaleMin, pr.m_scaleMax, h4 );
                 const float  bright = 0.88f + 0.24f * hashFloat( key + 5, static_cast<uint64_t>( j ) );
-                const Color *defaults = models.keys( pr.m_kind );
+                const Color *defaults = models.keys( kind );
                 Color        keys[3] = {};
                 if ( defaults )
                 {
@@ -1880,35 +2906,481 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                 // Warning signs in the country's shape: a yellow diamond, a white or a yellow triangle bordered red, a yellow
                 // one bordered black.
                 static const uint64_t warnShape[] = { 5, 10, 0, 15 };
-                if ( pr.m_kind == PropKindE::WARNING_SIGN )
+                if ( kind == PropKindE::WARNING_SIGN )
                     variant = variant % 5 + warnShape[std::min<size_t>( signs.m_warn, 3 )];
                 // Deciduous trees, bushes, hedges and vines turn, lose their leaves and some blossom; the rest only takes the
                 // snow.
-                using KindT = PropKindE;
-                const KindT kind = pr.m_kind;
-                const bool  turns = kind == KindT::OAK || kind == KindT::BUSH || kind == KindT::BIRCH ||
-                                    kind == KindT::POPLAR || kind == KindT::BROADLEAF || kind == KindT::SHRUB ||
-                                    kind == KindT::HEDGE || kind == KindT::VINE_ROW || kind == KindT::FERN ||
-                                    kind == KindT::FLOWER_BUSH;
-                const bool  blooms = kind == KindT::BROADLEAF || kind == KindT::BUSH || kind == KindT::SHRUB;
-                SeasonLook  look = A.m_season;
+                const bool turns = kind == KindT::OAK || kind == KindT::BUSH || kind == KindT::BIRCH ||
+                                   kind == KindT::POPLAR || kind == KindT::BROADLEAF || kind == KindT::SHRUB ||
+                                   kind == KindT::HEDGE || kind == KindT::VINE_ROW || kind == KindT::FERN ||
+                                   kind == KindT::FLOWER_BUSH;
+                const bool blooms = kind == KindT::BROADLEAF || kind == KindT::BUSH || kind == KindT::SHRUB;
+                SeasonLook look = A.m_season;
                 if ( !turns ) look.m_autumn = look.m_bare = look.m_spring = 0.0f;
-                const float h = hashFloat( key + 13, static_cast<uint64_t>( j ) );
-                // Up close in full; from afar (and deep beside the road) lighter; landmarks always in full.
+                const float        h = hashFloat( key + 13, static_cast<uint64_t>( j ) );
                 const float        pick = blooms ? h : 0.3f + 0.7f * h;
-                const MeshBuilder &full = models.prop( pr.m_kind, variant );
-                const MeshBuilder &far = pr.m_perStage > 0 ? full : models.propFar( pr.m_kind, variant );
-                const MeshBuilder &near = dist > LodLateral ? far : full;
+                const MeshBuilder &full = models.prop( kind, variant );
+                const Vector3      ext = Vector3Scale( extentOf( full ), scale );
+                // Nothing of it on the road: facing the road, its front (from some a walkway reaches far); turned as
+                // it will, its longest reach.
+                // What reaches into the water or up a slope: the side towards the road of its foot (behind a pier,
+                // in front of a funicular); one by the water that would reach the road stays away.
+                float reach = pr.m_free ? std::max( ext.x, ext.z ) : ext.x;
+                if ( pr.m_shore || pr.m_climb )
+                {
+                    const std::pair<Vector3, Vector3> &foot = baseOf( full );
+                    reach = scale * ( pr.m_shore ? foot.second.x - foot.first.x : foot.first.x + foot.second.x );
+                }
+                if ( local && reach > dist - 0.5f )
+                {
+                    if ( pr.m_shore || !clear( reach + 1.0f ) ) return;
+                    dist = reach + 1.0f;
+                }
+                // Where the road runs between banks of snow, snow lies on the roofs and the trees as well.
+                look.m_winter = std::max( look.m_winter, 0.85f * landRow( j ).m_snowCover );
+                // A building's walls where they meet the ground: the middle of their box and its half sizes.
+                Vector3 mid{}, base = ext;
+                if ( building )
+                {
+                    mid = Vector3Scale( baseOf( full ).first, scale );
+                    base = Vector3Scale( baseOf( full ).second, scale );
+                }
+
+                // A building needs ground that does not climb much under its walls: where it does, it moves back or forth,
+                // or stays away.
+                float d = dist, lo = 0.0f, hi = 0.0f;
+                if ( building )
+                {
+                    footing( d, yaw, mid, base, h2, lo, hi );
+                    if ( hi - lo > MaxSpread && !landmark )
+                    {
+                        bool moved = false;
+                        // Back from the road at will; towards it only while its walls keep well clear of the shoulder.
+                        const float reachOut = std::max( ext.x, ext.z );
+                        for ( float step : { 5.0f, -5.0f, 10.0f, -10.0f } )
+                        {
+                            float a = 0.0f, b = 0.0f;
+                            if ( step < 0.0f && dist + step < reachOut + 3.0f ) continue;
+                            if ( !clear( dist + step ) ) continue;
+                            footing( dist + step, yaw, mid, base, h2, a, b );
+                            if ( b - a > MaxSpread ) continue;
+                            d = dist + step;
+                            lo = a;
+                            hi = b;
+                            moved = true;
+                            break;
+                        }
+                        if ( !moved ) return;
+                    }
+                }
+                const float  lateral = side * ( A.m_edge + d );
+                const double ps = sj + h2 * SegmentLength;
+                Vector3      pos = Vector3Lerp( at( A, lateral, 0.0f ), at( B, lateral, 0.0f ), h2 );
+                // On ground that climbs under it a building stands on a terrace of earth, half in the slope; on ground
+                // nearly level it stands on the lowest of it.
+                // (Nothing as wide as a hill gets a terrace: it stands on the lowest ground under it.)
+                const bool terrace = building && hi - lo > 0.25f && std::max( base.x, base.z ) <= 20.0f;
+                // How its part of the world builds on a slope: bases of stone under many houses of Europe (the Alps,
+                // the Mediterranean) and East Asia, of plaster in Arabia and Latin America; houses on stilts in
+                // Southeast Asia, Oceania and on the islands; earth elsewhere. A town's buildings stand on stone.
+                UnderE under = UnderE::EARTH;
+                Color  stone = { 132, 126, 118, 255 };
+                if ( building && !pr.m_onWater && std::max( base.x, base.z ) <= 20.0f )
+                {
+                    const FleetE region = rule.m_country ? signs.m_fleet : FleetE::COUNT;
+                    const float  share = hashFloat( key + 29, static_cast<uint64_t>( j ) );
+                    float        walled = 0.2f, stilted = 0.0f;
+                    switch ( region )
+                    {
+                    case FleetE::EUROPE: walled = 0.55f; break;
+                    case FleetE::EAST_ASIA:
+                        walled = 0.6f;
+                        stone = Color{ 104, 102, 100, 255 };
+                        break;
+                    case FleetE::BRITISH: walled = 0.4f; break;
+                    case FleetE::ARABIA:
+                    case FleetE::LATIN:
+                    case FleetE::SOUTH_ASIA:
+                        walled = 0.5f;
+                        stone = lerpColor( sf.m_shoulder, Color{ 226, 214, 190, 255 }, 0.7f );
+                        break;
+                    case FleetE::SOUTHEAST_ASIA:
+                        walled = 0.15f;
+                        stilted = 0.55f;
+                        break;
+                    case FleetE::OCEANIA:
+                    case FleetE::ISLANDS:
+                        walled = 0.15f;
+                        stilted = 0.3f;
+                        break;
+                    default: break;
+                    }
+                    const bool house = onPlot && !plots.m_city && !tall && std::max( base.x, base.z ) <= 9.0f;
+                    if ( ( onPlot && plots.m_city ) || tall )
+                        under = UnderE::STONE;
+                    else if ( house && share < stilted )
+                        under = UnderE::STILTS;
+                    else if ( share < stilted + walled )
+                        under = UnderE::STONE;
+                }
+                float climb = 0.0f;   // the slope it climbs (rise per metre away from the road)
+                if ( pr.m_onWater )
+                {
+                    pos.y = at( A, lateral, A.m_terrain.m_seaLevel + A.m_seg->m_trench ).y;
+                }
+                else if ( pr.m_shore )
+                {
+                    pos.y = at( A, lateral, shoreLevel ).y + 0.02f;   // its foot at the water (its own water on it)
+                }
+                else if ( pr.m_climb )
+                {
+                    // Up the land behind it: only where it climbs away from the road, steeply enough.
+                    const float g0 = groundY( j, h2, lateral ), g1 = groundY( j, h2, lateral + side * ext.x );
+                    climb = ( g1 - g0 ) / std::max( 1.0f, ext.x );
+                    if ( climb < 0.15f || climb > 1.2f ) return;
+                    pos.y = g0 - 0.15f;
+                }
+                else if ( building )
+                {
+                    // On stilts over the highest of the ground; else half in the slope, or on the lowest of level ground.
+                    // Never high on a mound: what cannot move off a steep slope (a landmark) stands at most a storey's
+                    // half over the lowest ground under it, the rest of it built into the slope.
+                    pos.y = under == UnderE::STILTS ? hi + 0.7f
+                            : terrace               ? std::min( lerpf( lo, hi, 0.5f ), lo + MaxSpread * 0.5f )
+                                                    : lo;
+                }
+                else
+                {
+                    // Sunk a little where the ground slopes, so no foot hangs in the air.
+                    const float slope =
+                        std::abs( groundY( j, h2, lateral + 1.0f ) - groundY( j, h2, lateral - 1.0f ) ) * 0.5f;
+                    pos.y = groundY( j, h2, lateral ) - std::min( 0.6f, 0.4f * slope + 0.03f );
+                }
+
+                // Up close in full; from afar (and deep beside the road) lighter; landmarks always in full.
+                const MeshBuilder &far = pr.m_perStage > 0 ? full : models.propFar( kind, variant );
+                const MeshBuilder &near = d > LodLateral ? far : full;
+                const size_t       n0 = scenery.vertexCount(), f0 = sceneryFar.vertexCount();
                 if ( near.triangleCount() )
                     scenery.append( near, pos, yaw, scale, bright, defaults ? keys : nullptr, &look, pick );
                 if ( far.triangleCount() )
                     sceneryFar.append( far, pos, yaw, scale, bright, defaults ? keys : nullptr, &look, pick );
-                const float radius = pr.m_radius > 0.0f ? pr.m_radius : models.propRadius( pr.m_kind );
-                if ( radius > 0.0f && dist < 45.0f && !pr.m_soft )
-                    c.m_colliders.push_back( { ps, lateral, radius * scale } );
+                if ( kind == KindT::WINDMILL )
+                {
+                    // A wind turbine: its blades turn at the hub.
+                    const Vector3 F = headingForward( yaw );
+                    c.m_rotors.push_back( { Vector3{ pos.x + F.x * TurbineHub.z * scale, pos.y + TurbineHub.y * scale,
+                                                     pos.z + F.z * TurbineHub.z * scale },
+                                            yaw, scale, h * Tau } );
+                }
+                if ( kind == KindT::BILLBOARD && d < LodLateral )
+                {
+                    // Where the country writes in its own script, many a billboard carries the place's name in it.
+                    const BiomeE      town = track.stageBiome( static_cast<int>( stage ) );
+                    const ScriptName *own = scriptName( town );
+                    if ( own && biomeDef( town ).m_name && hashFloat( key + 27, static_cast<uint64_t>( j ) ) < 0.7f )
+                    {
+                        MeshBuilder board;
+                        buildPlaceSign( board, biomeDef( town ).m_name, 0, 0.5f, 6.5f, false, own );
+                        scenery.append( board, Vector3Add( pos, Vector3Scale( headingForward( yaw ), -0.3f * scale ) ), yaw,
+                                        scale );
+                    }
+                }
+                if ( climb > 0.0f )
+                {
+                    // Sheared to the slope: what stands on it stays upright, the track and the car follow the land.
+                    const Vector3 away = Vector3Scale( A.m_right, side );
+                    scenery.shearSince( n0, pos, away, climb );
+                    sceneryFar.shearSince( f0, pos, away, climb );
+                }
+                if ( followsSlope( kind ) && !pr.m_onWater )
+                {
+                    // A fence or a row along the ground: tilted to its slope.
+                    const Vector3 F = headingForward( yaw );
+                    const float   len = std::max( 1.0f, ext.z );
+                    const float   rise = groundAt( j, h2, lateral, Vector3Scale( F, len ) ) -
+                                       groundAt( j, h2, lateral, Vector3Scale( F, -len ) );
+                    scenery.shearSince( n0, pos, F, rise / ( 2.0f * len ) );
+                    sceneryFar.shearSince( f0, pos, F, rise / ( 2.0f * len ) );
+                }
+                if ( building )
+                {
+                    // The foot of the walls a shade darker.
+                    scenery.shadeBelow( n0, pos.y + 0.05f, 0.8f );
+                    sceneryFar.shadeBelow( f0, pos.y + 0.05f, 0.8f );
+                    {
+                        // What the building stands on where the ground falls away under it (UnderE, chosen above): a
+                        // base of stone or plaster under its walls, a terrace of earth in the land's colour, or both
+                        // (the base at most a good metre high, the earth below it); a house on stilts stands on posts.
+                        const Vector3 L = Vector3Negate( headingRight( yaw ) ), F = headingForward( yaw );
+                        const float   sx[4] = { -1.0f, 1.0f, 1.0f, -1.0f }, sz[4] = { -1.0f, -1.0f, 1.0f, 1.0f };
+                        auto          corner = [&]( int k, float grow )
+                        {
+                            return Vector3Add( Vector3Scale( L, mid.x + sx[k] * ( base.x + grow ) ),
+                                               Vector3Scale( F, mid.z + sz[k] * ( base.z + grow ) ) );
+                        };
+                        const float fall = pos.y - lo;   // the deepest the ground lies under the floor
+                        const Vector3 centre = { pos.x + L.x * mid.x + F.x * mid.z, 0.0f, pos.z + L.z * mid.x + F.z * mid.z };
+                        if ( under == UnderE::STILTS )
+                        {
+                            // A floor of planks on posts at the corners and between them.
+                            const Color wood = scaleColor( Color{ 96, 72, 50, 255 }, bright );
+                            for ( MeshBuilder *m : { &scenery, &sceneryFar } )
+                            {
+                                obox( *m, Vector3{ centre.x, pos.y - 0.1f, centre.z }, headingRight( yaw ), F, base.x + 0.25f,
+                                      0.1f, base.z + 0.25f, wood );
+                                for ( int k = 0; k < 4; ++k )
+                                    for ( float along : { 0.0f, 0.5f } )
+                                    {
+                                        const Vector3 a = corner( k, -0.15f ), b = corner( ( k + 1 ) % 4, -0.15f );
+                                        const Vector3 o = Vector3Lerp( a, b, along );
+                                        const float   g = groundAt( j, h2, lateral, o ) - 0.4f;
+                                        obox( *m, Vector3{ pos.x + o.x, ( g + pos.y ) * 0.5f, pos.z + o.z }, headingRight( yaw ),
+                                              F, 0.11f, ( pos.y - g ) * 0.5f, 0.11f, scaleColor( wood, 0.8f ) );
+                                    }
+                            }
+                        }
+                        else if ( terrace )
+                        {
+                            const bool  walled = under == UnderE::STONE;
+                            const float course = walled ? std::min( fall, 1.1f ) + 0.08f : 0.0f;   // the base's height
+                            if ( walled )
+                                for ( MeshBuilder *m : { &scenery, &sceneryFar } )
+                                {
+                                    const size_t p0 = m->vertexCount();
+                                    obox( *m, Vector3{ centre.x, pos.y - course * 0.5f + 0.01f, centre.z }, headingRight( yaw ), F,
+                                          base.x + 0.22f, course * 0.5f, base.z + 0.22f, scaleColor( stone, bright ) );
+                                    m->shadeBelow( p0, pos.y - course + 0.05f, 0.72f );
+                                }
+                            if ( !walled || fall > 1.1f )
+                            {
+                                // The terrace of earth: level, a little wider than what stands on it, its sides sloping
+                                // down to the land where that lies lower (where it lies higher, it is under the ground).
+                                const float level = pos.y - ( walled ? 1.1f : 0.03f ), wide = walled ? 0.7f : 1.0f;
+                                Vector3     top[4], foot[4];
+                                for ( int k = 0; k < 4; ++k )
+                                {
+                                    const Vector3 o = corner( k, wide );
+                                    const float   drop = std::max( 0.0f, level - groundAt( j, h2, lateral, o ) );
+                                    const Vector3 q = corner( k, wide + 0.3f + 1.5f * drop );
+                                    top[k] = Vector3{ pos.x + o.x, level, pos.z + o.z };
+                                    foot[k] = Vector3{ pos.x + q.x, groundAt( j, h2, lateral, q ) - 0.3f, pos.z + q.z };
+                                }
+                                const Color tone = scaleColor( landTone( j, d, pos.y ), bright );
+                                for ( MeshBuilder *m : { &scenery, &sceneryFar } )
+                                {
+                                    m->quad( top[0], top[1], top[2], top[3], tone );
+                                    for ( int k = 0; k < 4; ++k )
+                                        m->quad( top[k], top[( k + 1 ) % 4], foot[( k + 1 ) % 4], foot[k],
+                                                 scaleColor( tone, 0.9f ) );
+                                }
+                            }
+                        }
+                    }
+                    if ( d < LodLateral )
+                    {
+                        const bool onEarth = terrace && under == UnderE::EARTH;
+                        contactRing( j, h2, lateral, yaw, mid, base.x, base.z, onEarth ? 0.9f : 1.8f, 125,
+                                     onEarth ? pos.y + 0.02f : OnTheGround );
+                    }
+                }
+                else if ( isTree( kind ) && d < LodLateral && !pr.m_onWater )
+                {
+                    contactDisc( j, h2, lateral, clampf( std::max( ext.x, ext.z ) * 0.75f, 0.8f, 5.5f ), 80 );
+                }
+                const float radius = pr.m_radius > 0.0f ? pr.m_radius : models.propRadius( kind );
+                if ( radius > 0.0f && d < 45.0f && !pr.m_soft ) c.m_colliders.push_back( { ps, lateral, radius * scale } );
+
+                // A town's first row: a shop on the ground floor of the front to the street, its window lit, its sign
+                // above.
+                if ( onPlot && plots.m_city && plotRow == 0 && building && d < LodLateral &&
+                     hashFloat( key + 23, static_cast<uint64_t>( plot ) ) < 0.75f )
+                {
+                    const Vector3 toRoad = Vector3Scale( A.m_right, -side );
+                    const Vector3 L = Vector3Negate( headingRight( yaw ) ), F = headingForward( yaw );
+                    const float   dl = Vector3DotProduct( toRoad, L ), df = Vector3DotProduct( toRoad, F );
+                    const bool    byX = std::abs( dl ) > std::abs( df );
+                    const Vector3 n = Vector3Scale( byX ? L : F, ( byX ? dl : df ) > 0.0f ? 1.0f : -1.0f );
+                    const Vector3 t = byX ? F : L;
+                    // On the outside of the wall that faces the street.
+                    const float   depth = byX ? base.x : base.z, width = ( byX ? base.z : base.x ) * 0.92f;
+                    const Vector3 wall = Vector3Add( Vector3Add( pos, Vector3Scale( L, mid.x ) ), Vector3Scale( F, mid.z ) );
+                    if ( width > 2.0f )
+                    {
+                        // Shops side by side, each some six metres wide: a dark frame, a lit window in it, and above it
+                        // a sign in a colour of its part of the world; now and then a plain front between them. In East
+                        // Asia many a shop hangs a tall sign out from the front as well, lit on both faces.
+                        const int     bays = std::max( 1, static_cast<int>( 2.0f * width / 6.5f ) );
+                        const float   bay = 2.0f * width / static_cast<float>( bays );
+                        const Vector3 up = { 0.0f, 1.0f, 0.0f };
+                        auto          pane = [&]( MeshBuilder &m, Vector3 centre, float hw, float hh, Color col, Mat mat )
+                        {
+                            const Vector3 a = Vector3Scale( t, hw ), b = Vector3Scale( up, hh );
+                            m.quad( Vector3Subtract( Vector3Subtract( centre, a ), b ),
+                                    Vector3Subtract( Vector3Add( centre, a ), b ),
+                                    Vector3Add( Vector3Add( centre, a ), b ),
+                                    Vector3Add( Vector3Subtract( centre, a ), b ), col, mat );
+                        };
+                        for ( int b = 0; b < bays; ++b )
+                        {
+                            const uint64_t shop = hash64( key + 25 + static_cast<uint64_t>( plot ) * 16 + static_cast<uint64_t>( b ) );
+                            if ( shop % 5 == 0 ) continue;
+                            float         lit = 0.9f;
+                            const Color   sign = shopSign( rule.m_country ? signs.m_fleet : FleetE::COUNT, shop >> 8, lit );
+                            const bool    hung = rule.m_country && signs.m_fleet == FleetE::EAST_ASIA && ( ( shop >> 28 ) & 1 );
+                            const float   hw = bay * 0.5f - 0.35f;
+                            const float   sw = hw * ( 0.55f + 0.4f * static_cast<float>( ( shop >> 16 ) % 100 ) / 100.0f );
+                            const Vector3 face =
+                                Vector3Add( Vector3Add( wall, Vector3Scale( n, depth + 0.03f ) ),
+                                            Vector3Scale( t, -width + bay * ( static_cast<float>( b ) + 0.5f ) ) );
+                            const Vector3 glass = Vector3Add( face, Vector3Scale( n, 0.02f ) );
+                            const Vector3 board = Vector3Add( face, Vector3Scale( n, 0.08f ) );
+                            const Vector3 front = Vector3Add( board, Vector3Scale( n, 0.09f ) );
+                            for ( MeshBuilder *m : { &scenery, &sceneryFar } )
+                            {
+                                pane( *m, Vector3{ face.x, pos.y + 1.55f, face.z }, hw, 1.5f, Color{ 44, 42, 42, 255 }, Mat{} );
+                                pane( *m, Vector3{ glass.x, pos.y + 1.65f, glass.z }, hw - 0.18f, 1.2f,
+                                      Color{ 206, 186, 142, 255 }, Mat{ 0.4f, 0.7f } );
+                                obox( *m, Vector3{ board.x, pos.y + 3.5f, board.z }, t, n, sw, 0.36f, 0.08f,
+                                      scaleColor( sign, 0.35f ) );
+                                pane( *m, Vector3{ front.x, pos.y + 3.5f, front.z }, sw * 0.94f, 0.28f, sign,
+                                      Mat{ lit, 0.2f } );
+                                if ( hung )
+                                {
+                                    const Vector3 out = Vector3Add( face, Vector3Scale( n, 0.75f ) );
+                                    const Vector3 mid2 = { out.x, pos.y + 6.4f, out.z };
+                                    obox( *m, mid2, t, n, 0.06f, 1.7f, 0.5f, scaleColor( sign, 0.3f ) );
+                                    for ( float s2 : { -1.0f, 1.0f } )
+                                    {
+                                        const Vector3 at2 = Vector3Add( mid2, Vector3Scale( t, s2 * 0.07f ) );
+                                        const Vector3 a2 = Vector3Scale( n, 0.44f ), b2 = Vector3Scale( up, 1.6f );
+                                        m->quad( Vector3Subtract( Vector3Subtract( at2, a2 ), b2 ),
+                                                 Vector3Subtract( Vector3Add( at2, a2 ), b2 ),
+                                                 Vector3Add( Vector3Add( at2, a2 ), b2 ),
+                                                 Vector3Add( Vector3Subtract( at2, a2 ), b2 ), sign, Mat{ 1.0f, 0.2f } );
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // A house of a village: smoke from its chimney where it is cold (the game lets it rise), a drive from
+                // the road to it (in the first row), a hedge, a fence or a wall round its plot, a bush or two in its garden.
+                if ( !onPlot || plots.m_city || !building || d >= LodLateral ) return;
+                if ( !tall && c.m_chimneys.size() < 24 )
+                    c.m_chimneys.push_back( Vector3{ pos.x, pos.y + ext.y * 0.96f, pos.z } );
+                const Vector3 toRoad = Vector3Scale( A.m_right, -side );
+                const Vector3 L = Vector3Negate( headingRight( yaw ) ), F = headingForward( yaw );
+                const float   deep = std::abs( Vector3DotProduct( toRoad, L ) ) * base.x +
+                                   std::abs( Vector3DotProduct( toRoad, F ) ) * base.z;
+                const float wide = std::abs( Vector3DotProduct( A.m_forward, L ) ) * base.x +
+                                   std::abs( Vector3DotProduct( A.m_forward, F ) ) * base.z;
+                const float front = d - deep;   // the house's front from the shoulder's edge
+                const float h5 = hashFloat( key + 17, static_cast<uint64_t>( plot ) );
+                const float driveAt = ( h5 < 0.5f ? -1.0f : 1.0f ) * std::max( 0.0f, std::min( wide * 0.55f, wide - 1.6f ) );
+                const bool  drive = plotRow == 0 && front > 2.5f;
+                if ( drive )
+                    groundStrip( scenery, j, h2, driveAt, side * A.m_edge, side * ( A.m_edge + front + 0.4f ), 2.8f,
+                                 scaleColor( lerpColor( sf.m_shoulder, Color{ 150, 146, 138, 255 }, 0.6f ), bright ),
+                                 Mat{ 0.0f, 0.05f } );
+                // The plot: from its first segment to the next plot's, in metres along from the house.
+                const float lo0 = static_cast<float>( static_cast<double>( plot * plotSegs ) * SegmentLength - ps ) + 0.6f;
+                const float hi0 =
+                    static_cast<float>( static_cast<double>( ( plot + 1 ) * plotSegs ) * SegmentLength - ps ) - 0.6f;
+                const float edgeFront = std::max( 3.0f, front - 1.8f ), edgeBack = d + deep + 2.5f;
+                const float h6 = hashFloat( key + 18, static_cast<uint64_t>( plot ) );
+                // What stands round the plot, as its part of the world builds it: dry stone walls and hedges in
+                // Britain and Ireland, white pickets or open lawns in North America and Oceania, dark wooden fences in
+                // East Asia, painted plank fences in the East, fences of sticks in Africa, plastered walls in Arabia,
+                // South and Southeast Asia and Latin America; elsewhere hedges and wooden fences on green land and low
+                // pale walls on dry.
+                float       height = 0.0f, thick = 0.0f;
+                Color       col{};
+                const Color hedge = lerpColor( Color{ 58, 94, 50, 255 }, Snow, 0.7f * look.m_winter );
+                const Color plaster = scaleColor( lerpColor( sf.m_shoulder, Color{ 226, 214, 190, 255 }, 0.7f ), bright );
+                auto        fence = [&]( float tall, float wide, Color paint )
+                {
+                    height = tall;
+                    thick = wide;
+                    col = paint;
+                };
+                switch ( rule.m_country ? signs.m_fleet : FleetE::COUNT )
+                {
+                case FleetE::BRITISH:
+                    if ( h6 < 0.5f )
+                        fence( 1.0f, 0.45f, scaleColor( Color{ 134, 130, 122, 255 }, bright ) );
+                    else if ( h6 < 0.9f )
+                        fence( 1.3f, 0.8f, hedge );
+                    break;
+                case FleetE::NORTH_AMERICA:
+                case FleetE::OCEANIA:
+                    if ( h6 < 0.4f ) fence( 0.9f, 0.06f, Color{ 240, 238, 230, 255 } );
+                    break;
+                case FleetE::EAST_ASIA:
+                    if ( h6 < 0.5f )
+                        fence( 1.4f, 0.08f, Color{ 46, 38, 32, 255 } );
+                    else if ( h6 < 0.85f )
+                        fence( 1.1f, 0.6f, hedge );
+                    break;
+                case FleetE::EASTERN:
+                {
+                    static const Color paints[3] = { { 70, 110, 150, 255 }, { 78, 122, 84, 255 }, { 124, 92, 64, 255 } };
+                    if ( h6 < 0.75f ) fence( 1.3f, 0.07f, paints[static_cast<int>( h5 * 2.99f )] );
+                    break;
+                }
+                case FleetE::AFRICA:
+                    if ( h6 < 0.6f ) fence( 1.1f, 0.1f, Color{ 112, 86, 58, 255 } );
+                    break;
+                case FleetE::ARABIA:
+                case FleetE::SOUTH_ASIA:
+                case FleetE::SOUTHEAST_ASIA:
+                case FleetE::LATIN:
+                    if ( h6 < 0.65f ) fence( 1.2f + 0.4f * h5, 0.3f, plaster );
+                    break;
+                default:
+                    if ( green && h6 < 0.55f )
+                        fence( 1.0f, 0.7f, hedge );
+                    else if ( green && h6 < 0.8f )
+                        fence( 1.0f, 0.07f, Color{ 122, 92, 64, 255 } );
+                    else if ( !green && h6 < 0.6f )
+                        fence( 0.8f, 0.35f, plaster );
+                    break;
+                }
+                if ( height > 0.0f && edgeBack - edgeFront > 2.0f && hi0 - lo0 > 4.0f )
+                {
+                    const float lf = side * ( A.m_edge + edgeFront ), lb = side * ( A.m_edge + edgeBack );
+                    if ( drive )
+                    {
+                        groundWall( scenery, j, h2, lf, lo0, lf, driveAt - 1.8f, height, thick, col );
+                        groundWall( scenery, j, h2, lf, driveAt + 1.8f, lf, hi0, height, thick, col );
+                    }
+                    else
+                    {
+                        groundWall( scenery, j, h2, lf, lo0, lf, hi0, height, thick, col );
+                    }
+                    groundWall( scenery, j, h2, lf, lo0, lb, lo0, height, thick, col );
+                    // Run into, the hedge or the wall turns the car away like a rail (and keeps it from the house).
+                    if ( edgeFront < 45.0f )
+                        for ( float a = lo0; a < hi0; a += 3.0f )
+                            if ( !drive || std::abs( a - driveAt ) > 1.8f )
+                                c.m_colliders.push_back( { ps + static_cast<double>( a ), lf, 0.5f, true, true } );
+                }
+                // A bush or two beside the house.
+                const PropKindE plant = green ? ( h6 < 0.5f ? KindT::FLOWER_BUSH : KindT::BUSH ) : KindT::AGAVE;
+                SeasonLook      garden = A.m_season;
+                for ( int b = 0; b < 1 + ( h5 > 0.6f ? 1 : 0 ); ++b )
+                {
+                    const float sideOf = ( b == 0 ? -1.0f : 1.0f ) * ( h5 < 0.5f ? -1.0f : 1.0f );
+                    const float a = clampf( sideOf * ( wide + 1.6f ), lo0 + 1.0f, hi0 - 1.0f );
+                    const float l =
+                        side *
+                        ( A.m_edge + d + ( hashFloat( key + 19 + b, static_cast<uint64_t>( plot ) ) - 0.5f ) * deep );
+                    scenery.append( models.prop( plant, hash64( key + 20 + b ) ), onGround( j, h2, l, a, -0.05f ),
+                                    yaw + static_cast<float>( b ), 0.8f + 0.4f * h6, bright, models.keys( plant ),
+                                    &garden, hashFloat( key + 22, static_cast<uint64_t>( b ) ) );
+                }
             };
-            const Plots plots = plotsOf( rule, models );
-            const bool  built = plots.m_count > 0 && ( plots.m_city || inVillage( seed, j ) );
             for ( size_t r = 0; r < rule.m_props.size(); ++r )
             {
                 const PropRule &pr = rule.m_props[r];
@@ -1936,13 +3408,10 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                     continue;
                 }
                 place( pr, key, lerpf( pr.m_nearest, pr.m_farthest, hashFloat( key + 1, static_cast<uint64_t>( j ) ) ),
-                       false );
+                       -1 );
             }
             // One plot per few segments and row; a city leaves every fourth free for a cross street, a village thins out
             // towards its back.
-            const long plotSegs = std::max( 2L, std::lround( plots.m_along / SegmentLength ) ), plot = j / plotSegs;
-            const bool wet =
-                ( side < 0.0f ? A.m_terrain.m_waterLeft : A.m_terrain.m_waterRight ) > 0.5f;   // no plots in the sea
             if ( built && !wet && j % plotSegs == plotSegs / 2 && !( plots.m_city && plot % 4 == 0 ) )
                 for ( int row = 0; row < plots.m_rows; ++row )
                 {
@@ -1955,7 +3424,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
                     while ( i + 1 < plots.m_count && pick >= plots.m_upTo[static_cast<size_t>( i )] ) ++i;
                     const float dist = plots.m_nearest + plots.m_half + plots.m_across * static_cast<float>( row ) +
                                        ( hashFloat( key + 15, static_cast<uint64_t>( plot ) ) - 0.5f ) * 3.0f;
-                    place( rule.m_props[plots.m_rule[static_cast<size_t>( i )]], key, dist, true );
+                    place( rule.m_props[plots.m_rule[static_cast<size_t>( i )]], key, dist, row );
                 }
         }
 
@@ -2077,7 +3546,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
             const float l = railL, w = 2.6f, h = RailHeight;
             const Color concrete = { 178, 174, 166, 255 }, shade = { 128, 124, 118, 255 }, steel = { 64, 60, 58, 255 },
                         stone = { 132, 124, 112, 255 };
-            const float groundA = terrainHeight( track, j, l, A.m_terrain, A.m_edge );
+            const float groundA = rowY( landRow( j ), l ) - at( A, l, 0.0f ).y;   // the ground as drawn
             if ( sj >= viaFrom && sj < viaTo )
             {
                 // The deck, its parapets and the rails.
@@ -2135,6 +3604,7 @@ void World::buildChunk( Track &track, BakedChunk &c ) const
     c.m_scenery = std::move( scenery );
     c.m_sceneryFar = std::move( sceneryFar );
     c.m_glass = std::move( glass );
+    c.m_decals = std::move( decals );
 }
 
 }   // namespace sunstreak

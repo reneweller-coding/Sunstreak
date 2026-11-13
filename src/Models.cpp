@@ -140,13 +140,38 @@ void flankDisc( MeshBuilder &mb, Vector3 c, float side, float r, Color col )
 }
 
 /**
- * @brief Lofts a car body, its cabin, wheels and lights.
- * @param[out] mb     where the triangles go
- * @param[in]  shape  the outline
- * @param[in]  paint  body colour
- * @param[in]  dress  rims and decal
+ * @brief One wheel with its hub, centred on its axle, which runs along x; the hub and the spokes on its +x face.
+ * @param[out] mb    where the triangles go
+ * @param[in]  r     its radius
+ * @param[in]  rims  the rim's colour
  */
-void buildCar( MeshBuilder &mb, const CarShape &shape, Color paint, const Dress &dress = {} )
+void buildWheel( MeshBuilder &mb, float r, Color rims )
+{
+    mb.tube( Vector3{ -0.135f, 0.0f, 0.0f }, Vector3{ 0.135f, 0.0f, 0.0f }, r, 10, rgb( 20, 20, 22 ), Mat{}, true );
+    mb.tube( Vector3{ 0.125f, 0.0f, 0.0f }, Vector3{ 0.16f, 0.0f, 0.0f }, r * 0.58f, 8, rims, Chrome, true );
+    // Five spokes in a darker shade.
+    const float x = 0.162f;
+    for ( int k = 0; k < 5; ++k )
+    {
+        const float   a = Tau * static_cast<float>( k ) / 5.0f;
+        const Vector3 d = { 0, std::sin( a ), std::cos( a ) }, n = { 0, -d.z * 0.05f, d.y * 0.05f };
+        const Vector3 p0 = { x, d.y * r * 0.12f + n.y, d.z * r * 0.12f + n.z },
+                      p1 = { x, d.y * r * 0.12f - n.y, d.z * r * 0.12f - n.z };
+        const Vector3 p2 = { x, d.y * r * 0.54f - n.y, d.z * r * 0.54f - n.z },
+                      p3 = { x, d.y * r * 0.54f + n.y, d.z * r * 0.54f + n.z };
+        mb.quad( p0, p1, p2, p3, scaleColor( rims, 0.55f ), Chrome );
+    }
+}
+
+/**
+ * @brief Lofts a car body, its cabin, wheels and lights.
+ * @param[out] mb      where the triangles go
+ * @param[in]  shape   the outline
+ * @param[in]  paint   body colour
+ * @param[in]  dress   rims and decal
+ * @param[in]  wheels  with its wheels (false: they are drawn apart, turning)
+ */
+void buildCar( MeshBuilder &mb, const CarShape &shape, Color paint, const Dress &dress = {}, bool wheels = true )
 {
     const Color under = rgb( 26, 26, 30 );
     const Color trim = rgb( 40, 40, 46 );
@@ -289,6 +314,7 @@ void buildCar( MeshBuilder &mb, const CarShape &shape, Color paint, const Dress 
     const float hw = body[body.size() / 2].m_hw;
     for ( float z : { shape.m_wheelFront, shape.m_wheelRear } )
     {
+        if ( !wheels ) break;
         for ( float side : { -1.0f, 1.0f } )
         {
             const float r = shape.m_wheelR;
@@ -542,11 +568,23 @@ void Models::buildLivery( const Livery &livery )
     dress.m_rims = RimColors[std::clamp( livery.m_rims, 0, RimCount - 1 )];
     dress.m_decal = std::clamp( livery.m_decal, 0, DecalCount - 1 );
     dress.m_decalColor = PaintColors[std::clamp( livery.m_decalColor, 0, PaintCount - 1 )];
-    MeshBuilder mb;
-    buildCar( mb, playerShape( std::clamp( livery.m_car, 0, CarCount - 1 ) ),
-              PaintColors[std::clamp( livery.m_paint, 0, PaintCount - 1 )], dress );
+    MeshBuilder    mb;
+    const CarShape shape = playerShape( std::clamp( livery.m_car, 0, CarCount - 1 ) );
+    const Color    paint = PaintColors[std::clamp( livery.m_paint, 0, PaintCount - 1 )];
+    buildCar( mb, shape, paint, dress );
     m_livery = mb.upload();
     m_liveryOf = livery;
+    // The same without its wheels, and one wheel to turn and steer apart.
+    if ( m_liveryBody.vaoId ) UnloadMesh( m_liveryBody );
+    if ( m_liveryWheel.vaoId ) UnloadMesh( m_liveryWheel );
+    MeshBuilder body, wheel;
+    buildCar( body, shape, paint, dress, false );
+    buildWheel( wheel, shape.m_wheelR, dress.m_rims );
+    m_liveryBody = body.upload();
+    m_liveryWheel = wheel.upload();
+    const float x = shape.m_body[shape.m_body.size() / 2].m_hw - 0.155f;
+    m_liveryWheelAt[0] = Vector3{ x, shape.m_wheelR, shape.m_wheelFront };
+    m_liveryWheelAt[1] = Vector3{ x, shape.m_wheelR, shape.m_wheelRear };
 }
 
 void Models::buildPlayerPlate( PlateE style, const std::string &code, const std::string &text )
@@ -846,14 +884,14 @@ void Models::buildProps()
         const Color  white = rgb( 236, 238, 242 );
         m.cylinder( Vector3{ 0, 0, 0 }, 1.3f, 0.6f, 42.0f, 8, white );
         m.box( Vector3{ 0, 42.6f, 0.5f }, Vector3{ 0.9f, 0.9f, 2.2f }, white );
+        // Its blades turn: they are a model of their own round the hub (TurbineHub), drawn by the renderer.
+        m_turbineBlades.clear();
         for ( int i = 0; i < 3; ++i )
         {
             const float   a = Tau * static_cast<float>( i ) / 3.0f + 0.4f;
-            const Vector3 hub = { 0, 42.6f, -1.8f };
             const Vector3 dir = { std::cos( a ), std::sin( a ), 0 };
             const Vector3 side = { -dir.y * 0.7f, dir.x * 0.7f, 0 };
-            const Vector3 tip = Vector3Add( hub, Vector3Scale( dir, 19.0f ) );
-            m.tri( Vector3Add( hub, side ), Vector3Subtract( hub, side ), tip, white );
+            m_turbineBlades.tri( side, Vector3Negate( side ), Vector3Scale( dir, 19.0f ), white );
         }
     }
     for ( int v = 0; v < 2; ++v )
@@ -2058,10 +2096,13 @@ void Models::buildVehicles()
         {
             MeshBuilder mb;
             buildCar( mb, shape, PaintColors[p] );
+            mb.tagWheels();
             m_playerCars[car][p] = mb.upload();
         }
     }
 
+    if ( m_turbineRotor.vaoId ) UnloadMesh( m_turbineRotor );
+    m_turbineRotor = m_turbineBlades.upload();
     // Traffic: hatchback, saloon, van and lorry in everyday paints.
     const Color paints[8] = { rgb( 150, 150, 156 ), rgb( 40, 44, 52 ),  rgb( 120, 30, 34 ),  rgb( 34, 70, 120 ),
                               rgb( 220, 220, 224 ), rgb( 60, 100, 70 ), rgb( 180, 140, 60 ), rgb( 96, 60, 110 ) };
@@ -2113,7 +2154,9 @@ void Models::buildVehicles()
             MeshBuilder     mb;
             const CarShape &shape = kind == 0 ? hatch : kind == 1 ? saloon : van;
             buildCar( mb, shape, paints[( p + kind * 3 ) % 8] );
+            if ( kind < 2 ) m_parked.push_back( { mb, mb.simplified( 0.55f ), kind == 0 ? 3.9f : 4.6f, 1.76f, 0 } );
             VehicleModel vm;
+            mb.tagWheels();
             vm.m_mesh = mb.upload();
             vm.m_length = kind == 0 ? 3.9f : kind == 1 ? 4.6f : 4.9f;
             vm.m_width = kind == 2 ? 1.9f : 1.76f;
@@ -2145,6 +2188,7 @@ void Models::buildVehicles()
                      Glow );
         }
         VehicleModel vm;
+        mb.tagWheels();
         vm.m_mesh = mb.upload();
         vm.m_length = 10.0f;
         vm.m_width = 2.5f;
@@ -2156,7 +2200,12 @@ void Models::buildVehicles()
     auto addVehicle =
         [&]( MeshBuilder &mb, float length, float width, uint32_t fleets, uint8_t where, float pace, bool truck )
     {
+        // What a region drives parks along its streets too (not its lorries, buses and tractors, nor its scooters, whose
+        // riders sit on them).
+        if ( !truck && pace >= 0.5f && length <= 5.6f && width >= 1.2f && fleets != 0 )
+            m_parked.push_back( { mb, mb.simplified( 0.55f ), length, width, fleets } );
         VehicleModel vm;
+        mb.tagWheels();
         vm.m_mesh = mb.upload();
         vm.m_length = length;
         vm.m_width = width;
@@ -2464,6 +2513,7 @@ void Models::buildVehicles()
         MeshBuilder mb;
         mb.append( src, Vector3{ 0, 0, 0 }, 0.0f, 1.0f );
         VehicleModel vm;
+        mb.tagWheels();
         vm.m_mesh = mb.upload();
         vm.m_length = size.x;
         vm.m_width = size.y;
@@ -2575,7 +2625,10 @@ void Models::buildFlags()
 {
     m_flags.assign( static_cast<size_t>( countryTableSize() ), {} );
     for ( int c = 0; c < countryTableSize(); ++c )
+    {
         buildFlag( m_flags[static_cast<size_t>( c )], countryAt( c ).m_flag );
+        m_flags[static_cast<size_t>( c )].applySway( 0.45f );   // the flag waves (its pole's top with it, a little)
+    }
 }
 
 void Models::buildCreatures()
@@ -2759,6 +2812,12 @@ void Models::unload()
             if ( m.vaoId ) UnloadMesh( m );
     if ( m_livery.vaoId ) UnloadMesh( m_livery );
     m_livery = Mesh{};
+    if ( m_liveryBody.vaoId ) UnloadMesh( m_liveryBody );
+    m_liveryBody = Mesh{};
+    if ( m_liveryWheel.vaoId ) UnloadMesh( m_liveryWheel );
+    m_liveryWheel = Mesh{};
+    if ( m_turbineRotor.vaoId ) UnloadMesh( m_turbineRotor );
+    m_turbineRotor = Mesh{};
     for ( auto &v : m_traffic ) UnloadMesh( v.m_mesh );
     m_traffic.clear();
     UnloadMesh( m_cone );

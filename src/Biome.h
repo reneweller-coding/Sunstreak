@@ -709,6 +709,9 @@ struct PropRule
     bool      m_soft = false;      ///< nothing to crash into (litter)
     float     m_radius = 0.0f;     ///< a collision radius of its own (0: the kind's; roadside stands)
     uint8_t   m_seasons = 0;       ///< the seasons it stands in: 1 spring, 2 summer, 4 autumn, 8 winter (0: all year)
+    bool      m_climb = false;     ///< climbs the slope behind it (a funicular): its back (-x) uphill, sheared to it
+    bool      m_shore = false;     ///< stands where the land meets the water, its front (+x) out over the water
+    bool      m_free = false;      ///< turns as it will (the places' other shapes face the road with their fronts, +x)
 };
 
 /** @brief How a bridge is built. */

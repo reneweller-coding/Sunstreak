@@ -1107,6 +1107,168 @@ int main()
             check( services >= 40 && ( who == "AMBULANCE_USA" || who == "FIRE_ENGINE_USA" ) && gaveWay == 1 &&
                        yielded > 0,
                    "ambulances and fire engines on their runs" );
+            // A flash of the headlights: the slower car ahead in the player's lane makes way and indicates; the car
+            // in another lane and the one behind do not. And traffic that changes lanes indicates before it moves.
+            traffic.m_cars.clear();
+            const Segment &now = road.segment( static_cast<long>( car.m_s / SegmentLength ) );
+            car.m_x = laneCenter( 0, now.m_lanes, now.m_halfWidth );
+            car.m_speed = 40.0f;
+            TrafficCar ahead, beside, behind;
+            ahead.m_s = car.m_s + 40.0;
+            ahead.m_x = car.m_x;
+            ahead.m_lane = 0;
+            ahead.m_speed = ahead.m_cruise = 22.0f;
+            beside = ahead;
+            beside.m_lane = now.m_lanes - 1;
+            beside.m_x = laneCenter( now.m_lanes - 1, now.m_lanes, now.m_halfWidth );
+            behind = ahead;
+            behind.m_s = car.m_s - 30.0;
+            traffic.m_cars = { ahead, beside, behind };
+            const int made = traffic.flash( car );
+            const bool only = traffic.m_cars[0].m_yield > 0.0f && traffic.m_cars[1].m_yield <= 0.0f &&
+                              traffic.m_cars[2].m_yield <= 0.0f;
+            TrafficEvents quiet;
+            traffic.update( 1.0f / 60.0f, road, car, models, quiet );
+            bool signalled = false;
+            for ( const TrafficCar &c : traffic.m_cars ) signalled = signalled || ( c.m_yield > 0.0f && c.m_signal != 0 );
+            check( made == ( now.m_lanes > 1 ? 1 : 2 ) && ( now.m_lanes == 1 || only ) && signalled,
+                   "a flash of the headlights makes the car ahead give way" );
+            // Oncoming traffic, on a road of two lanes: each direction keeps to its half, and what comes the other way
+            // goes by a car in its own lane without a scratch.
+            TrackParams q;
+            q.m_biome = biomeId( "BLACK_FOREST" );
+            Track     country( 3, q );
+            PlayerCar me;
+            me.reset( carSpec( 0 ), StartLine, 0.0f, country );
+            Traffic both;
+            both.reset( 91, me.m_s );
+            int   met = 0, headOn = 0, strayed = 0, lanes = 0, offMet = 0;
+            float ownSide = 1.0f, half = 3.5f;
+            auto  works = [&]( double s )
+            {
+                for ( double d = -100.0; d < 220.0; d += SegmentLength )
+                    if ( country.segment( static_cast<long>( ( s + d ) / SegmentLength ) ).m_blockedLanes ) return true;
+                return false;
+            };
+            auto drive = [&]( float x, float speed, TrafficEvents &ev )
+            {
+                country.generateTo( me.m_s + 2000.0 );
+                const Segment &seg = country.segment( static_cast<long>( me.m_s / SegmentLength ) );
+                int            first = 0, last = -1;
+                both.oncomingLanes( country, seg, first, last );
+                lanes = seg.m_lanes;
+                half = seg.m_halfWidth;
+                ownSide = first == 0 ? 1.0f : -1.0f;
+                me.m_speed = speed;
+                me.m_x = ownSide * x * half;
+                both.update( 1.0f / 60.0f, country, me, models, ev );
+                me.m_s += static_cast<double>( speed ) / 60.0;
+            };
+            for ( int k = 0; k < 60 * 60; ++k )
+            {
+                // Off (as it comes): nothing the other way.
+                TrafficEvents ev;
+                drive( 0.5f, 12.0f, ev );
+                offMet += ev.m_met;
+                for ( const TrafficCar &c : both.m_cars ) offMet += c.m_oncoming ? 1 : 0;
+            }
+            both.m_oncoming = 2;
+            for ( int k = 0; k < 60 * 300; ++k )
+            {
+                TrafficEvents ev;
+                drive( 0.5f, 12.0f, ev );
+                met += ev.m_met;
+                headOn += ev.m_headOn;
+                // Each on its half; only at roadworks the player's direction may cross, never the other.
+                for ( const TrafficCar &c : both.m_cars )
+                    if ( std::abs( c.m_s - me.m_s ) < 300.0 && ( c.m_x * ownSide > 0.0f ) == c.m_oncoming &&
+                         ( c.m_oncoming || !works( c.m_s ) ) )
+                        ++strayed;
+            }
+            std::printf( "      oncoming traffic on %d lanes: %d went by in 5 minutes, %d out of their half\n", lanes, met,
+                         strayed );
+            check( lanes == 2 && offMet == 0 && met >= 4 && headOn == 0 && strayed == 0,
+                   "oncoming traffic keeps to its half of the road" );
+            // Across the middle with one coming: it makes room at its edge, flashes its lights and sounds its horn,
+            // and going by is a close call, not an overtake. Right in its lane the car meets it head-on.
+            auto meet = [&]( float x, float speed, int &calls, int &overtakes, int &crashes, bool &flashed, bool &honked )
+            {
+                both.m_cars.clear();
+                me.m_crashTimer = 0.0f;
+                TrafficCar c;
+                c.m_oncoming = true;
+                c.m_s = me.m_s + 250.0;
+                c.m_lane = ownSide > 0.0f ? 0 : 1;
+                c.m_x = -ownSide * 0.5f * half;
+                c.m_speed = c.m_cruise = 20.0f;
+                both.m_cars.push_back( c );
+                for ( int k = 0; k < 60 * 8; ++k )
+                {
+                    TrafficEvents ev;
+                    drive( x, speed, ev );
+                    calls += ev.m_closeCalls;
+                    overtakes += ev.m_overtakes;
+                    crashes += ev.m_headOn;
+                    honked = honked || ev.m_horn > 0.0f;
+                    for ( const TrafficCar &o : both.m_cars ) flashed = flashed || o.m_flash > 0.0f;
+                }
+            };
+            int  calls = 0, overtakes = 0, crashes = 0, calls2 = 0, overtakes2 = 0, crashes2 = 0;
+            bool flashed = false, honked = false, flashed2 = false, honked2 = false;
+            meet( -0.22f, 40.0f, calls, overtakes, crashes, flashed, honked );
+            meet( -0.5f, 30.0f, calls2, overtakes2, crashes2, flashed2, honked2 );
+            check( calls == 1 && overtakes == 0 && crashes == 0 && flashed && honked, "a close call with what comes the other way" );
+            check( crashes2 == 1 && calls2 == 0 && overtakes2 == 0 && me.m_crashTimer > 0.0f && flashed2,
+                   "head-on in the oncoming lane" );
+            // Dense: now and then what comes the other way overtakes, out in the player's half, and is back in its
+            // own before it meets the car there.
+            both.m_cars.clear();
+            both.m_oncoming = 3;
+            me.m_crashTimer = 0.0f;
+            int   outFrames = 0, headOnDense = 0, metDense = 0;
+            float closest = 1e9f;   // seconds before meeting the car, out in its lane
+            for ( int k = 0; k < 60 * 400; ++k )
+            {
+                TrafficEvents ev;
+                drive( 0.5f, 12.0f, ev );
+                headOnDense += ev.m_headOn;
+                metDense += ev.m_met;
+                for ( const TrafficCar &c : both.m_cars )
+                {
+                    if ( c.m_overtake != 2 ) continue;
+                    ++outFrames;
+                    if ( c.m_s > me.m_s && std::abs( c.m_x - me.m_x ) < 0.5f * ( c.m_width + me.m_spec.m_width ) )
+                        closest = std::min( closest, static_cast<float>( c.m_s - me.m_s ) / ( c.m_speed + 12.0f ) );
+                }
+            }
+            std::printf( "      dense: %d went by in 400 s, %.1f s out overtaking, at the closest %.1f s off\n", metDense,
+                         static_cast<float>( outFrames ) / 60.0f, closest > 1e8f ? -1.0f : closest );
+            check( headOnDense == 0 && metDense > met && closest > 1.5f, "overtakers coming the other way" );
+            // The solid line down the middle: round the hairpins of a pass, hardly ever on a straight desert road.
+            auto solidShare = [&]( const char *biome )
+            {
+                TrackParams sp;
+                sp.m_biome = biomeId( biome );
+                Track t( 3, sp );
+                t.generateTo( StartLine + 6000.0 );
+                int n = 0, solid = 0;
+                for ( long i = static_cast<long>( ( StartLine + 500.0 ) / SegmentLength );
+                      i < static_cast<long>( ( StartLine + 5500.0 ) / SegmentLength ); ++i, ++n )
+                    solid += t.noPassing( i ) ? 1 : 0;
+                return static_cast<float>( solid ) / static_cast<float>( n );
+            };
+            const float pass = solidShare( "STELVIO" ), plain = solidShare( "ROUTE_66" ),
+                        coast = solidShare( "AMALFI" ), forest = solidShare( "BLACK_FOREST" );
+            std::printf( "      no overtaking: Stelvio %.0f %%, Amalfi %.0f %%, Black Forest %.0f %%, Route 66 %.0f %%\n",
+                         pass * 100.0f, coast * 100.0f, forest * 100.0f, plain * 100.0f );
+            TrackParams wp;
+            wp.m_biome = biomeId( "NEW_YORK" );
+            Track wide( 3, wp );
+            wide.generateTo( StartLine + 1000.0 );
+            const long mid = static_cast<long>( ( StartLine + 500.0 ) / SegmentLength );
+            check( pass > 0.3f && plain < 0.25f && pass > plain + 0.2f &&
+                       ( wide.segment( mid ).m_lanes < 4 || wide.noPassing( mid ) ),
+                   "no overtaking round bends, over crests and on wide roads" );
         }
         {   // Journeys: every one from a place of the route to another, London to Paris a short one.
             int  shortest = 1 << 30, longest = 0;
@@ -1136,6 +1298,119 @@ int main()
                        biomeId( "TUSCANY" ) == static_cast<int>( BiomeE::TUSCANY ),
                    "the data files read again" );
         }
+    }
+    {   // Drifting: its look leaves the line the car drives untouched; with its feel the car still keeps the road.
+        TrackParams bends;
+        bends.m_curvy = 9;
+        bends.m_sharp = 7;
+        struct Drive
+        {
+            double m_s = 0.0;           ///< how far it came
+            float  m_x = 0.0f;          ///< where across the road it ended
+            float  m_speed = 0.0f;      ///< how fast it was at the end
+            float  m_widest = 0.0f;     ///< the farthest it strayed beyond the road's edge
+            float  m_deepest = 0.0f;    ///< the deepest drift
+            float  m_turned = 0.0f;     ///< the most the drift turned the body
+            float  m_drifted = 0.0f;    ///< seconds in a drift
+        };
+        auto drive = [&]( int mode )
+        {
+            Track     t( 777, bends );
+            PlayerCar car;
+            car.reset( carSpec( 0 ), StartLine, 0.0f, t );
+            car.m_driftMode = mode;
+            Drive    d;
+            CarInput in;
+            for ( int i = 0; i < 120 * 60; ++i )
+            {
+                t.generateTo( car.m_s + 500.0 );
+                // A driver who holds the middle and brakes for what the tyres will not hold.
+                float bend = 0.0f;
+                for ( double a = 0.0; a < 40.0 + car.m_speed * 2.6; a += SegmentLength )
+                    bend = std::max( bend,
+                                     std::abs( t.segment( static_cast<long>( ( car.m_s + a ) / SegmentLength ) ).m_curve ) );
+                const float hold = steerLimit( std::max( car.m_speed, 25.0f ), car.m_spec.m_topSpeed ) * 0.9f;
+                const float pace = std::max( 15.0f, std::sqrt( hold / ( tuning().m_centrifugal * bend + 1e-6f ) ) );
+                in.m_throttle = car.m_speed < pace ? 1.0f : 0.0f;
+                in.m_brake = car.m_speed > pace + 3.0f ? 1.0f : 0.0f;
+                const float limit = std::max( 1.0f, steerLimit( car.m_speed, car.m_spec.m_topSpeed ) );
+                in.m_steer = clampf( car.m_drift / limit - car.m_x * 0.22f - ( car.m_vx - car.m_drift ) * 0.04f, -1.0f,
+                                     1.0f );
+                car.update( in, t, 1.0f / 120.0f, false );
+                const TrackFrame f = t.frameAt( car.m_s );
+                d.m_widest = std::max( d.m_widest, std::abs( car.m_x ) - f.m_halfWidth );
+                d.m_deepest = std::max( d.m_deepest, car.m_driftAmount );
+                d.m_turned = std::max( d.m_turned, std::abs( car.m_driftYaw ) );
+                if ( car.m_driftAmount > 0.5f ) d.m_drifted += 1.0f / 120.0f;
+            }
+            d.m_s = car.m_s;
+            d.m_x = car.m_x;
+            d.m_speed = car.m_speed;
+            return d;
+        };
+        const Drive off = drive( 0 ), look = drive( 1 ), full = drive( 2 );
+        std::printf( "      60 s of bends: no drift %.0f m (widest %+.2f m); its look %.0f m, %.1f s drifting, the body "
+                     "turned %.0f degrees; its feel %.0f m (widest %+.2f m)\n",
+                     off.m_s, off.m_widest, look.m_s, look.m_drifted, look.m_turned * 57.2958f, full.m_s, full.m_widest );
+        check( off.m_deepest == 0.0f && off.m_turned == 0.0f, "DRIFT OFF: no drift" );
+        check( look.m_drifted > 2.0f && look.m_turned > 0.12f && look.m_turned < 0.4f, "the car drifts in fast bends" );
+        check( look.m_s == off.m_s && look.m_x == off.m_x && look.m_speed == off.m_speed,
+               "the drift's look leaves the driving line as it is" );
+        check( full.m_widest < std::max( off.m_widest, 0.0f ) + 0.5f && full.m_s > off.m_s * 0.97,
+               "with the drift's feel the car keeps the road as well" );
+    }
+    {   // The body dips braking and squats accelerating; a slipstream makes the car faster.
+        Track     t( 4242 );
+        PlayerCar car, towed;
+        car.reset( carSpec( 0 ), StartLine, 0.0f, t );
+        towed.reset( carSpec( 0 ), StartLine, 0.0f, t );
+        towed.m_draft = 1.0f;
+        CarInput in;
+        in.m_throttle = 1.0f;
+        float squat = 0.0f, dive = 0.0f;
+        for ( int i = 0; i < 120 * 25; ++i )
+        {
+            t.generateTo( car.m_s + 500.0 );
+            for ( PlayerCar *c : { &car, &towed } )
+            {
+                in.m_steer = clampf( -c->m_x * 0.3f + c->m_drift / std::max( 1.0f, steerLimit( c->m_speed, c->m_spec.m_topSpeed ) ),
+                                     -1.0f, 1.0f );
+                c->update( in, t, 1.0f / 120.0f, false );
+            }
+            if ( i < 240 ) squat = std::max( squat, car.m_pitch );
+        }
+        const float alone = car.m_speed, behind = towed.m_speed;
+        in.m_throttle = 0.0f;
+        in.m_brake = 1.0f;
+        in.m_steer = 0.0f;
+        for ( int i = 0; i < 120; ++i )
+        {
+            car.update( in, t, 1.0f / 120.0f, false );
+            dive = std::min( dive, car.m_pitch );
+        }
+        std::printf( "      squat %.1f degrees, dive %.1f degrees; top speed %.0f km/h, in a slipstream %.0f km/h\n",
+                     squat * 57.2958f, dive * 57.2958f, alone * 3.6f, behind * 3.6f );
+        check( squat > 0.005f && dive < -0.02f && car.m_braking, "the body squats and dips, the brake lights go on" );
+        check( behind > alone * 1.02f && behind < alone * 1.12f, "a slipstream adds a little speed" );
+    }
+    {   // The metres drifted and the slipstream passes are kept, and earn their awards.
+        Records r;
+        r.m_driftMetres = 12000;
+        r.m_longestDrift = 140;
+        r.m_draftPasses = 100;
+        r.m_closeCalls = 50;
+        const std::vector<size_t> now = earnAchievements( r );
+        const std::string         path = ( std::filesystem::temp_directory_path() / "sunstreak-drift-test.txt" ).string();
+        r.save( path );
+        Records back;
+        back.load( path );
+        std::filesystem::remove( path );
+        auto has = [&]( const char *key )
+        { return std::find( back.m_achieved.begin(), back.m_achieved.end(), key ) != back.m_achieved.end(); };
+        check( now.size() == 4 && back.m_driftMetres == 12000 && back.m_longestDrift == 140 && back.m_draftPasses == 100 &&
+                   back.m_closeCalls == 50 && has( "drift100" ) && has( "drift10k" ) && has( "draft100" ) &&
+                   has( "closecall50" ),
+               "drifts, slipstream passes and close calls in the records" );
     }
     check( trackTitle( 42 ) == trackTitle( 42 ) && trackTitle( 42 ).size() > 6, "track titles" );
     {   // Every place that writes in its own script has its name traced for the signs (tools/make_signs.py).

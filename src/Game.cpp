@@ -262,6 +262,25 @@ void Game::writeBench() const
         static_cast<double>( m_bench.m_traffic ) / n,
         m_world.m_buildCount ? m_world.m_buildTotalMs / m_world.m_buildCount : 0.0f, m_world.m_buildMaxMs,
         m_world.m_syncBuilds );
+    out << format( "driving %.2f km  crashes %d  scrapes %d  off the road %.1f s  drifting %.1f s  slipstream %.1f s  "
+                   "drift %d\n",
+                   ( m_car.m_s - std::max( 0.0, m_bench.m_from ) ) / 1000.0, m_bench.m_crashes, m_bench.m_scrapes,
+                   m_bench.m_offroad, m_bench.m_drifting, m_bench.m_drafting, m_settings.m_drift );
+    out << format( "oncoming %d  met %d  close calls %d  head-on %d\n", m_traffic.m_oncoming, m_bench.m_met,
+                   m_bench.m_closeCalls, m_bench.m_headOn );
+    for ( const std::string &line : m_bench.m_log ) out << line << "\n";
+}
+
+void Game::benchNote( const char *what )
+{
+    const Segment &seg = m_track->segment( static_cast<long>( m_car.m_s / SegmentLength ) );
+    std::string    line = format( "crash (%s) at %.0f m: x %.1f of %.1f, %.0f m/s after, %d lanes;", what, m_car.m_s,
+                                  m_car.m_x, seg.m_halfWidth, m_car.m_speed, static_cast<int>( seg.m_lanes ) );
+    for ( const TrafficCar &c : m_traffic.m_cars )
+        if ( std::abs( c.m_s - m_car.m_s ) < 60.0 && !c.m_swim )
+            line += format( " [%+.0f m, x %.1f, %.0f m/s%s]", c.m_s - m_car.m_s, c.m_x, c.along(),
+                            c.m_animal ? ", animal" : "" );
+    m_bench.m_log.push_back( line );
 }
 
 void Game::shutdown()
@@ -595,6 +614,9 @@ void Game::replayStep( float dt )
     m_car.m_throttle = lerpf( a.m_throttle, b.m_throttle, k );
     m_car.m_airborne = a.m_airborne;
     m_car.m_boosting = a.m_boost;
+    m_car.m_pitch = 0.0f;
+    m_car.m_braking = false;
+    m_car.m_steer = 0.0f;
     m_traffic.m_cars.clear();
     for ( const ReplayFrame::Other &o : a.m_traffic )
     {
@@ -607,6 +629,7 @@ void Game::replayStep( float dt )
         c.m_width = m_models.m_traffic[static_cast<size_t>( o.m_model )].m_width;
         c.m_lift = o.m_lift;
         c.m_swim = o.m_lift > 0.0f;
+        c.m_oncoming = !c.m_swim && std::cos( o.m_yaw ) < 0.0f;   // heading back along the road: its wheels roll that way
         m_traffic.m_cars.push_back( c );
     }
     for ( size_t i = 0; i < a.m_rivals.size() && i < m_race.m_rivals.size() && i < b.m_rivals.size(); ++i )
@@ -910,6 +933,7 @@ void Game::finishCrossing()
     const Segment &seg = m_track->segment( static_cast<long>( s / SegmentLength ) );
     const float    x = clampf( m_car.m_x, -seg.m_halfWidth + 1.2f, seg.m_halfWidth - 1.2f );
     m_car.reset( carSpec( m_carIndex ), s, x, *m_track );
+    m_skidOn[0] = m_skidOn[1] = false;
     const float density = m_traffic.m_density;
     m_traffic.reset( m_seed ^ static_cast<uint64_t>( s ), s );
     m_traffic.m_density = density;
@@ -1469,6 +1493,14 @@ void Game::beginCountdown()
     m_combo = 1;
     m_comboTimer = 0.0f;
     m_topSpeed = 0.0f;
+    m_driftRun = 0.0f;
+    m_driftCalm = 0.0f;
+    m_skids.clear();
+    m_skidOn[0] = m_skidOn[1] = false;
+    m_dirt = 0.0f;
+    m_headFlash = 0.0f;
+    m_brakeHeat = 0.0f;
+    m_pending.clear();
     m_newBest = false;
     m_newGhost = false;
     m_rank = -1;
@@ -1782,6 +1814,8 @@ void Game::frame( float dt )
             if ( m_options.m_action == "reload" ) reloadGameData();
             if ( m_options.m_action == "save" ) saveRun();
             if ( m_options.m_action == "siren" ) m_traffic.sirenNow();
+            if ( m_options.m_action == "oncoming" ) m_traffic.oncomingNow();
+            if ( m_options.m_action == "overtaker" ) m_traffic.oncomingNow( 900.0 );
             m_options.m_action.clear();
             break;
         }
@@ -1816,6 +1850,91 @@ void Game::frame( float dt )
     if ( m_input.m_nextTrack && m_state != StateE::CODE_ENTRY && m_state != StateE::INITIALS )
         playMusic( hash64( m_trackSeed + 31 ), m_playingStation );
     m_nowTimer += dt;
+    m_headFlash = std::max( 0.0f, m_headFlash - dt );
+    m_flashCool = std::max( 0.0f, m_flashCool - dt );
+    m_hornCool = std::max( 0.0f, m_hornCool - dt );
+    if ( m_input.m_horn && m_state == StateE::RACE && !m_demo && m_hornCool <= 0.0f && m_track )
+    {
+        // The horn as the country's horns sound: one note in Europe, a deep long one in North America, a short high one
+        // in East Asia, a little tune in South and Southeast Asia, two taps elsewhere. Animals in the road get out of
+        // the way; where the lines are a suggestion, somebody answers.
+        m_hornCool = 0.8f;
+        const BiomeDef &place = biomeDef( m_track->stageBiome( m_track->stageAt( m_car.m_s ) ) );
+        const FleetE    region = place.m_country ? countryInfo( place.m_country ).m_fleet : FleetE::EUROPE;
+        auto            note = [&]( float after, float pitch, float pan = 0.0f, float volume = 0.9f )
+        { m_pending.push_back( { m_time + after, SfxE::HORN, volume, pan, pitch } ); };
+        switch ( region )
+        {
+        case FleetE::SOUTH_ASIA:
+        case FleetE::SOUTHEAST_ASIA:
+            note( 0.0f, 1.0f );
+            note( 0.16f, 1.26f );
+            note( 0.32f, 1.5f );
+            note( 0.48f, 1.26f );
+            break;
+        case FleetE::NORTH_AMERICA:
+        case FleetE::OCEANIA:
+            note( 0.0f, 0.72f );
+            note( 0.25f, 0.72f );
+            break;
+        case FleetE::EAST_ASIA: note( 0.0f, 1.35f ); break;
+        case FleetE::EUROPE:
+        case FleetE::BRITISH:
+        case FleetE::EASTERN: note( 0.0f, 1.0f ); break;
+        default:
+            note( 0.0f, 1.05f );
+            note( 0.2f, 1.05f );
+            break;
+        }
+        bool  answered = false;
+        float pan = 0.0f;
+        m_traffic.honk( m_car, answered, pan );
+        if ( answered ) note( 0.45f + 0.3f * m_particles.m_rng.uniform(), 0.85f + 0.4f * m_particles.m_rng.uniform(), pan, 0.7f );
+    }
+    for ( size_t i = 0; i < m_pending.size(); )
+    {
+        if ( m_pending[i].m_at > m_time )
+        {
+            ++i;
+            continue;
+        }
+        m_audio.play( m_pending[i].m_sfx, m_pending[i].m_volume, m_pending[i].m_pan, m_pending[i].m_pitch );
+        m_pending.erase( m_pending.begin() + static_cast<long>( i ) );
+    }
+    if ( m_state == StateE::RACE && !m_demo && m_track )
+    {
+        // The brakes heat up with long hard braking at speed and cool again.
+        const float braking = m_input.car().m_brake * smoothstepf( 15.0f, 45.0f, m_car.m_speed );
+        m_brakeHeat = clampf( m_brakeHeat + ( 0.22f * braking - 0.07f ) * dt, 0.0f, 1.0f );
+        // A village's church rings as the car comes through, in the lands of church towers.
+        m_bellIn -= dt;
+        if ( m_bellIn <= 0.0f )
+        {
+            m_bellIn = 6.0f;
+            const BiomeDef &place = biomeDef( m_track->stageBiome( m_track->stageAt( m_car.m_s ) ) );
+            const FleetE    region = place.m_country ? countryInfo( place.m_country ).m_fleet : FleetE::COUNT;
+            bool            village = false;
+            for ( const Chunk &c : m_world.chunks() )
+                village = village || ( !c.m_chimneys.empty() &&
+                                       std::abs( static_cast<double>( c.m_index ) * ChunkLength - m_car.m_s ) < 160.0 );
+            if ( village && ( region == FleetE::EUROPE || region == FleetE::BRITISH || region == FleetE::LATIN ||
+                              region == FleetE::EASTERN ) )
+            {
+                const float pitch = 0.8f + 0.45f * m_particles.m_rng.uniform(), pan = m_particles.m_rng.range( -0.6f, 0.6f );
+                for ( int k = 0; k < 3; ++k )
+                    m_pending.push_back( { m_time + 1.4f * static_cast<float>( k ), SfxE::BELL, 0.5f, pan, pitch } );
+                m_bellIn = 45.0f + 40.0f * m_particles.m_rng.uniform();
+            }
+        }
+    }
+    if ( m_input.m_flash && m_state == StateE::RACE && !m_demo && m_flashCool <= 0.0f )
+    {
+        // A flash of the headlights, twice: slower traffic ahead in the lane makes way.
+        m_headFlash = 0.4f;
+        m_flashCool = 1.2f;
+        m_traffic.flash( m_car );
+        m_audio.play( SfxE::SHIFT, 0.3f );
+    }
     if ( m_input.m_camera && ( m_state == StateE::RACE || m_state == StateE::COUNTDOWN ) )
     {
         m_settings.m_camera = ( m_settings.m_camera + 1 ) % 4;
@@ -1847,6 +1966,10 @@ void Game::frame( float dt )
                                      ( upClose( c, m_car.m_s ) ? c.m_scenery : c.m_sceneryFar ).triangleCount );
         m_bench.m_triangles += static_cast<double>( triangles );
         m_bench.m_traffic += static_cast<int>( m_traffic.m_cars.size() );
+        if ( m_bench.m_from < 0.0 ) m_bench.m_from = m_car.m_s;
+        if ( m_car.m_offroad > 0.5f ) m_bench.m_offroad += dt;
+        if ( m_car.m_driftAmount > 0.5f ) m_bench.m_drifting += dt;
+        if ( m_car.m_draft > 0.5f ) m_bench.m_drafting += dt;
     }
 }
 
@@ -1935,7 +2058,7 @@ void Game::simulate( float dt, bool autopilotOn )
          ( m_settings.m_steerAssist > 0 || m_settings.m_brakeAssist ) )
     {
         // The assists borrow the demo driver: steering where the hands are idle, braking for what comes too fast.
-        const CarInput ai = autopilot();
+        const CarInput ai = autopilot( true );
         if ( m_settings.m_steerAssist > 0 )
         {
             const float k = m_settings.m_steerAssist == 1 ? 0.35f : 0.7f;
@@ -2054,7 +2177,48 @@ void Game::step( float h, const CarInput &in )
 {
     Track     &track = *m_track;
     const bool manual = m_settings.m_manualGears && !m_demo && !m_options.m_autopilot;
+    {
+        // The drift as the settings want it (the title's demo only shows it). Its box does not turn with the body, so
+        // beside a rail on the bend's outside, or close to traffic, the body turns less.
+        m_car.m_driftMode = m_demo ? std::min( 1, m_settings.m_drift ) : m_settings.m_drift;
+        const long  seg = static_cast<long>( m_car.m_s / SegmentLength );
+        const float outside = m_car.m_drift >= 0.0f ? -1.0f : 1.0f;
+        bool        rail = false;
+        for ( long k = -1; k <= 4 && !rail; ++k )
+            rail = ( track.segment( seg + k ).m_flags & ( outside < 0.0f ? SEG_RAIL_L : SEG_RAIL_R ) ) != 0;
+        float room = rail ? 0.55f : 1.0f;
+        for ( const TrafficCar &c : m_traffic.m_cars )
+            if ( std::abs( c.m_s - m_car.m_s ) < 12.0 && std::abs( c.m_x - m_car.m_x ) < 4.0f ) room = std::min( room, 0.4f );
+        m_car.m_driftRoom = approach( m_car.m_driftRoom, room, 3.0f, h );
+
+        // A slipstream: close behind a vehicle in the same lane at speed, the air pushes less.
+        float best = 0.0f;
+        auto  behind = [&]( double s, float x, float w, float speed )
+        {
+            // Only behind something that goes fast itself: there is no tow behind a lorry crawling up a pass.
+            const double gap = s - m_car.m_s;
+            if ( gap < 3.0 || gap > 30.0 || std::abs( x - m_car.m_x ) > 0.5f * w + 0.5f ) return;
+            if ( speed < std::max( 18.0f, 0.7f * m_car.m_speed ) ) return;
+            best = std::max( best, static_cast<float>( 1.0 - ( gap - 3.0 ) / 27.0 ) );
+        };
+        for ( const TrafficCar &c : m_traffic.m_cars )
+            if ( !c.m_swim && !c.m_animal && !c.m_oncoming && c.m_lift < 0.5f )
+                behind( c.m_s, c.m_x, c.m_width, c.m_speed );
+        for ( const Rival &r : m_race.m_rivals ) behind( r.m_s, r.m_x, 1.8f, r.m_speed );
+        const float want =
+            m_car.m_reverse || m_car.m_airborne ? 0.0f : best * smoothstepf( 20.0f, 28.0f, m_car.m_speed );
+        m_car.m_draft = approach( m_car.m_draft, want, want > m_car.m_draft ? 1.5f : 3.0f, h );
+        if ( m_car.m_draft > 0.5f ) m_lastDraft = m_time;
+    }
     m_car.update( in, track, h, manual );
+    if ( m_car.m_driftAmount > 0.5f && m_car.m_crashTimer <= 0.0f )
+    {
+        // Drifting counts its metres and, with its feel on, fills the boost tank a little (LOOK ONLY leaves the drive
+        // exactly as it is without drifting: the tank drives the car).
+        m_driftRun += m_car.m_speed * h;
+        if ( m_car.m_driftMode == 2 )
+            m_car.m_boostTank = std::min( 1.0f, m_car.m_boostTank + 0.06f * m_car.m_driftAmount * h );
+    }
     m_shifted = m_shifted || m_car.m_eventShift;
     m_backfire = m_backfire || m_car.m_eventBackfire;
     if ( m_car.m_eventLanded )
@@ -2062,6 +2226,7 @@ void Game::step( float h, const CarInput &in )
         m_landed = true;
         m_landImpact = std::max( m_landImpact, m_car.m_landImpact );
     }
+    m_traffic.m_oncoming = m_options.m_oncoming >= 0 ? m_options.m_oncoming : m_settings.m_oncoming;
     m_traffic.update( h, track, m_car, m_models, m_ev );
     {
         // The police: a patrol car of the country now and then; too fast past it, a chase until caught or away.
@@ -2269,11 +2434,42 @@ void Game::step( float h, const CarInput &in )
             const float  dx = m_car.m_x - c->m_x;
             const float  rl = m_car.m_spec.m_length * 0.5f + c->m_radius * 0.8f;
             const float  rw = m_car.m_spec.m_width * 0.5f + c->m_radius * 0.8f;
+            if ( std::abs( ds ) < rl && std::abs( dx ) < rw && c->m_glance && rw - std::abs( dx ) < 0.4f )
+            {
+                // A parked car, a hedge, a garden wall, a bank of snow met from the side (the car is only just in it):
+                // the car slides along it as along a rail, on the side it came from. Driven straight into (deep in it
+                // at once), it is a crash like any other.
+                const float away = dx < 0.0f ? -1.0f : 1.0f;
+                const float into = -( m_car.m_vx - m_car.m_drift ) * away;
+                m_car.m_x = c->m_x + away * rw;
+                if ( into > 0.0f ) m_car.m_vx = m_car.m_drift + away * into * 0.35f;
+                if ( !m_wasScraping && into > 3.0f )
+                {
+                    m_crash = std::max( m_crash, std::min( 1.0f, into / 15.0f ) * 0.6f );
+                    m_car.m_speed *= 0.95f;
+                }
+                m_car.m_speed *= std::exp( -0.35f * h );
+                m_scraping = true;
+                m_scrapeSide = -away;
+                continue;
+            }
+            if ( std::abs( ds ) < rl && std::abs( dx ) < rw && c->m_soft )
+            {
+                // Straight through a hedge or a garden fence: it gives way, and takes speed.
+                m_car.m_speed *= std::exp( -2.5f * h );
+                m_car.m_shake = std::max( m_car.m_shake, 0.5f );
+                continue;
+            }
             if ( std::abs( ds ) < rl && std::abs( dx ) < rw )
             {
                 const float toRoad = c->m_x > 0.0f ? -1.0f : 1.0f;
                 m_car.crash( tuning().m_crashKeep, c->m_x + toRoad * ( rw + 0.3f ) - m_car.m_x );
                 m_crash = std::max( m_crash, clampf( m_car.m_speed / 12.0f, 0.3f, 1.0f ) );
+                if ( m_bench.m_on )
+                {
+                    ++m_bench.m_crashes;
+                    benchNote( "roadside" );
+                }
                 break;
             }
         }
@@ -2551,12 +2747,51 @@ void Game::timeAttackRules( float h )
     if ( m_comboTimer <= 0.0f ) m_combo = 1;
 }
 
-CarInput Game::autopilot() const
+CarInput Game::autopilot( bool assist ) const
 {
     const Track   &track = *m_track;
     const Segment &seg = track.segment( static_cast<long>( m_car.m_s / SegmentLength ) );
     const int      lanes = seg.m_lanes;
     const int      current = laneOf( m_car.m_x, lanes, seg.m_halfWidth );
+    // On a road of two directions the other half belongs to what comes the other way: out there only to overtake, and
+    // only with room for it. One lane each way, there is no going around what is slower, so the traffic counts from
+    // further off.
+    int         oncFirst = 0, oncLast = -1;
+    const int   onc = m_traffic.oncomingLanes( track, seg, oncFirst, oncLast );
+    auto        theirs = [&]( int lane ) { return lane >= oncFirst && lane <= oncLast; };
+    const float reach = onc > 0 ? 90.0f + 2.0f * m_car.m_speed : 90.0f;
+    // How long a pass takes: past whatever is slower ahead in the car's half, one close behind the other, and back in.
+    float passTime = 0.0f, passSpeed = m_car.m_speed;
+    if ( onc > 0 )
+    {
+        std::vector<std::pair<double, float>> ahead;   // how far, how fast
+        for ( const TrafficCar &c : m_traffic.m_cars )
+        {
+            const double gap = c.m_s - m_car.m_s;
+            if ( c.m_oncoming || c.m_swim || gap < -6.0 || gap > reach + 200.0 ) continue;
+            if ( !theirs( laneOf( c.m_x, lanes, seg.m_halfWidth ) ) ) ahead.emplace_back( gap, c.m_speed );
+        }
+        std::sort( ahead.begin(), ahead.end() );
+        double end = 0.0;
+        float  slow = m_car.m_speed;
+        for ( const auto &a : ahead )
+        {
+            if ( a.first > ( end > 0.0 ? end + 40.0 : static_cast<double>( reach ) ) ) break;
+            end = std::max( end, a.first );
+            slow = std::min( slow, a.second );
+        }
+        passSpeed = std::max( m_car.m_speed, slow + 22.0f );
+        passTime = clampf( static_cast<float>( end + 16.0 ) / std::max( 8.0f, 0.7f * ( passSpeed - slow ) ) + 2.0f,
+                           2.5f, 10.0f );
+    }
+    // A solid line down the middle over the way a pass would take: it stays in its half.
+    bool solid = false;
+    if ( onc > 0 )
+    {
+        const double way = std::clamp( static_cast<double>( passTime * passSpeed ), 60.0, 300.0 );
+        for ( double d = 0.0; d <= way && !solid; d += 10.0 )
+            solid = track.noPassing( static_cast<long>( ( m_car.m_s + d ) / SegmentLength ) );
+    }
 
     // Pick the lane with the most room ahead; at a fork, one carriageway (the seed's pick, or the one taken).
     int   best = current;
@@ -2578,12 +2813,38 @@ CarInput Game::autopilot() const
         for ( long i = 0; i < 30; ++i )
             if ( track.segment( static_cast<long>( m_car.m_s / SegmentLength ) + i ).m_blockedLanes & ( 1u << lane ) )
                 cost += 200.0f;
+        // Not over a solid line (only round roadworks that close the car's own lanes).
+        if ( onc > 0 && theirs( lane ) ) cost += solid && !theirs( current ) ? 4000.0f : 30.0f;
         for ( const TrafficCar &c : m_traffic.m_cars )
         {
             const double gap = c.m_s - m_car.m_s;
-            if ( gap < -6.0 || gap > 90.0 || c.m_swim ) continue;
-            if ( laneOf( c.m_x, lanes, seg.m_halfWidth ) == lane )
-                cost += 120.0f * static_cast<float>( 1.0 - gap / 100.0 );
+            if ( c.m_swim ) continue;
+            if ( c.m_oncoming )
+            {
+                // Coming at the car: its whole half is in the way (it may change lanes there) if it is here before the
+                // pass is done, or, with the car out there already, before it is back in its own half.
+                const bool  out = theirs( current );
+                const float closing = ( out ? std::max( m_car.m_speed, 30.0f ) : passSpeed ) + c.m_speed;
+                if ( theirs( lane ) && gap > -8.0 && gap < static_cast<double>( closing * ( out ? 2.8f : passTime ) ) )
+                    cost += 1000.0f;
+                // An overtaker out in the car's half: its lane is taken too until it is back.
+                if ( !theirs( lane ) && laneOf( c.m_x, lanes, seg.m_halfWidth ) == lane && gap > -8.0 &&
+                     gap < static_cast<double>( ( std::max( m_car.m_speed, 30.0f ) + c.m_speed ) * 3.5f ) )
+                    cost += 1000.0f;
+                continue;
+            }
+            const int in = laneOf( c.m_x, lanes, seg.m_halfWidth );
+            if ( lane != current && ( in - current ) * ( in - lane ) <= 0 && in != current )
+            {
+                // On the way over: a car beside the car, or close ahead and slower, or close behind and faster,
+                // takes the slot it would move into.
+                const double body = 0.5 * static_cast<double>( c.m_length + m_car.m_spec.m_length ) + 2.0;
+                const double slower = std::max( 0.0f, m_car.m_speed - c.m_speed ),
+                             faster = std::max( 0.0f, c.m_speed - m_car.m_speed );
+                if ( gap > -body - 1.2 * faster && gap < body + 4.0 + 1.0 * slower ) cost += 500.0f;
+            }
+            if ( in != lane || gap < -6.0 || gap > reach ) continue;
+            cost += 120.0f * static_cast<float>( 1.0 - gap / ( reach + 10.0 ) );
         }
         for ( const Rival &r : m_race.m_rivals )
         {
@@ -2598,7 +2859,39 @@ CarInput Game::autopilot() const
             best = lane;
         }
     }
-    const float targetX = laneCenter( best, lanes, seg.m_halfWidth );
+    float targetX = laneCenter( best, lanes, seg.m_halfWidth );
+    if ( onc > 0 && !theirs( best ) )
+    {
+        // Back from the other half with something still alongside, or ahead and too close to brake behind it:
+        // beside it, towards the middle of the road, until it is past (the traffic makes room at its edges).
+        const float ownSide = oncFirst == 0 ? 1.0f : -1.0f;
+        for ( const TrafficCar &c : m_traffic.m_cars )
+        {
+            if ( c.m_oncoming || c.m_swim || ( m_car.m_x - c.m_x ) * ownSide >= 0.0f ) continue;
+            const double gap = c.m_s - m_car.m_s, body = ( c.m_length + m_car.m_spec.m_length ) * 0.5 + 3.0;
+            const double rel = std::max( 0.0f, m_car.m_speed - c.m_speed );
+            if ( gap < -body || gap > body + rel * rel / 24.0 + 0.3 * rel ) continue;
+            const float beside = c.m_x - ownSide * ( ( c.m_width + m_car.m_spec.m_width ) * 0.5f + 0.45f );
+            targetX = ownSide > 0.0f ? std::min( targetX, beside ) : std::max( targetX, beside );
+        }
+    }
+
+    // An overtaker coming at the car in its own half: to the edge, out of its way, and slower (below).
+    bool overtaker = false;
+    if ( onc > 0 )
+    {
+        const float ownSide = oncFirst == 0 ? 1.0f : -1.0f;
+        for ( const TrafficCar &c : m_traffic.m_cars )
+        {
+            const double ahead = c.m_s - m_car.m_s;
+            if ( !c.m_oncoming || theirs( laneOf( c.m_x, lanes, seg.m_halfWidth ) ) || ahead < 0.0 ) continue;
+            if ( ahead > 4.0 * static_cast<double>( std::max( 0.0f, m_car.m_speed ) + c.m_speed ) ) continue;
+            const float line = assist ? m_car.m_x : targetX;   // with the assists the hands steer
+            if ( std::abs( c.m_x - line ) > 0.5f * ( c.m_width + m_car.m_spec.m_width ) + 0.6f ) continue;
+            overtaker = true;
+            targetX = ownSide * ( seg.m_halfWidth - 0.5f * m_car.m_spec.m_width - 0.3f );
+        }
+    }
 
     // Brake for the bends ahead.
     const float grip = m_car.m_spec.m_grip * m_car.m_wetGrip;
@@ -2615,9 +2908,26 @@ CarInput Game::autopilot() const
     for ( const TrafficCar &c : m_traffic.m_cars )
     {
         const double gap = c.m_s - m_car.m_s - ( c.m_length + m_car.m_spec.m_length ) * 0.5;
-        if ( gap < 0.0 || gap > 25.0 + m_car.m_speed * 1.2 || c.m_swim ) continue;
+        if ( c.m_oncoming ) continue;   // steering keeps out of its way
         const float dx = std::abs( c.m_x - m_car.m_x );
         const float tx = std::abs( c.m_x - targetX );
+        // With one lane each way: in time behind what stays in the lane the car keeps to.
+        if ( onc > 0 && gap >= 0.0 && !c.m_swim && tx < 1.5f )
+            follow = std::min( follow, std::sqrt( c.m_speed * c.m_speed +
+                                                  20.0f * std::max( 0.0f, static_cast<float>( gap ) - 6.0f ) ) );
+        // And before animals in the road or on their way into it: there is no going round a herd that takes both
+        // lanes, so the car slows to pass behind them (not for one that walks away from its line, clear of it).
+        // The assists brake for them on any road: the hands on the wheel may not go round them.
+        if ( ( onc > 0 || assist ) && c.m_animal && !c.m_swim && gap >= 0.0 &&
+             std::abs( c.m_x ) < seg.m_halfWidth + 5.0f )
+        {
+            const float toCar = m_car.m_x - c.m_x;
+            const bool  away = c.m_vx * toCar < 0.0f &&
+                              std::abs( toCar ) > ( c.m_width + m_car.m_spec.m_width ) * 0.5f + 0.6f;
+            if ( !away )
+                follow = std::min( follow, std::sqrt( 20.0f * std::max( 0.0f, static_cast<float>( gap ) - 8.0f ) ) );
+        }
+        if ( gap < 0.0 || gap > 25.0 + m_car.m_speed * 1.2 || c.m_swim ) continue;
         if ( dx < ( c.m_width + m_car.m_spec.m_width ) * 0.6f || tx < 1.5f )
             follow = std::min( follow, c.m_speed + static_cast<float>( gap ) * 0.35f - 3.0f );
     }
@@ -2628,6 +2938,7 @@ CarInput Game::autopilot() const
         if ( std::abs( r.m_x - m_car.m_x ) < 2.0f || std::abs( r.m_x - targetX ) < 1.5f )
             follow = std::min( follow, r.m_speed + static_cast<float>( gap ) * 0.4f - 1.0f );
     }
+    if ( overtaker ) follow = std::min( follow, 18.0f );
     const float want = std::min( vMax, std::max( 0.0f, follow ) );
 
     CarInput in;
@@ -2671,9 +2982,76 @@ void Game::handleEvents()
         {
             m_overtakes += m_ev.m_overtakes;
             m_records.m_overtakesAll += m_ev.m_overtakes;
-            m_score += 100.0 * m_combo * m_ev.m_overtakes;
+            // On a road of two directions with traffic the other way, past it through the other half: worth more.
+            int        first = 0, last = -1;
+            const bool twoWay =
+                m_traffic.oncomingLanes( *m_track, m_track->segment( static_cast<long>( m_car.m_s / SegmentLength ) ),
+                                         first, last ) > 0;
+            const double risk = !twoWay ? 1.0 : m_traffic.m_oncoming >= 3 ? 2.0 : m_traffic.m_oncoming == 2 ? 1.5 : 1.25;
+            m_score += 100.0 * risk * m_combo * m_ev.m_overtakes;
         }
         m_car.m_boostTank = std::min( 1.0f, m_car.m_boostTank + 0.03f * static_cast<float>( m_ev.m_overtakes ) );
+        if ( scoring && m_time - m_lastDraft < 1.5f )
+        {
+            // Out of the slipstream and past.
+            m_records.m_draftPasses += m_ev.m_overtakes;
+            m_score += 300.0 * m_combo * m_ev.m_overtakes;
+            popup( "SLIPSTREAM PASS", format( "+%d", 300 * m_combo * m_ev.m_overtakes ), Cyan, 0.7f, 1.3f, true );
+            checkAchievements();
+        }
+    }
+    if ( m_car.m_draft > 0.5f && m_time - m_draftShown > 10.0f && scoring )
+    {
+        m_draftShown = m_time;
+        popup( "SLIPSTREAM", "", Cyan, 0.6f, 1.1f, true );
+    }
+    {
+        // A drift ends a moment after it fades; long enough, it earns points, the combo and its metres in the records.
+        // A crash spoils it.
+        if ( m_car.m_crashTimer > 0.0f || m_crash > 0.3f || m_ev.m_hit > 0.3f ) m_driftRun = 0.0f;
+        if ( m_car.m_driftAmount > 0.5f )
+            m_driftCalm = 0.0f;
+        else if ( m_driftRun > 0.0f )
+            m_driftCalm += m_dt;
+        if ( m_driftRun > 0.0f && m_driftCalm > 0.4f )
+        {
+            const int metres = static_cast<int>( m_driftRun );
+            if ( metres >= 30 && scoring )
+            {
+                m_combo = std::min( m_combo + 1, 8 );
+                m_comboTimer = 4.0f;
+                m_score += 10.0 * metres * m_combo;
+                popup( "DRIFT", format( "%d M  +%d  X%d", metres, 10 * metres * m_combo, m_combo ), Gold, 0.7f, 1.3f,
+                       true );
+            }
+            if ( !m_demo && m_state == StateE::RACE )
+            {
+                m_records.m_driftMetres += metres;
+                m_records.m_longestDrift = std::max( m_records.m_longestDrift, metres );
+                // On a legendary road: against the longest drift driven there.
+                const BiomeE here = m_track->stageBiome( m_track->stageAt( m_car.m_s ) );
+                if ( biomeDef( here ).m_legend && metres >= 30 )
+                {
+                    const std::string &id = biomeKey( here );
+                    auto it = std::find_if( m_records.m_legendDrift.begin(), m_records.m_legendDrift.end(),
+                                            [&]( const auto &p ) { return p.first == id; } );
+                    const int before = it == m_records.m_legendDrift.end() ? 0 : it->second;
+                    if ( metres > before )
+                    {
+                        if ( it == m_records.m_legendDrift.end() )
+                            m_records.m_legendDrift.emplace_back( id, metres );
+                        else
+                            it->second = metres;
+                        popup( placeName( here ) + format( "   LONGEST DRIFT %d M", metres ),
+                               before > 0 ? format( "WAS %d M", before ) : std::string( "YOUR FIRST HERE" ), Gold, 0.8f,
+                               3.0f, true );
+                    }
+                }
+                checkAchievements();
+            }
+            m_driftRun = 0.0f;
+            m_driftCalm = 0.0f;
+        }
     }
     if ( ( m_ev.m_hit > 0.25f || m_car.m_crashTimer > 0.0f || m_crash > 0.3f ) && m_passenger.breakCargo() )
     {
@@ -2698,6 +3076,22 @@ void Game::handleEvents()
         popup( "NEAR MISS", format( "+%d  X%d", 500 * m_combo, m_combo ), Cyan, 0.7f, 1.3f, true );
         m_audio.play( SfxE::NEAR_MISS, 0.8f );
     }
+    for ( int i = 0; i < m_ev.m_closeCalls; ++i )
+    {
+        // Missed by a whisker what came the other way: worth two near misses.
+        m_car.m_boostTank = std::min( 1.0f, m_car.m_boostTank + 0.2f );
+        if ( !scoring ) continue;
+        ++m_nearMisses;
+        ++m_records.m_closeCalls;
+        checkAchievements();
+        m_combo = std::min( m_combo + 1, 8 );
+        m_comboTimer = 4.0f;
+        m_score += 1000.0 * m_combo;
+        popup( "CLOSE CALL", format( "+%d  X%d", 1000 * m_combo, m_combo ), Gold, 0.7f, 1.3f, true );
+        m_audio.play( SfxE::NEAR_MISS, 0.9f );
+    }
+    if ( m_ev.m_headOn > 0 && !m_demo && m_state == StateE::RACE ) popup( "HEAD-ON!", "", Red, 1.0f, 1.6f );
+    if ( m_ev.m_gust > 0.0f ) m_haptics.pulse( 0.3f * m_ev.m_gust, 0.5f * m_ev.m_gust, 0.25f );
     if ( m_ev.m_whoosh > 0.0f ) m_audio.play( SfxE::WHOOSH, m_ev.m_whoosh, m_ev.m_whooshPan, m_ev.m_whooshPitch );
     if ( m_car.m_eventAquaplane && !m_demo && m_state == StateE::RACE )
     {
@@ -2752,6 +3146,18 @@ void Game::handleEvents()
         sparks( poseLocal( pose, -m_scrapeSide * m_car.m_spec.m_width * 0.5f, 0.4f, 0.5f ), 2, 4.0f );
         if ( !m_wasScraping ) m_audio.play( SfxE::BUMP, 0.5f, m_scrapeSide );
         m_haptics.steady( 0.12f, 0.45f );
+    }
+    if ( m_bench.m_on )
+    {
+        if ( m_ev.m_hit > 0.6f || m_raceEv.m_hit > 0.6f )
+        {
+            ++m_bench.m_crashes;
+            benchNote( m_ev.m_headOn > 0 ? "head-on" : m_ev.m_hit > 0.6f ? "traffic" : "rival" );
+        }
+        m_bench.m_met += m_ev.m_met;
+        m_bench.m_closeCalls += m_ev.m_closeCalls;
+        m_bench.m_headOn += m_ev.m_headOn;
+        if ( m_scraping && !m_wasScraping ) ++m_bench.m_scrapes;
     }
     m_wasScraping = m_scraping;
     if ( m_landed && m_landImpact > 3.0f )
@@ -2812,12 +3218,15 @@ void Game::emitParticles( float dt )
     const Vector3     carVel = Vector3Scale( pose.m_forward, m_car.m_speed );
     const float       rearZ = -m_car.m_spec.m_length * 0.3f;
 
+    // In a drift the outer rear tyre smokes most (+x is the car's left; the bend pushes outwards).
+    const float outerX = m_car.m_drift >= 0.0f ? 0.8f : -0.8f;
     if ( m_car.m_slip > 0.25f )
     {
         for ( int i = emitCount( m_car.m_slip * 70.0f, dt, r ); i > 0; --i )
         {
             Particle p;
-            p.m_pos = poseLocal( pose, ( i % 2 ? 0.8f : -0.8f ), 0.25f, rearZ );
+            const bool outer = m_car.m_driftAmount > 0.3f && r.uniform() < 0.75f;
+            p.m_pos = poseLocal( pose, outer ? outerX : ( i % 2 ? 0.8f : -0.8f ), 0.25f, rearZ );
             p.m_vel = Vector3Add( Vector3Scale( carVel, 0.3f ),
                                   Vector3{ r.range( -1.5f, 1.5f ), r.range( 0.4f, 1.4f ), r.range( -1.5f, 1.5f ) } );
             p.m_maxLife = r.range( 0.8f, 1.4f );
@@ -2825,6 +3234,133 @@ void Game::emitParticles( float dt )
             p.m_grow = 2.2f;
             p.m_color = Color{ 214, 214, 220, 110 };
             p.m_drag = 1.5f;
+            m_particles.emit( p );
+        }
+    }
+    {
+        // Marks on the asphalt where the rear tyres slide (a drift, hard braking, wheelspin), in pieces of 60 cm, kept
+        // for 40 seconds.
+        const bool  driving = !m_car.m_airborne && m_car.m_aquaplane <= 0.0f && m_state == StateE::RACE && !m_demo;
+        const bool  tarmac = driving && m_car.m_offroad < 0.2f && !m_car.m_unpaved && env.m_snow < 0.3f;
+        const float slide = std::max( m_car.m_driftAmount, m_car.m_slip > 0.45f ? m_car.m_slip : 0.0f );
+        // Black where the tyres slide on asphalt; on snow, sand, gravel and the verge every wheel leaves its rut.
+        Color tone = { 14, 14, 16, static_cast<unsigned char>( 170.0f * std::min( 1.0f, slide ) ) };
+        bool  mark = tarmac && slide >= 0.35f;
+        if ( driving && !mark && m_car.m_speed > 3.0f )
+        {
+            mark = true;
+            if ( m_car.m_offroad > 0.5f )
+                tone = env.m_snow > 0.3f ? Color{ 150, 158, 176, 150 } : Color{ 52, 42, 30, 120 };
+            else if ( env.m_snow > 0.3f )
+                tone = Color{ 62, 68, 82, 130 };   // down to the wet asphalt
+            else if ( m_car.m_unpaved == 2 )
+                tone = Color{ 244, 226, 188, 110 };   // sand, pressed pale
+            else if ( m_car.m_unpaved == 1 )
+                tone = Color{ 70, 60, 48, 90 };
+            else
+                mark = false;
+        }
+        const float piece = std::max( 0.6f, m_car.m_speed * 0.045f );   // longer pieces at speed
+        const Pose  wheels = m_car.pose( track, false );
+        for ( int w = 0; w < 2; ++w )
+        {
+            const float x = ( w == 0 ? -1.0f : 1.0f ) * ( m_car.m_spec.m_width * 0.5f - 0.25f );
+            const Vec3d at = poseLocal( wheels, x, 0.025f, rearZ );
+            if ( !mark )
+            {
+                m_skidOn[w] = false;
+                continue;
+            }
+            if ( !m_skidOn[w] )
+            {
+                m_skidOn[w] = true;
+                m_skidLast[w] = at;
+                continue;
+            }
+            const Vector3 d = relativeTo( at, m_skidLast[w] );
+            if ( d.x * d.x + d.z * d.z > 9.0f * piece * piece + 25.0f )
+            {
+                m_skidLast[w] = at;   // the car was moved: the mark begins anew
+                continue;
+            }
+            if ( d.x * d.x + d.z * d.z < piece * piece ) continue;
+            const Vector3 across = Vector3Scale( Vector3Normalize( Vector3CrossProduct( d, wheels.m_up ) ), 0.11f );
+            m_skids.push_back( { m_skidLast[w], at, across, m_time, tone } );
+            m_skidLast[w] = at;
+        }
+        while ( m_skids.size() > 1500 || ( !m_skids.empty() && m_time - m_skids.front().m_born > 40.0f ) )
+            m_skids.pop_front();
+    }
+    {
+        // The car gathers what it drives through: dust and mud off the road and on gravel and sand, slush in the snow.
+        // The rain and the floods wash it clean again.
+        float gather = 0.0f;
+        Color with = m_dirtColor;
+        if ( !m_car.m_airborne && m_car.m_speed > 5.0f )
+        {
+            if ( m_car.m_offroad > 0.3f )
+            {
+                gather = 0.12f;
+                with = env.m_snow > 0.3f ? Color{ 214, 220, 230, 255 } : lerpColor( surf.m_groundA, Color{ 96, 78, 56, 255 }, 0.6f );
+            }
+            else if ( m_car.m_unpaved )
+            {
+                gather = 0.05f;
+                with = lerpColor( surf.m_road, Color{ 170, 150, 120, 255 }, 0.4f );
+            }
+            else if ( env.m_snow > 0.3f )
+            {
+                gather = 0.03f;
+                with = Color{ 176, 180, 188, 255 };
+            }
+        }
+        if ( gather > 0.0f ) m_dirtColor = lerpColor( m_dirtColor, with, std::min( 1.0f, dt * 0.8f ) );
+        const float wash = ( env.m_rain > 0.2f ? 0.1f * env.m_rain : 0.0f ) + ( m_car.m_inFlood ? 0.5f : 0.0f );
+        m_dirt = clampf( m_dirt + ( gather - wash ) * dt, 0.0f, 1.0f );
+    }
+    if ( !m_demo && m_state == StateE::RACE )
+    {
+        // Smoke from the chimneys of the villages near by, where it is cold.
+        const float phase = seasonClock().phaseAt( m_car.m_s );
+        const float cold = std::max( phase >= 0.0f ? seasonAt( track.stageBiome( track.stageAt( m_car.m_s ) ), phase ).m_winter
+                                                   : 0.0f,
+                                     env.m_snow );
+        if ( cold > 0.3f )
+            for ( const Chunk &c : m_world.chunks() )
+            {
+                const double cs = static_cast<double>( c.m_index ) * ChunkLength;
+                if ( cs < m_car.m_s - 120.0 || cs > m_car.m_s + 320.0 ) continue;
+                for ( const Vector3 &ch : c.m_chimneys )
+                    for ( int i = emitCount( 2.5f, dt, r ); i > 0; --i )
+                    {
+                        Particle p;
+                        p.m_pos = c.m_origin;
+                        p.m_pos.m_x += static_cast<double>( ch.x );
+                        p.m_pos.m_y += static_cast<double>( ch.y );
+                        p.m_pos.m_z += static_cast<double>( ch.z );
+                        p.m_vel = Vector3{ 1.1f + r.range( -0.3f, 0.3f ), r.range( 1.2f, 1.9f ), 0.4f + r.range( -0.3f, 0.3f ) };
+                        p.m_maxLife = r.range( 3.0f, 4.5f );
+                        p.m_size = 0.35f;
+                        p.m_grow = 0.55f;
+                        p.m_color = Color{ 206, 206, 212, 84 };
+                        p.m_drag = 0.15f;
+                        m_particles.emit( p );
+                    }
+            }
+    }
+    if ( m_car.m_draft > 0.25f && m_car.m_speed > 20.0f )
+    {
+        // In a slipstream: streaks of air streaming past the car.
+        for ( int i = emitCount( m_car.m_draft * 40.0f, dt, r ); i > 0; --i )
+        {
+            Particle p;
+            p.m_pos = poseLocal( pose, r.range( -1.3f, 1.3f ), r.range( 0.3f, 1.5f ), r.range( 0.5f, 3.0f ) );
+            p.m_vel = Vector3Scale( carVel, 0.55f );
+            p.m_maxLife = r.range( 0.25f, 0.45f );
+            p.m_size = 0.02f;
+            p.m_color = Color{ 210, 226, 255, static_cast<unsigned char>( 8.0f + 16.0f * m_car.m_draft ) };
+            p.m_glow = 1.2f;
+            p.m_streak = true;
             m_particles.emit( p );
         }
     }
@@ -2911,6 +3447,59 @@ void Game::emitParticles( float dt )
             p.m_color = slushy > env.m_rain ? Color{ 168, 162, 150, 110 } : Color{ 196, 202, 212, 70 };
             p.m_drag = 2.0f;
             m_particles.emit( p );
+        }
+    }
+    {
+        // The traffic near by throws up what the car does: spray in the rain, slush in the snow, a cloud of dust on
+        // gravel and sand.
+        const bool  wetRoad = env.m_rain > 0.4f || slushy > 0.3f;
+        const Color dustTone = lerpColor( surf.m_road, Color{ 200, 180, 150, 255 }, 0.4f );
+        for ( const TrafficCar &c : m_traffic.m_cars )
+        {
+            if ( c.m_animal || c.m_swim || c.m_lift > 0.5f || c.m_speed < 10.0f ) continue;
+            const double away = c.m_s - m_car.m_s;
+            if ( away < -40.0 || away > 160.0 ) continue;
+            const BiomeDef &here = biomeDef( track.stageBiome( track.stageAt( c.m_s ) ) );
+            const bool      dusty = !wetRoad && env.m_snow < 0.3f &&
+                               ( here.m_unpaved || ( here.m_gravel > 0.0f && gravelAt( track, c.m_s ) > 0.5f ) );
+            if ( !wetRoad && !dusty ) continue;
+            const Pose    cp = roadPose( track, c.m_s, c.m_x, c.m_yaw );
+            const Vector3 vel = Vector3Scale( cp.m_forward, c.m_speed );
+            const float   rate = c.m_speed * ( wetRoad ? 0.45f * std::max( env.m_rain, slushy ) : 0.5f );
+            for ( int i = emitCount( rate, dt, r ); i > 0; --i )
+            {
+                Particle p;
+                p.m_pos = poseLocal( cp, ( i % 2 ? 0.35f : -0.35f ) * c.m_width, 0.2f, -c.m_length * 0.45f );
+                p.m_vel = Vector3Add( Vector3Scale( vel, 0.5f ), Vector3{ r.range( -1.0f, 1.0f ), r.range( 0.5f, 1.6f ),
+                                                                         r.range( -1.0f, 1.0f ) } );
+                p.m_maxLife = r.range( 0.6f, 1.1f );
+                p.m_size = dusty ? 0.5f : 0.45f;
+                p.m_grow = dusty ? 3.0f : 4.0f;
+                p.m_color = dusty                 ? Color{ dustTone.r, dustTone.g, dustTone.b, 110 }
+                            : slushy > env.m_rain ? Color{ 168, 162, 150, 100 }
+                                                  : Color{ 196, 202, 212, 60 };
+                p.m_drag = dusty ? 1.2f : 2.0f;
+                p.m_gravity = dusty ? 0.5f : 0.0f;
+                m_particles.emit( p );
+            }
+        }
+        // A lorry or a bus going by the other way in the rain: a sheet of its spray over the car.
+        if ( wetRoad && m_ev.m_gust > 0.2f && m_state == StateE::RACE )
+        {
+            const float side = m_ev.m_whooshPan < 0.0f ? -1.0f : 1.0f;   // where it went by
+            for ( int i = 0; i < static_cast<int>( 50.0f * m_ev.m_gust ); ++i )
+            {
+                Particle p;
+                p.m_pos = poseLocal( pose, -side * r.range( 0.2f, 1.2f ), r.range( 0.6f, 1.6f ), r.range( -1.0f, 1.5f ) );
+                p.m_vel = Vector3Add( Vector3Scale( carVel, 0.6f ),
+                                      Vector3{ r.range( -2.0f, 2.0f ), r.range( 0.0f, 1.5f ), r.range( -2.0f, 2.0f ) } );
+                p.m_maxLife = r.range( 0.4f, 0.8f );
+                p.m_size = 0.5f;
+                p.m_grow = 3.0f;
+                p.m_color = Color{ 205, 210, 220, 90 };
+                p.m_drag = 2.5f;
+                m_particles.emit( p );
+            }
         }
     }
     if ( m_car.m_boosting )
@@ -3088,6 +3677,7 @@ void Game::updateAudio()
     s.m_throttle = m_car.m_throttle;
     s.m_speed = s.m_active ? m_car.m_speed : 0.0f;
     s.m_slip = s.m_active ? m_car.m_slip : 0.0f;
+    s.m_draft = s.m_active ? m_car.m_draft : 0.0f;
     s.m_offroad = s.m_active ? std::max( m_car.m_offroad, m_car.m_unpaved ? 0.5f : 0.0f ) : 0.0f;
     s.m_rumble = s.m_active ? m_car.m_rumble : 0.0f;
     m_haptics.steady( s.m_rumble * 0.25f + s.m_offroad * std::min( 1.0f, s.m_speed / 30.0f ) * 0.2f,
@@ -3126,6 +3716,27 @@ void Game::updateAudio()
                                                 : 0.22f ) +
             ( front == WeatherE::SANDSTORM || front == WeatherE::SNOW || front == WeatherE::STORM ? 0.6f * k : 0.0f );
         a.m_rain = sceneEnvironment( m_car.m_s ).m_rain;
+        {
+            // Cicadas in the heat of a dry or southern day, crickets in a warm night, cowbells on Europe's high
+            // pastures; none of them in town, in the rain or in the cold.
+            const Environment env = sceneEnvironment( m_car.m_s );
+            GeoPoint          where;
+            const bool        placed = placeLocation( mix.m_t < 0.5f ? mix.m_from : mix.m_to, where );
+            const float       phase = seasonClock().phaseAt( m_car.m_s );
+            const float winter = phase >= 0.0f ? seasonAt( mix.m_t < 0.5f ? mix.m_from : mix.m_to, phase ).m_winter : 0.0f;
+            const bool  mild = winter < 0.2f && env.m_snow < 0.05f && env.m_rain < 0.2f && !city &&
+                              !( flags & SEG_TUNNEL ) && !def.m_underwater;
+            const bool  warm = def.m_climate == ClimateE::ARID || def.m_climate == ClimateE::TROPICAL ||
+                              ( placed && std::abs( where.m_lat ) < 46.0f );
+            const float night = env.m_headlights;
+            a.m_cicadas = mild && warm && def.m_climate != ClimateE::TROPICAL ? 0.8f * ( 1.0f - smoothstepf( 0.2f, 0.6f, night ) ) : 0.0f;
+            a.m_crickets = mild && warm ? 0.8f * smoothstepf( 0.4f, 0.8f, night ) : 0.0f;
+            const FleetE region = countryInfo( def.m_country ).m_fleet;
+            a.m_cowbells = mild && def.m_country && region == FleetE::EUROPE && m_car.m_y > 900.0 && m_car.m_y < 2400.0 &&
+                                   night < 0.4f
+                               ? 0.7f
+                               : 0.0f;
+        }
         a.m_bridge = flags & SEG_BRIDGE ? 1.0f : 0.0f;
         if ( flags & SEG_TUNNEL ) a = Ambience{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f };
         if ( m_state == StateE::CROSSING )

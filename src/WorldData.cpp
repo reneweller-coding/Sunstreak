@@ -1274,6 +1274,9 @@ struct Home
     bool    m_pastel = false;     ///< colour A changes per object
     bool m_stand = false;    ///< a roadside stand: the car crashes into it, its chance is its region's own (no budget)
     uint8_t m_seasons = 0;   ///< PropRule::m_seasons
+    bool    m_climb = false;   ///< PropRule::m_climb
+    bool    m_shore = false;   ///< PropRule::m_shore
+    bool    m_free = false;    ///< PropRule::m_free
 };
 
 /**
@@ -1287,7 +1290,7 @@ bool homeFits( const Home &h, const BiomeDef &d )
     const bool sea = d.m_terrain.m_waterLeft > 0.5f || d.m_terrain.m_waterRight > 0.5f;
     const bool town = d.m_lampSpacing > 0.0f || d.m_cobbles;
     if ( h.m_climates && !( h.m_climates & ( 1u << static_cast<unsigned>( d.m_climate ) ) ) ) return false;
-    if ( ( h.m_coast > 0 || h.m_water ) && !sea ) return false;
+    if ( ( h.m_coast > 0 || h.m_water || h.m_shore ) && !sea ) return false;
     if ( h.m_coast < 0 && sea ) return false;
     return !( ( h.m_town > 0 && !town ) || ( h.m_town < 0 && town ) );
 }
@@ -1360,6 +1363,12 @@ void addHomes( std::vector<BiomeDef> &table, const std::vector<Header> &places, 
                     h.m_pastel = true;
                 else if ( tag == "stand" )
                     h.m_stand = true;
+                else if ( tag == "climb" )
+                    h.m_climb = true;
+                else if ( tag == "shore" )
+                    h.m_shore = true;
+                else if ( tag == "free" )
+                    h.m_free = true;
                 else if ( tag == "spring" || tag == "summer" || tag == "autumn" || tag == "winter" )
                     h.m_seasons = static_cast<uint8_t>( h.m_seasons | ( tag == "spring"   ? 1u
                                                                         : tag == "summer" ? 2u
@@ -1441,6 +1450,9 @@ void addHomes( std::vector<BiomeDef> &table, const std::vector<Header> &places, 
             r.m_pastel = h->m_pastel;
             r.m_radius = h->m_stand ? 1.3f : 0.0f;
             r.m_seasons = h->m_seasons;
+            r.m_climb = h->m_climb;
+            r.m_shore = h->m_shore;
+            r.m_free = h->m_free;
             r.m_variant = static_cast<int16_t>( h->m_variant );
             d.m_props.push_back( r );
             strewn[static_cast<size_t>( h->m_variant - compiledLandmarks() )] = true;

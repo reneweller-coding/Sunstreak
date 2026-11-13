@@ -359,6 +359,20 @@ bool Track::nearSeaPortal( double s, double margin ) const
     return biomeDef( stageBiome( k - 1 ) ).m_underwater != biomeDef( stageBiome( k ) ).m_underwater;
 }
 
+bool Track::noPassing( long index ) const
+{
+    if ( segment( index ).m_lanes >= 4 ) return true;   // a wide road: a solid line between its directions
+    for ( long k = -24; k <= 24; ++k )
+        if ( std::abs( segment( index + k ).m_curve ) > 0.02f ) return true;   // a bend tighter than 50 m
+    // A crest: the road climbing and then falling within 40 m either side of it.
+    for ( long m = index - 20; m <= index + 20; ++m )
+    {
+        const float before = segment( m - 8 ).m_grade, after = segment( m + 8 ).m_grade;
+        if ( before > 0.0f && after < 0.02f && before - after > 0.06f ) return true;
+    }
+    return false;
+}
+
 bool Track::inForkZone( double s, double margin ) const
 {
     if ( !m_tour ) return false;

@@ -209,6 +209,29 @@ public:
      */
     size_t triangleCount() const { return m_pos.size() / 9; }
 
+    /**
+     * @brief Number of vertices so far (to work on what is appended after it).
+     * @return the count
+     */
+    size_t vertexCount() const { return m_pos.size() / 3; }
+
+    /**
+     * @brief Darkens the vertices from one on that lie low: the foot of a wall, where the ground holds the light back.
+     * @param[in] first  the first vertex concerned
+     * @param[in] y      vertices at or below this height are darkened
+     * @param[in] k      their colour multiplier
+     */
+    void shadeBelow( size_t first, float y, float k );
+
+    /**
+     * @brief Tilts the vertices from one on along a direction, keeping them upright (a fence following a slope).
+     * @param[in] first   the first vertex concerned
+     * @param[in] origin  the point that stays
+     * @param[in] dir     the horizontal direction of the tilt (unit)
+     * @param[in] slope   metres up per metre along dir
+     */
+    void shearSince( size_t first, Vector3 origin, Vector3 dir, float slope );
+
     /** @brief Forgets all triangles. */
     void clear();
 
@@ -217,6 +240,16 @@ public:
      * @return the largest |x|, |y|, |z|
      */
     Vector3 extent() const;
+
+    /**
+     * @brief The box round the vertices near the ground: a building's walls where they meet it, without what its roof
+     *        or its balconies reach beyond them.
+     * @param[in]  below  vertices up to this height count
+     * @param[out] lo     their least x and z (y is 0)
+     * @param[out] hi     their greatest
+     * @return false if no vertex lies that low
+     */
+    bool baseBox( float below, Vector3 &lo, Vector3 &hi ) const;
 
     /**
      * @brief The mean position of the vertices of some colours (to find a part of a model, such as a light bar).
@@ -237,6 +270,20 @@ public:
      * @param[in] amount  sway at the top
      */
     void applySway( float amount );
+
+    /**
+     * @brief Finds a vehicle's wheels (its tyres by their colour, round and standing on the ground, with whatever lies
+     *        wholly inside them: hubs, spokes) and marks them for the shader, which turns them as the vehicle rolls
+     *        (the uniform wheelRoll). Each gets a dark bar across its hub, so that the turning shows on a plain one.
+     * @return how many wheels it found
+     */
+    int tagWheels();
+
+    /**
+     * @brief Lets the model ride the water's swell, rising, falling and rocking a little (call on a finished boat).
+     * @param[in] amount  how much, 1 for a boat on open water
+     */
+    void applyBob( float amount );
 
     /**
      * @brief The same model as seen from afar (LOD): triangles whose longest edge is shorter than minEdge are left out,

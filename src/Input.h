@@ -48,6 +48,8 @@ public:
     bool m_pause = false;         ///< pause pressed
     bool m_camera = false;        ///< camera switch pressed
     bool m_lookBack = false;      ///< B or the right stick pressed in: looking back while held
+    bool m_flash = false;         ///< F or the left stick pressed in: a flash of the headlights
+    bool m_horn = false;          ///< H or the d-pad up: the horn
     bool m_stats = false;         ///< F3: the performance overlay
     bool m_fullscreen = false;    ///< F11 or Alt+Enter pressed
     bool m_nextStation = false;   ///< M or the View button: the next radio station

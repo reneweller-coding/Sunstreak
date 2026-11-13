@@ -20,6 +20,7 @@
 
 #include <raylib.h>
 
+#include <deque>
 #include <vector>
 
 namespace sunstreak
@@ -45,6 +46,45 @@ struct CarDraw
     float  m_alpha = 1.0f;   ///< below 1: a see-through ghost without a shadow
 };
 
+/** @brief A piece of a tyre's mark on the road. */
+struct SkidMark
+{
+    Vec3d   m_a;              ///< where it begins (on the road)
+    Vec3d   m_b;              ///< where it ends
+    Vector3 m_across{};       ///< half its width, across it
+    float   m_born = 0.0f;    ///< when it was laid (game time, seconds)
+    Color   m_color{};        ///< its colour: black on asphalt, a rut's in snow, sand or the verge; its alpha how strong
+};
+
+/** @brief A lamp that is on: a brake light, an indicator. */
+struct GlowDraw
+{
+    Vec3d m_pos;            ///< where it is
+    Color m_color{};        ///< its light
+    float m_size = 0.22f;   ///< the glow's radius (m)
+    float m_height = 0.0f;  ///< a vehicle's lamp: its height over the road, where a wet road mirrors it (0: no mirror)
+};
+
+/** @brief The light a vehicle's headlights throw on the road ahead of it at night. */
+struct LightPool
+{
+    Vec3d   m_pos;        ///< its middle, on the road
+    Vector3 m_along{};    ///< half its length, along the vehicle's way
+    Vector3 m_across{};   ///< half its width
+    float   m_strength = 1.0f;   ///< 0..1
+};
+
+/** @brief A flock of birds circling over the land. */
+struct FlockDraw
+{
+    Vec3d m_centre;          ///< the middle of its circles
+    float m_radius = 20.0f;  ///< how wide they fly
+    int   m_birds = 12;      ///< how many
+    Color m_color{};         ///< their colour (gulls white, crows black, vultures brown)
+    float m_wings = 0.5f;    ///< a wing's length (m)
+    float m_phase = 0.0f;    ///< where in their circles they are
+};
+
 /** @brief A patrol car of the police, its light bar flashing or dark. */
 struct PoliceDraw
 {
@@ -61,6 +101,7 @@ struct ScenePiece
     const Mesh *m_mesh = nullptr;   ///< the model
     Vec3d       m_pos;              ///< where its origin stands
     float       m_yaw = 0.0f;       ///< turned about the vertical (rad)
+    float       m_pitch = 0.0f;     ///< its nose (+z) raised (rad): a train's coach on a gradient
 };
 
 /** @brief Everything one frame shows. */
@@ -90,6 +131,15 @@ struct SceneInput
     float                   m_slush = 0.0f;      ///< 0..1 slush on the road (snow)
     bool                    m_shadows = true;    ///< real-time sun shadows
     float                   m_lensRain = 0.0f;   ///< 0..1 drops on the lens
+    const std::deque<SkidMark> *m_skids = nullptr;   ///< the tyres' marks on the road
+    std::vector<GlowDraw>       m_glows;             ///< the brake lights and indicators that are on
+    std::vector<LightPool>      m_pools;             ///< the traffic's headlights on the road at night
+    std::vector<FlockDraw>      m_flocks;            ///< birds over the land
+    float                       m_headFlash = 0.0f;  ///< 0..1 the player flashes the headlights
+    float                       m_grime = 0.0f;      ///< 0..1 how dirty the player's car is
+    Color                       m_grimeColor{};      ///< the dirt's colour (dust, mud, slush)
+    float                       m_windowGlow = 0.0f; ///< 0..1 how much the houses' windows are lit (dusk and night)
+    float                       m_cloudShadow = 0.0f;   ///< 0..1 how dark the clouds' shadows fall on the land
     bool m_showcase = false;                     ///< lone models instead of the world (the landmark viewer, a crossing)
     std::vector<ScenePiece> m_pieces;            ///< those models
     Vec3d                   m_focus;             ///< where the shadows centre then

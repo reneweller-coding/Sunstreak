@@ -73,6 +73,7 @@ struct Synth
     std::atomic<float>    m_throttle{ 0 };        ///< throttle 0..1
     std::atomic<float>    m_speed{ 0 };           ///< the car's speed (m/s)
     std::atomic<float>    m_slip{ 0 };            ///< tyre slip 0..1
+    std::atomic<float>    m_draft{ 0 };           ///< 0..1 in a slipstream
     std::atomic<float>    m_offroad{ 0 };         ///< 0..1 off the road
     std::atomic<float>    m_rumble{ 0 };          ///< 0..1 on the kerbs
     std::atomic<bool>     m_active{ false };      ///< the engine runs (a drive is on)
@@ -100,6 +101,9 @@ struct Synth
     std::atomic<float>    m_aBridge{ 0 };         ///< on a bridge 0..1
     std::atomic<float>    m_aUnder{ 0 };          ///< under the sea 0..1
     std::atomic<float>    m_aSiren{ 0 };          ///< a siren's loudness 0..1
+    std::atomic<float>    m_aCicadas{ 0 };        ///< cicadas 0..1
+    std::atomic<float>    m_aCrickets{ 0 };       ///< crickets 0..1
+    std::atomic<float>    m_aCowbells{ 0 };       ///< cowbells 0..1
     std::atomic<float>    m_aSirenPan{ 0 };       ///< where it is, -1..1
     std::atomic<int>      m_aSirenKind{ 0 };      ///< 0 the long wail, 1 the two tones of Europe
     std::atomic<float>    m_aSirenPitch{ 1 };     ///< its Doppler shift
@@ -113,6 +117,8 @@ struct Synth
     float m_engThr = 0;               ///< the throttle, smoothed
     float m_engSpeed = 0;             ///< the speed, smoothed
     float m_engSlip = 0;              ///< the slip, smoothed
+    float m_engDraft = 0;             ///< the slipstream, smoothed
+    float m_engFlutter = 0;           ///< the slipstream's flutter phase
     float m_engOff = 0;               ///< off the road, smoothed
     float m_engRumble = 0;            ///< on the kerbs, smoothed
     float m_engActive = 0;            ///< the engine's presence, faded in and out
@@ -169,6 +175,16 @@ struct Synth
     float m_ambAmPh = 0;                                  ///< their tremolo's phase
     float m_ambDroplet = 0;                               ///< a raindrop on the roof, its envelope
     float m_ambUnder = 0;                                 ///< under the sea, smoothed
+    float m_ambCicadas = 0;                               ///< the cicadas, smoothed
+    float m_ambCicPh = 0;                                 ///< their rasp's beat
+    float m_ambCrickets = 0;                              ///< the crickets, smoothed
+    float m_ambCriPh = 0;                                 ///< their chirp's tone
+    float m_ambCowbells = 0;                              ///< the cowbells, smoothed
+    float m_ambBell = 0;                                  ///< the cowbell ringing now, dying away
+    float m_ambBellPh = 0;                                ///< its phase
+    float m_ambBellF = 600;                               ///< its pitch
+    float m_ambBellIn = 1;                                ///< seconds until the next one
+    Svf   m_ambCicF;                                      ///< the cicadas' band
     float m_ambWhale = 0;                                 ///< a whale's song, seconds left
     float m_ambWhaleIn = 4;                               ///< seconds to the next one
     float m_ambWhaleDur = 1;                              ///< how long it sings
@@ -352,6 +368,47 @@ struct Synth
                           0.15f * std::sin( 3.0f * Pi2 * m_ambWhalePh ) ) *
                         env * env * m_ambUnder * 0.16f;
                 mono += whale;
+            }
+        }
+        // The sounds of the place: cicadas rasping in the heat of the day, crickets chirping in the warm night,
+        // cowbells clanking on the high pastures.
+        m_ambCicadas += ( m_aCicadas.load( std::memory_order_relaxed ) - m_ambCicadas ) * 0.0003f;
+        m_ambCrickets += ( m_aCrickets.load( std::memory_order_relaxed ) - m_ambCrickets ) * 0.0003f;
+        m_ambCowbells += ( m_aCowbells.load( std::memory_order_relaxed ) - m_ambCowbells ) * 0.0003f;
+        if ( m_ambCicadas > 0.001f )
+        {
+            if ( ( m_ambCoef & 31 ) == 0 ) m_ambCicF.set( 4600.0f, 3.0f );
+            m_ambCicPh += 42.0f * dt;
+            if ( m_ambCicPh >= 1.0f ) m_ambCicPh -= 1.0f;
+            const float rasp = 0.5f + 0.5f * std::sin( Pi2 * m_ambCicPh );
+            const float swell = 0.6f + 0.4f * std::sin( Pi2 * 0.23f * m_ambTime );
+            mono += m_ambCicF.band( m_ambN.next() ) * rasp * rasp * swell * m_ambCicadas * 0.2f;
+        }
+        if ( m_ambCrickets > 0.001f )
+        {
+            // Three quick pulses of a high tone, about twice a second.
+            m_ambCriPh += 4200.0f * dt;
+            if ( m_ambCriPh >= 1.0f ) m_ambCriPh -= 1.0f;
+            const float u = std::fmod( m_ambTime, 0.55f );
+            const float pulse = u < 0.18f ? std::max( 0.0f, std::sin( Pi2 * u / 0.06f ) ) : 0.0f;
+            mono += std::sin( Pi2 * m_ambCriPh ) * pulse * m_ambCrickets * 0.03f;
+        }
+        if ( m_ambCowbells > 0.001f )
+        {
+            m_ambBellIn -= dt;
+            if ( m_ambBellIn <= 0.0f )
+            {
+                m_ambBell = 0.5f + 0.5f * m_ambN.unit();
+                m_ambBellPh = 0.0f;
+                m_ambBellF = 520.0f + 300.0f * m_ambN.unit();
+                m_ambBellIn = 0.25f + 1.8f * m_ambN.unit();
+            }
+            if ( m_ambBell > 0.001f )
+            {
+                m_ambBellPh += dt;
+                mono += ( std::sin( Pi2 * m_ambBellF * m_ambBellPh ) + 0.6f * std::sin( Pi2 * m_ambBellF * 1.48f * m_ambBellPh ) ) *
+                        m_ambBell * m_ambCowbells * 0.045f;
+                m_ambBell *= 0.9996f;
             }
         }
         // A police siren: the long wail of the Americas and Asia, the two tones of Europe; louder as it nears.
@@ -569,6 +626,18 @@ struct Synth
             y = std::tanh( ( std::sin( Pi2 * f * t ) + std::sin( Pi2 * f * 1.26f * t ) ) * 2.2f ) * env * 0.16f;
             break;
         }
+        case SfxE::BELL:
+        {
+            // A church bell struck once: its hum, strike note and overtones (a minor third among them), ringing out.
+            dur = 3.2f;
+            const float f = 392.0f * v.m_pitch;
+            y = ( 0.5f * std::sin( Pi2 * f * 0.5f * t ) * std::exp( -t * 1.0f ) +
+                  std::sin( Pi2 * f * t ) * std::exp( -t * 1.6f ) + 0.6f * std::sin( Pi2 * f * 1.2f * t ) * std::exp( -t * 2.2f ) +
+                  0.4f * std::sin( Pi2 * f * 2.0f * t ) * std::exp( -t * 3.0f ) +
+                  0.25f * std::sin( Pi2 * f * 2.76f * t ) * std::exp( -t * 4.5f ) ) *
+                std::min( 1.0f, t * 400.0f ) * std::min( 1.0f, ( dur - t ) * 4.0f ) * 0.09f;
+            break;
+        }
         case SfxE::JET:
         {
             // A rising, then falling roar: noise whose band slides down as it passes, a rumble under it.
@@ -637,6 +706,7 @@ struct Synth
         m_engThr += ( thrT - m_engThr ) * 0.003f;
         m_engSpeed += ( m_speed.load( std::memory_order_relaxed ) - m_engSpeed ) * 0.001f;
         m_engSlip += ( m_slip.load( std::memory_order_relaxed ) - m_engSlip ) * 0.002f;
+        m_engDraft += ( m_draft.load( std::memory_order_relaxed ) - m_engDraft ) * 0.0008f;
         m_engOff += ( m_offroad.load( std::memory_order_relaxed ) - m_engOff ) * 0.002f;
         m_engRumble += ( m_rumble.load( std::memory_order_relaxed ) - m_engRumble ) * 0.004f;
         m_engActive += ( ( m_active.load( std::memory_order_relaxed ) ? 1.0f : 0.0f ) - m_engActive ) * 0.0005f;
@@ -718,8 +788,12 @@ struct Synth
         if ( m_engSqueal >= 1.0f ) m_engSqueal -= 1.0f;
         float env =
             ( std::sin( Pi2 * m_engSqueal ) * 0.5f + m_engSquealF.band( m_engN.next() ) * 1.6f ) * m_engSlip * 0.2f;
+        // In a slipstream the wind falls quieter and flutters in the car ahead's wake.
+        m_engFlutter += 9.0f / SampleRate;
+        if ( m_engFlutter >= 1.0f ) m_engFlutter -= 1.0f;
         const float wind = m_engSpeed / 85.0f;
-        env += m_engWind.low( m_engN.next() ) * wind * wind * 0.5f;
+        const float shelter = ( 1.0f - 0.55f * m_engDraft ) * ( 1.0f + 0.5f * m_engDraft * std::sin( Pi2 * m_engFlutter ) );
+        env += m_engWind.low( m_engN.next() ) * wind * wind * 0.5f * shelter;
         m_engRumblePh += ( 45.0f + m_engSpeed * 1.4f ) / SampleRate;
         if ( m_engRumblePh >= 1.0f ) m_engRumblePh -= 1.0f;
         env += m_engRumbleF.low( m_engRumblePh < 0.5f ? 1.0f : -1.0f ) * m_engRumble * 0.2f *
@@ -1018,6 +1092,7 @@ void Audio::setEngine( const EngineState &s )
     g_synth->m_throttle = s.m_throttle;
     g_synth->m_speed = s.m_speed;
     g_synth->m_slip = s.m_slip;
+    g_synth->m_draft = s.m_draft;
     g_synth->m_offroad = s.m_offroad;
     g_synth->m_rumble = s.m_rumble;
     g_synth->m_boost = s.m_boost;
@@ -1041,6 +1116,9 @@ void Audio::setAmbience( const Ambience &a )
     g_synth->m_aTunnel.store( a.m_tunnel, std::memory_order_relaxed );
     g_synth->m_aBridge.store( a.m_bridge, std::memory_order_relaxed );
     g_synth->m_aUnder.store( a.m_underwater, std::memory_order_relaxed );
+    g_synth->m_aCicadas.store( a.m_cicadas, std::memory_order_relaxed );
+    g_synth->m_aCrickets.store( a.m_crickets, std::memory_order_relaxed );
+    g_synth->m_aCowbells.store( a.m_cowbells, std::memory_order_relaxed );
     g_synth->m_aSiren.store( a.m_siren, std::memory_order_relaxed );
     g_synth->m_aSirenPan.store( a.m_sirenPan, std::memory_order_relaxed );
     g_synth->m_aSirenKind.store( a.m_sirenKind, std::memory_order_relaxed );

@@ -142,7 +142,8 @@ const char *Game::settingLabel( SettingE item ) const
 {
     static const char *labels[] = { "PROFILE",        "DISPLAY",    "3D RESOLUTION", "SHADOWS",      "VSYNC",
                                     "FRAME LIMIT",    "DIFFICULTY", "SCENERY",       "TIME OF DAY",  "WEATHER",
-                                    "SEASONS",        "POLICE",     "STEER ASSIST",  "BRAKE ASSIST", "COLOUR BLIND",
+                                    "SEASONS",        "POLICE",     "STEER ASSIST",  "BRAKE ASSIST", "DRIFT",
+                                    "ONCOMING TRAFFIC", "COLOUR BLIND",
                                     "TEXT SIZE",      "GEARS",      "SPEEDOMETER",   "CAMERA",       "SPEED BLUR",
                                     "VIBRATION",      "MUSIC",      "EFFECTS",       "RADIO",        "RESET SETTINGS",
                                     "ERASE PROGRESS", "BACK" };
@@ -194,6 +195,16 @@ std::string Game::settingValue( SettingE item ) const
         return levels3[std::clamp( m_settings.m_steerAssist, 0, 2 )];
     }
     case SettingE::BRAKE_ASSIST: return m_settings.m_brakeAssist ? "ON" : "OFF";
+    case SettingE::DRIFT:
+    {
+        static const char *drifts[] = { "OFF", "LOOK ONLY", "FULL" };
+        return drifts[std::clamp( m_settings.m_drift, 0, 2 )];
+    }
+    case SettingE::ONCOMING:
+    {
+        static const char *amounts[] = { "OFF", "LIGHT", "NORMAL", "DENSE" };
+        return amounts[std::clamp( m_settings.m_oncoming, 0, 3 )];
+    }
     case SettingE::COLOUR_BLIND: return m_settings.m_colourBlind ? "ON" : "OFF";
     case SettingE::TEXT_SIZE:
     {
@@ -294,6 +305,8 @@ void Game::changeSetting( SettingE item, int dir )
     case SettingE::POLICE: m_settings.m_police = !m_settings.m_police; break;
     case SettingE::STEER_ASSIST: m_settings.m_steerAssist = ( m_settings.m_steerAssist + 3 + dir ) % 3; break;
     case SettingE::BRAKE_ASSIST: m_settings.m_brakeAssist = !m_settings.m_brakeAssist; break;
+    case SettingE::DRIFT: m_settings.m_drift = ( m_settings.m_drift + 3 + dir ) % 3; break;
+    case SettingE::ONCOMING: m_settings.m_oncoming = ( m_settings.m_oncoming + 4 + dir ) % 4; break;
     case SettingE::COLOUR_BLIND:
         m_settings.m_colourBlind = !m_settings.m_colourBlind;
         setColourBlind( m_settings.m_colourBlind );
@@ -1025,6 +1038,134 @@ void Game::draw()
     else if ( m_track )
         in.m_behind = std::max( in.m_behind, static_cast<float>( World::keptBehind( *m_track, m_car.m_s ) ) - 40.0f );
     in.m_shadows = m_settings.m_shadows;
+    in.m_skids = &m_skids;
+    in.m_headFlash = m_headFlash > 0.0f && std::fmod( m_headFlash, 0.2f ) > 0.07f ? 1.0f : 0.0f;
+    in.m_grime = m_dirt;
+    in.m_grimeColor = m_dirtColor;
+    // The windows' light comes on at dusk.
+    in.m_windowGlow = std::max( in.m_env.m_headlights, 1.0f - smoothstepf( -2.0f, 9.0f, in.m_env.m_sunElevation ) );
+    // The clouds' shadows: where some clouds stand in a sunny sky (none under a clear or an overcast one, nor at night).
+    in.m_cloudShadow = 0.5f * smoothstepf( 0.12f, 0.35f, in.m_env.m_cloudAmount ) *
+                       ( 1.0f - smoothstepf( 0.8f, 0.97f, in.m_env.m_cloudAmount ) ) *
+                       smoothstepf( 4.0f, 18.0f, in.m_env.m_sunElevation ) * ( 1.0f - in.m_env.m_rain );
+    if ( m_track )
+    {
+        // The brake lights that are on: the car's, the rivals', the traffic's near by.
+        // A point on a vehicle: metres to its left, up and ahead of its middle.
+        auto on = [&]( const Pose &p, float left, float up, float ahead )
+        {
+            Vec3d l = p.m_pos;
+            l.m_x += static_cast<double>( p.m_left.x * left + p.m_up.x * up + p.m_forward.x * ahead );
+            l.m_y += static_cast<double>( p.m_left.y * left + p.m_up.y * up + p.m_forward.y * ahead );
+            l.m_z += static_cast<double>( p.m_left.z * left + p.m_up.z * up + p.m_forward.z * ahead );
+            return l;
+        };
+        auto lights = [&]( const Pose &p, float width, float length, float height )
+        {
+            for ( float side : { -1.0f, 1.0f } )
+                in.m_glows.push_back(
+                    { on( p, side * width * 0.32f, height, -length * 0.5f - 0.02f ), Color{ 255, 36, 22, 200 }, 0.22f,
+                      height } );
+        };
+        const float dark = in.m_env.m_headlights;
+        if ( m_car.m_braking && in.m_drawPlayer )
+            lights( m_car.pose( *m_track ), m_car.m_spec.m_width, m_car.m_spec.m_length, 0.65f );
+        if ( m_brakeHeat > 0.35f && in.m_drawPlayer )
+        {
+            // Brakes hot from long hard braking glow in the wheels, the front ones more.
+            const Pose wheels = m_car.pose( *m_track, false );
+            const auto heat = static_cast<unsigned char>( 220.0f * smoothstepf( 0.35f, 1.0f, m_brakeHeat ) );
+            for ( float side : { -1.0f, 1.0f } )
+                for ( float end : { -1.0f, 1.0f } )
+                    in.m_glows.push_back( { on( wheels, side * ( m_car.m_spec.m_width * 0.5f - 0.1f ), 0.33f,
+                                                end * m_car.m_spec.m_length * 0.3f ),
+                                            Color{ 255, 104, 28, static_cast<unsigned char>( end > 0.0f ? heat : heat / 2 ) },
+                                            0.17f } );
+        }
+        for ( const Rival &r : m_race.m_rivals )
+            if ( r.m_braking && std::abs( r.m_s - m_car.m_s ) < 250.0 )
+            {
+                const CarSpec &spec = carSpec( m_race.m_drivers[r.m_driver].m_car );
+                lights( roadPose( *m_track, r.m_s, r.m_x, r.m_yaw ), spec.m_width, spec.m_length, 0.65f );
+            }
+        for ( const TrafficCar &c : m_traffic.m_cars )
+        {
+            // What comes the other way shows its headlights from far off.
+            const double away = c.m_s - m_car.m_s;
+            if ( c.m_animal || c.m_swim || away > ( c.m_oncoming ? 800.0 : 250.0 ) || away < -60.0 ) continue;
+            // Lit at night, and in a tunnel by day.
+            const bool tunnel = ( m_track->segment( static_cast<long>( c.m_s / SegmentLength ) ).m_flags & SEG_TUNNEL ) != 0;
+            const bool lit = ( dark > 0.3f || tunnel ) && c.m_lift < 0.5f;
+            const bool flashing = c.m_flash > 0.0f && std::fmod( c.m_flash, 0.3f ) > 0.12f;
+            if ( !c.m_braking && c.m_signal == 0 && !lit && !flashing ) continue;
+            Pose p = roadPose( *m_track, c.m_s, c.m_x, c.m_yaw );
+            p.m_pos.m_y += static_cast<double>( c.m_lift );
+            const bool  truck = static_cast<size_t>( c.m_model ) < m_models.m_traffic.size() &&
+                               m_models.m_traffic[static_cast<size_t>( c.m_model )].m_truck;
+            const float height = truck ? 1.05f : 0.7f;
+            if ( c.m_braking ) lights( p, c.m_width, c.m_length, height );
+            // At night (and in a tunnel) the tail lights of what goes the car's way glow dimmer.
+            if ( lit && !c.m_braking && !c.m_oncoming && away > -10.0 )
+                for ( float side : { -1.0f, 1.0f } )
+                    in.m_glows.push_back( { on( p, side * c.m_width * 0.32f, height, -c.m_length * 0.5f - 0.02f ),
+                                            Color{ 255, 30, 18, 120 }, 0.15f, height } );
+            // An indicator: amber at the front and the back corner of its side, on and off.
+            if ( c.m_signal != 0 && std::fmod( m_time * 1.5f + static_cast<float>( c.m_plate ) * 0.37f, 1.0f ) < 0.5f )
+                for ( float end : { -1.0f, 1.0f } )
+                    in.m_glows.push_back(
+                        { on( p, ( c.m_oncoming ? 1.0f : -1.0f ) * static_cast<float>( c.m_signal ) * c.m_width * 0.44f,
+                              height, end * ( c.m_length * 0.5f + 0.02f ) ),
+                          Color{ 255, 170, 30, 230 }, 0.2f } );
+            // Its headlights towards the car: at night, and flashed by day at whoever drives in its lane. A light far
+            // off still shows as a point.
+            if ( c.m_oncoming && away > 0.0 && ( lit || flashing ) )
+                for ( float side : { -1.0f, 1.0f } )
+                    in.m_glows.push_back(
+                        { on( p, side * c.m_width * 0.34f, height - 0.05f, c.m_length * 0.5f + 0.03f ),
+                          Color{ 255, 244, 214, static_cast<unsigned char>( flashing ? 255 : 200 ) },
+                          ( flashing ? 0.3f : 0.2f ) + 0.003f * static_cast<float>( away ), height - 0.05f } );
+            // At night its headlights light the road ahead of it.
+            if ( lit && away < 250.0 )
+                in.m_pools.push_back( { on( p, 0.0f, 0.06f, c.m_length * 0.5f + 8.0f ), Vector3Scale( p.m_forward, 8.0f ),
+                                        Vector3Scale( p.m_left, 2.4f ),
+                                        std::max( smoothstepf( 0.3f, 0.8f, dark ), tunnel ? 0.8f : 0.0f ) } );
+        }
+    }
+    if ( m_track && in.m_env.m_headlights < 0.4f && in.m_env.m_rain < 0.4f && in.m_env.m_underwater < 0.1f &&
+         m_state != StateE::VIEWER && m_state != StateE::CROSSING )
+    {
+        // Birds over the land ahead, a flock every kilometre and a half or so: gulls along the shore, vultures soaring
+        // over dry land, crows elsewhere. None at night, in the rain, in town or under the sea.
+        const long first = static_cast<long>( std::floor( ( m_car.m_s - 300.0 ) / 1400.0 ) ),
+                   last = static_cast<long>( std::floor( ( m_car.m_s + 1000.0 ) / 1400.0 ) );
+        for ( long k = std::max( 0L, first ); k <= last; ++k )
+        {
+            const uint64_t key = hash64( m_seed * 977 + static_cast<uint64_t>( k ) );
+            if ( key % 5 < 2 ) continue;
+            const float  h = static_cast<float>( ( key >> 8 ) % 1000 ) / 1000.0f;
+            const double s = ( static_cast<double>( k ) + 0.2 + 0.6 * static_cast<double>( h ) ) * 1400.0;
+            if ( s < m_car.m_s - 380.0 ) continue;
+            if ( m_track->segment( static_cast<long>( s / SegmentLength ) ).m_flags & ( SEG_TUNNEL | SEG_BRIDGE ) ) continue;
+            const BiomeDef &d = biomeDef( m_track->stageBiome( m_track->stageAt( s ) ) );
+            if ( d.m_underwater || d.m_lampSpacing > 0.0f || d.m_climate == ClimateE::NONE ) continue;
+            const bool  coast = d.m_terrain.m_waterLeft > 0.5f || d.m_terrain.m_waterRight > 0.5f;
+            const bool  dry = d.m_climate == ClimateE::ARID && !coast;
+            const float side = coast ? ( d.m_terrain.m_waterLeft > 0.5f ? -1.0f : 1.0f ) : ( ( key >> 20 ) & 1 ? 1.0f : -1.0f );
+            const TrackFrame f = m_track->frameAt( s );
+            FlockDraw        flock;
+            flock.m_centre = f.m_pos;
+            const float out = side * ( 60.0f + 90.0f * h );
+            flock.m_centre.m_x += static_cast<double>( f.m_right.x * out );
+            flock.m_centre.m_z += static_cast<double>( f.m_right.z * out );
+            flock.m_centre.m_y += static_cast<double>( dry ? 70.0f : 26.0f + 20.0f * h );
+            flock.m_radius = dry ? 38.0f : 16.0f + 10.0f * h;
+            flock.m_birds = dry ? 4 : 9 + static_cast<int>( key % 6 );
+            flock.m_color = coast ? Color{ 244, 244, 240, 235 } : dry ? Color{ 58, 44, 34, 235 } : Color{ 24, 24, 28, 235 };
+            flock.m_wings = dry ? 1.25f : coast ? 0.65f : 0.5f;
+            flock.m_phase = static_cast<float>( key % 628 ) / 100.0f;
+            in.m_flocks.push_back( flock );
+        }
+    }
     in.m_lensRain = m_settings.m_camera >= 2 && !m_demo ? in.m_env.m_rain : in.m_env.m_rain * 0.5f;
     in.m_slush = smoothstepf( 0.05f, 0.4f, in.m_env.m_snow );
     if ( m_passenger.m_state == PassengerStateE::WAITING && !m_models.m_hitchhikers.empty() && m_track )
@@ -1090,10 +1231,19 @@ void Game::draw()
             if ( s < from + CoachLength * 0.5 || s > to - CoachLength * 0.5 ) continue;
             const Mesh &mesh = k == 0 || k == coaches ? parts[0] : parts[1];
             if ( !mesh.vertexCount ) continue;
-            const TrackFrame f = m_track->frameAt( s );
+            // It stands on its two bogies: where the rails climb, fall or bend between them, the coach follows.
+            const double  reach = CoachLength * 0.36;
+            const Vec3d   rear = railPoint( *m_track, s - reach, m_train.m_stretch.m_side ),
+                          front = railPoint( *m_track, s + reach, m_train.m_stretch.m_side );
+            const Vector3 d = relativeTo( front, rear );
+            Vec3d         mid = rear;
+            mid.m_x += static_cast<double>( d.x ) * 0.5;
+            mid.m_y += static_cast<double>( d.y ) * 0.5;
+            mid.m_z += static_cast<double>( d.z ) * 0.5;
+            const float pitch = std::atan2( d.y, std::hypot( d.x, d.z ) );
+            const bool  turned = k == coaches && k > 0;   // the power car at the end runs backwards
             in.m_pieces.push_back(
-                { &mesh, railPoint( *m_track, s, m_train.m_stretch.m_side ),
-                  std::atan2( f.m_forward.x, f.m_forward.z ) + ( k == coaches && k > 0 ? PI : 0.0f ) } );
+                { &mesh, mid, std::atan2( d.x, d.z ) + ( turned ? PI : 0.0f ), turned ? -pitch : pitch } );
         }
     }
     if ( m_sky.m_kind != SkyE::COUNT && m_models.m_sky.size() == SKY_MODELS && m_track )
@@ -3043,6 +3193,39 @@ void Game::drawHud()
     const float W = static_cast<float>( GetScreenWidth() ), H = static_cast<float>( GetScreenHeight() );
     const float u = unit();
     if ( m_cockpit && !m_demo && !m_lookingBack ) drawCockpit();
+    if ( !m_demo && m_state == StateE::RACE && !m_lookingBack )
+    {
+        // Warnings at the picture's edges: something close beside the car, or coming up fast from behind.
+        bool left = false, right = false, behind = false, ahead = false;
+        auto near = [&]( double s, float x, float speed )
+        {
+            const double ds = s - m_car.m_s;
+            const float  dx = x - m_car.m_x;
+            if ( std::abs( ds ) < 6.5 && std::abs( dx ) > 1.2f && std::abs( dx ) < 4.4f ) ( dx < 0.0f ? left : right ) = true;
+            if ( ds < -4.0 && ds > -32.0 && std::abs( dx ) < 2.0f && speed > m_car.m_speed + 3.0f ) behind = true;
+        };
+        for ( const TrafficCar &c : m_traffic.m_cars )
+        {
+            if ( c.m_swim || c.m_lift >= 0.5f ) continue;
+            near( c.m_s, c.m_x, c.along() );
+            // Something coming at the car in the lane it drives in, two and a half seconds off.
+            const double ds = c.m_s - m_car.m_s;
+            ahead = ahead || ( c.m_oncoming && ds > 0.0 && ds < 2.5 * static_cast<double>( m_car.m_speed + c.m_speed ) &&
+                               std::abs( c.m_x - m_car.m_x ) < 2.0f );
+        }
+        for ( const Rival &r : m_race.m_rivals ) near( r.m_s, r.m_x, r.m_speed );
+        const Color warn = { Red.r, Red.g, Red.b, 200 };
+        const float a = 2.2f * u, y = H * 0.56f;
+        if ( left ) DrawTriangle( Vector2{ 1.2f * u, y }, Vector2{ 1.2f * u + a, y + a }, Vector2{ 1.2f * u + a, y - a }, warn );
+        if ( right )
+            DrawTriangle( Vector2{ W - 1.2f * u, y }, Vector2{ W - 1.2f * u - a, y - a }, Vector2{ W - 1.2f * u - a, y + a }, warn );
+        if ( behind )
+            DrawTriangle( Vector2{ W * 0.5f, H - 1.2f * u }, Vector2{ W * 0.5f + a, H - 1.2f * u - a },
+                          Vector2{ W * 0.5f - a, H - 1.2f * u - a }, warn );
+        if ( ahead && std::fmod( m_time, 0.3f ) < 0.2f )
+            DrawTriangle( Vector2{ W * 0.5f, H * 0.2f - 1.6f * a }, Vector2{ W * 0.5f - 1.6f * a, H * 0.2f },
+                          Vector2{ W * 0.5f + 1.6f * a, H * 0.2f }, warn );
+    }
     const bool mph = m_settings.m_units == UnitsE::MPH;
     auto       txt = []( std::string_view t, float x, float y, float s, Color c, AlignE a = AlignE::LEFT )
     { drawTextFx( t, x, y, s, c, a, 0.0f ); };

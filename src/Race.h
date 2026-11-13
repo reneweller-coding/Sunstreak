@@ -39,6 +39,7 @@ struct Rival
     bool   m_finished = false;   ///< crossed the line
     float  m_finishTime = 0;     ///< race time at the line
     float  m_hitTimer = 0;       ///< wobble after contact
+    bool   m_braking = false;    ///< slowing hard (its brake lights)
 };
 
 /** @brief A driver of the championship. */

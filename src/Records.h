@@ -80,6 +80,10 @@ struct Records
     std::vector<std::string> m_hitchFrom;          ///< the countries they came from
     int                      m_gaveWay = 0;        ///< ambulances and fire engines let through
     int                      m_aquaplanes = 0;     ///< times the tyres floated
+    int                      m_driftMetres = 0;    ///< metres drifted in all runs
+    int                      m_longestDrift = 0;   ///< the longest drift in one go (m)
+    int                      m_draftPasses = 0;    ///< overtakes out of a slipstream
+    int                      m_closeCalls = 0;     ///< oncoming vehicles missed close and fast
     int                      m_heroWins = 0;       ///< local heroes beaten to the checkpoint
     int                      m_heroLosses = 0;     ///< local heroes who got there first
     int                      m_trainWins = 0;      ///< fast trains beaten
@@ -91,6 +95,7 @@ struct Records
     int                      m_randomRounds = 0;   ///< random tours driven to every country
     std::vector<std::pair<std::string, double>>
         m_legendBest;                      ///< the best time over each legendary road driven whole (place ID, seconds)
+    std::vector<std::pair<std::string, int>> m_legendDrift;   ///< the longest drift on each legendary road (place ID, m)
     std::vector<std::string> m_achieved;   ///< the achievements earned (their keys, Achievements.h)
 
     /**

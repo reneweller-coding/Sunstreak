@@ -40,6 +40,17 @@ struct Collider
     double m_s = 0;        ///< distance along the road
     float  m_x = 0;        ///< lateral offset
     float  m_radius = 0;   ///< size
+    bool   m_glance = false;   ///< met from the side, it turns the car away like a rail instead of crashing it
+    bool   m_soft = false;     ///< driven straight into, it gives way and only slows the car (a hedge, a garden fence)
+};
+
+/** @brief A wind turbine's rotor, turning (the renderer draws its blades). */
+struct Rotor
+{
+    Vector3 m_hub{};         ///< where it turns, relative to the chunk's origin
+    float   m_yaw = 0.0f;    ///< the way the turbine faces
+    float   m_scale = 1.0f;  ///< its size
+    float   m_phase = 0.0f;  ///< where in its turn it starts
 };
 
 /** @brief One baked piece of the world. */
@@ -52,6 +63,9 @@ struct Chunk
     Mesh                  m_scenery{};      ///< the scattered props: trees, rocks, houses, towers
     Mesh                  m_sceneryFar{};   ///< the same as seen from afar (LOD)
     Mesh                  m_glass{};        ///< see-through panes (undersea tunnels), drawn after everything solid
+    Mesh                  m_decals{};       ///< soft dark patches on the ground under what stands on it (up close only)
+    std::vector<Vector3>  m_chimneys;       ///< where the village houses' smoke rises (relative to the origin)
+    std::vector<Rotor>    m_rotors;         ///< the wind turbines' rotors
     std::vector<Collider> m_colliders;      ///< solid props near the road
 };
 
@@ -65,6 +79,9 @@ struct BakedChunk
     MeshBuilder           m_scenery;      ///< the scattered props
     MeshBuilder           m_sceneryFar;   ///< the same from afar
     MeshBuilder           m_glass;        ///< see-through panes
+    MeshBuilder           m_decals;       ///< soft dark patches on the ground
+    std::vector<Vector3>  m_chimneys;     ///< where the village houses' smoke rises
+    std::vector<Rotor>    m_rotors;       ///< the wind turbines' rotors
     std::vector<Collider> m_colliders;    ///< solid props near the road
     float                 m_ms = 0.0f;    ///< how long the baking took
 };

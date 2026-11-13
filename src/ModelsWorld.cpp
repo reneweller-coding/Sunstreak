@@ -2880,6 +2880,9 @@ void Models::buildWorldProps()
     };
     for ( const auto &[kind, amount] : sway )
         for ( MeshBuilder &variant : m_props[static_cast<size_t>( kind )] ) variant.applySway( amount );
+    // What floats rides the swell.
+    for ( PropKindE kind : { PropKindE::SAILBOAT, PropKindE::BOAT, PropKindE::HOUSEBOAT } )
+        for ( MeshBuilder &variant : m_props[static_cast<size_t>( kind )] ) variant.applyBob( 1.0f );
 }
 
 }   // namespace sunstreak

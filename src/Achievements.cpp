@@ -138,6 +138,10 @@ const std::vector<Achievement> &achievements()
         { "jobs50", "SPECIAL DELIVERY", "50 COURIER JOBS" },
         { "legend10", "THE CLASSICS", "DRIVE 10 LEGENDARY ROADS FROM END TO END" },
         { "aqua25", "WATER SKIER", "AQUAPLANE 25 TIMES" },
+        { "drift100", "SIDEWAYS", "DRIFT 100 M IN ONE GO" },
+        { "drift10k", "TYRE SMOKE", "DRIFT 10 KM IN ALL" },
+        { "draft100", "TOW", "100 OVERTAKES OUT OF A SLIPSTREAM" },
+        { "closecall50", "HOLD YOUR NERVE", "50 CLOSE CALLS WITH ONCOMING TRAFFIC" },
         { "daily7", "DAILY DRIVER", "THE DAILY CHALLENGE ON 7 DAYS" },
         { "daily30", "CREATURE OF HABIT", "THE DAILY CHALLENGE ON 30 DAYS" },
         { "podium", "ON THE PODIUM", "FINISH A CHAMPIONSHIP IN THE TOP THREE" },
@@ -267,6 +271,10 @@ AchievementProgress achievementProgress( const Records &r, size_t index )
     if ( key == "jobs50" ) return upTo( r.m_jobs, 50 );
     if ( key == "legend10" ) return upTo( static_cast<int>( r.m_legendBest.size() ), 10 );
     if ( key == "aqua25" ) return upTo( r.m_aquaplanes, 25 );
+    if ( key == "drift100" ) return upTo( r.m_longestDrift, 100 );
+    if ( key == "drift10k" ) return upTo( r.m_driftMetres, 10000 );
+    if ( key == "draft100" ) return upTo( r.m_draftPasses, 100 );
+    if ( key == "closecall50" ) return upTo( r.m_closeCalls, 50 );
     if ( key == "daily7" ) return upTo( r.m_dailyDays, 7 );
     if ( key == "daily30" ) return upTo( r.m_dailyDays, 30 );
     if ( key == "podium" ) return upTo( r.m_bestPlace >= 1 && r.m_bestPlace <= 3 ? 1 : 0, 1 );

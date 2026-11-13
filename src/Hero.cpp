@@ -132,6 +132,22 @@ void LocalHero::update( float dt, const Track &track, PlayerCar &player, const T
     const Segment &seg = track.segment( static_cast<long>( m_s / SegmentLength ) );
     const int      lanes = seg.m_lanes;
     if ( m_lane >= lanes ) m_lane = lanes - 1;
+    // With traffic coming the other way: out in its half only while nothing comes there within a few seconds.
+    int        oncFirst = 0, oncLast = -1;
+    const bool twoWay = traffic.oncomingLanes( track, seg, oncFirst, oncLast ) > 0;
+    auto       coming = [&]( int lane, float seconds )
+    {
+        if ( !twoWay || lane < oncFirst || lane > oncLast ) return false;
+        for ( const TrafficCar &c : traffic.m_cars )
+        {
+            const double g = c.m_s - m_s;
+            if ( c.m_oncoming && g > -10.0 && g < static_cast<double>( seconds * ( m_speed + c.m_speed ) ) &&
+                 laneOf( c.m_x, lanes, seg.m_halfWidth ) == lane )
+                return true;
+        }
+        return false;
+    };
+    if ( coming( m_lane, 2.5f ) ) m_lane = oncFirst == 0 ? oncLast + 1 : oncFirst - 1;
     const double gap = player.m_s - m_s;   // > 0: the car is ahead
     float        target = 0.0f;
     switch ( m_state )
@@ -190,7 +206,7 @@ void LocalHero::update( float dt, const Track &track, PlayerCar &player, const T
         for ( int d : { -1, 1 } )
         {
             const int l = m_lane + d;
-            if ( l < 0 || l >= lanes ) continue;
+            if ( l < 0 || l >= lanes || coming( l, 5.0f ) ) continue;
             const float lx = laneCenter( l, lanes, seg.m_halfWidth );
             bool        free = !( std::abs( player.m_s - m_s ) < 14.0 && std::abs( player.m_x - lx ) < 1.7f );
             for ( const TrafficCar &c : traffic.m_cars )
@@ -205,7 +221,7 @@ void LocalHero::update( float dt, const Track &track, PlayerCar &player, const T
         target = std::min( target, speed - 0.5f );
     };
     for ( const TrafficCar &c : traffic.m_cars )
-        if ( !c.m_swim && !c.m_animal ) blocked( c.m_s, c.m_x, c.m_speed );
+        if ( !c.m_swim && !c.m_animal && !c.m_oncoming ) blocked( c.m_s, c.m_x, c.m_speed );
     if ( m_state != HeroStateE::CLOSING ) blocked( player.m_s, player.m_x, player.m_speed );
 
     if ( m_speed < target )

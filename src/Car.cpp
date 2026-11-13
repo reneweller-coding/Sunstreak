@@ -23,6 +23,8 @@ constexpr float  ReverseDelay = 0.4f;     ///< the brake held this long at a sta
 constexpr float  ReverseTop = 5.5f;       ///< the top speed backwards (m/s, about 20 km/h)
 constexpr float  ReverseAccel = 4.0f;     ///< and how fast it gets there (m/s^2)
 constexpr double ReverseReach = 150.0;    ///< reverse goes at most this far behind the farthest point reached
+constexpr float  MaxDriftYaw = 0.26f;     ///< the most a drift turns the body into the bend (rad, 15 degrees)
+constexpr float  MaxPitch = 0.045f;       ///< the most the body pitches braking or accelerating (rad)
 
 /**
  * @brief Engine torque over the rev range.
@@ -143,7 +145,7 @@ Pose roadPose( const Track &track, double s, float x, float yaw )
     return p;
 }
 
-Pose PlayerCar::pose( const Track &track ) const
+Pose PlayerCar::pose( const Track &track, bool body ) const
 {
     const TrackFrame f = track.frameAt( m_s );
     Pose             p;
@@ -163,11 +165,19 @@ Pose PlayerCar::pose( const Track &track ) const
         up = Vector3Subtract( Vector3Scale( up, std::cos( pitch ) ), Vector3Scale( fwd, std::sin( pitch ) ) );
         fwd = nf;
     }
-    // Body roll towards the outside of the turn.
-    const float roll = clampf( ( m_vx - m_drift ) * 0.01f, -0.07f, 0.07f );
-    up = Vector3Normalize(
-        Vector3Subtract( Vector3Scale( up, std::cos( roll ) ), Vector3Scale( right, std::sin( roll ) ) ) );
-    right = Vector3Normalize( Vector3CrossProduct( fwd, up ) );
+    if ( body )
+    {
+        // The nose dips braking and rises accelerating.
+        const Vector3 nf = Vector3Add( Vector3Scale( fwd, std::cos( m_pitch ) ), Vector3Scale( up, std::sin( m_pitch ) ) );
+        up = Vector3Subtract( Vector3Scale( up, std::cos( m_pitch ) ), Vector3Scale( fwd, std::sin( m_pitch ) ) );
+        fwd = nf;
+        right = Vector3Normalize( Vector3CrossProduct( fwd, up ) );
+        // Body roll towards the outside of the turn.
+        const float roll = clampf( ( m_vx - m_drift ) * 0.01f, -0.07f, 0.07f );
+        up = Vector3Normalize(
+            Vector3Subtract( Vector3Scale( up, std::cos( roll ) ), Vector3Scale( right, std::sin( roll ) ) ) );
+        right = Vector3Normalize( Vector3CrossProduct( fwd, up ) );
+    }
     p.m_forward = Vector3Normalize( Vector3CrossProduct( up, right ) );
     p.m_up = up;
     p.m_left = Vector3Negate( right );
@@ -199,6 +209,9 @@ void PlayerCar::crash( float keep, float push )
     m_vx = 0.0f;
     m_crashTimer = 1.1f;
     m_spin = 0.0f;
+    m_driftAmount = 0.0f;
+    m_driftYaw = 0.0f;
+    m_driftYawVel = 0.0f;
     m_shake = 1.0f;
 }
 
@@ -357,7 +370,9 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
     // Air drag tuned so the top gear tops out at the car's top speed; engine braking when coasting.
     const float topAccel = tuning().m_accel * m_spec.m_accel * GearPull[GearCount - 1] * torque( 1.0f );
     const float dragK = topAccel / ( m_spec.m_topSpeed * m_spec.m_topSpeed * 1.03f );
-    accel -= dragK * m_speed * m_speed + 0.25f;
+    // In a slipstream the air holds the car back less, and it pulls a little harder.
+    accel -= dragK * m_speed * m_speed * ( 1.0f - 0.12f * m_draft ) + 0.25f;
+    if ( !m_airborne && !m_frozen && in.m_throttle > 0.1f ) accel += 0.8f * m_draft;
     if ( in.m_throttle < 0.05f && !m_airborne ) accel -= 1.2f + 2.0f * m_rpm;
     // Rough ground holds the car back the more, the faster it goes: stopped in the verge, it can always crawl out.
     accel -= m_offroad * std::min( 9.0f, 0.75f * m_speed );
@@ -373,16 +388,43 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
         if ( in.m_brake < 0.05f ) accel -= 2.0f;
     }
     if ( m_frozen ) accel = 0.0f;
+    const float before = m_speed;
     m_speed = std::clamp( m_speed + accel * dt, 0.0f, m_reverse ? ReverseTop : 1000.0f );
+    m_braking = !m_frozen && ( m_reverse ? in.m_throttle > 0.1f : in.m_brake > 0.1f ) && m_speed > 0.3f;
+    // The body pitches against the change of speed, on springs.
+    if ( dt > 0.0f )
+    {
+        const float pitchTo = m_airborne ? 0.0f
+                                         : clampf( ( m_speed - before ) / dt * ( m_reverse ? -1.0f : 1.0f ) * 0.004f,
+                                                   -MaxPitch, MaxPitch * 0.8f );
+        m_pitchVel += ( ( pitchTo - m_pitch ) * 60.0f - m_pitchVel * 10.0f ) * dt;
+        m_pitch = clampf( m_pitch + m_pitchVel * dt, -MaxPitch * 1.3f, MaxPitch * 1.3f );
+    }
 
     // Steering against the bend.
     const float steerTarget = clampf( in.m_steer, -1.0f, 1.0f );
     const bool  returning = std::abs( steerTarget ) < std::abs( m_steer );
     m_steer = approach( m_steer, steerTarget, returning ? 14.0f : 9.0f, dt );
-    const float steerMax = steerLimit( m_speed, m_spec.m_topSpeed );
+    // A drift: where the bend pulls on the car near what the tyres hold. With its feel on, the car answers the wheel a
+    // little more and its sideways motion a little later, as when its tail is out.
     const float authority = m_airborne ? 0.3f * grip : grip;
-    m_vx = approach( m_vx, m_steer * steerMax * authority, 3.0f + 4.0f * std::min( authority, 1.2f ), dt );
+    const float feel = m_driftMode == 2 ? m_driftAmount : 0.0f;
+    const float steerMax = steerLimit( m_speed, m_spec.m_topSpeed ) * ( 1.0f + 0.1f * feel );
+    m_vx = approach( m_vx, m_steer * steerMax * authority,
+                     ( 3.0f + 4.0f * std::min( authority, 1.2f ) ) * ( 1.0f - 0.3f * feel ), dt );
     m_drift = m_airborne ? m_drift : f.m_curve * m_speed * m_speed * tuning().m_centrifugal;
+    {
+        const float pull = std::abs( m_drift ) / std::max( 1.0f, steerMax * std::max( authority, 0.2f ) );
+        const float want = m_driftMode == 0 || m_airborne || m_reverse || m_crashTimer > 0.0f || m_frozen
+                               ? 0.0f
+                               : smoothstepf( 0.45f, 0.95f, pull ) * smoothstepf( 16.0f, 26.0f, m_speed ) *
+                                     ( 1.0f - m_offroad );
+        m_driftAmount = approach( m_driftAmount, want, want > m_driftAmount ? 2.5f : 1.6f, dt );
+        // The body turns into the bend on a spring: at the bend's end it swings back a little past straight.
+        const float yawTo = ( m_drift >= 0.0f ? 1.0f : -1.0f ) * MaxDriftYaw * m_driftAmount * m_driftRoom;
+        m_driftYawVel += ( ( yawTo - m_driftYaw ) * 45.0f - m_driftYawVel * 8.0f ) * dt;
+        m_driftYaw += m_driftYawVel * dt;
+    }
     const float lateral = m_vx - m_drift;
     if ( !m_frozen ) m_x += lateral * dt;
 
@@ -393,13 +435,15 @@ void PlayerCar::update( const CarInput &rawIn, const Track &track, float dt, boo
                                0.6f );
     if ( m_speed < 10.0f && in.m_throttle > 0.8f && !m_frozen ) slip = std::max( slip, 0.55f );
     if ( in.m_brake > 0.7f && m_speed > 15.0f ) slip = std::max( slip, 0.5f );
+    slip = std::max( slip, 0.85f * m_driftAmount );   // a drift squeals and smokes
     m_slip = ( m_airborne || m_offroad > 0.5f ) ? 0.0f : slip * smoothstepf( 2.0f, 14.0f, m_speed );
 
     // The visible yaw follows the sideways motion; a crash spins the car.
     // Backwards the nose turns the other way: backing to the left, it points to the right.
     const float yawTarget =
         ( std::atan2( lateral, std::max( m_speed, 6.0f ) ) * 1.5f + m_steer * 0.06f ) * ( m_reverse ? -1.0f : 1.0f );
-    m_yawVisual = approach( m_yawVisual, clampf( yawTarget, -0.6f, 0.6f ), 8.0f, dt );
+    m_yawBase = approach( m_yawBase, clampf( yawTarget, -0.6f, 0.6f ), 8.0f, dt );
+    m_yawVisual = m_yawBase + m_driftYaw;
     if ( m_crashTimer > 0.0f )
     {
         m_crashTimer -= dt;

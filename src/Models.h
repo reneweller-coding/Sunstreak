@@ -130,6 +130,18 @@ enum class FacingE : uint8_t
     ALONG,   ///< along the road (its -z face towards the driver)
 };
 
+constexpr Vector3 TurbineHub = { 0.0f, 42.6f, -1.8f };   ///< where a wind turbine's blades turn (in its model)
+
+/** @brief A vehicle to park along a town's streets. */
+struct ParkedModel
+{
+    MeshBuilder m_full;            ///< up close
+    MeshBuilder m_far;             ///< from afar (LOD)
+    float       m_length = 4.0f;   ///< metres
+    float       m_width = 1.8f;    ///< metres
+    uint32_t    m_fleets = 0;      ///< the regions it belongs to (a bit per FleetE; 0: everywhere)
+};
+
 /** @brief A traffic vehicle's mesh and size. */
 struct VehicleModel
 {
@@ -275,7 +287,13 @@ public:
                               m_playerCars{};        ///< the player's cars in plain paint (rivals, ghosts)
     Mesh                      m_livery{};            ///< the player's own car, dressed in the garage
     Livery                    m_liveryOf{};          ///< what m_livery shows
+    MeshBuilder               m_turbineBlades;       ///< a wind turbine's three blades round their hub, turning about z
+    Mesh                      m_turbineRotor{};      ///< the same on the GPU
+    Mesh                      m_liveryBody{};        ///< the same without its wheels (they turn and steer, drawn apart)
+    Mesh                      m_liveryWheel{};       ///< one of its wheels, its axle along x, its hub on +x
+    std::array<Vector3, 2>    m_liveryWheelAt{};     ///< its left front and left rear wheels' centres (+x is left)
     std::vector<VehicleModel> m_traffic;             ///< traffic, paints included
+    std::vector<ParkedModel>  m_parked;   ///< what parks along a town's streets: everyday cars, and what each region drives
     std::vector<int>          m_creatureModel;       ///< per data shape: its traffic model if it swims (-1: none)
     size_t                    m_creatureFirst = 0;   ///< the first creature in m_traffic (they come last)
     std::vector<int>

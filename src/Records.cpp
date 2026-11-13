@@ -377,6 +377,16 @@ void Records::load( const std::string &path )
                 m_trainWins = std::atoi( v[7].c_str() );
                 m_jobs = std::atoi( v[8].c_str() );
             }
+            else if ( key == "drift" )
+            {
+                std::stringstream ss( val );
+                std::string       v[4];
+                for ( std::string &s : v ) std::getline( ss, s, '|' );
+                m_driftMetres = std::atoi( v[0].c_str() );
+                m_longestDrift = std::atoi( v[1].c_str() );
+                m_draftPasses = std::atoi( v[2].c_str() );
+                m_closeCalls = std::atoi( v[3].c_str() );
+            }
             else if ( key == "stats2" )
             {
                 std::stringstream ss( val );
@@ -385,6 +395,18 @@ void Records::load( const std::string &path )
                 m_overtakesAll = std::atoi( v[0].c_str() );
                 m_randomStages = std::atoi( v[1].c_str() );
                 m_randomRounds = std::atoi( v[2].c_str() );
+            }
+            else if ( key == "legenddrifts" )
+            {
+                std::stringstream ss( val );
+                std::string       item;
+                m_legendDrift.clear();
+                while ( std::getline( ss, item, ',' ) )
+                {
+                    const auto bar = item.find( '|' );
+                    if ( bar != std::string::npos )
+                        m_legendDrift.emplace_back( item.substr( 0, bar ), std::atoi( item.c_str() + bar + 1 ) );
+                }
             }
             else if ( key == "legends" )
             {
@@ -484,6 +506,11 @@ void Records::save( const std::string &path ) const
     out << "stats=" << m_escapes << "|" << m_caught << "|" << m_delivered << "|" << m_gaveWay << "|" << m_aquaplanes
         << "|" << m_heroWins << "|" << m_heroLosses << "|" << m_trainWins << "|" << m_jobs << "\n";
     out << "stats2=" << m_overtakesAll << "|" << m_randomStages << "|" << m_randomRounds << "\n";
+    out << "drift=" << m_driftMetres << "|" << m_longestDrift << "|" << m_draftPasses << "|" << m_closeCalls << "\n";
+    out << "legenddrifts=";
+    for ( size_t i = 0; i < m_legendDrift.size(); ++i )
+        out << ( i ? "," : "" ) << m_legendDrift[i].first << "|" << m_legendDrift[i].second;
+    out << "\n";
     out << "legends=";
     for ( size_t i = 0; i < m_legendBest.size(); ++i )
         out << ( i ? "," : "" ) << m_legendBest[i].first << "|" << m_legendBest[i].second;

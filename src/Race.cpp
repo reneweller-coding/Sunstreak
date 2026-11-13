@@ -165,6 +165,7 @@ void Race::update( float dt, float raceTime, const Track &track, PlayerCar &play
                 if ( &o != &r ) ahead( o.m_s, o.m_x, o.m_speed );
             ahead( player.m_s, player.m_x, player.m_speed );
         }
+        r.m_braking = target < r.m_speed - 1.5f;
         if ( r.m_speed < target )
             r.m_speed +=
                 ( 10.0f * spec.m_accel * std::max( 0.15f, 1.0f - r.m_speed / ( spec.m_topSpeed * 1.05f ) ) + 0.5f ) *

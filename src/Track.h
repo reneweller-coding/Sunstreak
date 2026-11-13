@@ -356,6 +356,15 @@ public:
     void choose( int stage, int side );
 
     /**
+     * @brief Whether a stretch is one where nobody may overtake: within 120 m of a tight bend or of a crest, either
+     *        way along the road, and every road of four lanes or more (the solid line down the middle of a road of two
+     *        directions).
+     * @param[in] index  the segment
+     * @return true if so
+     */
+    bool noPassing( long index ) const;
+
+    /**
      * @brief Whether a distance lies in a fork's zone (with a margin).
      * @param[in] s       the distance
      * @param[in] margin  metres added before and after

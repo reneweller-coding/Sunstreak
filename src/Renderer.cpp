@@ -429,7 +429,8 @@ void Renderer::drawShadows( const SceneInput &in, const CameraView &cam, const V
     auto pieceMatrix = [&]( const ScenePiece &p )
     {
         const Vector3 o = relativeTo( p.m_pos, origin );
-        return MatrixMultiply( MatrixRotateY( p.m_yaw ), MatrixTranslate( o.x, o.y, o.z ) );
+        return MatrixMultiply( MatrixMultiply( MatrixRotateX( -p.m_pitch ), MatrixRotateY( p.m_yaw ) ),
+                               MatrixTranslate( o.x, o.y, o.z ) );
     };
 
     // The box follows the camera, snapped to the map's texels so the shadows do not shimmer.
@@ -467,7 +468,9 @@ void Renderer::drawShadows( const SceneInput &in, const CameraView &cam, const V
             if ( c0 > playerS + ShadowExtent || c0 + ChunkLength < playerS - 60.0 ) continue;
             const Vector3 o = relativeTo( c.m_origin, origin );
             if ( c.m_props.vertexCount ) DrawMesh( c.m_props, m_depthMaterial, MatrixTranslate( o.x, o.y, o.z ) );
-            if ( c.m_scenery.vertexCount ) DrawMesh( c.m_scenery, m_depthMaterial, MatrixTranslate( o.x, o.y, o.z ) );
+            // Up close in full; what stands further ahead throws the shadow of its lighter model.
+            const Mesh &scenery = c0 > playerS + 60.0 ? c.m_sceneryFar : c.m_scenery;
+            if ( scenery.vertexCount ) DrawMesh( scenery, m_depthMaterial, MatrixTranslate( o.x, o.y, o.z ) );
         }
     for ( const ScenePiece &p : in.m_pieces )
         if ( p.m_mesh && p.m_mesh->vertexCount ) DrawMesh( *p.m_mesh, m_depthMaterial, pieceMatrix( p ) );
@@ -578,6 +581,14 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
            static_cast<float>( std::fmod( origin.m_z, 450.0 ) ) );
     setF( s, "objectShade", 1.0f );
     setF( s, "objectAlpha", 1.0f );
+    // The clouds' shadows drift with the wind; their pattern is placed by where the camera is (it repeats every 4096 m,
+    // as its noise does).
+    setF( s, "windowGlow", in.m_windowGlow );
+    setF( s, "wheelRoll", 0.0f );
+    setF( s, "grime", 0.0f );
+    setF( s, "cloudShadow", in.m_cloudShadow );
+    setV2( s, "cloudOffset", static_cast<float>( std::fmod( origin.m_x + static_cast<double>( in.m_time ) * 7.0, 4096.0 ) ),
+           static_cast<float>( std::fmod( origin.m_z + static_cast<double>( in.m_time ) * 3.0, 4096.0 ) ) );
     setF( s, "shadowStrength", m_shadowStrength );
     setF( s, "shadowTexel", 1.0f / static_cast<float>( ShadowSize ) );
     SetShaderValueMatrix( s, GetShaderLocation( s, "lightVP" ), m_lightVP );
@@ -601,7 +612,8 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
                            Vector3Scale( playerPose.m_up, 0.7f ) ) );
         setV3( s, "headDir",
                Vector3Normalize( Vector3Subtract( playerPose.m_forward, Vector3Scale( playerPose.m_up, 0.07f ) ) ) );
-        setF( s, "headStrength", std::max( e.m_headlights, inTunnel( track, in.m_player->m_s ) ) );
+        setF( s, "headStrength",
+              std::max( { e.m_headlights, inTunnel( track, in.m_player->m_s ), 1.6f * in.m_headFlash } ) );
     }
     else
     {
@@ -645,12 +657,50 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
                 upClose( c, in.m_player ? in.m_player->m_s : cam.m_pos.m_z ) ? c.m_scenery : c.m_sceneryFar;
             if ( scenery.vertexCount ) DrawMesh( scenery, m_material, MatrixTranslate( o.x, o.y, o.z ) );
         }
+    // The wind turbines' blades, turning with the wind.
+    if ( in.m_world && models.m_turbineRotor.vertexCount )
+        for ( const Chunk &c : in.m_world->chunks() )
+        {
+            if ( !shown( c ) || c.m_rotors.empty() ) continue;
+            const Vector3 o = relativeTo( c.m_origin, origin );
+            const float   wind = 0.7f + 0.5f * in.m_env.m_rain + 0.4f * in.m_env.m_lightning;
+            for ( const Rotor &r : c.m_rotors )
+            {
+                const Vector3 F = headingForward( r.m_yaw );
+                Matrix m = MatrixMultiply( MatrixScale( r.m_scale, r.m_scale, r.m_scale ),
+                                           MatrixRotateZ( r.m_phase + in.m_time * wind ) );
+                m = MatrixMultiply( m, MatrixRotateY( std::atan2( F.x, F.z ) ) );
+                DrawMesh( models.m_turbineRotor, m_material,
+                          MatrixMultiply( m, MatrixTranslate( o.x + r.m_hub.x, o.y + r.m_hub.y, o.z + r.m_hub.z ) ) );
+            }
+        }
+    // The soft patches on the ground under what stands on it, up close: they only darken, and leave the alpha the
+    // mirror pass reads as it is.
+    if ( in.m_world )
+    {
+        rlDrawRenderBatchActive();
+        rlDisableDepthMask();
+        rlSetBlendFactorsSeparate( RL_SRC_ALPHA, RL_ONE_MINUS_SRC_ALPHA, RL_ZERO, RL_ONE, RL_FUNC_ADD, RL_FUNC_ADD );
+        BeginBlendMode( BLEND_CUSTOM_SEPARATE );
+        for ( const Chunk &c : in.m_world->chunks() )
+        {
+            if ( !shown( c ) || !c.m_decals.vertexCount ||
+                 !upClose( c, in.m_player ? in.m_player->m_s : cam.m_pos.m_z ) )
+                continue;
+            const Vector3 o = relativeTo( c.m_origin, origin );
+            DrawMesh( c.m_decals, m_material, MatrixTranslate( o.x, o.y, o.z ) );
+        }
+        EndBlendMode();
+        rlEnableDepthMask();
+    }
     // Lone models (the landmark viewer, a crossing).
     for ( const ScenePiece &p : in.m_pieces )
     {
         if ( !p.m_mesh || !p.m_mesh->vertexCount ) continue;
         const Vector3 o = relativeTo( p.m_pos, origin );
-        DrawMesh( *p.m_mesh, m_material, MatrixMultiply( MatrixRotateY( p.m_yaw ), MatrixTranslate( o.x, o.y, o.z ) ) );
+        DrawMesh( *p.m_mesh, m_material,
+                  MatrixMultiply( MatrixMultiply( MatrixRotateX( -p.m_pitch ), MatrixRotateY( p.m_yaw ) ),
+                                  MatrixTranslate( o.x, o.y, o.z ) ) );
     }
 
     // Vehicles and cones.
@@ -670,7 +720,12 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
             Pose        p = roadPose( track, c.m_s, c.m_x, c.m_yaw + wobble );
             p.m_pos.m_y += static_cast<double>( c.m_lift );
             setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, c.m_s ) );
+            // Its wheels turn as it rolls (the shader turns what MeshBuilder::tagWheels marked); what comes the other
+            // way rolls forward as its distance falls.
+            const double rolled = std::fmod( c.m_s, 4096.0 );
+            setF( s, "wheelRoll", static_cast<float>( c.m_oncoming ? 4096.0 - rolled : rolled ) + 0.001f );
             DrawMesh( models.m_traffic[c.m_model].m_mesh, m_material, poseMatrix( p, origin ) );
+            setF( s, "wheelRoll", 0.0f );
             if ( c.m_siren )
             {
                 // On a run: the light bar flashes, and the lamps on the back answer it.
@@ -683,14 +738,23 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
                     models.m_policeFlash[static_cast<size_t>( flashMesh( vm.m_lamps, 1 - phase ) )], m_material,
                     MatrixMultiply( MatrixTranslate( 0.0f, vm.m_light.y - 0.12f, -vm.m_length * 0.5f + 0.15f ), m ) );
             }
-            if ( !c.m_animal && c.m_s > playerS - 10.0 && c.m_s - playerS < 90.0 && c.m_plate < models.m_plates.size() )
+            const double ahead = c.m_s - playerS;
+            if ( !c.m_animal && c.m_plate < models.m_plates.size() &&
+                 ( c.m_oncoming ? std::abs( ahead ) < 90.0 : ahead > -10.0 && ahead < 90.0 ) )
             {
-                // Its number plate behind, in the country's style.
-                Pose        plate = p;
-                const float back = c.m_length * 0.5f + 0.02f;
-                plate.m_pos.m_x -= static_cast<double>( p.m_forward.x * back - p.m_up.x * 0.5f );
-                plate.m_pos.m_y -= static_cast<double>( p.m_forward.y * back - p.m_up.y * 0.5f );
-                plate.m_pos.m_z -= static_cast<double>( p.m_forward.z * back - p.m_up.z * 0.5f );
+                // Its number plate behind, in the country's style; what comes the other way shows the one at its front
+                // until it has gone by.
+                const bool front = c.m_oncoming && ahead > 0.0;
+                Pose       plate = p;
+                if ( front )
+                {
+                    plate = roadPose( track, c.m_s, c.m_x, c.m_yaw + wobble + Tau * 0.5f );
+                    plate.m_pos.m_y += static_cast<double>( c.m_lift );
+                }
+                const float back = c.m_length * 0.5f + 0.02f, up = front ? 0.42f : 0.5f;
+                plate.m_pos.m_x -= static_cast<double>( plate.m_forward.x * back - plate.m_up.x * up );
+                plate.m_pos.m_y -= static_cast<double>( plate.m_forward.y * back - plate.m_up.y * up );
+                plate.m_pos.m_z -= static_cast<double>( plate.m_forward.z * back - plate.m_up.z * up );
                 DrawMesh( models.m_plates[c.m_plate], m_material, poseMatrix( plate, origin ) );
             }
             if ( c.m_lift < 0.5f && !c.m_swim ) shadows.push_back( { p, c.m_width, c.m_length } );
@@ -725,7 +789,9 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
         const Pose          p = roadPose( track, c.m_s, c.m_x, c.m_yaw );
         const Matrix        m = poseMatrix( p, origin );
         setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, c.m_s ) );
+        setF( s, "wheelRoll", static_cast<float>( std::fmod( c.m_s, 4096.0 ) ) + 0.001f );
         DrawMesh( vm.m_mesh, m_material, m );
+        setF( s, "wheelRoll", 0.0f );
         if ( c.m_flash >= 0 )
             DrawMesh( models.m_policeFlash[static_cast<size_t>( flashMesh( vm.m_lamps, c.m_flash & 1 ) )], m_material,
                       MatrixMultiply( MatrixTranslate( vm.m_light.x, vm.m_light.y, vm.m_light.z ), m ) );
@@ -736,14 +802,46 @@ void Renderer::drawWorld( const SceneInput &in, const CameraView &cam, const Vec
         if ( c.m_alpha < 1.0f || c.m_s - playerS > ViewDistance ) continue;
         const Pose p = roadPose( track, c.m_s, c.m_x, c.m_yaw );
         setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, c.m_s ) );
+        // A rival, a local hero, a thief: its wheels turn as it rolls.
+        setF( s, "wheelRoll", static_cast<float>( std::fmod( c.m_s, 4096.0 ) ) + 0.001f );
         DrawMesh( models.m_playerCars[c.m_car][c.m_paint], m_material, poseMatrix( p, origin ) );
+        setF( s, "wheelRoll", 0.0f );
         shadows.push_back( { p, carSpec( c.m_car ).m_width, carSpec( c.m_car ).m_length } );
     }
     if ( in.m_player && in.m_drawPlayer )
     {
         setF( s, "objectShade", 1.0f - 0.8f * inTunnel( track, in.m_player->m_s ) );
-        DrawMesh( models.m_livery.vaoId ? models.m_livery : models.m_playerCars[in.m_car][in.m_paint], m_material,
-                  poseMatrix( playerPose, origin ) );
+        // The dirt it has gathered, from its sills up.
+        setF( s, "grime", in.m_grime );
+        setV3( s, "grimeColor", linearRgb( in.m_grimeColor ) );
+        setF( s, "grimeBase", relativeTo( playerPose.m_pos, origin ).y );
+        if ( models.m_liveryBody.vaoId && models.m_liveryWheel.vaoId )
+        {
+            // The body pitches and rolls on its springs; the wheels stay on the road, turn as the car rolls, and the
+            // front ones steer.
+            const PlayerCar &pc = *in.m_player;
+            DrawMesh( models.m_liveryBody, m_material, poseMatrix( playerPose, origin ) );
+            const Matrix wheels = poseMatrix( pc.pose( track, false ), origin );
+            const float  r = std::max( 0.1f, models.m_liveryWheelAt[0].y );
+            const float  turn = static_cast<float>( std::fmod( pc.m_s, static_cast<double>( Tau * r ) ) ) / r;
+            const float  steer =
+                -pc.m_steer * 0.42f * ( 1.0f - 0.6f * std::min( 1.0f, pc.m_speed / std::max( 1.0f, pc.m_spec.m_topSpeed ) ) );
+            for ( int axle = 0; axle < 2; ++axle )
+                for ( float side : { 1.0f, -1.0f } )
+                {
+                    const Vector3 at = models.m_liveryWheelAt[static_cast<size_t>( axle )];
+                    Matrix m = MatrixMultiply( MatrixRotateX( side > 0.0f ? turn : -turn ),
+                                               MatrixRotateY( ( side > 0.0f ? 0.0f : PI ) + ( axle == 0 ? steer : 0.0f ) ) );
+                    m = MatrixMultiply( m, MatrixTranslate( side * at.x, at.y, at.z ) );
+                    DrawMesh( models.m_liveryWheel, m_material, MatrixMultiply( m, wheels ) );
+                }
+        }
+        else
+        {
+            DrawMesh( models.m_livery.vaoId ? models.m_livery : models.m_playerCars[in.m_car][in.m_paint], m_material,
+                      poseMatrix( playerPose, origin ) );
+        }
+        setF( s, "grime", 0.0f );
         if ( models.m_playerPlate.vertexCount )
         {
             // The home country's plate on the tail.
@@ -836,6 +934,37 @@ void Renderer::drawParticles( const SceneInput &in, const CameraView &cam, const
     setV3( s, "fogColor", linearRgb( e.m_fogColor ) );
     setF( s, "fogDensity", e.m_fogDensity );
     rlSetTexture( rlGetTextureIdDefault() );
+    // The ground drops away with distance (the world's vertex shader does it there; here it is done for these).
+    auto bent = [&]( const Vec3d &p )
+    {
+        Vector3 v = relativeTo( p, origin );
+        v.y -= Bend * ( v.x * v.x + v.z * v.z );
+        return v;
+    };
+
+    // The tyres' marks on the road and their ruts in snow and sand (the alpha the mirror pass reads stays), fading at
+    // the end of their forty seconds.
+    if ( in.m_skids && !in.m_skids->empty() )
+    {
+        setF( s, "intensity", 1.0f );
+        setF( s, "roundSprite", 0.0f );
+        rlSetBlendFactorsSeparate( RL_SRC_ALPHA, RL_ONE_MINUS_SRC_ALPHA, RL_ZERO, RL_ONE, RL_FUNC_ADD, RL_FUNC_ADD );
+        BeginBlendMode( BLEND_CUSTOM_SEPARATE );
+        rlBegin( RL_QUADS );
+        for ( const SkidMark &k : *in.m_skids )
+        {
+            const Vector3 a = bent( k.m_a ), b = bent( k.m_b );
+            if ( a.x * a.x + a.z * a.z > 250000.0f ) continue;   // beyond 500 m
+            const float age = in.m_time - k.m_born;
+            Color       col = k.m_color;
+            col.a = static_cast<unsigned char>( static_cast<float>( col.a ) * ( 1.0f - smoothstepf( 25.0f, 40.0f, age ) ) );
+            quad( Vector3Add( a, k.m_across ), Vector3Add( b, k.m_across ), Vector3Subtract( b, k.m_across ),
+                  Vector3Subtract( a, k.m_across ), col );
+        }
+        rlEnd();
+        rlDrawRenderBatchActive();
+        EndBlendMode();
+    }
 
     // Smoke and dust.
     setF( s, "intensity", 1.0f );
@@ -856,9 +985,45 @@ void Renderer::drawParticles( const SceneInput &in, const CameraView &cam, const
     rlEnd();
     rlDrawRenderBatchActive();
 
+    // Birds over the land: each two wings from its body to their tips, beating (the big ones soar).
+    if ( !in.m_flocks.empty() )
+    {
+        setF( s, "intensity", 1.0f );
+        setF( s, "roundSprite", 0.0f );
+        rlBegin( RL_QUADS );
+        for ( const FlockDraw &f : in.m_flocks )
+        {
+            const Vector3 centre = bent( f.m_centre );
+            if ( centre.x * centre.x + centre.z * centre.z > 810000.0f ) continue;   // beyond 900 m
+            const float chord = 0.38f * f.m_wings;
+            for ( int i = 0; i < f.m_birds; ++i )
+            {
+                const float   fi = static_cast<float>( i );
+                const float   r = f.m_radius * ( 0.45f + 0.55f * ( fi * 0.618f - std::floor( fi * 0.618f ) ) );
+                const float   a = f.m_phase + fi * 2.4f + in.m_time * 7.0f / r;
+                const Vector3 radial = { std::cos( a ), 0.0f, std::sin( a ) }, ahead = { -std::sin( a ), 0.0f, std::cos( a ) };
+                Vector3       body = Vector3Add( centre, Vector3Scale( radial, r ) );
+                body.y += 3.0f * std::sin( in.m_time * 0.4f + fi * 1.3f ) + fi * 0.7f;
+                const float beat = f.m_wings > 1.0f ? 1.6f : 9.0f;
+                const float flap = std::sin( in.m_time * beat + fi * 2.1f ) * 0.45f * f.m_wings;
+                for ( float w : { -1.0f, 1.0f } )
+                {
+                    Vector3 tip = Vector3Add( body, Vector3Scale( radial, w * f.m_wings ) );
+                    tip.y += flap;
+                    const Vector3 c0 = Vector3Scale( ahead, chord * 0.5f ), c1 = Vector3Scale( ahead, chord * 0.2f );
+                    quad( Vector3Subtract( body, c0 ), Vector3Subtract( tip, c1 ), Vector3Add( tip, c1 ),
+                          Vector3Add( body, c0 ), f.m_color );
+                }
+            }
+        }
+        rlEnd();
+        rlDrawRenderBatchActive();
+    }
+
     // Sparks and flames: bright, additive.
     BeginBlendMode( BLEND_ADDITIVE );
     setF( s, "intensity", 6.0f );
+    setF( s, "roundSprite", 1.0f );
     rlBegin( RL_QUADS );
     if ( in.m_particles )
     {
@@ -877,6 +1042,57 @@ void Renderer::drawParticles( const SceneInput &in, const CameraView &cam, const
     }
     rlEnd();
     rlDrawRenderBatchActive();
+    // The lamps that are on (brake lights, indicators): a glow over each. And at night the light the traffic's
+    // headlights throw on the road ahead.
+    if ( !in.m_glows.empty() || !in.m_pools.empty() )
+    {
+        setF( s, "intensity", 2.4f );
+        setF( s, "roundSprite", 1.0f );
+        rlBegin( RL_QUADS );
+        for ( const GlowDraw &g : in.m_glows ) billboard( bent( g.m_pos ), g.m_size, g.m_color );
+        rlEnd();
+        rlDrawRenderBatchActive();
+        EndBlendMode();
+        rlSetBlendFactorsSeparate( RL_SRC_ALPHA, RL_ONE, RL_ZERO, RL_ONE, RL_FUNC_ADD, RL_FUNC_ADD );
+        BeginBlendMode( BLEND_CUSTOM_SEPARATE );
+        setF( s, "intensity", 1.0f );
+        rlBegin( RL_QUADS );
+        for ( const LightPool &p : in.m_pools )
+        {
+            const Vector3 m = bent( p.m_pos );
+            const auto    a = static_cast<unsigned char>( 46.0f * p.m_strength );
+            quad( Vector3Subtract( Vector3Subtract( m, p.m_along ), p.m_across ),
+                  Vector3Add( Vector3Subtract( m, p.m_along ), p.m_across ),
+                  Vector3Add( Vector3Add( m, p.m_along ), p.m_across ),
+                  Vector3Subtract( Vector3Add( m, p.m_along ), p.m_across ), Color{ 255, 232, 186, a } );
+        }
+        // On a wet road a vehicle's lamps lie mirrored in it: a streak from under each towards the eye, longer the
+        // higher the lamp.
+        const float wet = smoothstepf( 0.15f, 0.6f, e.m_rain );
+        if ( wet > 0.0f )
+            for ( const GlowDraw &g : in.m_glows )
+            {
+                if ( g.m_height <= 0.0f ) continue;
+                Vec3d foot = g.m_pos;
+                foot.m_y -= static_cast<double>( g.m_height ) - 0.05;
+                const Vector3 b = bent( foot );
+                Vector3       to = { -b.x, 0.0f, -b.z };   // towards the eye (the camera sits at the origin)
+                const float   d = Vector3Length( to );
+                if ( d < 2.0f || d > 300.0f ) continue;
+                to = Vector3Scale( to, 1.0f / d );
+                const float   len = std::min( 0.5f * d, 1.5f + 3.0f * g.m_height + 4.0f * wet );
+                const Vector3 along = Vector3Scale( to, 0.5f * len ),
+                              across = Vector3Scale( Vector3{ -to.z, 0.0f, to.x }, 0.8f * g.m_size );
+                const Vector3 m = Vector3Add( b, along );
+                Color         col = g.m_color;
+                col.a = static_cast<unsigned char>( static_cast<float>( col.a ) * 0.6f * wet );
+                quad( Vector3Subtract( Vector3Subtract( m, along ), across ),
+                      Vector3Add( Vector3Subtract( m, along ), across ), Vector3Add( Vector3Add( m, along ), across ),
+                      Vector3Subtract( Vector3Add( m, along ), across ), col );
+            }
+        rlEnd();
+        rlDrawRenderBatchActive();
+    }
     EndBlendMode();
 
     // Rain, snow or blowing sand, and air streaks at speed; under the sea shafts of light, its snow and bubbles.

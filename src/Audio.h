@@ -48,6 +48,7 @@ enum class SfxE : uint8_t
     JINGLE,       ///< a station's ident (the strength picks its tune)
     HORN,         ///< a car's horn, a little different each time
     JET,          ///< jet engines coming over and away
+    BELL,         ///< a church bell struck once, ringing out
     COUNT         ///< number of effects
 };
 
@@ -69,6 +70,7 @@ struct EngineState
     float m_throttle = 0.0f;     ///< 0..1
     float m_speed = 0.0f;        ///< m/s
     float m_slip = 0.0f;         ///< 0..1 squeal
+    float m_draft = 0.0f;        ///< 0..1 in a slipstream: the wind drops and flutters
     float m_offroad = 0.0f;      ///< 0..1 gravel
     float m_rumble = 0.0f;       ///< 0..1 kerb
     bool  m_boost = false;       ///< boosting
@@ -92,6 +94,9 @@ struct Ambience
     float m_tunnel = 0.0f;       ///< 0..1 inside a tunnel: the engine echoes
     float m_bridge = 0.0f;       ///< 0..1 on a bridge: the expansion joints thump
     float m_underwater = 0.0f;   ///< 0..1 in a glass tunnel under the sea: muffled, a hum, whales
+    float m_cicadas = 0.0f;      ///< 0..1 cicadas in the heat of the day
+    float m_crickets = 0.0f;     ///< 0..1 crickets in the warm night
+    float m_cowbells = 0.0f;     ///< 0..1 cowbells on the high pastures
     float m_siren = 0.0f;        ///< 0..1 a police siren, louder as it nears
     float m_sirenPan = 0.0f;     ///< -1 left .. 1 right: where it is
     int   m_sirenKind = 0;       ///< 0 the long wail, 1 the two tones of Europe

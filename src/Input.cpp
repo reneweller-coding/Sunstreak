@@ -43,6 +43,8 @@ void Input::update()
     m_pause = IsKeyPressed( KEY_ESCAPE ) || IsKeyPressed( KEY_P );
     m_camera = IsKeyPressed( KEY_C );
     m_lookBack = IsKeyDown( KEY_B );
+    m_flash = IsKeyPressed( KEY_F );
+    m_horn = IsKeyPressed( KEY_H );
     m_stats = IsKeyPressed( KEY_F3 );
     m_nextStation = IsKeyPressed( KEY_M );
     m_nextTrack = IsKeyPressed( KEY_N );
@@ -87,6 +89,8 @@ void Input::update()
         m_pause = m_pause || IsGamepadButtonPressed( p, GAMEPAD_BUTTON_MIDDLE_RIGHT );
         m_camera = m_camera || IsGamepadButtonPressed( p, GAMEPAD_BUTTON_RIGHT_FACE_UP );
         m_lookBack = m_lookBack || IsGamepadButtonDown( p, GAMEPAD_BUTTON_RIGHT_THUMB );
+        m_flash = m_flash || IsGamepadButtonPressed( p, GAMEPAD_BUTTON_LEFT_THUMB );
+        m_horn = m_horn || IsGamepadButtonPressed( p, GAMEPAD_BUTTON_LEFT_FACE_UP );
         m_nextStation = m_nextStation || IsGamepadButtonPressed( p, GAMEPAD_BUTTON_MIDDLE_LEFT );
 
         // The stick moves through menus too, with a repeat.

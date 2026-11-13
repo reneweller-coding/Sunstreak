@@ -110,7 +110,9 @@ void Police::update( float dt, const Track &track, double s, float x, float spee
         for ( const TrafficCar &c : traffic.m_cars )
         {
             const double ds = c.m_s - m_s;
-            if ( c.m_animal || c.m_gone || ds < -2.0 || ds > 28.0 || std::abs( c.m_x - tx ) > 2.4f ) continue;
+            // What comes the other way is there much sooner.
+            const double warn = c.m_oncoming ? 28.0 + 0.9 * static_cast<double>( c.m_speed + m_speed ) : 28.0;
+            if ( c.m_animal || c.m_gone || ds < -2.0 || ds > warn || std::abs( c.m_x - tx ) > 2.4f ) continue;
             tx = c.m_x > 0.0f ? c.m_x - 3.4f : c.m_x + 3.4f;
         }
         tx = std::clamp( tx, -edge, edge );

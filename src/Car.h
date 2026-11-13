@@ -153,9 +153,10 @@ public:
     /**
      * @brief Where the car is and how it is turned, pitched and rolled.
      * @param[in] track  the road
+     * @param[in] body   with the body's roll in the bends and its pitch braking and accelerating (false: the wheels')
      * @return its pose
      */
-    Pose pose( const Track &track ) const;
+    Pose pose( const Track &track, bool body = true ) const;
 
     // State. Public on purpose: the game, the renderer and the audio read it every frame.
     CarSpec m_spec{};               ///< which car
@@ -178,7 +179,17 @@ public:
     float   m_slip = 0.0f;          ///< 0..1 tyre squeal
     float   m_offroad = 0.0f;       ///< 0..1 off the tarmac
     float   m_rumble = 0.0f;        ///< 0..1 on the kerb
-    float   m_yawVisual = 0.0f;     ///< drawn yaw against the road (rad)
+    float   m_yawVisual = 0.0f;     ///< drawn yaw against the road (rad): the sideways motion's and the drift's
+    float   m_yawBase = 0.0f;       ///< the part of it from the sideways motion
+    float   m_driftAmount = 0.0f;   ///< 0..1 how deep in a drift: the bend's pull against what the tyres can hold
+    float   m_driftYaw = 0.0f;      ///< the drift's turn of the body into the bend (rad; it swings back at the bend's end)
+    float   m_driftYawVel = 0.0f;   ///< how fast that turn changes
+    float   m_driftRoom = 1.0f;     ///< 0..1 how far the drift may turn the body (less beside a rail or traffic; set by the game)
+    int     m_driftMode = 2;        ///< 0 no drift, 1 only its look, 2 its look and its feel (the setting DRIFT)
+    float   m_pitch = 0.0f;         ///< the body's pitch: the nose dips braking, rises accelerating (rad)
+    float   m_pitchVel = 0.0f;      ///< how fast it changes
+    bool    m_braking = false;      ///< the brake is on (the brake lights)
+    float   m_draft = 0.0f;         ///< 0..1 in another vehicle's slipstream (set by the game): less drag, more pull
     float   m_spin = 0.0f;          ///< crash spin angle (rad)
     float   m_crashTimer = 0.0f;    ///< seconds of crash left
     float   m_shake = 0.0f;         ///< camera shake 0..1

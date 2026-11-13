@@ -56,6 +56,8 @@ struct Settings
     bool         m_police = true;     ///< patrol cars wait at the roadside and chase the car too fast past them
     int          m_steerAssist = 0;   ///< 0 off, 1 light, 2 strong: helps keep the road and miss the traffic
     bool         m_brakeAssist = false;    ///< brakes for bends and obstacles taken too fast
+    int          m_drift = 2;              ///< 0 no drift, 1 only its look, 2 its look and its feel
+    int          m_oncoming = 0;           ///< traffic the other way on roads of two directions: 0 off .. 3 dense
     bool         m_colourBlind = false;    ///< the HUD's red and green become orange and blue
     int          m_textSize = 0;           ///< 0 100 %, 1 115 %, 2 130 %
     int          m_profile = 0;            ///< 0 custom, 1 battery, 2 balanced, 3 quality
@@ -85,6 +87,7 @@ struct LaunchOptions
     std::string m_screenshot;          ///< save the last frame there before quitting
     std::string m_bench;               ///< measure the frames (no vsync, no limit) and write the times there at the end
     float       m_startDistance = 0;   ///< teleport this far along the track at the start (testing)
+    int         m_oncoming = -1;       ///< ONCOMING TRAFFIC for this run, 0..3 (testing; -1: as the settings say)
     int         m_width = 0;           ///< a window size for this run only (0: the settings')
     int         m_height = 0;          ///< its height
     bool        m_mute = false;        ///< no sound at all (test runs)

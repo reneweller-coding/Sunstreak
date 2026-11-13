@@ -310,6 +310,20 @@ Vector3 MeshBuilder::extent() const
     return e;
 }
 
+bool MeshBuilder::baseBox( float below, Vector3 &lo, Vector3 &hi ) const
+{
+    bool any = false;
+    for ( size_t i = 0; i + 2 < m_pos.size(); i += 3 )
+    {
+        if ( m_pos[i + 1] > below ) continue;
+        const Vector3 p = { m_pos[i], 0.0f, m_pos[i + 2] };
+        lo = any ? Vector3{ std::min( lo.x, p.x ), 0.0f, std::min( lo.z, p.z ) } : p;
+        hi = any ? Vector3{ std::max( hi.x, p.x ), 0.0f, std::max( hi.z, p.z ) } : p;
+        any = true;
+    }
+    return any;
+}
+
 bool MeshBuilder::centreOf( bool ( *match )( Color ), Vector3 &at ) const
 {
     Vector3 sum = { 0, 0, 0 };
@@ -350,6 +364,94 @@ MeshBuilder MeshBuilder::simplified( float minEdge ) const
                           m_uv2.begin() + static_cast<long>( t * 6 + 6 ) );
     }
     return out;
+}
+
+void MeshBuilder::shadeBelow( size_t first, float y, float k )
+{
+    for ( size_t v = first; v * 3 + 1 < m_pos.size() && v * 4 + 2 < m_col.size(); ++v )
+    {
+        if ( m_pos[v * 3 + 1] > y ) continue;
+        for ( int c = 0; c < 3; ++c )
+            m_col[v * 4 + c] = static_cast<unsigned char>( static_cast<float>( m_col[v * 4 + c] ) * k );
+    }
+}
+
+void MeshBuilder::shearSince( size_t first, Vector3 origin, Vector3 dir, float slope )
+{
+    for ( size_t v = first; v * 3 + 2 < m_pos.size(); ++v )
+    {
+        const float d = ( m_pos[v * 3] - origin.x ) * dir.x + ( m_pos[v * 3 + 2] - origin.z ) * dir.z;
+        m_pos[v * 3 + 1] += d * slope;
+    }
+}
+
+int MeshBuilder::tagWheels()
+{
+    struct Wheel
+    {
+        float m_side, m_y0, m_y1, m_z0, m_z1, m_x0, m_x1;   // which flank, and the tyre's box
+    };
+    std::vector<Wheel> wheels;
+    const size_t       tris = triangleCount();
+    auto tyre = [&]( size_t v ) { return m_col[v * 4] == 20 && m_col[v * 4 + 1] == 20 && m_col[v * 4 + 2] == 22; };
+    for ( size_t t = 0; t < tris; ++t )
+    {
+        if ( !tyre( t * 3 ) || !tyre( t * 3 + 1 ) || !tyre( t * 3 + 2 ) ) continue;
+        Wheel w{ m_pos[t * 9] < 0.0f ? -1.0f : 1.0f, 1e9f, -1e9f, 1e9f, -1e9f, 1e9f, -1e9f };
+        for ( size_t v = t * 3; v < t * 3 + 3; ++v )
+        {
+            w.m_x0 = std::min( w.m_x0, std::abs( m_pos[v * 3] ) );
+            w.m_x1 = std::max( w.m_x1, std::abs( m_pos[v * 3] ) );
+            w.m_y0 = std::min( w.m_y0, m_pos[v * 3 + 1] );
+            w.m_y1 = std::max( w.m_y1, m_pos[v * 3 + 1] );
+            w.m_z0 = std::min( w.m_z0, m_pos[v * 3 + 2] );
+            w.m_z1 = std::max( w.m_z1, m_pos[v * 3 + 2] );
+        }
+        bool joined = false;
+        for ( Wheel &o : wheels )
+        {
+            if ( o.m_side != w.m_side || w.m_z0 > o.m_z1 + 0.03f || w.m_z1 < o.m_z0 - 0.03f ) continue;
+            o = Wheel{ o.m_side, std::min( o.m_y0, w.m_y0 ), std::max( o.m_y1, w.m_y1 ), std::min( o.m_z0, w.m_z0 ),
+                       std::max( o.m_z1, w.m_z1 ), std::min( o.m_x0, w.m_x0 ), std::max( o.m_x1, w.m_x1 ) };
+            joined = true;
+            break;
+        }
+        if ( !joined ) wheels.push_back( w );
+    }
+    int found = 0;
+    for ( const Wheel &w : wheels )
+    {
+        // Round, on the ground, of a wheel's size, and near enough to the model's middle for the shader's code.
+        const float r = ( w.m_z1 - w.m_z0 ) * 0.5f, cy = ( w.m_y0 + w.m_y1 ) * 0.5f, cz = ( w.m_z0 + w.m_z1 ) * 0.5f;
+        if ( r < 0.12f || r > 1.2f || std::abs( ( w.m_y1 - w.m_y0 ) - 2.0f * r ) > 0.5f * r || w.m_y0 > 0.2f ||
+             std::abs( cz ) > 12.5f )
+            continue;
+        ++found;
+        // The bar across the hub, just outside the wheel's face.
+        const float x = w.m_side * ( w.m_x1 + 0.015f ), b = 0.07f * r;
+        quad( Vector3{ x, cy - b, cz - 0.5f * r }, Vector3{ x, cy + b, cz - 0.5f * r }, Vector3{ x, cy + b, cz + 0.5f * r },
+              Vector3{ x, cy - b, cz + 0.5f * r }, Color{ 40, 40, 44, 255 } );
+        // The code the shader reads: the axle's height in steps of 5 mm, its place along the car in steps of 25 mm.
+        const float code = -( 100.0f + std::round( ( cz + 12.8f ) / 0.025f ) + 1024.0f * std::round( cy / 0.005f ) );
+        for ( size_t t = 0; t < triangleCount(); ++t )
+        {
+            bool inside = true;
+            for ( size_t v = t * 3; v < t * 3 + 3 && inside; ++v )
+            {
+                const float dy = m_pos[v * 3 + 1] - cy, dz = m_pos[v * 3 + 2] - cz, ax = m_pos[v * 3] * w.m_side;
+                inside = dy * dy + dz * dz <= ( r + 0.02f ) * ( r + 0.02f ) && ax >= w.m_x0 - 0.06f && ax <= w.m_x1 + 0.12f;
+            }
+            if ( inside )
+                for ( size_t v = t * 3; v < t * 3 + 3; ++v ) m_uv2[v * 2 + 1] = code;
+        }
+    }
+    return found;
+}
+
+void MeshBuilder::applyBob( float amount )
+{
+    // A negative sway is the shader's sign for something afloat.
+    for ( size_t v = 0; v < m_uv2.size() / 2; ++v ) m_uv2[v * 2 + 1] = -amount;
 }
 
 void MeshBuilder::applySway( float amount )
