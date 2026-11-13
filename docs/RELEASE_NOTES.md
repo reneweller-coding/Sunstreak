@@ -1,6 +1,6 @@
 # Sunstreak release notes
 
-## Next (not released yet)
+## 1.1.0
 
 - **Drifting:** in a bend taken near the limit the nose turns in, the tail swings out, the outer rear tyre smokes and
   the body swings back at the bend's end. A drift of 30 m or more scores and raises the combo. Settings > DRIFT:

@@ -24,12 +24,12 @@ compose their music as you listen. No textures, no samples, no recordings: the g
 
 ## Download
 
-**[Sunstreak-1.0.1-windows-x64.zip](https://github.com/reneweller-coding/Sunstreak/releases/download/v1.0.1/Sunstreak-1.0.1-windows-x64.zip)**
+**[Sunstreak-1.1.0-windows-x64.zip](https://github.com/reneweller-coding/Sunstreak/releases/download/v1.1.0/Sunstreak-1.1.0-windows-x64.zip)**
 for Windows 10 and 11: unpack it anywhere and start `Sunstreak.exe`, nothing to install. The
-**[Linux archive](https://github.com/reneweller-coding/Sunstreak/releases/download/v1.0.1/Sunstreak-1.0.1-linux-x86_64.tar.gz)**
+**[Linux archive](https://github.com/reneweller-coding/Sunstreak/releases/download/v1.1.0/Sunstreak-1.1.0-linux-x86_64.tar.gz)**
 runs on any x86-64 distribution with glibc 2.35 or newer, SteamOS included: on the Steam Deck copy it over and add
 `Sunstreak` to Steam as a non-Steam game. The
-**[manual](https://github.com/reneweller-coding/Sunstreak/releases/download/v1.0.1/Sunstreak-Manual.pdf)** (also in
+**[manual](https://github.com/reneweller-coding/Sunstreak/releases/download/v1.1.0/Sunstreak-Manual.pdf)** (also in
 both archives) shows every screen and mode with pictures the game took itself. The same packages are on
 **[itch.io](https://reneweller-coding.itch.io/sunstreak)**, where the itch app installs and updates them.
 
